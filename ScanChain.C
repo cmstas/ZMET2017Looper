@@ -1464,9 +1464,15 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
     mjj_min_dphi->Sumw2();
   }
 
-  TH2D *susy_counts;
+  TH2D *susy_counts_100_150;
+  TH2D *susy_counts_150_250;
+  TH2D *susy_counts_250_350;
+  TH2D *susy_counts_350;
   if(conf->get("SUSY_Glu_LSP_scan") == "true"){
-    susy_counts = new TH2D("susy_counts", "Mass Gluino vs. Mass LSP vs. Event Count for"+g_sample_name, 6000, 0, 6000, 6000, 0, 6000);
+    susy_counts_100_150 = new TH2D("susy_counts_100_150", "Mass Gluino vs. Mass LSP vs. Event Count With MET #in (100,150] for"+g_sample_name, 6000, 0, 6000, 6000, 0, 6000);
+    susy_counts_150_250 = new TH2D("susy_counts_150_250", "Mass Gluino vs. Mass LSP vs. Event Count With MET #in (150,250] for"+g_sample_name, 6000, 0, 6000, 6000, 0, 6000);
+    susy_counts_250_350 = new TH2D("susy_counts_250_350", "Mass Gluino vs. Mass LSP vs. Event Count With MET #in (250,350] for"+g_sample_name, 6000, 0, 6000, 6000, 0, 6000);
+    susy_counts_350 = new TH2D("susy_counts_350", "Mass Gluino vs. Mass LSP vs. Event Count With MET>350 for"+g_sample_name, 6000, 0, 6000, 6000, 0, 6000);
   }
 
   cout<<"Histograms initialized"<<endl;
@@ -1806,7 +1812,10 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
       }
 
       if(conf->get("SUSY_Glu_LSP_scan") == "true"){
-        susy_counts->Fill(phys.mass_gluino(),phys.mass_LSP(),weight);
+        if (phys.met_T1CHS_miniAOD_CORE_pt() > 350 ) susy_counts_350->Fill(phys.mass_gluino(),phys.mass_LSP(),weight);
+        else if (phys.met_T1CHS_miniAOD_CORE_pt() > 250 ) susy_counts_250_350->Fill(phys.mass_gluino(),phys.mass_LSP(),weight);
+        else if (phys.met_T1CHS_miniAOD_CORE_pt() > 150 ) susy_counts_150_250->Fill(phys.mass_gluino(),phys.mass_LSP(),weight);
+        else if (phys.met_T1CHS_miniAOD_CORE_pt() > 100 ) susy_counts_100_150->Fill(phys.mass_gluino(),phys.mass_LSP(),weight);
       }
 
       //cout<<__LINE__<<endl;
@@ -1944,7 +1953,10 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
     //cout<<__LINE__<<endl;
   }
   if(conf->get("SUSY_Glu_LSP_scan") == "true"){
-    susy_counts->Write();
+    susy_counts_100_150->Write();
+    susy_counts_150_250->Write();
+    susy_counts_250_350->Write();
+    susy_counts_350->Write();
   }
 
   //close output file
