@@ -1464,6 +1464,11 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
     mjj_min_dphi->Sumw2();
   }
 
+  TH2D *susy_counts;
+  if(conf->get("SUSY_Glu_LSP_scan") == "true"){
+    susy_counts = new TH2D("susy_counts", "Mass Gluino vs. Mass LSP vs. Event Count for"+g_sample_name, 6000, 0, 6000, 6000, 0, 6000);
+  }
+
   cout<<"Histograms initialized"<<endl;
   //cout<<__LINE__<<endl;
 //===========================================
@@ -1800,6 +1805,10 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
         mu_pt->Fill(phys.lep_pt().at(0), weight);
       }
 
+      if(conf->get("SUSY_Glu_LSP_scan") == "true"){
+        susy_counts->Fill(phys.mass_gluino(),phys.mass_LSP(),weight);
+      }
+
       //cout<<__LINE__<<endl;
 //===========================================
 // Debugging And Odd Corrections After Cuts
@@ -1933,6 +1942,9 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
     //cout<<__LINE__<<endl;
     mu_pt->Write();
     //cout<<__LINE__<<endl;
+  }
+  if(conf->get("SUSY_Glu_LSP_scan") == "true"){
+    susy_counts->Write();
   }
 
   //close output file

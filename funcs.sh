@@ -1,6 +1,6 @@
 #!/bin/bash
 ##
-## Functions for doing 2016 MET Closure Tests
+## Functions for doing 2017 MET Closure Tests
 ## Bobak Hashemi
 
 

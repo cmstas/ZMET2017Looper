@@ -106,6 +106,11 @@ cout<<"===================================="<<endl;
     cout<<"Adding TChiHZ Monte Carlo"<<endl;
     ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-02/tchihz_80x_v2*.root");
   }
+  if (data_set.Contains("T5ZZ")){
+    //TChiHZ Signal
+    cout<<"Adding T5ZZ Monte Carlo"<<endl;
+    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-09/t5zz_80x_v2*.root");
+  }
 
 //====================================
 // Gamma Jets MC
