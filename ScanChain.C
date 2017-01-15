@@ -49,6 +49,31 @@ pair<int,int> getClosestBPairToHiggsMass(){
   return make_pair(first,second);
 }
 
+double getMT2B(){
+  /*Builds MT2b from two highest CSV jets*/
+
+  pair<int, int> b_index = getMostBlike();
+
+  double mt2_1=MT2(phys.met_T1CHS_miniAOD_CORE_pt(), phys.met_T1CHS_miniAOD_CORE_phi(), phys.jets_p4().at(b_index.first)+phys.lep_p4().at(0), phys.jets_p4().at(b_index.second)+phys.lep_p4().at(1), 0, 0);
+  double mt2_2=MT2(phys.met_T1CHS_miniAOD_CORE_pt(), phys.met_T1CHS_miniAOD_CORE_phi(), phys.jets_p4().at(b_index.first)+phys.lep_p4().at(1), phys.jets_p4().at(b_index.second)+phys.lep_p4().at(0), 0, 0);
+
+  if (mt2_1 > mt2_2){
+    return mt2_2
+  }
+  else{
+    return mt2_1
+  }
+
+}
+
+double getMbb(){
+  /*Builds Mbb from two highest CSV jets*/
+  
+  pair<int, int> b_index = getMostBlike();
+
+  return (phys.jets_p4().at(b_index.first)+phys.jets_p4().at(b_index.second)).M()
+}
+
 double getMT2ForBjets(bool select_highest_csv/*=false*/){
   /*This function gets the MT2 built out of the two Bjets in an event, no guarentee is made about selecting the highest csv jets*/
   double mt2;
@@ -805,6 +830,24 @@ bool passSignalRegionCuts(){
     if (phys.nBJetMedium() > stod(conf->get("NBjets_max"))){
       numEvents->Fill(37);
       if (printFail) cout<<phys.evt()<<" :Failed max bjet cut"<<endl;
+      return false;
+    }
+  }
+
+  //Num Bottom jets Max Cut
+  if (conf->get("NBjets_loose_max") != ""){
+    if (phys.nBJetLoose() > stod(conf->get("NBjets_loose_max"))){
+      numEvents->Fill(37);
+      if (printFail) cout<<phys.evt()<<" :Failed max bjet cut"<<endl;
+      return false;
+    }
+  }
+
+  //Num Bottom jets Min Cut
+  if (conf->get("NBjets_loose_min") != ""){
+    if (phys.nBJetLoose() < stod(conf->get("NBjets_loose_min"))){
+      numEvents->Fill(36);
+      if (printFail) cout<<phys.evt()<<" :Failed min bjet cut"<<endl;
       return false;
     }
   }
@@ -1758,9 +1801,15 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
         sum_mlb->Fill(phys.sum_mlb(), weight);
 
         //cout<<__LINE__<<endl;
-        
-        m_bb_csv->Fill(phys.mbb_csv(), weight);
-        m_bb_bpt->Fill(phys.mbb_bpt(), weight);
+        if (conf->get("NBjets_loose_max") != "")
+        {
+          m_bb_csv->Fill(getMbb(), weight);
+          m_bb_bpt->Fill(getMbb(), weight);  
+        }
+        else{
+          m_bb_csv->Fill(phys.mbb_csv(), weight);
+          m_bb_bpt->Fill(phys.mbb_bpt(), weight);
+        }
     
         //cout<<__LINE__<<endl;
 

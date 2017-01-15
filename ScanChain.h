@@ -73,6 +73,12 @@ pair<int, int> getMostBlike();
 /*Finds the pair of B tagged jets (csv medium) with dijet mass closest to the mass of the higgs*/
 pair<int,int> getClosestBPairToHiggsMass();
 
+/*Builds MT2b from two highest CSV jets*/
+double getMT2B();
+
+/*Builds Mbb from two highest CSV jets*/
+double getMbb();
+
 /*This function gets the MT2 built out of the two Bjets in an event, no guarentee 
 is made about selecting the highest csv jets*/
 double getMT2ForBjets(bool select_highest_csv=false);
