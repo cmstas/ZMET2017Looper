@@ -58,10 +58,10 @@ double getMT2B(){
   double mt2_2=MT2(phys.met_T1CHS_miniAOD_CORE_pt(), phys.met_T1CHS_miniAOD_CORE_phi(), phys.jets_p4().at(b_index.first)+phys.lep_p4().at(1), phys.jets_p4().at(b_index.second)+phys.lep_p4().at(0), 0, 0);
 
   if (mt2_1 > mt2_2){
-    return mt2_2
+    return mt2_2;
   }
   else{
-    return mt2_1
+    return mt2_1;
   }
 
 }
@@ -71,7 +71,7 @@ double getMbb(){
   
   pair<int, int> b_index = getMostBlike();
 
-  return (phys.jets_p4().at(b_index.first)+phys.jets_p4().at(b_index.second)).M()
+  return (phys.jets_p4().at(b_index.first)+phys.jets_p4().at(b_index.second)).M();
 }
 
 double getMT2ForBjets(bool select_highest_csv/*=false*/){
