@@ -667,7 +667,7 @@ TChain * getTChain(TString data_set) {
     }
   }
 
-  for (std::vector<TString>::iterator i; i=sets.begin(); i != sets.end()){
+  for (std::vector<TString>::iterator i=sets.begin(); i != sets.end(); i++){
     addToChain(ch, *i);
   }
 
