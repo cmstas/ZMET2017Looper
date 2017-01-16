@@ -989,6 +989,14 @@ bool passSignalRegionCuts(){
     }
   }
 
+  if (conf->get("Mbb_loose_max") != ""){
+    if ( getMbb() > stod( conf->get("Mbb_loose_max") )){
+      numEvents->Fill(58);
+      if (printFail) cout<<phys.evt()<<" :Failed lep2 min pt cut"<<endl;
+      return false;
+    }
+  }
+
  if (conf->get("MT_LepMET_min") != ""){
     if ( getMTLepMET() < stod( conf->get("MT_LepMET_min") ) ){
       numEvents->Fill(63);
