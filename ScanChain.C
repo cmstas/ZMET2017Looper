@@ -1857,7 +1857,7 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
         //cout<<__LINE__<<endl;
 
         double mt2_val_hz = 0;
-        if (phys.nlep() > 1 && phys.nBJetMedium >= 2) mt2_val_hz = getMT2HiggsZ();
+        if (phys.nlep() > 1 && phys.nBJetMedium() >= 2) mt2_val_hz = getMT2HiggsZ();
         if (mt2_val_hz != 0) mt2_hz->Fill(mt2_val_hz, weight);
 
         //cout<<__LINE__<<endl;
