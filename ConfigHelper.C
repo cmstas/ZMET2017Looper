@@ -78,4 +78,21 @@ vector<double> parseVector(TString opt){
   return ret;
 }
 
+vector<TString> parseVector(TString opt){
+  /* Parses options in the config files which are formatted to be vectors [double,double,double,...]*/
+  vector<TString> ret;
+  TString token;
+  Ssiz_t from=0;
+  //cout<<"got vector in string form: "<<opt<<endl;
+  while(opt.Tokenize(token, from, "[,]")){
+    token.ReplaceAll("[", "");
+    token.ReplaceAll("]", "");
+    token.ReplaceAll(",", "");
+    token.ReplaceAll(" ", "");
+    //cout<<"token: "<<token<<endl;
+    ret.push_back(TString(token.Data()));
+  }
+  return ret;
+}
+
 #endif
