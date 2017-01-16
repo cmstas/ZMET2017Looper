@@ -325,6 +325,11 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
     }
   }
 
+  cout<<"===========================================\nNorm\n===========================================\n";
+  for (int i = 0; i<num_hists; i++){
+    cout<<hist_labels[i]<<" Integral bin 0 to bin 100 Content: "<<hists[i]->Integral(0,100)<<endl;
+  } 
+
   //Create sum of background samples
   TH1D *bg_sum = (TH1D*) hists[1]->Clone("bg_sum_"+plot_name);
   bg_sum->SetTitle("Sum of background samples");
@@ -431,7 +436,10 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   //===========================
   // Print Closure Stats
   //===========================
-
+  cout<<"===========================================\n2\n===========================================\n";
+  for (int i = 0; i<num_hists; i++){
+    cout<<hist_labels[i]<<" Integral bin 0 to bin 100 Content: "<<hists[i]->Integral(0,100)<<endl;
+  } 
 
   if (conf->get("print_stats") == "true"){
     vector<pair<double,double>> stats_bins;
@@ -637,6 +645,11 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
     }
   }
   
+
+  cout<<"===========================================\n3\n===========================================\n";
+  for (int i = 0; i<num_hists; i++){
+    cout<<hist_labels[i]<<" Integral bin 0 to bin 100 Content: "<<hists[i]->Integral(0,100)<<endl;
+  } 
 
   //----------------------
   // ADD OVERFLOW BIN
