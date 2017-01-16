@@ -885,6 +885,15 @@ bool passSignalRegionCuts(){
     }
   }
 
+  //MT2b min
+  if (conf->get("MT2b_loose_min") != "" && conf->get("event_type") != "photon"){
+    if (getMT2B() < stod(conf->get("MT2b_loose_min"))){
+      numEvents->Fill(40);
+      if (printFail) cout<<phys.evt()<<" :Failed MT2b cut"<<endl;
+      return false;
+    }
+  }
+
   //cout<<__LINE__<<endl;
   //if (printStats) { cout<<"mt2b: "<<phys.mt2b()<<" "; }
   //MT2 min
