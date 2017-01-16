@@ -1821,18 +1821,19 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
         {
           m_bb_csv->Fill(getMbb(), weight);
           m_bb_bpt->Fill(getMbb(), weight);  
+          double mt2_val_fromb = getMT2ForBjets(true);
+          if (mt2_val_fromb != 0) mt2_fromb->Fill(mt2_val_fromb, weight);
         }
         else{
           m_bb_csv->Fill(phys.mbb_csv(), weight);
           m_bb_bpt->Fill(phys.mbb_bpt(), weight);
+          double mt2_val_fromb = getMT2ForBjets();
+          if (mt2_val_fromb != 0) mt2_fromb->Fill(mt2_val_fromb, weight);
         }
     
         //cout<<__LINE__<<endl;
 
         if (phys.mt2j() != 0 ) mt2j->Fill(phys.mt2j(), weight);
-
-        double mt2_val_fromb = getMT2ForBjets();
-        if (mt2_val_fromb != 0) mt2_fromb->Fill(mt2_val_fromb, weight);
         
         //cout<<__LINE__<<endl;
 
