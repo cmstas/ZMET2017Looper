@@ -63,7 +63,6 @@ double getMT2B(){
   else{
     return mt2_1;
   }
-
 }
 
 double getMbb(){
