@@ -4,9 +4,6 @@
 
 void addToChain(TChain *ch, TString set) {
 
-cout<<"Datasets Incoming: "<<endl;
-cout<<"===================================="<<endl;
-
 //====================================
 // DY MC
 //====================================
@@ -644,7 +641,6 @@ cout<<"===================================="<<endl;
 // End Building TChain
 //====================================
 
-  cout<<"===================================="<<endl;
   return;
 } 
 
@@ -667,9 +663,12 @@ TChain * getTChain(TString data_set) {
     }
   }
 
+  cout<<"Datasets Incoming: "<<endl;
+  cout<<"===================================="<<endl;
   for (std::vector<TString>::iterator i=sets.begin(); i != sets.end(); i++){
     addToChain(ch, *i);
   }
-
+  cout<<"===================================="<<endl;
+  
   return ch;
 }
