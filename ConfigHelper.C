@@ -78,7 +78,7 @@ vector<double> parseVector(TString opt){
   return ret;
 }
 
-vector<TString> parseVector(TString opt){
+vector<TString> sParseVector(TString opt){
   /* Parses options in the config files which are formatted to be vectors [double,double,double,...]*/
   vector<TString> ret;
   TString token;
