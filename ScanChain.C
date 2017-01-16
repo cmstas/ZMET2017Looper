@@ -1834,7 +1834,7 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
         double mt2_val_fromb;
 
         //cout<<__LINE__<<endl;
-        if (conf->get("NBjets_loose_max") != "")
+        if (conf->get("NBjets_loose_min") != "")
         {
           m_bb_csv->Fill(getMbb(), weight);
           m_bb_bpt->Fill(getMbb(), weight);  
