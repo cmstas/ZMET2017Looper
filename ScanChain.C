@@ -1816,18 +1816,20 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
       if (conf->get("signal_region") == "TChiHZ"){
         sum_mlb->Fill(phys.sum_mlb(), weight);
 
+        double mt2_val_fromb;
+
         //cout<<__LINE__<<endl;
         if (conf->get("NBjets_loose_max") != "")
         {
           m_bb_csv->Fill(getMbb(), weight);
           m_bb_bpt->Fill(getMbb(), weight);  
-          double mt2_val_fromb = getMT2ForBjets(true);
+          mt2_val_fromb = getMT2ForBjets(true);
           if (mt2_val_fromb != 0) mt2_fromb->Fill(mt2_val_fromb, weight);
         }
         else{
           m_bb_csv->Fill(phys.mbb_csv(), weight);
           m_bb_bpt->Fill(phys.mbb_bpt(), weight);
-          double mt2_val_fromb = getMT2ForBjets();
+          mt2_val_fromb = getMT2ForBjets();
           if (mt2_val_fromb != 0) mt2_fromb->Fill(mt2_val_fromb, weight);
         }
     
