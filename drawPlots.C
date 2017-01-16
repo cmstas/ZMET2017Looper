@@ -156,7 +156,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   for (int i = 0; i<num_hists; i++){
     hists[i] = (TH1D*) ((TH1D*) hist_files[i]->Get(hist_names[i]))->Clone("hist_"+to_string(i)+"_"+plot_name);
     cout<<hist_names[i]<<" found in "<<hist_files[i]->GetName()<<endl;
-    cout<<hist_labels[i]<<" Bin 1 Content: "<<hists[i]->GetBinContent(1)<<endl;
+    cout<<hist_labels[i]<<" Integral bin 0 to bin 100 Content: "<<hists[i]->Integral(0,100)<<endl;
   }  
   cout << "Histograms pulled from files, adding draw options"<<endl;
   
@@ -229,6 +229,11 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   for (int i=0; i < num_hists; i++){
     zeroNegatives(hists[i]);
   }
+  
+  cout<<"===========================================\n2\n===========================================\n"
+  for (int i = 0; i<num_hists; i++){
+    cout<<hist_labels[i]<<" Integral bin 0 to bin 100 Content: "<<hists[i]->Integral(0,100)<<endl;
+  } 
 
   if (conf->get("normalize") == "true"){
     TString hist_nums_for_norm = conf->get("normalize_hist_nums");
@@ -637,6 +642,11 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
     }
   }
   
+  cout<<"===========================================\n3\n===========================================\n"
+  for (int i = 0; i<num_hists; i++){
+    cout<<hist_labels[i]<<" Integral bin 0 to bin 100 Content: "<<hists[i]->Integral(0,100)<<endl;
+  } 
+
   //----------------------
   // ADD OVERFLOW BIN
   //----------------------
