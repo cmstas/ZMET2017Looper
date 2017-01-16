@@ -1891,7 +1891,7 @@ TString drawSingleTH2(ConfigParser *conf){
   return errors;
 }
 
-void drawPlots(TString config_file){
+void drawPlots(TString config_file, bool draw_debugs = true){
   TString errors="";
 
   ConfigParser *configs=new ConfigParser(config_file.Data());
@@ -1916,8 +1916,11 @@ void drawPlots(TString config_file){
       errors+=drawSingleTH2(configs);
     }
   }
-  errors+=drawDebugPlots(configs);
   
+  if (draw_debugs){
+    errors+=drawDebugPlots(configs);
+  }
+
   cout<<errors<<endl;
   return;
 }

@@ -5,10 +5,20 @@
 
 
 function makePlots {
+	if [[ $# < 1 ]]
+	then
+		echo "makePlots /path/to/config <no>(optional for no debug plots)"
+		return
+	fi
 	mkdirs $1 plots
 	conf_tmp_path=${1//.conf/.conf_tmp}
 	./preprocessConf.py $1
-	nice -n 19 root -l -b -q "drawPlots.C(\"$conf_tmp_path\")"
+	if [[ $2 == "no" ]]
+	then
+	    nice -n 19 root -l -b -q "drawPlots.C(\"$conf_tmp_path\", 0)"
+	else
+		nice -n 19 root -l -b -q "drawPlots.C(\"$conf_tmp_path\")"
+	fi
 }
 
 function makeHistos {	
