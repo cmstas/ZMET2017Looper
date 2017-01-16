@@ -76,16 +76,20 @@ double getMbb(){
 double getMT2ForBjets(bool select_highest_csv/*=false*/){
   /*This function gets the MT2 built out of the two Bjets in an event, no guarentee is made about selecting the highest csv jets*/
   double mt2;
+  //cout<<__LINE__<<endl;
   if (select_highest_csv){
     pair<int, int> b_index = getMostBlike();
+    //cout<<__LINE__<<endl;
     //make sure first index points to the higher csv of the first two jets
     mt2=MT2(phys.met_T1CHS_miniAOD_CORE_pt(), phys.met_T1CHS_miniAOD_CORE_phi(), phys.jets_p4().at(b_index.first), phys.jets_p4().at(b_index.second), 0, 0);
+    //cout<<__LINE__<<endl;
   }
   else{
     // MT2( MET_MAGNITUDE, MET_PHI, P4_LEPTON_1, P4_LEPTON_2, MASS_INVISIBLE_PARTICLE, Bool Verbose)
+    //cout<<__LINE__<<endl;
     mt2=MT2(phys.met_T1CHS_miniAOD_CORE_pt(), phys.met_T1CHS_miniAOD_CORE_phi(), phys.jets_medb_p4().at(0), phys.jets_medb_p4().at(1), 0, 0);
   }
-
+  //cout<<__LINE__<<endl;
   return mt2;
 }
 
@@ -842,6 +846,8 @@ bool passSignalRegionCuts(){
     }
   }
 
+  //cout<<__LINE__<<endl;
+
   //Num Bottom jets Min Cut
   if (conf->get("NBjets_loose_min") != ""){
     if (phys.nBJetLoose() < stod(conf->get("NBjets_loose_min"))){
@@ -850,6 +856,7 @@ bool passSignalRegionCuts(){
       return false;
     }
   }
+
 
   //cout<<__LINE__<<endl;
   //if (printStats) { cout<<"dphi_metj1: "<<phys.dphi_metj1()<<" "; }
@@ -883,6 +890,8 @@ bool passSignalRegionCuts(){
       return false;
     }
   }
+
+  //cout<<__LINE__<<endl;
 
   //MT2b min
   if (conf->get("MT2b_loose_min") != "" && conf->get("event_type") != "photon"){
@@ -997,6 +1006,8 @@ bool passSignalRegionCuts(){
     }
   }
 
+  //cout<<__LINE__<<endl;
+
   if (conf->get("Mbb_loose_max") != ""){
     if ( getMbb() > stod( conf->get("Mbb_loose_max") )){
       numEvents->Fill(58);
@@ -1005,13 +1016,17 @@ bool passSignalRegionCuts(){
     }
   }
 
- if (conf->get("MT_LepMET_min") != ""){
+  //cout<<__LINE__<<endl;
+
+  if (conf->get("MT_LepMET_min") != ""){
     if ( getMTLepMET() < stod( conf->get("MT_LepMET_min") ) ){
       numEvents->Fill(63);
       if (printFail) cout<<phys.evt()<<" :Failed MT from Lepton and MET min cut"<<endl;
       return false;
     }
   }
+
+  //cout<<__LINE__<<endl;
 
   if (conf->get("Mjj_dphi_max") != ""){
     if ( phys.mjj_mindphi() > stod( conf->get("Mjj_dphi_max") ) ){
@@ -1824,12 +1839,14 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
           m_bb_csv->Fill(getMbb(), weight);
           m_bb_bpt->Fill(getMbb(), weight);  
           mt2_val_fromb = getMT2ForBjets(true);
+          //cout<<__LINE__<<endl;
           if (mt2_val_fromb != 0) mt2_fromb->Fill(mt2_val_fromb, weight);
         }
         else{
           m_bb_csv->Fill(phys.mbb_csv(), weight);
           m_bb_bpt->Fill(phys.mbb_bpt(), weight);
           mt2_val_fromb = getMT2ForBjets();
+          //cout<<__LINE__<<endl;
           if (mt2_val_fromb != 0) mt2_fromb->Fill(mt2_val_fromb, weight);
         }
     
