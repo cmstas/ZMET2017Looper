@@ -230,7 +230,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
     zeroNegatives(hists[i]);
   }
   
-  cout<<"===========================================\n2\n===========================================\n"
+  cout<<"===========================================\n2\n===========================================\n";
   for (int i = 0; i<num_hists; i++){
     cout<<hist_labels[i]<<" Integral bin 0 to bin 100 Content: "<<hists[i]->Integral(0,100)<<endl;
   } 
@@ -642,7 +642,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
     }
   }
   
-  cout<<"===========================================\n3\n===========================================\n"
+  cout<<"===========================================\n3\n===========================================\n";
   for (int i = 0; i<num_hists; i++){
     cout<<hist_labels[i]<<" Integral bin 0 to bin 100 Content: "<<hists[i]->Integral(0,100)<<endl;
   } 
