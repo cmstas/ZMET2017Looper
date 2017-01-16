@@ -1,8 +1,7 @@
 #include "TChain.h"
 #include "TString.h"
 
-TChain * getTChain(TString data_set) {
-  TChain *ch = new TChain("t");
+TChain * getTChain(TChain *ch, TString data_set) {
 
 cout<<"Datasets Incoming: "<<endl;
 cout<<"===================================="<<endl;
@@ -636,3 +635,9 @@ cout<<"===================================="<<endl;
   cout<<"===================================="<<endl;
   return ch;
 } 
+
+
+TChain * getTChain(TString data_set) {
+  TChain *ch = new TChain("t");
+
+}
