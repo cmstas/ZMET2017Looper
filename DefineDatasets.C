@@ -661,7 +661,7 @@ TChain * getTChain(TString data_set) {
     TString token;
     Ssiz_t from=0;
     //cout<<"got vector in string form: "<<opt<<endl;
-    while(opt.Tokenize(token, from, "_")){
+    while(data_set.Tokenize(token, from, "_")){
       token.ReplaceAll("_", "");
       sets.push_back(TString(token.Data()));
     }
