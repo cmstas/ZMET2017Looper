@@ -209,6 +209,11 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
     }
   }
 
+  cout<<"===========================================\nRebin\n===========================================\n";
+  for (int i = 0; i<num_hists; i++){
+    cout<<hist_labels[i]<<" Integral bin 0 to bin 100 Content: "<<hists[i]->Integral(hists[i]->FindBin(0),hists[i]->FindBin(100))<<endl;
+  } 
+
   //===========================
   // Normalize
   //===========================
