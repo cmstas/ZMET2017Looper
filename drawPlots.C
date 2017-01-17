@@ -327,7 +327,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
 
   cout<<"===========================================\nNorm\n===========================================\n";
   for (int i = 0; i<num_hists; i++){
-    cout<<hist_labels[i]<<" Integral bin 0 to bin 100 Content: "<<hists[i]->Integral(0,100)<<endl;
+    cout<<hist_labels[i]<<" Integral bin 0 to bin 100 Content: "<<hists[i]->Integral(hists[i]->FindBin(0),hists[i]->FindBin(100))<<endl;
   } 
 
   //Create sum of background samples
@@ -438,7 +438,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   //===========================
   cout<<"===========================================\n2\n===========================================\n";
   for (int i = 0; i<num_hists; i++){
-    cout<<hist_labels[i]<<" Integral bin 0 to bin 100 Content: "<<hists[i]->Integral(0,100)<<endl;
+    cout<<hist_labels[i]<<" Integral bin 0 to bin 100 Content: "<<hists[i]->Integral(hists[i]->FindBin(0),hists[i]->FindBin(100))<<endl;
   } 
 
   if (conf->get("print_stats") == "true"){
@@ -648,7 +648,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
 
   cout<<"===========================================\n3\n===========================================\n";
   for (int i = 0; i<num_hists; i++){
-    cout<<hist_labels[i]<<" Integral bin 0 to bin 100 Content: "<<hists[i]->Integral(0,100)<<endl;
+    cout<<hist_labels[i]<<" Integral bin 0 to bin 100 Content: "<<hists[i]->Integral(hists[i]->FindBin(0),hists[i]->FindBin(100))<<endl;
   } 
 
   //----------------------
