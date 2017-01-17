@@ -737,8 +737,10 @@ double getWeight(){
       weight*=phys.weightsf_lepreco().at(0);
       weight*=phys.weightsf_lepreco().at(1);
     }
-    
-    weight*=phys.weight_btagsf();
+    if (conf->get("no_btag_sf") == ""){
+      cout<<"Applying Btag Scale Factors"<<endl;
+      weight*=phys.weight_btagsf();
+    }
   }
   //cout<<__LINE__<<endl;
 
