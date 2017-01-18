@@ -517,7 +517,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
       TString conf_id = conf->get("conf_path");
       conf_id.ReplaceAll("//","/");
       conf_id.ReplaceAll("/","_");
-      conf_id = table_out_path(8, table_out_path.Last('.')-8);
+      conf_id = table_out_path(8, conf_id.Last('.')-8);
 
       table.saveTex(Form("outputs/efficiency_table_%s.tex", conf_id.Data()));
 
@@ -1110,7 +1110,12 @@ TString drawArbitraryNumber(ConfigParser *conf){
       //cout<<__LINE__<<endl;
 
       table.print();
-      table.saveTex(Form("efficiency_table_%s.tex", plot_name.Data()));
+      TString conf_id = conf->get("conf_path");
+      conf_id.ReplaceAll("//","/");
+      conf_id.ReplaceAll("/","_");
+      conf_id = table_out_path(8, conf_id.Last('.')-8);
+
+      table.saveTex(Form("outputs/efficiency_table_%s.tex", conf_id.Data()));
 
     }
   }
