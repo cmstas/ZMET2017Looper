@@ -1861,6 +1861,7 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
           m_bb_bpt->Fill(getMbb(), weight);  
           mt2_val_fromb = getMT2ForBjets(true);
           //cout<<__LINE__<<endl;
+          mt2b->Fill(getMT2B(), weight);
           if (mt2_val_fromb != 0) mt2_fromb->Fill(mt2_val_fromb, weight);
         }
         else{
