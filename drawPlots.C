@@ -93,6 +93,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   TString errors="";
 
   int num_hists=stoi(conf->get("num_hists"));
+  int BG_sum_from=(conf->get("BG_sum_from") != "") ? stoi(conf->get("BG_sum_from")) : 1;
 
   if (num_hists < 2){
     return TString("Less than Two hists can not be turned into a residual plot, please call drawSingleTH1");
@@ -336,11 +337,11 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   } 
 
   //Create sum of background samples
-  TH1D *bg_sum = (TH1D*) hists[1]->Clone("bg_sum_"+plot_name);
+  TH1D *bg_sum = (TH1D*) hists[BG_sum_from]->Clone("bg_sum_"+plot_name);
   bg_sum->SetTitle("Sum of background samples");
   
   //cout<<__LINE__<<endl;
-  for (int i=2; i<num_hists; i++){
+  for (int i=BG_sum_from+1; i<num_hists; i++){
     bg_sum->Add(hists[i]);
   }
   //cout<<__LINE__<<endl;
@@ -820,6 +821,7 @@ TString drawArbitraryNumber(ConfigParser *conf){
   TString errors="";
 
   int num_hists=stoi(conf->get("num_hists"));
+  int BG_sum_from=(conf->get("BG_sum_from") != "") ? stoi(conf->get("BG_sum_from")) : 0;
 
   if (num_hists < 2){
     return TString("Less than Two hists can not be turned into a stack plot, please call drawSingleTH1 (replace config PLOT_TYPE with Single)");
@@ -948,11 +950,11 @@ TString drawArbitraryNumber(ConfigParser *conf){
   }
 
   //Create sum of background samples
-  TH1D *bg_sum = (TH1D*) hists[0]->Clone("bg_sum_"+plot_name);
+  TH1D *bg_sum = (TH1D*) hists[BG_sum_from]->Clone("bg_sum_"+plot_name);
   bg_sum->SetTitle("Sum of background samples");
   
   //cout<<__LINE__<<endl;
-  for (int i=1; i<num_hists; i++){
+  for (int i=BG_sum_from+1; i<num_hists; i++){
     bg_sum->Add(hists[i]);
   }
   //cout<<__LINE__<<endl;
