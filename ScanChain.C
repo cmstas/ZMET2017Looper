@@ -1037,6 +1037,25 @@ bool passSignalRegionCuts(){
       return false;
     }
   }
+
+  //cout<<__LINE__<<endl;
+
+  if (conf->get("force_true_bjets") != ""){
+    pair<int, int> b_index = getMostBlike();
+
+    if ( abs(phys.jets_mcFlavour().at(b_index.first)) != 5 ){
+      numEvents->Fill(68);
+      if (printFail) cout<<phys.evt()<<" :Failed truth level bjet cut"<<endl;
+      return false;
+    }
+
+    if ( abs(phys.jets_mcFlavour().at(b_index.second)) != 5 ){
+      numEvents->Fill(68);
+      if (printFail) cout<<phys.evt()<<" :Failed truth level bjet cut"<<endl;
+      return false;
+    }
+  }
+
   //cout<<__LINE__<<endl;
   //if (printPass) cout<<phys.evt()<<": Passes Signal Region Cuts"<<endl;
   return true;
