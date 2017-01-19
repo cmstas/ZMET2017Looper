@@ -441,10 +441,12 @@ bool hasGoodPhoton(){
     return false; // jet neutral EM fraction cut
   }
   
-  if( acos( cos( phys.gamma_phi().at(0) - phys.met_phi() ) ) < 0.14 ) {
-    numEvents->Fill(31);
-    if (printFail) cout<<phys.evt()<<" :Failed photons aligned with MET photon cut"<<endl;
-    return false; // kill photons aligned with MET
+  if (conf->get("ECalTest") == ""){
+    if( acos( cos( phys.gamma_phi().at(0) - phys.met_phi() ) ) < 0.14 ) {
+      numEvents->Fill(31);
+      if (printFail) cout<<phys.evt()<<" :Failed photons aligned with MET photon cut"<<endl;
+      return false; // kill photons aligned with MET
+    }
   }
   
   if( phys.elveto() ) {
@@ -1570,6 +1572,34 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
     susy_counts_350 = new TH2D("susy_counts_350", "Mass Gluino vs. Mass LSP vs. Event Count With MET>350 for"+g_sample_name, 6000, 0, 6000, 6000, 0, 6000);
   }
 
+  TH1D *dphi_gamma_MET, *dphi_gamma_MET100, *dphi_gamma_MET200, *dphi_gamma_MET300, *dphi_gamma_MET400, *dphi_gamma_MET500;
+
+  if(conf->get("ECalTest") != ""){
+    dphi_gamma_MET = new TH1D("dphi_gamma_met", "#Delta#Phi(#gamma, E^{miss}_{T}) for "+g_sample_name, 100,0,3.15);
+    dphi_gamma_MET->SetDirectory(rootdir);
+    dphi_gamma_MET->Sumw2();
+
+    dphi_gamma_MET100 = new TH1D("dphi_gamma_met100", "#Delta#Phi(#gamma, E^{miss}_{T}) for "+g_sample_name, 100,0,3.15);
+    dphi_gamma_MET100->SetDirectory(rootdir);
+    dphi_gamma_MET100->Sumw2();
+
+    dphi_gamma_MET200 = new TH1D("dphi_gamma_met200", "#Delta#Phi(#gamma, E^{miss}_{T}) for "+g_sample_name, 100,0,3.15);
+    dphi_gamma_MET200->SetDirectory(rootdir);
+    dphi_gamma_MET200->Sumw2();
+
+    dphi_gamma_MET300 = new TH1D("dphi_gamma_met300", "#Delta#Phi(#gamma, E^{miss}_{T}) for "+g_sample_name, 100,0,3.15);
+    dphi_gamma_MET300->SetDirectory(rootdir);
+    dphi_gamma_MET300->Sumw2();
+
+    dphi_gamma_MET400 = new TH1D("dphi_gamma_met400", "#Delta#Phi(#gamma, E^{miss}_{T}) for "+g_sample_name, 100,0,3.15);
+    dphi_gamma_MET400->SetDirectory(rootdir);
+    dphi_gamma_MET400->Sumw2();
+
+    dphi_gamma_MET500 = new TH1D("dphi_gamma_met500", "#Delta#Phi(#gamma, E^{miss}_{T}) for "+g_sample_name, 100,0,3.15);
+    dphi_gamma_MET500->SetDirectory(rootdir);
+    dphi_gamma_MET500->Sumw2();
+  }
+
   cout<<"Histograms initialized"<<endl;
   //cout<<__LINE__<<endl;
 //===========================================
@@ -1925,6 +1955,27 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
         else if (phys.met_T1CHS_miniAOD_CORE_pt() > 100 ) susy_counts_100_150->Fill(phys.mass_gluino(),phys.mass_LSP(),weight);
       }
 
+      if(conf->get("ECalTest") != ""){
+        double dphi_gm = acos(cos(phys.met_T1CHS_miniAOD_CORE_phi() - phys.gamma_p4().at(0).phi()));
+        dphi_gamma_MET->Fill(dphi_gm, weight); 
+
+        if (phys.met_T1CHS_miniAOD_CORE_pt() >= 100){
+          dphi_gamma_MET100->Fill(dphi_gm, weight);  
+        }
+        if (phys.met_T1CHS_miniAOD_CORE_pt() >= 200){
+          dphi_gamma_MET200->Fill(dphi_gm, weight);  
+        }
+        if (phys.met_T1CHS_miniAOD_CORE_pt() >= 300){
+          dphi_gamma_MET300->Fill(dphi_gm, weight);  
+        }
+        if (phys.met_T1CHS_miniAOD_CORE_pt() >= 400){
+          dphi_gamma_MET400->Fill(dphi_gm, weight);  
+        }
+        if (phys.met_T1CHS_miniAOD_CORE_pt() >= 500){
+          dphi_gamma_MET500->Fill(dphi_gm, weight);  
+        }
+      }
+
       //cout<<__LINE__<<endl;
 //===========================================
 // Debugging And Odd Corrections After Cuts
@@ -2064,6 +2115,14 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
     susy_counts_150_250->Write();
     susy_counts_250_350->Write();
     susy_counts_350->Write();
+  }
+  if(conf->get("ECalTest") != ""){
+    dphi_gamma_MET->Write();
+    dphi_gamma_MET100->Write();
+    dphi_gamma_MET200->Write();
+    dphi_gamma_MET300->Write();
+    dphi_gamma_MET400->Write();
+    dphi_gamma_MET500->Write();
   }
 
   //close output file
