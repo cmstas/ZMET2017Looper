@@ -1330,6 +1330,7 @@ bool passFileSelections(){
       if( phys.ngamma() > 0 && phys.gamma_genIsPromptFinalState().at(0) == 1 ) {
         //cout<<"skipped"<<endl;
         numEvents->Fill(64);
+        num_events_veto_ttbar++;
         return false;
       }
     }   
@@ -1338,6 +1339,7 @@ bool passFileSelections(){
       if( phys.ngamma() > 0 && phys.gamma_genIsPromptFinalState().at(0) != 1 ) {
         //cout<<"skipped"<<endl;
         numEvents->Fill(64);
+        num_events_veto_ttgamma++;
         return false;
       }
     }
@@ -2176,6 +2178,8 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
   // return
   bmark->Stop("benchmark");
   cout << endl;
+  cout << num_events_veto_ttbar << " Events Vetod from TTBar" << endl;
+  cout << num_events_veto_ttgamma << " Events Vetod from TTGamma" << endl;
   cout << nEventsTotal << " Events Processed" << endl;
   cout << nDuplicates << " Duplicates" << endl;
   cout << "------------------------------" << endl;
