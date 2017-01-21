@@ -1583,31 +1583,52 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
   }
 
   TH1D *dphi_gamma_MET, *dphi_gamma_MET100, *dphi_gamma_MET200, *dphi_gamma_MET300, *dphi_gamma_MET400, *dphi_gamma_MET500;
+  TH1D *pt_gamma_MET100, *pt_gamma_MET200, *pt_gamma_MET300, *pt_gamma_MET400, *pt_gamma_MET500;
 
   if(conf->get("ECalTest") != ""){
     dphi_gamma_MET = new TH1D("dphi_gamma_met", "#Delta#Phi(#gamma, E^{miss}_{T}) for "+g_sample_name, 100,0,3.15);
     dphi_gamma_MET->SetDirectory(rootdir);
     dphi_gamma_MET->Sumw2();
 
-    dphi_gamma_MET100 = new TH1D("dphi_gamma_met100", "#Delta#Phi(#gamma, E^{miss}_{T}) for "+g_sample_name, 100,0,3.15);
+    dphi_gamma_MET100 = new TH1D("dphi_gamma_met100", "#Delta#Phi(#gamma, E^{miss}_{T}) for "+g_sample_name+" with E^{miss}_{T} #geq 100", 100,0,3.15);
     dphi_gamma_MET100->SetDirectory(rootdir);
     dphi_gamma_MET100->Sumw2();
 
-    dphi_gamma_MET200 = new TH1D("dphi_gamma_met200", "#Delta#Phi(#gamma, E^{miss}_{T}) for "+g_sample_name, 100,0,3.15);
+    dphi_gamma_MET200 = new TH1D("dphi_gamma_met200", "#Delta#Phi(#gamma, E^{miss}_{T}) for "+g_sample_name+" with E^{miss}_{T} #geq 200", 100,0,3.15);
     dphi_gamma_MET200->SetDirectory(rootdir);
     dphi_gamma_MET200->Sumw2();
 
-    dphi_gamma_MET300 = new TH1D("dphi_gamma_met300", "#Delta#Phi(#gamma, E^{miss}_{T}) for "+g_sample_name, 100,0,3.15);
+    dphi_gamma_MET300 = new TH1D("dphi_gamma_met300", "#Delta#Phi(#gamma, E^{miss}_{T}) for "+g_sample_name+" with E^{miss}_{T} #geq 300", 100,0,3.15);
     dphi_gamma_MET300->SetDirectory(rootdir);
     dphi_gamma_MET300->Sumw2();
 
-    dphi_gamma_MET400 = new TH1D("dphi_gamma_met400", "#Delta#Phi(#gamma, E^{miss}_{T}) for "+g_sample_name, 100,0,3.15);
+    dphi_gamma_MET400 = new TH1D("dphi_gamma_met400", "#Delta#Phi(#gamma, E^{miss}_{T}) for "+g_sample_name+" with E^{miss}_{T} #geq 400", 100,0,3.15);
     dphi_gamma_MET400->SetDirectory(rootdir);
     dphi_gamma_MET400->Sumw2();
 
-    dphi_gamma_MET500 = new TH1D("dphi_gamma_met500", "#Delta#Phi(#gamma, E^{miss}_{T}) for "+g_sample_name, 100,0,3.15);
+    dphi_gamma_MET500 = new TH1D("dphi_gamma_met500", "#Delta#Phi(#gamma, E^{miss}_{T}) for "+g_sample_name+" with E^{miss}_{T} #geq 500", 100,0,3.15);
     dphi_gamma_MET500->SetDirectory(rootdir);
     dphi_gamma_MET500->Sumw2();
+
+    pt_gamma_MET100 = new TH1D("pt_gamma_met100", "P_{T} for #gamma in "+g_sample_name+" with E^{miss}_{T} #geq 100", 6000,0,6000);
+    pt_gamma_MET100->SetDirectory(rootdir);
+    pt_gamma_MET100->Sumw2();
+
+    pt_gamma_MET200 = new TH1D("pt_gamma_met200", "P_{T} for #gamma in "+g_sample_name+" with E^{miss}_{T} #geq 200", 6000,0,6000);
+    pt_gamma_MET200->SetDirectory(rootdir);
+    pt_gamma_MET200->Sumw2();
+
+    pt_gamma_MET300 = new TH1D("pt_gamma_met300", "P_{T} for #gamma in "+g_sample_name+" with E^{miss}_{T} #geq 300", 6000,0,6000);
+    pt_gamma_MET300->SetDirectory(rootdir);
+    pt_gamma_MET300->Sumw2();
+
+    pt_gamma_MET400 = new TH1D("pt_gamma_met400", "P_{T} for #gamma in "+g_sample_name+" with E^{miss}_{T} #geq 400", 6000,0,6000);
+    pt_gamma_MET400->SetDirectory(rootdir);
+    pt_gamma_MET400->Sumw2();
+
+    pt_gamma_MET500 = new TH1D("pt_gamma_met500", "P_{T} for #gamma in "+g_sample_name+" with E^{miss}_{T} #geq 500", 6000,0,6000);
+    pt_gamma_MET500->SetDirectory(rootdir);
+    pt_gamma_MET500->Sumw2();
   }
 
   cout<<"Histograms initialized"<<endl;
@@ -1970,19 +1991,24 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
         dphi_gamma_MET->Fill(dphi_gm, weight); 
 
         if (phys.met_T1CHS_miniAOD_CORE_pt() >= 100){
-          dphi_gamma_MET100->Fill(dphi_gm, weight);  
+          dphi_gamma_MET100->Fill(dphi_gm, weight);
+          pt_gamma_MET100->Fill(bosonPt(), weight);  
         }
         if (phys.met_T1CHS_miniAOD_CORE_pt() >= 200){
-          dphi_gamma_MET200->Fill(dphi_gm, weight);  
+          dphi_gamma_MET200->Fill(dphi_gm, weight);
+          pt_gamma_MET200->Fill(bosonPt(), weight);  
         }
         if (phys.met_T1CHS_miniAOD_CORE_pt() >= 300){
-          dphi_gamma_MET300->Fill(dphi_gm, weight);  
+          dphi_gamma_MET300->Fill(dphi_gm, weight);
+          pt_gamma_MET300->Fill(bosonPt(), weight);  
         }
         if (phys.met_T1CHS_miniAOD_CORE_pt() >= 400){
-          dphi_gamma_MET400->Fill(dphi_gm, weight);  
+          dphi_gamma_MET400->Fill(dphi_gm, weight);
+          pt_gamma_MET400->Fill(bosonPt(), weight);  
         }
         if (phys.met_T1CHS_miniAOD_CORE_pt() >= 500){
-          dphi_gamma_MET500->Fill(dphi_gm, weight);  
+          dphi_gamma_MET500->Fill(dphi_gm, weight);
+          pt_gamma_MET500->Fill(bosonPt(), weight);  
         }
       }
 
@@ -2133,6 +2159,12 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
     dphi_gamma_MET300->Write();
     dphi_gamma_MET400->Write();
     dphi_gamma_MET500->Write();
+
+    pt_gamma_MET100->Write();
+    pt_gamma_MET200->Write();
+    pt_gamma_MET300->Write();
+    pt_gamma_MET400->Write();
+    pt_gamma_MET500->Write();
   }
 
   //close output file
