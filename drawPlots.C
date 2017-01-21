@@ -1300,13 +1300,27 @@ TString drawSingleTH1(ConfigParser *conf){
   //===========================
   
   double ymax = 0;
+  double ymin = 0.1;
+  
+  if (conf->get("ymax") != ""){
+    ymax = stod(conf->get("ymax"));
+  }
+  else{
+    ymax = 1.2*p_hist->GetMaximum();
+  }
 
-  ymax = 1.2*p_hist->GetMaximum();
+  if (conf->get("logy") == "true"){
+    ymax *= 10;
+  }
+
+  if (conf->get("ymin") != ""){
+    ymin = stod(conf->get("ymin"));
+  }
 
   
   cout<<"Proper plot maximum set to "<<ymax<<endl;
   
-  TH2F* h_axes = new TH2F(Form("%s_axes",plot_name.Data()),plot_title,p_hist->GetNbinsX(),xmin,xmax,1000,0.001,ymax);
+  TH2F* h_axes = new TH2F(Form("%s_axes",plot_name.Data()),plot_title,p_hist->GetNbinsX(),xmin,xmax,1000,ymin,ymax);
   
   
   //-----------------------
