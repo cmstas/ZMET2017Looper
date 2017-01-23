@@ -1372,7 +1372,7 @@ TString drawSingleTH1(ConfigParser *conf){
   h_axes->GetYaxis()->SetLabelSize(0.03);
   
   cout<<"Drawing histograms"<<endl;
-  TString plot_opts = (conf->get("plot_opts") != "") ? conf->get("plot_opts") : "HIST"
+  TString plot_opts = (conf->get("plot_opts") != "") ? conf->get("plot_opts") : "HIST";
   h_axes->Draw();
   p_hist->Draw(plot_opts+" SAME");
   
