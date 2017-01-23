@@ -15,11 +15,11 @@ mass_points = sets.Set()
 
 for j_entry in range(ch.GetEntries()):
   i_entry = ch.LoadTree(j_entry)
-    if i_entry < 0:
-        break
-    nb = ch.GetEntry(j_entry)
-    if nb <= 0:
-        continue
+  if i_entry < 0:
+    break
+  nb = ch.GetEntry(j_entry)
+  if nb <= 0:
+    continue
 
   #mass_points.add((ch.mass_gluino,ch.mass_LSP))
   print("Mass Gluino: %f Mass LSP: %f" % (ch.mass_gluino,ch.mass_LSP))
