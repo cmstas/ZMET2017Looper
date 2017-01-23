@@ -21,8 +21,7 @@ for j_entry in range(ch.GetEntries()):
   if nb <= 0:
     continue
 
-  #mass_points.add((ch.mass_gluino,ch.mass_LSP))
-  print("Mass Gluino: %f Mass LSP: %f" % (ch.mass_gluino,ch.mass_LSP))
+  mass_points.add((ch.mass_gluino,ch.mass_LSP))
 
-  if j_entry > 10:
-    exit(0)
+for i in mass_points:
+  print("mass gluino: %f \t mass_LSP: %f" % (i[0], i[1]))
