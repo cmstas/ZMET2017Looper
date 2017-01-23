@@ -23,3 +23,6 @@ for j_entry in range(ch.GetEntries()):
 
   #mass_points.add((ch.mass_gluino,ch.mass_LSP))
   print("Mass Gluino: %f Mass LSP: %f" % (ch.mass_gluino,ch.mass_LSP))
+
+  if j_entry > 10:
+    exit(0)
