@@ -8,7 +8,7 @@ if (len(sys.argv) < 1):
   exit(1)
 
 ch = ROOT.TChain("t")
-for i in sys.argv[1:]
+for i in sys.argv[1:]:
   ch.Add(i)
 
 mass_points = sets.Set()
