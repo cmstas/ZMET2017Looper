@@ -18,7 +18,7 @@ def getMassSpectrum():
   n_entries = ch.GetEntries()
   for j_entry in range(n_entries):
     
-    if j_entry > 100:
+    if j_entry > 1000:
       break
 
     i_entry = ch.LoadTree(j_entry)
