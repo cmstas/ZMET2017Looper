@@ -9,14 +9,14 @@ void check(){
   for (int j_entry = 0; j_entry < n_entries; j_entry++){
     i_entry = ch->LoadTree(j_entry);
     if (i_entry < 0) break;
+    ch->SetBranchAddress("mass_gluino",&a);
+    ch->SetBranchAddress("mass_LSP",&b);
     nb = ch->GetEntry(j_entry);
     if (nb <= 0) continue;
     if (j_entry % 10000 == 0){
       cout<<"Processing entry "<<j_entry<<" of "<<n_entries<<endl;
     }
 
-    a=ch.mass_gluino;
-    b=ch.mass_LSP;
   }
 }
 
