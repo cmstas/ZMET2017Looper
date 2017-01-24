@@ -43,7 +43,7 @@ def getMassSpectrum():
 
 
 checkInputs()
-output_filename = "SMSscans/mass_spectrum_%s.txt" % sys.argv[1]
+output_filename = "SMSScans/mass_spectrum_%s.txt" % sys.argv[1]
 
 if not os.path.isfile(output_filename):
   getMassSpectrum()
