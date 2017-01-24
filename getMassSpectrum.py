@@ -2,7 +2,7 @@
 import ROOT, sys, sets, os
 
 def checkInputs():
-  if (len(sys.argv) < 2):
+  if (len(sys.argv) < 2) or (".root" in sys.argv[1]):
     print("You must give the location of the babies!")
     print("Usage: ")
     print("./getMassSpectrum.py <sample_name> <path_to_baby_1> <path_to_baby_2> ... <path_to_baby_n>")
@@ -18,7 +18,8 @@ def getMassSpectrum():
   mass_points = sets.Set()
   n_entries = ch.GetEntries()
   for j_entry in range(n_entries):
-    if j_entry > 100 == 0:
+    
+    if j_entry > 100:
       break
 
     i_entry = ch.LoadTree(j_entry)
