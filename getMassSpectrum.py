@@ -48,6 +48,7 @@ output_filename = "SMSScans/mass_spectrum_%s.txt" % sys.argv[1]
 if not os.path.isfile(output_filename):
   getMassSpectrum()
 else:
+  print("Found previous scan of this file: ")
   mass_file = open(output_filename, 'r')
   for line in mass_file:
     print(line)
