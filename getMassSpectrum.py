@@ -3,7 +3,6 @@ import ROOT, sys, sets, os
 
 def checkInputs():
   if (len(sys.argv) < 2) or (".root" in sys.argv[1]):
-    print("You must give the location of the babies!")
     print("Usage: ")
     print("./getMassSpectrum.py <sample_name> <path_to_baby_1> <path_to_baby_2> ... <path_to_baby_n>")
     exit(1)
