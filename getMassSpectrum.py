@@ -39,7 +39,7 @@ def getMassSpectrum():
 
   for i in mass_points:
     print("mass gluino: %f \t mass_LSP: %f" % (i[0], i[1]))
-    outfile.Write("mass gluino: %f \t mass_LSP: %f \n" % (i[0], i[1]))
+    outfile.write("mass gluino: %f \t mass_LSP: %f \n" % (i[0], i[1]))
 
 
 checkInputs()
