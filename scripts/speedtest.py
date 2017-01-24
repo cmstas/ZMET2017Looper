@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-import ROOT, sys, sets, os, 
+import ROOT, sys, sets, os
 
 
 def sweep():
