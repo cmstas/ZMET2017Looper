@@ -282,3 +282,13 @@ function tempErr {
 		echo ""
 	done
 }
+
+function uncParse {
+	if [[ $# < 1 ]]
+	then
+		echo "uncParse <path/to/datacard/template>"
+		return
+	fi
+
+	cat $1 | grep -o "<[^ ]*>" | sort | uniq
+}

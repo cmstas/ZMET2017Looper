@@ -51,39 +51,39 @@ void addToChain(TChain *ch, TString set) {
   else if (set == "ZMC-inclusive-Skimmed"){
     //Inclusive HT
     cout<<"Adding ZMC-inclusive-Skimmed"<<endl;
-    ch->Add("/home/users/cwelke/ZMetbabyskims/V08-22-05/skim_dy_m50_mgmlm_ext1*");
+    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-08/skims/dy_m50_mgmlm_ext1*");
   }
   else if (set == "ZMC-100200-Skimmed"){
     //HT 100-200 
     cout<<"Adding ZMC-100200-Skimmed"<<endl;
-    ch->Add("/home/users/cwelke/ZMetbabyskims/V08-22-05/skim_dy_m50_mgmlm_ht100_ext1*");
+    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-08/skims/dy_m50_mgmlm_ht100_ext1*");
   }
   else if (set == "ZMC-200400-Skimmed"){
     //HT 200-400 
     cout<<"Adding ZMC-200400-Skimmed"<<endl;
-    ch->Add("/home/users/cwelke/ZMetbabyskims/V08-22-05/skim_dy_m50_mgmlm_ht200_ext1*");
+    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-08/skims/dy_m50_mgmlm_ht200_ext1*");
   }
   else if (set == "ZMC-400600-Skimmed"){
     //HT 400-600 
     cout<<"Adding ZMC-400600-Skimmed"<<endl;
-    ch->Add("/home/users/cwelke/ZMetbabyskims/V08-22-05/skim_dy_m50_mgmlm_ht400_ext1*");
+    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-08/skims/dy_m50_mgmlm_ht400_ext1*");
   }
   else if (set == "ZMC-600Inf-Skimmed"){
     //HT 600-Inf 
     cout<<"Adding ZMC-600Inf-Skimmed"<<endl;
-    ch->Add("/home/users/cwelke/ZMetbabyskims/V08-22-05/skim_dy_m50_mgmlm_ht600_ext1*");
+    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-08/skims/dy_m50_mgmlm_ht600_ext1*");
   }
   else if (set == "ZMC-fullmc-Skimmed"){
     cout<<"Adding ZMC-fullmc-Skimmed"<<endl;
     
     //ZZ Sample
-    ch->Add(Form("/home/users/cwelke/ZMetbabyskims/V08-22-05/skim_zz_2l2q_amcnlo*.root" ));
+    ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-08/skims/zz_2l2q_amcnlo*.root" ));
     //WZ Sample
-    ch->Add(Form("/home/users/cwelke/ZMetbabyskims/V08-22-05/skim_wz_2l2q_amcnlo*.root" ));
+    ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-08/skims/wz_2l2q_amcnlo*.root" ));
   }
   else if (set == "ZMC-low-mass-Skimmed"){
     cout<<"Adding ZMC Low Mass Skimmed sample"<<endl;
-    ch->Add("/home/users/cwelke/ZMetbabyskims/V08-22-05/skim_dy_m1050_mgmlm*.root");
+    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-08/skims/dy_m1050_mgmlm*.root");
   }
 
 //====================================
@@ -136,27 +136,55 @@ void addToChain(TChain *ch, TString set) {
   else if (set == "GammaMC-40100-Skimmed"){
     //HT 40-100
     cout<<"Adding Skimmed GammaMC-40100"<<endl; 
-    ch->Add("/home/users/cwelke/ZMetbabyskims/V08-22-05/skim_gjetsht40_dr0p05_mgmlm*");
+    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-08/skims/gjetsht40_dr0p05_mgmlm*");
   }
   else if (set == "GammaMC-100200-Skimmed"){
     //HT 100-200 
     cout<<"Adding Skimmed GammaMC-100200"<<endl; 
-    ch->Add("/home/users/cwelke/ZMetbabyskims/V08-22-05/skim_gjetsht100_dr0p05_mgmlm*");
+    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-08/skims/gjetsht100_dr0p05_mgmlm*");
   }
   else if (set == "GammaMC-200400-Skimmed"){
     //HT 200-400
     cout<<"Adding Skimmed GammaMC-200400"<<endl; 
-    ch->Add("/home/users/cwelke/ZMetbabyskims/V08-22-05/skim_gjetsht200_dr0p05_mgmlm*");
+    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-08/skims/gjetsht200_dr0p05_mgmlm*");
   }
   else if (set == "GammaMC-400600-Skimmed"){
     //HT 400-600 
     cout<<"Adding Skimmed GammaMC-400600"<<endl; 
-    ch->Add("/home/users/cwelke/ZMetbabyskims/V08-22-05/skim_gjetsht400_dr0p05_mgmlm*");
+    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-08/skims/gjetsht400_dr0p05_mgmlm*");
   }
   else if (set == "GammaMC-600Inf-Skimmed"){
     //HT 600-Inf 
     cout<<"Adding Skimmed GammaMC-600+"<<endl; 
-    ch->Add("/home/users/cwelke/ZMetbabyskims/V08-22-05/skim_gjetsht600_dr0p05_mgmlm*");
+    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-08/skims/gjetsht600_dr0p05_mgmlm*");
+  }
+  //---------------------------
+  // dr0p4
+  //---------------------------
+  else if (set == "GammaMC-40100-dr0p4-Skimmed"){
+    //HT 40-100
+    cout<<"Adding Skimmed GammaMC-40100"<<endl; 
+    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-08/skims/gjetsht40_dr0p4_mgmlm*");
+  }
+  else if (set == "GammaMC-100200-dr0p4-Skimmed"){
+    //HT 100-200 
+    cout<<"Adding Skimmed GammaMC-100200"<<endl; 
+    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-08/skims/gjetsht100_dr0p4_mgmlm*");
+  }
+  else if (set == "GammaMC-200400-dr0p4-Skimmed"){
+    //HT 200-400
+    cout<<"Adding Skimmed GammaMC-200400"<<endl; 
+    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-08/skims/gjetsht200_dr0p4_mgmlm*");
+  }
+  else if (set == "GammaMC-400600-dr0p4-Skimmed"){
+    //HT 400-600 
+    cout<<"Adding Skimmed GammaMC-400600"<<endl; 
+    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-08/skims/gjetsht400_dr0p4_mgmlm*");
+  }
+  else if (set == "GammaMC-600Inf-dr0p4-Skimmed"){
+    //HT 600-Inf 
+    cout<<"Adding Skimmed GammaMC-600+"<<endl; 
+    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-08/skims/gjetsht600_dr0p4_mgmlm*");
   }
   //---------------------------
   // Other Gamma MC
