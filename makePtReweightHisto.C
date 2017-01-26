@@ -98,7 +98,7 @@ void makePtReweightHisto(ConfigParser * conf)
   h_primary = (TH1D*)f_primary->Get(hist_name)->Clone(primary_name);
   h_secondary = (TH1D*)f_secondary->Get(hist_name)->Clone(secondary_name);
   
-  if (conf->get("no_subtraction_vpt_rwt") == ""){
+  if (conf->get("no_subtraction_vpt_rwt") != "true"){
     h_subtractor = (TH1D*)(f_subtractors.at(0))->Get(hist_name)->Clone("subtractor_"+primary_name);
     h_subtractor->Scale(subtractor_scales.at(0));
     for (int i=1; i < (int) subtractor_paths.size(); i++){
