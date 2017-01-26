@@ -21,11 +21,11 @@ void makePtReweightHisto(ConfigParser * conf)
   //-----------------------------------
   TString primary_path = output_dir;
   primary_path.ReplaceAll("/PhotonData_VPTRWT/", "/DileptonData/");
-  primary_path += (conf->get("vpt_rwt_samplename") != "") ? conf->get("vpt_rwt_samplename") : "DileptonData.root";
+  primary_path += (conf->get("vpt_rwt_primary_samplename") != "") ? conf->get("vpt_rwt_primary_samplename")+".root" : "DileptonData.root";
 
   TString secondary_path = output_dir;
   secondary_path.ReplaceAll("/PhotonData_VPTRWT/", "/PhotonData/");
-  secondary_path += conf->get("Name")+".root";
+  secondary_path += (conf->get("vpt_rwt_secondary_samplename") != "") ? conf->get("vpt_rwt_secondary_samplename")+".root" : conf->get("Name")+".root";
 
   /*cout<<"primary_histos: "<<primary_path<<endl;
   cout<<"output_dir: "<<output_dir<<endl;
