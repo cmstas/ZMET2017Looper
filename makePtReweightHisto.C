@@ -107,6 +107,9 @@ void makePtReweightHisto(ConfigParser * conf)
     cout<<"Retrived Histograms, subtracting other backgrounds"<<endl;
     h_primary->Add(h_subtractor, -1);
   }
+  else{
+    cout<<"Skipping background subtraction"<<endl;
+  }
   cout<<"Zeroing negative bins"<<endl;
 
   zeroNegatives(h_primary);
