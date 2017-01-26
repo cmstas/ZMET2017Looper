@@ -13,7 +13,7 @@ using namespace std;
 void makePtReweightHisto(ConfigParser * conf)
 {
   TString hist_name = "vpt";
-  TString output_dir = getOutputDir(conf, "hist"); //get output dir location for this histogram ~/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction/PhotonData_VPTRWT/TChiHZ/
+  TString output_dir = getOutputDir(conf, "hist"); //get output dir location for this histogram something like /nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction/PhotonData_VPTRWT/TChiHZ/
   TString output_location = output_dir+conf->get("Name")+"_vpt_rwt.root";
 
   //-----------------------------------
@@ -21,7 +21,7 @@ void makePtReweightHisto(ConfigParser * conf)
   //-----------------------------------
   TString primary_path = output_dir;
   primary_path.ReplaceAll("/PhotonData_VPTRWT/", "/DileptonData/");
-  primary_path += "DileptonData.root";
+  primary_path += (conf->get("vpt_rwt_samplename") != "") ? conf->get("vpt_rwt_samplename") : "DileptonData.root";
 
   TString secondary_path = output_dir;
   secondary_path.ReplaceAll("/PhotonData_VPTRWT/", "/PhotonData/");
