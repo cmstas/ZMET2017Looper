@@ -199,7 +199,7 @@ void addToChain(TChain *ch, TString set) {
   else if (set == "GammaMC-400600-dr0p4-Skimmed"){
     //HT 400-600 
     cout<<"Adding Skimmed GammaMC-400600"<<endl; 
-    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-08/skims/gjetsht400_dr0p4_mgmlm*");
+    ch->Add("/hadoop/cms/store/user/olivito/AutoTwopler_babies/merged/ZMET/V08-22-09/output/gjetsht400_dr0p4_mgmlm*");
   }
   else if (set == "GammaMC-600Inf-dr0p4-Skimmed"){
     //HT 600-Inf 
