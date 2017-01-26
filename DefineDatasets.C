@@ -86,6 +86,26 @@ void addToChain(TChain *ch, TString set) {
     ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-08/skims/dy_m1050_mgmlm*.root");
   }
 
+  else if (set == "ZMC-V08-22-08-Skimmed"){
+    cout<<"Adding V08-22-08 Skimmed sample"<<endl;
+    
+    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-08/skims/dy_m50_mgmlm_ext1*");
+    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-08/skims/dy_m50_mgmlm_ht100*");
+    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-08/skims/dy_m50_mgmlm_ht200*");
+    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-08/skims/dy_m50_mgmlm_ht400*"); 
+    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-08/skims/dy_m50_mgmlm_ht600*");
+    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-08/skims/dy_m50_mgmlm_ht800*");
+    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-08/skims/dy_m50_mgmlm_ht1200*");
+    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-08/skims/dy_m50_mgmlm_ht2500*");
+
+    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-08/skims/dy_m1050_mgmlm*.root");
+
+    //ZZ Sample
+    ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-08/skims/zz_2l2q_amcnlo*.root" ));
+    //WZ Sample
+    ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-08/skims/wz_2l2q_amcnlo*.root" ));
+  }
+
 //====================================
 // SUSY MC
 //====================================
