@@ -1277,7 +1277,7 @@ bool passFileSelections(){
 
 
   //Zjets inclusive sample
-  if ( (! phys.isData()) && TString(conf->get("data_set")).Contains("ZMC-inclusive")){
+  if ( (! phys.isData()) && TString(conf->get("data_set")).Contains("ZMC")){
     //cout<<"Zjets MC event"<<endl;
     if( TString(currentFile->GetTitle()).Contains("dy_m50_mgmlm") && (! TString(currentFile->GetTitle()).Contains("_ht")) ){
       //cout<<"File: "<<currentFile->GetTitle()<<" with gen_ht: "<<phys.gen_ht()<<endl;
