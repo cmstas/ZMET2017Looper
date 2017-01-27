@@ -442,7 +442,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   //===========================
   // Print Closure Stats
   //===========================
-  cout<<"===========================================\n2\n===========================================\n";
+  cout<<"===========================================\nPrint Stats\n===========================================\n";
   for (int i = 0; i<num_hists; i++){
     cout<<hist_labels[i]<<" Integral bin 0 to bin 100 Content: "<<hists[i]->Integral(hists[i]->FindBin(0),hists[i]->FindBin(100))<<endl;
   } 
@@ -657,7 +657,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   }
   
 
-  cout<<"===========================================\n3\n===========================================\n";
+  cout<<"===========================================\nUpdate Overflow\n===========================================\n";
   for (int i = 0; i<num_hists; i++){
     cout<<hist_labels[i]<<" Integral bin 0 to bin 100 Content: "<<hists[i]->Integral(hists[i]->FindBin(0),hists[i]->FindBin(100))<<endl;
   } 
@@ -713,6 +713,12 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
     blindAfter(hists[0], stod(conf->get("blindAfter")));
   }
   hists[0]->Draw("E1 SAME");
+  
+  TGraphAsymmErrors *bg_err = new TGraphAsymmErrors(bg_sum);
+  bg_err->SetFillStyle(3244);
+  bg_err->SetFillColor(kGray+3);
+  bg_err->Draw("SAME 2");
+
   plotpad->RedrawAxis();
   //cout<<__LINE__<<endl;
 
