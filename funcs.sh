@@ -292,3 +292,18 @@ function uncParse {
 
 	cat $1 | grep -o "<[^ ]*>" | sort | uniq
 }
+
+function effTable {
+	#Prints parsed latex table for config
+	if [[ $# < 1 ]]
+	then
+		echo "effTable <path/to/plot/output_1> <path/to/plot/output_2> ..."
+		return
+	fi
+
+	for arg in ${@}
+	do
+		cat $arg | grep "LATEXTABLE: " | sed -e 's/^LATEXTABLE: //g' -e 's/-6001/+/g'
+		echo ""
+	done
+}
