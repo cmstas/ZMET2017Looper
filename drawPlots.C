@@ -713,11 +713,13 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
     blindAfter(hists[0], stod(conf->get("blindAfter")));
   }
   hists[0]->Draw("E1 SAME");
-  
   TGraphAsymmErrors *bg_err = new TGraphAsymmErrors(bg_sum);
-  bg_err->SetFillStyle(3244);
-  bg_err->SetFillColor(kGray+3);
-  bg_err->Draw("SAME 2");
+  
+  if(conf->get("draw_bg_errs") == "true"){
+    bg_err->SetFillStyle(3244);
+    bg_err->SetFillColor(kGray+3);
+    bg_err->Draw("SAME 2");
+  }
 
   plotpad->RedrawAxis();
   //cout<<__LINE__<<endl;
@@ -1180,6 +1182,15 @@ TString drawArbitraryNumber(ConfigParser *conf){
     stack->Add(hists[i]);
   } 
   stack->Draw("HIST SAME");
+  
+  TGraphAsymmErrors *bg_err = new TGraphAsymmErrors(bg_sum);
+  
+  if(conf->get("draw_bg_errs") == "true"){
+    bg_err->SetFillStyle(3244);
+    bg_err->SetFillColor(kGray+3);
+    bg_err->Draw("SAME 2");
+  }
+
   fullpad->RedrawAxis();
   //cout<<__LINE__<<endl;
 
