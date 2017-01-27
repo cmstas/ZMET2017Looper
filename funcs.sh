@@ -301,6 +301,13 @@ function effTable {
 		return
 	fi
 
+	echo "\\documentclass[a4paper,landscape]{article}"
+	echo "\\usepackage{fullpage}"
+	echo "\\usepackage{float}"
+	echo "\\usepackage{multicol}"
+	echo "\\usepackage{adjustbox}"
+	echo "\\begin{document}"
+
 	for arg in ${@}
 	do
 		effTable_name=${arg#*table_}
@@ -310,4 +317,6 @@ function effTable {
 		cat $arg | sed -e 's/-6001.00/+/g' -e 's/; Eff: [0-9]\.[0-9][0-9]//g' | grep -v "{document}" | grep -v "documentclass{article}" | grep -v "usepackage"
 		echo ""
 	done
+
+	echo "\\end{document}"
 }
