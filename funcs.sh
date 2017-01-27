@@ -305,8 +305,9 @@ function effTable {
 	do
 		effTable_name=${arg#*table_}
 		effTable_name=${effTable_name%.tex}
-		echo "$effTable_name"
-		cat $arg | sed -e 's/^LATEXTABLE: //g' -e 's/-6001/+/g'
+		effTable_name=${effTable_name//_/ }
+		echo "\\section*{$effTable_name}"
+		cat $arg | sed -e 's/-6001.00/+/g' -e 's/Eff: [0-9]\.[0-9][0-9]//g'
 		echo ""
 	done
 }
