@@ -9,12 +9,11 @@ def checkInputs():
 
   print("Getting mass spectrum for %d files" % len(sys.argv[1:]))
 
-def getMassSpectrum():
+def fillMassSpectrumFromTChain():
   ch = ROOT.TChain("t")
   for i in sys.argv[2:]:
     ch.Add(i)
 
-  mass_points = sets.Set()
   n_entries = ch.GetEntries()
   for j_entry in range(n_entries):
     
@@ -38,18 +37,28 @@ def getMassSpectrum():
   outfile = open(output_filename, 'w')
 
   for i in mass_points:
-    print("mass gluino: %f \t mass_LSP: %f" % (i[0], i[1]))
     outfile.write("mass gluino: %f \t mass_LSP: %f \n" % (i[0], i[1]))
 
+  outfile.close()
 
-checkInputs()
-output_filename = "SMSScans/mass_spectrum_%s.txt" % sys.argv[1]
-
-if not os.path.isfile(output_filename):
-  getMassSpectrum()
-else:
-  print("Found previous scan of this file: ")
+def fillMassSpectrumFromCache():
   mass_file = open(output_filename, 'r')
   for line in mass_file:
-    print(line[:-1])
-  exit();
+    a=line.split()
+    mass_points.add((int(float(a[2])), int(float(a[4]))))
+
+def fillMassSpectrum():
+  if not os.path.isfile(output_filename):
+    fillMassSpectrumFromTChain()
+  else:
+    fillMassSpectrumFromCache()
+
+name=sys.argv[1]
+checkInputs()
+output_filename = "SMSScans/mass_spectrum_%s.txt" % name
+mass_points = sets.Set()
+fillMassSpectrum()
+
+for i in mass_points:
+    print("mass gluino: %f \t mass_LSP: %f \n" % (i[0], i[1]))
+

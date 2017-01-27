@@ -1276,7 +1276,7 @@ bool passFileSelections(){
   events with genht > 100 in the DY inclusive samples */
 
 
-  //Zjets inclusive sample
+  //Zjets Monte Carlo samples
   if ( (! phys.isData()) && TString(conf->get("data_set")).Contains("ZMC")){
     //cout<<"Zjets MC event"<<endl;
     if( TString(currentFile->GetTitle()).Contains("dy_m50_mgmlm") && (! TString(currentFile->GetTitle()).Contains("_ht")) ){
@@ -1288,6 +1288,29 @@ bool passFileSelections(){
       }
       if(phys.evt_scale1fb() > 30){
         numEvents->Fill(60);
+        return false;
+      }
+      if( abs(phys.gen_ht() - phys.ht()) > 300 ) {
+        //cout<<"skipped"<<endl;
+        numEvents->Fill(68);
+        return false;
+      }
+    }
+    if( TString(currentFile->GetTitle()).Contains("dy_m50_mgmlm_ht100")){
+      if( abs(phys.gen_ht() - phys.ht()) > 300 ) {
+        //cout<<"skipped"<<endl;
+        numEvents->Fill(68);
+        return false;
+      }
+    }
+  }
+
+  if ( (! phys.isData()) && TString(conf->get("data_set")).Contains("GammaMC")){
+    //cout<<"Zjets MC event"<<endl;
+    if( TString(currentFile->GetTitle()).Contains("gjetsht40") ||  TString(currentFile->GetTitle()).Contains("gjetsht100") ){
+      if( abs(phys.gen_ht() - phys.ht()) > 300 ) {
+        //cout<<"skipped"<<endl;
+        numEvents->Fill(68);
         return false;
       }
     }
