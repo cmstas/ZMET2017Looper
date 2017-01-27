@@ -306,7 +306,7 @@ function effTable {
 		effTable_name=${arg#*table_}
 		effTable_name=${effTable_name%.tex}
 		echo "$effTable_name"
-		cat $arg | grep "LATEXTABLE: " | sed -e 's/^LATEXTABLE: //g' -e 's/-6001/+/g'
+		cat $arg | sed -e 's/^LATEXTABLE: //g' -e 's/-6001/+/g'
 		echo ""
 	done
 }
