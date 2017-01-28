@@ -1,12 +1,17 @@
+
+updateClassFiles_BabyPath=
 if [[ $# < 1 ]]
 then
   echo "./updateClassFiles.sh /path/to/example/baby.root"
-  read -e -p "Glassfish Path:" GF_DIR
-elif [[ ! -a $1 ]]
+  read -e -p "Glassfish Path:" updateClassFiles_BabyPath
+fi
+
+if [[ ! -a $1 ]]
 then
   echo "The file $1 could not be found."
   echo "./updateClassFiles.sh /path/to/example/baby.root"
 else
+  updateClassFiles_BabyPath=$1
   pushd /home/users/bhashemi/Projects/GIT/Software/
   git pull 
   git checkout root6
