@@ -1350,7 +1350,7 @@ bool passFileSelections(){
     
     //Remove prompt photons from TTBar
     if( TString(currentFile->GetTitle()).Contains("ttbar") ){
-      if( phys.ngamma() > 0 && phys.gamma_genIsPromptFinalState().at(0) == 1 ) {
+      if( phys.ngamma() > 0 && (phys.gamma_genIsPromptFinalState().at(0) == 1 || phys.gamma_mcMatchId().at(0) == 22)) {
         //cout<<"skipped"<<endl;
         numEvents->Fill(64);
         num_events_veto_ttbar++;
@@ -1359,7 +1359,7 @@ bool passFileSelections(){
     }   
     //Remove Non-prompt from TTGamma
     else if ( TString(currentFile->GetTitle()).Contains("ttgamma_incl_amcnlo") ){
-      if( phys.ngamma() > 0 && phys.gamma_genIsPromptFinalState().at(0) != 1 ) {
+      if( phys.ngamma() > 0 && (phys.gamma_genIsPromptFinalState().at(0) != 1 || phys.gamma_mcMatchId().at(0) == 22 ) ) {
         //cout<<"skipped"<<endl;
         numEvents->Fill(64);
         num_events_veto_ttgamma++;
