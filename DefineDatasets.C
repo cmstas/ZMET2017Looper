@@ -315,8 +315,8 @@ void addToChain(TChain *ch, TString set) {
   }
   else if (set == "FSMC-1lep-Skimmed"){
     cout<<"Adding skimmed FSMC-1lep"<<endl; 
-    ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-09/skims/ttbar_1ltbr_mgmlm*.root"));
-    ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-09/skims/ttbar_1ltop_mgmlm*.root"));
+    ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-09/skims/ttbar_1ltbr_mgmlm_ext1*"));
+    ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-09/skims/ttbar_1ltop_mgmlm_ext1*"));
   }
   else if (set == "FSMC-singletop-inclusive"){
     cout<<"Adding FSMC-singletop"<<endl; 
