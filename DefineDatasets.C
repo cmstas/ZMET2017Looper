@@ -310,13 +310,13 @@ void addToChain(TChain *ch, TString set) {
   }
   else if (set == "FSMC-1lep"){
     cout<<"Adding FSMC-1lep"<<endl; 
-    ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-09/skims/ttbar_1ltbr_mgmlm*.root"));
-    ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-09/skims/ttbar_1ltop_mgmlm*.root"));
+    ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/ttbar_1ltbr_mgmlm*.root"));
+    ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/ttbar_1ltop_mgmlm*.root"));
   }
   else if (set == "FSMC-1lep-Skimmed"){
     cout<<"Adding skimmed FSMC-1lep"<<endl; 
-    ch->Add(Form("/home/users/cwelke/ZMetbabyskims/V08-22-05/skim_ttbar_1ltbr_mgmlm*.root"));
-    ch->Add(Form("/home/users/cwelke/ZMetbabyskims/V08-22-05/skim_ttbar_1ltop_mgmlm*.root"));
+    ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-09/skims/ttbar_1ltbr_mgmlm*.root"));
+    ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-09/skims/ttbar_1ltop_mgmlm*.root"));
   }
   else if (set == "FSMC-singletop-inclusive"){
     cout<<"Adding FSMC-singletop"<<endl; 
