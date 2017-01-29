@@ -1346,26 +1346,30 @@ bool passFileSelections(){
     }
   }
 
-  if ( TString(conf->get("data_set")).Contains("FSMC-TTBar-TTGamma") ){
+  if ( TString(conf->get("data_set")).Contains("FSMC-TTBar-NoPromptGamma") ){
     
     //Remove prompt photons from TTBar
     if( TString(currentFile->GetTitle()).Contains("ttbar") ){
-      if( phys.ngamma() > 0 && (phys.gamma_genIsPromptFinalState().at(0) == 1 || phys.gamma_mcMatchId().at(0) == 22)) {
+      if( phys.ngamma() > 0 && (phys.gamma_genIsPromptFinalState().at(0) == 1 && phys.gamma_mcMatchId().at(0) == 22)) {
         //cout<<"skipped"<<endl;
         numEvents->Fill(64);
         num_events_veto_ttbar++;
         return false;
       }
     }   
+  }
+
+  if ( TString(conf->get("data_set")).Contains("FSMC-TTGamma-NoNonPromptGamma") ){
+    
     //Remove Non-prompt from TTGamma
-    else if ( TString(currentFile->GetTitle()).Contains("ttgamma_incl_amcnlo") ){
-      if( phys.ngamma() > 0 && (phys.gamma_genIsPromptFinalState().at(0) != 1 || phys.gamma_mcMatchId().at(0) == 22 ) ) {
+    if ( TString(currentFile->GetTitle()).Contains("ttgamma_incl_amcnlo") ){
+      if( phys.ngamma() > 0 && (phys.gamma_genIsPromptFinalState().at(0) != 1 || phys.gamma_mcMatchId().at(0) != 22 ) ) {
         //cout<<"skipped"<<endl;
         numEvents->Fill(64);
         num_events_veto_ttgamma++;
         return false;
       }
-    }
+    }   
   }
 
   return true;

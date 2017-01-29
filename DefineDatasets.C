@@ -296,15 +296,17 @@ void addToChain(TChain *ch, TString set) {
     cout<<"Adding Skimmed FSMC-dilep-powheg (large stats sample)"<<endl; 
     ch->Add(Form("/home/users/cwelke/ZMetbabyskims/V08-22-05/skim_ttbar_dilep_powheg*.root")); //larger stats
   }
-  else if (set == "FSMC-TTBar-TTGamma-Skimmed"){
-    cout<<"Adding FSMC-TTBar-TTGamma (large stats sample)"<<endl; 
+  else if (set == "FSMC-TTBar-NoPromptGamma"){
+    cout<<"Adding FSMC-TTBar-NoPromptGamma (large stats sample)"<<endl; 
     //Take non-prompt photon events
     ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-09/skims/ttbar_dilep_powheg*.root"));
     ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-09/skims/ttbar_1ltbr_mgmlm*.root"));
     ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-09/skims/ttbar_1ltop_mgmlm*.root"));
-
+  }
+  else if (set == "FSMC-TTGamma-NoNonPromptGamma"){
+    cout<<"Adding FSMC-TTGamma-NoNonPromptGamma"<<endl; 
     //Take prompt photon events
-    ch->Add(Form("/home/users/cwelke/ZMetbabyskims/V08-22-05/skim_ttgamma_incl_amcnlo*.root"));
+    ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-09/skims/ttg_incl_amcnlo*.root"));
   }
   else if (set == "FSMC-1lep"){
     cout<<"Adding FSMC-1lep"<<endl; 
