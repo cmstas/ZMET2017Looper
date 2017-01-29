@@ -299,9 +299,9 @@ void addToChain(TChain *ch, TString set) {
   else if (set == "FSMC-TTBar-TTGamma-Skimmed"){
     cout<<"Adding FSMC-TTBar-TTGamma (large stats sample)"<<endl; 
     //Take non-prompt photon events
-    ch->Add(Form("/home/users/cwelke/ZMetbabyskims/V08-22-05/skim_ttbar_dilep_powheg*.root"));
-    ch->Add(Form("/home/users/cwelke/ZMetbabyskims/V08-22-05/skim_ttbar_1ltbr_mgmlm*.root"));
-    ch->Add(Form("/home/users/cwelke/ZMetbabyskims/V08-22-05/skim_ttbar_1ltop_mgmlm*.root"));
+    ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-09/skims/ttbar_dilep_powheg*.root"));
+    ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-09/skims/ttbar_1ltbr_mgmlm*.root"));
+    ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-09/skims/ttbar_1ltop_mgmlm*.root"));
 
     //Take prompt photon events
     ch->Add(Form("/home/users/cwelke/ZMetbabyskims/V08-22-05/skim_ttgamma_incl_amcnlo*.root"));
