@@ -483,7 +483,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
         for(int st_bin=0; st_bin < (int) stats_bins.size(); st_bin++){
           count = bg_sum->IntegralAndError(bg_sum->FindBin(stats_bins[st_bin].first), bg_sum->FindBin(stats_bins[st_bin].second - 0.01), error);
           count = stats[0][st_bin].first / count;
-          error = (1/count)*(sqrt(pow(stats[0][0].second, 2) + pow(stats[0][st_bin].first * error / count, 2)));
+          error = (1/count)*(sqrt(pow(stats[0][st_bin].second, 2) + pow(stats[0][st_bin].first * error / count, 2)));
           stat_row.push_back(make_pair(count,error)); 
         } 
         stats.push_back(stat_row);
