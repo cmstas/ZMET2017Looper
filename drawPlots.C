@@ -486,8 +486,9 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
           zjets_count = stats[0][st_bin].first;
           zjets_err = stats[0][st_bin].second;
           cout<<"zjets_count: "<<zjets_count<<" zjets_err: "<<zjets_err<<endl;
-          count =  zjets_count / count;
+          cout<<"count: "<<count<<"err: "<<error<<endl;
           error = (1./count)*(sqrt( pow(zjets_err, 2) + pow(zjets_count * error / count, 2) ) );
+          count =  zjets_count / count;
           stat_row.push_back(make_pair(count,error)); 
         } 
         stats.push_back(stat_row);
