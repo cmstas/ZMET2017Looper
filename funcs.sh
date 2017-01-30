@@ -314,7 +314,7 @@ function effTable {
 		effTable_name=${effTable_name%.tex}
 		effTable_name=${effTable_name//_/ }
 		echo "\\section*{$effTable_name}"
-		cat $arg | sed -e 's/-6001.00/+/g' -e 's,+/-,$\\pm$,g' -e 's/[ht!]/[H]/g' | grep -v "{document}" | grep -v "documentclass{article}" | grep -v "usepackage"
+		cat $arg | sed -e 's/-6001.00/+/g' -e 's,+/-,$\\pm$,g' -e 's/\[ht!\]/[H]/g' | grep -v "{document}" | grep -v "documentclass{article}" | grep -v "usepackage"
 		echo ""
 	done
 
