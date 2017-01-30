@@ -25,6 +25,7 @@ DEFAULT::SR=SRA
 DEFAULT::print_stats=true
 DEFAULT::simple_errors=true
 DEFAULT::draw_bg_errs=true
+DEFAULT::ymin=0.001
 
 #====================
 # Ratio Histos

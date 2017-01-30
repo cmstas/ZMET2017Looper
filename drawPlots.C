@@ -477,12 +477,25 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
         stats.push_back(stat_row);
         stat_row.clear();
       }
-      //Tack on BG sum row
-      for(int st_bin=0; st_bin < (int) stats_bins.size(); st_bin++){
-        count = bg_sum->IntegralAndError(bg_sum->FindBin(stats_bins[st_bin].first), bg_sum->FindBin(stats_bins[st_bin].second - 0.01), error);
-        stat_row.push_back(make_pair(count,error)); 
-      } 
-      stats.push_back(stat_row);
+      
+      if (conf->get("templates_closure") == "true"){
+        //Tack on Ratio row
+        for(int st_bin=0; st_bin < (int) stats_bins.size(); st_bin++){
+          count = bg_sum->IntegralAndError(bg_sum->FindBin(stats_bins[st_bin].first), bg_sum->FindBin(stats_bins[st_bin].second - 0.01), error);
+          count = stats[0][0].first / count;
+          error = (1/count)*(sqrt(pow(stats[0][0].second, 2) + pow(stats[0][0].first * error / count, 2)));
+          stat_row.push_back(make_pair(count,error)); 
+        } 
+        stats.push_back(stat_row);
+      }
+      else {
+        //Tack on BG sum row
+        for(int st_bin=0; st_bin < (int) stats_bins.size(); st_bin++){
+          count = bg_sum->IntegralAndError(bg_sum->FindBin(stats_bins[st_bin].first), bg_sum->FindBin(stats_bins[st_bin].second - 0.01), error);
+          stat_row.push_back(make_pair(count,error)); 
+        } 
+        stats.push_back(stat_row);
+      }
       // End Table Building ==================================================
 
       // Print Table =========================================================
@@ -498,17 +511,35 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
       }
       //cout<<__LINE__<<endl;
 
-      //Output Rows for samples
-      for(int row = 0; row <= (int) hists.size(); row++ ){
-        if (row == hists.size()){
-          table.setRowLabel("Sum of BG", hists.size());  
+      
+      if (conf->get("templates_closure") == "true"){
+        //Output Rows for samples
+        for(int row = 0; row <= (int) hists.size(); row++ ){
+          if (row == hists.size()){
+            table.setRowLabel("Ratio", hists.size());  
+          }
+          else{
+            table.setRowLabel(hist_labels[row], row);
+          }
+          for(int col=0; col < (int) stats_bins.size(); col++){
+            //cout<<__LINE__<<endl;
+            table.setCell(Form("%.2f+/-%.2f", stats[row][col].first, stats[row][col].second, stats[row][col].first/stats[row][0].first), row, col);
+          }
         }
-        else{
-          table.setRowLabel(hist_labels[row], row);
-        }
-        for(int col=0; col < (int) stats_bins.size(); col++){
-          //cout<<__LINE__<<endl;
-          table.setCell(Form("%.2f+/-%.2f; Eff: %.2f", stats[row][col].first, stats[row][col].second, stats[row][col].first/stats[row][0].first), row, col);
+      }
+      else{
+        //Output Rows for samples
+        for(int row = 0; row <= (int) hists.size(); row++ ){
+          if (row == hists.size()){
+            table.setRowLabel("Sum of BG", hists.size());  
+          }
+          else{
+            table.setRowLabel(hist_labels[row], row);
+          }
+          for(int col=0; col < (int) stats_bins.size(); col++){
+            //cout<<__LINE__<<endl;
+            table.setCell(Form("%.2f+/-%.2f; Eff: %.2f", stats[row][col].first, stats[row][col].second, stats[row][col].first/stats[row][0].first), row, col);
+          }
         }
       }
       //cout<<__LINE__<<endl;
