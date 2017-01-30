@@ -26,6 +26,7 @@ DEFAULT::print_stats=true
 DEFAULT::simple_errors=true
 DEFAULT::draw_bg_errs=true
 DEFAULT::ymin=0.001
+DEFAULT::templates_closure=true
 
 #====================
 # Ratio Histos
