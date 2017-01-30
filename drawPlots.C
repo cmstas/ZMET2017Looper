@@ -480,10 +480,14 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
       
       if (conf->get("templates_closure") == "true"){
         //Tack on Ratio row
+        double zjets_count, zjets_err;
         for(int st_bin=0; st_bin < (int) stats_bins.size(); st_bin++){
           count = bg_sum->IntegralAndError(bg_sum->FindBin(stats_bins[st_bin].first), bg_sum->FindBin(stats_bins[st_bin].second - 0.01), error);
-          count = stats[0][st_bin].first / count;
-          error = (1/count)*(sqrt(pow(stats[0][st_bin].second, 2) + pow(stats[0][st_bin].first * error / count, 2)));
+          zjets_count = stats[0][st_bin].first;
+          zjets_err = stats[0][st_bin].second;
+          cout<<"zjets_count: "<<zjets_count<<" zjets_err: "<<zjets_err<<endl;
+          count =  zjets_count / count;
+          error = (1./count)*(sqrt( pow(zjets_err, 2) + pow(zjets_count * error / count, 2) ) );
           stat_row.push_back(make_pair(count,error)); 
         } 
         stats.push_back(stat_row);
