@@ -27,7 +27,7 @@ pair <double, double>  getonekfactorvalue_varbin(string region, double lobin, do
 void KappaPrettyPlot()
 {
 
-  TString hist_dir="/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/"
+  TString hist_dir="/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/";
 
   vector <string> regionnames;
 
