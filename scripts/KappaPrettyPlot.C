@@ -121,10 +121,12 @@ void KappaPrettyPlot()
   hist->SetLineColor(  kTeal-8);
   hist->SetMarkerColor(kTeal-8);
   hist->SetLineWidth(  2);
-  // hist->SetMarkerStyle(27);
-  // hist->SetMarkerSize(1.5);
+  hist->SetMarkerStyle(20);
+  hist->SetMarkerSize(.9);
 
   hist_d->SetLineColor(kBlack);
+  hist_d->SetMarkerStyle(20);
+  hist_d->SetMarkerSize(.9);
   hist_d->SetLineWidth(  2);
   hist_d->SetMarkerColor(kBlack);
 
