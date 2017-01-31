@@ -1890,13 +1890,13 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
       weight_log->Fill(log10(abs(weight)));
       weight_log_flat->Fill(abs(weight));
 
-      if (phys.met_T1CHS_miniAOD_CORE_pt() > 150 && phys.met_T1CHS_miniAOD_CORE_pt() < 250 && conf->get("signal_region") == "Strong_Btag_6j"){
+      if (phys.met_T1CHS_miniAOD_CORE_pt() > 100 && phys.met_T1CHS_miniAOD_CORE_pt() < 200 && conf->get("signal_region") == "Strong_Btag_6j"){
         cout<<"evt: "<<phys.evt()<<" run: "<<phys.run()<<" lumi: "<<phys.lumi()<<" weight: "<<weight<<endl;
       }
-      if (phys.met_T1CHS_miniAOD_CORE_pt() > 150 && phys.met_T1CHS_miniAOD_CORE_pt() < 250 && conf->get("signal_region") == "Strong_Bveto_6j"){
+      if (phys.met_T1CHS_miniAOD_CORE_pt() > 250 && conf->get("signal_region") == "Strong_Bveto_6j"){
         cout<<"evt: "<<phys.evt()<<" run: "<<phys.run()<<" lumi: "<<phys.lumi()<<" weight: "<<weight<<endl;
       }
-      if (phys.met_T1CHS_miniAOD_CORE_pt() > 150 && phys.met_T1CHS_miniAOD_CORE_pt() < 250 && conf->get("signal_region") == "TChiHZ"){
+      if (phys.met_T1CHS_miniAOD_CORE_pt() > 100 && phys.met_T1CHS_miniAOD_CORE_pt() < 150 && conf->get("signal_region") == "TChiHZ"){
         cout<<"evt: "<<phys.evt()<<" run: "<<phys.run()<<" lumi: "<<phys.lumi()<<" weight: "<<weight<<endl;
       }
 
