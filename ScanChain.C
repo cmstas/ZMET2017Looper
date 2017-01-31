@@ -1891,7 +1891,7 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
       weight_log_flat->Fill(abs(weight));
 
       if (phys.met_T1CHS_miniAOD_CORE_pt() > 150 && phys.met_T1CHS_miniAOD_CORE_pt() < 250){
-        cout<<"evt: "<<phys.evt()<<" run: "<<phys.run()<<" lumi: "<<phys.lumi()<<" weight: "<<weight()<<endl;
+        cout<<"evt: "<<phys.evt()<<" run: "<<phys.run()<<" lumi: "<<phys.lumi()<<" weight: "<<weight<<endl;
       }
 //===========================================
 // Analysis Code
