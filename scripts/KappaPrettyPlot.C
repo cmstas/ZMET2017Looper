@@ -97,10 +97,10 @@ void KappaPrettyPlot()
   pad->Draw();
   pad->cd();
 
-  TH1D * hist   = new TH1D("hist"  ,"", (int)testvalues.size(), 0, (double)testvalues.size());
-  TH1D * hist_d = new TH1D("hist_d","", (int)testvalues.size(), 0, (double)testvalues.size());
+  TH1D * hist   = new TH1D("hist"  ,"", (int)regionnames.size(), 0, (double)regionnames.size());
+  TH1D * hist_d = new TH1D("hist_d","", (int)regionnames.size(), 0, (double)regionnames.size());
 
-  for( int binind = 0; binind < testvalues.size(); binind++ ){
+  for( int binind = 0; binind < regionnames.size(); binind++ ){
 	if( binind < 3 ){
 	  hist->  SetBinContent(binind+1, testvalues.at(binind+3).first );
 	  hist->  SetBinError(  binind+1, testvalues.at(binind+3).second);
@@ -133,15 +133,15 @@ void KappaPrettyPlot()
   hist->Draw("e1");
   hist_d->Draw("samee1");
 
-  TLine * central = new TLine(0, 0.065, testvalues.size(), 0.065);
+  TLine * central = new TLine(0, 0.065, regionnames.size(), 0.065);
   central->SetLineWidth(2);
   central->Draw("same");
 
-  TLine * central_up = new TLine(0, 0.1, testvalues.size(), 0.1);
+  TLine * central_up = new TLine(0, 0.1, regionnames.size(), 0.1);
   central_up->SetLineStyle(2);
   central_up->Draw("same");
 
-  TLine * central_dn = new TLine(0, 0.03, testvalues.size(), 0.03);
+  TLine * central_dn = new TLine(0, 0.03, regionnames.size(), 0.03);
   central_dn->SetLineStyle(2);
   central_dn->Draw("same");
 
