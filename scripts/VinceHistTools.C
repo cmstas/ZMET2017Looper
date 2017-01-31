@@ -10,6 +10,8 @@
 #include "TLatex.h"
 #include "TMath.h"
 
+#include "VinceHistTools.h"
+
 class histmap;
 
 using namespace std;
