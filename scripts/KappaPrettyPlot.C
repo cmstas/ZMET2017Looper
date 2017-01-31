@@ -134,8 +134,8 @@ void KappaPrettyPlot()
   hist->GetYaxis()->SetTitle("#kappa factor");
   hist->GetXaxis()->SetTitle("");
   hist->GetXaxis()->SetLabelSize(0.04);
-  hist->Draw("E1");
-  hist_d->Draw("same E1");
+  hist->Draw("E1 X0");
+  hist_d->Draw("same E1 X0");
 
   TLine * central = new TLine(0, 0.065, regionnames.size(), 0.065);
   central->SetLineWidth(2);
