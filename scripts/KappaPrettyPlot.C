@@ -27,6 +27,8 @@ pair <double, double>  getonekfactorvalue_varbin(string region, double lobin, do
 void KappaPrettyPlot()
 {
 
+  gStyle->SetOptStat(kFALSE);
+
   TString hist_dir="/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/";
 
   vector <string> regionnames;
@@ -130,8 +132,8 @@ void KappaPrettyPlot()
   hist->GetYaxis()->SetTitle("#kappa factor");
   hist->GetXaxis()->SetTitle("");
   hist->GetXaxis()->SetLabelSize(0.04);
-  hist->Draw("e1");
-  hist_d->Draw("samee1");
+  hist->Draw("E1");
+  hist_d->Draw("same E1");
 
   TLine * central = new TLine(0, 0.065, regionnames.size(), 0.065);
   central->SetLineWidth(2);
