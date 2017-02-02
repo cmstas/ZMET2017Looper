@@ -211,7 +211,7 @@ bool passEMuTriggers(){
     return true;
   }
   else{
-    return (phys.HLT_MuEG() || phys.HLT_MuEG_2() || phys.HLT_MuEG_noiso() || phys.HLT_MuEG_noiso_2());
+    return (phys.HLT_MuEG() || phys.HLT_MuEG_2() || phys.HLT_MuEG_noiso() || phys.HLT_MuEG_noiso_2() || phys.HLT_Mu8_EG23_DZ() || phys.HLT_Mu12_EG23_DZ() || phys.HLT_Mu23_EG12_DZ());
   }
 }
 
@@ -1192,14 +1192,24 @@ bool passMETFilters(){
       if (printFail) cout<<phys.evt()<<" :Failed CSCTightHalo2015Filter cut"<<endl;
       return false;
     }
-    if (!phys.Flag_badMuonFilter            ()      ){ 
+    if (!phys.Flag_badMuonFilterv2            ()      ){ 
       numEvents->Fill(50);
       if (printFail) cout<<phys.evt()<<" :Failed CSCTightHalo2015Filter cut"<<endl;
       return false;
     }
-    if (!phys.Flag_badChargedCandidateFilter            ()      ){ 
+    if (!phys.Flag_badChargedCandidateFilterv2            ()      ){ 
       numEvents->Fill(51);
       if (printFail) cout<<phys.evt()<<" :Failed CSCTightHalo2015Filter cut"<<endl;
+      return false;
+    }
+    if (phys.nJet200MuFrac50DphiMet() > 0){
+      numEvents->Fill(69);
+      if (printFail) cout<<phys.evt()<<" :Failed nJet200MuFrac50DphiMet cut"<<endl;
+      return false;
+    }
+    if ((phys.met_T1CHS_miniAOD_CORE_pt() / phys.met_calo_pt()) > 5){
+      numEvents->Fill(70);
+      if (printFail) cout<<phys.evt()<<" :Failed T1MET/CaloMET cut"<<endl;
       return false;
     }
   }
@@ -1414,7 +1424,7 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
   TFile * output = new TFile(TString(savePath+conf->get("Name")+".root"), "recreate");
   output->cd();
 
-  numEvents = new TH1I("numEvents", "Number of events in "+g_sample_name, 70, 0, 70);
+  numEvents = new TH1I("numEvents", "Number of events in "+g_sample_name, 75, 0, 75);
   numEvents->SetDirectory(rootdir);
 
   const int n_weight_log_bins = 54;
