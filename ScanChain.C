@@ -198,7 +198,7 @@ bool passElectronTriggers(){
   if ( phys.isData()){
     //cout<<__LINE__<<endl;
     //if (printStats) { cout<<"HLT_DoubleEl_DZ_2: "<<phys.HLT_DoubleEl_DZ_2()<<" HLT_DoubleEl_noiso: "<<phys.HLT_DoubleEl_noiso()<<" "; }
-    return (phys.HLT_DoubleEl_DZ_2() || phys.HLT_DoubleEl_noiso() );
+    return (phys.HLT_DoubleEl_DZ_2() || phys.HLT_DoubleEl_noiso() || phys.HLT_DoubleEl_DZ() );
   }
   else{
     //cout<<__LINE__<<endl;
