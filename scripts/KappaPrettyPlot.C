@@ -141,11 +141,11 @@ void KappaPrettyPlot()
   central->SetLineWidth(2);
   central->Draw("same");
 
-  TLine * central_up = new TLine(0, 0.085, regionnames.size(), 0.1);
+  TLine * central_up = new TLine(0, 0.085, regionnames.size(), 0.085);
   central_up->SetLineStyle(2);
   central_up->Draw("same");
 
-  TLine * central_dn = new TLine(0, 0.045, regionnames.size(), 0.03);
+  TLine * central_dn = new TLine(0, 0.045, regionnames.size(), 0.045);
   central_dn->SetLineStyle(2);
   central_dn->Draw("same");
 
