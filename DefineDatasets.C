@@ -249,26 +249,27 @@ void addToChain(TChain *ch, TString set) {
   }
   else if (set == "GammaMC-WGamma-Skimmed"){
     //This set combines WJets with WGJets and is intended to take only prompt photons from WGjets and only non-prompt photons from WJets
-
+    TString dir="/hadoop/cms/store/user/olivito/AutoTwopler_babies/merged/ZMET/V08-22-11/skim/";
     cout<<"Adding Skimmed GammaMC-WGamma"<<endl; 
-    ch->Add("/home/users/cwelke/ZMetbabyskims/V08-22-05/skim_wjets_incl_mgmlm*");
-    ch->Add("/home/users/cwelke/ZMetbabyskims/V08-22-05/skim_wjets_ht100_mgmlm*");
-    ch->Add("/home/users/cwelke/ZMetbabyskims/V08-22-05/skim_wjets_ht200_mgmlm*");
-    ch->Add("/home/users/cwelke/ZMetbabyskims/V08-22-05/skim_wjets_ht400_mgmlm*");
-    ch->Add("/home/users/cwelke/ZMetbabyskims/V08-22-05/skim_wjets_ht600_mgmlm*");
-    ch->Add("/home/users/cwelke/ZMetbabyskims/V08-22-05/skim_wjets_ht800_mgmlm*");
-    ch->Add("/home/users/cwelke/ZMetbabyskims/V08-22-05/skim_wjets_ht1200_mgmlm*");
-    ch->Add("/home/users/cwelke/ZMetbabyskims/V08-22-05/skim_wjets_ht2500_mgmlm*");
+    ch->Add(dir+"wjets_incl_mgmlm*");
+    ch->Add(dir+"wjets_ht100_mgmlm*");
+    ch->Add(dir+"wjets_ht200_mgmlm*");
+    ch->Add(dir+"wjets_ht400_mgmlm*");
+    ch->Add(dir+"wjets_ht600_mgmlm*");
+    ch->Add(dir+"wjets_ht800_mgmlm*");
+    ch->Add(dir+"wjets_ht1200_mgmlm*");
+    ch->Add(dir+"wjets_ht2500_mgmlm*");
 
-    ch->Add("/home/users/cwelke/ZMetbabyskims/V08-22-05/skim_wgjets_incl_mgmlm*");
+    ch->Add(dir+"wgjets_incl_mgmlm*");
   }
   else if (set == "GammaMC-gammaZtoNuNu"){
     cout<<"Adding GammaMC-gammaZtoNuNu"<<endl; 
     ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/znunugamma*.root");
   }
   else if (set == "GammaMC-gammaZtoNuNu-Skimmed"){
+    TString dir="/hadoop/cms/store/user/olivito/AutoTwopler_babies/merged/ZMET/V08-22-11/skim/";
     cout<<"Adding Skimmed GammaMC-gammaZtoNuNu"<<endl; 
-    ch->Add("/home/users/cwelke/ZMetbabyskims/V08-22-05/skim_znunugamma*.root");
+    ch->Add(dir+"znunugamma_ptg40*");
   }
   else if (set == "GammaMC-wgjets-inclusive-amc"){
     cout<<"Adding GammaMC WGJets AMC@NLO Sample"<<endl;
