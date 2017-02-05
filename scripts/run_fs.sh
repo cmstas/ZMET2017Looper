@@ -2,13 +2,11 @@
 
 function makeALLFSStudy {
   makeAllForDir configs/FS_mass_window_studies/${config_id}_onZ all ${sample_name}
-  makeALLFSStudy_PIDs=$!
+  echo -n "$!"
   makeAllForDir configs/FS_mass_window_studies/${config_id}_aboveZ all ${sample_name}
-  makeALLFSStudy_PIDs="$makeALLFSStudy_PIDs $!"
+  echo -n "$!"
   makeAllForDir configs/FS_mass_window_studies/${config_id}_belowZ all ${sample_name}
-  makeALLFSStudy_PIDs="$makeALLFSStudy_PIDs $!"
-
-  echo $makeALLFSStudy_PIDs
+  echo -n "$!"
 }
 
 function remakeFSRatioPlots {
@@ -59,7 +57,7 @@ do
     sample_name=$sample
     makeALLFSStudy
     run_fs_PIDs="$run_fs_PIDs $!"
-    echo $run_fs_PIDs
+    #echo $!
   done
 done
 

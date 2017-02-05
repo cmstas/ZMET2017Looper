@@ -117,14 +117,12 @@ function _makeAllForDir {
 }
 
 function makeAllForDir {
-	echo "Bash PID: "$BASHPID
 	if [[ $# < 2 ]]
 	then
 		echo "makeAllForDir <path_to_configs> <all/hists/plots> <sample_name | only if given hists or all>"
 	else
 		echo -n `basename $1`" -- "
 		_makeAllForDir $1 $2 $3 &
-		return $!
 	fi
 }
 
