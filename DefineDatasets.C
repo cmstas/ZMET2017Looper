@@ -113,6 +113,28 @@ void addToChain(TChain *ch, TString set) {
     ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-08/skims/wz_2l2q_amcnlo*.root" );
   }
 
+  else if (set == "ZMC-V08-22-11-Skimmed"){
+    TString dir="/hadoop/cms/store/user/olivito/AutoTwopler_babies/merged/ZMET/V08-22-11/skim/";
+
+    cout<<"Adding V08-22-11 Skimmed sample"<<endl;
+    
+    ch->Add(dir+"dy_m50_mgmlm_ext1*");
+    ch->Add(dir+"dy_m50_mgmlm_ht100_nonext*");
+    ch->Add(dir+"dy_m50_mgmlm_ht200_ext1*");
+    ch->Add(dir+"dy_m50_mgmlm_ht400_ext1*"); 
+    ch->Add(dir+"dy_m50_mgmlm_ht600_nonext*");
+    ch->Add(dir+"dy_m50_mgmlm_ht800_nonext*");
+    ch->Add(dir+"dy_m50_mgmlm_ht1200_nonext*");
+    ch->Add(dir+"dy_m50_mgmlm_ht2500_nonext*");
+
+    ch->Add(dir+"dy_m1050_mgmlm*.root");
+
+    //ZZ Sample
+    ch->Add(dir+"zz_2l2q_amcnlo*.root" );
+    //WZ Sample
+    ch->Add(dir+"wz_2l2q_amcnlo*.root" );
+  }
+
 //====================================
 // SUSY MC
 //====================================
