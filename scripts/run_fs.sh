@@ -8,7 +8,7 @@ function makeALLFSStudy {
   makeAllForDir configs/FS_mass_window_studies/${config_id}_belowZ all ${sample_name}
   makeALLFSStudy_PIDs="$makeALLFSStudy_PIDs $!"
 
-  return $makeALLFSStudy_PIDs
+  echo -n $makeALLFSStudy_PIDs
 }
 
 function remakeFSRatioPlots {
@@ -57,9 +57,8 @@ do
   for sample in $which_samples  
   do
     sample_name=$sample
-    makeALLFSStudy
-    run_fs_PIDs="$run_fs_PIDs $!"
-    echo $!
+    run_fs_PIDs=`makeALLFSStudy`" $!"
+    echo run_fs_PIDs
   done
 done
 
