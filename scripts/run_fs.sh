@@ -1,17 +1,14 @@
 . funcs.sh
 
 function makeALLFSStudy {
-  echo makeAllForDir configs/FS_mass_window_studies/${config_id}_onZ all ${sample_name}
-  echo makeAllForDir configs/FS_mass_window_studies/${config_id}_aboveZ all ${sample_name}
-  echo makeAllForDir configs/FS_mass_window_studies/${config_id}_belowZ all ${sample_name}
-
   makeAllForDir configs/FS_mass_window_studies/${config_id}_onZ all ${sample_name}
+  makeALLFSStudy_PIDs=$!
   makeAllForDir configs/FS_mass_window_studies/${config_id}_aboveZ all ${sample_name}
+  makeALLFSStudy_PIDs="$makeALLFSStudy_PIDs $!"
   makeAllForDir configs/FS_mass_window_studies/${config_id}_belowZ all ${sample_name}
+  makeALLFSStudy_PIDs="$makeALLFSStudy_PIDs $!"
 
-  #makeHistos ${sample_name} configs/FS_mass_window_studies/${config_id}_onZ/run_modes.conf; 
-  #makeHistos ${sample_name} configs/FS_mass_window_studies/${config_id}_aboveZ/run_modes.conf; 
-  #makeHistos ${sample_name} configs/FS_mass_window_studies/${config_id}_belowZ/run_modes.conf; 
+  wait $makeALLFSStudy_PIDs
 }
 
 function remakeFSRatioPlots {
@@ -62,7 +59,7 @@ do
     sample_name=$sample
     makeALLFSStudy
     run_fs_PIDs="$run_fs_PIDs $!"
-    echo $run_fs_PIDs
+    echo $!
   done
 done
 
