@@ -1233,26 +1233,6 @@ void ZMET2016::Init(TTree *tree) {
 		dphi_metj2_branch = tree->GetBranch("dphi_metj2");
 		if (dphi_metj2_branch) {dphi_metj2_branch->SetAddress(&dphi_metj2_);}
 	}
-	dphi_metj1_up_branch = 0;
-	if (tree->GetBranch("dphi_metj1_up") != 0) {
-		dphi_metj1_up_branch = tree->GetBranch("dphi_metj1_up");
-		if (dphi_metj1_up_branch) {dphi_metj1_up_branch->SetAddress(&dphi_metj1_up_);}
-	}
-	dphi_metj2_up_branch = 0;
-	if (tree->GetBranch("dphi_metj2_up") != 0) {
-		dphi_metj2_up_branch = tree->GetBranch("dphi_metj2_up");
-		if (dphi_metj2_up_branch) {dphi_metj2_up_branch->SetAddress(&dphi_metj2_up_);}
-	}
-	dphi_metj1_dn_branch = 0;
-	if (tree->GetBranch("dphi_metj1_dn") != 0) {
-		dphi_metj1_dn_branch = tree->GetBranch("dphi_metj1_dn");
-		if (dphi_metj1_dn_branch) {dphi_metj1_dn_branch->SetAddress(&dphi_metj1_dn_);}
-	}
-	dphi_metj2_dn_branch = 0;
-	if (tree->GetBranch("dphi_metj2_dn") != 0) {
-		dphi_metj2_dn_branch = tree->GetBranch("dphi_metj2_dn");
-		if (dphi_metj2_dn_branch) {dphi_metj2_dn_branch->SetAddress(&dphi_metj2_dn_);}
-	}
 	mjj_mindphi_up_branch = 0;
 	if (tree->GetBranch("mjj_mindphi_up") != 0) {
 		mjj_mindphi_up_branch = tree->GetBranch("mjj_mindphi_up");
@@ -1298,6 +1278,16 @@ void ZMET2016::Init(TTree *tree) {
 		dR_jj_up_branch = tree->GetBranch("dR_jj_up");
 		if (dR_jj_up_branch) {dR_jj_up_branch->SetAddress(&dR_jj_up_);}
 	}
+	dphi_metj1_up_branch = 0;
+	if (tree->GetBranch("dphi_metj1_up") != 0) {
+		dphi_metj1_up_branch = tree->GetBranch("dphi_metj1_up");
+		if (dphi_metj1_up_branch) {dphi_metj1_up_branch->SetAddress(&dphi_metj1_up_);}
+	}
+	dphi_metj2_up_branch = 0;
+	if (tree->GetBranch("dphi_metj2_up") != 0) {
+		dphi_metj2_up_branch = tree->GetBranch("dphi_metj2_up");
+		if (dphi_metj2_up_branch) {dphi_metj2_up_branch->SetAddress(&dphi_metj2_up_);}
+	}
 	mjj_mindphi_dn_branch = 0;
 	if (tree->GetBranch("mjj_mindphi_dn") != 0) {
 		mjj_mindphi_dn_branch = tree->GetBranch("mjj_mindphi_dn");
@@ -1342,6 +1332,16 @@ void ZMET2016::Init(TTree *tree) {
 	if (tree->GetBranch("dR_jj_dn") != 0) {
 		dR_jj_dn_branch = tree->GetBranch("dR_jj_dn");
 		if (dR_jj_dn_branch) {dR_jj_dn_branch->SetAddress(&dR_jj_dn_);}
+	}
+	dphi_metj1_dn_branch = 0;
+	if (tree->GetBranch("dphi_metj1_dn") != 0) {
+		dphi_metj1_dn_branch = tree->GetBranch("dphi_metj1_dn");
+		if (dphi_metj1_dn_branch) {dphi_metj1_dn_branch->SetAddress(&dphi_metj1_dn_);}
+	}
+	dphi_metj2_dn_branch = 0;
+	if (tree->GetBranch("dphi_metj2_dn") != 0) {
+		dphi_metj2_dn_branch = tree->GetBranch("dphi_metj2_dn");
+		if (dphi_metj2_dn_branch) {dphi_metj2_dn_branch->SetAddress(&dphi_metj2_dn_);}
 	}
 	weight_btagsf_branch = 0;
 	if (tree->GetBranch("weight_btagsf") != 0) {
@@ -1713,6 +1713,11 @@ void ZMET2016::Init(TTree *tree) {
 		weightsf_lepreco_branch = tree->GetBranch("weightsf_lepreco");
 		if (weightsf_lepreco_branch) {weightsf_lepreco_branch->SetAddress(&weightsf_lepreco_);}
 	}
+	weightsf_lepconv_branch = 0;
+	if (tree->GetBranch("weightsf_lepconv") != 0) {
+		weightsf_lepconv_branch = tree->GetBranch("weightsf_lepconv");
+		if (weightsf_lepconv_branch) {weightsf_lepconv_branch->SetAddress(&weightsf_lepconv_);}
+	}
 	weightsf_lepid_FS_branch = 0;
 	if (tree->GetBranch("weightsf_lepid_FS") != 0) {
 		weightsf_lepid_FS_branch = tree->GetBranch("weightsf_lepid_FS");
@@ -1977,10 +1982,6 @@ void ZMET2016::GetEntry(unsigned int idx)
 		dR_jj_isLoaded = false;
 		dphi_metj1_isLoaded = false;
 		dphi_metj2_isLoaded = false;
-		dphi_metj1_up_isLoaded = false;
-		dphi_metj2_up_isLoaded = false;
-		dphi_metj1_dn_isLoaded = false;
-		dphi_metj2_dn_isLoaded = false;
 		mjj_mindphi_up_isLoaded = false;
 		mjj_up_isLoaded = false;
 		mbb_csv_up_isLoaded = false;
@@ -1990,6 +1991,8 @@ void ZMET2016::GetEntry(unsigned int idx)
 		sum_mlb_up_isLoaded = false;
 		deta_jj_up_isLoaded = false;
 		dR_jj_up_isLoaded = false;
+		dphi_metj1_up_isLoaded = false;
+		dphi_metj2_up_isLoaded = false;
 		mjj_mindphi_dn_isLoaded = false;
 		mjj_dn_isLoaded = false;
 		mbb_csv_dn_isLoaded = false;
@@ -1999,6 +2002,8 @@ void ZMET2016::GetEntry(unsigned int idx)
 		sum_mlb_dn_isLoaded = false;
 		deta_jj_dn_isLoaded = false;
 		dR_jj_dn_isLoaded = false;
+		dphi_metj1_dn_isLoaded = false;
+		dphi_metj2_dn_isLoaded = false;
 		weight_btagsf_isLoaded = false;
 		weight_btagsf_heavy_UP_isLoaded = false;
 		weight_btagsf_light_UP_isLoaded = false;
@@ -2076,6 +2081,7 @@ void ZMET2016::GetEntry(unsigned int idx)
 		weightsf_lepiso_isLoaded = false;
 		weightsf_lepip_isLoaded = false;
 		weightsf_lepreco_isLoaded = false;
+		weightsf_lepconv_isLoaded = false;
 		weightsf_lepid_FS_isLoaded = false;
 		weightsf_lepiso_FS_isLoaded = false;
 		weightsf_lepip_FS_isLoaded = false;
@@ -2327,10 +2333,6 @@ void ZMET2016::LoadAllBranches()
 	if (dR_jj_branch != 0) dR_jj();
 	if (dphi_metj1_branch != 0) dphi_metj1();
 	if (dphi_metj2_branch != 0) dphi_metj2();
-	if (dphi_metj1_up_branch != 0) dphi_metj1_up();
-	if (dphi_metj2_up_branch != 0) dphi_metj2_up();
-	if (dphi_metj1_dn_branch != 0) dphi_metj1_dn();
-	if (dphi_metj2_dn_branch != 0) dphi_metj2_dn();
 	if (mjj_mindphi_up_branch != 0) mjj_mindphi_up();
 	if (mjj_up_branch != 0) mjj_up();
 	if (mbb_csv_up_branch != 0) mbb_csv_up();
@@ -2340,6 +2342,8 @@ void ZMET2016::LoadAllBranches()
 	if (sum_mlb_up_branch != 0) sum_mlb_up();
 	if (deta_jj_up_branch != 0) deta_jj_up();
 	if (dR_jj_up_branch != 0) dR_jj_up();
+	if (dphi_metj1_up_branch != 0) dphi_metj1_up();
+	if (dphi_metj2_up_branch != 0) dphi_metj2_up();
 	if (mjj_mindphi_dn_branch != 0) mjj_mindphi_dn();
 	if (mjj_dn_branch != 0) mjj_dn();
 	if (mbb_csv_dn_branch != 0) mbb_csv_dn();
@@ -2349,6 +2353,8 @@ void ZMET2016::LoadAllBranches()
 	if (sum_mlb_dn_branch != 0) sum_mlb_dn();
 	if (deta_jj_dn_branch != 0) deta_jj_dn();
 	if (dR_jj_dn_branch != 0) dR_jj_dn();
+	if (dphi_metj1_dn_branch != 0) dphi_metj1_dn();
+	if (dphi_metj2_dn_branch != 0) dphi_metj2_dn();
 	if (weight_btagsf_branch != 0) weight_btagsf();
 	if (weight_btagsf_heavy_UP_branch != 0) weight_btagsf_heavy_UP();
 	if (weight_btagsf_light_UP_branch != 0) weight_btagsf_light_UP();
@@ -2426,6 +2432,7 @@ void ZMET2016::LoadAllBranches()
 	if (weightsf_lepiso_branch != 0) weightsf_lepiso();
 	if (weightsf_lepip_branch != 0) weightsf_lepip();
 	if (weightsf_lepreco_branch != 0) weightsf_lepreco();
+	if (weightsf_lepconv_branch != 0) weightsf_lepconv();
 	if (weightsf_lepid_FS_branch != 0) weightsf_lepid_FS();
 	if (weightsf_lepiso_FS_branch != 0) weightsf_lepiso_FS();
 	if (weightsf_lepip_FS_branch != 0) weightsf_lepip_FS();
@@ -5590,58 +5597,6 @@ void ZMET2016::LoadAllBranches()
 		}
 		return dphi_metj2_;
 	}
-	const float &ZMET2016::dphi_metj1_up()
-	{
-		if (not dphi_metj1_up_isLoaded) {
-			if (dphi_metj1_up_branch != 0) {
-				dphi_metj1_up_branch->GetEntry(index);
-			} else { 
-				printf("branch dphi_metj1_up_branch does not exist!\n");
-				exit(1);
-			}
-			dphi_metj1_up_isLoaded = true;
-		}
-		return dphi_metj1_up_;
-	}
-	const float &ZMET2016::dphi_metj2_up()
-	{
-		if (not dphi_metj2_up_isLoaded) {
-			if (dphi_metj2_up_branch != 0) {
-				dphi_metj2_up_branch->GetEntry(index);
-			} else { 
-				printf("branch dphi_metj2_up_branch does not exist!\n");
-				exit(1);
-			}
-			dphi_metj2_up_isLoaded = true;
-		}
-		return dphi_metj2_up_;
-	}
-	const float &ZMET2016::dphi_metj1_dn()
-	{
-		if (not dphi_metj1_dn_isLoaded) {
-			if (dphi_metj1_dn_branch != 0) {
-				dphi_metj1_dn_branch->GetEntry(index);
-			} else { 
-				printf("branch dphi_metj1_dn_branch does not exist!\n");
-				exit(1);
-			}
-			dphi_metj1_dn_isLoaded = true;
-		}
-		return dphi_metj1_dn_;
-	}
-	const float &ZMET2016::dphi_metj2_dn()
-	{
-		if (not dphi_metj2_dn_isLoaded) {
-			if (dphi_metj2_dn_branch != 0) {
-				dphi_metj2_dn_branch->GetEntry(index);
-			} else { 
-				printf("branch dphi_metj2_dn_branch does not exist!\n");
-				exit(1);
-			}
-			dphi_metj2_dn_isLoaded = true;
-		}
-		return dphi_metj2_dn_;
-	}
 	const float &ZMET2016::mjj_mindphi_up()
 	{
 		if (not mjj_mindphi_up_isLoaded) {
@@ -5759,6 +5714,32 @@ void ZMET2016::LoadAllBranches()
 		}
 		return dR_jj_up_;
 	}
+	const float &ZMET2016::dphi_metj1_up()
+	{
+		if (not dphi_metj1_up_isLoaded) {
+			if (dphi_metj1_up_branch != 0) {
+				dphi_metj1_up_branch->GetEntry(index);
+			} else { 
+				printf("branch dphi_metj1_up_branch does not exist!\n");
+				exit(1);
+			}
+			dphi_metj1_up_isLoaded = true;
+		}
+		return dphi_metj1_up_;
+	}
+	const float &ZMET2016::dphi_metj2_up()
+	{
+		if (not dphi_metj2_up_isLoaded) {
+			if (dphi_metj2_up_branch != 0) {
+				dphi_metj2_up_branch->GetEntry(index);
+			} else { 
+				printf("branch dphi_metj2_up_branch does not exist!\n");
+				exit(1);
+			}
+			dphi_metj2_up_isLoaded = true;
+		}
+		return dphi_metj2_up_;
+	}
 	const float &ZMET2016::mjj_mindphi_dn()
 	{
 		if (not mjj_mindphi_dn_isLoaded) {
@@ -5875,6 +5856,32 @@ void ZMET2016::LoadAllBranches()
 			dR_jj_dn_isLoaded = true;
 		}
 		return dR_jj_dn_;
+	}
+	const float &ZMET2016::dphi_metj1_dn()
+	{
+		if (not dphi_metj1_dn_isLoaded) {
+			if (dphi_metj1_dn_branch != 0) {
+				dphi_metj1_dn_branch->GetEntry(index);
+			} else { 
+				printf("branch dphi_metj1_dn_branch does not exist!\n");
+				exit(1);
+			}
+			dphi_metj1_dn_isLoaded = true;
+		}
+		return dphi_metj1_dn_;
+	}
+	const float &ZMET2016::dphi_metj2_dn()
+	{
+		if (not dphi_metj2_dn_isLoaded) {
+			if (dphi_metj2_dn_branch != 0) {
+				dphi_metj2_dn_branch->GetEntry(index);
+			} else { 
+				printf("branch dphi_metj2_dn_branch does not exist!\n");
+				exit(1);
+			}
+			dphi_metj2_dn_isLoaded = true;
+		}
+		return dphi_metj2_dn_;
 	}
 	const float &ZMET2016::weight_btagsf()
 	{
@@ -6877,6 +6884,19 @@ void ZMET2016::LoadAllBranches()
 		}
 		return *weightsf_lepreco_;
 	}
+	const vector<float> &ZMET2016::weightsf_lepconv()
+	{
+		if (not weightsf_lepconv_isLoaded) {
+			if (weightsf_lepconv_branch != 0) {
+				weightsf_lepconv_branch->GetEntry(index);
+			} else { 
+				printf("branch weightsf_lepconv_branch does not exist!\n");
+				exit(1);
+			}
+			weightsf_lepconv_isLoaded = true;
+		}
+		return *weightsf_lepconv_;
+	}
 	const vector<float> &ZMET2016::weightsf_lepid_FS()
 	{
 		if (not weightsf_lepid_FS_isLoaded) {
@@ -7181,10 +7201,6 @@ namespace zmet {
 	const float &dR_jj() { return phys.dR_jj(); }
 	const float &dphi_metj1() { return phys.dphi_metj1(); }
 	const float &dphi_metj2() { return phys.dphi_metj2(); }
-	const float &dphi_metj1_up() { return phys.dphi_metj1_up(); }
-	const float &dphi_metj2_up() { return phys.dphi_metj2_up(); }
-	const float &dphi_metj1_dn() { return phys.dphi_metj1_dn(); }
-	const float &dphi_metj2_dn() { return phys.dphi_metj2_dn(); }
 	const float &mjj_mindphi_up() { return phys.mjj_mindphi_up(); }
 	const float &mjj_up() { return phys.mjj_up(); }
 	const float &mbb_csv_up() { return phys.mbb_csv_up(); }
@@ -7194,6 +7210,8 @@ namespace zmet {
 	const float &sum_mlb_up() { return phys.sum_mlb_up(); }
 	const float &deta_jj_up() { return phys.deta_jj_up(); }
 	const float &dR_jj_up() { return phys.dR_jj_up(); }
+	const float &dphi_metj1_up() { return phys.dphi_metj1_up(); }
+	const float &dphi_metj2_up() { return phys.dphi_metj2_up(); }
 	const float &mjj_mindphi_dn() { return phys.mjj_mindphi_dn(); }
 	const float &mjj_dn() { return phys.mjj_dn(); }
 	const float &mbb_csv_dn() { return phys.mbb_csv_dn(); }
@@ -7203,6 +7221,8 @@ namespace zmet {
 	const float &sum_mlb_dn() { return phys.sum_mlb_dn(); }
 	const float &deta_jj_dn() { return phys.deta_jj_dn(); }
 	const float &dR_jj_dn() { return phys.dR_jj_dn(); }
+	const float &dphi_metj1_dn() { return phys.dphi_metj1_dn(); }
+	const float &dphi_metj2_dn() { return phys.dphi_metj2_dn(); }
 	const float &weight_btagsf() { return phys.weight_btagsf(); }
 	const float &weight_btagsf_heavy_UP() { return phys.weight_btagsf_heavy_UP(); }
 	const float &weight_btagsf_light_UP() { return phys.weight_btagsf_light_UP(); }
@@ -7280,6 +7300,7 @@ namespace zmet {
 	const vector<float> &weightsf_lepiso() { return phys.weightsf_lepiso(); }
 	const vector<float> &weightsf_lepip() { return phys.weightsf_lepip(); }
 	const vector<float> &weightsf_lepreco() { return phys.weightsf_lepreco(); }
+	const vector<float> &weightsf_lepconv() { return phys.weightsf_lepconv(); }
 	const vector<float> &weightsf_lepid_FS() { return phys.weightsf_lepid_FS(); }
 	const vector<float> &weightsf_lepiso_FS() { return phys.weightsf_lepiso_FS(); }
 	const vector<float> &weightsf_lepip_FS() { return phys.weightsf_lepip_FS(); }

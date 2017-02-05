@@ -14,7 +14,7 @@
 typedef ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > LorentzVector;
 
 // Generated with the command
-// makeCMS3ClassFiles("", "t", "ZMET2016", "zmet", "phys")
+// makeCMS3ClassFiles("chain files", "t", "ZMET2016", "zmet", "phys")
 
 using namespace std; 
 class ZMET2016 {
@@ -750,18 +750,6 @@ protected:
 	float	dphi_metj2_;
 	TBranch *dphi_metj2_branch;
 	bool dphi_metj2_isLoaded;
-	float	dphi_metj1_up_;
-	TBranch *dphi_metj1_up_branch;
-	bool dphi_metj1_up_isLoaded;
-	float	dphi_metj2_up_;
-	TBranch *dphi_metj2_up_branch;
-	bool dphi_metj2_up_isLoaded;
-	float	dphi_metj1_dn_;
-	TBranch *dphi_metj1_dn_branch;
-	bool dphi_metj1_dn_isLoaded;
-	float	dphi_metj2_dn_;
-	TBranch *dphi_metj2_dn_branch;
-	bool dphi_metj2_dn_isLoaded;
 	float	mjj_mindphi_up_;
 	TBranch *mjj_mindphi_up_branch;
 	bool mjj_mindphi_up_isLoaded;
@@ -789,6 +777,12 @@ protected:
 	float	dR_jj_up_;
 	TBranch *dR_jj_up_branch;
 	bool dR_jj_up_isLoaded;
+	float	dphi_metj1_up_;
+	TBranch *dphi_metj1_up_branch;
+	bool dphi_metj1_up_isLoaded;
+	float	dphi_metj2_up_;
+	TBranch *dphi_metj2_up_branch;
+	bool dphi_metj2_up_isLoaded;
 	float	mjj_mindphi_dn_;
 	TBranch *mjj_mindphi_dn_branch;
 	bool mjj_mindphi_dn_isLoaded;
@@ -816,6 +810,12 @@ protected:
 	float	dR_jj_dn_;
 	TBranch *dR_jj_dn_branch;
 	bool dR_jj_dn_isLoaded;
+	float	dphi_metj1_dn_;
+	TBranch *dphi_metj1_dn_branch;
+	bool dphi_metj1_dn_isLoaded;
+	float	dphi_metj2_dn_;
+	TBranch *dphi_metj2_dn_branch;
+	bool dphi_metj2_dn_isLoaded;
 	float	weight_btagsf_;
 	TBranch *weight_btagsf_branch;
 	bool weight_btagsf_isLoaded;
@@ -1047,6 +1047,9 @@ protected:
 	vector<float> *weightsf_lepreco_;
 	TBranch *weightsf_lepreco_branch;
 	bool weightsf_lepreco_isLoaded;
+	vector<float> *weightsf_lepconv_;
+	TBranch *weightsf_lepconv_branch;
+	bool weightsf_lepconv_isLoaded;
 	vector<float> *weightsf_lepid_FS_;
 	TBranch *weightsf_lepid_FS_branch;
 	bool weightsf_lepid_FS_isLoaded;
@@ -1303,10 +1306,6 @@ void LoadAllBranches();
 	const float &dR_jj();
 	const float &dphi_metj1();
 	const float &dphi_metj2();
-	const float &dphi_metj1_up();
-	const float &dphi_metj2_up();
-	const float &dphi_metj1_dn();
-	const float &dphi_metj2_dn();
 	const float &mjj_mindphi_up();
 	const float &mjj_up();
 	const float &mbb_csv_up();
@@ -1316,6 +1315,8 @@ void LoadAllBranches();
 	const float &sum_mlb_up();
 	const float &deta_jj_up();
 	const float &dR_jj_up();
+	const float &dphi_metj1_up();
+	const float &dphi_metj2_up();
 	const float &mjj_mindphi_dn();
 	const float &mjj_dn();
 	const float &mbb_csv_dn();
@@ -1325,6 +1326,8 @@ void LoadAllBranches();
 	const float &sum_mlb_dn();
 	const float &deta_jj_dn();
 	const float &dR_jj_dn();
+	const float &dphi_metj1_dn();
+	const float &dphi_metj2_dn();
 	const float &weight_btagsf();
 	const float &weight_btagsf_heavy_UP();
 	const float &weight_btagsf_light_UP();
@@ -1402,6 +1405,7 @@ void LoadAllBranches();
 	const vector<float> &weightsf_lepiso();
 	const vector<float> &weightsf_lepip();
 	const vector<float> &weightsf_lepreco();
+	const vector<float> &weightsf_lepconv();
 	const vector<float> &weightsf_lepid_FS();
 	const vector<float> &weightsf_lepiso_FS();
 	const vector<float> &weightsf_lepip_FS();
@@ -1657,10 +1661,6 @@ namespace zmet {
 	const float &dR_jj();
 	const float &dphi_metj1();
 	const float &dphi_metj2();
-	const float &dphi_metj1_up();
-	const float &dphi_metj2_up();
-	const float &dphi_metj1_dn();
-	const float &dphi_metj2_dn();
 	const float &mjj_mindphi_up();
 	const float &mjj_up();
 	const float &mbb_csv_up();
@@ -1670,6 +1670,8 @@ namespace zmet {
 	const float &sum_mlb_up();
 	const float &deta_jj_up();
 	const float &dR_jj_up();
+	const float &dphi_metj1_up();
+	const float &dphi_metj2_up();
 	const float &mjj_mindphi_dn();
 	const float &mjj_dn();
 	const float &mbb_csv_dn();
@@ -1679,6 +1681,8 @@ namespace zmet {
 	const float &sum_mlb_dn();
 	const float &deta_jj_dn();
 	const float &dR_jj_dn();
+	const float &dphi_metj1_dn();
+	const float &dphi_metj2_dn();
 	const float &weight_btagsf();
 	const float &weight_btagsf_heavy_UP();
 	const float &weight_btagsf_light_UP();
@@ -1756,6 +1760,7 @@ namespace zmet {
 	const vector<float> &weightsf_lepiso();
 	const vector<float> &weightsf_lepip();
 	const vector<float> &weightsf_lepreco();
+	const vector<float> &weightsf_lepconv();
 	const vector<float> &weightsf_lepid_FS();
 	const vector<float> &weightsf_lepiso_FS();
 	const vector<float> &weightsf_lepip_FS();
