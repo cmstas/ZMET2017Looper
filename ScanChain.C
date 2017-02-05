@@ -1367,7 +1367,7 @@ bool passFileSelections(){
     }
 
     //remove the events with less than 40 gen pt
-    if ( TString(currentFile->GetTitle()).Contains("wgjets_incl_mgmlm") ){
+    if ( TString(currentFile->GetTitle()).Contains("wgjets_incl_mgmlm") && phys.ngamma() > 0){
       //First get best photon match
       int bestMatch = -1;
       float bestDR = 0.1;
