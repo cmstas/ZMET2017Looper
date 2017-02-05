@@ -1373,12 +1373,12 @@ bool passFileSelections(){
       float bestDR = 0.1;
       double eta = phys.gamma_eta().at(0);
       double phi = phys.gamma_phi().at(0);
-      for(unsigned int iGen = 0; iGen < cms3.genps_p4().size(); iGen++){
+      for(unsigned int iGen = 0; iGen < phys.genPart_pdgId().size(); iGen++){
         if ((phys.genPart_pdgId().at(iGen) != 22) /*&& (abs(phys.genPart_pdgId().at(iGen)) != 11)*/ ) continue; // accept gen photons
         if ((fabs(phys.genPart_motherId().at(iGen)) > 24) && (fabs (phys.genPart_motherId().at(iGen)) != 2212) ) continue; // don't want stuff from pions etc 
         if (phys.genPart_status().at(iGen) != 1  ) continue; 
         if (fabs(eta - phys.genPart_eta().at(iGen)) > 0.1 ) continue;
-        float thisDR = sqrt(pow(eta-phys.genPart_eta().at(iGen), 2) + pow(phi-phys.genPart_phi().at(iGen), 2)) //DeltaR( cms3.genps_p4() .at(iGen).eta(), eta, cms3.genps_p4().at(iGen).phi(), phi);
+        float thisDR = sqrt(pow(eta-phys.genPart_eta().at(iGen), 2) + pow(phi-phys.genPart_phi().at(iGen), 2)); //DeltaR( cms3.genps_p4() .at(iGen).eta(), eta, cms3.genps_p4().at(iGen).phi(), phi);
         if (thisDR < bestDR) {
           bestMatch = iGen;
           bestDR=thisDR;

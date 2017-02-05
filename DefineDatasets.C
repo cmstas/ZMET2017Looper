@@ -261,6 +261,8 @@ void addToChain(TChain *ch, TString set) {
     ch->Add(dir+"wjets_ht2500_mgmlm*");
 
     ch->Add(dir+"wgjets_incl_mgmlm*");
+    ch->Add(dir+"wgjets_ptg40_mgmlm*");
+    ch->Add(dir+"wgjets_ptg130_mgmlm*");
   }
   else if (set == "GammaMC-gammaZtoNuNu"){
     cout<<"Adding GammaMC-gammaZtoNuNu"<<endl; 
@@ -270,6 +272,7 @@ void addToChain(TChain *ch, TString set) {
     TString dir="/hadoop/cms/store/user/olivito/AutoTwopler_babies/merged/ZMET/V08-22-11/skim/";
     cout<<"Adding Skimmed GammaMC-gammaZtoNuNu"<<endl; 
     ch->Add(dir+"znunugamma_ptg40*");
+    ch->Add(dir+"znunugamma_ptg130*");
   }
   else if (set == "GammaMC-wgjets-inclusive-amc"){
     cout<<"Adding GammaMC WGJets AMC@NLO Sample"<<endl;
@@ -644,10 +647,13 @@ void addToChain(TChain *ch, TString set) {
     ch->Add(dir+"wjets_ht2500_mgmlm*");
 
     //This is the W+Gamma+Jets, it is inteded to have events with non-prompt photons vetod
-    ch->Add(dir+"wgjets_incl_mgmlm_skim*");
+    ch->Add(dir+"wgjets_incl_mgmlm*");
+    ch->Add(dir+"wgjets_ptg40_mgmlm*");
+    ch->Add(dir+"wgjets_ptg130_mgmlm*");
     //============
     // Gamma+Z->NuNu
     //============
+    ch->Add(dir+"znunugamma_ptg40_mgmlm*");
     ch->Add(dir+"znunugamma_ptg130_mgmlm*");
     //============
     // TTbar
