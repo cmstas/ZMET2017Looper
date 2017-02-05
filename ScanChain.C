@@ -173,7 +173,7 @@ bool passPhotonTriggers(){
 }
 
 bool passMuonTriggers(){
-  if ( phys.isData() ){
+  //if ( phys.isData() ){
     //cout<<__LINE__<<endl;
     if ( conf->get("use_muon_DZ_triggers") == "true" ){
       //cout<<"Using DZ triggers"<<endl;
@@ -187,41 +187,41 @@ bool passMuonTriggers(){
       //if (printStats) { cout<<"HLT_DoubleMu_nonDZ: "<<phys.HLT_DoubleMu_nonDZ()<<" HLT_DoubleMu_tk_nonDZ: "<<phys.HLT_DoubleMu_tk_nonDZ()<<" "<<" HLT_DoubleMu_noiso: "<<phys.HLT_DoubleMu_noiso()<<" "; }
       return (phys.HLT_DoubleMu() || phys.HLT_DoubleMu_tk() || phys.HLT_DoubleMu_dbltk() || phys.HLT_DoubleMu_nonDZ() || phys.HLT_DoubleMu_tk_nonDZ() || phys.HLT_DoubleMu_noiso());
     } 
-  }
+  /*}
   else{
     //cout<<__LINE__<<endl;
     return true; //MC always passes
-  }
+  }*/
 }
 
 bool passElectronTriggers(){
-  if ( phys.isData()){
+  //if ( phys.isData()){
     //cout<<__LINE__<<endl;
     //if (printStats) { cout<<"HLT_DoubleEl_DZ_2: "<<phys.HLT_DoubleEl_DZ_2()<<" HLT_DoubleEl_noiso: "<<phys.HLT_DoubleEl_noiso()<<" "; }
     return (phys.HLT_DoubleEl_DZ_2() || phys.HLT_DoubleEl_noiso() || phys.HLT_DoubleEl_DZ() );
-  }
+  /*}
   else{
     //cout<<__LINE__<<endl;
     return true; //MC always passes
-  }
+  }*/
 }
 
 bool passEMuTriggers(){
-  if (! phys.isData()){
+  /*if (! phys.isData()){
     return true;
   }
-  else{
+  else{*/
     return (phys.HLT_MuEG() || phys.HLT_MuEG_2() || phys.HLT_MuEG_noiso() || phys.HLT_MuEG_noiso_2() || phys.HLT_Mu8_EG23_DZ() || phys.HLT_Mu12_EG23_DZ() || phys.HLT_Mu23_EG12_DZ());
-  }
+  //}
 }
 
 bool passSingleMuTriggers(){
-  if (! phys.isData()){
+  /*if (! phys.isData()){
     return true;
   }
-  else{
+  else{*/
     return (phys.HLT_singleMu());
-  }
+  //}
 }
 
 bool passLeptonHLTs(){
@@ -456,7 +456,7 @@ bool hasGoodPhoton(){
   }
 
   if(conf->get("event_type") == "photon"){
-    if (phys.isData() && (! passPhotonTriggers()) ){
+    if (/*phys.isData() &&*/ (! passPhotonTriggers()) ){
       numEvents->Fill(52);
       if (printFail) cout<<phys.evt()<<" :Failed Photon trigger cut"<<endl;
       return false;
@@ -738,6 +738,9 @@ double getWeight(){
 
       weight*=phys.weightsf_lepreco().at(0);
       weight*=phys.weightsf_lepreco().at(1);
+
+      weight*=phys.weightsf_lepconv().at(0);
+      weight*=phys.weightsf_lepconv().at(1);
     }
     if (conf->get("no_btag_sf") == ""){
       //cout<<"Applying Btag Scale Factors"<<endl;
@@ -1151,6 +1154,23 @@ bool isDuplicate(){
 }
 
 bool passMETFilters(){
+  
+  if (!phys.Flag_EcalDeadCellTriggerPrimitiveFilter()      ) { 
+    numEvents->Fill(5);
+    if (printFail) cout<<phys.evt()<<" :Failed EcalDeadCellTriggerPrimativeFilter cut"<<endl;
+    return false;
+  }
+  if (!phys.Flag_badMuonFilterv2            ()      ){ 
+    numEvents->Fill(50);
+    if (printFail) cout<<phys.evt()<<" :Failed CSCTightHalo2015Filter cut"<<endl;
+    return false;
+  }
+  if (!phys.Flag_badChargedCandidateFilterv2            ()      ){ 
+    numEvents->Fill(51);
+    if (printFail) cout<<phys.evt()<<" :Failed CSCTightHalo2015Filter cut"<<endl;
+    return false;
+  }
+
   if ( phys.isData() ) {
     if ( phys.nVert() == 0 ) {
       numEvents->Fill(1);
@@ -1172,11 +1192,6 @@ bool passMETFilters(){
       if (printFail) cout<<phys.evt()<<" :Failed CSCTightHalo2015Filter cut"<<endl;
       numEvents->Fill(4);
     }*/
-    if (!phys.Flag_EcalDeadCellTriggerPrimitiveFilter()      ) { 
-      numEvents->Fill(5);
-      if (printFail) cout<<phys.evt()<<" :Failed EcalDeadCellTriggerPrimativeFilter cut"<<endl;
-      return false;
-    }
     if (!phys.Flag_goodVertices                      ()      ) { 
       numEvents->Fill(6);
       if (printFail) cout<<phys.evt()<<" :Failed goodVerticies cut"<<endl;
@@ -1189,16 +1204,6 @@ bool passMETFilters(){
     }
     if (!phys.Flag_globalTightHalo2016            ()      ){ 
       numEvents->Fill(4);
-      if (printFail) cout<<phys.evt()<<" :Failed CSCTightHalo2015Filter cut"<<endl;
-      return false;
-    }
-    if (!phys.Flag_badMuonFilterv2            ()      ){ 
-      numEvents->Fill(50);
-      if (printFail) cout<<phys.evt()<<" :Failed CSCTightHalo2015Filter cut"<<endl;
-      return false;
-    }
-    if (!phys.Flag_badChargedCandidateFilterv2            ()      ){ 
-      numEvents->Fill(51);
       if (printFail) cout<<phys.evt()<<" :Failed CSCTightHalo2015Filter cut"<<endl;
       return false;
     }
