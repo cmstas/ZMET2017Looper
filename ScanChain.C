@@ -1382,6 +1382,7 @@ bool passFileSelections(){
         if (thisDR < bestDR) {
           bestMatch = iGen;
           bestDR=thisDR;
+        }
       }
       if (bestMatch < 0){
         numEvents->Fill(71);
