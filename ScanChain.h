@@ -48,6 +48,7 @@ ConfigParser *conf;
 int nDuplicates=0;
 int num_events_veto_ttbar=0;
 int num_events_veto_ttgamma=0;
+bool MCTriggerEmulation = true;
 
 vector<pair <TH1D*, TString> > g_reweight_pairs;
 TDirectory *rootdir = gDirectory->GetDirectory("Rint:");

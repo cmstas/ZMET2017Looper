@@ -160,20 +160,27 @@ bool passPhotonEmulatedTrigger() {
 }
 
 bool passPhotonTriggers(){
-
-  if( ((phys.HLT_Photon165_R9Id90_HE10_IsoM_matchedtophoton() && phys.HLT_Photon165_R9Id90_HE10_IsoM() > 0) || (phys.HLT_Photon165_HE10_matchedtophoton() && phys.HLT_Photon165_HE10() > 0)) && phys.gamma_pt().at(0) > 180 ) return true;
-  else if( phys.HLT_Photon120_R9Id90_HE10_IsoM_matchedtophoton() && phys.HLT_Photon120_R9Id90_HE10_IsoM() > 0 && phys.gamma_pt().at(0) > 135 && phys.gamma_pt().at(0) < 180 ) return true;
-  else if( phys.HLT_Photon90_R9Id90_HE10_IsoM_matchedtophoton() && phys.HLT_Photon90_R9Id90_HE10_IsoM()  > 0 && phys.gamma_pt().at(0) > 105 && phys.gamma_pt().at(0) < 135  ) return true;
-  else if( phys.HLT_Photon75_R9Id90_HE10_IsoM_matchedtophoton() && phys.HLT_Photon75_R9Id90_HE10_IsoM()  > 0 && phys.gamma_pt().at(0) > 85 && phys.gamma_pt().at(0) < 105   ) return true;
-  else if( phys.HLT_Photon50_R9Id90_HE10_IsoM_matchedtophoton() && phys.HLT_Photon50_R9Id90_HE10_IsoM()  > 0 && phys.gamma_pt().at(0) > 55 && phys.gamma_pt().at(0) < 85    ) return true;
-  else if( phys.HLT_Photon36_R9Id90_HE10_IsoM_matchedtophoton() && phys.HLT_Photon36_R9Id90_HE10_IsoM()  > 0 && phys.gamma_pt().at(0) > 40 && phys.gamma_pt().at(0) < 55    ) return true;
-  else if( phys.HLT_Photon30_R9Id90_HE10_IsoM_matchedtophoton() && phys.HLT_Photon30_R9Id90_HE10_IsoM()  > 0 && phys.gamma_pt().at(0) > 33 && phys.gamma_pt().at(0) < 40    ) return true;
-  else if( phys.HLT_Photon22_R9Id90_HE10_IsoM_matchedtophoton() && phys.HLT_Photon22_R9Id90_HE10_IsoM()  > 0 && phys.gamma_pt().at(0) < 33 ) return true;
-  return false;
+  if (! MCTriggerEmulation && ! phys.isData()){
+    return true;
+  }
+  else{
+    if( ((phys.HLT_Photon165_R9Id90_HE10_IsoM_matchedtophoton() && phys.HLT_Photon165_R9Id90_HE10_IsoM() > 0) || (phys.HLT_Photon165_HE10_matchedtophoton() && phys.HLT_Photon165_HE10() > 0)) && phys.gamma_pt().at(0) > 180 ) return true;
+    else if( phys.HLT_Photon120_R9Id90_HE10_IsoM_matchedtophoton() && phys.HLT_Photon120_R9Id90_HE10_IsoM() > 0 && phys.gamma_pt().at(0) > 135 && phys.gamma_pt().at(0) < 180 ) return true;
+    else if( phys.HLT_Photon90_R9Id90_HE10_IsoM_matchedtophoton() && phys.HLT_Photon90_R9Id90_HE10_IsoM()  > 0 && phys.gamma_pt().at(0) > 105 && phys.gamma_pt().at(0) < 135  ) return true;
+    else if( phys.HLT_Photon75_R9Id90_HE10_IsoM_matchedtophoton() && phys.HLT_Photon75_R9Id90_HE10_IsoM()  > 0 && phys.gamma_pt().at(0) > 85 && phys.gamma_pt().at(0) < 105   ) return true;
+    else if( phys.HLT_Photon50_R9Id90_HE10_IsoM_matchedtophoton() && phys.HLT_Photon50_R9Id90_HE10_IsoM()  > 0 && phys.gamma_pt().at(0) > 55 && phys.gamma_pt().at(0) < 85    ) return true;
+    else if( phys.HLT_Photon36_R9Id90_HE10_IsoM_matchedtophoton() && phys.HLT_Photon36_R9Id90_HE10_IsoM()  > 0 && phys.gamma_pt().at(0) > 40 && phys.gamma_pt().at(0) < 55    ) return true;
+    else if( phys.HLT_Photon30_R9Id90_HE10_IsoM_matchedtophoton() && phys.HLT_Photon30_R9Id90_HE10_IsoM()  > 0 && phys.gamma_pt().at(0) > 33 && phys.gamma_pt().at(0) < 40    ) return true;
+    else if( phys.HLT_Photon22_R9Id90_HE10_IsoM_matchedtophoton() && phys.HLT_Photon22_R9Id90_HE10_IsoM()  > 0 && phys.gamma_pt().at(0) < 33 ) return true;
+    return false;
+  }
 }
 
 bool passMuonTriggers(){
-  //if ( phys.isData() ){
+  if (! MCTriggerEmulation && ! phys.isData()){
+    return true;
+  }
+  else{
     //cout<<__LINE__<<endl;
     if ( conf->get("use_muon_DZ_triggers") == "true" ){
       //cout<<"Using DZ triggers"<<endl;
@@ -187,41 +194,36 @@ bool passMuonTriggers(){
       //if (printStats) { cout<<"HLT_DoubleMu_nonDZ: "<<phys.HLT_DoubleMu_nonDZ()<<" HLT_DoubleMu_tk_nonDZ: "<<phys.HLT_DoubleMu_tk_nonDZ()<<" "<<" HLT_DoubleMu_noiso: "<<phys.HLT_DoubleMu_noiso()<<" "; }
       return (phys.HLT_DoubleMu() || phys.HLT_DoubleMu_tk() || phys.HLT_DoubleMu_dbltk() || phys.HLT_DoubleMu_nonDZ() || phys.HLT_DoubleMu_tk_nonDZ() || phys.HLT_DoubleMu_noiso());
     } 
-  /*}
-  else{
-    //cout<<__LINE__<<endl;
-    return true; //MC always passes
-  }*/
+  }
 }
 
 bool passElectronTriggers(){
-  //if ( phys.isData()){
-    //cout<<__LINE__<<endl;
-    //if (printStats) { cout<<"HLT_DoubleEl_DZ_2: "<<phys.HLT_DoubleEl_DZ_2()<<" HLT_DoubleEl_noiso: "<<phys.HLT_DoubleEl_noiso()<<" "; }
-    return (phys.HLT_DoubleEl_DZ_2() || phys.HLT_DoubleEl_noiso() || phys.HLT_DoubleEl_DZ() );
-  /*}
+  if (! MCTriggerEmulation && ! phys.isData()){
+    return true;
+  }
   else{
     //cout<<__LINE__<<endl;
-    return true; //MC always passes
-  }*/
+    if (printStats) { cout<<"HLT_DoubleEl_DZ_2: "<<phys.HLT_DoubleEl_DZ_2()<<" HLT_DoubleEl_noiso: "<<phys.HLT_DoubleEl_noiso()<<" HLT_DoubleEl_DZ(): "<<phys.HLT_DoubleEl_DZ()<<endl; }
+    return (phys.HLT_DoubleEl_DZ_2() || phys.HLT_DoubleEl_noiso() || phys.HLT_DoubleEl_DZ() );
+  }
 }
 
 bool passEMuTriggers(){
-  /*if (! phys.isData()){
+  if (! MCTriggerEmulation && ! phys.isData()){
     return true;
   }
-  else{*/
+  else{
     return (phys.HLT_MuEG() || phys.HLT_MuEG_2() || phys.HLT_MuEG_noiso() || phys.HLT_MuEG_noiso_2() || phys.HLT_Mu8_EG23_DZ() || phys.HLT_Mu12_EG23_DZ() || phys.HLT_Mu23_EG12_DZ());
-  //}
+  }
 }
 
 bool passSingleMuTriggers(){
-  /*if (! phys.isData()){
+  if (! MCTriggerEmulation && ! phys.isData()){
     return true;
   }
-  else{*/
+  else{
     return (phys.HLT_singleMu());
-  //}
+  }
 }
 
 bool passLeptonHLTs(){
@@ -530,14 +532,14 @@ bool hasGoodGammaMu(){
   //cout<<__LINE__<<endl;
 
   if (conf->get("trigger_type") == "singleMu"){
-    if(phys.isData() && (! passSingleMuTriggers()) ){
+    if(/*phys.isData() &&*/ (! passSingleMuTriggers()) ){
       numEvents->Fill(65);
       if (printFail) cout<<phys.evt()<<" :Failed Single Muon trigger cut"<<endl;
       return false;
     }
   }
   else if (conf->get("trigger_type") == "singleGamma"){
-    if (phys.isData() && (! passPhotonTriggers()) ){
+    if (/*phys.isData() &&*/ (! passPhotonTriggers()) ){
       numEvents->Fill(52);
       if (printFail) cout<<phys.evt()<<" :Failed Photon trigger cut"<<endl;
       return false;
@@ -1356,13 +1358,40 @@ bool passFileSelections(){
         return false;
       }
     }
-    else if ( TString(currentFile->GetTitle()).Contains("wgjets_incl_mgmlm") ){ //WGammaJets
+    else if ( TString(currentFile->GetTitle()).Contains("wgjets_") ){ //WGammaJets
       if( phys.ngamma() > 0 && phys.gamma_genIsPromptFinalState().at(0) != 1 ) {
         //cout<<"skipped"<<endl;
         numEvents->Fill(64);
         return false;
       }
     }
+
+    //remove the events with less than 40 gen pt
+    if ( TString(currentFile->GetTitle()).Contains("wgjets_incl_mgmlm") ){
+      //First get best photon match
+      int bestMatch = -1;
+      float bestDR = 0.1;
+      double eta = phys.gamma_eta().at(0);
+      double phi = phys.gamma_phi().at(0);
+      for(unsigned int iGen = 0; iGen < cms3.genps_p4().size(); iGen++){
+        if ((phys.genPart_pdgId().at(iGen) != 22) /*&& (abs(phys.genPart_pdgId().at(iGen)) != 11)*/ ) continue; // accept gen photons
+        if ((fabs(phys.genPart_motherId().at(iGen)) > 24) && (fabs (phys.genPart_motherId().at(iGen)) != 2212) ) continue; // don't want stuff from pions etc 
+        if (phys.genPart_status().at(iGen) != 1  ) continue; 
+        if (fabs(eta - phys.genPart_eta().at(iGen)) > 0.1 ) continue;
+        float thisDR = sqrt(pow(eta-phys.genPart_eta().at(iGen), 2) + pow(phi-phys.genPart_phi().at(iGen), 2)) //DeltaR( cms3.genps_p4() .at(iGen).eta(), eta, cms3.genps_p4().at(iGen).phi(), phi);
+        if (thisDR < bestDR) {
+          bestMatch = iGen;
+          bestDR=thisDR;
+      }
+      if (bestMatch < 0){
+        numEvents->Fill(71);
+        return false;
+      }
+      else if (phys.genPart_pt().at(bestMatch) > 40){
+        numEvents->Fill(71);
+        return false; 
+      }
+    } 
   }
 
   if ( TString(conf->get("data_set")).Contains("FSMC-TTBar-NoPromptGamma") ){
@@ -1406,6 +1435,11 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
   conf=configuration;
   //cout<<__LINE__<<endl;
   g_sample_name=conf->get("Name");
+
+  if (conf->get("MCTriggerEmulation") != ""){
+    if (conf->get("MCTriggerEmulation") == "true") MCTriggerEmulation=true;
+    else if (conf->get("MCTriggerEmulation") == "false") MCTriggerEmulation=false;
+  }
 
   TString savePath = getOutputDir(conf, "hist");
   ofstream files_log;
@@ -1902,7 +1936,7 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
         }
       }
       
-      if (phys.isData() && (! passMETFilters())) continue; ///met filters
+      if (! passMETFilters()) continue; ///met filters
       
       //double weight=1;
       double weight = getWeight();

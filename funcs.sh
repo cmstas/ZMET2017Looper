@@ -99,7 +99,7 @@ function _makeAllForDir {
 	if [[ $2 == "hists" ]]
 	then
 		echo $1 > outputs/$fname_hist
-		makeHistosForDir $1 >> outputs/$fname_hist 2>&1
+		makeHistosForDir $1 $3 >> outputs/$fname_hist 2>&1
 	elif [[ $2 == "plots" ]]
 	then
 		echo $1 > outputs/$fname_plots
@@ -107,7 +107,7 @@ function _makeAllForDir {
 	elif [[ $2 == "all" ]]
 	then
 		echo $1 > outputs/$fname_hist
-		makeHistosForDir $1 >> outputs/$fname_hist 2>&1
+		makeHistosForDir $1 $3 >> outputs/$fname_hist 2>&1
 
 		echo $1 > outputs/$fname_plots
 		makePlotsForDir $1 >> outputs/$fname_plots 2>&1
@@ -119,20 +119,32 @@ function _makeAllForDir {
 function makeAllForDir {
 	if [[ $# < 2 ]]
 	then
-		echo "makeAllForDir <path_to_configs> <all/hists/plots>"
+		echo "makeAllForDir <path_to_configs> <all/hists/plots> <sample_name | only if given hists or all>"
 	else
 		echo -n `basename $1`" -- "
-		_makeAllForDir $1 $2 &
+		_makeAllForDir $1 $2 $3 &
+		return $!
 	fi
 }
 
 function makeHistosForDir {
+	#Takes at most 2 args, the first is the name of the directory to run the run_modes over
+	#the second is the name of the sample config. If no sample config is given, it runs over "all"
+
+	if [[ $# < 2 ]]
+	then
+		makeHistosForDir_whichHist=all
+	else
+		makeHistosForDir_whichHist=$2
+	fi
+
 	if [[ -a $1/run_modes.conf ]]
 	then
-		makeHistos all $1/run_modes.conf
+		makeHistos $makeHistosForDir_whichHist $1/run_modes.conf
 	else
 		echo "Can not find $1/run_modes.conf"
 	fi
+
 }
 
 function makePlotsForDir {
