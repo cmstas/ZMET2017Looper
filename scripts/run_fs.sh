@@ -11,8 +11,8 @@ function makeALLFSStudy {
 }
 
 function remakeFSRatioPlots{
-  remakeFSRatioPlots_PIDs = $1
-  remakeFSRatioPlots_which_hists = $2
+  remakeFSRatioPlots_PIDs=$1
+  remakeFSRatioPlots_which_hists=$2
   
   wait $remakeFSRatioPlots_PIDs
 
