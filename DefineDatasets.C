@@ -51,36 +51,36 @@ void addToChain(TChain *ch, TString set) {
   //---------------------------
   else if (set == "ZMC-inclusive-Skimmed"){
     //Inclusive HT
-    TString dir="/hadoop/cms/store/user/olivito/AutoTwopler_babies/merged/ZMET/V08-22-10/skim/";
+    TString dir="/hadoop/cms/store/user/olivito/AutoTwopler_babies/merged/ZMET/V08-22-11/skim/";
     cout<<"Adding ZMC-inclusive-Skimmed"<<endl;
     ch->Add(dir+"dy_m50_mgmlm_ext1*");
   }
   else if (set == "ZMC-100200-Skimmed"){
     //HT 100-200 
-    TString dir="/hadoop/cms/store/user/olivito/AutoTwopler_babies/merged/ZMET/V08-22-10/skim/";
+    TString dir="/hadoop/cms/store/user/olivito/AutoTwopler_babies/merged/ZMET/V08-22-11/skim/";
     cout<<"Adding ZMC-100200-Skimmed"<<endl;
-    ch->Add(dir+"dy_m50_mgmlm_ht100*");
+    ch->Add(dir+"dy_m50_mgmlm_ht100_ext1*");
   }
   else if (set == "ZMC-200400-Skimmed"){
     //HT 200-400 
-    TString dir="/hadoop/cms/store/user/olivito/AutoTwopler_babies/merged/ZMET/V08-22-10/skim/";
+    TString dir="/hadoop/cms/store/user/olivito/AutoTwopler_babies/merged/ZMET/V08-22-11/skim/";
     cout<<"Adding ZMC-200400-Skimmed"<<endl;
     ch->Add(dir+"dy_m50_mgmlm_ht200_ext1*");
   }
   else if (set == "ZMC-400600-Skimmed"){
     //HT 400-600 
-    TString dir="/hadoop/cms/store/user/olivito/AutoTwopler_babies/merged/ZMET/V08-22-10/skim/";
+    TString dir="/hadoop/cms/store/user/olivito/AutoTwopler_babies/merged/ZMET/V08-22-11/skim/";
     cout<<"Adding ZMC-400600-Skimmed"<<endl;
     ch->Add(dir+"dy_m50_mgmlm_ht400_ext1*");
   }
   else if (set == "ZMC-600Inf-Skimmed"){
     //HT 600-Inf 
-    TString dir="/hadoop/cms/store/user/olivito/AutoTwopler_babies/merged/ZMET/V08-22-10/skim/";
+    TString dir="/hadoop/cms/store/user/olivito/AutoTwopler_babies/merged/ZMET/V08-22-11/skim/";
     cout<<"Adding ZMC-600Inf-Skimmed"<<endl;
     ch->Add(dir+"dy_m50_mgmlm_ht600*");
   }
   else if (set == "ZMC-fullmc-Skimmed"){
-    TString dir="/hadoop/cms/store/user/olivito/AutoTwopler_babies/merged/ZMET/V08-22-10/skim/";
+    TString dir="/hadoop/cms/store/user/olivito/AutoTwopler_babies/merged/ZMET/V08-22-11/skim/";
     cout<<"Adding ZMC-fullmc-Skimmed"<<endl;
     
     //ZZ Sample
@@ -89,11 +89,10 @@ void addToChain(TChain *ch, TString set) {
     ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-08/skims/wz_2l2q_amcnlo*.root"));
   }
   else if (set == "ZMC-low-mass-Skimmed"){
-    TString dir="/hadoop/cms/store/user/olivito/AutoTwopler_babies/merged/ZMET/V08-22-10/skim/";
+    TString dir="/hadoop/cms/store/user/olivito/AutoTwopler_babies/merged/ZMET/V08-22-11/skim/";
     cout<<"Adding ZMC Low Mass Skimmed sample"<<endl;
     ch->Add(dir+"dy_m1050_mgmlm*");
   }
-
   else if (set == "ZMC-V08-22-08-Skimmed"){
     cout<<"Adding V08-22-08 Skimmed sample"<<endl;
     
@@ -109,9 +108,9 @@ void addToChain(TChain *ch, TString set) {
     ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-08/skims/dy_m1050_mgmlm*.root");
 
     //ZZ Sample
-    ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-08/skims/zz_2l2q_amcnlo*.root" ));
+    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-08/skims/zz_2l2q_amcnlo*.root" );
     //WZ Sample
-    ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-08/skims/wz_2l2q_amcnlo*.root" ));
+    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-08/skims/wz_2l2q_amcnlo*.root" );
   }
 
 //====================================
@@ -191,28 +190,33 @@ void addToChain(TChain *ch, TString set) {
   //---------------------------
   else if (set == "GammaMC-40100-dr0p4-Skimmed"){
     //HT 40-100
+    TString dir="/hadoop/cms/store/user/olivito/AutoTwopler_babies/merged/ZMET/V08-22-11/skim/";
     cout<<"Adding Skimmed GammaMC-40100"<<endl; 
-    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-08/skims/gjetsht40_dr0p4_mgmlm*");
+    ch->Add(dir+"gjetsht40_dr0p4_mgmlm*");
   }
   else if (set == "GammaMC-100200-dr0p4-Skimmed"){
     //HT 100-200 
+    TString dir="/hadoop/cms/store/user/olivito/AutoTwopler_babies/merged/ZMET/V08-22-11/skim/";
     cout<<"Adding Skimmed GammaMC-100200"<<endl; 
-    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-08/skims/gjetsht100_dr0p4_mgmlm*");
+    ch->Add(dir+"gjetsht100_dr0p4_mgmlm*");
   }
   else if (set == "GammaMC-200400-dr0p4-Skimmed"){
     //HT 200-400
+    TString dir="/hadoop/cms/store/user/olivito/AutoTwopler_babies/merged/ZMET/V08-22-11/skim/";
     cout<<"Adding Skimmed GammaMC-200400"<<endl; 
-    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-08/skims/gjetsht200_dr0p4_mgmlm*");
+    ch->Add(dir+"gjetsht200_dr0p4_mgmlm*");
   }
   else if (set == "GammaMC-400600-dr0p4-Skimmed"){
     //HT 400-600 
+    TString dir="/hadoop/cms/store/user/olivito/AutoTwopler_babies/merged/ZMET/V08-22-11/skim/";
     cout<<"Adding Skimmed GammaMC-400600"<<endl; 
-    ch->Add("/hadoop/cms/store/user/olivito/AutoTwopler_babies/merged/ZMET/V08-22-09/output/gjetsht400_dr0p4_mgmlm*");
+    ch->Add(dir+"gjetsht400_dr0p4_mgmlm*");
   }
   else if (set == "GammaMC-600Inf-dr0p4-Skimmed"){
     //HT 600-Inf 
+    TString dir="/hadoop/cms/store/user/olivito/AutoTwopler_babies/merged/ZMET/V08-22-11/skim/";
     cout<<"Adding Skimmed GammaMC-600+"<<endl; 
-    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-08/skims/gjetsht600_dr0p4_mgmlm*");
+    ch->Add(dir+"gjetsht600_dr0p4_mgmlm*");
   }
   //---------------------------
   // Other Gamma MC
@@ -294,52 +298,52 @@ void addToChain(TChain *ch, TString set) {
 
   else if (set == "FSMC-dilep-mgmlm"){
     cout<<"Adding FSMC-dilep-mgmlm (smaller stats sample)"<<endl; 
-    ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/ttbar_dilep_mgmlm*.root"));
+    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/ttbar_dilep_mgmlm*.root");
   }
   else if (set == "FSMC-dilep-powheg"){
     cout<<"Adding FSMC-dilep-powheg (large stats sample)"<<endl; 
-    ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/ttbar_dilep_powheg*.root")); //larger stats
+    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/ttbar_dilep_powheg*.root"); //larger stats
   }
   else if (set == "FSMC-dilep-powheg-Skimmed"){
-    TString dir="/hadoop/cms/store/user/olivito/AutoTwopler_babies/merged/ZMET/V08-22-10/skim/";
+    TString dir="/hadoop/cms/store/user/olivito/AutoTwopler_babies/merged/ZMET/V08-22-11/skim/";
     cout<<"Adding Skimmed FSMC-dilep-powheg (large stats sample)"<<endl; 
-    ch->Add(Form(dir+"ttbar_dilep_powheg*")); //larger stats
+    ch->Add(dir+"ttbar_dilep_powheg*"); //larger stats
   }
   else if (set == "FSMC-TTBar-NoPromptGamma"){
     cout<<"Adding FSMC-TTBar-NoPromptGamma (large stats sample)"<<endl; 
     //Take non-prompt photon events
-    ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-09/skims/ttbar_dilep_powheg*.root"));
-    ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-09/skims/ttbar_1ltbr_mgmlm*.root"));
-    ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-09/skims/ttbar_1ltop_mgmlm*.root"));
+    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-09/skims/ttbar_dilep_powheg*.root");
+    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-09/skims/ttbar_1ltbr_mgmlm*.root");
+    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-09/skims/ttbar_1ltop_mgmlm*.root");
   }
   else if (set == "FSMC-TTGamma-NoNonPromptGamma"){
     cout<<"Adding FSMC-TTGamma-NoNonPromptGamma"<<endl; 
     //Take prompt photon events
-    ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-09/skims/ttg_incl_amcnlo*.root"));
+    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-09/skims/ttg_incl_amcnlo*.root");
   }
   else if (set == "FSMC-1lep"){
     cout<<"Adding FSMC-1lep"<<endl; 
-    ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/ttbar_1ltbr_mgmlm*.root"));
-    ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/ttbar_1ltop_mgmlm*.root"));
+    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/ttbar_1ltbr_mgmlm*.root");
+    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/ttbar_1ltop_mgmlm*.root");
   }
   else if (set == "FSMC-1lep-Skimmed"){
-    TString dir="/hadoop/cms/store/user/olivito/AutoTwopler_babies/merged/ZMET/V08-22-10/skim/";
+    TString dir="/hadoop/cms/store/user/olivito/AutoTwopler_babies/merged/ZMET/V08-22-11/skim/";
     cout<<"Adding skimmed FSMC-1lep"<<endl; 
     ch->Add(dir+"ttbar_1ltbr_mgmlm_ext1*");
     ch->Add(dir+"ttbar_1ltop_mgmlm_ext1*");
   }
   else if (set == "FSMC-singletop-inclusive"){
     cout<<"Adding FSMC-singletop"<<endl; 
-    ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/sttw_antitop_powheg*.root"));
-    ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/sttw_top_powheg*.root"));
+    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/sttw_antitop_powheg*.root");
+    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/sttw_top_powheg*.root");
   }
   else if (set == "FSMC-singletop-nofullhaddecay"){
     cout<<"Adding FSMC-singletop with no fully hadronic decay"<<endl; 
-    ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-05/sttw_antitop_nofullhaddecay_powheg.root"));
-    ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-05/sttw_top_nofullhaddecay_powheg.root"));
+    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-05/sttw_antitop_nofullhaddecay_powheg.root");
+    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-05/sttw_top_nofullhaddecay_powheg.root");
   }
   else if (set == "FSMC-singletop-nofullhaddecay-Skimmed"){
-    TString dir="/hadoop/cms/store/user/olivito/AutoTwopler_babies/merged/ZMET/V08-22-10/skim/";
+    TString dir="/hadoop/cms/store/user/olivito/AutoTwopler_babies/merged/ZMET/V08-22-11/skim/";
     cout<<"Adding Skimmed FSMC-singletop with no fully hadronic decay"<<endl; 
     ch->Add(dir+"sttw_antitop_nofullhaddecay_powheg*");
     ch->Add(dir+"sttw_top_nofullhaddecay_powheg*");
@@ -347,11 +351,11 @@ void addToChain(TChain *ch, TString set) {
   //cout<<"Entries: "<<ch_fs->GetEntries()<<endl;
   else if (set == "FSMC-ww"){
     cout<<"Adding FSMC-ww"<<endl; 
-    ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/ww_2l2nu_powheg*.root"));
+    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/ww_2l2nu_powheg*.root");
     ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/www_incl_amcnlo*.root");
   }
   else if (set == "FSMC-ww-Skimmed"){
-    TString dir="/hadoop/cms/store/user/olivito/AutoTwopler_babies/merged/ZMET/V08-22-10/skim/";
+    TString dir="/hadoop/cms/store/user/olivito/AutoTwopler_babies/merged/ZMET/V08-22-11/skim/";
     cout<<"Adding FSMC-ww-Skimmed"<<endl; 
     ch->Add(dir+"ww_2l2nu_powheg*");
     ch->Add(dir+"www_incl_amcnlo*");
@@ -362,7 +366,7 @@ void addToChain(TChain *ch, TString set) {
     ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/ttw_qq_amcnlo*.root");
   }
   else if (set == "FSMC-ttw-Skimmed"){
-    TString dir="/hadoop/cms/store/user/olivito/AutoTwopler_babies/merged/ZMET/V08-22-10/skim/";
+    TString dir="/hadoop/cms/store/user/olivito/AutoTwopler_babies/merged/ZMET/V08-22-11/skim/";
     cout<<"Adding FSMC-ttw-Skimmed"<<endl; 
     ch->Add(dir+"ttw_ln_amcnlo*");
     ch->Add(dir+"ttw_qq_amcnlo*");
@@ -556,9 +560,9 @@ void addToChain(TChain *ch, TString set) {
 
   else if (set == "DileptonData-ee-Skimmed"){
     //TString dir="/home/users/cwelke/ZMetbabyskims/V08-22-05/";
-    TString dir="/hadoop/cms/store/user/olivito/AutoTwopler_babies/merged/ZMET/V08-22-10/skim/";
+    TString dir="/hadoop/cms/store/user/olivito/AutoTwopler_babies/merged/ZMET/V08-22-11/skim/";
     cout<<"Adding Skimmed EE Trigger Data"<<endl;
-    ch->Add(dir+"data_Run2016B_23sep2016rereco_ee_v1_skim*");
+    ch->Add(dir+"data_Run2016B_23sep2016rereco_ee_v3_skim*");
     ch->Add(dir+"data_Run2016C_23sep2016rereco_ee_v1_skim*");
     ch->Add(dir+"data_Run2016D_23sep2016rereco_ee_v1_skim*");
     ch->Add(dir+"data_Run2016E_23sep2016rereco_ee_v1_skim*");
@@ -568,9 +572,9 @@ void addToChain(TChain *ch, TString set) {
     ch->Add(dir+"data_Run2016H_Prompt_ee_v3_skim*");
   }
   else if (set == "DileptonData-em-Skimmed"){
-    TString dir="/hadoop/cms/store/user/olivito/AutoTwopler_babies/merged/ZMET/V08-22-10/skim/";
+    TString dir="/hadoop/cms/store/user/olivito/AutoTwopler_babies/merged/ZMET/V08-22-11/skim/";
     cout<<"Adding Skimmed EMu Trigger Data"<<endl;
-    ch->Add(dir+"data_Run2016B_23sep2016rereco_em_v1_skim*");
+    ch->Add(dir+"data_Run2016B_23sep2016rereco_em_v3_skim*");
     ch->Add(dir+"data_Run2016C_23sep2016rereco_em_v1_skim*");
     ch->Add(dir+"data_Run2016D_23sep2016rereco_em_v1_skim*");
     ch->Add(dir+"data_Run2016E_23sep2016rereco_em_v1_skim*");
@@ -580,9 +584,9 @@ void addToChain(TChain *ch, TString set) {
     ch->Add(dir+"data_Run2016H_Prompt_em_v3_skim*");
   }
   else if (set == "DileptonData-mm-Skimmed"){
-    TString dir="/hadoop/cms/store/user/olivito/AutoTwopler_babies/merged/ZMET/V08-22-10/skim/";
+    TString dir="/hadoop/cms/store/user/olivito/AutoTwopler_babies/merged/ZMET/V08-22-11/skim/";
     cout<<"Adding Skimmed MuMu Trigger Data"<<endl;
-    ch->Add(dir+"data_Run2016B_23sep2016rereco_mm_v1_skim*");
+    ch->Add(dir+"data_Run2016B_23sep2016rereco_mm_v3_skim*");
     ch->Add(dir+"data_Run2016C_23sep2016rereco_mm_v1_skim*");
     ch->Add(dir+"data_Run2016D_23sep2016rereco_mm_v1_skim*");
     ch->Add(dir+"data_Run2016E_23sep2016rereco_mm_v1_skim*");
@@ -592,9 +596,9 @@ void addToChain(TChain *ch, TString set) {
     ch->Add(dir+"data_Run2016H_Prompt_mm_v3_skim*");
   }
   else if (set == "SingleLeptonData-SingleMu-Skimmed"){
-    TString dir="/hadoop/cms/store/user/olivito/AutoTwopler_babies/merged/ZMET/V08-22-10/skim/";
+    TString dir="/hadoop/cms/store/user/olivito/AutoTwopler_babies/merged/ZMET/V08-22-11/skim/";
     cout<<"Adding Skimmed Single Muon Trigger Data"<<endl;
-    ch->Add(dir+"data_Run2016B_23sep2016rereco_sm_v1_skim*");
+    ch->Add(dir+"data_Run2016B_23sep2016rereco_sm_v3_skim*");
     ch->Add(dir+"data_Run2016C_23sep2016rereco_sm_v1_skim*");
     ch->Add(dir+"data_Run2016D_23sep2016rereco_sm_v1_skim*");
     ch->Add(dir+"data_Run2016E_23sep2016rereco_sm_v1_skim*");
@@ -610,9 +614,9 @@ void addToChain(TChain *ch, TString set) {
 
   //Single Photon Trigger
   else if (set == "GammaData-SinglePhoton-Skimmed"){
-    TString dir="/hadoop/cms/store/user/olivito/AutoTwopler_babies/merged/ZMET/V08-22-10/skim/";
+    TString dir="/hadoop/cms/store/user/olivito/AutoTwopler_babies/merged/ZMET/V08-22-11/skim/";
     cout<<"Adding GammaData-SinglePhoton-Skimmed"<<endl; 
-    ch->Add(dir+"data_Run2016B_23sep2016rereco_ph_v1_skim*");
+    ch->Add(dir+"data_Run2016B_23sep2016rereco_ph_v3_skim*");
     ch->Add(dir+"data_Run2016C_23sep2016rereco_ph_v1_skim*");
     ch->Add(dir+"data_Run2016D_23sep2016rereco_ph_v1_skim*");
     ch->Add(dir+"data_Run2016E_23sep2016rereco_ph_v1_skim*");
@@ -623,7 +627,7 @@ void addToChain(TChain *ch, TString set) {
   }
   //EWK Subtraction
   else if (set == "GammaData-EWKSub-Skimmed"){
-    TString dir="/hadoop/cms/store/user/olivito/AutoTwopler_babies/merged/ZMET/V08-22-10/skim/";
+    TString dir="/hadoop/cms/store/user/olivito/AutoTwopler_babies/merged/ZMET/V08-22-11/skim/";
     cout<<"Adding Skimmed EWK Subtraction Samples"<<endl;       
     //============
     // W+Gamma+Jets
