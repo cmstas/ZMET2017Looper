@@ -119,7 +119,7 @@ void addToChain(TChain *ch, TString set) {
     cout<<"Adding V08-22-11 Skimmed sample"<<endl;
     
     ch->Add(dir+"dy_m50_mgmlm_ext1*");
-    ch->Add(dir+"dy_m50_mgmlm_ht100_nonext*");
+    ch->Add(dir+"dy_m50_mgmlm_ht100_ext1*");
     ch->Add(dir+"dy_m50_mgmlm_ht200_ext1*");
     ch->Add(dir+"dy_m50_mgmlm_ht400_ext1*"); 
     ch->Add(dir+"dy_m50_mgmlm_ht600_nonext*");
