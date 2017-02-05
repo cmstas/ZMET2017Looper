@@ -465,7 +465,7 @@ bool hasGoodPhoton(){
     }
   }
 
-  if (/*(! phys.isData()) &&*/ (! passPhotonEmulatedTrigger()) ){
+  if ((! phys.isData()) && (! passPhotonEmulatedTrigger()) ){
     numEvents->Fill(53);
     if (printFail) cout<<phys.evt()<<" :Failed emulated photon trigger"<<endl;
     return false;
