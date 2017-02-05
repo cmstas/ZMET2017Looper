@@ -57,8 +57,8 @@ do
   for sample in $which_samples  
   do
     sample_name=$sample
-    run_fs_PIDs=`makeALLFSStudy`" $!"
-    echo run_fs_PIDs
+    run_fs_PIDs="$run_fs_PIDs "`makeALLFSStudy`
+    echo $run_fs_PIDs
   done
 done
 
