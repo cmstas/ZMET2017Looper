@@ -8,7 +8,7 @@ function makeALLFSStudy {
   makeAllForDir configs/FS_mass_window_studies/${config_id}_belowZ all ${sample_name}
   makeALLFSStudy_PIDs="$makeALLFSStudy_PIDs $!"
 
-  wait $makeALLFSStudy_PIDs
+  return $makeALLFSStudy_PIDs
 }
 
 function remakeFSRatioPlots {
