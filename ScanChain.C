@@ -1312,10 +1312,10 @@ bool passFileSelections(){
         numEvents->Fill(68);
         return false;
       }
-      if (conf->get("signal_region") == "TChiHZ" && phys.evt() == 24645544 && TString(conf->get("conf_path")).Contains("TemplatesClosure") ){
+      /*if (conf->get("signal_region") == "TChiHZ" && phys.evt() == 24645544 && TString(conf->get("conf_path")).Contains("TemplatesClosure") ){
         cout<<"Hand removed the one TChiHZ event"<<endl;
         return false;
-      }
+      }*/
     }
   }
 
