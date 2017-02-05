@@ -1,4 +1,4 @@
-<include configs/SRs/SRA.cuts>
+<include configs/SRs/SRC.cuts>
 
 DEFAULT::scaleTofb=36.5
 
@@ -9,7 +9,7 @@ Name=ZJets
 data=false
 event_type=dilepton
 n_lep_veto=3
-data_set=ZMC-40100-Skimmed_ZMC-100200-Skimmed_ZMC-200400-Skimmed_ZMC-400600-Skimmed_ZMC-600Inf-Skimmed_ZMC-inclusive-Skimmed_ZMC-low-mass-Skimmed
+data_set=ZMC-V08-22-08-Skimmed
 
 Name=GammaJets
 data=false
