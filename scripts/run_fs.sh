@@ -10,7 +10,7 @@ function makeALLFSStudy {
   #makeHistos ${sample_name} configs/FS_mass_window_studies/${config_id}_belowZ/run_modes.conf; 
 }
 
-function remakeFSRatioPlots{
+function remakeFSRatioPlots {
   remakeFSRatioPlots_PIDs=$1
   remakeFSRatioPlots_which_hists=$2
   
