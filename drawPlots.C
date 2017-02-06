@@ -683,7 +683,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
       cout<<"<BGmet150to250_mcbkg> "<<rare_count[3]<<endl;
       cout<<"<mc_stat_met150to250> "<<rare_err[3]<<endl;
       
-      if(SR == "TChiWZ"){
+      if(conf->get("SR") == "TChiWZ"){
         cout<<"<BGmet250to350_mcbkg> "<<rare_count[4]<<endl;
         cout<<"<mc_stat_met250to350> "<<rare_err[4]<<endl;
 
