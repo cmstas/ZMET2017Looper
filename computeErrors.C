@@ -41,6 +41,8 @@ vector<double> getMetTemplatesError(const vector<double> &stat_err, const vector
      SR == name of signal region */
   vector<double> output_errors;
 
+  cout<<"Normalization Factor for templates from bin "<<norm_bin<<": "<<normalziation/bin_count[norm_bin]<<endl;
+
   normalization = err_mult(normalization, bin_count[norm_bin], sqrt(normalization), stat_err[norm_bin]);
 
   //=========
@@ -208,8 +210,8 @@ vector<double> getMetTemplatesError(const vector<double> &stat_err, const vector
 }
 
 pair<vector<double>,vector<double>> getFSError(const vector<double> &bin_count, double RSFOF, TString SR){
-  double RSFOF_unc = 0.026; //ICHEP 2016
-  double kappa_unc = 0.02; //ICHEP 2016
+  double RSFOF_unc = 0.026/1.119; //ICHEP 2016
+  double kappa_unc = 0.02/0.065; //ICHEP 2016
 
   vector<double> error_up;
   vector<double> error_dn;
@@ -219,8 +221,8 @@ pair<vector<double>,vector<double>> getFSError(const vector<double> &bin_count, 
     RooHistError::instance().getPoissonInterval(bin_count[i], bin_dn, bin_up);
 
     cout<<"bin count "<<bin_count[i]<<" Error_up "<<bin_up<<" Error_dn "<<bin_dn<<endl; 
-    bin_up = RSFOF*RSFOF*(bin_up - bin_count[i])*(bin_up - bin_count[i]) + RSFOF_unc*RSFOF_unc*bin_count[i]*bin_count[i] + kappa_unc*kappa_unc*bin_count[i]*bin_count[i];
-    bin_dn = RSFOF*RSFOF*(bin_count[i] - bin_dn)*(bin_count[i] - bin_dn) + RSFOF_unc*RSFOF_unc*bin_count[i]*bin_count[i] + kappa_unc*kappa_unc*bin_count[i]*bin_count[i];
+    bin_up = RSFOF*RSFOF*((bin_up - bin_count[i])*(bin_up - bin_count[i]) + RSFOF_unc*RSFOF_unc*bin_count[i]*bin_count[i] + kappa_unc*kappa_unc*bin_count[i]*bin_count[i]);
+    bin_dn = RSFOF*RSFOF*((bin_count[i] - bin_dn)*(bin_count[i] - bin_dn) + RSFOF_unc*RSFOF_unc*bin_count[i]*bin_count[i] + kappa_unc*kappa_unc*bin_count[i]*bin_count[i]);
 
     error_up.push_back(sqrt(bin_up));
     error_dn.push_back(sqrt(bin_dn));
@@ -231,7 +233,7 @@ pair<vector<double>,vector<double>> getFSError(const vector<double> &bin_count, 
   //--------------------------------
   cout<<"<rsfof_unc> "<<1.+RSFOF_unc<<endl;
   cout<<"<kappa_unc> "<<1.+kappa_unc<<endl;
-  cout<<"<rsfof*kappa> "<<1.+kappa_unc<<endl;
+  cout<<"<rsfof*kappa> "<<1.+RSFOF<<endl;
 
   cout<<"<BGmet100to150_fsbkg> "<<bin_count[2]*RSFOF<<endl;
   cout<<"<count_met100to150_fsbkg> "<<bin_count[2]<<endl;
