@@ -36,12 +36,12 @@ void printTemplatesDebug(const vector<double> &prediction, const vector<double> 
 vector<double> getMetTemplatesError(const vector<double> &stat_err, const vector<double> &bin_count, double normalization, int norm_bin, const vector<pair<double, double>> &bin_edge, TString SR){
   /* stat_err == statistical error on the template bins
      bin count == bin count on template bins
-     normalziation == bin count to which the sample was normalized
-     normalziation_bg == bin count of the templates which was normalized to 'normalization'
+     normalization == bin count to which the sample was normalized
+     normalization_bg == bin count of the templates which was normalized to 'normalization'
      SR == name of signal region */
   vector<double> output_errors;
 
-  cout<<"Normalization Factor for templates from bin "<<norm_bin<<": "<<normalziation/bin_count[norm_bin]<<endl;
+  cout<<"Normalization Factor for templates from bin "<<norm_bin<<": "<<normalization/bin_count[norm_bin]<<endl;
 
   normalization = err_mult(normalization, bin_count[norm_bin], sqrt(normalization), stat_err[norm_bin]);
 
