@@ -54,66 +54,66 @@ vector<double> getMetTemplatesError(const vector<double> &stat_err, const vector
   vector<double> MC_Closure_Error;
 
   if (SR == "Strong_Btag_2j"){
-    MC_Closure_Error.push_back(.00);
-    MC_Closure_Error.push_back(.00);
-    MC_Closure_Error.push_back(.2);
-    MC_Closure_Error.push_back(.2);
-    MC_Closure_Error.push_back(.2);
+    MC_Closure_Error.push_back(.00); //0-50
+    MC_Closure_Error.push_back(.00); //50-100
+    MC_Closure_Error.push_back(.2);  //100-150
+    MC_Closure_Error.push_back(.26);  //150-250
+    MC_Closure_Error.push_back(.26);  //250+
   }
   else if(SR == "Strong_Btag_4j"){
-    MC_Closure_Error.push_back(.00);
-    MC_Closure_Error.push_back(.00);
-    MC_Closure_Error.push_back(.25);
-    MC_Closure_Error.push_back(.25);
-    MC_Closure_Error.push_back(.25);
+    MC_Closure_Error.push_back(.00); //0-50
+    MC_Closure_Error.push_back(.00); //50-100
+    MC_Closure_Error.push_back(.12); //100-150
+    MC_Closure_Error.push_back(.18); //150-250
+    MC_Closure_Error.push_back(.18); //250+
   }
   else if (SR == "Strong_Btag_6j"){
-    MC_Closure_Error.push_back(.00);
-    MC_Closure_Error.push_back(.00);
-    MC_Closure_Error.push_back(.5);
-    MC_Closure_Error.push_back(.5);
+    MC_Closure_Error.push_back(.00); //0-50
+    MC_Closure_Error.push_back(.00); //50-100
+    MC_Closure_Error.push_back(.2);  //100-150
+    MC_Closure_Error.push_back(.31);  //150+
   }
   else if(SR == "Strong_Bveto_2j"){
-    MC_Closure_Error.push_back(.00);
-    MC_Closure_Error.push_back(.00);
-    MC_Closure_Error.push_back(.15);
-    MC_Closure_Error.push_back(.15);
-    MC_Closure_Error.push_back(.15);
+    MC_Closure_Error.push_back(.00); //0-50
+    MC_Closure_Error.push_back(.00); //50-100
+    MC_Closure_Error.push_back(.16); //100-150
+    MC_Closure_Error.push_back(.21); //150-250
+    MC_Closure_Error.push_back(.21); //250+
   }
   else if(SR == "Strong_Bveto_4j"){
-    MC_Closure_Error.push_back(.00);
-    MC_Closure_Error.push_back(.00);
-    MC_Closure_Error.push_back(.25);
-    MC_Closure_Error.push_back(.25);
-    MC_Closure_Error.push_back(.25);
+    MC_Closure_Error.push_back(.00); //0-50
+    MC_Closure_Error.push_back(.00); //50-100
+    MC_Closure_Error.push_back(.12); //100-150
+    MC_Closure_Error.push_back(.15); //150-250
+    MC_Closure_Error.push_back(.15); //250+
   }
   else if(SR == "Strong_Bveto_6j"){
-    MC_Closure_Error.push_back(.00);
-    MC_Closure_Error.push_back(.00);
-    MC_Closure_Error.push_back(.30);
-    MC_Closure_Error.push_back(.30);
+    MC_Closure_Error.push_back(.00); //0-50
+    MC_Closure_Error.push_back(.00); //50-100
+    MC_Closure_Error.push_back(.15); //100-150
+    MC_Closure_Error.push_back(.29); //150+
   }
   else if(SR == "TChiHZ"){
-    MC_Closure_Error.push_back(.00);
-    MC_Closure_Error.push_back(.00);
-    MC_Closure_Error.push_back(.50);
-    MC_Closure_Error.push_back(.50);
-    MC_Closure_Error.push_back(.50);
+    MC_Closure_Error.push_back(.00); //0-50
+    MC_Closure_Error.push_back(.00); //50-100
+    MC_Closure_Error.push_back(.69); //100-150
+    MC_Closure_Error.push_back(.37); //150-250
+    MC_Closure_Error.push_back(.37); //250+
   }
   else if(SR == "TChiWZ"){
-    MC_Closure_Error.push_back(.00);
-    MC_Closure_Error.push_back(.00);
-    MC_Closure_Error.push_back(.30);
-    MC_Closure_Error.push_back(.30);
-    MC_Closure_Error.push_back(.30);
-    MC_Closure_Error.push_back(.30);
+    MC_Closure_Error.push_back(.00); //0-50
+    MC_Closure_Error.push_back(.00); //50-100
+    MC_Closure_Error.push_back(.11); //100-150
+    MC_Closure_Error.push_back(.24); //150-250
+    MC_Closure_Error.push_back(.24); //250-350
+    MC_Closure_Error.push_back(.24); //350+
   }
   else if(SR == "2j"){
-    MC_Closure_Error.push_back(.00);
-    MC_Closure_Error.push_back(.00);
-    MC_Closure_Error.push_back(.50);
-    MC_Closure_Error.push_back(.50);
-    MC_Closure_Error.push_back(.50);
+    MC_Closure_Error.push_back(.00); //0-50
+    MC_Closure_Error.push_back(.00); //50-100
+    MC_Closure_Error.push_back(.50); //100-150
+    MC_Closure_Error.push_back(.50); //150-250
+    MC_Closure_Error.push_back(.50); //250+
   }
   else if(SR == "baseline"){
     MC_Closure_Error.push_back(.00);
