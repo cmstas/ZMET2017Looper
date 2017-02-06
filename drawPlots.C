@@ -647,18 +647,18 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
       double TTV_scale_unc = (conf->get("hist_4_scale_unc") == "") ? .5 : stod(conf->get("hist_4_scale_unc"));
 
       //Compute rare errors
-      ZZ_err = getRareSamplesError(ZZ_err, ZZ_count, ZZ_scale, ZZ_scale_unc);
+      ZZ_err = getRareSamplesError(ZZ_err, ZZ_count, ZZ_scale, ZZ_scale_unc, conf->get("SR"));
       //cout<<__LINE__<<endl;
-      WZ_err = getRareSamplesError(WZ_err, WZ_count, WZ_scale, WZ_scale_unc);
+      WZ_err = getRareSamplesError(WZ_err, WZ_count, WZ_scale, WZ_scale_unc, conf->get("SR"));
       //cout<<__LINE__<<endl;
-      VVV_err = getRareSamplesError(VVV_err, VVV_count, VVV_scale, VVV_scale_unc);
+      VVV_err = getRareSamplesError(VVV_err, VVV_count, VVV_scale, VVV_scale_unc, conf->get("SR"));
       //cout<<__LINE__<<endl;
-      TTV_err = getRareSamplesError(TTV_err, TTV_count, TTV_scale, TTV_scale_unc);
+      TTV_err = getRareSamplesError(TTV_err, TTV_count, TTV_scale, TTV_scale_unc, conf->get("SR"));
       //cout<<__LINE__<<endl;
 
       vector<double> temp_err = getMetTemplatesError(template_error, template_count, normalization, norm_bin, stats_bins, conf->get("SR"));
       //cout<<__LINE__<<endl;
-      pair<vector<double>,vector<double>> FS_err = getFSError(FS_count, stod(conf->get("hist_5_scale")));
+      pair<vector<double>,vector<double>> FS_err = getFSError(FS_count, stod(conf->get("hist_5_scale")), conf->get("SR"));
       //cout<<__LINE__<<endl;
 
       //Add all rare samples together with scale factors applied
@@ -669,6 +669,30 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
         //For cross checking with Vince
         //rare_count.push_back(ZZ_count[i]+VVV_count[i]+TTV_count[i]);
         //rare_err.push_back(sqrt(ZZ_err[i]*ZZ_err[i] + VVV_err[i]*VVV_err[i] + TTV_err[i]*TTV_err[i]));
+      }
+      //--------------------------------
+      // To be parsed by datacard maker
+      //--------------------------------
+
+      cout<<"<mc_scale> "<<ZZ_scale*WZ_scale*VVV_scale*TTV_scale<<endl;
+      cout<<"<mc_scale_unc> "<<sqrt( pow(ZZ_scale_unc,2) + pow(WZ_scale_unc,2) + pow(VVV_scale_unc,2) + pow(TTV_scale_unc,2) )<<endl;
+
+      cout<<"<BGmet100to150_mcbkg> "<<rare_count[2]<<endl;
+      cout<<"<mc_stat_met100to150> "<<rare_err[2]<<endl;
+
+      cout<<"<BGmet150to250_mcbkg> "<<rare_count[3]<<endl;
+      cout<<"<mc_stat_met150to250> "<<rare_err[3]<<endl;
+      
+      if(SR == "TChiWZ"){
+        cout<<"<BGmet250to350_mcbkg> "<<rare_count[4]<<endl;
+        cout<<"<mc_stat_met250to350> "<<rare_err[4]<<endl;
+
+        cout<<"<BGmet350toInf_mcbkg> "<<rare_count[5]<<endl;
+        cout<<"<mc_stat_met350toInf> "<<rare_err[5]<<endl;
+      }
+      else{
+        cout<<"<BGmet250toInf_mcbkg> "<<rare_count[4]<<endl;
+        cout<<"<mc_stat_met250toInf> "<<rare_err[4]<<endl;
       }
       
       //Blinding works by first zeroing out all bins past the number given

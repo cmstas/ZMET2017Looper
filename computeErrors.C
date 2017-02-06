@@ -207,7 +207,7 @@ vector<double> getMetTemplatesError(const vector<double> &stat_err, const vector
   return output_errors;
 }
 
-pair<vector<double>,vector<double>> getFSError(const vector<double> &bin_count, double RSFOF){
+pair<vector<double>,vector<double>> getFSError(const vector<double> &bin_count, double RSFOF, TString SR){
   double RSFOF_unc = 0.026; //ICHEP 2016
   double kappa_unc = 0.02; //ICHEP 2016
 
@@ -255,7 +255,7 @@ pair<vector<double>,vector<double>> getFSError(const vector<double> &bin_count, 
   return make_pair(error_up, error_dn);
 }
 
-vector<double> getRareSamplesError(const vector<double> &stat_err, const vector<double> &bin_count, double scale, double scale_unc){
+vector<double> getRareSamplesError(const vector<double> &stat_err, const vector<double> &bin_count, double scale, double scale_unc, TString SR){
   double err_bin;
 
   vector<double> error;
@@ -270,7 +270,7 @@ vector<double> getRareSamplesError(const vector<double> &stat_err, const vector<
   }
 
 
-  //--------------------------------
+  /*//--------------------------------
   // To be parsed by datacard maker
   //--------------------------------
 
@@ -290,7 +290,7 @@ vector<double> getRareSamplesError(const vector<double> &stat_err, const vector<
   else{
     cout<<"<BGmet250toInf_mcbkg> "<<bin_count[4]<<endl;
     cout<<"<mc_stat_met250toInf> "<<stat_err[4]<<endl;
-  }
+  }*/
 
   
 
