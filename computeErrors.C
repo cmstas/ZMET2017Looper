@@ -170,6 +170,40 @@ vector<double> getMetTemplatesError(const vector<double> &stat_err, const vector
 
   printTemplatesDebug(bin_count, output_errors, stat_err, closure_err, norm_err, ewk_err, bin_edge);
 
+  //--------------------------------
+  // To be parsed by datacard maker
+  //--------------------------------
+  cout<<"<zjets_norm> "<<1.+normalization<<endl;
+
+  cout<<"<BGmet100to150_zjets> "<<bin_count[2]<<endl;
+  cout<<"<zjets_clos_met100to150> "<<1.+MC_Closure_Error[2]<<endl;
+  cout<<"<zjets_stat_met100to150> "<<1.+(stat_err[2]/bin_count[2])<<endl;
+  cout<<"<zjets_ewk_met100to150> "<<1.+(ewk_err[2]/bin_count[2])<<endl;
+
+  cout<<"<BGmet150to250_zjets> "<<bin_count[3]<<endl;
+  cout<<"<zjets_clos_met150to250> "<<1.+MC_Closure_Error[3]<<endl;
+  cout<<"<zjets_stat_met150to250> "<<1.+(stat_err[3]/bin_count[3])<<endl;
+  cout<<"<zjets_ewk_met150to250> "<<1.+(ewk_err[3]/bin_count[3])<<endl;
+  
+  if(SR == "TChiWZ"){
+    cout<<"<BGmet250to350_zjets> "<<bin_count[4]<<endl;
+    cout<<"<zjets_clos_met250to350> "<<1.+MC_Closure_Error[4]<<endl;
+    cout<<"<zjets_stat_met250to350> "<<1.+(stat_err[4]/bin_count[4])<<endl;
+    cout<<"<zjets_ewk_met250to350> "<<1.+(ewk_err[4]/bin_count[4])<<endl;
+
+    cout<<"<BGmet350toInf_zjets> "<<bin_count[5]<<endl;
+    cout<<"<zjets_clos_met350toInf> "<<1.+MC_Closure_Error[5]<<endl;
+    cout<<"<zjets_stat_met350toInf> "<<1.+(stat_err[5]/bin_count[5])<<endl;
+    cout<<"<zjets_ewk_met350toInf> "<<1.+(ewk_err[5]/bin_count[5])<<endl;
+  }
+  else{
+    cout<<"<BGmet250toInf_zjets> "<<bin_count[4]<<endl;
+    cout<<"<zjets_clos_met250toInf> "<<1.+MC_Closure_Error[4]<<endl;
+    cout<<"<zjets_stat_met250toInf> "<<1.+(stat_err[4]/bin_count[4])<<endl;
+    cout<<"<zjets_ewk_met250toInf> "<<1.+(ewk_err[4]/bin_count[4])<<endl;
+  }
+
+
   return output_errors;
 }
 
@@ -192,6 +226,32 @@ pair<vector<double>,vector<double>> getFSError(const vector<double> &bin_count, 
     error_dn.push_back(sqrt(bin_dn));
   }
 
+  //--------------------------------
+  // To be parsed by datacard maker
+  //--------------------------------
+  cout<<"<rsfof_unc> "<<1.+RSFOF_unc<<endl;
+  cout<<"<kappa_unc> "<<1.+kappa_unc<<endl;
+  cout<<"<rsfof*kappa> "<<1.+kappa_unc<<endl;
+
+  cout<<"<BGmet100to150_fsbkg> "<<bin_count[2]*RSFOF<<endl;
+  cout<<"<count_met100to150_fsbkg> "<<bin_count[2]<<endl;
+
+  cout<<"<BGmet150to250_fsbkg> "<<bin_count[3]*RSFOF<<endl;
+  cout<<"<count_met150to250_fsbkg> "<<bin_count[3]<<endl;
+  
+  if(SR == "TChiWZ"){
+    cout<<"<BGmet250to350_fsbkg> "<<bin_count[4]*RSFOF<<endl;
+    cout<<"<count_met250to350_fsbkg> "<<bin_count[4]<<endl;
+
+    cout<<"<BGmet350toInf_fsbkg> "<<bin_count[5]*RSFOF<<endl;
+    cout<<"<count_met350toInf_fsbkg> "<<bin_count[5]<<endl;
+  }
+  else{
+    cout<<"<BGmet250toInf_fsbkg> "<<bin_count[4]*RSFOF<<endl;
+    cout<<"<count_met250toInf_fsbkg> "<<bin_count[4]<<endl;
+  }
+
+
   return make_pair(error_up, error_dn);
 }
 
@@ -208,6 +268,31 @@ vector<double> getRareSamplesError(const vector<double> &stat_err, const vector<
 
     error.push_back(sqrt(err_bin));
   }
+
+
+  //--------------------------------
+  // To be parsed by datacard maker
+  //--------------------------------
+
+  cout<<"<BGmet100to150_mcbkg> "<<bin_count[2]<<endl;
+  cout<<"<mc_stat_met100to150> "<<stat_err[2]<<endl;
+
+  cout<<"<BGmet150to250_mcbkg> "<<bin_count[3]<<endl;
+  cout<<"<mc_stat_met150to250> "<<stat_err[3]<<endl;
+  
+  if(SR == "TChiWZ"){
+    cout<<"<BGmet250to350_mcbkg> "<<bin_count[4]<<endl;
+    cout<<"<mc_stat_met250to350> "<<stat_err[4]<<endl;
+
+    cout<<"<BGmet350toInf_mcbkg> "<<bin_count[5]<<endl;
+    cout<<"<mc_stat_met350toInf> "<<stat_err[5]<<endl;
+  }
+  else{
+    cout<<"<BGmet250toInf_mcbkg> "<<bin_count[4]<<endl;
+    cout<<"<mc_stat_met250toInf> "<<stat_err[4]<<endl;
+  }
+
+  
 
   return error;
 }
