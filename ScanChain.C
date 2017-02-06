@@ -1950,9 +1950,9 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
       if (phys.met_T1CHS_miniAOD_CORE_pt() > 120 && conf->get("signal_region") == "Strong_Bveto_6j" && weight > 0.1){
         cout<<"evt: "<<phys.evt()<<" run: "<<phys.run()<<" lumi: "<<phys.lumi()<<" weight: "<<weight<<endl;
       }*/
-      if (phys.met_T1CHS_miniAOD_CORE_pt() > 100 && phys.met_T1CHS_miniAOD_CORE_pt() < 150 && conf->get("signal_region") == "TChiHZ" && weight > 0.08){
+      /*if (phys.met_T1CHS_miniAOD_CORE_pt() > 100 && phys.met_T1CHS_miniAOD_CORE_pt() < 150 && conf->get("signal_region") == "TChiHZ" && weight > 0.08){
         cout<<"evt: "<<phys.evt()<<" run: "<<phys.run()<<" lumi: "<<phys.lumi()<<" weight: "<<weight<<endl;
-      }
+      }*/
 
 //===========================================
 // Analysis Code
