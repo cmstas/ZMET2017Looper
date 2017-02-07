@@ -326,6 +326,11 @@ void addToChain(TChain *ch, TString set) {
     cout<<"Adding FSMC-dilep-mgmlm (smaller stats sample)"<<endl; 
     ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/ttbar_dilep_mgmlm*.root");
   }
+  else if (set == "FSMC-dilep-mgmlm-Skimmed"){
+    TString dir="/hadoop/cms/store/user/olivito/AutoTwopler_babies/merged/ZMET/V08-22-11/skim/";
+    cout<<"Adding FSMC-dilep-mgmlm-Skimmed (smaller stats sample)"<<endl; 
+    ch->Add(dir+"ttbar_dilep_mgmlm_ext1_*");
+  }
   else if (set == "FSMC-dilep-powheg"){
     cout<<"Adding FSMC-dilep-powheg (large stats sample)"<<endl; 
     ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/ttbar_dilep_powheg*.root"); //larger stats

@@ -311,7 +311,7 @@ bool hasGoodZ(){
     }
     //if (printStats) { cout<<"hyp_type: "<<phys.hyp_type()<<" "; } 
   }
-  
+
 
   //cout<<__LINE__<<endl;
 
@@ -1663,6 +1663,28 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
     mjj_min_dphi->Sumw2();
   }
 
+  TH1D *lep1_eta,*lep2_eta,*lep1_eta_ee,*lep2_eta_ee,*lep1_eta_mm,*lep2_eta_mm,*dilmass_ee,*dilmass_mm;
+  if(conf->get("signal_region") == "LeonoraXsec"){
+
+    dilmass_ee = new TH1D("dilmass_ee", "Dilepton Mass for just electrons"+g_sample_name, 500,0,500);
+    dilmass_mm = new TH1D("dilmass_ee", "Dilepton Mass for just muons"+g_sample_name, 500,0,500);
+    
+    lep1_eta = new TH1D("lep1_eta", "#eta for leading lepton"+g_sample_name, 100,-3,3);
+    lep2_eta = new TH1D("lep2_eta", "#eta for subleading lepton"+g_sample_name, 100,-3,3);
+    
+    lep1_eta_ee = new TH1D("lep1_eta_ee", "#eta for leading electron"+g_sample_name, 100,-3,3);
+    lep2_eta_ee = new TH1D("lep2_eta_ee", "#eta for subleading electron"+g_sample_name, 100,-3,3);
+    
+    lep1_eta_mm = new TH1D("lep1_eta_mm", "#eta for leading muon"+g_sample_name, 100,-3,3);
+    lep2_eta_mm = new TH1D("lep2_eta_mm", "#eta for subleading muon"+g_sample_name, 100,-3,3);
+  }
+
+  if(conf->get("signal_region") == "TChiWZ"){
+    mjj_min_dphi = new TH1D("mjj_min_dphi", "M_{jj} (for minimum #Delta #Phi Jets) in "+g_sample_name, 6000,0,6000);
+    mjj_min_dphi->SetDirectory(rootdir);
+    mjj_min_dphi->Sumw2();
+  }
+
   TH2D *susy_counts_100_150;
   TH2D *susy_counts_150_250;
   TH2D *susy_counts_250_350;
@@ -2074,6 +2096,24 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
         mjj_min_dphi->Fill(phys.mjj_mindphi(), weight);
       }
       
+      if(conf->get("signal_region") == "LeonoraXsec"){
+        
+        if(phys.hyp_type() == 0){
+          dilmass_ee->Fill(phys.dilmass(),weight);
+          lep1_eta_ee->Fill(phys.lep_eta().at(0),weight);
+          lep2_eta_ee->Fill(phys.lep_eta().at(1),weight);
+        }
+        else if (phys.hyp_type() == 1){
+          dilmass_mm->Fill(phys.dilmass(),weight);
+          lep1_eta_mm->Fill(phys.lep_eta().at(0),weight);
+          lep2_eta_mm->Fill(phys.lep_eta().at(1),weight);
+        }
+    
+        lep1_eta->Fill(phys.lep_eta().at(0),weight);
+        lep2_eta->Fill(phys.lep_eta().at(1),weight);
+    
+      }
+
       //cout<<__LINE__<<endl;
       
       if (conf->get("GammaMuStudy") == "true"){
@@ -2239,6 +2279,17 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
 
   if (conf->get("signal_region") == "TChiWZ"){
     mjj_min_dphi->Write();
+  }
+
+  if(conf->get("signal_region") == "LeonoraXsec"){
+    dilmass_ee->Write();
+    lep1_eta_ee->Write();
+    lep2_eta_ee->Write();
+    dilmass_mm->Write();
+    lep1_eta_mm->Write();
+    lep2_eta_mm->Write();
+    lep1_eta->Write();
+    lep2_eta->Write();
   }
 
   if (conf->get("GammaMuStudy") == "true"){
