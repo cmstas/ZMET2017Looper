@@ -1,0 +1,17 @@
+Events in Leonora's Babies:
+
+evt: 3236498907 run: 279931 lumi: 1905 /hadoop/cms/store/user/olivito/AutoTwopler_babies/merged/ZMET/V08-22-11/skim/data_Run2016G_23sep2016rereco_ee_v1_skim_1.root
+evt: 428073745 run: 275918 lumi: 251   /hadoop/cms/store/user/olivito/AutoTwopler_babies/merged/ZMET/V08-22-11/skim/data_Run2016C_23sep2016rereco_em_v1_skim_1.root
+evt: 1098288983 run: 277127 lumi: 579  /hadoop/cms/store/user/olivito/AutoTwopler_babies/merged/ZMET/V08-22-11/skim/data_Run2016E_23sep2016rereco_em_v1_skim_1.root
+
+
+
+Events not in Leonora's Babies:
+
+evt: 1074552670 run: 274388 lumi: 582  /hadoop/cms/store/user/olivito/AutoTwopler_babies/merged/ZMET/V08-22-11/skim/data_Run2016B_23sep2016rereco_em_v3_skim_1.root
+evt: 409319233 run: 275376 lumi: 231   
+evt: 902236854 run: 276808 lumi: 480   /hadoop/cms/store/user/olivito/AutoTwopler_babies/merged/ZMET/V08-22-11/skim/data_Run2016D_23sep2016rereco_em_v1_skim_1.root
+evt: 1789701391 run: 276655 lumi: 1023 
+evt: 984722089 run: 276501 lumi: 610   
+evt: 1043097321 run: 280385 lumi: 559  /hadoop/cms/store/user/olivito/AutoTwopler_babies/merged/ZMET/V08-22-11/skim/data_Run2016G_23sep2016rereco_em_v1_skim_1.root
+evt: 2737900079 run: 282092 lumi: 1677 /hadoop/cms/store/user/olivito/AutoTwopler_babies/merged/ZMET/V08-22-11/skim/data_Run2016H_Prompt_em_v2_skim_1.rootq
