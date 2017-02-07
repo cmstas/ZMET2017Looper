@@ -65,7 +65,7 @@ TH1I *numEvents; //Holds the number of events in the whole script and the number
 
 //set<int> inMineNotVince = {65603,206256,215885,352922,823174,928555,1058265,1295652,1601624,1731568,1948640};
 
-set<long> inspection_set = {505543645};
+//set<long> inspection_set = {505543645};
 
 bool printStats = false;
 bool printFail = false;
