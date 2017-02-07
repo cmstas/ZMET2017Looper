@@ -6,7 +6,7 @@
 # of reweighting.
 
 DEFAULT::PLOT_TYPE=ratio
-DEFAULT::luminosity_fb=36.459
+DEFAULT::luminosity_fb=36.8
 
 ## ########################
 ## WEIGHTED RATIOS
@@ -33,20 +33,20 @@ DEFAULT::hist_3_label=VVV
 DEFAULT::hist_2_label=WZ
 DEFAULT::hist_1_label=ZZ
 
-DEFAULT::file_0_path=/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction/DileptonData/baseline/DileptonData.root
-DEFAULT::file_6_path=/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction/PhotonData_VPTRWT/baseline/PhotonData.root
-DEFAULT::file_5_path=/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction/FS/baseline/FS.root
-DEFAULT::file_4_path=/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction/ZNu/baseline/ttz.root
-DEFAULT::file_3_path=/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction/ZNu/baseline/VVV.root
-DEFAULT::file_2_path=/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction/ZNu/baseline/wz.root
-DEFAULT::file_1_path=/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction/ZNu/baseline/zz.root
+DEFAULT::file_0_path=/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction/DileptonData/Edge/DileptonData.root
+DEFAULT::file_6_path=/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction/PhotonData_VPTRWT/Edge/PhotonData.root
+DEFAULT::file_5_path=/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction/FS/Edge/FS.root
+DEFAULT::file_4_path=/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction/ZNu/Edge/ttz.root
+DEFAULT::file_3_path=/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction/ZNu/Edge/VVV.root
+DEFAULT::file_2_path=/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction/ZNu/Edge/wz.root
+DEFAULT::file_1_path=/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction/ZNu/Edge/zz.root
 
 
 #Add RSFOF
 DEFAULT::hist_4_scale=1.09 #ttz
-DEFAULT::hist_2_scale=0.94 #wz
-DEFAULT::hist_1_scale=1.8  #zz
-DEFAULT::hist_5_scale=0.073905 #RSFOF * Kappa
+DEFAULT::hist_2_scale=1.02 #wz
+DEFAULT::hist_1_scale=1.41  #zz
+DEFAULT::hist_5_scale=0.072735 #RSFOF * Kappa
 DEFAULT::hist_6_scale=0.00670634
 
 DEFAULT::SR=baseline

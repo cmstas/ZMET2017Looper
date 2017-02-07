@@ -6,7 +6,7 @@
 # of reweighting.
 
 DEFAULT::PLOT_TYPE=ratio
-DEFAULT::luminosity_fb=36.459
+DEFAULT::luminosity_fb=36.8
 
 ## ########################
 ## WEIGHTED RATIOS
@@ -44,9 +44,9 @@ DEFAULT::file_1_path=/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/predicti
 
 #Add RSFOF
 DEFAULT::hist_4_scale=1.09 #ttz
-DEFAULT::hist_2_scale=0.94 #wz
-DEFAULT::hist_1_scale=1.8  #zz
-DEFAULT::hist_5_scale=0.073905 #RSFOF * Kappa
+DEFAULT::hist_2_scale=1.02 #wz
+DEFAULT::hist_1_scale=1.41  #zz
+DEFAULT::hist_5_scale=0.072735 #RSFOF * Kappa
 
 DEFAULT::SR=Strong_Btag_4j
 
@@ -77,13 +77,12 @@ logy=true
 #blindAfter=100
 hist_0_name=type1MET
 print_stats=true
-stats_0_low_val=0
-stats_0_high_val=50
-stats_1_low_val=50
-stats_1_high_val=100
-stats_2_low_val=100
-stats_2_high_val=150
-stats_3_low_val=150
-stats_3_high_val=250
-stats_4_low_val=250
-stats_4_high_val=6001
+stats_0_low_val=50
+stats_0_high_val=100
+stats_1_low_val=100
+stats_1_high_val=150
+stats_2_low_val=150
+stats_2_high_val=250
+stats_3_low_val=250
+stats_3_high_val=6001
+
