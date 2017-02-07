@@ -1667,7 +1667,7 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
   if(conf->get("signal_region") == "LeonoraXsecStudy"){
 
     dilmass_ee = new TH1D("dilmass_ee", "Dilepton Mass for just electrons"+g_sample_name, 500,0,500);
-    dilmass_mm = new TH1D("dilmass_ee", "Dilepton Mass for just muons"+g_sample_name, 500,0,500);
+    dilmass_mm = new TH1D("dilmass_mm", "Dilepton Mass for just muons"+g_sample_name, 500,0,500);
     
     lep1_eta = new TH1D("lep1_eta", "#eta for leading lepton"+g_sample_name, 100,-3,3);
     lep2_eta = new TH1D("lep2_eta", "#eta for subleading lepton"+g_sample_name, 100,-3,3);
