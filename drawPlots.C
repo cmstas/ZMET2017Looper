@@ -304,12 +304,12 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
     {
       numEventsData = clonedPrimary_norm->Integral(clonedPrimary_norm->FindBin(0),clonedPrimary_norm->FindBin(49.9));
       numEventsMC = clonedBG_norm->IntegralAndError(clonedBG_norm->FindBin(0),clonedBG_norm->FindBin(49.9), errEventsMC);
-      norm_bin = 0;
+      norm_bin = -1;
     }
     else if (conf->get("norm_50_100") == "true"){
       numEventsData = clonedPrimary_norm->Integral(clonedPrimary_norm->FindBin(50),clonedPrimary_norm->FindBin(99.9));
       numEventsMC = clonedBG_norm->IntegralAndError(clonedBG_norm->FindBin(50),clonedBG_norm->FindBin(99.9), errEventsMC);
-      norm_bin = 1;
+      norm_bin = 0;
     }
     else{
       numEventsData = clonedPrimary_norm->Integral(0,-1);
