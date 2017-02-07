@@ -311,6 +311,7 @@ bool hasGoodZ(){
     }
     //if (printStats) { cout<<"hyp_type: "<<phys.hyp_type()<<" "; } 
   }
+  
 
   //cout<<__LINE__<<endl;
 
