@@ -444,7 +444,7 @@ bool hasGoodPhoton(){
   }
   
   if (conf->get("ECalTest") == ""){
-    if( acos( cos( phys.gamma_phi().at(0) - phys.met_phi() ) ) < 0.14 ) {
+    if( acos( cos( phys.gamma_phi().at(0) - phys.met_phi() ) ) < 0.4 ) {
       numEvents->Fill(31);
       if (printFail) cout<<phys.evt()<<" :Failed photons aligned with MET photon cut"<<endl;
       return false; // kill photons aligned with MET

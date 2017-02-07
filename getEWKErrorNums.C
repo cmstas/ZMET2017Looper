@@ -77,14 +77,14 @@ pair<double, vector<double>> getEWKNumsForSample(TString sample_name){
   //cout<<__LINE__<<endl;
 
   if(sample_name == "Strong_Bveto_6j" || sample_name == "Strong_Btag_6j" || sample_name == "baseline"){
-    bins.push_back(0);
+    //bins.push_back(0);
     bins.push_back(50);
     bins.push_back(100);
     bins.push_back(150);
     bins.push_back(6001);
   }
   else if(sample_name == "TChiWZ"){
-    bins.push_back(0);
+    //bins.push_back(0);
     bins.push_back(50);
     bins.push_back(100);
     bins.push_back(150);
@@ -93,7 +93,7 @@ pair<double, vector<double>> getEWKNumsForSample(TString sample_name){
     bins.push_back(6001);
   }
   else{
-    bins.push_back(0);
+    //bins.push_back(0);
     bins.push_back(50);
     bins.push_back(100);
     bins.push_back(150);
