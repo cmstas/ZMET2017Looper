@@ -1266,6 +1266,13 @@ bool passBaseCut(){
     }
   }
 
+  if(conf->get("multi_lep_veto") != ""){
+    if (phys.nveto_leptons() >= 1){
+      numEvents->Fill(66);
+      if (printFail) cout<<phys.evt()<<" :Failed multi-lepton analysis lepton veto"<<endl;
+      return false;
+  }
+
   //cout<<__LINE__<<endl;
   /*//if (printStats) { cout<<"dphi_metj1: "<<phys.dphi_metj1()<<" "; }
   //Leading Jet/MET Phi min

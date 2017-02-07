@@ -677,7 +677,12 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
       cout<<"<mc_scale> "<<ZZ_scale*WZ_scale*VVV_scale*TTV_scale<<endl;
       cout<<"<mc_scale_unc> "<<sqrt( pow(ZZ_scale_unc,2) + pow(WZ_scale_unc,2) + pow(VVV_scale_unc,2) + pow(TTV_scale_unc,2) )<<endl;
 
-      cout<<"<BGmet100to150_mcbkg> "<<rare_count[2]<<endl;
+      for (int i = 0; i<=(int)rare_count.size(); i++){
+        cout<<"<BGbin"<<i<<"_mcbkg> "<<rare_count[2]<<endl;
+        cout<<"<mc_stat_bin"<<i<<"> "<<rare_err[2]<<endl;
+      }
+
+      /*cout<<"<BGmet100to150_mcbkg> "<<rare_count[2]<<endl;
       cout<<"<mc_stat_met100to150> "<<rare_err[2]<<endl;
 
       cout<<"<BGmet150to250_mcbkg> "<<rare_count[3]<<endl;
@@ -693,7 +698,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
       else{
         cout<<"<BGmet250toInf_mcbkg> "<<rare_count[4]<<endl;
         cout<<"<mc_stat_met250toInf> "<<rare_err[4]<<endl;
-      }
+      }*/
       
       //Blinding works by first zeroing out all bins past the number given
       //Then we recompute the numbers for the signal counts

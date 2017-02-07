@@ -56,54 +56,54 @@ vector<double> getMetTemplatesError(const vector<double> &stat_err, const vector
   vector<double> MC_Closure_Error;
 
   if (SR == "Strong_Btag_2j"){
-    MC_Closure_Error.push_back(.00); //0-50
+    //MC_Closure_Error.push_back(.00); //0-50
     MC_Closure_Error.push_back(.00); //50-100
     MC_Closure_Error.push_back(.2);  //100-150
     MC_Closure_Error.push_back(.26);  //150-250
     MC_Closure_Error.push_back(.26);  //250+
   }
   else if(SR == "Strong_Btag_4j"){
-    MC_Closure_Error.push_back(.00); //0-50
+    //MC_Closure_Error.push_back(.00); //0-50
     MC_Closure_Error.push_back(.00); //50-100
     MC_Closure_Error.push_back(.12); //100-150
     MC_Closure_Error.push_back(.18); //150-250
     MC_Closure_Error.push_back(.18); //250+
   }
   else if (SR == "Strong_Btag_6j"){
-    MC_Closure_Error.push_back(.00); //0-50
+    //MC_Closure_Error.push_back(.00); //0-50
     MC_Closure_Error.push_back(.00); //50-100
     MC_Closure_Error.push_back(.2);  //100-150
     MC_Closure_Error.push_back(.31);  //150+
   }
   else if(SR == "Strong_Bveto_2j"){
-    MC_Closure_Error.push_back(.00); //0-50
+    //MC_Closure_Error.push_back(.00); //0-50
     MC_Closure_Error.push_back(.00); //50-100
     MC_Closure_Error.push_back(.16); //100-150
     MC_Closure_Error.push_back(.21); //150-250
     MC_Closure_Error.push_back(.21); //250+
   }
   else if(SR == "Strong_Bveto_4j"){
-    MC_Closure_Error.push_back(.00); //0-50
+    //MC_Closure_Error.push_back(.00); //0-50
     MC_Closure_Error.push_back(.00); //50-100
     MC_Closure_Error.push_back(.12); //100-150
     MC_Closure_Error.push_back(.15); //150-250
     MC_Closure_Error.push_back(.15); //250+
   }
   else if(SR == "Strong_Bveto_6j"){
-    MC_Closure_Error.push_back(.00); //0-50
+    //MC_Closure_Error.push_back(.00); //0-50
     MC_Closure_Error.push_back(.00); //50-100
     MC_Closure_Error.push_back(.15); //100-150
     MC_Closure_Error.push_back(.29); //150+
   }
   else if(SR == "TChiHZ"){
-    MC_Closure_Error.push_back(.00); //0-50
+    //MC_Closure_Error.push_back(.00); //0-50
     MC_Closure_Error.push_back(.00); //50-100
     MC_Closure_Error.push_back(.69); //100-150
     MC_Closure_Error.push_back(.37); //150-250
     MC_Closure_Error.push_back(.37); //250+
   }
   else if(SR == "TChiWZ"){
-    MC_Closure_Error.push_back(.00); //0-50
+    //MC_Closure_Error.push_back(.00); //0-50
     MC_Closure_Error.push_back(.00); //50-100
     MC_Closure_Error.push_back(.11); //100-150
     MC_Closure_Error.push_back(.24); //150-250
@@ -118,7 +118,12 @@ vector<double> getMetTemplatesError(const vector<double> &stat_err, const vector
     MC_Closure_Error.push_back(.50); //250+
   }
   else if(SR == "baseline"){
+    //MC_Closure_Error.push_back(.00);
     MC_Closure_Error.push_back(.00);
+    MC_Closure_Error.push_back(.25);
+    MC_Closure_Error.push_back(.25);
+  }
+  else if(SR == "Edge"){
     MC_Closure_Error.push_back(.00);
     MC_Closure_Error.push_back(.25);
     MC_Closure_Error.push_back(.25);
@@ -177,7 +182,14 @@ vector<double> getMetTemplatesError(const vector<double> &stat_err, const vector
   //--------------------------------
   cout<<"<zjets_norm> "<<1.+normalization<<endl;
 
-  cout<<"<BGmet100to150_zjets> "<<bin_count[2]<<endl;
+  for (int i = 0; i<=(int)bin_count.size(); i++){
+    cout<<"<BGbin"<<i<<"_zjets> "<<bin_count[i]<<endl;
+    cout<<"<zjets_clos_bin"<<i<<"> "<<1.+MC_Closure_Error[i]<<endl;
+    cout<<"<zjets_stat_bin"<<i<<"> "<<1.+(stat_err[i]/bin_count[i])<<endl;
+    cout<<"<zjets_ewk_bin"<<i<<"> "<<1.+(ewk_err[i]/bin_count[i])<<endl;
+  }
+
+/*  cout<<"<BGmet100to150_zjets> "<<bin_count[2]<<endl;
   cout<<"<zjets_clos_met100to150> "<<1.+MC_Closure_Error[2]<<endl;
   cout<<"<zjets_stat_met100to150> "<<1.+(stat_err[2]/bin_count[2])<<endl;
   cout<<"<zjets_ewk_met100to150> "<<1.+(ewk_err[2]/bin_count[2])<<endl;
@@ -203,13 +215,13 @@ vector<double> getMetTemplatesError(const vector<double> &stat_err, const vector
     cout<<"<zjets_clos_met250toInf> "<<1.+MC_Closure_Error[4]<<endl;
     cout<<"<zjets_stat_met250toInf> "<<1.+(stat_err[4]/bin_count[4])<<endl;
     cout<<"<zjets_ewk_met250toInf> "<<1.+(ewk_err[4]/bin_count[4])<<endl;
-  }
+  }*/
 
 
   return output_errors;
 }
 
-pair<vector<double>,vector<double>> getFSError(const vector<double> &bin_count, double RSFOF, TString SR){
+pair<vector<double>,vector<double>> getFSError(const vector<double> &bin_count, double RSFOFxKappa, TString SR){
   double RSFOF_unc = 0.026/1.119; //ICHEP 2016
   double kappa_unc = 0.02/0.065; //ICHEP 2016
 
@@ -221,8 +233,8 @@ pair<vector<double>,vector<double>> getFSError(const vector<double> &bin_count, 
     RooHistError::instance().getPoissonInterval(bin_count[i], bin_dn, bin_up);
 
     cout<<"bin count "<<bin_count[i]<<" Error_up "<<bin_up<<" Error_dn "<<bin_dn<<endl; 
-    bin_up = RSFOF*RSFOF*((bin_up - bin_count[i])*(bin_up - bin_count[i]) + RSFOF_unc*RSFOF_unc*bin_count[i]*bin_count[i] + kappa_unc*kappa_unc*bin_count[i]*bin_count[i]);
-    bin_dn = RSFOF*RSFOF*((bin_count[i] - bin_dn)*(bin_count[i] - bin_dn) + RSFOF_unc*RSFOF_unc*bin_count[i]*bin_count[i] + kappa_unc*kappa_unc*bin_count[i]*bin_count[i]);
+    bin_up = RSFOFxKappa*RSFOFxKappa*((bin_up - bin_count[i])*(bin_up - bin_count[i]) + RSFOF_unc*RSFOF_unc*bin_count[i]*bin_count[i] + kappa_unc*kappa_unc*bin_count[i]*bin_count[i]);
+    bin_dn = RSFOFxKappa*RSFOFxKappa*((bin_count[i] - bin_dn)*(bin_count[i] - bin_dn) + RSFOF_unc*RSFOF_unc*bin_count[i]*bin_count[i] + kappa_unc*kappa_unc*bin_count[i]*bin_count[i]);
 
     error_up.push_back(sqrt(bin_up));
     error_dn.push_back(sqrt(bin_dn));
@@ -233,9 +245,14 @@ pair<vector<double>,vector<double>> getFSError(const vector<double> &bin_count, 
   //--------------------------------
   cout<<"<rsfof_unc> "<<1.+RSFOF_unc<<endl;
   cout<<"<kappa_unc> "<<1.+kappa_unc<<endl;
-  cout<<"<rsfof*kappa> "<<1.+RSFOF<<endl;
+  cout<<"<rsfof*kappa> "<<1.+RSFOFxKappa<<endl;
 
-  cout<<"<BGmet100to150_fsbkg> "<<bin_count[2]*RSFOF<<endl;
+  for (int i = 0; i<=(int)bin_count.size(); i++){
+    cout<<"<BGbin"<<i<<"_fsbkg> "<<bin_count[i]*RSFOFxKappa<<endl;
+    cout<<"<count_bin"<<i<<"_fsbkg> "<<bin_count[i]<<endl;
+  }
+
+  /*cout<<"<BGmet100to150_fsbkg> "<<bin_count[2]*RSFOF<<endl;
   cout<<"<count_met100to150_fsbkg> "<<bin_count[2]<<endl;
 
   cout<<"<BGmet150to250_fsbkg> "<<bin_count[3]*RSFOF<<endl;
@@ -251,7 +268,7 @@ pair<vector<double>,vector<double>> getFSError(const vector<double> &bin_count, 
   else{
     cout<<"<BGmet250toInf_fsbkg> "<<bin_count[4]*RSFOF<<endl;
     cout<<"<count_met250toInf_fsbkg> "<<bin_count[4]<<endl;
-  }
+  }*/
 
 
   return make_pair(error_up, error_dn);
