@@ -1895,6 +1895,9 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
         printStats=true;
         printFail = true;
       }
+      else{
+        continue;
+      }
 
       /*if ( inVinceNotMine.count(phys.evt()) != 0){
         printFail = true;
