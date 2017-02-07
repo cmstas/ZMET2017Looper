@@ -1664,7 +1664,7 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
   }
 
   TH1D *lep1_eta,*lep2_eta,*lep1_eta_ee,*lep2_eta_ee,*lep1_eta_mm,*lep2_eta_mm,*dilmass_ee,*dilmass_mm;
-  if(conf->get("signal_region") == "LeonoraXsec"){
+  if(conf->get("signal_region") == "LeonoraXsecStudy"){
 
     dilmass_ee = new TH1D("dilmass_ee", "Dilepton Mass for just electrons"+g_sample_name, 500,0,500);
     dilmass_mm = new TH1D("dilmass_ee", "Dilepton Mass for just muons"+g_sample_name, 500,0,500);
@@ -2096,7 +2096,7 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
         mjj_min_dphi->Fill(phys.mjj_mindphi(), weight);
       }
       
-      if(conf->get("signal_region") == "LeonoraXsec"){
+      if(conf->get("signal_region") == "LeonoraXsecStudy"){
         
         if(phys.hyp_type() == 0){
           dilmass_ee->Fill(phys.dilmass(),weight);
@@ -2281,7 +2281,7 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
     mjj_min_dphi->Write();
   }
 
-  if(conf->get("signal_region") == "LeonoraXsec"){
+  if(conf->get("signal_region") == "LeonoraXsecStudy"){
     dilmass_ee->Write();
     lep1_eta_ee->Write();
     lep2_eta_ee->Write();
