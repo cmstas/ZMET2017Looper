@@ -222,8 +222,8 @@ vector<double> getMetTemplatesError(const vector<double> &stat_err, const vector
 }
 
 pair<vector<double>,vector<double>> getFSError(const vector<double> &bin_count, double RSFOFxKappa, TString SR){
-  double RSFOF_unc = 0.026/1.119; //ICHEP 2016
-  double kappa_unc = 0.02/0.065; //ICHEP 2016
+  double RSFOF_unc = 0.043/1.119; //Moriond 2017
+  double kappa_unc = 0.02/0.065;  //Moriond 2017
 
   vector<double> error_up;
   vector<double> error_dn;

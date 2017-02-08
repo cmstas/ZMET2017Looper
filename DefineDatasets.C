@@ -442,6 +442,8 @@ void addToChain(TChain *ch, TString set) {
     ch->Add(dir+"wwz_incl_amcnlo*");
     ch->Add(dir+"wzz_incl_amcnlo*");
     ch->Add(dir+"zzz_incl_amcnlo*");
+    ch->Add(dir+"tzq_ll_amcnlo*");
+    ch->Add(dir+"sttwll_madgraph*");
   }
   else if (set == "RareMC-ttz-Skimmed"){
     TString dir="/hadoop/cms/store/user/olivito/AutoTwopler_babies/merged/ZMET/V08-22-11/skim/";
