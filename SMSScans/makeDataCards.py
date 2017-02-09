@@ -21,7 +21,7 @@ def getNuisenceParameters(SR):
 
 def makeDataCard(sp, SR):
   if SR not in n_parms.keys():
-    n_parms[SR] = getNuisenceParameters()
+    n_parms[SR] = getNuisenceParameters(SR)
 
   for x in n_parms[SR].keys():
     print("%s : %s" & (x, n_parms[SR][x]))
