@@ -681,7 +681,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
         cout<<"{mc_stat_bin"<<i<<"} "<<rare_err[i]<<endl;
       }
       for (int i = 0; i<=(int)signal_count.size(); i++){
-        cout<<"{bin"<<i<<"_yield  } "<<signal_count[i]<<endl;
+        cout<<"{bin"<<i<<"_yield} "<<signal_count[i]<<endl;
       }
 
       
