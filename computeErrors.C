@@ -182,7 +182,7 @@ vector<double> getMetTemplatesError(const vector<double> &stat_err, const vector
   //--------------------------------
   cout<<"{zjets_norm} "<<1.+normalization<<endl;
 
-  for (int i = 0; i<=(int)bin_count.size(); i++){
+  for (int i = 0; i<(int)bin_count.size(); i++){
     cout<<"{BGbin"<<i<<"_zjets} "<<bin_count[i]<<endl;
     cout<<"{zjets_clos_bin"<<i<<"} "<<1.+MC_Closure_Error[i]<<endl;
     cout<<"{zjets_stat_bin"<<i<<"} "<<1.+(stat_err[i]/bin_count[i])<<endl;
@@ -218,7 +218,7 @@ pair<vector<double>,vector<double>> getFSError(const vector<double> &bin_count, 
   cout<<"{kappa_unc} "<<1.+kappa_unc<<endl;
   cout<<"{rsfof*kappa} "<<1.+RSFOFxKappa<<endl;
 
-  for (int i = 0; i<=(int)bin_count.size(); i++){
+  for (int i = 0; i<(int)bin_count.size(); i++){
     cout<<"{BGbin"<<i<<"_fsbkg} "<<bin_count[i]*RSFOFxKappa<<endl;
     cout<<"{count_bin"<<i<<"_fsbkg} "<<bin_count[i]<<endl;
   }

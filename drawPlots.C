@@ -674,13 +674,13 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
       // To be parsed by datacard maker
       //--------------------------------
 
-      cout<<"{mc_scale_unc} "<<sqrt( pow(ZZ_scale_unc,2) + pow(WZ_scale_unc,2) + pow(VVV_scale_unc,2) + pow(TTV_scale_unc,2) )<<endl;
+      cout<<"{mcbkg_scale_unc} "<<sqrt( pow(ZZ_scale_unc,2) + pow(WZ_scale_unc,2) + pow(VVV_scale_unc,2) + pow(TTV_scale_unc,2) )<<endl;
 
-      for (int i = 0; i<=(int)rare_count.size(); i++){
+      for (int i = 0; i<(int)rare_count.size(); i++){
         cout<<"{BGbin"<<i<<"_mcbkg} "<<rare_count[i]<<endl;
         cout<<"{mc_stat_bin"<<i<<"} "<<rare_err[i]<<endl;
       }
-      for (int i = 0; i<=(int)signal_count.size(); i++){
+      for (int i = 0; i<(int)signal_count.size(); i++){
         cout<<"{bin"<<i<<"_yield} "<<signal_count[i]<<endl;
       }
 

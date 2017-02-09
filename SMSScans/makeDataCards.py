@@ -11,12 +11,24 @@ n_parms = {}
 
 def addConstantVals(d):
   d["sig_trig_syst"] = "0.15"
-  d["sig_metfromFS_bin1"] = "0.15"
+  d["sig_metfromFS_syst_bin1"] = "0.15"
+  d["sig_metfromFS_syst_bin2"] = "0.15"
+  d["sig_metfromFS_syst_bin3"] = "0.15"
   d["sig_leptonFS_syst"] = "0.15"
   d["sig_btagheavy_syst"] = "0.15"
   d["sig_btaglight_syst"] = "0.15"
   d["sig_lumi_syst"] = "0.15"
   d["sig_JES_syst_bin1"] = "0.15"
+  d["sig_JES_syst_bin2"] = "0.15"
+  d["sig_JES_syst_bin3"] = "0.15"
+
+  d["sig_stat_syst_bin1"] = "0.15"
+  d["sig_stat_syst_bin2"] = "0.15"
+  d["sig_stat_syst_bin3"] = "0.15"
+
+  d["BGbin1_sig"] = "1"
+  d["BGbin2_sig"] = "2"
+  d["BGbin3_sig"] = "3"
 
 
 def getNuisenceParameters(SR):
@@ -25,7 +37,7 @@ def getNuisenceParameters(SR):
   
   n_dict = {}
   for line in f:
-    if re.match("{.*} [0-9]\.[0-9]*\s$", line):
+    if re.match("{.*} [0-9]*\.[0-9]*\s$", line):
       toks=line.split()
       n_dict[toks[0][1:-1]] = toks[1]
 
