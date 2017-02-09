@@ -19,7 +19,7 @@ def getNuisenceParameters(SR):
 
   return n_dict
 
-def makeDataCard(SR):
+def makeDataCard(sp, SR):
   if SR not in n_parms.keys():
     n_parms[SR] = getNuisenceParameters()
 
@@ -28,7 +28,7 @@ def makeDataCard(SR):
 
 def main():
   #mass_spectrum = getMassSpectrumFromTChain(signal_chain)
-  makeDataCard(sp, "SRAb")
+  makeDataCard((100,200), "SRAb")
 
   #for sp in mass_spectrum:
     #makeDataCard(sp, "SRA")
