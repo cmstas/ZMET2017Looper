@@ -27,12 +27,12 @@ def makeDataCard(SR):
     print("%s : %s" & (x, n_parms[SR][x]))
 
 def main():
-  mass_spectrum = getMassSpectrumFromTChain(signal_chain)
+  #mass_spectrum = getMassSpectrumFromTChain(signal_chain)
+  makeDataCard(sp, "SRAb")
 
-
-  for sp in mass_spectrum:
+  #for sp in mass_spectrum:
     #makeDataCard(sp, "SRA")
-    makeDataCard(sp, "SRAb")
+    #makeDataCard(sp, "SRAb")
     #makeDataCard(sp, "SRB")
     #makeDataCard(sp, "SRBb")
     #makeDataCard(sp, "SRC")
