@@ -1928,7 +1928,8 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
       printStats = false;
       printFail = false;
 
-      if ( inspection_set.count(phys.evt()) != 0){
+      //if (inspection_set.count(phys.evt()) != 0){
+      if ( inspection_set_erl.count(make_tuple(phys.evt(), phys.run(), phys.lumi())) != 0){
         cout<<"evt: "<<phys.evt()<<" run: "<<phys.run()<<" lumi: "<<phys.lumi()<<endl;
         printStats=true;
         printFail = true;
