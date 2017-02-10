@@ -9,26 +9,37 @@ output_path="SMSScans/DataCards/"
 
 n_parms = {}
 
+def properSpacing(key, param):
+  """return param padded with spaces so that it's length {key} to preserve tabbing in templates"""
+
+  delta=len(key)-len(param)
+
+  if (len(param) < len(key)):
+    param=(" "*delta)+param
+
+  return param
+
 def addConstantVals(d):
-  d["sig_trig_syst"] = "0.15"
-  d["sig_metfromFS_syst_bin1"] = "0.15"
-  d["sig_metfromFS_syst_bin2"] = "0.15"
-  d["sig_metfromFS_syst_bin3"] = "0.15"
-  d["sig_leptonFS_syst"] = "0.15"
-  d["sig_btagheavy_syst"] = "0.15"
-  d["sig_btaglight_syst"] = "0.15"
-  d["sig_lumi_syst"] = "0.15"
-  d["sig_JES_syst_bin1"] = "0.15"
-  d["sig_JES_syst_bin2"] = "0.15"
-  d["sig_JES_syst_bin3"] = "0.15"
+  d["sig_trig_syst"] = properSpacing("{sig_trig_syst}","0.04")
+  d["sig_metfromFS_syst_bin1"] = properSpacing("{sig_metfromFS_syst_bin1}","0.04")
+  d["sig_metfromFS_syst_bin2"] = properSpacing("{sig_metfromFS_syst_bin2}","0.04")
+  d["sig_metfromFS_syst_bin3"] = properSpacing("{sig_metfromFS_syst_bin3}","0.04")
+  d["sig_leptonFS_syst"] = properSpacing("{sig_leptonFS_syst}","0.04")
+  d["sig_btagheavy_syst"] = properSpacing("{sig_btagheavy_syst}","0.04")
+  d["sig_btaglight_syst"] = properSpacing("{sig_btaglight_syst}","0.04")
+  d["sig_lumi_syst"] = properSpacing("{sig_lumi_syst}","0.04")
+  d["sig_isr_syst"] = properSpacing("{sig_isr_syst}","0.04")
+  d["sig_JES_syst_bin1"] = properSpacing("{sig_JES_syst_bin1}","0.04")
+  d["sig_JES_syst_bin2"] = properSpacing("{sig_JES_syst_bin2}","0.04")
+  d["sig_JES_syst_bin3"] = properSpacing("{sig_JES_syst_bin3}","0.04")
 
-  d["sig_stat_syst_bin1"] = "0.15"
-  d["sig_stat_syst_bin2"] = "0.15"
-  d["sig_stat_syst_bin3"] = "0.15"
+  d["sig_stat_syst_bin1"] = properSpacing("{sig_stat_syst_bin1}","0.04")
+  d["sig_stat_syst_bin2"] = properSpacing("{sig_stat_syst_bin2}","0.04")
+  d["sig_stat_syst_bin3"] = properSpacing("{sig_stat_syst_bin3}","0.04")
 
-  d["BGbin1_sig"] = "1"
-  d["BGbin2_sig"] = "2"
-  d["BGbin3_sig"] = "3"
+  d["BGbin1_sig"] = properSpacing("{BGbin1_sig}","1")
+  d["BGbin2_sig"] = properSpacing("{BGbin2_sig}","2")
+  d["BGbin3_sig"] = properSpacing("{BGbin3_sig}","3")
 
 
 def getNuisenceParameters(SR):
@@ -39,7 +50,7 @@ def getNuisenceParameters(SR):
   for line in f:
     if re.match("{.*} [0-9]*\.[0-9]*\s$", line):
       toks=line.split()
-      n_dict[toks[0][1:-1]] = toks[1]
+      n_dict[toks[0][1:-1]] = properSpacing(toks[0],toks[1])
 
   addConstantVals(n_dict)
 

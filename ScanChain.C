@@ -192,7 +192,12 @@ bool passMuonTriggers(){
       //cout<<"Using Non DZ triggers"<<endl;
       //cout<<__LINE__<<endl;
       //if (printStats) { cout<<"HLT_DoubleMu_nonDZ: "<<phys.HLT_DoubleMu_nonDZ()<<" HLT_DoubleMu_tk_nonDZ: "<<phys.HLT_DoubleMu_tk_nonDZ()<<" "<<" HLT_DoubleMu_noiso: "<<phys.HLT_DoubleMu_noiso()<<" "; }
-      return (phys.HLT_DoubleMu() || phys.HLT_DoubleMu_tk() || phys.HLT_DoubleMu_dbltk() || phys.HLT_DoubleMu_nonDZ() || phys.HLT_DoubleMu_tk_nonDZ() || phys.HLT_DoubleMu_noiso());
+      if(conf->get("signal_region") == "LeonoraEvtLists"){
+        return (phys.HLT_DoubleMu() || phys.HLT_DoubleMu_tk() /*|| phys.HLT_DoubleMu_dbltk()*/ || phys.HLT_DoubleMu_nonDZ() || phys.HLT_DoubleMu_tk_nonDZ() || phys.HLT_DoubleMu_noiso());
+      }
+      else{
+        return (phys.HLT_DoubleMu() || phys.HLT_DoubleMu_tk() || phys.HLT_DoubleMu_dbltk() || phys.HLT_DoubleMu_nonDZ() || phys.HLT_DoubleMu_tk_nonDZ() || phys.HLT_DoubleMu_noiso());
+      }
     } 
   }
 }
@@ -1040,8 +1045,24 @@ bool passSignalRegionCuts(){
 
   if (conf->get("Mjj_dphi_max") != ""){
     if ( phys.mjj_mindphi() > stod( conf->get("Mjj_dphi_max") ) ){
-      numEvents->Fill(67);
+      numEvents->Fill(68);
       if (printFail) cout<<phys.evt()<<" :Failed Mjj cut"<<endl;
+      return false;
+    }
+  }
+
+  if (conf->get("flavor") == "dimuon"){
+    if ( phys.hyp_type() != 1){
+      numEvents->Fill(73);
+      if (printFail) cout<<phys.evt()<<" :Failed dimuon cut"<<endl;
+      return false;
+    }
+  }
+
+  if (conf->get("flavor") == "dielectron"){
+    if ( phys.hyp_type() != 0){
+      numEvents->Fill(73);
+      if (printFail) cout<<phys.evt()<<" :Failed dielectron cut"<<endl;
       return false;
     }
   }
@@ -1052,13 +1073,13 @@ bool passSignalRegionCuts(){
     pair<int, int> b_index = getMostBlike();
 
     if ( abs(phys.jets_mcFlavour().at(b_index.first)) != 5 ){
-      numEvents->Fill(68);
+      numEvents->Fill(67);
       if (printFail) cout<<phys.evt()<<" :Failed truth level bjet cut"<<endl;
       return false;
     }
 
     if ( abs(phys.jets_mcFlavour().at(b_index.second)) != 5 ){
-      numEvents->Fill(68);
+      numEvents->Fill(67);
       if (printFail) cout<<phys.evt()<<" :Failed truth level bjet cut"<<endl;
       return false;
     }
@@ -1068,7 +1089,7 @@ bool passSignalRegionCuts(){
     pair<int, int> b_index = getMostBlike();
 
     if ( (abs(phys.jets_mcFlavour().at(b_index.first)) == 5) && (abs(phys.jets_mcFlavour().at(b_index.second)) == 5)){
-      numEvents->Fill(68);
+      numEvents->Fill(67);
       if (printFail) cout<<phys.evt()<<" :Failed truth level bjet cut"<<endl;
       return false;
     }
@@ -1163,15 +1184,29 @@ bool passMETFilters(){
     if (printFail) cout<<phys.evt()<<" :Failed EcalDeadCellTriggerPrimativeFilter cut"<<endl;
     return false;
   }
-  if (!phys.Flag_badMuonFilterv2            ()      ){ 
-    numEvents->Fill(50);
-    if (printFail) cout<<phys.evt()<<" :Failed CSCTightHalo2015Filter cut"<<endl;
-    return false;
+  if(conf->get("signal_region") != "LeonoraEvtLists"){
+    if (!phys.Flag_badMuonFilterv2            ()      ){ 
+      numEvents->Fill(50);
+      if (printFail) cout<<phys.evt()<<" :Failed badMuonFilterv2 cut"<<endl;
+      return false;
+    }
+    if (!phys.Flag_badChargedCandidateFilterv2            ()      ){ 
+      numEvents->Fill(51);
+      if (printFail) cout<<phys.evt()<<" :Failed badChargedCandidateFilterv2 cut"<<endl;
+      return false;
+    }
   }
-  if (!phys.Flag_badChargedCandidateFilterv2            ()      ){ 
-    numEvents->Fill(51);
-    if (printFail) cout<<phys.evt()<<" :Failed CSCTightHalo2015Filter cut"<<endl;
-    return false;
+  else{
+    if (!phys.Flag_badMuonFilter            ()      ){ 
+      numEvents->Fill(50);
+      if (printFail) cout<<phys.evt()<<" :Failed badMuonFilter cut"<<endl;
+      return false;
+    }
+    if (!phys.Flag_badChargedCandidateFilter            ()      ){ 
+      numEvents->Fill(51);
+      if (printFail) cout<<phys.evt()<<" :Failed badChargedCandidateFilter cut"<<endl;
+      return false;
+    }
   }
 
   if ( phys.isData() ) {
@@ -1210,15 +1245,17 @@ bool passMETFilters(){
       if (printFail) cout<<phys.evt()<<" :Failed CSCTightHalo2015Filter cut"<<endl;
       return false;
     }
-    if (phys.nJet200MuFrac50DphiMet() > 0){
-      numEvents->Fill(69);
-      if (printFail) cout<<phys.evt()<<" :Failed nJet200MuFrac50DphiMet cut"<<endl;
-      return false;
-    }
-    if ((phys.met_T1CHS_miniAOD_CORE_pt() / phys.met_calo_pt()) > 5){
-      numEvents->Fill(70);
-      if (printFail) cout<<phys.evt()<<" :Failed T1MET/CaloMET cut"<<endl;
-      return false;
+    if(conf->get("signal_region") != "LeonoraEvtLists"){
+      if (phys.nJet200MuFrac50DphiMet() > 0){
+        numEvents->Fill(70);
+        if (printFail) cout<<phys.evt()<<" :Failed nJet200MuFrac50DphiMet cut"<<endl;
+        return false;
+      }
+      if ((phys.met_T1CHS_miniAOD_CORE_pt() / phys.met_calo_pt()) > 5){
+        numEvents->Fill(71);
+        if (printFail) cout<<phys.evt()<<" :Failed T1MET/CaloMET cut"<<endl;
+        return false;
+      }
     }
   }
   
@@ -1318,14 +1355,14 @@ bool passFileSelections(){
       }
       if( abs(phys.gen_ht() - phys.ht()) > 300 ) {
         //cout<<"skipped"<<endl;
-        numEvents->Fill(68);
+        numEvents->Fill(69);
         return false;
       }
     }
     if( TString(currentFile->GetTitle()).Contains("dy_m50_mgmlm_ht100")){
       if( abs(phys.gen_ht() - phys.ht()) > 300 ) {
         //cout<<"skipped"<<endl;
-        numEvents->Fill(68);
+        numEvents->Fill(69);
         return false;
       }
       /*if (conf->get("signal_region") == "TChiHZ" && phys.evt() == 24645544 && TString(conf->get("conf_path")).Contains("TemplatesClosure") ){
@@ -1340,7 +1377,7 @@ bool passFileSelections(){
     if( TString(currentFile->GetTitle()).Contains("gjetsht40") ||  TString(currentFile->GetTitle()).Contains("gjetsht100") ){
       if( abs(phys.gen_ht() - phys.ht()) > 300 ) {
         //cout<<"skipped"<<endl;
-        numEvents->Fill(68);
+        numEvents->Fill(69);
         return false;
       }
     }
@@ -1394,11 +1431,11 @@ bool passFileSelections(){
         }
       }
       if (bestMatch < 0){
-        numEvents->Fill(71);
+        numEvents->Fill(72);
         return false;
       }
       else if (phys.genPart_pt().at(bestMatch) > 40){
-        numEvents->Fill(71);
+        numEvents->Fill(72);
         return false; 
       }
     } 
@@ -1979,15 +2016,9 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
       weight_log->Fill(log10(abs(weight)));
       weight_log_flat->Fill(abs(weight));
 
-      /*if (phys.met_T1CHS_miniAOD_CORE_pt() > 120 && conf->get("signal_region") == "Strong_Btag_6j"  && weight > 0.1){
-        cout<<"evt: "<<phys.evt()<<" run: "<<phys.run()<<" lumi: "<<phys.lumi()<<" weight: "<<weight<<endl;
+      if(conf->get("signal_region") == "LeonoraEvtLists"){
+        cout<<"evt: "<<phys.evt()<<" run: "<<phys.run()<<" lumi: "<<phys.lumi()<<endl;
       }
-      if (phys.met_T1CHS_miniAOD_CORE_pt() > 120 && conf->get("signal_region") == "Strong_Bveto_6j" && weight > 0.1){
-        cout<<"evt: "<<phys.evt()<<" run: "<<phys.run()<<" lumi: "<<phys.lumi()<<" weight: "<<weight<<endl;
-      }*/
-      /*if (phys.met_T1CHS_miniAOD_CORE_pt() > 100 && phys.met_T1CHS_miniAOD_CORE_pt() < 150 && conf->get("signal_region") == "TChiHZ" && weight > 0.08){
-        cout<<"evt: "<<phys.evt()<<" run: "<<phys.run()<<" lumi: "<<phys.lumi()<<" weight: "<<weight<<endl;
-      }*/
 
 //===========================================
 // Analysis Code
