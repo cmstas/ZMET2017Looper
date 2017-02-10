@@ -1928,13 +1928,14 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
       printStats = false;
       printFail = false;
 
-      /*if ( inspection_set.count(phys.evt()) != 0){
+      if ( inspection_set.count(phys.evt()) != 0){
+        cout<<"evt: "<<phys.evt()<<" run: "<<phys.run()<<" lumi: "<<phys.lumi()<<endl;
         printStats=true;
         printFail = true;
       }
       else{
         continue;
-      }*/
+      }
 
       /*if ( inVinceNotMine.count(phys.evt()) != 0){
         printFail = true;
