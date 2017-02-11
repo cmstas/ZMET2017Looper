@@ -83,7 +83,7 @@ def makeDataCard(sp, SR):
 
 def main():
   #mass_spectrum = getMassSpectrumFromTChain(signal_chain)
-  makeDataCard((100,200), "SRAb")
+  makeDataCard((1800,800), "SRAb")
 
   #for sp in mass_spectrum:
     #makeDataCard(sp, "SRA")

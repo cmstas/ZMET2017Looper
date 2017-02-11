@@ -1,6 +1,6 @@
 import ROOT
 
-def getSignalYields(SR, file_path="t5zz.root"):
+def getSignalYields(SR, mass_gluino, mass_lsp, file_path="t5zz.root"):
 
   bins=[]
 
@@ -13,10 +13,10 @@ def getSignalYields(SR, file_path="t5zz.root"):
 
   yields = []
   f=ROOT.TFile(file_path,"r")
-  met=f.Get("type1MET").Clone("met")
+  met=f.Get("susy_type1MET_counts").Clone("met")
 
   for b in bins:
-    yields.append(met.Integral(met.FindBin(b[0]), met.FindBin(b[1] - 0.001)))
+    yields.append(met.Integral(met.FindBin(b[0]), met.FindBin(b[1] - 0.001), mass_gluino, mass_gluino, mass_lsp, mass_lsp))
 
   return yields
 
