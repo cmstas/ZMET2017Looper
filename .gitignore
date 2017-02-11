@@ -8,7 +8,7 @@ outputs/
 *.so
 *.d
 *.pcm
-
+*.pyc
 
 #mac crap
 .DS_Store

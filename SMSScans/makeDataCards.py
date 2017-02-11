@@ -1,9 +1,13 @@
 #!/usr/bin/env python
 
-import argparse, sys, re
+import argparse, sys, re, getSignalNumbers
 
 
 signal_chain="/nfs-7/"
+#histogram_Path="/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/T5ZZScan/"
+histogram_Path="~/"
+signal_name="t5zz"
+
 templates_path="SMSScans/Templates/"
 output_path="SMSScans/DataCards/"
 
@@ -18,6 +22,14 @@ def properSpacing(key, param):
     param=(" "*delta)+param
 
   return param
+
+def addSignalYields(d, SR):
+
+  yields=getSignalNumbers.getSignalYields(SR, "%s%s/%s.root" % (histogram_Path, SR, signal_name))
+
+  for i,y in enumerate(yields):
+    d["BGbin%d_sig" % i] = properSpacing("{BGbin1_sig}", "%.2f" % y)
+
 
 def addConstantVals(d):
   d["sig_trig_syst"] = properSpacing("{sig_trig_syst}","0.04")
@@ -37,10 +49,6 @@ def addConstantVals(d):
   d["sig_stat_syst_bin2"] = properSpacing("{sig_stat_syst_bin2}","0.04")
   d["sig_stat_syst_bin3"] = properSpacing("{sig_stat_syst_bin3}","0.04")
 
-  d["BGbin1_sig"] = properSpacing("{BGbin1_sig}","1")
-  d["BGbin2_sig"] = properSpacing("{BGbin2_sig}","2")
-  d["BGbin3_sig"] = properSpacing("{BGbin3_sig}","3")
-
 
 def getNuisenceParameters(SR):
   """Reads in the output of the plot maker for the signal region and collects all the key value pairs of nuisance parameters."""
@@ -53,6 +61,7 @@ def getNuisenceParameters(SR):
       n_dict[toks[0][1:-1]] = properSpacing(toks[0],toks[1])
 
   addConstantVals(n_dict)
+  addSignalYields(n_dict, SR)
 
   return n_dict
 
