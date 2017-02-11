@@ -2191,8 +2191,13 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
       }
 
       if(conf->get("SUSY_Glu_LSP_scan") == "true"){
-          
-          susy_type1MET_counts->Fill(phys.met_T1CHS_miniAOD_CORE_pt(), phys.mass_gluino(),phys.mass_LSP(), weight);
+          cout<<"mglu: "<<phys.mass_gluino()<<endl;
+          cout<<"mlsp: "<<phys.mass_LSP()<<endl;
+          cout<<"met: "<<phys.met_T1CHS_miniAOD_CORE_pt()<<endl;
+          cout<<"weight: "<<weight<<endl;
+
+
+          susy_type1MET_counts->Fill(phys.met_T1CHS_miniAOD_CORE_pt(), phys.mass_gluino(), phys.mass_LSP(), weight);
           
           cout<<__LINE__<<endl;
           
