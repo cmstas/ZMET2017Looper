@@ -1747,19 +1747,19 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
   TH3D *susy_type1MET_counts;
 
   if(conf->get("SUSY_Glu_LSP_scan") == "true"){
-    susy_type1MET_counts = new TH3D("susy_type1MET_counts", "(x,y,z) = (met, m_glu, m_lsp). Type1MET for"+g_sample_name, 6000, 0, 6000, 3000, 0, 3000, 3000, 0, 3000);
+    susy_type1MET_counts = new TH3D("susy_type1MET_counts", "(x,y,z) = (met, m_glu, m_lsp). Type1MET for"+g_sample_name, 600, 0, 6000, 300, 0, 3000, 300, 0, 3000);
     susy_type1MET_counts->SetDirectory(rootdir);
     susy_type1MET_counts->Sumw2();
 
-    TH3D *susy_type1MET_btaglight_up = new TH3D("susy_type1MET_btaglight_up", " (x,y,z) = (met, m_glu, m_lsp). Type 1 MET with Light Btag SF fluctuated up for"+g_sample_name, 6000, 0, 6000, 3000, 0, 3000, 3000, 0, 3000);
+    TH3D *susy_type1MET_btaglight_up = new TH3D("susy_type1MET_btaglight_up", " (x,y,z) = (met, m_glu, m_lsp). Type 1 MET with Light Btag SF fluctuated up for"+g_sample_name, 600, 0, 6000, 300, 0, 3000, 300, 0, 3000);
     susy_type1MET_btaglight_up->SetDirectory(rootdir);
     susy_type1MET_btaglight_up->Sumw2();
 
-    TH3D *susy_type1MET_btagheavy_up = new TH3D("susy_type1MET_btagheavy_up", "(x,y,z) = (met, m_glu, m_lsp). Type 1 MET with Heavy Btag SF fluctuated up for"+g_sample_name, 6000, 0, 6000, 3000, 0, 3000, 3000, 0, 3000);
+    TH3D *susy_type1MET_btagheavy_up = new TH3D("susy_type1MET_btagheavy_up", "(x,y,z) = (met, m_glu, m_lsp). Type 1 MET with Heavy Btag SF fluctuated up for"+g_sample_name, 600, 0, 6000, 300, 0, 3000, 300, 0, 3000);
     susy_type1MET_btagheavy_up->SetDirectory(rootdir);
     susy_type1MET_btagheavy_up->Sumw2();
 
-    TH3D *susy_type1MET_isr_up = new TH3D("susy_type1MET_isr_up", "(x,y,z) = (met, m_glu, m_lsp). Type 1 MET with ISR SF fluctuated up for"+g_sample_name, 6000, 0, 6000, 3000, 0, 3000, 3000, 0, 3000);
+    TH3D *susy_type1MET_isr_up = new TH3D("susy_type1MET_isr_up", "(x,y,z) = (met, m_glu, m_lsp). Type 1 MET with ISR SF fluctuated up for"+g_sample_name, 600, 0, 6000, 300, 0, 3000, 300, 0, 3000);
     susy_type1MET_isr_up->SetDirectory(rootdir);
     susy_type1MET_isr_up->Sumw2();
   }
