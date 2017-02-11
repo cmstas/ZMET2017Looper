@@ -2060,8 +2060,6 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
         t1met->Fill(phys.met_T1CHS_miniAOD_CORE_pt(), weight);
         t1met_widebin->Fill(phys.met_T1CHS_miniAOD_CORE_pt(), weight);
 
-        *type1MET_btaglight_up, *type1MET_btaglight_down, *type1MET_btagheavy_up, *type1MET_btagheavy_down
-
         if(conf->get("SUSY_Glu_LSP_scan") == "true"){
           type1MET_btagheavy_up->Fill(phys.met_T1CHS_miniAOD_CORE_pt(), weight*phys.weight_btagsf_heavy_UP());
           type1MET_btaglight_up->Fill(phys.met_T1CHS_miniAOD_CORE_pt(), weight*phys.weight_btagsf_light_UP());
