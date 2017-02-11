@@ -149,7 +149,7 @@ void addToChain(TChain *ch, TString set) {
     //T5ZZ Signal
     cout<<"Adding T5ZZ Monte Carlo"<<endl;
     ch->Add(dir+"t5zz_orig_80x_v2_skim_*");
-    ch->Add(dir+"t5zz_mg1850_80x_v2_skim_*");
+    //ch->Add(dir+"t5zz_mg1850_80x_v2_skim_*"); 
   }
 
 //====================================

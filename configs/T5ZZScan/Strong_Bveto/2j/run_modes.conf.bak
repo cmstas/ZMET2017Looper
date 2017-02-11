@@ -1,11 +1,10 @@
-<include configs/SRs/SRCb.cuts>
+<include configs/SRs/SRA.cuts>
 
 #DEFAULT::scaleTofb=36.459
 DEFAULT::scaleTofb=18.1
 DEFAULT::event_type=dilepton
 DEFAULT::n_lep_veto=3
 DEFAULT::MCTriggerEmulation=false
-DEFAULT::susy_mc=true
 
 #SUSY T5ZZ Signal
 Name=t5zz

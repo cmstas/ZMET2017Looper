@@ -728,31 +728,29 @@ double getWeight(){
 
   //cout<<__LINE__<<endl;
 
- if ((! phys.isData()) && conf->get("event_type") != "photon" ){
-    
-    if (phys.hyp_type() == 0) weight *= 0.963;
-    if (phys.hyp_type() == 1) weight *= 0.947;
-    if (phys.hyp_type() == 2) weight *= 0.899;
-    
-    if (phys.nlep() > 1){
-      weight*=phys.weightsf_lepid().at(0);
-      weight*=phys.weightsf_lepid().at(1);
-  
-      weight*=phys.weightsf_lepiso().at(0);
-      weight*=phys.weightsf_lepiso().at(1);
-  
-      weight*=phys.weightsf_lepip().at(0);
-      weight*=phys.weightsf_lepip().at(1);
-
-      weight*=phys.weightsf_lepreco().at(0);
-      weight*=phys.weightsf_lepreco().at(1);
-
-      weight*=phys.weightsf_lepconv().at(0);
-      weight*=phys.weightsf_lepconv().at(1);
+ if ((! phys.isData()) ){    
+    if ( conf->get("event_type") == "dilepton" && (! MCTriggerEmulation)){
+      //simulated trigger efficiencies
+      if (phys.hyp_type() == 0) weight *= 0.969; //ee
+      if (phys.hyp_type() == 1) weight *= 0.980; //mumu
+      if (phys.hyp_type() == 2) weight *= 0.932; //emu
     }
+
+    for (int i = 0; i < phys.nlep(); i++){
+      weight*=phys.weightsf_lepid().at(i);
+      weight*=phys.weightsf_lepiso().at(i);
+      weight*=phys.weightsf_lepip().at(i);
+      weight*=phys.weightsf_lepreco().at(i);
+      weight*=phys.weightsf_lepconv().at(i);
+    }
+
     if (conf->get("no_btag_sf") == ""){
       //cout<<"Applying Btag Scale Factors"<<endl;
-      weight*=phys.weight_btagsf();
+      weight *= phys.weight_btagsf();
+    }
+
+    if (conf->get("susy_mc") == "true"){
+      weight *= phys.isr_weight();
     }
   }
   //cout<<__LINE__<<endl;
@@ -767,7 +765,7 @@ double getWeight(){
     cout<<"Negative Weight: "<<weight<<" "<<phys.evt()<<endl;
   }*/
 
-  weight *= scale1fbFix();
+  //weight *= scale1fbFix();
 
   return weight;
 }
@@ -1490,7 +1488,7 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
 
   TString savePath = getOutputDir(conf, "hist");
   ofstream files_log;
-  files_log.open((savePath+TString(g_sample_name+"_files.log")).Data());
+  files_log.open((savePath+TString(g_sample_name+"__LINE__files.log")).Data());
   //cout<<__LINE__<<endl;
   // Benchmark
   TBenchmark *bmark = new TBenchmark();
@@ -1723,34 +1721,24 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
   }
 
 
-  TH1D *type1MET_btaglight_up, *type1MET_btaglight_down, *type1MET_btagheavy_up, *type1MET_btagheavy_down;
+  TH3D *susy_type1MET_btaglight_up, *susy_type1MET_btagheavy_up, *susy_type1MET_isr_up;
 
-  TH2D *susy_counts_100_150;
-  TH2D *susy_counts_150_250;
-  TH2D *susy_counts_250_350;
-  TH2D *susy_counts_350;
+  TH3D *susy_type1MET_counts;
+
   if(conf->get("SUSY_Glu_LSP_scan") == "true"){
-    susy_counts_100_150 = new TH2D("susy_counts_100_150", "Mass Gluino vs. Mass LSP vs. Event Count With MET #in (100,150] for"+g_sample_name, 6000, 0, 6000, 6000, 0, 6000);
-    susy_counts_150_250 = new TH2D("susy_counts_150_250", "Mass Gluino vs. Mass LSP vs. Event Count With MET #in (150,250] for"+g_sample_name, 6000, 0, 6000, 6000, 0, 6000);
-    susy_counts_250_350 = new TH2D("susy_counts_250_350", "Mass Gluino vs. Mass LSP vs. Event Count With MET #in (250,350] for"+g_sample_name, 6000, 0, 6000, 6000, 0, 6000);
-    susy_counts_350 = new TH2D("susy_counts_350", "Mass Gluino vs. Mass LSP vs. Event Count With MET>350 for"+g_sample_name, 6000, 0, 6000, 6000, 0, 6000);
+    susy_MET_counts = new TH3D("susy_type1MET_counts", "(x,y,z) = (met, m_glu, m_lsp). Type1MET for"+g_sample_name, 6000, 0, 6000, 2000, 0, 2000, 2000, 0, 2000);
 
+    TH3D *susy_type1MET_btaglight_up = new TH3D("susy_type1MET_btaglight_up", " (x,y,z) = (met, m_glu, m_lsp). Type 1 MET with Light Btag SF fluctuated up for"+g_sample_name, 6000, 0, 6000, 2000, 0, 2000, 2000, 0, 2000);
+    susy_type1MET_btaglight_up->SetDirectory(rootdir);
+    susy_type1MET_btaglight_up->Sumw2();
 
-    TH1D *type1MET_btaglight_up = new TH1D("type1MET_btaglight_up", "Type 1 MET with Light Btag SF fluctuated up for"+g_sample_name, 6000,0,6000);
-    type1MET_btaglight_up->SetDirectory(rootdir);
-    type1MET_btaglight_up->Sumw2();
+    TH3D *susy_type1MET_btagheavy_up = new TH3D("susy_type1MET_btagheavy_up", "(x,y,z) = (met, m_glu, m_lsp). Type 1 MET with Heavy Btag SF fluctuated up for"+g_sample_name, 6000, 0, 6000, 2000, 0, 2000, 2000, 0, 2000);
+    susy_type1MET_btagheavy_up->SetDirectory(rootdir);
+    susy_type1MET_btagheavy_up->Sumw2();
 
-    TH1D *type1MET_btaglight_down = new TH1D("type1MET_btaglight_down", "Type 1 MET with Light Btag SF fluctuated down for"+g_sample_name, 6000,0,6000);
-    type1MET_btaglight_down->SetDirectory(rootdir);
-    type1MET_btaglight_down->Sumw2();
-
-    TH1D *type1MET_btagheavy_up = new TH1D("type1MET_btagheavy_up", "Type 1 MET with Heavy Btag SF fluctuated up for"+g_sample_name, 6000,0,6000);
-    type1MET_btagheavy_up->SetDirectory(rootdir);
-    type1MET_btagheavy_up->Sumw2();
-
-    TH1D *type1MET_btagheavy_down = new TH1D("type1MET_btagheavy_down", "Type 1 MET with Heavy Btag SF fluctuated down for"+g_sample_name, 6000,0,6000);
-    type1MET_btagheavy_down->SetDirectory(rootdir);
-    type1MET_btagheavy_down->Sumw2();
+    TH3D *susy_type1MET_isr_up = new TH3D("susy_type1MET_isr_up", "(x,y,z) = (met, m_glu, m_lsp). Type 1 MET with ISR SF fluctuated up for"+g_sample_name, 6000, 0, 6000, 0, 2000, 2000, 0, 2000);
+    susy_type1MET_isr_up->SetDirectory(rootdir);
+    susy_type1MET_isr_up->Sumw2();
   }
 
   TH1D *dphi_gamma_MET, *dphi_gamma_MET100, *dphi_gamma_MET200, *dphi_gamma_MET300, *dphi_gamma_MET400, *dphi_gamma_MET500;
@@ -1949,7 +1937,7 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
       printFail = false;
 
       //if (inspection_set.count(phys.evt()) != 0){
-      if ( inspection_set_erl.count(make_tuple(phys.evt(), phys.run(), phys.lumi())) != 0){
+      /*if ( inspection_set_erl.count(make_tuple(phys.evt(), phys.run(), phys.lumi())) != 0){
         cout<<"evt: "<<phys.evt()<<" run: "<<phys.run()<<" lumi: "<<phys.lumi()<<endl;
         printStats=true;
         printFail = true;
@@ -1957,7 +1945,7 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
       else{
         continue;
       }
-
+      */
       /*if ( inVinceNotMine.count(phys.evt()) != 0){
         printFail = true;
         cout<<"checking event: "<<phys.evt()<<endl;
@@ -2059,15 +2047,6 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
       if (phys.met_T1CHS_miniAOD_CORE_pt() != 0) {
         t1met->Fill(phys.met_T1CHS_miniAOD_CORE_pt(), weight);
         t1met_widebin->Fill(phys.met_T1CHS_miniAOD_CORE_pt(), weight);
-
-        if(conf->get("SUSY_Glu_LSP_scan") == "true"){
-          type1MET_btagheavy_up->Fill(phys.met_T1CHS_miniAOD_CORE_pt(), weight*phys.weight_btagsf_heavy_UP());
-          type1MET_btaglight_up->Fill(phys.met_T1CHS_miniAOD_CORE_pt(), weight*phys.weight_btagsf_light_UP());
-
-          type1MET_btagheavy_down->Fill(phys.met_T1CHS_miniAOD_CORE_pt(), weight*phys.weight_btagsf_heavy_DN());
-          type1MET_btaglight_down->Fill(phys.met_T1CHS_miniAOD_CORE_pt(), weight*phys.weight_btagsf_light_DN());
-        }
-
       }
       if (phys.met_rawPt() != 0) rawmet->Fill(phys.met_rawPt(), weight);
       if (phys.ht() != 0) {
@@ -2189,18 +2168,20 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
       }
 
       if(conf->get("SUSY_Glu_LSP_scan") == "true"){
-        if (phys.met_T1CHS_miniAOD_CORE_pt() > 350 ) susy_counts_350->Fill(phys.mass_gluino(),phys.mass_LSP(),weight);
-        else if (phys.met_T1CHS_miniAOD_CORE_pt() > 250 ) susy_counts_250_350->Fill(phys.mass_gluino(),phys.mass_LSP(),weight);
-        else if (phys.met_T1CHS_miniAOD_CORE_pt() > 150 ) susy_counts_150_250->Fill(phys.mass_gluino(),phys.mass_LSP(),weight);
-        else if (phys.met_T1CHS_miniAOD_CORE_pt() > 100 ) susy_counts_100_150->Fill(phys.mass_gluino(),phys.mass_LSP(),weight);
+          susy_type1MET_counts->Fill(phys.met_T1CHS_miniAOD_CORE_pt(), phys.mass_gluino(),phys.mass_LSP(), weight);
+          
+          susy_type1MET_btagheavy_up->Fill(phys.met_T1CHS_miniAOD_CORE_pt(), phys.mass_gluino(), phys.mass_LSP(), weight*phys.weight_btagsf_heavy_UP());
+          susy_type1MET_btaglight_up->Fill(phys.met_T1CHS_miniAOD_CORE_pt(), phys.mass_gluino(), phys.mass_LSP(), weight*phys.weight_btagsf_light_UP());
+
+          susy_type1MET_isr_up->Fill(phys.met_T1CHS_miniAOD_CORE_pt(), phys.mass_gluino(), phys.mass_LSP(), (weight)*(1+(phys.isr_unc()/phys.isr_weight())) );
       }
 
       if(conf->get("ECalTest") != ""){
         double dphi_gm = acos(cos(phys.met_T1CHS_miniAOD_CORE_phi() - phys.gamma_p4().at(0).phi()));
         dphi_gamma_MET->Fill(dphi_gm, weight); 
 
-        if (phys.met_T1CHS_miniAOD_CORE_pt() >= 100){
           dphi_gamma_MET100->Fill(dphi_gm, weight);
+        if (phys.met_T1CHS_miniAOD_CORE_pt() >= 100){
           pt_gamma_MET100->Fill(bosonPt(), weight);  
         }
         if (phys.met_T1CHS_miniAOD_CORE_pt() >= 200){
@@ -2367,15 +2348,12 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
     //cout<<__LINE__<<endl;
   }
   if(conf->get("SUSY_Glu_LSP_scan") == "true"){
-    susy_counts_100_150->Write();
-    susy_counts_150_250->Write();
-    susy_counts_250_350->Write();
-    susy_counts_350->Write();
+    susy_type1MET_counts->Write();
 
-    type1MET_btagheavy_up->Write();
-    type1MET_btaglight_up->Write();
-    type1MET_btagheavy_down->Write();
-    type1MET_btaglight_down->Write();
+    susy_type1MET_btagheavy_up->Write();
+    susy_type1MET_btaglight_up->Write();
+
+    susy_type1MET_isr_up->Write();
   }
   if(conf->get("ECalTest") != ""){
     dphi_gamma_MET->Write();
