@@ -376,7 +376,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
     l1 = new TLegend(0.73, 0.73, 0.88, 0.88);
   }
   else{
-    l1 = new TLegend(0.63, 0.63, 0.88, 0.88);
+    l1 = new TLegend(0.55, 0.55, 0.9, 0.9);
   }
   
   
@@ -1052,7 +1052,7 @@ TString drawArbitraryNumber(ConfigParser *conf){
     l1 = new TLegend(0.73, 0.73, 0.88, 0.88);
   }
   else{
-    l1 = new TLegend(0.63, 0.63, 0.88, 0.88);
+    l1 = new TLegend(0.55, 0.55, 0.9, 0.9);
   }
   
   l1->SetLineColor(kWhite);  
