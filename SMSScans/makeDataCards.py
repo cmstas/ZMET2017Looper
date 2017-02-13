@@ -71,7 +71,7 @@ def getNuisenceParameters(SR):
   for line in f:
     if re.match("{.*} [0-9]*\.[0-9]*\s$", line):
       toks=line.split()
-      n_dict[toks[0][1:-1]] = properSpacing(toks[0],toks[1])
+      n_dict[toks[0][1:-1]] = properSpacing(toks[0],"%.4f" % float(toks[1]))
 
   addConstantVals(n_dict)
 
