@@ -2212,9 +2212,9 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
           susy_type1MET_counts->Fill(phys.met_T1CHS_miniAOD_CORE_pt(), phys.mass_gluino(), phys.mass_LSP(), weight);
           
           cout<<__LINE__<<endl;
-          
-          susy_type1MET_btagheavy_up->Fill(phys.met_T1CHS_miniAOD_CORE_pt(), phys.mass_gluino(), phys.mass_LSP(), weight*phys.weight_btagsf_heavy_UP());
-          susy_type1MET_btaglight_up->Fill(phys.met_T1CHS_miniAOD_CORE_pt(), phys.mass_gluino(), phys.mass_LSP(), weight*phys.weight_btagsf_light_UP());
+          susy_type1MET_counts->Fill(phys.met_T1CHS_miniAOD_CORE_pt(), phys.mass_gluino(), phys.mass_LSP(), weight);
+          //susy_type1MET_btagheavy_up->Fill(phys.met_T1CHS_miniAOD_CORE_pt(), phys.mass_gluino(), phys.mass_LSP(), weight*phys.weight_btagsf_heavy_UP());
+          //susy_type1MET_btaglight_up->Fill(phys.met_T1CHS_miniAOD_CORE_pt(), phys.mass_gluino(), phys.mass_LSP(), weight*phys.weight_btagsf_light_UP());
           
           cout<<__LINE__<<endl;
           
