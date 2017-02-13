@@ -4,11 +4,17 @@ histos/
 #Output of commands
 outputs/
 
+#Configs
+*.conf_tmp
+*.conf.bak
+*.conf.conf
+
 #compiled stuff
 *.so
 *.d
 *.pcm
 *.pyc
+*.pyo
 
 #mac crap
 .DS_Store
