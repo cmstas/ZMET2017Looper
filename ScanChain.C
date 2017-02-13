@@ -1741,12 +1741,23 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
     mjj_min_dphi->Sumw2();
   }
 
-  //T5ZZ model
-  const int n_gluino_bins = 18;
+  //T5ZZ model natural binning
+  /*const int n_gluino_bins = 18;
   const double gluino_bins[n_gluino_bins+1] = {800.000000,900.000000,1000.000000,1050.000000,1100.000000,1150.000000,1200.000000,1250.000000,1300.000000,1350.000000,1400.000000,1450.000000,1500.000000,1550.000000,1600.000000,1650.000000,1700.000000,1750.000000,1800.000000};
 
   const int n_lsp_bins = 54;
   const double lsp_bins[n_lsp_bins+1] = {25.000000,50.000000,100.000000,150.000000,200.000000,250.000000,300.000000,350.000000,400.000000,450.000000,500.000000,550.000000,600.000000,650.000000,700.000000,750.000000,790.000000,800.000000,850.000000,890.000000,900.000000,950.000000,990.000000,1000.000000,1040.000000,1050.000000,1090.000000,1100.000000,1140.000000,1150.000000,1190.000000,1200.000000,1240.000000,1250.000000,1290.000000,1300.000000,1340.000000,1350.000000,1390.000000,1400.000000,1440.000000,1450.000000,1490.000000,1500.000000,1540.000000,1550.000000,1590.000000,1600.000000,1640.000000,1650.000000,1690.000000,1700.000000,1740.000000,1750.000000,1790.000000};
+
+  const int n_met_bins = 5;
+  const double met_bins[n_met_bins+1] = {50, 100, 150, 250, 350, 6000};*/
+
+
+  //T5ZZ contrived binning 
+  const int n_gluino_bins = 20;
+  const double gluino_bins[n_gluino_bins+1] = {800,850,900,950,1000.000000,1050.000000,1100.000000,1150.000000,1200.000000,1250.000000,1300.000000,1350.000000,1400.000000,1450.000000,1500.000000,1550.000000,1600.000000,1650.000000,1700.000000,1750.000000,1800.000000};
+
+  const int n_lsp_bins = 31;
+  const double lsp_bins[n_lsp_bins+1]={100.000000,150.000000,200.000000,250.000000,300.000000,350.000000,450.000000,500.000000,550.000000,600.000000,650.000000,700.000000,750.000000,800.000000,850.000000,950.000000,1000.000000,1050.000000,1100.000000,1150.000000,1200.000000,1250.000000,1300.000000,1350.000000,1450.000000,1500.000000,1550.000000,1600.000000,1650.000000,1700.000000,1750.000000,1800}
 
   const int n_met_bins = 5;
   const double met_bins[n_met_bins+1] = {50, 100, 150, 250, 350, 6000};
@@ -2199,24 +2210,24 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
         mu_pt->Fill(phys.lep_pt().at(0), weight);
       }
 
-      cout<<__LINE__<<endl;
+      //cout<<__LINE__<<endl;
 
       if(conf->get("SUSY_Glu_LSP_scan") == "true"){
-          cout<<"mglu: "<<phys.mass_gluino()<<endl;
-          cout<<"mlsp: "<<phys.mass_LSP()<<endl;
-          cout<<"met: "<<phys.met_T1CHS_miniAOD_CORE_pt()<<endl;
-          cout<<"weight: "<<weight<<endl;
+          //cout<<"mglu: "<<phys.mass_gluino()<<endl;
+          //cout<<"mlsp: "<<phys.mass_LSP()<<endl;
+          //cout<<"met: "<<phys.met_T1CHS_miniAOD_CORE_pt()<<endl;
+          //cout<<"weight: "<<weight<<endl;
 
-          cout<<__LINE__<<endl;
+          //cout<<__LINE__<<endl;
 
           susy_type1MET_counts->Fill(phys.met_T1CHS_miniAOD_CORE_pt(), phys.mass_gluino(), phys.mass_LSP(), weight);
           
-          cout<<__LINE__<<endl;
-          //susy_type1MET_counts->Fill(phys.met_T1CHS_miniAOD_CORE_pt(), phys.mass_gluino(), phys.mass_LSP(), weight);
+          //cout<<__LINE__<<endl;
+          
           susy_type1MET_btagheavy_up->Fill(phys.met_T1CHS_miniAOD_CORE_pt(), phys.mass_gluino(), phys.mass_LSP(), weight*phys.weight_btagsf_heavy_UP());
           susy_type1MET_btaglight_up->Fill(phys.met_T1CHS_miniAOD_CORE_pt(), phys.mass_gluino(), phys.mass_LSP(), weight*phys.weight_btagsf_light_UP());
           
-          cout<<__LINE__<<endl;
+          //cout<<__LINE__<<endl;
           
           susy_type1MET_isr_up->Fill(phys.met_T1CHS_miniAOD_CORE_pt(), phys.mass_gluino(), phys.mass_LSP(), (weight)*(1+(phys.isr_unc()/phys.isr_weight())) );
       }
