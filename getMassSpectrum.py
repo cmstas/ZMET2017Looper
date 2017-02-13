@@ -1,6 +1,10 @@
 #!/usr/bin/env python
 import ROOT, sys, sets, os
 
+mass_points = sets.Set()
+files_in = []
+output_filename = ""
+
 def checkInputs():
   if (len(sys.argv) < 2) or (".root" in sys.argv[1]):
     print("Usage: ")
@@ -11,7 +15,7 @@ def checkInputs():
 
 def fillMassSpectrumFromTChain():
   ch = ROOT.TChain("t")
-  for i in sys.argv[2:]:
+  for i in files_in:
     ch.Add(i)
 
   ch.SetBranchStatus("*", 0)
@@ -46,23 +50,34 @@ def fillMassSpectrumFromTChain():
   outfile.close()
 
 def fillMassSpectrumFromCache():
+  """parse the mass binning file with output_filename as it's filename and fill the mass points set"""
   mass_file = open(output_filename, 'r')
   for line in mass_file:
     a=line.split()
     mass_points.add((int(float(a[2])), int(float(a[4]))))
 
 def fillMassSpectrum():
+  """checks if the sample name already has a mass binning file made, if it does, parse it and fill the mass spectrum, otherwise read the files in a build the mass spectrum on the fly."""
   if not os.path.isfile(output_filename):
     fillMassSpectrumFromTChain()
   else:
     fillMassSpectrumFromCache()
 
-checkInputs()
-name=sys.argv[1]
-output_filename = "SMSScans/Spectra/mass_spectrum_%s.txt" % name
-mass_points = sets.Set()
-fillMassSpectrum()
+def getMassSpectrum(name, f_paths):
+  """returns a list of pairs (mass_gluino, mass_LSP)"""
+  output_filename = "SMSScans/Spectra/mass_spectrum_%s.txt" % name
+  files_in = f_paths
+  
+  fillMassSpectrum()
 
-for i in mass_points:
-    print("mass gluino: %f \t mass_LSP: %f \n" % (i[0], i[1]))
+  return mass_points
+
+if __name__ == "__main__":
+  checkInputs()
+  name=sys.argv[1]
+  output_filename = "SMSScans/Spectra/mass_spectrum_%s.txt" % name
+  fillMassSpectrum()
+
+  for i in mass_points:
+      print("mass gluino: %f \t mass_LSP: %f" % (i[0], i[1]))
 
