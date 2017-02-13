@@ -57,8 +57,8 @@ def fillMassSpectrum():
   else:
     fillMassSpectrumFromCache()
 
-name=sys.argv[1]
 checkInputs()
+name=sys.argv[1]
 output_filename = "SMSScans/Spectra/mass_spectrum_%s.txt" % name
 mass_points = sets.Set()
 fillMassSpectrum()
