@@ -1760,15 +1760,15 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
     susy_type1MET_counts->SetDirectory(rootdir);
     susy_type1MET_counts->Sumw2();
 
-    TH3D *susy_type1MET_btaglight_up = new TH3D("susy_type1MET_btaglight_up", " (x,y,z) = (met, m_glu, m_lsp). Type 1 MET with Light Btag SF fluctuated up for"+g_sample_name, n_met_bins, met_bins, n_gluino_bins, gluino_bins, n_lsp_bins, lsp_bins);
+    susy_type1MET_btaglight_up = new TH3D("susy_type1MET_btaglight_up", " (x,y,z) = (met, m_glu, m_lsp). Type 1 MET with Light Btag SF fluctuated up for"+g_sample_name, n_met_bins, met_bins, n_gluino_bins, gluino_bins, n_lsp_bins, lsp_bins);
     susy_type1MET_btaglight_up->SetDirectory(rootdir);
     susy_type1MET_btaglight_up->Sumw2();
 
-    TH3D *susy_type1MET_btagheavy_up = new TH3D("susy_type1MET_btagheavy_up", "(x,y,z) = (met, m_glu, m_lsp). Type 1 MET with Heavy Btag SF fluctuated up for"+g_sample_name, n_met_bins, met_bins, n_gluino_bins, gluino_bins, n_lsp_bins, lsp_bins);
+    susy_type1MET_btagheavy_up = new TH3D("susy_type1MET_btagheavy_up", "(x,y,z) = (met, m_glu, m_lsp). Type 1 MET with Heavy Btag SF fluctuated up for"+g_sample_name, n_met_bins, met_bins, n_gluino_bins, gluino_bins, n_lsp_bins, lsp_bins);
     susy_type1MET_btagheavy_up->SetDirectory(rootdir);
     susy_type1MET_btagheavy_up->Sumw2();
 
-    TH3D *susy_type1MET_isr_up = new TH3D("susy_type1MET_isr_up", "(x,y,z) = (met, m_glu, m_lsp). Type 1 MET with ISR SF fluctuated up for"+g_sample_name, n_met_bins, met_bins, n_gluino_bins, gluino_bins, n_lsp_bins, lsp_bins);
+    susy_type1MET_isr_up = new TH3D("susy_type1MET_isr_up", "(x,y,z) = (met, m_glu, m_lsp). Type 1 MET with ISR SF fluctuated up for"+g_sample_name, n_met_bins, met_bins, n_gluino_bins, gluino_bins, n_lsp_bins, lsp_bins);
     susy_type1MET_isr_up->SetDirectory(rootdir);
     susy_type1MET_isr_up->Sumw2();
   }
@@ -2212,9 +2212,9 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
           susy_type1MET_counts->Fill(phys.met_T1CHS_miniAOD_CORE_pt(), phys.mass_gluino(), phys.mass_LSP(), weight);
           
           cout<<__LINE__<<endl;
-          susy_type1MET_counts->Fill(phys.met_T1CHS_miniAOD_CORE_pt(), phys.mass_gluino(), phys.mass_LSP(), weight);
-          //susy_type1MET_btagheavy_up->Fill(phys.met_T1CHS_miniAOD_CORE_pt(), phys.mass_gluino(), phys.mass_LSP(), weight*phys.weight_btagsf_heavy_UP());
-          //susy_type1MET_btaglight_up->Fill(phys.met_T1CHS_miniAOD_CORE_pt(), phys.mass_gluino(), phys.mass_LSP(), weight*phys.weight_btagsf_light_UP());
+          //susy_type1MET_counts->Fill(phys.met_T1CHS_miniAOD_CORE_pt(), phys.mass_gluino(), phys.mass_LSP(), weight);
+          susy_type1MET_btagheavy_up->Fill(phys.met_T1CHS_miniAOD_CORE_pt(), phys.mass_gluino(), phys.mass_LSP(), weight*phys.weight_btagsf_heavy_UP());
+          susy_type1MET_btaglight_up->Fill(phys.met_T1CHS_miniAOD_CORE_pt(), phys.mass_gluino(), phys.mass_LSP(), weight*phys.weight_btagsf_light_UP());
           
           cout<<__LINE__<<endl;
           
