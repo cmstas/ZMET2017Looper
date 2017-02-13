@@ -91,7 +91,7 @@ def makeDataCard(sp, SR):
   #  print("%s : %s" % (x, n_parms[SR][x]))
 
   f_template=open("%s%s.txt" % (templates_path, SR), 'r')
-  f_out=open("%s%s_mglu%d_mlsp%d.txt" % (output_path, SR, sp[0], sp[1]), 'w+')
+  f_out=open("%sdatacard_%s_mGluino_%d_mLSP_%d_.txt" % (output_path, SR, sp[0], sp[1]), 'w+')
 
   f_out.write(f_template.read().format(**n_parms[SR]))
 
