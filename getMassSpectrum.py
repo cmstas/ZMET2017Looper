@@ -75,6 +75,7 @@ def getMassSpectrum(name, f_paths):
 if __name__ == "__main__":
   checkInputs()
   name=sys.argv[1]
+  files_in=sys.argv[2:]
   output_filename = "SMSScans/Spectra/mass_spectrum_%s.txt" % name
   fillMassSpectrum()
 
