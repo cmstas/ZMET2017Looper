@@ -25,3 +25,10 @@ outputs/
 #debugging stuff
 *.debug
 *.log
+
+#ROOT
+CMSSW_*/
+
+#Code Output
+efficiency_table*
+
