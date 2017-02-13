@@ -378,7 +378,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   else{
     l1 = new TLegend(0.63, 0.63, 0.88, 0.88);
   }
-  }
+  
   
   l1->SetLineColor(kWhite);  
   l1->SetShadowColor(kWhite);
@@ -1048,7 +1048,12 @@ TString drawArbitraryNumber(ConfigParser *conf){
   //===========================
 
   TLegend *l1;
-  l1 = new TLegend(0.73, 0.73, 0.88, 0.88);
+  if (conf->get("small_legend") == "true"){
+    l1 = new TLegend(0.73, 0.73, 0.88, 0.88);
+  }
+  else{
+    l1 = new TLegend(0.63, 0.63, 0.88, 0.88);
+  }
   
   l1->SetLineColor(kWhite);  
   l1->SetShadowColor(kWhite);
