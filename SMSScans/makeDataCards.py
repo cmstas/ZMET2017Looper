@@ -73,7 +73,7 @@ def getNuisenceParameters(SR):
       if "rsfof*kappa" in toks[0]:
         n_dict[toks[0][1:-1]] = properSpacing(toks[0],"%.5f" % float(toks[1]))
       elif "count_" in toks[0] and "_fsbkg" in toks[0]:
-        n_dict[toks[0][1:-1]] = properSpacing(toks[0],"%d" % int(toks[1]))
+        n_dict[toks[0][1:-1]] = properSpacing(toks[0],"%d" % int(float(toks[1])))
       else:
         n_dict[toks[0][1:-1]] = properSpacing(toks[0],"%.3f" % float(toks[1]))
 
