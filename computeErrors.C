@@ -177,6 +177,7 @@ vector<double> getMetTemplatesError(const vector<double> &stat_err, const vector
 
   printTemplatesDebug(bin_count, output_errors, stat_err, closure_err, norm_err, ewk_err, bin_edge);
 
+  cout<<setprecision(10);
   //--------------------------------
   // To be parsed by datacard maker
   //--------------------------------
@@ -188,6 +189,7 @@ vector<double> getMetTemplatesError(const vector<double> &stat_err, const vector
     cout<<"{zjets_stat_bin"<<i<<"} "<<1.+(stat_err[i]/bin_count[i])<<endl;
     cout<<"{zjets_ewk_bin"<<i<<"} "<<1.+(ewk_err[i]/bin_count[i])<<endl;
   }
+  cout<<setprecision(2);
 
   return output_errors;
 }
@@ -211,6 +213,7 @@ pair<vector<double>,vector<double>> getFSError(const vector<double> &bin_count, 
     error_dn.push_back(sqrt(bin_dn));
   }
 
+  cout<<setprecision(10);
   //--------------------------------
   // To be parsed by datacard maker
   //--------------------------------
@@ -222,6 +225,7 @@ pair<vector<double>,vector<double>> getFSError(const vector<double> &bin_count, 
     cout<<"{BGbin"<<i<<"_fsbkg} "<<bin_count[i]*RSFOFxKappa<<endl;
     cout<<"{count_bin"<<i<<"_fsbkg} "<<bin_count[i]<<endl;
   }
+  cout<<setprecision(2);
 
 
   return make_pair(error_up, error_dn);

@@ -25,30 +25,43 @@ def properSpacing(key, param):
 
   return param
 
-def addSignalYields(d, SR):
+def addSignalYields(d, SR, mass_gluino, mass_lsp):
+  """Pulls and computes CV. yields, stat uncertainty, btag light SF unc, btag heavy SF unc, and ISR SF unc from the signal scan histogram at the proper mass point."""
 
-  yields=getSignalNumbers.getSignalYields(SR, "%s%s/%s.root" % (histogram_Path, SR, signal_name))
+  yields, stat_uncs, bl_yields, bh_yields, isr_yields = getSignalNumbers.getSignalYields(SR, mass_gluino, mass_lsp, "%s%s/%s.root" % (histogram_Path, SR, signal_name))
 
   for i,y in enumerate(yields):
-    d["BGbin%d_sig" % i] = properSpacing("{BGbin1_sig}", "%.2f" % y)
+    stat_nuisence = 0
+    bl_nuisence = 0
+    bh_nuisence = 0
+    isr_nuisence = 0
+
+    #make sure we don't divide by 0
+    if y != 0:
+      stat_nuisence = (1 + stat_uncs[i]/y)
+      bl_nuisence = bl_yields[i]/y
+      bh_nuisence = bh_yields[i]/y
+      isr_nuisence = isr_yields[i]/y
+
+    d["BGbin%d_sig" % i] = properSpacing("{BGbin1_sig}", "%.4f" % y)
+    d["sig_stat_syst_bin%d" % i] = properSpacing("{sig_stat_syst_bin1}","%.4f" % stat_nuisence)
+
+    d["sig_btaglight_syst_bin%d" % i] = properSpacing("{sig_btaglight_syst_bin1}", "%.4f" % bl_nuisence)  
+    d["sig_btagheavy_syst_bin%d" % i] = properSpacing("{sig_btagheavy_syst_bin1}", "%.4f" % bh_nuisence)  
+
+    d["sig_isr_syst_bin%d" % i] = properSpacing("{sig_isr_syst_bin1}", "%.4f" % isr_nuisence)
 
 def addConstantVals(d):
-  d["sig_trig_syst"] = properSpacing("{sig_trig_syst}","0.04")
-  d["sig_metfromFS_syst_bin1"] = properSpacing("{sig_metfromFS_syst_bin1}","0.04")
-  d["sig_metfromFS_syst_bin2"] = properSpacing("{sig_metfromFS_syst_bin2}","0.04")
-  d["sig_metfromFS_syst_bin3"] = properSpacing("{sig_metfromFS_syst_bin3}","0.04")
-  d["sig_leptonFS_syst"] = properSpacing("{sig_leptonFS_syst}","0.04")
-  d["sig_btagheavy_syst"] = properSpacing("{sig_btagheavy_syst}","0.04")
-  d["sig_btaglight_syst"] = properSpacing("{sig_btaglight_syst}","0.04")
-  d["sig_lumi_syst"] = properSpacing("{sig_lumi_syst}","0.04")
-  d["sig_isr_syst"] = properSpacing("{sig_isr_syst}","0.04")
-  d["sig_JES_syst_bin1"] = properSpacing("{sig_JES_syst_bin1}","0.04")
-  d["sig_JES_syst_bin2"] = properSpacing("{sig_JES_syst_bin2}","0.04")
-  d["sig_JES_syst_bin3"] = properSpacing("{sig_JES_syst_bin3}","0.04")
-
-  d["sig_stat_syst_bin1"] = properSpacing("{sig_stat_syst_bin1}","0.04")
-  d["sig_stat_syst_bin2"] = properSpacing("{sig_stat_syst_bin2}","0.04")
-  d["sig_stat_syst_bin3"] = properSpacing("{sig_stat_syst_bin3}","0.04")
+  d["sig_trig_syst"] = properSpacing("{sig_trig_syst}","1.04")
+  d["sig_metfromFS_syst_bin1"] = properSpacing("{sig_metfromFS_syst_bin1}","1.04")
+  d["sig_metfromFS_syst_bin2"] = properSpacing("{sig_metfromFS_syst_bin2}","1.04")
+  d["sig_metfromFS_syst_bin3"] = properSpacing("{sig_metfromFS_syst_bin3}","1.04")
+  d["sig_leptonFS_syst"] = properSpacing("{sig_leptonFS_syst}","1.04")
+  
+  d["sig_lumi_syst"] = properSpacing("{sig_lumi_syst}","1.04")
+  d["sig_JES_syst_bin1"] = properSpacing("{sig_JES_syst_bin1}","1.04")
+  d["sig_JES_syst_bin2"] = properSpacing("{sig_JES_syst_bin2}","1.04")
+  d["sig_JES_syst_bin3"] = properSpacing("{sig_JES_syst_bin3}","1.04")
 
 def getNuisenceParameters(SR):
   """Reads in the output of the plot maker for the signal region and collects all the key value pairs of nuisance parameters."""
@@ -61,7 +74,6 @@ def getNuisenceParameters(SR):
       n_dict[toks[0][1:-1]] = properSpacing(toks[0],toks[1])
 
   addConstantVals(n_dict)
-  addSignalYields(n_dict, SR)
 
   return n_dict
 
@@ -69,11 +81,13 @@ def makeDataCard(sp, SR):
   if SR not in n_parms.keys():
     n_parms[SR] = getNuisenceParameters(SR)
 
+  addSignalYields(n_parms[SR], SR, sp[0], sp[1])
+
   for x in n_parms[SR].keys():
     print("%s : %s" % (x, n_parms[SR][x]))
 
   f_template=open("%s%s.txt" % (templates_path, SR), 'r')
-  f_out=open("%s%s_mglu%s_mlsp_%s.txt" % (output_path, SR, sp[0], sp[1]), 'w+')
+  f_out=open("%s%s_mglu%d_mlsp%d.txt" % (output_path, SR, sp[0], sp[1]), 'w+')
 
   f_out.write(f_template.read().format(**n_parms[SR]))
 
@@ -83,9 +97,10 @@ def makeDataCard(sp, SR):
 
 def main():
   #mass_spectrum = getMassSpectrumFromTChain(signal_chain)
-  #makeDataCard((1800,800), "SRAb")
+  #makeDataCard((1750.000000,1700.000000), "SRAb")
 
   for sp in mass_spectrum:
+    #pass
     #makeDataCard(sp, "SRA")
     makeDataCard(sp, "SRAb")
     #makeDataCard(sp, "SRB")

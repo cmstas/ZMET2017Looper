@@ -679,7 +679,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
       //--------------------------------
       // To be parsed by datacard maker
       //--------------------------------
-
+      cout<<setprecision(10);
       cout<<"{mcbkg_scale_unc} "<<sqrt( pow(ZZ_scale_unc,2) + pow(WZ_scale_unc,2) + pow(VVV_scale_unc,2) + pow(TTV_scale_unc,2) )<<endl;
 
       for (int i = 0; i<(int)rare_count.size(); i++){
@@ -689,7 +689,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
       for (int i = 0; i<(int)signal_count.size(); i++){
         cout<<"{bin"<<i<<"_yield} "<<signal_count[i]<<endl;
       }
-
+      cout<<setprecision(2);
       
       //Blinding works by first zeroing out all bins past the number given
       //Then we recompute the numbers for the signal counts
