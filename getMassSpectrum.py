@@ -14,6 +14,10 @@ def fillMassSpectrumFromTChain():
   for i in sys.argv[2:]:
     ch.Add(i)
 
+  ch.SetBranchStatus("*", 0)
+  ch.SetBranchStatus("mass_LSP", 1)
+  ch.SetBranchStatus("mass_gluino", 1)
+
   n_entries = ch.GetEntries()
   for j_entry in range(n_entries):
     
