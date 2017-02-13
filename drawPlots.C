@@ -680,9 +680,9 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
       // To be parsed by datacard maker
       //--------------------------------
       cout<<setprecision(10);
-      cout<<"{mcbkg_scale_unc} "<<1. + sqrt( pow(ZZ_scale_unc,2) + pow(WZ_scale_unc,2) + pow(VVV_scale_unc,2) + pow(TTV_scale_unc,2) )<<endl;
-
+      //cout<<"{mcbkg_scale_unc} "<<1. + (sqrt( pow(ZZ_count*ZZ_scale_unc,2) + pow(WZ_count*WZ_scale_unc,2) + pow(VVV_count*VVV_scale_unc,2) + pow(TTV_count*TTV_scale_unc,2))/)<<endl;
       for (int i = 0; i<(int)rare_count.size(); i++){
+        cout<<"{mcbkg_scale_unc_bin"<<i<<"} "<<1. + (sqrt( pow(ZZ_count[i]*ZZ_scale_unc,2) + pow(WZ_count[i]*WZ_scale_unc,2) + pow(VVV_count[i]*VVV_scale_unc,2) + pow(TTV_count[i]*TTV_scale_unc,2))/rare_count[i])<<endl;
         cout<<"{BGbin"<<i<<"_mcbkg} "<<rare_count[i]<<endl;
         cout<<"{mc_stat_bin"<<i<<"} "<<1.+rare_err[i]/rare_count[i]<<endl;
       }
