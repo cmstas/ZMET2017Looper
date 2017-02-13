@@ -42,11 +42,11 @@ def addSignalYields(d, SR, mass_gluino, mass_lsp):
       bh_nuisence = bh_yields[i]/y
       isr_nuisence = isr_yields[i]/y
 
-    d["BGbin%d_sig" % i] = properSpacing("{BGbin1_sig}", "%.4f" % y)
-    d["sig_stat_syst_bin%d" % i] = properSpacing("{sig_stat_syst_bin1}","%.4f" % stat_nuisence)
+    d["BGbin%d_sig" % i] = properSpacing("{BGbin1_sig}", "%.3f" % y)
+    d["sig_stat_syst_bin%d" % i] = properSpacing("{sig_stat_syst_bin1}","%.3f" % stat_nuisence)
 
-    d["sig_btaglight_syst_bin%d" % i] = properSpacing("{sig_btaglight_syst_bin1}", "%.4f" % bl_nuisence)  
-    d["sig_btagheavy_syst_bin%d" % i] = properSpacing("{sig_btagheavy_syst_bin1}", "%.4f" % bh_nuisence)  
+    d["sig_btaglight_syst_bin%d" % i] = properSpacing("{sig_btaglight_syst_bin1}", "%.3f" % bl_nuisence)  
+    d["sig_btagheavy_syst_bin%d" % i] = properSpacing("{sig_btagheavy_syst_bin1}", "%.3f" % bh_nuisence)  
 
     d["sig_isr_syst_bin%d" % i] = properSpacing("{sig_isr_syst_bin1}", "%.4f" % isr_nuisence)
 
@@ -70,7 +70,7 @@ def getNuisenceParameters(SR):
   for line in f:
     if re.match("{.*} [0-9]*\.[0-9]*\s$", line):
       toks=line.split()
-      n_dict[toks[0][1:-1]] = properSpacing(toks[0],"%.4f" % float(toks[1]))
+      n_dict[toks[0][1:-1]] = properSpacing(toks[0],"%.3f" % float(toks[1]))
 
   addConstantVals(n_dict)
 

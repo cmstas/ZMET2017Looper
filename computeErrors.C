@@ -219,7 +219,7 @@ pair<vector<double>,vector<double>> getFSError(const vector<double> &bin_count, 
   //--------------------------------
   cout<<"{rsfof_unc} "<<1.+RSFOF_unc<<endl;
   cout<<"{kappa_unc} "<<1.+kappa_unc<<endl;
-  cout<<"{rsfof*kappa} "<<1.+RSFOFxKappa<<endl;
+  cout<<"{rsfof*kappa} "<<RSFOFxKappa<<endl;
 
   for (int i = 0; i<(int)bin_count.size(); i++){
     cout<<"{BGbin"<<i<<"_fsbkg} "<<bin_count[i]*RSFOFxKappa<<endl;
