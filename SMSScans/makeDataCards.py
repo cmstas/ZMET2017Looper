@@ -105,7 +105,7 @@ def main():
 
   for sp in mass_spectrum:
     #pass
-    #makeDataCard(sp, "SRA")
+    makeDataCard(sp, "SRA")
     makeDataCard(sp, "SRAb")
     #makeDataCard(sp, "SRB")
     #makeDataCard(sp, "SRBb")
