@@ -3,6 +3,7 @@ histos/
 
 #Output of commands
 outputs/
+SMSScans/DataCards/
 
 #Configs
 *.conf_tmp
