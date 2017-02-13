@@ -376,14 +376,14 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
     l1 = new TLegend(0.73, 0.73, 0.88, 0.88);
   }
   else{
-    l1 = new TLegend(0.55, 0.55, 0.9, 0.9);
+    l1 = new TLegend(0.6, 0.55, 0.88, 0.88);
   }
   
   
   l1->SetLineColor(kWhite);  
   l1->SetShadowColor(kWhite);
   l1->SetFillColor(kWhite);
-  l1->SetTextSize(.02);
+  l1->SetTextSize(.03);
   //cout<<__LINE__<<endl;
   l1->AddEntry(hists[0], hist_labels[0], "p");
   for (int i = 1; i<num_hists; i++){
@@ -1052,13 +1052,13 @@ TString drawArbitraryNumber(ConfigParser *conf){
     l1 = new TLegend(0.73, 0.73, 0.88, 0.88);
   }
   else{
-    l1 = new TLegend(0.55, 0.55, 0.9, 0.9);
+    l1 = new TLegend(0.6, 0.55, 0.88, 0.88);
   }
   
   l1->SetLineColor(kWhite);  
   l1->SetShadowColor(kWhite);
   l1->SetFillColor(kWhite);
-  l1->SetTextSize(.02);
+  l1->SetTextSize(.03);
   //cout<<__LINE__<<endl;
   for (int i = 0; i<num_hists; i++){
     l1->AddEntry(hists[i], hist_labels[i], "f");
