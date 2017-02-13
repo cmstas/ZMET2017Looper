@@ -87,8 +87,8 @@ def makeDataCard(sp, SR):
 
   addSignalYields(n_parms[SR], SR, sp[0], sp[1])
 
-  for x in n_parms[SR].keys():
-    print("%s : %s" % (x, n_parms[SR][x]))
+  #for x in n_parms[SR].keys():
+  #  print("%s : %s" % (x, n_parms[SR][x]))
 
   f_template=open("%s%s.txt" % (templates_path, SR), 'r')
   f_out=open("%s%s_mglu%d_mlsp%d.txt" % (output_path, SR, sp[0], sp[1]), 'w+')
