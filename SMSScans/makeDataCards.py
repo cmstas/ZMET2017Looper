@@ -107,10 +107,10 @@ def main():
     #pass
     makeDataCard(sp, "SRA")
     makeDataCard(sp, "SRAb")
-    #makeDataCard(sp, "SRB")
-    #makeDataCard(sp, "SRBb")
-    #makeDataCard(sp, "SRC")
-    #makeDataCard(sp, "SRCb")
+    makeDataCard(sp, "SRB")
+    makeDataCard(sp, "SRBb")
+    makeDataCard(sp, "SRC")
+    makeDataCard(sp, "SRCb")
     #makeDataCard(sp, "TChiHZ")
     #makeDataCard(sp, "TChiWZ")
 
