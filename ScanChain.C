@@ -2074,7 +2074,7 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
       
       if (conf->get("do_met_filters") != "false")
       {
-        cout<<"checking MET filters"<<endl;
+        //cout<<"checking MET filters"<<endl;
         if (! passMETFilters()) continue; ///met filters
       }
       
