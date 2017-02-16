@@ -160,7 +160,7 @@ bool passPhotonEmulatedTrigger() {
 }
 
 bool passPhotonTriggers(){
-  if (! MCTriggerEmulation && ! phys.isData()){
+  if ( (! MCTriggerEmulation) && (! phys.isData()) ){
     return true;
   }
   else{
@@ -177,7 +177,7 @@ bool passPhotonTriggers(){
 }
 
 bool passMuonTriggers(){
-  if (! MCTriggerEmulation && ! phys.isData()){
+  if ( (! MCTriggerEmulation) && (! phys.isData()) ){
     return true;
   }
   else{
@@ -203,7 +203,7 @@ bool passMuonTriggers(){
 }
 
 bool passElectronTriggers(){
-  if (! MCTriggerEmulation && ! phys.isData()){
+  if ( (! MCTriggerEmulation) && (! phys.isData()) ){
     return true;
   }
   else{
@@ -214,7 +214,7 @@ bool passElectronTriggers(){
 }
 
 bool passEMuTriggers(){
-  if (! MCTriggerEmulation && ! phys.isData()){
+  if ( (! MCTriggerEmulation) && (! phys.isData()) ){
     return true;
   }
   else{
@@ -223,7 +223,7 @@ bool passEMuTriggers(){
 }
 
 bool passSingleMuTriggers(){
-  if (! MCTriggerEmulation && ! phys.isData()){
+  if ( (! MCTriggerEmulation) && (! phys.isData()) ){
     return true;
   }
   else{
@@ -1503,8 +1503,14 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
   g_sample_name=conf->get("Name");
 
   if (conf->get("MCTriggerEmulation") != ""){
-    if (conf->get("MCTriggerEmulation") == "true") MCTriggerEmulation=true;
-    else if (conf->get("MCTriggerEmulation") == "false") MCTriggerEmulation=false;
+    if (conf->get("MCTriggerEmulation") == "true"){
+      cout<<"Manually setting MC trigger emulation to true"<<endl;
+      MCTriggerEmulation=true;
+    }
+    else if (conf->get("MCTriggerEmulation") == "false"){
+      cout<<"Manually setting MC trigger emulation to false"<<endl;
+      MCTriggerEmulation=false;
+    }
   }
 
   TString savePath = getOutputDir(conf, "hist");
@@ -1764,12 +1770,16 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
   
   TH3D *susy_type1MET_btaglight_up, *susy_type1MET_btagheavy_up, *susy_type1MET_isr_up;
 
-  TH3D *susy_type1MET_counts;
+  TH3D *susy_type1MET_counts,*susy_type1MET_nowt;
 
   if(conf->get("SUSY_Glu_LSP_scan") == "true"){
     susy_type1MET_counts = new TH3D("susy_type1MET_counts", "(x,y,z) = (met, m_glu, m_lsp). Type1MET for"+g_sample_name, n_met_bins, met_bins, n_gluino_bins, gluino_bins, n_lsp_bins, lsp_bins);
     susy_type1MET_counts->SetDirectory(rootdir);
     susy_type1MET_counts->Sumw2();
+
+    susy_type1MET_nowt = new TH3D("susy_type1MET_nowt", "(x,y,z) = (met, m_glu, m_lsp). Type1MET with no event weights for"+g_sample_name, n_met_bins, met_bins, n_gluino_bins, gluino_bins, n_lsp_bins, lsp_bins);
+    susy_type1MET_nowt->SetDirectory(rootdir);
+    susy_type1MET_nowt->Sumw2();
 
     susy_type1MET_btaglight_up = new TH3D("susy_type1MET_btaglight_up", " (x,y,z) = (met, m_glu, m_lsp). Type 1 MET with Light Btag SF fluctuated up for"+g_sample_name, n_met_bins, met_bins, n_gluino_bins, gluino_bins, n_lsp_bins, lsp_bins);
     susy_type1MET_btaglight_up->SetDirectory(rootdir);
@@ -2220,6 +2230,7 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
           //cout<<__LINE__<<endl;
 
           susy_type1MET_counts->Fill(phys.met_T1CHS_miniAOD_CORE_pt(), phys.mass_gluino(), phys.mass_LSP(), weight);
+          susy_type1MET_nowt->Fill(phys.met_T1CHS_miniAOD_CORE_pt(), phys.mass_gluino(), phys.mass_LSP(), 1);
           
           //cout<<__LINE__<<endl;
           
@@ -2404,6 +2415,7 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
   }
   if(conf->get("SUSY_Glu_LSP_scan") == "true"){
     susy_type1MET_counts->Write();
+    susy_type1MET_nowt->Write();
 
     susy_type1MET_btagheavy_up->Write();
     susy_type1MET_btaglight_up->Write();
