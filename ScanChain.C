@@ -2072,7 +2072,11 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
         }
       }
       
-      if (! passMETFilters()) continue; ///met filters
+      if (conf->get("do_met_filters") != "false")
+      {
+        cout<<"checking MET filters"<<endl;
+        if (! passMETFilters()) continue; ///met filters
+      }
       
       //double weight=1;
       double weight = getWeight();
