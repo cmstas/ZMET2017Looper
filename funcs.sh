@@ -19,7 +19,7 @@ function makePlots {
 	else
 		nice -n 19 root -l -b -q "drawPlots.C(\"$conf_tmp_path\")"
 	fi
-	echo https://github.com/bth5032/ZMETBabyLooper2017/commit/`git rev-parse HEAD`/ > $PLOT_OUTPUT_LOCATION/commiturl.txt
+	echo https://github.com/bth5032/ZMETBabyLooper2017/commit/`git rev-parse HEAD`/ > ${PLOT_OUTPUT_LOCATION}${SR_IDENTITY}`basename $conf_filename .conf`/commiturl.txt
 }
 
 function makeHistos {	
@@ -27,7 +27,7 @@ function makeHistos {
 	conf_tmp_path=${2//.conf/.conf_tmp}
 	./preprocessConf.py $2
 	nice -n 19 root -l -b -q "doAll.C+(\"$1\", \"$conf_tmp_path\")"
-	echo https://github.com/bth5032/ZMETBabyLooper2017/commit/`git rev-parse HEAD`/ > $HIST_OUTPUT_LOCATION/commiturl.txt
+	echo https://github.com/bth5032/ZMETBabyLooper2017/commit/`git rev-parse HEAD`/ > ${HIST_OUTPUT_LOCATION}${SR_IDENTITY}/commiturl.txt
 }	
 
 function setOutputLocations {

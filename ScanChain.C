@@ -1509,7 +1509,7 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
 
   TString savePath = getOutputDir(conf, "hist");
   ofstream files_log;
-  files_log.open((savePath+TString(g_sample_name+"__LINE__files.log")).Data());
+  files_log.open((savePath+TString(g_sample_name+"_files.log")).Data());
   //cout<<__LINE__<<endl;
   // Benchmark
   TBenchmark *bmark = new TBenchmark();
