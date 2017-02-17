@@ -140,12 +140,13 @@ void addToChain(TChain *ch, TString set) {
 //====================================
 
   else if (set == "TChiHZ"){
+    TString dir="/hadoop/cms/store/user/olivito/AutoTwopler_babies/merged/ZMET/V08-22-12/skim/";
     //TChiHZ Signal
     cout<<"Adding TChiHZ Monte Carlo"<<endl;
-    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-02/tchihz_80x_v2*.root");
+    ch->Add(dir+"tchihz_80x_v2*");
   }
   else if (set == "T5ZZ"){
-    TString dir="/hadoop/cms/store/user/olivito/AutoTwopler_babies/merged/ZMET/V08-22-11/skim/";
+    TString dir="/hadoop/cms/store/user/olivito/AutoTwopler_babies/merged/ZMET/V08-22-12/skim/";
     //T5ZZ Signal
     cout<<"Adding T5ZZ Monte Carlo"<<endl;
     ch->Add(dir+"t5zz_orig_80x_v2_skim_*");
