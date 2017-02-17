@@ -1,4 +1,4 @@
-spectra_file="SMSScans/Spectra/mass_spectrum_t5zz_orig.txt"
+spectra_file="SMSScans/Spectra/mass_spectrum_t5zz_full.txt"
 
 
 n_glu_points=`cat $spectra_file | awk '{print $3}' | sort -n | uniq | wc -l`
