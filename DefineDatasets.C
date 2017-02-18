@@ -553,48 +553,60 @@ void addToChain(TChain *ch, TString set) {
 //====================================
 
   else if (set == "DileptonData-ee"){
+    TString dir="/hadoop/cms/store/user/olivito/AutoTwopler_babies/merged/ZMET/V08-22-11/output/";
+    
     cout<<"Adding EE Trigger Data"<<endl;
-    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-05/data_2016B_23sep2016rereco_ee_v3*");
-    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-05/data_2016C_23sep2016rereco_ee_v1*");
-    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-05/data_2016D_23sep2016rereco_ee_v1*");
-    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-05/data_2016E_23sep2016rereco_ee_v1*");
-    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-05/data_2016F_23sep2016rereco_ee_v1*");
-    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-05/data_2016G_23sep2016rereco_ee_v1*");
-    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-05/data_2016H_Prompt_ee_v2*");
-    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-05/data_2016H_Prompt_ee_v3*");
+
+    ch->Add(dir+"data_Run2016B_23sep2016rereco_ee_v3*");
+    ch->Add(dir+"data_Run2016C_23sep2016rereco_ee_v1*");
+    ch->Add(dir+"data_Run2016D_23sep2016rereco_ee_v1*");
+    ch->Add(dir+"data_Run2016E_23sep2016rereco_ee_v1*");
+    ch->Add(dir+"data_Run2016F_23sep2016rereco_ee_v1*");
+    ch->Add(dir+"data_Run2016G_23sep2016rereco_ee_v1*");
+    ch->Add(dir+"data_Run2016H_Prompt_ee_v2*");
+    ch->Add(dir+"data_Run2016H_Prompt_ee_v3*");
   }
   else if (set == "DileptonData-em"){
+    TString dir="/hadoop/cms/store/user/olivito/AutoTwopler_babies/merged/ZMET/V08-22-11/output/";
+    
     cout<<"Adding EMu Trigger Data"<<endl;
-    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-05/data_2016B_23sep2016rereco_em_v3*");
-    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-05/data_2016C_23sep2016rereco_em_v1*");
-    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-05/data_2016D_23sep2016rereco_em_v1*");
-    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-05/data_2016E_23sep2016rereco_em_v1*");
-    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-05/data_2016F_23sep2016rereco_em_v1*");
-    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-05/data_2016G_23sep2016rereco_em_v1*");
-    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-05/data_2016H_Prompt_em_v2*");
-    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-05/data_2016H_Prompt_em_v3*");
+    
+    ch->Add(dir+"data_Run2016B_23sep2016rereco_em_v3*");
+    ch->Add(dir+"data_Run2016C_23sep2016rereco_em_v1*");
+    ch->Add(dir+"data_Run2016D_23sep2016rereco_em_v1*");
+    ch->Add(dir+"data_Run2016E_23sep2016rereco_em_v1*");
+    ch->Add(dir+"data_Run2016F_23sep2016rereco_em_v1*");
+    ch->Add(dir+"data_Run2016G_23sep2016rereco_em_v1*");
+    ch->Add(dir+"data_Run2016H_Prompt_em_v2*");
+    ch->Add(dir+"data_Run2016H_Prompt_em_v3*");
   }
   else if (set == "DileptonData-mm"){
+    TString dir="/hadoop/cms/store/user/olivito/AutoTwopler_babies/merged/ZMET/V08-22-11/output/";
+    
     cout<<"Adding MuMu Trigger Data"<<endl;
-    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-05/data_2016B_23sep2016rereco_mm_v3*");
-    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-05/data_2016C_23sep2016rereco_mm_v1*");
-    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-05/data_2016D_23sep2016rereco_mm_v1*");
-    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-05/data_2016E_23sep2016rereco_mm_v1*");
-    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-05/data_2016F_23sep2016rereco_mm_v1*");
-    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-05/data_2016G_23sep2016rereco_mm_v1*");
-    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-05/data_2016H_Prompt_mm_v2*");
-    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-05/data_2016H_Prompt_mm_v3*");
+    
+    ch->Add(dir+"data_Run2016B_23sep2016rereco_mm_v3*");
+    ch->Add(dir+"data_Run2016C_23sep2016rereco_mm_v1*");
+    ch->Add(dir+"data_Run2016D_23sep2016rereco_mm_v1*");
+    ch->Add(dir+"data_Run2016E_23sep2016rereco_mm_v1*");
+    ch->Add(dir+"data_Run2016F_23sep2016rereco_mm_v1*");
+    ch->Add(dir+"data_Run2016G_23sep2016rereco_mm_v1*");
+    ch->Add(dir+"data_Run2016H_Prompt_mm_v2*");
+    ch->Add(dir+"data_Run2016H_Prompt_mm_v3*");
   }
   else if (set == "SingleLeptonData-SingleMu"){
+    TString dir="/hadoop/cms/store/user/olivito/AutoTwopler_babies/merged/ZMET/V08-22-11/output/";
+    
     cout<<"Adding Single Muon Trigger Data"<<endl;
-    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-05/data_2016B_23sep2016rereco_sm_v3*");
-    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-05/data_2016C_23sep2016rereco_sm_v1*");
-    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-05/data_2016D_23sep2016rereco_sm_v1*");
-    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-05/data_2016E_23sep2016rereco_sm_v1*");
-    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-05/data_2016F_23sep2016rereco_sm_v1*");
-    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-05/data_2016G_23sep2016rereco_sm_v1*");
-    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-05/data_2016H_Prompt_sm_v2*");
-    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-05/data_2016H_Prompt_sm_v3*");
+    
+    ch->Add(dir+"data_Run2016B_23sep2016rereco_sm_v3*");
+    ch->Add(dir+"data_Run2016C_23sep2016rereco_sm_v1*");
+    ch->Add(dir+"data_Run2016D_23sep2016rereco_sm_v1*");
+    ch->Add(dir+"data_Run2016E_23sep2016rereco_sm_v1*");
+    ch->Add(dir+"data_Run2016F_23sep2016rereco_sm_v1*");
+    ch->Add(dir+"data_Run2016G_23sep2016rereco_sm_v1*");
+    ch->Add(dir+"data_Run2016H_Prompt_sm_v2*");
+    ch->Add(dir+"data_Run2016H_Prompt_sm_v3*");
   }
 
 //====================================
