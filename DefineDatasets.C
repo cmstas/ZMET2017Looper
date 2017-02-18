@@ -38,9 +38,9 @@ void addToChain(TChain *ch, TString set) {
     cout<<"Adding ZMC-fullmc"<<endl;
     
     //ZZ Sample
-    ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/zz_2l2q_amcnlo*.root" ));
+    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/zz_2l2q_amcnlo*.root" );
     //WZ Sample
-    ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/wz_2l2q_amcnlo*.root" ));
+    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/wz_2l2q_amcnlo*.root" );
   }
   else if (set == "ZMC-low-mass"){
     cout<<"Adding ZMC Low Mass sample"<<endl;
@@ -84,9 +84,9 @@ void addToChain(TChain *ch, TString set) {
     cout<<"Adding ZMC-fullmc-Skimmed"<<endl;
     
     //ZZ Sample
-    ch->Add(Form(dir+"zz_2l2q_powheg*" ));
+    ch->Add(dir+"zz_2l2q_powheg*" );
     //WZ Sample
-    ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-08/skims/wz_2l2q_amcnlo*.root"));
+    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-08/skims/wz_2l2q_amcnlo*.root");
   }
   else if (set == "ZMC-low-mass-Skimmed"){
     TString dir="/hadoop/cms/store/user/olivito/AutoTwopler_babies/merged/ZMET/V08-22-11/skim/";
@@ -508,12 +508,12 @@ void addToChain(TChain *ch, TString set) {
     ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/ttbar_1ltbr_mgmlm*.root");
     ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/ttbar_1ltop_mgmlm*.root");
     //dilep
-    ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/ttbar_dilep_mgmlm*.root"));
+    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/ttbar_dilep_mgmlm*.root");
     //============
     // Single Top
     //============
-    ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/sttw_antitop_nofullhaddecay_powheg.root"));
-    ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/sttw_top_nofullhaddecay_powheg.root"));
+    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/sttw_antitop_nofullhaddecay_powheg.root");
+    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/sttw_top_nofullhaddecay_powheg.root");
   }
   else if (set == "GammaData-GammaRealMET"){
     cout<<"Adding GammaData-GammaRealMET"<<endl; 
@@ -701,12 +701,12 @@ void addToChain(TChain *ch, TString set) {
     ch->Add(dir+"ttbar_1ltbr_mgmlm_ext1*");
     ch->Add(dir+"ttbar_1ltop_mgmlm_ext1*");
     //dilep
-    ch->Add(Form(dir+"ttbar_dilep_mgmlm_ext1*"));
+    ch->Add(dir+"ttbar_dilep_mgmlm_ext1*");
     //============
     // Single Top
     //============
-    ch->Add(Form(dir+"sttw_antitop_nofullhaddecay_powheg*"));
-    ch->Add(Form(dir+"sttw_top_nofullhaddecay_powheg*"));
+    ch->Add(dir+"sttw_antitop_nofullhaddecay_powheg*");
+    ch->Add(dir+"sttw_top_nofullhaddecay_powheg*");
   }
 
 //====================================
