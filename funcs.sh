@@ -26,7 +26,7 @@ function makeHistos {
 	mkdirs $2 hists
 	conf_tmp_path=${2//.conf/.conf_tmp}
 	./preprocessConf.py $2
-	nice -n 19 root -l -b -q "doAll.C+(\"$1\", \"$conf_tmp_path\")"
+	nice -n 19 root -l -b -q "doAll.C+(\"$1\", \"$conf_tmp_path\")" | tee ${HIST_OUTPUT_LOCATION}${SR_IDENTITY}/$1.output
 	echo https://github.com/bth5032/ZMETBabyLooper2017/commit/`git rev-parse HEAD`/ > ${HIST_OUTPUT_LOCATION}${SR_IDENTITY}/commiturl.txt
 }	
 
