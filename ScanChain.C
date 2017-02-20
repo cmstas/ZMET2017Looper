@@ -1356,6 +1356,61 @@ bool passBaseCut(){
   //if (printPass) cout<<phys.evt()<<": Passes Base Cuts"<<endl;
 }
 
+bool passETHDileptonDataCleanse(){
+  //Dilepton Data samples
+  if ( (phys.isData()) && TString(conf->get("data_set")).Contains("DileptonData")){
+    //cout<<"Dilepton Data Event"<<endl;
+
+    //ETH Trigger Cleansing
+    if( TString(currentFile->GetTitle()).Contains("data_Run2016")){
+      if (TString(currentFile->GetTitle()).Contains("_mm_") ){
+        if( ! passMuonTriggers() ) {
+          //cout<<"skipped"<<endl;
+          if (printFail) cout<<"ETH Trigger Cleansing: double muon dataset didn't pass double muon trigger"<<endl;
+          numEvents->Fill(74);
+          return false;
+        }
+      }
+      else if (TString(currentFile->GetTitle()).Contains("_ee_") ){
+        if(! passElectronTriggers() ) {
+          //cout<<"skipped"<<endl;
+          if (printFail) cout<<"ETH Trigger Cleansing: double electron dataset didn't pass double electron trigger"<<endl;
+          numEvents->Fill(74);
+          return false;
+        }
+        if(passMuonTriggers()) {
+          //cout<<"skipped"<<endl;
+          if (printFail) cout<<"ETH Trigger Cleansing: double electron dataset passed double muon trigger"<<endl;
+          numEvents->Fill(74);
+          return false;
+        }
+      }
+      else if (TString(currentFile->GetTitle()).Contains("_em_") ){
+        if(! passEMuTriggers() ) {
+          //cout<<"skipped"<<endl;
+          if (printFail) cout<<"ETH Trigger Cleansing: EMu dataset didn't pass EMu trigger"<<endl;
+          numEvents->Fill(74);
+          return false;
+        }
+        if( passElectronTriggers() ) {
+          //cout<<"skipped"<<endl;
+          if (printFail) cout<<"ETH Trigger Cleansing: EMu dataset dataset passed double electron trigger"<<endl;
+          numEvents->Fill(74);
+          return false;
+        }
+        if(passMuonTriggers()) {
+          //cout<<"skipped"<<endl;
+          if (printFail) cout<<"ETH Trigger Cleansing: double electron dataset passed double muon trigger"<<endl;
+          numEvents->Fill(74);
+          return false;
+        }
+      }
+    }
+  }
+
+  return true;
+}
+
 bool passFileSelections(){
   /* Method which holds all the file specific selections, for instance cutting out the
   events with genht > 100 in the DY inclusive samples */
@@ -1488,57 +1543,6 @@ bool passFileSelections(){
         return false;
       }
     }   
-  }
-
-  //Dilepton Data samples
-  if ( (phys.isData()) && TString(conf->get("data_set")).Contains("DileptonData")){
-    //cout<<"Dilepton Data Event"<<endl;
-
-    //ETH Trigger Cleansing
-    if( TString(currentFile->GetTitle()).Contains("data_Run2016")){
-      if (TString(currentFile->GetTitle()).Contains("_mm_") ){
-        if( ! passMuonTriggers() ) {
-          //cout<<"skipped"<<endl;
-          if (printFail) cout<<"ETH Trigger Cleansing: double muon dataset didn't pass double muon trigger"<<endl;
-          numEvents->Fill(74);
-          return false;
-        }
-      }
-      else if (TString(currentFile->GetTitle()).Contains("_ee_") ){
-        if(! passElectronTriggers() ) {
-          //cout<<"skipped"<<endl;
-          if (printFail) cout<<"ETH Trigger Cleansing: double electron dataset didn't pass double electron trigger"<<endl;
-          numEvents->Fill(74);
-          return false;
-        }
-        if(passMuonTriggers()) {
-          //cout<<"skipped"<<endl;
-          if (printFail) cout<<"ETH Trigger Cleansing: double electron dataset passed double muon trigger"<<endl;
-          numEvents->Fill(74);
-          return false;
-        }
-      }
-      else if (TString(currentFile->GetTitle()).Contains("_em_") ){
-        if(! passEMuTriggers() ) {
-          //cout<<"skipped"<<endl;
-          if (printFail) cout<<"ETH Trigger Cleansing: EMu dataset didn't pass EMu trigger"<<endl;
-          numEvents->Fill(74);
-          return false;
-        }
-        if( passElectronTriggers() ) {
-          //cout<<"skipped"<<endl;
-          if (printFail) cout<<"ETH Trigger Cleansing: EMu dataset dataset passed double electron trigger"<<endl;
-          numEvents->Fill(74);
-          return false;
-        }
-        if(passMuonTriggers()) {
-          //cout<<"skipped"<<endl;
-          if (printFail) cout<<"ETH Trigger Cleansing: double electron dataset passed double muon trigger"<<endl;
-          numEvents->Fill(74);
-          return false;
-        }
-      }
-    }
   }
 
   return true;
@@ -2081,6 +2085,12 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
       /*if (event % 10000 == 0){
         cout<<"Weight: "<<weight<<endl;
       }*/
+
+      if (phys.isData() && conf->get("event_type") == "dilepton" && (! passETHDileptonDataCleanse()) ){
+        //cout<<"Failed ETH Dilepton Data Cleanse"<<endl;
+        continue;
+      }
+      //cout<<__LINE__<<endl;
 
       if ( isDuplicate() ){
         //cout<<"Failed Duplicate"<<endl;
