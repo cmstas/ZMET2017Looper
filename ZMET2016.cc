@@ -118,6 +118,11 @@ void ZMET2016::Init(TTree *tree) {
 		evt_nEvts_branch = tree->GetBranch("evt_nEvts");
 		if (evt_nEvts_branch) {evt_nEvts_branch->SetAddress(&evt_nEvts_);}
 	}
+	evt_dataset_branch = 0;
+	if (tree->GetBranch("evt_dataset") != 0) {
+		evt_dataset_branch = tree->GetBranch("evt_dataset");
+		if (evt_dataset_branch) {evt_dataset_branch->SetAddress(&evt_dataset_);}
+	}
 	puWeight_branch = 0;
 	if (tree->GetBranch("puWeight") != 0) {
 		puWeight_branch = tree->GetBranch("puWeight");
@@ -753,6 +758,16 @@ void ZMET2016::Init(TTree *tree) {
 		nisoTrack_mt2_branch = tree->GetBranch("nisoTrack_mt2");
 		if (nisoTrack_mt2_branch) {nisoTrack_mt2_branch->SetAddress(&nisoTrack_mt2_);}
 	}
+	nisoTrack_PFLep5_woverlaps_branch = 0;
+	if (tree->GetBranch("nisoTrack_PFLep5_woverlaps") != 0) {
+		nisoTrack_PFLep5_woverlaps_branch = tree->GetBranch("nisoTrack_PFLep5_woverlaps");
+		if (nisoTrack_PFLep5_woverlaps_branch) {nisoTrack_PFLep5_woverlaps_branch->SetAddress(&nisoTrack_PFLep5_woverlaps_);}
+	}
+	nisoTrack_PFHad10_woverlaps_branch = 0;
+	if (tree->GetBranch("nisoTrack_PFHad10_woverlaps") != 0) {
+		nisoTrack_PFHad10_woverlaps_branch = tree->GetBranch("nisoTrack_PFHad10_woverlaps");
+		if (nisoTrack_PFHad10_woverlaps_branch) {nisoTrack_PFHad10_woverlaps_branch->SetAddress(&nisoTrack_PFHad10_woverlaps_);}
+	}
 	ngamma_branch = 0;
 	if (tree->GetBranch("ngamma") != 0) {
 		ngamma_branch = tree->GetBranch("ngamma");
@@ -782,6 +797,11 @@ void ZMET2016::Init(TTree *tree) {
 	if (tree->GetBranch("gamma_mcMatchId") != 0) {
 		gamma_mcMatchId_branch = tree->GetBranch("gamma_mcMatchId");
 		if (gamma_mcMatchId_branch) {gamma_mcMatchId_branch->SetAddress(&gamma_mcMatchId_);}
+	}
+	gamma_genPt_branch = 0;
+	if (tree->GetBranch("gamma_genPt") != 0) {
+		gamma_genPt_branch = tree->GetBranch("gamma_genPt");
+		if (gamma_genPt_branch) {gamma_genPt_branch->SetAddress(&gamma_genPt_);}
 	}
 	gamma_genIso_branch = 0;
 	if (tree->GetBranch("gamma_genIso") != 0) {
@@ -1749,6 +1769,7 @@ void ZMET2016::GetEntry(unsigned int idx)
 		evt_kfactor_isLoaded = false;
 		evt_filter_isLoaded = false;
 		evt_nEvts_isLoaded = false;
+		evt_dataset_isLoaded = false;
 		puWeight_isLoaded = false;
 		nVert_isLoaded = false;
 		nTrueInt_isLoaded = false;
@@ -1877,6 +1898,8 @@ void ZMET2016::GetEntry(unsigned int idx)
 		lep_glb_x2ondof_isLoaded = false;
 		nisoTrack_5gev_isLoaded = false;
 		nisoTrack_mt2_isLoaded = false;
+		nisoTrack_PFLep5_woverlaps_isLoaded = false;
+		nisoTrack_PFHad10_woverlaps_isLoaded = false;
 		ngamma_isLoaded = false;
 		gamma_p4_isLoaded = false;
 		gamma_pt_isLoaded = false;
@@ -1884,6 +1907,7 @@ void ZMET2016::GetEntry(unsigned int idx)
 		gamma_phi_isLoaded = false;
 		gamma_mass_isLoaded = false;
 		gamma_mcMatchId_isLoaded = false;
+		gamma_genPt_isLoaded = false;
 		gamma_genIso_isLoaded = false;
 		gamma_chHadIso_isLoaded = false;
 		gamma_neuHadIso_isLoaded = false;
@@ -2100,6 +2124,7 @@ void ZMET2016::LoadAllBranches()
 	if (evt_kfactor_branch != 0) evt_kfactor();
 	if (evt_filter_branch != 0) evt_filter();
 	if (evt_nEvts_branch != 0) evt_nEvts();
+	if (evt_dataset_branch != 0) evt_dataset();
 	if (puWeight_branch != 0) puWeight();
 	if (nVert_branch != 0) nVert();
 	if (nTrueInt_branch != 0) nTrueInt();
@@ -2228,6 +2253,8 @@ void ZMET2016::LoadAllBranches()
 	if (lep_glb_x2ondof_branch != 0) lep_glb_x2ondof();
 	if (nisoTrack_5gev_branch != 0) nisoTrack_5gev();
 	if (nisoTrack_mt2_branch != 0) nisoTrack_mt2();
+	if (nisoTrack_PFLep5_woverlaps_branch != 0) nisoTrack_PFLep5_woverlaps();
+	if (nisoTrack_PFHad10_woverlaps_branch != 0) nisoTrack_PFHad10_woverlaps();
 	if (ngamma_branch != 0) ngamma();
 	if (gamma_p4_branch != 0) gamma_p4();
 	if (gamma_pt_branch != 0) gamma_pt();
@@ -2235,6 +2262,7 @@ void ZMET2016::LoadAllBranches()
 	if (gamma_phi_branch != 0) gamma_phi();
 	if (gamma_mass_branch != 0) gamma_mass();
 	if (gamma_mcMatchId_branch != 0) gamma_mcMatchId();
+	if (gamma_genPt_branch != 0) gamma_genPt();
 	if (gamma_genIso_branch != 0) gamma_genIso();
 	if (gamma_chHadIso_branch != 0) gamma_chHadIso();
 	if (gamma_neuHadIso_branch != 0) gamma_neuHadIso();
@@ -2567,6 +2595,19 @@ void ZMET2016::LoadAllBranches()
 			evt_nEvts_isLoaded = true;
 		}
 		return evt_nEvts_;
+	}
+	const vector<TString> &ZMET2016::evt_dataset()
+	{
+		if (not evt_dataset_isLoaded) {
+			if (evt_dataset_branch != 0) {
+				evt_dataset_branch->GetEntry(index);
+			} else { 
+				printf("branch evt_dataset_branch does not exist!\n");
+				exit(1);
+			}
+			evt_dataset_isLoaded = true;
+		}
+		return *evt_dataset_;
 	}
 	const float &ZMET2016::puWeight()
 	{
@@ -4232,6 +4273,32 @@ void ZMET2016::LoadAllBranches()
 		}
 		return nisoTrack_mt2_;
 	}
+	const int &ZMET2016::nisoTrack_PFLep5_woverlaps()
+	{
+		if (not nisoTrack_PFLep5_woverlaps_isLoaded) {
+			if (nisoTrack_PFLep5_woverlaps_branch != 0) {
+				nisoTrack_PFLep5_woverlaps_branch->GetEntry(index);
+			} else { 
+				printf("branch nisoTrack_PFLep5_woverlaps_branch does not exist!\n");
+				exit(1);
+			}
+			nisoTrack_PFLep5_woverlaps_isLoaded = true;
+		}
+		return nisoTrack_PFLep5_woverlaps_;
+	}
+	const int &ZMET2016::nisoTrack_PFHad10_woverlaps()
+	{
+		if (not nisoTrack_PFHad10_woverlaps_isLoaded) {
+			if (nisoTrack_PFHad10_woverlaps_branch != 0) {
+				nisoTrack_PFHad10_woverlaps_branch->GetEntry(index);
+			} else { 
+				printf("branch nisoTrack_PFHad10_woverlaps_branch does not exist!\n");
+				exit(1);
+			}
+			nisoTrack_PFHad10_woverlaps_isLoaded = true;
+		}
+		return nisoTrack_PFHad10_woverlaps_;
+	}
 	const int &ZMET2016::ngamma()
 	{
 		if (not ngamma_isLoaded) {
@@ -4322,6 +4389,19 @@ void ZMET2016::LoadAllBranches()
 			gamma_mcMatchId_isLoaded = true;
 		}
 		return *gamma_mcMatchId_;
+	}
+	const vector<float> &ZMET2016::gamma_genPt()
+	{
+		if (not gamma_genPt_isLoaded) {
+			if (gamma_genPt_branch != 0) {
+				gamma_genPt_branch->GetEntry(index);
+			} else { 
+				printf("branch gamma_genPt_branch does not exist!\n");
+				exit(1);
+			}
+			gamma_genPt_isLoaded = true;
+		}
+		return *gamma_genPt_;
 	}
 	const vector<float> &ZMET2016::gamma_genIso()
 	{
@@ -6968,6 +7048,7 @@ namespace zmet {
 	const float &evt_kfactor() { return phys.evt_kfactor(); }
 	const float &evt_filter() { return phys.evt_filter(); }
 	const int &evt_nEvts() { return phys.evt_nEvts(); }
+	const vector<TString> &evt_dataset() { return phys.evt_dataset(); }
 	const float &puWeight() { return phys.puWeight(); }
 	const int &nVert() { return phys.nVert(); }
 	const int &nTrueInt() { return phys.nTrueInt(); }
@@ -7096,6 +7177,8 @@ namespace zmet {
 	const vector<float> &lep_glb_x2ondof() { return phys.lep_glb_x2ondof(); }
 	const int &nisoTrack_5gev() { return phys.nisoTrack_5gev(); }
 	const int &nisoTrack_mt2() { return phys.nisoTrack_mt2(); }
+	const int &nisoTrack_PFLep5_woverlaps() { return phys.nisoTrack_PFLep5_woverlaps(); }
+	const int &nisoTrack_PFHad10_woverlaps() { return phys.nisoTrack_PFHad10_woverlaps(); }
 	const int &ngamma() { return phys.ngamma(); }
 	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &gamma_p4() { return phys.gamma_p4(); }
 	const vector<float> &gamma_pt() { return phys.gamma_pt(); }
@@ -7103,6 +7186,7 @@ namespace zmet {
 	const vector<float> &gamma_phi() { return phys.gamma_phi(); }
 	const vector<float> &gamma_mass() { return phys.gamma_mass(); }
 	const vector<int> &gamma_mcMatchId() { return phys.gamma_mcMatchId(); }
+	const vector<float> &gamma_genPt() { return phys.gamma_genPt(); }
 	const vector<float> &gamma_genIso() { return phys.gamma_genIso(); }
 	const vector<float> &gamma_chHadIso() { return phys.gamma_chHadIso(); }
 	const vector<float> &gamma_neuHadIso() { return phys.gamma_neuHadIso(); }
