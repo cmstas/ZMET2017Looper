@@ -765,7 +765,9 @@ double getWeight(){
 
     if (conf->get("susy_mc") == "true"){
       weight *= phys.isr_weight(); //ISR scale factor
-      weight *= phys.weightsf_lepid_FS(); //Fast Sim Lepton ID
+      for (int i = 0; i < phys.nlep(); i++){
+        weight *= phys.weightsf_lepid_FS().at(i); //Fast Sim Lepton ID
+      } 
     }
   }
   //cout<<__LINE__<<endl;
