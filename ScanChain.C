@@ -764,7 +764,8 @@ double getWeight(){
     }
 
     if (conf->get("susy_mc") == "true"){
-      weight *= phys.isr_weight();
+      weight *= phys.isr_weight(); //ISR scale factor
+      weight *= phys.weight_lepid_FS(); //Fast Sim Lepton ID
     }
   }
   //cout<<__LINE__<<endl;
@@ -1391,8 +1392,9 @@ bool passFileSelections(){
     }
   }
 
+  //Photon MC samples
   if ( (! phys.isData()) && TString(conf->get("data_set")).Contains("GammaMC")){
-    //cout<<"Zjets MC event"<<endl;
+    //cout<<"Photon MC event"<<endl;
     if( TString(currentFile->GetTitle()).Contains("gjetsht40") ||  TString(currentFile->GetTitle()).Contains("gjetsht100") ){
       if( abs(phys.gen_ht() - phys.ht()) > 300 ) {
         //cout<<"skipped"<<endl;
@@ -1484,6 +1486,57 @@ bool passFileSelections(){
         return false;
       }
     }   
+  }
+
+  //Dilepton Data samples
+  if ( (phys.isData()) && TString(conf->get("data_set")).Contains("DileptonData")){
+    //cout<<"Dilepton Data Event"<<endl;
+
+    //ETH Trigger Cleansing
+    if( TString(currentFile->GetTitle()).Contains("data_Run2016")){
+      if (TString(currentFile->GetTitle()).Contains("_mm_") ){
+        if( ! passMuonTriggers() ) {
+          //cout<<"skipped"<<endl;
+          if (printFail) cout<<"ETH Trigger Cleansing: double muon dataset didn't pass double muon trigger"<<endl;
+          numEvents->Fill(74);
+          return false;
+        }
+      }
+      else if (TString(currentFile->GetTitle()).Contains("_ee_") ){
+        if(! passElectronTriggers() ) {
+          //cout<<"skipped"<<endl;
+          if (printFail) cout<<"ETH Trigger Cleansing: double electron dataset didn't pass double electron trigger"<<endl;
+          numEvents->Fill(74);
+          return false;
+        }
+        if(passMuonTriggers()) {
+          //cout<<"skipped"<<endl;
+          if (printFail) cout<<"ETH Trigger Cleansing: double electron dataset passed double muon trigger"<<endl;
+          numEvents->Fill(74);
+          return false;
+        }
+      }
+      else if (TString(currentFile->GetTitle()).Contains("_em_") ){
+        if(! passEMuTriggers() ) {
+          //cout<<"skipped"<<endl;
+          if (printFail) cout<<"ETH Trigger Cleansing: EMu dataset didn't pass EMu trigger"<<endl;
+          numEvents->Fill(74);
+          return false;
+        }
+        if( passElectronTriggers() ) {
+          //cout<<"skipped"<<endl;
+          if (printFail) cout<<"ETH Trigger Cleansing: EMu dataset dataset passed double electron trigger"<<endl;
+          numEvents->Fill(74);
+          return false;
+        }
+        if(passMuonTriggers()) {
+          //cout<<"skipped"<<endl;
+          if (printFail) cout<<"ETH Trigger Cleansing: double electron dataset passed double muon trigger"<<endl;
+          numEvents->Fill(74);
+          return false;
+        }
+      }
+    }
   }
 
   return true;
@@ -1989,7 +2042,7 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
       printStats = false;
       printFail = false;
 
-      if (inspection_set.count(phys.evt()) != 0){
+      /*if (inspection_set.count(phys.evt()) != 0){
       //if ( inspection_set_erl.count(make_tuple(phys.evt(), phys.run(), phys.lumi())) != 0){
         cout<<"evt: "<<phys.evt()<<" run: "<<phys.run()<<" lumi: "<<phys.lumi()<<endl;
         printStats=true;
@@ -1997,7 +2050,7 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
       }
       else{
         continue;
-      }
+      }*/
       
       /*if ( inVinceNotMine.count(phys.evt()) != 0){
         printFail = true;

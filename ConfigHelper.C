@@ -4,8 +4,8 @@
 
 #include "ConfigParser.C"
 
-TString PLOT_OUTPUT_LOCATION="/home/users/bhashemi/public_html/ZMET2016_NovemberClean/";
-TString HIST_OUTPUT_LOCATION="/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/";
+TString PLOT_OUTPUT_LOCATION="/home/users/bhashemi/public_html/ZMET2017/";
+TString HIST_OUTPUT_LOCATION="/nfs-7/userdata/bobak/ZMET2017_Hists/";
 
 TString parseConfDir(TString conf_path){
   /* Replace *configs/.../FNAME.conf with .../ */
