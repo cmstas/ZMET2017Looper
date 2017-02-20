@@ -801,6 +801,66 @@ void addToChain(TChain *ch, TString set) {
     ch->Add(dir+"sttw_top_nofullhaddecay_powheg*");
   }
 
+    //Single Photon Trigger
+  else if (set == "GammaData-SinglePhoton-Skimmed-old"){
+    TString dir="/hadoop/cms/store/user/olivito/AutoTwopler_babies/merged/ZMET/V08-22-11/skim/";
+    //TString dir="/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-13/skims/";
+
+    cout<<"Adding GammaData-SinglePhoton-Skimmed"<<endl; 
+    
+    ch->Add(dir+"data_Run2016B_23sep2016rereco_ph_v3_skim*");
+    ch->Add(dir+"data_Run2016C_23sep2016rereco_ph_v1_skim*");
+    ch->Add(dir+"data_Run2016D_23sep2016rereco_ph_v1_skim*");
+    ch->Add(dir+"data_Run2016E_23sep2016rereco_ph_v1_skim*");
+    ch->Add(dir+"data_Run2016F_23sep2016rereco_ph_v1_skim*");
+    ch->Add(dir+"data_Run2016G_23sep2016rereco_ph_v1_skim*");
+    ch->Add(dir+"data_Run2016H_Prompt_ph_v2_skim*");
+    ch->Add(dir+"data_Run2016H_Prompt_ph_v3_skim*");
+  }
+  //EWK Subtraction
+  else if (set == "GammaData-EWKSub-Skimmed-old"){
+    TString dir="/hadoop/cms/store/user/olivito/AutoTwopler_babies/merged/ZMET/V08-22-11/skim/";
+    //TString dir="/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-13/skims/";
+    
+    cout<<"Adding Skimmed EWK Subtraction Samples"<<endl;       
+    
+    //============
+    // W+Gamma+Jets
+    //============
+    //This is the Wjets sample, it is intended to have events with a prompt photon vetod
+    ch->Add(dir+"wjets_incl_mgmlm*");
+    ch->Add(dir+"wjets_ht100_mgmlm*");
+    ch->Add(dir+"wjets_ht200_mgmlm*");
+    ch->Add(dir+"wjets_ht400_mgmlm*");
+    ch->Add(dir+"wjets_ht600_mgmlm*");
+    ch->Add(dir+"wjets_ht800_mgmlm*");
+    ch->Add(dir+"wjets_ht1200_mgmlm*");
+    ch->Add(dir+"wjets_ht2500_mgmlm*");
+
+    //This is the W+Gamma+Jets, it is inteded to have events with non-prompt photons vetod
+    ch->Add(dir+"wgjets_incl_mgmlm*");
+    ch->Add(dir+"wgjets_ptg40_mgmlm*");
+    ch->Add(dir+"wgjets_ptg130_mgmlm*");
+    //============
+    // Gamma+Z->NuNu
+    //============
+    ch->Add(dir+"znunugamma_ptg40_mgmlm*");
+    ch->Add(dir+"znunugamma_ptg130_mgmlm*");
+    //============
+    // TTbar
+    //============
+    //1lep
+    ch->Add(dir+"ttbar_1ltbr_mgmlm_ext1*");
+    ch->Add(dir+"ttbar_1ltop_mgmlm_ext1*");
+    //dilep
+    ch->Add(dir+"ttbar_dilep_mgmlm_ext1*");
+    //============
+    // Single Top
+    //============
+    ch->Add(dir+"sttw_antitop_nofullhaddecay_powheg*");
+    ch->Add(dir+"sttw_top_nofullhaddecay_powheg*");
+  }
+
 //====================================
 // End Building TChain
 //====================================
