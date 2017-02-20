@@ -34,17 +34,17 @@ DEFAULT::hist_3_label=VVV
 DEFAULT::hist_2_label=WZ
 DEFAULT::hist_1_label=ZZ
 
-DEFAULT::file_0_path=/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction/DileptonData/Strong_Bveto/6j/DileptonData.root
-DEFAULT::file_6_path=/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction/PhotonData_VPTRWT/Strong_Bveto/6j/PhotonData.root
-DEFAULT::file_5_path=/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction/FS/Strong_Bveto/6j/FS.root
-DEFAULT::file_4_path=/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction/ZNu/Strong_Bveto/6j/ttz.root
-DEFAULT::file_3_path=/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction/ZNu/Strong_Bveto/6j/VVV.root
-DEFAULT::file_2_path=/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction/ZNu/Strong_Bveto/6j/wz.root
-DEFAULT::file_1_path=/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction/ZNu/Strong_Bveto/6j/zz.root
+DEFAULT::file_0_path=/nfs-7/userdata/bobak/ZMET2017_Hists/prediction/DileptonData/Strong_Bveto/6j/DileptonData.root
+DEFAULT::file_6_path=/nfs-7/userdata/bobak/ZMET2017_Hists/prediction/PhotonData_VPTRWT/Strong_Bveto/6j/PhotonData.root
+DEFAULT::file_5_path=/nfs-7/userdata/bobak/ZMET2017_Hists/prediction/FS/Strong_Bveto/6j/FS.root
+DEFAULT::file_4_path=/nfs-7/userdata/bobak/ZMET2017_Hists/prediction/ZNu/Strong_Bveto/6j/ttz.root
+DEFAULT::file_3_path=/nfs-7/userdata/bobak/ZMET2017_Hists/prediction/ZNu/Strong_Bveto/6j/VVV.root
+DEFAULT::file_2_path=/nfs-7/userdata/bobak/ZMET2017_Hists/prediction/ZNu/Strong_Bveto/6j/wz.root
+DEFAULT::file_1_path=/nfs-7/userdata/bobak/ZMET2017_Hists/prediction/ZNu/Strong_Bveto/6j/zz.root
 
 
 #Add RSFOF
-#DEFAULT::hist_4_scale=1.09 #ttz
+#DEFAULT::hist_4_scale=1.3 #ttz
 #DEFAULT::hist_2_scale=1.02 #wz
 #DEFAULT::hist_1_scale=1.41  #zz
 DEFAULT::hist_5_scale=0.072735 #RSFOF * Kappa
@@ -56,7 +56,7 @@ DEFAULT::SR=Strong_Bveto_6j
 #====================
 Name=t1met
 plot_name=Type1MET
-title=Type 1 MET
+title=MET for SRC without B Jets
 xmin=50
 xmax=350
 xlabel=E^{miss}_{T} [GeV]
@@ -68,7 +68,7 @@ hist_0_name=type1MET
 
 Name=t1met_SRbin
 plot_name=Type1MET_SRBin
-title=Type 1 MET
+title=MET for SRC without B Jets
 xmin=50
 xmax=350
 xlabel=E^{miss}_{T} [GeV]
