@@ -2048,15 +2048,15 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
       printStats = false;
       printFail = false;
 
-      //if (inspection_set.count(phys.evt()) != 0){
-      /*if ( inspection_set_erl.count(make_tuple(phys.evt(), phys.run(), phys.lumi())) != 0){
+      if (inspection_set.count(phys.evt()) != 0){
+      //if ( inspection_set_erl.count(make_tuple(phys.evt(), phys.run(), phys.lumi())) != 0){
         cout<<"evt: "<<phys.evt()<<" run: "<<phys.run()<<" lumi: "<<phys.lumi()<<endl;
         printStats=true;
         printFail=true;
       }
       else{
         continue;
-      }*/
+      }
       
       /*if ( inVinceNotMine.count(phys.evt()) != 0){
         printFail = true;
@@ -2151,9 +2151,9 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
       if(conf->get("signal_region") == "LeonoraEvtLists"){
         cout<<"evt: "<<phys.evt()<<" run: "<<phys.run()<<" lumi: "<<phys.lumi()<<endl;
       }
-      if(bosonPt() < 100){
+      /*if(bosonPt() < 100){
         cout<<"evt: "<<phys.evt()<<" run: "<<phys.run()<<" lumi: "<<phys.lumi()<<" pt: "<<bosonPt()<<" weight: "<<weight<<endl;
-      }
+      }*/
 //===========================================
 // Analysis Code
 //===========================================
