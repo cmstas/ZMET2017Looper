@@ -653,10 +653,10 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
       double TTV_scale_unc = (conf->get("hist_4_scale_unc") == "") ? .5 : stod(conf->get("hist_4_scale_unc"));
 
       for (int i = 0; i < ZZ_err.size(); i++){
-        cout<<"RAREDEBUG| bin "<<i<<": ZZ (scaled): "<<ZZ_count[i]<<" ("<<ZZ_count[i]*ZZ_scale<<" +/- "<<ZZ_err[i]<<")"<<endl;
-        cout<<"RAREDEBUG| bin "<<i<<": WZ (scaled): "<<WZ_count[i]<<" ("<<WZ_count[i]*WZ_scale<<" +/- "<<WZ_err[i]<<")"<<endl;
-        cout<<"RAREDEBUG| bin "<<i<<": VVV (scaled): "<<VVV_count[i]<<" ("<<VVV_count[i]*VVV_scale<<" +/- "<<VVV_err[i]<<")"<<endl;
-        cout<<"RAREDEBUG| bin "<<i<<": TTZ (scaled): "<<TTV_count[i]<<" ("<<TTV_count[i]*TTV_scale<<" +/- "<<TTV_err[i]<<")"<<endl;
+        cout<<"RAREDEBUG| bin "<<i<<": ZZ (scaled): "<<ZZ_count[i]<<" +/- "<<ZZ_err[i]<<" ("<<ZZ_count[i]*ZZ_scale<<")"<<endl;
+        cout<<"RAREDEBUG| bin "<<i<<": WZ (scaled): "<<WZ_count[i]<<" +/- "<<WZ_err[i]<<" ("<<WZ_count[i]*WZ_scale<<")"<<endl;
+        cout<<"RAREDEBUG| bin "<<i<<": VVV (scaled): "<<VVV_count[i]<<" +/- "<<VVV_err[i]<<" ("<<VVV_count[i]*VVV_scale<<")"<<endl;
+        cout<<"RAREDEBUG| bin "<<i<<": TTZ (scaled): "<<TTV_count[i]<<" +/- "<<TTV_err[i]<<" ("<<TTV_count[i]*TTV_scale<<")"<<endl;
       }
 
       //Compute rare errors
