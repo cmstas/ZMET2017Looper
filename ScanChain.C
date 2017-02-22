@@ -1961,7 +1961,7 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
     //cout<<__LINE__<<endl;
     g_isr_norm_up = (TH1D*)g_SUSYsf_norm_file->Get("h_avg_weight_isr_UP")->Clone("h_isr_norm_up");
     //cout<<__LINE__<<endl;
-    g_btagsf_norm_up = (TH1D*)g_SUSYsf_norm_file->Get("h_avg_weight_btagsf")->Clone("g_btagsf_norm");
+    g_btagsf_norm = (TH1D*)g_SUSYsf_norm_file->Get("h_avg_weight_btagsf")->Clone("g_btagsf_norm");
     //cout<<__LINE__<<endl;
     g_btagsf_light_norm_up = (TH1D*)g_SUSYsf_norm_file->Get("h_avg_weight_btagsf_light_UP")->Clone("g_btagsf_light_norm_up");
     //cout<<__LINE__<<endl;
