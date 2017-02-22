@@ -33,6 +33,9 @@ pair<int,int> getClosestBPairToHiggsMass(){
   
   if (phys.jets_p4().size()<2){
     cout<<"Going to throw error finding closest B pair: Less than two jets!"<<endl;
+    std::stringstream message;
+    message<<"Can not find closest B pair to Higgs for event: "<<phys.evt()<<" run: "<<phys.run()<<" lumi: "<<phys.lumi()<<" the event only has "<<phys.jets_p4().size()<<" jets";
+    throw std::underflow_error(message.str());
   }
 
   double dist = abs((phys.jets_p4().at(0)+phys.jets_p4().at(1)).M() - 125.0);
@@ -208,7 +211,7 @@ bool passElectronTriggers(){
   }
   else{
     //cout<<__LINE__<<endl;
-    if (printStats) { cout<<"HLT_DoubleEl_DZ_2: "<<phys.HLT_DoubleEl_DZ_2()<<" HLT_DoubleEl_noiso: "<<phys.HLT_DoubleEl_noiso()<<" HLT_DoubleEl_DZ(): "<<phys.HLT_DoubleEl_DZ()<<endl; }
+    //if (printStats) { cout<<"HLT_DoubleEl_DZ_2: "<<phys.HLT_DoubleEl_DZ_2()<<" HLT_DoubleEl_noiso: "<<phys.HLT_DoubleEl_noiso()<<" HLT_DoubleEl_DZ(): "<<phys.HLT_DoubleEl_DZ()<<endl; }
     return (phys.HLT_DoubleEl_DZ_2() || phys.HLT_DoubleEl_noiso() || phys.HLT_DoubleEl_DZ() );
   }
 }
@@ -761,10 +764,13 @@ double getWeight(){
     if (conf->get("no_btag_sf") == ""){
       //cout<<"Applying Btag Scale Factors"<<endl;
       weight *= phys.weight_btagsf();
+      weight *= 1./g_btagsf_norm->FindBin(phys.mass_gluino(), phys.mass_LSP());
     }
 
     if (conf->get("susy_mc") == "true"){
       weight *= phys.isr_weight(); //ISR scale factor
+      weight *= 1./g_isr_norm->FindBin(phys.mass_gluino(), phys.mass_LSP());
+
       for (int i = 0; i < phys.nlep(); i++){
         weight *= phys.weightsf_lepid_FS().at(i); //Fast Sim Lepton ID
       } 
@@ -1357,6 +1363,7 @@ bool passBaseCut(){
 }
 
 bool passETHDileptonDataCleanse(){
+  /*Ensures events from the ee/mumu/emu dataset pass the trigger for that type of event and for ee and emu ensures they don't pass other triggers.*/
   //Dilepton Data samples
   if ( (phys.isData()) && TString(conf->get("data_set")).Contains("DileptonData")){
     //cout<<"Dilepton Data Event"<<endl;
@@ -1926,6 +1933,53 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
     //cout<<__LINE__<<endl;
     g_pileup_hist_file->Close();
   }
+
+  //--------------------------------------------------------
+  // 2D SUSY Scan ISR and BTag SF normalization Histograms
+  //--------------------------------------------------------
+  if(conf->get("SUSY_Glu_LSP_scan") == "true"){
+    cout<<"Setting up normalization weights for ISR and Btag Scale Factors."<<endl;
+    //cout<<__LINE__<<endl;
+    if (conf->get("dataset") == "T5ZZ"){
+      //cout<<__LINE__<<endl;
+      g_SUSYsf_norm_file = TFile::Open("auxFiles/nsig_weights_t5zz.root", "READ");
+    }
+    else if (conf->get("dataset") == "TChiWZ"){
+      //cout<<__LINE__<<endl;
+      g_SUSYsf_norm_file = TFile::Open("auxFiles/nsig_weights_tchiwz.root", "READ");
+    }
+    else {
+      //cout<<__LINE__<<endl;
+      std::stringstream message;
+      message<<"Can not pull normalization weights file for "<<conf->get("dataset")<<", no file configured for that dataset.";
+      throw std::invalid_argument(message.str());
+    }
+    //cout<<__LINE__<<endl;
+
+    g_isr_norm = (TH1D*)g_SUSYsf_norm_file->Get("h_avg_weight_isr")->Clone("h_isr_norm");
+    //cout<<__LINE__<<endl;
+    g_isr_norm_up = (TH1D*)g_SUSYsf_norm_file->Get("h_avg_weight_isr_UP")->Clone("h_isr_norm_up");
+    //cout<<__LINE__<<endl;
+    g_btagsf_norm = (TH1D*)g_SUSYsf_norm_file->Get("h_avg_weight_btagsf")->Clone("g_btagsf_norm");
+    //cout<<__LINE__<<endl;
+    g_btagsf_light_norm_up = (TH1D*)g_SUSYsf_norm_file->Get("h_avg_weight_btagsf_light_UP")->Clone("g_btagsf_light_norm_up");
+    //cout<<__LINE__<<endl;
+    g_btagsf_heavy_norm_up = (TH1D*)g_SUSYsf_norm_file->Get("h_avg_weight_btagsf_heavy_UP")->Clone("g_btagsf_heavy_norm_up");
+    //cout<<__LINE__<<endl;
+    
+
+    g_isr_norm->SetDirectory(rootdir);
+    //cout<<__LINE__<<endl;
+    g_btagsf_light_norm->SetDirectory(rootdir);
+    //cout<<__LINE__<<endl;
+    g_btagsf_heavy_norm->SetDirectory(rootdir);
+    //cout<<__LINE__<<endl;
+
+    g_SUSYsf_norm_file->Close();
+    //cout<<__LINE__<<endl;
+  }
+
+   
   //cout<<__LINE__<<endl;
   /*if( conf->get("data") == "true" && conf->get("event_type")=="photon" ){
     cout<<"Pileup reweighting with "<<savePath+"L1PrescaleWeight_"+conf->get("signal_region")+".root"<<endl;

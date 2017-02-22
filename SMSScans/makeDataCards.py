@@ -52,13 +52,13 @@ def addSignalYields(d, SR, mass_gluino, mass_lsp):
     d["sig_isr_syst_bin%d" % i] = properSpacing("{sig_isr_syst_bin1}", "%.4f" % isr_nuisence)
 
 def addConstantVals(d):
-  d["sig_trig_syst"] = properSpacing("{sig_trig_syst}","1.04")
+  d["sig_trig_syst"] = properSpacing("{sig_trig_syst}","1.03")
   d["sig_metfromFS_syst_bin1"] = properSpacing("{sig_metfromFS_syst_bin1}","1.04")
   d["sig_metfromFS_syst_bin2"] = properSpacing("{sig_metfromFS_syst_bin2}","1.04")
   d["sig_metfromFS_syst_bin3"] = properSpacing("{sig_metfromFS_syst_bin3}","1.04")
-  d["sig_leptonFS_syst"] = properSpacing("{sig_leptonFS_syst}","1.04")
+  d["sig_leptonFS_syst"] = properSpacing("{sig_leptonFS_syst}","1.06")
   
-  d["sig_lumi_syst"] = properSpacing("{sig_lumi_syst}","1.04")
+  d["sig_lumi_syst"] = properSpacing("{sig_lumi_syst}","1.026")
   d["sig_JES_syst_bin1"] = properSpacing("{sig_JES_syst_bin1}","1.04")
   d["sig_JES_syst_bin2"] = properSpacing("{sig_JES_syst_bin2}","1.04")
   d["sig_JES_syst_bin3"] = properSpacing("{sig_JES_syst_bin3}","1.04")

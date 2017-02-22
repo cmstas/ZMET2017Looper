@@ -54,7 +54,13 @@ bool MCTriggerEmulation = true;
 
 vector<pair <TH1D*, TString> > g_reweight_pairs;
 TDirectory *rootdir = gDirectory->GetDirectory("Rint:");
-TH1D *g_pileup_hist, *g_l1prescale_hist22, *g_l1prescale_hist30, *g_l1prescale_hist36;
+TH1D *g_pileup_hist, *g_l1prescale_hist22, *g_l1prescale_hist30, *g_l1prescale_hist36; 
+
+//Btag and ISR Scale Factor overall normalization
+TH1D *g_btagsf_norm, g_btagsf_light_norm_up, g_btagsf_heavy_norm_up;
+TH1D *g_isr_norm, *g_isr_norm_up;
+TFile *g_SUSYsf_norm_file;
+
 TEfficiency *g_pt_eff_barrel, *g_pt_eff_endcap; 
 TFile *g_weight_hist_file, *g_pileup_hist_file, *g_l1prescale_file;
 TString g_sample_name;
@@ -192,6 +198,9 @@ bool passMETFilters();
 
 /*Holds baseline cuts*/
 bool passBaseCut();
+
+/*Ensures events from the ee/mumu/emu dataset pass the trigger for that type of event and for ee and emu ensures they don't pass other triggers.*/
+bool passETHDileptonDataCleanse();
 
 /*Method which holds all the file specific selections, for instance cutting out the
   events with genht > 100 in the DY inclusive samples*/
