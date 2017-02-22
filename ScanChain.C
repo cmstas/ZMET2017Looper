@@ -764,13 +764,14 @@ double getWeight(){
     if (conf->get("no_btag_sf") == ""){
       //cout<<"Applying Btag Scale Factors"<<endl;
       weight *= phys.weight_btagsf();
-      weight *= 1./g_btagsf_norm->FindBin(phys.mass_gluino(), phys.mass_LSP());
     }
 
     if (conf->get("susy_mc") == "true"){
       weight *= phys.isr_weight(); //ISR scale factor
       weight *= 1./g_isr_norm->FindBin(phys.mass_gluino(), phys.mass_LSP());
-
+      
+      weight *= 1./g_btagsf_norm->FindBin(phys.mass_gluino(), phys.mass_LSP());
+      
       for (int i = 0; i < phys.nlep(); i++){
         weight *= phys.weightsf_lepid_FS().at(i); //Fast Sim Lepton ID
       } 

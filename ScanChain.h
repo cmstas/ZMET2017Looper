@@ -57,7 +57,7 @@ TDirectory *rootdir = gDirectory->GetDirectory("Rint:");
 TH1D *g_pileup_hist, *g_l1prescale_hist22, *g_l1prescale_hist30, *g_l1prescale_hist36; 
 
 //Btag and ISR Scale Factor overall normalization
-TH1D *g_btagsf_norm_up, *g_btagsf_light_norm_up, *g_btagsf_heavy_norm_up;
+TH1D *g_btagsf_norm, *g_btagsf_light_norm_up, *g_btagsf_heavy_norm_up;
 TH1D *g_isr_norm, *g_isr_norm_up;
 TFile *g_SUSYsf_norm_file;
 
