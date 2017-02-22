@@ -1973,7 +1973,7 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
     //cout<<__LINE__<<endl;
     g_isr_norm_up->SetDirectory(rootdir);
     //cout<<__LINE__<<endl;
-    g_btagsf_norm_up->SetDirectory(rootdir);
+    g_btagsf_norm->SetDirectory(rootdir);
     //cout<<__LINE__<<endl;
     g_btagsf_light_norm_up->SetDirectory(rootdir);
     //cout<<__LINE__<<endl;
