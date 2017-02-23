@@ -15,9 +15,9 @@ function makePlots {
 	./preprocessConf.py $1
 	if [[ $2 == "no" ]]
 	then
-	    nice -n 19 root -l -b -q "drawPlots.C(\"$conf_tmp_path\", 0)"
+	    nice -n 19 root -l -b -q "drawPlots.C(\"$conf_tmp_path\", 0)" | tee ${PLOT_OUTPUT_LOCATION}${SR_IDENTITY}`basename $conf_filename .conf`/output.txt
 	else
-		nice -n 19 root -l -b -q "drawPlots.C(\"$conf_tmp_path\")"
+		nice -n 19 root -l -b -q "drawPlots.C(\"$conf_tmp_path\")" | tee ${PLOT_OUTPUT_LOCATION}${SR_IDENTITY}`basename $conf_filename .conf`/output.txt
 	fi
 	echo https://github.com/bth5032/ZMETBabyLooper2017/commit/`git rev-parse HEAD`/ > ${PLOT_OUTPUT_LOCATION}${SR_IDENTITY}`basename $conf_filename .conf`/commiturl.txt
 }

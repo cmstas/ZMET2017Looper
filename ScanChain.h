@@ -76,6 +76,26 @@ TH1I *numEvents; //Holds the number of events in the whole script and the number
 bool printStats = false;
 bool printFail = false;
 
+//=======================================================
+// Global variables used for uncertainty fluctuations
+//=======================================================
+double dphi_metj1;
+double dphi_metj2;
+int njets;
+double mbb;
+double mjj_mindphi;
+int nBJetMedium;
+double met;
+double met_phi;
+double mt2;
+double mt2b;
+double ht;
+
+vector<float> jets_csv;
+LorentzVector jets_p4;
+LorentzVector jets_medb_p4;
+
+
 /* returns two most B-like jet indicies */
 pair<int, int> getMostBlike();
 
@@ -205,6 +225,12 @@ bool passETHDileptonDataCleanse();
 /*Method which holds all the file specific selections, for instance cutting out the
   events with genht > 100 in the DY inclusive samples*/
 bool passFileSelections();
+
+//=============================
+// Setup
+//=============================
+/*Sets up global variables for the event which are the quantities that might be fluctuated in the process of computing uncertainty limits*/
+void setupGlobals();
 
 /*Obvi the event looper*/
 int ScanChain( TChain* chain, ConfigParser *configuration, bool fast = true, int nEvents = -1);
