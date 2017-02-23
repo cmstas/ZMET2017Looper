@@ -767,10 +767,13 @@ double getWeight(){
     }
 
     if (conf->get("susy_mc") == "true"){
+      double ISR_norm=1./g_isr_norm->GetBinContent(g_isr_norm->GetXaxis()->FindBin(phys.mass_gluino()), g_isr_norm->GetYaxis()->FindBin(phys.mass_LSP()));
+      double btag_norm=1./g_btagsf_norm->GetBinContent(g_btagsf_norm->GetXaxis()->FindBin(phys.mass_gluino()), g_btagsf_norm->GetYaxis()->FindBin(phys.mass_LSP()));
+
       weight *= phys.isr_weight(); //ISR scale factor
-      weight *= 1./g_isr_norm->FindBin(phys.mass_gluino(), phys.mass_LSP());
+      weight *= ISR_norm;
       
-      weight *= 1./g_btagsf_norm->FindBin(phys.mass_gluino(), phys.mass_LSP());
+      weight *= btag_norm;
       
       for (int i = 0; i < phys.nlep(); i++){
         weight *= phys.weightsf_lepid_FS().at(i); //Fast Sim Lepton ID
@@ -2365,13 +2368,21 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
           susy_type1MET_nowt->Fill(phys.met_T1CHS_miniAOD_CORE_pt(), phys.mass_gluino(), phys.mass_LSP(), 1);
           
           //cout<<__LINE__<<endl;
+
+          double ISR_norm=1./g_isr_norm->GetBinContent(g_isr_norm->GetXaxis()->FindBin(phys.mass_gluino()), g_isr_norm->GetYaxis()->FindBin(phys.mass_LSP()));
+          double btag_norm=1./g_btagsf_norm->GetBinContent(g_btagsf_norm->GetXaxis()->FindBin(phys.mass_gluino()), g_btagsf_norm->GetYaxis()->FindBin(phys.mass_LSP()));
+         
+          double ISR_norm_up=1./g_isr_norm_up->GetBinContent(g_isr_norm_up->GetXaxis()->FindBin(phys.mass_gluino()), g_isr_norm_up->GetYaxis()->FindBin(phys.mass_LSP()));
+         
+          double btag_heavy_norm_up=1./g_btagsf_heavy_norm_up->GetBinContent(g_btagsf_heavy_norm_up->GetXaxis()->FindBin(phys.mass_gluino()), g_btagsf_heavy_norm_up->GetYaxis()->FindBin(phys.mass_LSP()));
+          double btag_light_norm_up=1./g_btagsf_light_norm_up->GetBinContent(g_btagsf_light_norm_up->GetXaxis()->FindBin(phys.mass_gluino()), g_btagsf_light_norm_up->GetYaxis()->FindBin(phys.mass_LSP()));
           
-          susy_type1MET_btagheavy_up->Fill(phys.met_T1CHS_miniAOD_CORE_pt(), phys.mass_gluino(), phys.mass_LSP(), weight*(phys.weight_btagsf_heavy_UP()/phys.weight_btagsf()));
-          susy_type1MET_btaglight_up->Fill(phys.met_T1CHS_miniAOD_CORE_pt(), phys.mass_gluino(), phys.mass_LSP(), weight*(phys.weight_btagsf_light_UP()/phys.weight_btagsf()));
+          susy_type1MET_btagheavy_up->Fill(phys.met_T1CHS_miniAOD_CORE_pt(), phys.mass_gluino(), phys.mass_LSP(), (btag_heavy_norm_up/btag_norm)*weight*(phys.weight_btagsf_heavy_UP()/phys.weight_btagsf()));
+          susy_type1MET_btaglight_up->Fill(phys.met_T1CHS_miniAOD_CORE_pt(), phys.mass_gluino(), phys.mass_LSP(), (btag_light_norm_up/btag_norm)*weight*(phys.weight_btagsf_light_UP()/phys.weight_btagsf()));
           
           //cout<<__LINE__<<endl;
           
-          susy_type1MET_isr_up->Fill(phys.met_T1CHS_miniAOD_CORE_pt(), phys.mass_gluino(), phys.mass_LSP(), (weight)*(1+(phys.isr_unc()/phys.isr_weight())) );
+          susy_type1MET_isr_up->Fill(phys.met_T1CHS_miniAOD_CORE_pt(), phys.mass_gluino(), phys.mass_LSP(), (ISR_norm_up/ISR_norm)*(weight)*(1+(phys.isr_unc()/phys.isr_weight())) );
       }
 
       if(conf->get("ECalTest") != ""){
