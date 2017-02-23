@@ -40,7 +40,7 @@
 #include "ConfigHelper.C"
 
 using namespace std;
-using namespace zmet;
+//using namespace zmet;
 using namespace duplicate_removal;
 
 typedef ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > LorentzVector;
