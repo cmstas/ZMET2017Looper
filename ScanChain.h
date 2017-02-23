@@ -92,8 +92,8 @@ double mt2b;
 double ht;
 
 vector<float> jets_csv;
-LorentzVector jets_p4;
-LorentzVector jets_medb_p4;
+vector<LorentzVector> jets_p4;
+vector<LorentzVector> jets_medb_p4;
 
 
 /* returns two most B-like jet indicies */
