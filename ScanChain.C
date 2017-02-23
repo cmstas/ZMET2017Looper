@@ -2018,18 +2018,18 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
   if(conf->get("SUSY_Glu_LSP_scan") == "true"){
     cout<<"Setting up normalization weights for ISR and Btag Scale Factors."<<endl;
     //cout<<__LINE__<<endl;
-    if (conf->get("dataset") == "T5ZZ"){
+    if (conf->get("data_set") == "T5ZZ"){
       //cout<<__LINE__<<endl;
       g_SUSYsf_norm_file = TFile::Open("auxFiles/nsig_weights_t5zz.root", "READ");
     }
-    else if (conf->get("dataset") == "TChiWZ"){
+    else if (conf->get("data_set") == "TChiWZ"){
       //cout<<__LINE__<<endl;
       g_SUSYsf_norm_file = TFile::Open("auxFiles/nsig_weights_tchiwz.root", "READ");
     }
     else {
       //cout<<__LINE__<<endl;
       std::stringstream message;
-      message<<"Can not pull normalization weights file for "<<conf->get("dataset")<<", no file configured for that dataset.";
+      message<<"Can not pull normalization weights file for "<<conf->get("data_set")<<", no file configured for that dataset.";
       throw std::invalid_argument(message.str());
     }
     //cout<<__LINE__<<endl;
