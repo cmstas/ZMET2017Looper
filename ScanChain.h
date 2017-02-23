@@ -79,21 +79,21 @@ bool printFail = false;
 //=======================================================
 // Global variables used for uncertainty fluctuations
 //=======================================================
-double dphi_metj1;
-double dphi_metj2;
-int njets;
-double mbb;
-double mjj_mindphi;
-int nBJetMedium;
-double met;
-double met_phi;
-double mt2;
-double mt2b;
-double ht;
+double g_dphi_metj1;
+double g_dphi_metj2;
+int g_njets;
+double g_mbb;
+double g_mjj_mindphi;
+int g_nBJetMedium;
+double g_met;
+double g_met_phi;
+double g_mt2;
+double g_mt2b;
+double g_ht;
 
-vector<float> jets_csv;
-vector<LorentzVector> jets_p4;
-vector<LorentzVector> jets_medb_p4;
+vector<float> g_jets_csv;
+vector<LorentzVector> g_jets_p4;
+vector<LorentzVector> g_jets_medb_p4;
 
 
 /* returns two most B-like jet indicies */

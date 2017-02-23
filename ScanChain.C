@@ -9,17 +9,17 @@ pair<int, int> getMostBlike(){
   int first_index = 0;
   int second_index = 1;
 
-  if (jets_csv.at(first_index) < jets_csv.at(second_index)){
+  if (g_jets_csv.at(first_index) < g_jets_csv.at(second_index)){
     first_index = 1;
     second_index = 0;
   }
 
-  for (int i = 2; i < (int) jets_p4.size(); i++){
-    if (jets_csv.at(first_index) < jets_csv.at(i)){
+  for (int i = 2; i < (int) g_jets_p4.size(); i++){
+    if (g_jets_csv.at(first_index) < g_jets_csv.at(i)){
       second_index = first_index;
       first_index = i;
     }
-    else if (jets_csv.at(second_index) < jets_csv.at(i)){
+    else if (g_jets_csv.at(second_index) < g_jets_csv.at(i)){
       second_index = i;
     }
   }
@@ -31,18 +31,18 @@ pair<int,int> getClosestBPairToHiggsMass(){
   int first = 0;
   int second = 1;
   
-  if (jets_p4.size()<2){
+  if (g_jets_p4.size()<2){
     cout<<"Going to throw error finding closest B pair: Less than two jets!"<<endl;
     std::stringstream message;
-    message<<"Can not find closest B pair to Higgs for event: "<<phys.evt()<<" run: "<<phys.run()<<" lumi: "<<phys.lumi()<<" the event only has "<<jets_p4.size()<<" jets";
+    message<<"Can not find closest B pair to Higgs for event: "<<phys.evt()<<" run: "<<phys.run()<<" lumi: "<<phys.lumi()<<" the event only has "<<g_jets_p4.size()<<" jets";
     throw std::underflow_error(message.str());
   }
 
-  double dist = abs((jets_p4.at(0)+jets_p4.at(1)).M() - 125.0);
+  double dist = abs((g_jets_p4.at(0)+g_jets_p4.at(1)).M() - 125.0);
 
-  for (int i = 0; i < (int) jets_p4.size(); i++) {
-    for (int j = i+1; j < (int) jets_p4.size(); j++) {
-      if (abs((jets_p4.at(i)+jets_p4.at(j)).M() - 125 ) < dist){
+  for (int i = 0; i < (int) g_jets_p4.size(); i++) {
+    for (int j = i+1; j < (int) g_jets_p4.size(); j++) {
+      if (abs((g_jets_p4.at(i)+g_jets_p4.at(j)).M() - 125 ) < dist){
         first = i;
         second = j;
       }
@@ -57,8 +57,8 @@ double getMT2B(){
 
   pair<int, int> b_index = getMostBlike();
 
-  double mt2_1=MT2(met, met_phi, jets_p4.at(b_index.first)+phys.lep_p4().at(0), jets_p4.at(b_index.second)+phys.lep_p4().at(1), 0, 0);
-  double mt2_2=MT2(met, met_phi, jets_p4.at(b_index.first)+phys.lep_p4().at(1), jets_p4.at(b_index.second)+phys.lep_p4().at(0), 0, 0);
+  double mt2_1=MT2(g_met, g_met_phi, g_jets_p4.at(b_index.first)+phys.lep_p4().at(0), g_jets_p4.at(b_index.second)+phys.lep_p4().at(1), 0, 0);
+  double mt2_2=MT2(g_met, g_met_phi, g_jets_p4.at(b_index.first)+phys.lep_p4().at(1), g_jets_p4.at(b_index.second)+phys.lep_p4().at(0), 0, 0);
 
   if (mt2_1 > mt2_2){
     return mt2_2;
@@ -73,7 +73,7 @@ double getMbb(){
   
   pair<int, int> b_index = getMostBlike();
 
-  return (jets_p4.at(b_index.first)+jets_p4.at(b_index.second)).M();
+  return (g_jets_p4.at(b_index.first)+g_jets_p4.at(b_index.second)).M();
 }
 
 double getMT2ForBjets(bool select_highest_csv/*=false*/){
@@ -84,13 +84,13 @@ double getMT2ForBjets(bool select_highest_csv/*=false*/){
     pair<int, int> b_index = getMostBlike();
     //cout<<__LINE__<<endl;
     //make sure first index points to the higher csv of the first two jets
-    mt2=MT2(met, met_phi, jets_p4.at(b_index.first), jets_p4.at(b_index.second), 0, 0);
+    mt2=MT2(g_met, g_met_phi, g_jets_p4.at(b_index.first), g_jets_p4.at(b_index.second), 0, 0);
     //cout<<__LINE__<<endl;
   }
   else{
     // MT2( MET_MAGNITUDE, MET_PHI, P4_LEPTON_1, P4_LEPTON_2, MASS_INVISIBLE_PARTICLE, Bool Verbose)
     //cout<<__LINE__<<endl;
-    mt2=MT2(met, met_phi, jets_medb_p4.at(0), jets_medb_p4.at(1), 0, 0);
+    mt2=MT2(g_met, g_met_phi, g_jets_medb_p4.at(0), g_jets_medb_p4.at(1), 0, 0);
   }
   //cout<<__LINE__<<endl;
   return mt2;
@@ -103,11 +103,11 @@ double getMT2HiggsZ(bool select_highest_closest_higgs_mass/*=false*/){
   if(select_highest_closest_higgs_mass){
     pair<int, int> jet_indexes = getClosestBPairToHiggsMass();
     // MT2( MET_MAGNITUDE, MET_PHI, P4_LEPTON_1, P4_LEPTON_2, MASS_INVISIBLE_PARTICLE, Bool Verbose)
-    mt2=MT2(met, met_phi, jets_p4.at(jet_indexes.first)+jets_p4.at(jet_indexes.second), lep_p4().at(0)+lep_p4().at(1), 0, 0);
+    mt2=MT2(g_met, g_met_phi, g_jets_p4.at(jet_indexes.first)+g_jets_p4.at(jet_indexes.second), phys.lep_p4().at(0)+phys.lep_p4().at(1), 0, 0);
   }
   else{
     // MT2( MET_MAGNITUDE, MET_PHI, P4_LEPTON_1, P4_LEPTON_2, MASS_INVISIBLE_PARTICLE, Bool Verbose)
-    mt2=MT2(met, met_phi, jets_medb_p4.at(0)+jets_medb_p4.at(1), lep_p4().at(0)+lep_p4().at(1), 0, 0);
+    mt2=MT2(g_met, g_met_phi, g_jets_medb_p4.at(0)+g_jets_medb_p4.at(1), phys.lep_p4().at(0)+phys.lep_p4().at(1), 0, 0);
   }
 
   return mt2;
@@ -129,7 +129,7 @@ double bosonPt(){
 
 double getMTLepMET(short id/*=0*/){
   /* Builds the MT from the lepton at index id and the MET vector (assumes massless particles)*/
-  return sqrt(met*phys.lep_p4().at(id).pt()*(1 - cos(met_phi - phys.lep_p4().at(id).phi())));
+  return sqrt(g_met*phys.lep_p4().at(id).pt()*(1 - cos(g_met_phi - phys.lep_p4().at(id).phi())));
 
   /* Massive Case
     ET1sq = m_1^2 + pt1^2 
@@ -453,7 +453,7 @@ bool hasGoodPhoton(){
   }
   
   if (conf->get("ECalTest") == ""){
-    if( acos( cos( phys.gamma_phi().at(0) - met_phi ) ) < 0.4 ) {
+    if( acos( cos( phys.gamma_phi().at(0) - g_met_phi ) ) < 0.4 ) {
       numEvents->Fill(31);
       if (printFail) cout<<phys.evt()<<" :Failed photons aligned with MET photon cut"<<endl;
       return false; // kill photons aligned with MET
@@ -653,7 +653,7 @@ double getReweight(){
     }
     else if (rwt_var == "ht_wide"){
       //cout<<"Adding HT weight: "<<rwt_hist->GetBinContent(rwt_hist->FindBin(ht))<<endl;
-      weight *= rwt_hist->GetBinContent(rwt_hist->FindBin(ht)); 
+      weight *= rwt_hist->GetBinContent(rwt_hist->FindBin(g_ht)); 
     }
     else if (rwt_var == "muonPT_endcap"){
       //cout<<"Adding muon pt trigger efficiency weight in endcap: "<<rwt_hist->GetBinContent(rwt_hist->FindBin(phys.lep_pt().at(0)))<<endl;
@@ -836,7 +836,7 @@ bool passSignalRegionCuts(){
   
   //Njets Min Cut
   if (conf->get("Njets_min") != ""){
-    if (njets < stod(conf->get("Njets_min"))){
+    if (g_njets < stod(conf->get("Njets_min"))){
       numEvents->Fill(34);
       if (printFail) cout<<phys.evt()<<" :Failed min jets cut"<<endl;
       return false;
@@ -847,7 +847,7 @@ bool passSignalRegionCuts(){
 
   //Njets Max Cut
   if (conf->get("Njets_max") != ""){
-    if (njets > stod(conf->get("Njets_max"))){
+    if (g_njets > stod(conf->get("Njets_max"))){
       numEvents->Fill(35);
       if (printFail) cout<<phys.evt()<<" :Failed max jets cut"<<endl;
       return false;
@@ -855,11 +855,11 @@ bool passSignalRegionCuts(){
   }
 
   //cout<<__LINE__<<endl;
-  //if (printStats) { cout<<"NbjetsMed: "<<nBJetMedium<<" "; }
+  //if (printStats) { cout<<"NbjetsMed: "<<g_nBJetMedium<<" "; }
 
   //Num Bottom jets Min Cut
   if (conf->get("NBjets_min") != ""){
-    if (nBJetMedium < stod(conf->get("NBjets_min"))){
+    if (g_nBJetMedium < stod(conf->get("NBjets_min"))){
       numEvents->Fill(36);
       if (printFail) cout<<phys.evt()<<" :Failed min bjet cut"<<endl;
       return false;
@@ -870,7 +870,7 @@ bool passSignalRegionCuts(){
 
   //Num Bottom jets Max Cut
   if (conf->get("NBjets_max") != ""){
-    if (nBJetMedium > stod(conf->get("NBjets_max"))){
+    if (g_nBJetMedium > stod(conf->get("NBjets_max"))){
       numEvents->Fill(37);
       if (printFail) cout<<phys.evt()<<" :Failed max bjet cut"<<endl;
       return false;
@@ -899,10 +899,10 @@ bool passSignalRegionCuts(){
 
 
   //cout<<__LINE__<<endl;
-  //if (printStats) { cout<<"dphi_metj1: "<<dphi_metj1<<" "; }
+  //if (printStats) { cout<<"g_dphi_metj1: "<<g_dphi_metj1<<" "; }
   //Leading Jet/MET Phi min
   if (conf->get("dPhi_MET_j1") != ""){
-    if (dphi_metj1 < stod(conf->get("dPhi_MET_j1"))){
+    if (g_dphi_metj1 < stod(conf->get("dPhi_MET_j1"))){
       numEvents->Fill(38);
       if (printFail) cout<<phys.evt()<<" :Failed dPhi MET with jet 1 cut"<<endl;
       return false;
@@ -910,10 +910,10 @@ bool passSignalRegionCuts(){
   }
 
   //cout<<__LINE__<<endl;
-  //if (printStats) { cout<<"dphi_metj2: "<<dphi_metj2<<" "; }
+  //if (printStats) { cout<<"g_dphi_metj2: "<<g_dphi_metj2<<" "; }
   //Trailing Jet/MET Phi min
   if (conf->get("dPhi_MET_j2") != ""){
-    if (dphi_metj2 < stod(conf->get("dPhi_MET_j2"))){
+    if (g_dphi_metj2 < stod(conf->get("dPhi_MET_j2"))){
       numEvents->Fill(39);
       if (printFail) cout<<phys.evt()<<" :Failed dPhi MET with jet 2 cut"<<endl;
       return false;
@@ -921,10 +921,10 @@ bool passSignalRegionCuts(){
   }
 
   //cout<<__LINE__<<endl;
-  //if (printStats) { cout<<"mt2b: "<<mt2b<<" "; }
+  //if (printStats) { cout<<"mt2b: "<<g_mt2b<<" "; }
   //MT2b min
   if (conf->get("MT2b_min") != "" && conf->get("event_type") != "photon"){
-    if (mt2b < stod(conf->get("MT2b_min"))){
+    if (g_mt2b < stod(conf->get("MT2b_min"))){
       numEvents->Fill(40);
       if (printFail) cout<<phys.evt()<<" :Failed MT2b cut"<<endl;
       return false;
@@ -943,10 +943,10 @@ bool passSignalRegionCuts(){
   }
 
   //cout<<__LINE__<<endl;
-  //if (printStats) { cout<<"mt2b: "<<mt2b<<" "; }
+  //if (printStats) { cout<<"mt2b: "<<g_mt2b<<" "; }
   //MT2 min
   if (conf->get("MT2_min") != ""){
-    if (mt2 < stod(conf->get("MT2_min"))){
+    if (g_mt2 < stod(conf->get("MT2_min"))){
       numEvents->Fill(59);
       if (printFail) cout<<phys.evt()<<" :Failed MT2 cut"<<endl;
       return false;
@@ -957,8 +957,8 @@ bool passSignalRegionCuts(){
   //cout<<__LINE__<<endl;
   //HT min
   if (conf->get("HT_min") != ""){
-  //if (printStats) { cout<<"ht: "<<ht<<" "; }
-    if (ht < stod(conf->get("HT_min"))){
+  //if (printStats) { cout<<"ht: "<<g_ht<<" "; }
+    if (g_ht < stod(conf->get("HT_min"))){
       numEvents->Fill(41);
       if (printFail) cout<<phys.evt()<<" :Failed sum HT min cut"<<endl;
       return false;
@@ -969,7 +969,7 @@ bool passSignalRegionCuts(){
   //DiBottom mass difference from Higgs Mass
   if (conf->get("mbb_mh_diff") != ""){
   //if (printStats) { cout<<"mbb_mh_diff: "<<abs(mbb - 125)<<" "; }
-    if (abs(mbb - 125) < stod(conf->get("mbb_mh_diff"))){
+    if (abs(g_mbb - 125) < stod(conf->get("mbb_mh_diff"))){
       numEvents->Fill(42);
       if (printFail) cout<<phys.evt()<<" :Failed sum mbb_mh diff cut"<<endl;
       return false;
@@ -990,7 +990,7 @@ bool passSignalRegionCuts(){
     }
     //cout<<__LINE__<<endl;
     //if (printStats) { cout<<"sum_HT_pt_pt: "<<abs(ht + pt )<<" "; }
-    if ( abs(ht + pt ) < stod(conf->get("sum_HT_pt_pt") ) ){
+    if ( abs(g_ht + pt ) < stod(conf->get("sum_HT_pt_pt") ) ){
       numEvents->Fill(43);
       if (printFail) cout<<phys.evt()<<" :Failed sum HT pt pt cut"<<endl;
       return false;
@@ -1020,7 +1020,7 @@ bool passSignalRegionCuts(){
   //cout<<__LINE__<<endl;
 
   if (conf->get("MET_min") != ""){
-    if ( met < stod( conf->get("MET_min") )){
+    if ( g_met < stod( conf->get("MET_min") )){
       numEvents->Fill(56);
       if (printFail) cout<<phys.evt()<<" :Failed lep2 min pt cut"<<endl;
       return false;
@@ -1030,7 +1030,7 @@ bool passSignalRegionCuts(){
   //cout<<__LINE__<<endl;
 
   if (conf->get("MET_max") != ""){
-    if ( met > stod( conf->get("MET_max") )){
+    if ( g_met > stod( conf->get("MET_max") )){
       numEvents->Fill(57);
       if (printFail) cout<<phys.evt()<<" :Failed lep2 min pt cut"<<endl;
       return false;
@@ -1040,7 +1040,7 @@ bool passSignalRegionCuts(){
   //cout<<__LINE__<<endl;
 
   if (conf->get("Mbb_max") != ""){
-    if ( mbb > stod( conf->get("Mbb_max") )){
+    if ( g_mbb > stod( conf->get("Mbb_max") )){
       numEvents->Fill(58);
       if (printFail) cout<<phys.evt()<<" :Failed lep2 min pt cut"<<endl;
       return false;
@@ -1070,7 +1070,7 @@ bool passSignalRegionCuts(){
   //cout<<__LINE__<<endl;
 
   if (conf->get("Mjj_dphi_max") != ""){
-    if ( mjj_mindphi > stod( conf->get("Mjj_dphi_max") ) ){
+    if ( g_mjj_mindphi > stod( conf->get("Mjj_dphi_max") ) ){
       numEvents->Fill(68);
       if (printFail) cout<<phys.evt()<<" :Failed Mjj cut"<<endl;
       return false;
@@ -1283,7 +1283,7 @@ bool passMETFilters(){
         if (printFail) cout<<phys.evt()<<" :Failed nJet200MuFrac50DphiMet cut"<<endl;
         return false;
       }
-      if ((met / phys.met_calo_pt()) > 5){
+      if ((g_met / phys.met_calo_pt()) > 5){
         numEvents->Fill(71);
         if (printFail) cout<<phys.evt()<<" :Failed T1MET/CaloMET cut"<<endl;
         return false;
@@ -1297,7 +1297,7 @@ bool passMETFilters(){
 
 bool passBaseCut(){
   //if (printStats) { cout<<"goodrun : "<<goodrun(phys.evt(), phys.lumi())<<" "; }
-  //if (printStats) { cout<<"njets : "<<njets<<" "; }
+  //if (printStats) { cout<<"njets : "<<g_njets<<" "; }
   
   //bool pass=true;
 
@@ -1315,7 +1315,7 @@ bool passBaseCut(){
     numEvents->Fill(8);
   } */
 
-  /*if (! (njets >= 2) ){ 
+  /*if (! (g_njets >= 2) ){ 
     numEvents->Fill(9);
     if (printFail) cout<<phys.evt()<<" :Failed 2 Jets cut"<<endl;
     return false; //2 jet cut
@@ -1345,17 +1345,17 @@ bool passBaseCut(){
   }
 
   //cout<<__LINE__<<endl;
-  /*//if (printStats) { cout<<"dphi_metj1: "<<dphi_metj1<<" "; }
+  /*//if (printStats) { cout<<"g_dphi_metj1: "<<g_dphi_metj1<<" "; }
   //Leading Jet/MET Phi min
-  if (dphi_metj1 < 0.4){
+  if (g_dphi_metj1 < 0.4){
     numEvents->Fill(38);
     if (printFail) cout<<phys.evt()<<" :Failed dPhi MET with jet 1 cut"<<endl;
     return false;
   }
   //cout<<__LINE__<<endl;
-  //if (printStats) { cout<<"dphi_metj2: "<<dphi_metj2<<" "; }
+  //if (printStats) { cout<<"g_dphi_metj2: "<<g_dphi_metj2<<" "; }
   //Trailing Jet/MET Phi min
-  if (dphi_metj2 < 0.4){
+  if (g_dphi_metj2 < 0.4){
     numEvents->Fill(39);
     if (printFail) cout<<phys.evt()<<" :Failed dPhi MET with jet 2 cut"<<endl;
     return false;
@@ -1441,14 +1441,14 @@ bool passFileSelections(){
         numEvents->Fill(60);
         return false;
       }
-      if( abs(phys.gen_ht() - ht) > 300 ) {
+      if( abs(phys.gen_ht() - g_ht) > 300 ) {
         //cout<<"skipped"<<endl;
         numEvents->Fill(69);
         return false;
       }
     }
     if( TString(currentFile->GetTitle()).Contains("dy_m50_mgmlm_ht100")){
-      if( abs(phys.gen_ht() - ht) > 300 ) {
+      if( abs(phys.gen_ht() - g_ht) > 300 ) {
         //cout<<"skipped"<<endl;
         numEvents->Fill(69);
         return false;
@@ -1464,7 +1464,7 @@ bool passFileSelections(){
   if ( (! phys.isData()) && TString(conf->get("data_set")).Contains("GammaMC")){
     //cout<<"Photon MC event"<<endl;
     if( TString(currentFile->GetTitle()).Contains("gjetsht40") ||  TString(currentFile->GetTitle()).Contains("gjetsht100") ){
-      if( abs(phys.gen_ht() - ht) > 300 ) {
+      if( abs(phys.gen_ht() - g_ht) > 300 ) {
         //cout<<"skipped"<<endl;
         numEvents->Fill(69);
         return false;
@@ -1564,72 +1564,72 @@ bool passFileSelections(){
 //=============================
 
 void setupGlobals(){
-  if (  ){
-    dphi_metj1 = phys.dphi_metj1_up();
-    dphi_metj2 = phys.dphi_metj2_up();
-    njets = phys.njets_up();
-    mbb = phys.mbb_csv_up();
-    mjj_mindphi = phys.mjj_mindphi_up();
-    nBJetMedium = phys.nBJetMedium_up();
-    met = phys.met_T1CHS_miniAOD_CORE_up_pt();
-    met_phi = phys.met_T1CHS_miniAOD_CORE_up_phi();
-    mt2 = phys.mt2_up();
-    mt2b = phys.mt2b_up();
-    ht = phys.ht_up();
+  if ( conf->get("uncertainty_mode") == "JES_up" ){
+    g_dphi_metj1 = phys.dphi_metj1_up();
+    g_dphi_metj2 = phys.dphi_metj2_up();
+    g_njets = phys.njets_up();
+    g_mbb = phys.mbb_csv_up();
+    g_mjj_mindphi = phys.mjj_mindphi_up();
+    g_nBJetMedium = phys.nBJetMedium_up();
+    g_met = phys.met_T1CHS_miniAOD_CORE_up_pt();
+    g_met_phi = phys.met_T1CHS_miniAOD_CORE_up_phi();
+    g_mt2 = phys.mt2_up();
+    g_mt2b = phys.mt2b_up();
+    g_ht = phys.ht_up();
 
-    jets_p4 = phys.jets_up_p4();
-    jets_medb_p4 = phys.jets_medb_up_p4();
-    jets_csv = phys.jets_up_csv();
+    g_jets_p4 = phys.jets_up_p4();
+    g_jets_medb_p4 = phys.jets_medb_up_p4();
+    g_jets_csv = phys.jets_up_csv();
   }
   else if (conf->get("uncertainty_mode") == "JES_dn"){
-    dphi_metj1 = phys.dphi_metj1_dn();
-    dphi_metj2 = phys.dphi_metj2_dn();
-    njets = phys.njets_dn();
-    mbb = phys.mbb_csv_dn();
-    mjj_mindphi = phys.mjj_mindphi_dn();
-    nBJetMedium = phys.nBJetMedium_dn();
-    met = phys.met_T1CHS_miniAOD_CORE_dn_pt();
-    met_phi = phys.met_T1CHS_miniAOD_CORE_dn_phi();
-    mt2 = phys.mt2_dn();
-    mt2b = phys.mt2b_dn();
-    ht = phys.ht_dn();
+    g_dphi_metj1 = phys.dphi_metj1_dn();
+    g_dphi_metj2 = phys.dphi_metj2_dn();
+    g_njets = phys.njets_dn();
+    g_mbb = phys.mbb_csv_dn();
+    g_mjj_mindphi = phys.mjj_mindphi_dn();
+    g_nBJetMedium = phys.nBJetMedium_dn();
+    g_met = phys.met_T1CHS_miniAOD_CORE_dn_pt();
+    g_met_phi = phys.met_T1CHS_miniAOD_CORE_dn_phi();
+    g_mt2 = phys.mt2_dn();
+    g_mt2b = phys.mt2b_dn();
+    g_ht = phys.ht_dn();
 
-    jets_p4 = phys.jets_dn_p4();
-    jets_medb_p4 = phys.jets_medb_dn_p4();
-    jets_csv = phys.jets_dn_csv();
+    g_jets_p4 = phys.jets_dn_p4();
+    g_jets_medb_p4 = phys.jets_medb_dn_p4();
+    g_jets_csv = phys.jets_dn_csv();
   }
   else if (conf->get("uncertainty_mode") == "GenMet"){
-    dphi_metj1 = phys.dphi_genmetj1();
-    dphi_metj2 = phys.dphi_genmetj2();
-    met = phys.met_genPt();
-    met_phi = phys.met_genPhi();
-    mt2 = phys.mt2_genmet();
-    mt2b = phys.mt2b_genmet();
+    g_dphi_metj1 = phys.dphi_genmetj1();
+    g_dphi_metj2 = phys.dphi_genmetj2();
+    g_met = phys.met_genPt();
+    g_met_phi = phys.met_genPhi();
+    g_mt2 = phys.mt2_genmet();
+    g_mt2b = phys.mt2b_genmet();
     
-    mjj_mindphi = phys.mjj_mindphi();
-    mbb = phys.mbb_csv();
-    nBJetMedium = phys.nBJetMedium();
-    njets = phys.njets();
-    ht = phys.ht();
-    jets_p4 = phys.jets_p4();
-    jets_medb_p4 = phys.jets_medb_p4();
-    jets_csv = phys.jets_csv();
+    g_mjj_mindphi = phys.mjj_mindphi();
+    g_mbb = phys.mbb_csv();
+    g_nBJetMedium = phys.nBJetMedium();
+    g_njets = phys.njets();
+    g_ht = phys.ht();
+    g_jets_p4 = phys.jets_p4();
+    g_jets_medb_p4 = phys.jets_medb_p4();
+    g_jets_csv = phys.jets_csv();
   }
   else{
-    dphi_metj1 = phys.dphi_metj1();
-    dphi_metj2 = phys.dphi_metj2();
-    njets = phys.njets();
-    mbb = phys.mbb_csv();
-    mjj_mindphi = phys.mjj_mindphi();
-    nBJetMedium = phys.nBJetMedium();
-    met = phys.met_T1CHS_miniAOD_CORE_pt();
-    met_phi = phys.met_T1CHS_miniAOD_CORE_phi();
-    mt2 = phys.mt2();
-    mt2b = phys.mt2b();
-    ht = phys.ht();
-    jets_p4 = phys.jets_p4();
-    jets_medb_p4 = phys.jets_medb_p4();
-    jets_csv = phys.jets_csv();
+    g_dphi_metj1 = phys.dphi_metj1();
+    g_dphi_metj2 = phys.dphi_metj2();
+    g_njets = phys.njets();
+    g_mbb = phys.mbb_csv();
+    g_mjj_mindphi = phys.mjj_mindphi();
+    g_nBJetMedium = phys.nBJetMedium();
+    g_met = phys.met_T1CHS_miniAOD_CORE_pt();
+    g_met_phi = phys.met_T1CHS_miniAOD_CORE_phi();
+    g_mt2 = phys.mt2();
+    g_mt2b = phys.mt2b();
+    g_ht = phys.ht();
+    g_jets_p4 = phys.jets_p4();
+    g_jets_medb_p4 = phys.jets_medb_p4();
+    g_jets_csv = phys.jets_csv();
   }
 }
 
@@ -2205,10 +2205,10 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
         if ( inVinceNotMine.count(phys.evt()) != 0){
           printFail = true;
           if (phys.nlep() > 0){
-            cout<<phys.evt()<<" - jets: "<<njets<<" lep2_pt: "<<phys.lep_pt().at(1)<<" genZ: "<<phys.genPart_motherId().at(0)<<" dilmass: "<<phys.dilmass()<<"evt_type: "<<phys.evt_type()<<" nlep: "<<phys.nlep()<<endl;
+            cout<<phys.evt()<<" - jets: "<<g_njets<<" lep2_pt: "<<phys.lep_pt().at(1)<<" genZ: "<<phys.genPart_motherId().at(0)<<" dilmass: "<<phys.dilmass()<<"evt_type: "<<phys.evt_type()<<" nlep: "<<phys.nlep()<<endl;
           }
           else{
-            cout<<phys.evt()<<" - jets: "<<njets<<" genZ: "<<phys.genPart_motherId().at(0)<<" dilmass: "<<phys.dilmass()<<"evt_type: "<<phys.evt_type()<<" nlep: "<<phys.nlep()<<endl; 
+            cout<<phys.evt()<<" - jets: "<<g_njets<<" genZ: "<<phys.genPart_motherId().at(0)<<" dilmass: "<<phys.dilmass()<<"evt_type: "<<phys.evt_type()<<" nlep: "<<phys.nlep()<<endl; 
           }
         }
         if ( inMineNotVince.count(phys.evt()) != 0){
@@ -2306,22 +2306,22 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
          cout<<"Negative Weight2: "<<weight<<" "<<phys.evt()<<endl;
       }
       */
-      if (met != 0) {
-        t1met->Fill(met, weight);
-        t1met_widebin->Fill(met, weight);
+      if (g_met != 0) {
+        t1met->Fill(g_met, weight);
+        t1met_widebin->Fill(g_met, weight);
       }
       if (phys.met_rawPt() != 0) rawmet->Fill(phys.met_rawPt(), weight);
-      if (ht != 0) {
-        ht->Fill(ht, weight);
-        ht_wide->Fill(ht, weight);
+      if (g_ht != 0) {
+        ht->Fill(g_ht, weight);
+        ht_wide->Fill(g_ht, weight);
       }
       if (phys.gen_ht() != 0) gen_ht->Fill(phys.gen_ht(), weight);
       if (bosonPt() != 0){ 
         vpt->Fill(bosonPt(), weight); 
         vpt_flat->Fill(bosonPt(), weight); 
       }
-      njets->Fill(njets, weight);
-      nbtags_m->Fill(nBJetMedium, weight);
+      njets->Fill(g_njets, weight);
+      nbtags_m->Fill(g_nBJetMedium, weight);
       nbtags_l->Fill(phys.nBJetLoose(), weight);
       nbtags_t->Fill(phys.nBJetTight(), weight);
       nVert->Fill(phys.nVert(), weight);
@@ -2329,13 +2329,13 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
       //cout<<"Filling nisotrack"<<endl;
       nisotrack->Fill(phys.nisoTrack_mt2(), weight);
       //cout<<__LINE__<<endl;
-      if (mt2 != 0 ) mt2->Fill(mt2, weight);
+      if (g_mt2 != 0 ) mt2->Fill(g_mt2, weight);
       //cout<<__LINE__<<endl;
-      if (mt2b != 0 ) mt2b->Fill(mt2b, weight);
+      if (g_mt2b != 0 ) mt2b->Fill(g_mt2b, weight);
       //cout<<__LINE__<<endl;
-      if (njets > 0) dphi_jet1_met->Fill(acos(cos(met_phi - jets_p4.at(0).phi())), weight);
+      if (g_njets > 0) dphi_jet1_met->Fill(acos(cos(g_met_phi - g_jets_p4.at(0).phi())), weight);
       //cout<<__LINE__<<endl;
-      if (njets > 1) dphi_jet2_met->Fill(acos(cos(met_phi - jets_p4.at(1).phi())), weight);
+      if (g_njets > 1) dphi_jet2_met->Fill(acos(cos(g_met_phi - g_jets_p4.at(1).phi())), weight);
       //cout<<__LINE__<<endl;
       if (conf->get("event_type") == "dilepton") dilmass->Fill(phys.dilmass(), weight);
 //===========================================
@@ -2358,7 +2358,7 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
           if (mt2_val_fromb != 0) mt2_fromb->Fill(mt2_val_fromb, weight);
         }
         else{
-          m_bb_csv->Fill(mbb, weight);
+          m_bb_csv->Fill(g_mbb, weight);
           m_bb_bpt->Fill(phys.mbb_bpt(), weight);
           mt2_val_fromb = getMT2ForBjets();
           //cout<<__LINE__<<endl;
@@ -2372,35 +2372,35 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
         //cout<<__LINE__<<endl;
 
         double mt2_val_hz = 0;
-        if (phys.nlep() > 1 && nBJetMedium >= 2) mt2_val_hz = getMT2HiggsZ();
+        if (phys.nlep() > 1 && g_nBJetMedium >= 2) mt2_val_hz = getMT2HiggsZ();
         if (mt2_val_hz != 0) mt2_hz->Fill(mt2_val_hz, weight);
 
         //cout<<__LINE__<<endl;
 
-        if (mt2 != 0 && mt2b != 0 ) MT2_MT2B->Fill(mt2, mt2b, weight);
+        if (g_mt2 != 0 && g_mt2b != 0 ) MT2_MT2B->Fill(g_mt2, g_mt2b, weight);
 
         //cout<<__LINE__<<endl;
 
-        if (mt2 != 0 && mt2_val_fromb != 0 ) MT2_MT2_fromb->Fill(mt2, mt2_val_fromb, weight);
+        if (g_mt2 != 0 && mt2_val_fromb != 0 ) MT2_MT2_fromb->Fill(g_mt2, mt2_val_fromb, weight);
 
         //cout<<__LINE__<<endl;
 
-        if (mt2 != 0 && mt2_val_hz != 0 ) MT2_MT2_HZ->Fill(mt2, mt2_val_hz, weight);
+        if (g_mt2 != 0 && mt2_val_hz != 0 ) MT2_MT2_HZ->Fill(g_mt2, mt2_val_hz, weight);
 
         //cout<<__LINE__<<endl;
 
-        if (nBJetMedium >= 2){
+        if (g_nBJetMedium >= 2){
           pair<int,int> b_index = getMostBlike();
           
           //cout<<__LINE__<<endl;
 
-          double bb_pt = (jets_p4.at(b_index.first) + jets_p4.at(b_index.second)).pt();
+          double bb_pt = (g_jets_p4.at(b_index.first) + g_jets_p4.at(b_index.second)).pt();
           sum_pt_z_bb->Fill(bb_pt+phys.dilpt(), weight);
         }
       }
 
       if (conf->get("signal_region") == "TChiWZ"){
-        mjj_min_dphi->Fill(mjj_mindphi, weight);
+        mjj_min_dphi->Fill(g_mjj_mindphi, weight);
       }
       //cout<<__LINE__<<endl;
       if(conf->get("signal_region") == "LeonoraXsecStudy"){
@@ -2434,13 +2434,13 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
       if(conf->get("SUSY_Glu_LSP_scan") == "true"){
           //cout<<"mglu: "<<phys.mass_gluino()<<endl;
           //cout<<"mlsp: "<<phys.mass_LSP()<<endl;
-          //cout<<"met: "<<met<<endl;
+          //cout<<"met: "<<g_met<<endl;
           //cout<<"weight: "<<weight<<endl;
 
           //cout<<__LINE__<<endl;
 
-          susy_type1MET_counts->Fill(met, phys.mass_gluino(), phys.mass_LSP(), weight);
-          susy_type1MET_nowt->Fill(met, phys.mass_gluino(), phys.mass_LSP(), 1);
+          susy_type1MET_counts->Fill(g_met, phys.mass_gluino(), phys.mass_LSP(), weight);
+          susy_type1MET_nowt->Fill(g_met, phys.mass_gluino(), phys.mass_LSP(), 1);
           
           //cout<<__LINE__<<endl;
 
@@ -2452,35 +2452,35 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
           double btag_heavy_norm_up=1./g_btagsf_heavy_norm_up->GetBinContent(g_btagsf_heavy_norm_up->GetXaxis()->FindBin(phys.mass_gluino()), g_btagsf_heavy_norm_up->GetYaxis()->FindBin(phys.mass_LSP()));
           double btag_light_norm_up=1./g_btagsf_light_norm_up->GetBinContent(g_btagsf_light_norm_up->GetXaxis()->FindBin(phys.mass_gluino()), g_btagsf_light_norm_up->GetYaxis()->FindBin(phys.mass_LSP()));
           
-          susy_type1MET_btagheavy_up->Fill(met, phys.mass_gluino(), phys.mass_LSP(), (btag_heavy_norm_up/btag_norm)*weight*(phys.weight_btagsf_heavy_UP()/phys.weight_btagsf()));
-          susy_type1MET_btaglight_up->Fill(met, phys.mass_gluino(), phys.mass_LSP(), (btag_light_norm_up/btag_norm)*weight*(phys.weight_btagsf_light_UP()/phys.weight_btagsf()));
+          susy_type1MET_btagheavy_up->Fill(g_met, phys.mass_gluino(), phys.mass_LSP(), (btag_heavy_norm_up/btag_norm)*weight*(phys.weight_btagsf_heavy_UP()/phys.weight_btagsf()));
+          susy_type1MET_btaglight_up->Fill(g_met, phys.mass_gluino(), phys.mass_LSP(), (btag_light_norm_up/btag_norm)*weight*(phys.weight_btagsf_light_UP()/phys.weight_btagsf()));
           
           //cout<<__LINE__<<endl;
           
-          susy_type1MET_isr_up->Fill(met, phys.mass_gluino(), phys.mass_LSP(), (ISR_norm_up/ISR_norm)*(weight)*(1+(phys.isr_unc()/phys.isr_weight())) );
+          susy_type1MET_isr_up->Fill(g_met, phys.mass_gluino(), phys.mass_LSP(), (ISR_norm_up/ISR_norm)*(weight)*(1+(phys.isr_unc()/phys.isr_weight())) );
       }
 
       if(conf->get("ECalTest") != ""){
-        double dphi_gm = acos(cos(met_phi - phys.gamma_p4().at(0).phi()));
+        double dphi_gm = acos(cos(g_met_phi - phys.gamma_p4().at(0).phi()));
         dphi_gamma_MET->Fill(dphi_gm, weight); 
 
           dphi_gamma_MET100->Fill(dphi_gm, weight);
-        if (met >= 100){
+        if (g_met >= 100){
           pt_gamma_MET100->Fill(bosonPt(), weight);  
         }
-        if (met >= 200){
+        if (g_met >= 200){
           dphi_gamma_MET200->Fill(dphi_gm, weight);
           pt_gamma_MET200->Fill(bosonPt(), weight);  
         }
-        if (met >= 300){
+        if (g_met >= 300){
           dphi_gamma_MET300->Fill(dphi_gm, weight);
           pt_gamma_MET300->Fill(bosonPt(), weight);  
         }
-        if (met >= 400){
+        if (g_met >= 400){
           dphi_gamma_MET400->Fill(dphi_gm, weight);
           pt_gamma_MET400->Fill(bosonPt(), weight);  
         }
-        if (met >= 500){
+        if (g_met >= 500){
           dphi_gamma_MET500->Fill(dphi_gm, weight);
           pt_gamma_MET500->Fill(bosonPt(), weight);  
         }
@@ -2494,7 +2494,7 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
         //cout<<__LINE__<<endl;
         //cout<<"EVENT-LIST "<<eventCount<<" : "<<phys.evt()<<endl;
           //cout<<__LINE__<<endl;
-        cout<<"EVENT-LIST "<<eventCount<<" : "<<phys.evt()<<" "<<met<<endl;
+        cout<<"EVENT-LIST "<<eventCount<<" : "<<phys.evt()<<" "<<g_met<<endl;
         eventCount++;
         if ( inVinceNotMine.count(phys.evt()) != 0){
           //printPass = true;
@@ -2512,8 +2512,8 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
       
       //if (printStats) {cout<<"Event: "<<phys.evt()<<endl;}
       //cout<<"Event_Run_Lumi: "<<phys.evt()<<" "<<phys.run()<<" "<<phys.lumi()<<endl;
-      //if(met >= 300){
-      //  cout<<"Event: "<<phys.evt()<<" MET: "<<met<<" njets: "<<njets<<" nbtags: "<<nBJetMedium<<" HT: "<<ht<<endl;
+      //if(g_met >= 300){
+      //  cout<<"Event: "<<phys.evt()<<" MET: "<<g_met<<" g_njets: "<<g_njets<<" nbtags: "<<g_nBJetMedium<<" HT: "<<g_ht<<endl;
       //}
     }
     // Clean Up
