@@ -2,7 +2,7 @@
 
 import argparse, sys, re, getSignalNumbers
 
-histogram_Path="/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/T5ZZScan/"
+histogram_Path="/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/T5ZZScan/CV/"
 #histogram_Path="~/"
 signal_name="t5zz"
 
@@ -28,20 +28,22 @@ def properSpacing(key, param):
 def addSignalYields(d, SR, mass_gluino, mass_lsp):
   """Pulls and computes CV. yields, stat uncertainty, btag light SF unc, btag heavy SF unc, and ISR SF unc from the signal scan histogram at the proper mass point."""
 
-  yields, stat_uncs, bl_yields, bh_yields, isr_yields = getSignalNumbers.getSignalYields(SR, mass_gluino, mass_lsp, "%s%s/%s.root" % (histogram_Path, SR, signal_name))
+  yields, stat_uncs, bl_yields, bh_yields, isr_yields, JES = getSignalNumbers.getSignalYields(SR, mass_gluino, mass_lsp, "%s%s/%s.root" % (histogram_Path, SR, signal_name))
 
   for i,y in enumerate(yields):
     stat_nuisence = 0
     bl_nuisence = 0
     bh_nuisence = 0
     isr_nuisence = 0
+    JES_nuisence = 0
 
     #make sure we don't divide by 0
     if y != 0:
-      stat_nuisence = (1 + stat_uncs[i]/y)
-      bl_nuisence = bl_yields[i]/y
-      bh_nuisence = bh_yields[i]/y
-      isr_nuisence = isr_yields[i]/y
+      stat_nuisence = (1 + stat_uncs[i]/float(y))
+      bl_nuisence = bl_yields[i]/float(y)
+      bh_nuisence = bh_yields[i]/float(y)
+      isr_nuisence = isr_yields[i]/float(y)
+      JES_nuisence = JES[i]/float(y)
 
     d["BGbin%d_sig" % i] = properSpacing("{BGbin1_sig}", "%.3f" % y)
     d["sig_stat_syst_bin%d" % i] = properSpacing("{sig_stat_syst_bin1}","%.3f" % stat_nuisence)
@@ -51,17 +53,16 @@ def addSignalYields(d, SR, mass_gluino, mass_lsp):
 
     d["sig_isr_syst_bin%d" % i] = properSpacing("{sig_isr_syst_bin1}", "%.4f" % isr_nuisence)
 
+    d["sig_JES_syst_bin%d" % i] = properSpacing("{sig_JES_syst_bin1}","%.3f" % JES_nuisence)
+
 def addConstantVals(d):
   d["sig_trig_syst"] = properSpacing("{sig_trig_syst}","1.03")
+  d["sig_leptonFS_syst"] = properSpacing("{sig_leptonFS_syst}","1.06")
+  d["sig_lumi_syst"] = properSpacing("{sig_lumi_syst}","1.026")
+  
   d["sig_metfromFS_syst_bin1"] = properSpacing("{sig_metfromFS_syst_bin1}","1.04")
   d["sig_metfromFS_syst_bin2"] = properSpacing("{sig_metfromFS_syst_bin2}","1.04")
   d["sig_metfromFS_syst_bin3"] = properSpacing("{sig_metfromFS_syst_bin3}","1.04")
-  d["sig_leptonFS_syst"] = properSpacing("{sig_leptonFS_syst}","1.06")
-  
-  d["sig_lumi_syst"] = properSpacing("{sig_lumi_syst}","1.026")
-  d["sig_JES_syst_bin1"] = properSpacing("{sig_JES_syst_bin1}","1.04")
-  d["sig_JES_syst_bin2"] = properSpacing("{sig_JES_syst_bin2}","1.04")
-  d["sig_JES_syst_bin3"] = properSpacing("{sig_JES_syst_bin3}","1.04")
 
 def getNuisenceParameters(SR):
   """Reads in the output of the plot maker for the signal region and collects all the key value pairs of nuisance parameters."""
