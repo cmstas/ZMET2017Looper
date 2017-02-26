@@ -19,8 +19,6 @@ else:
   print("Do not know how to run on signal model %s. Please use t5zz or tchiwz." % signal_name)
   exit(1)
 
-
-
 templates_path="SMSScans/Templates/"
 output_path="SMSScans/DataCards/%s/" % signal_name
 
@@ -117,15 +115,16 @@ def main():
   #makeDataCard((1750.000000,1700.000000), "SRAb")
 
   for sp in mass_spectrum:
-    #pass
-    makeDataCard(sp, "SRA")
-    makeDataCard(sp, "SRAb")
-    makeDataCard(sp, "SRB")
-    makeDataCard(sp, "SRBb")
-    makeDataCard(sp, "SRC")
-    makeDataCard(sp, "SRCb")
-    #makeDataCard(sp, "TChiHZ")
-    #makeDataCard(sp, "TChiWZ")
+    if signal_name == "t5zz":
+      makeDataCard(sp, "SRA")
+      makeDataCard(sp, "SRAb")
+      makeDataCard(sp, "SRB")
+      makeDataCard(sp, "SRBb")
+      makeDataCard(sp, "SRC")
+      makeDataCard(sp, "SRCb")
+    elif signal_name == "tchiwz":
+      makeDataCard(sp, "TChiHZ")
+      makeDataCard(sp, "TChiWZ")
 
 
 if __name__=="__main__":
