@@ -84,14 +84,14 @@ def getSignalYields(SR, mass_gluino, mass_lsp, file_path="t5zz.root"):
                                          JES_up_count.GetYaxis().FindBin(mass_gluino), 
                                          JES_up_count.GetYaxis().FindBin(mass_gluino), 
                                          JES_up_count.GetZaxis().FindBin(mass_lsp), 
-                                         JES_up_count.GetZaxis().FindBin(mass_lsp))
+                                         JES_up_count.GetZaxis().FindBin(mass_lsp)))
 
     JES_dn.append(JES_dn_count.Integral(JES_dn_count.GetXaxis().FindBin(b[0]), 
                                          JES_dn_count.GetXaxis().FindBin(b[1] - 0.001), 
                                          JES_dn_count.GetYaxis().FindBin(mass_gluino), 
                                          JES_dn_count.GetYaxis().FindBin(mass_gluino), 
                                          JES_dn_count.GetZaxis().FindBin(mass_lsp), 
-                                         JES_dn_count.GetZaxis().FindBin(mass_lsp))
+                                         JES_dn_count.GetZaxis().FindBin(mass_lsp)))
 
 
 
