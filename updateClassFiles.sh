@@ -3,7 +3,7 @@ updateClassFiles_BabyPath=$1
 if [[ $# < 1 ]]
 then
   echo "./updateClassFiles.sh /path/to/example/baby.root"
-  read -e -p "Glassfish Path:" updateClassFiles_BabyPath
+  read -e -p "Example Baby Path:" updateClassFiles_BabyPath
 fi
 
 if [[ ! -a $updateClassFiles_BabyPath ]]

@@ -145,7 +145,6 @@ function makeHistosForDir {
 	else
 		echo "Can not find $1/run_modes.conf"
 	fi
-
 }
 
 function makePlotsForDir {
@@ -307,7 +306,16 @@ function uncParse {
 }
 
 function effTable {
-	#Prints parsed latex table for config
+	#===========================================================
+	# Prints the efficiency table for the configuration with
+	# a few cosmetic fixes, such a removing {document} tags and
+	# changing ranges x-6001 to x+. 
+	#
+	# This is mainly used for the Templates Closure Tests at the 
+	# moment, which are default output to outputs/efficiency_table...
+	#===========================================================
+	
+
 	if [[ $# < 1 ]]
 	then
 		echo "effTable <path/to/plot/output_1> <path/to/plot/output_2> ..."
@@ -332,4 +340,70 @@ function effTable {
 	done
 
 	echo "\\end{document}"
+}
+
+function backupConfig {
+	#===========================================================
+	# Backs up configuration with the given config directory, allows
+	# you to leave a message in the backup dir which tells what has
+	# changed in the new version.
+	#===========================================================
+	
+	backupConfig_path=$1
+
+	if [[ $# < 1 ]]
+	then
+		echo "backupConfig configs/path/to/confdir"
+  	read -e -p "Config Dir Path: " backupConfig_path
+  fi
+
+  SR_IDENTITY=${backupConfig_path#*configs/}
+
+	backupConfig_movePlots="n"
+	backupConfig_moveHists="n"
+	backupConfig_timestamp=`date +%m%d%y_%Hh%M`
+	backupConfig_message=
+
+	backupConfig_histdir=${HIST_OUTPUT_LOCATION}${SR_IDENTITY} #Current hists dir
+	backupConfig_histbak=${backupConfig_histdir}_bak${backupConfig_timestamp} #New hists dir
+
+	backupConfig_plotdir=${PLOT_OUTPUT_LOCATION}${SR_IDENTITY} #Current plots dir
+	backupConfig_plotbak=${backupConfig_plotdir}_bak${backupConfig_timestamp} #New plots dir
+
+  if [[ ! -d $backupConfig_path ]]
+	then
+		echo "Could not find directory: "$backupConfig_path", please try again"
+  	return
+  fi
+
+ 	if [[ -d ${backupConfig_histdir} ]] 
+ 	then
+ 		read -p "move hists at ${backupConfig_histdir} to ${backupConfig_histbak}? (y/n)" backupConfig_moveHists
+	else
+		echo "No previous hists found at ${backupConfig_histdir}"
+	fi
+
+	if [[ -d ${backupConfig_plotdir} ]] 
+ 	then
+ 		read -p "move plots at ${backupConfig_plotdir} to ${backupConfig_plotbak}? (y/n)" backupConfig_movePlots
+	else
+		echo "No previous plots found at ${backupConfig_plotdir}"
+	fi
+
+	read -e -p "What changes in the next version: " backupConfig_message
+
+	if [[ "$backupConfig_moveHists" == "y" ]]
+	then
+		cp -r $backupConfig_histdir $backupConfig_histbak
+		echo $backupConfig_message > ${backupConfig_histbak}/backup_log.txt
+		echo "Moved Hists"
+	fi
+
+	if [[ "$backupConfig_movePlots" == "y" ]]
+	then
+		cp -r $backupConfig_plotdir $backupConfig_plotbak
+		echo $backupConfig_message > ${backupConfig_plotbak}/backup_log.txt
+		echo "Moved Plots"
+	fi
+
 }
