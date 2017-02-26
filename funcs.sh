@@ -357,6 +357,8 @@ function backupConfig {
   	read -e -p "Config Dir Path: " backupConfig_path
   fi
 
+  backupConfig_path=${backupConfig_path%/} #Remove Trailing '/' if it's there.
+
   SR_IDENTITY=${backupConfig_path#*configs/}
 
 	backupConfig_movePlots="n"
