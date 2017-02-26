@@ -188,7 +188,6 @@ vector<double> getMetTemplatesError(const vector<double> &stat_err, const vector
   for (int i = 0; i<(int)bin_count.size(); i++){
     bin_count_safe = bin_count[i];
     cout<<"1-bin_count[i]"<<1-bin_count[i]<<endl;
-    
     if (bin_count[i] == 0){
       cout<<"bin_count_[i] is 0"<<endl;
     }
