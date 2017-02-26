@@ -183,11 +183,19 @@ vector<double> getMetTemplatesError(const vector<double> &stat_err, const vector
   //--------------------------------
   cout<<"{zjets_norm} "<<1.+normalization<<endl;
 
+  double bin_count_safe = 1; //Don't divide by zero even when bin count is 0.
+
   for (int i = 0; i<(int)bin_count.size(); i++){
+    bin_count_safe = bin_count[i];
+    
+    if (bin_count_safe == 0){
+      bin_count_safe = 1; //ensure no division by 0
+    }
+
     cout<<"{BGbin"<<i<<"_zjets} "<<bin_count[i]<<endl;
     cout<<"{zjets_clos_bin"<<i<<"} "<<1.+MC_Closure_Error[i]<<endl;
-    cout<<"{zjets_stat_bin"<<i<<"} "<<1.+(stat_err[i]/bin_count[i])<<endl;
-    cout<<"{zjets_ewk_bin"<<i<<"} "<<1.+(ewk_err[i]/bin_count[i])<<endl;
+    cout<<"{zjets_stat_bin"<<i<<"} "<<1.+(stat_err[i]/bin_count_safe)<<endl;
+    cout<<"{zjets_ewk_bin"<<i<<"} "<<1.+(ewk_err[i]/bin_count_safe)<<endl;
   }
   cout<<setprecision(2);
 
