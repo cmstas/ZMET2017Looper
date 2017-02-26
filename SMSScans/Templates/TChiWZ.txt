@@ -1,5 +1,5 @@
 imax 3  number of channels
-jmax 3  number of backgrounds
+jmax 4  number of backgrounds
 kmax *  number of nuisance parameters
 ---------------                                                                                                                                                                                                                                                                                                                                                                       
 bin                                                                                                                                                TChiWZ_bin1                                                                                                      TChiWZ_bin2                                                                                              TChiWZ_bin3                                                                                              TChiWZ_bin4 
