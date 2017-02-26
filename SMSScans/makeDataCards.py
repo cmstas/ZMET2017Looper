@@ -73,6 +73,9 @@ def addConstantVals(d):
   d["sig_metfromFS_syst_bin2"] = properSpacing("{sig_metfromFS_syst_bin2}","1.04")
   d["sig_metfromFS_syst_bin3"] = properSpacing("{sig_metfromFS_syst_bin3}","1.04")
 
+  if signal_name == "tchiwz":
+    d["sig_metfromFS_syst_bin4"] = properSpacing("{sig_metfromFS_syst_bin4}","1.04")
+
 def getNuisenceParameters(SR):
   """Reads in the output of the plot maker for the signal region and collects all the key value pairs of nuisance parameters."""
   f = open("outputs/configs_prediction_Final_%s.plots_out" % SR, "r")
