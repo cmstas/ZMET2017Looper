@@ -2,7 +2,7 @@
 
 import argparse, sys, re, getSignalNumbers
 
-histogram_Path="/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/T5ZZScan/CV/"
+histogram_Path="/nfs-7/userdata/bobak/ZMET2017_Hists/T5ZZScan/CV/"
 #histogram_Path="~/"
 signal_name="t5zz"
 
