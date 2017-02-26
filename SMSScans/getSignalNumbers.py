@@ -96,5 +96,5 @@ def getSignalYields(SR, mass_gluino, mass_lsp, file_path="t5zz.root"):
 
 
 
-  return (yields, stat_uncs, bl_yields, bh_yields, isr_yields, findJESDeviation(yeilds, JES_up, JES_dn))
+  return (yields, stat_uncs, bl_yields, bh_yields, isr_yields, findJESDeviation(yields, JES_up, JES_dn))
 
