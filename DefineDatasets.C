@@ -161,19 +161,25 @@ void addToChain(TChain *ch, TString set) {
 //====================================
 
   else if (set == "TChiHZ"){
-    TString dir="/hadoop/cms/store/user/olivito/AutoTwopler_babies/merged/ZMET/V08-22-12/skim/";
+    TString dir="/hadoop/cms/store/user/olivito/AutoTwopler_babies/merged/ZMET/V08-22-14/skim/";
     //TChiHZ Signal
     cout<<"Adding TChiHZ Monte Carlo"<<endl;
     ch->Add(dir+"tchihz_80x_v2*");
   }
   else if (set == "TChiWZ"){
-    TString dir="/hadoop/cms/store/user/olivito/AutoTwopler_babies/merged/ZMET/V08-22-12/skim/";
+    TString dir="/hadoop/cms/store/user/olivito/AutoTwopler_babies/merged/ZMET/V08-22-14/skim/";
     //TChiHZ Signal
     cout<<"Adding TChiWZ Monte Carlo"<<endl;
     ch->Add(dir+"tchiwz_80x_v2*");
   }
+  else if (set == "TChiZZ"){
+    TString dir="/hadoop/cms/store/user/olivito/AutoTwopler_babies/merged/ZMET/V08-22-14/skim/";
+    //TChiHZ Signal
+    cout<<"Adding TChiWZ Monte Carlo"<<endl;
+    ch->Add(dir+"tchizz_80x_v2*");
+  }
   else if (set == "T5ZZ"){
-    TString dir="/hadoop/cms/store/user/olivito/AutoTwopler_babies/merged/ZMET/V08-22-12/skim/";
+    TString dir="/hadoop/cms/store/user/olivito/AutoTwopler_babies/merged/ZMET/V08-22-14/skim/";
     //T5ZZ Signal
     cout<<"Adding T5ZZ Monte Carlo"<<endl;
     ch->Add(dir+"t5zz_orig_80x_v2_skim_*");

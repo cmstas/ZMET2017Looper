@@ -19,7 +19,7 @@ def getSignalYields(SR, mass_gluino, mass_lsp, file_path="t5zz.root"):
 
   file_path_JES_up=file_path.replace("/CV/", "/JES_up/")
   file_path_JES_dn=file_path.replace("/CV/", "/JES_dn/")
-  #file_path_GenMET=file_path.replace("/CV/", "/GenMET/")
+  file_path_GenMET=file_path.replace("/CV/", "/GenMET/")
 
   if (SR=="SRC" or SR=="SRCb"):
     bins = [(50,100), (100,150), (150,6001)]
@@ -28,7 +28,9 @@ def getSignalYields(SR, mass_gluino, mass_lsp, file_path="t5zz.root"):
   else:
     bins = [(50,100), (100,150), (150,250), (250, 6001)]
 
-  yields = []
+  RecoMET_yields = []
+  GenMET_yields = []
+  avg_yield = []
   stat_unc_bin = ROOT.Double()
   stat_uncs = []
   bl_yields = []
@@ -40,6 +42,7 @@ def getSignalYields(SR, mass_gluino, mass_lsp, file_path="t5zz.root"):
   f=ROOT.TFile(file_path,"r")
   f_JES_up=ROOT.TFile(file_path_JES_up,"r")
   f_JES_dn=ROOT.TFile(file_path_JES_dn,"r")
+  f_GenMET=ROOT.TFile(file_path_GenMET,"r")
 
   count=f.Get("susy_type1MET_counts").Clone("count")
   btag_light_up=f.Get("susy_type1MET_btaglight_up").Clone("btag_light_up")
@@ -47,9 +50,10 @@ def getSignalYields(SR, mass_gluino, mass_lsp, file_path="t5zz.root"):
   isr_up=f.Get("susy_type1MET_isr_up").Clone("isr_up")
   JES_up_count=f_JES_up.Get("susy_type1MET_counts").Clone("JES_up_count")
   JES_dn_count=f_JES_dn.Get("susy_type1MET_counts").Clone("JES_dn_count")
+  GenMET_count=f.Get("susy_type1MET_counts").Clone("GenMET_count")
 
   for b in bins:
-    yields.append(count.IntegralAndError(count.GetXaxis().FindBin(b[0]), 
+    RecoMET_yields.append(count.IntegralAndError(count.GetXaxis().FindBin(b[0]), 
                                          count.GetXaxis().FindBin(b[1] - 0.001), 
                                          count.GetYaxis().FindBin(mass_gluino), 
                                          count.GetYaxis().FindBin(mass_gluino), 
@@ -57,6 +61,15 @@ def getSignalYields(SR, mass_gluino, mass_lsp, file_path="t5zz.root"):
                                          count.GetZaxis().FindBin(mass_lsp), 
                                          stat_unc_bin))
     stat_uncs.append(stat_unc_bin)
+
+    GenMET_yields.append(GenMET_count.Integral(GenMET_count.GetXaxis().FindBin(b[0]), 
+                                         GenMET_count.GetXaxis().FindBin(b[1] - 0.001), 
+                                         GenMET_count.GetYaxis().FindBin(mass_gluino), 
+                                         GenMET_count.GetYaxis().FindBin(mass_gluino), 
+                                         GenMET_count.GetZaxis().FindBin(mass_lsp), 
+                                         GenMET_count.GetZaxis().FindBin(mass_lsp)))
+
+    avg_yield.append((GenMET_yields[-1] + yields[-1])/2.0)
     
     bl_yields.append(btag_light_up.Integral(btag_light_up.GetXaxis().FindBin(b[0]),
                                             btag_light_up.GetXaxis().FindBin(b[1] - 0.001), 
@@ -96,5 +109,5 @@ def getSignalYields(SR, mass_gluino, mass_lsp, file_path="t5zz.root"):
 
 
 
-  return (yields, stat_uncs, bl_yields, bh_yields, isr_yields, findJESDeviation(yields, JES_up, JES_dn))
+  return (avg_yields, RecoMET_yields, stat_uncs, bl_yields, bh_yields, isr_yields, findJESDeviation(yields, JES_up, JES_dn))
 
