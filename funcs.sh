@@ -43,8 +43,8 @@ function setOutputLocations {
 		fi
 	fi
 	
-	HIST_OUTPUT_LOCATION=`cat ConfigHelper.C | grep "TString HIST_OUTPUT_LOCATION=" |sed "s/.*HIST_OUTPUT_LOCATION=\"\(.*\)\";*/\1/g"`
-	PLOT_OUTPUT_LOCATION=`cat ConfigHelper.C | grep "TString PLOT_OUTPUT_LOCATION=" | sed "s/.*PLOT_OUTPUT_LOCATION=\"\(.*\)\";*/\1/g"`
+	HIST_OUTPUT_LOCATION=`cat ConfigHelper.C | grep "^TString HIST_OUTPUT_LOCATION=" |sed "s/.*HIST_OUTPUT_LOCATION=\"\(.*\)\";*/\1/g"`
+	PLOT_OUTPUT_LOCATION=`cat ConfigHelper.C | grep "^TString PLOT_OUTPUT_LOCATION=" | sed "s/.*PLOT_OUTPUT_LOCATION=\"\(.*\)\";*/\1/g"`
 }
 
 function mkdirs {

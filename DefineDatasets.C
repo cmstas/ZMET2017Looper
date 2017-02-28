@@ -2,7 +2,7 @@
 #include "TString.h"
 #include "ConfigHelper.C"
 
-void addToChain(TChain *ch, TString set) {
+void addToChain(TChain *ch, TString set, bool hadoop=false, bool skimmed=true) {
 
 
 //====================================
