@@ -2241,13 +2241,11 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
       }*/
 
       if (conf->get("ETH_Cleanse") != "false"){
-          cout<<"checking cleanse"<<endl;
           if (phys.isData() && conf->get("event_type") == "dilepton" && (! passETHDileptonDataCleanse()) ){
           //cout<<"Failed ETH Dilepton Data Cleanse"<<endl;
           continue;
         }
       }
-      else{cout<<"no cleanse"<<endl;}
       //cout<<__LINE__<<endl;
 
       if ( isDuplicate() ){
