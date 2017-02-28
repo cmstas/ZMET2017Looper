@@ -2080,7 +2080,7 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
 
    
   //cout<<__LINE__<<endl;
-  /*if( conf->get("data") == "true" && conf->get("event_type")=="photon" ){
+  /*if( phys.isData() && conf->get("event_type")=="photon" ){
     cout<<"Pileup reweighting with "<<savePath+"L1PrescaleWeight_"+conf->get("signal_region")+".root"<<endl;
     g_l1prescale_file = TFile::Open(savePath+"L1PrescaleWeight_"+conf->get("signal_region")+".root", "READ");
     
