@@ -30,7 +30,7 @@ def getSignalYields(SR, mass_gluino, mass_lsp, file_path="t5zz.root"):
 
   RecoMET_yields = []
   GenMET_yields = []
-  avg_yield = []
+  avg_yields = []
   stat_unc_bin = ROOT.Double()
   stat_uncs = []
   bl_yields = []
@@ -69,7 +69,7 @@ def getSignalYields(SR, mass_gluino, mass_lsp, file_path="t5zz.root"):
                                          GenMET_count.GetZaxis().FindBin(mass_lsp), 
                                          GenMET_count.GetZaxis().FindBin(mass_lsp)))
 
-    avg_yield.append((GenMET_yields[-1] + RecoMET_yields[-1])/2.0)
+    avg_yields.append((GenMET_yields[-1] + RecoMET_yields[-1])/2.0)
     
     bl_yields.append(btag_light_up.Integral(btag_light_up.GetXaxis().FindBin(b[0]),
                                             btag_light_up.GetXaxis().FindBin(b[1] - 0.001), 
