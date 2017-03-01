@@ -4,6 +4,10 @@ import argparse, sys, re, getSignalNumbers
 
 templates_path="SMSScans/Templates/"
 signal_name = None
+mass_spectrum = None
+histogram_Path = None
+output_path = None
+n_parms = {}
 
 def properSpacing(key, param):
   """return param padded with spaces so that it's length {key} to preserve tabbing in templates"""
@@ -108,6 +112,10 @@ def launch():
 
 def setupVars():
   """Clears n_parms, sets histogram paths, mass spectrum, and output path for signal name"""
+  global n_parms
+  global mass_spectrum
+  global histogram_Path
+  global output_path
   n_parms = {}
 
   if signal_name == "t5zz":
