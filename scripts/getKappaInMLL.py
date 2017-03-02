@@ -23,9 +23,9 @@ def deriveKappa(mll_low, mll_high, dir_path):
 
   print("MC: onZ %f, offZ %f, Kappa %f" % (mc_onZ, mc_offZ, mc_onZ/mc_offZ))
   sys.stdout.write("MC computed with: ")
-  sys.stdout.write(mc_names)
+  sys.stdout.write(str(mc_names))
   sys.stdout.write("\n")
-  sts.stdout.flush()
+  sys.stdout.flush()
 
 def main():
   parser = argparse.ArgumentParser(add_help=False)
