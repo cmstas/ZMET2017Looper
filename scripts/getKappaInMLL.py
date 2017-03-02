@@ -53,7 +53,7 @@ def deriveKappaWithErrors(mll_low, mll_high, dir_path):
   data_hist = data_file.Get("dilmass").Clone("dilmass_data")
   data_onZ = getIntegralAndErrorOnZ(data_hist)
   data_offZ = getIntegralAndError(data_hist, mll_low, mll_high)
-  print("Data: onZ %f+/-%f, offZ %f+/-%f, Kappa %f+/-%f" % (data_onZ[0],data_onZ[1], data_offZ[0], data_offZ[1], data_onZ[0]/data_offZ[0], errIndependentRatio(data_onZ[0], data_onZ[1], data_offZ[0], data_offZ[1])))
+  print("Data: onZ %.0f+/-%.4f, offZ %.0f+/-%.4f, Kappa %.4f+/-%.4f" % (data_onZ[0],data_onZ[1], data_offZ[0], data_offZ[1], data_onZ[0]/data_offZ[0], errIndependentRatio(data_onZ[0], data_onZ[1], data_offZ[0], data_offZ[1])))
 
   mc_names=["Rares","SingleTop","TTBar_Dilep","TTBar_SingleLep","TTW","WW"]
   mc_files=[ROOT.TFile(dir_path+x+".root","r") for x in mc_names]
@@ -66,7 +66,7 @@ def deriveKappaWithErrors(mll_low, mll_high, dir_path):
   mc_err_onZ = math.sqrt(sum([a[1]**2 for a in mc_onZ_counts]))
   mc_err_offZ = math.sqrt(sum([a[1]**2 for a in mc_offZ_counts]))
 
-  print("MC: onZ %f+/-%f, offZ %f+/-%f, Kappa %f+/-%f" % (mc_onZ, mc_err_onZ, mc_offZ, mc_err_offZ, mc_onZ/mc_offZ, errIndependentRatio(mc_onZ, mc_err_onZ, mc_offZ, mc_err_offZ)))
+  print("MC: onZ %.4f+/-%.4f, offZ %.4f+/-%.4f, Kappa %.4f+/-%.4f" % (mc_onZ, mc_err_onZ, mc_offZ, mc_err_offZ, mc_onZ/mc_offZ, errIndependentRatio(mc_onZ, mc_err_onZ, mc_offZ, mc_err_offZ)))
   sys.stdout.write("MC computed with: ")
   sys.stdout.write(str(mc_names))
   sys.stdout.write("\n")
