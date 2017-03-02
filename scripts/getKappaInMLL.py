@@ -17,7 +17,7 @@ def getIntegralAndErrorOffZ(hist, mll_low, mll_high):
 
   return (count_low+count_high, sqrt(err_low*err_low + err_high+err_high))
 
-def getIntegralAndErrorOnZ(hist, mll_low, mll_high):
+def getIntegralAndErrorOnZ(hist):
   return getIntegralAndError(hist, 86, 96)
 
 def deriveKappa(mll_low, mll_high, dir_path):
