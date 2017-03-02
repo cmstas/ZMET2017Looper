@@ -2,26 +2,71 @@
 
 import ROOT, argparse, sys
 
+def errIndependentRatio(num, Dnum, denom, Ddenom):
+  return sqrt( ((Dnum**2)/(denom**2)) + ((Ddenom**2 * num**2)/(Ddenom**4)))
+
+def getIntegralAndError(hist, low, high):
+  """Returns a tuple of (integral, error) in value range for histogram"""
+  err = 0
+  count = hist.IntegralAndError(hist.FindBin(low), hist.FindBin(high-0.001), err)
+  return (count, err)
+
+def getIntegralAndErrorOffZ(hist, mll_low, mll_high): 
+  (count_low, err_low) = getIntegralAndError(hist, mll_low, 86)
+  (count_high, err_high) = getIntegralAndError(hist, 96, mll_high)
+
+  return (count_low+count_high, sqrt(err_low*err_low + err_high+err_high))
+
+def getIntegralAndErrorOnZ(hist, mll_low, mll_high):
+  return getIntegralAndError(hist, 86, 96)
+
 def deriveKappa(mll_low, mll_high, dir_path):
   """Reads in histgrams from the directory and computes kappa in the Mll range specified..."""
   
   print("Computing Kappa in Data")
   data_file = ROOT.TFile(dir_path+"Data.root","r")
   data_hist = data_file.Get("dilmass").Clone("dilmass_data")
-  data_onZ = data_hist.Integral(data_hist.FindBin(86),data_hist.FindBin(96-0.001))
-  data_offZ = data_hist.Integral(data_hist.FindBin(mll_low),data_hist.FindBin(96-0.001)) + data_hist.Integral(data_hist.FindBin(96),data_hist.FindBin(mll_high-0.001))
+  data_onZ = data_hist.Integral(data_hist.FindBin(86),data_hist.FindBin(96))
+  data_offZ = data_hist.Integral(data_hist.FindBin(mll_low),data_hist.FindBin(mll_high))
   print("Data: onZ %f, offZ %f, Kappa %f" % (data_onZ, data_offZ, data_onZ/data_offZ))
 
   mc_names=["Rares","SingleTop","TTBar_Dilep","TTBar_SingleLep","TTW","WW"]
   mc_files=[ROOT.TFile(dir_path+x+".root","r") for x in mc_names]
   mc_hists=[f[0].Get("dilmass").Clone("dilmass_%s" % f[1]) for f in zip(mc_files, mc_names)]
-  mc_onZ_counts = [x.Integral(x.FindBin(86),x.FindBin(96-0.001)) for x in mc_hists]
-  mc_offZ_counts = [x.Integral(x.FindBin(mll_low),x.FindBin(96-0.001)) + x.Integral(x.FindBin(96),x.FindBin(mll_high-0.001)) for x in mc_hists]
+  mc_onZ_counts = [x.Integral(x.FindBin(86),x.FindBin(96)) for x in mc_hists]
+  mc_offZ_counts = [x.Integral(x.FindBin(mll_low),x.FindBin(mll_high)) for x in mc_hists]
   
   mc_onZ=sum(mc_onZ_counts)
   mc_offZ=sum(mc_offZ_counts)
 
   print("MC: onZ %f, offZ %f, Kappa %f" % (mc_onZ, mc_offZ, mc_onZ/mc_offZ))
+  sys.stdout.write("MC computed with: ")
+  sys.stdout.write(str(mc_names))
+  sys.stdout.write("\n")
+  sys.stdout.flush()
+
+def deriveKappaWithErrors(mll_low, mll_high, dir_path):
+  """Reads in histgrams from the directory and computes kappa in the Mll range specified..."""
+  
+  print("Computing Kappa in Data")
+  data_file = ROOT.TFile(dir_path+"Data.root","r")
+  data_hist = data_file.Get("dilmass").Clone("dilmass_data")
+  data_onZ = getIntegralAndErrorOnZ(data_hist)
+  data_offZ = getIntegralAndError(data_hist, mll_low, mll_high)
+  print("Data: onZ %f+/-%f, offZ %f+/-%f, Kappa %f+/-%f" % (data_onZ[0],data_onZ[1], data_offZ[0], data_offZ[1], data_onZ[0]/data_offZ[0], errIndependentRatio(data_onZ[0], data_onZ[1], data_offZ[0], data_offZ[1])))
+
+  mc_names=["Rares","SingleTop","TTBar_Dilep","TTBar_SingleLep","TTW","WW"]
+  mc_files=[ROOT.TFile(dir_path+x+".root","r") for x in mc_names]
+  mc_hists=[f[0].Get("dilmass").Clone("dilmass_%s" % f[1]) for f in zip(mc_files, mc_names)]
+  mc_onZ_counts = [getIntegralAndErrorOnZ(x) for x in mc_hists]
+  mc_offZ_counts = [getIntegralAndError(x, mll_low, mll_high) for x in mc_hists]
+  
+  mc_onZ=sum([a[0] for a in mc_onZ_counts])
+  mc_offZ=sum([a[0] for a in mc_offZ_counts])
+  mc_err_onZ = sqrt(sum([a[1]**2 for a in mc_onZ_counts]))
+  mc_err_offZ = sqrt(sum([a[1]**2 for a in mc_offZ_counts]))
+
+  print("MC: onZ %f+/-%f, offZ %f+/-%f, Kappa %f+/-%f" % (mc_onZ, mc_err_onZ, mc_offZ, mc_err_offZ, mc_onZ/mc_offZ, errIndependentRatio(mc_onZ, mc_err_onZ, mc_offZ, mc_err_offZ)))
   sys.stdout.write("MC computed with: ")
   sys.stdout.write(str(mc_names))
   sys.stdout.write("\n")
@@ -46,7 +91,7 @@ def main():
     parser.print_help()
     exit(1);
   else:
-    deriveKappa(args.mll_low, args.mll_high, args.path)
+    deriveKappaWithErrors(args.mll_low, args.mll_high, args.path)
 
 if __name__ == "__main__":
   main()
