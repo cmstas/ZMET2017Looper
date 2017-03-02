@@ -7,7 +7,7 @@ def errIndependentRatio(num, Dnum, denom, Ddenom):
 
 def getIntegralAndError(hist, low, high):
   """Returns a tuple of (integral, error) in value range for histogram"""
-  errorrr = ROOT.Double(0.)
+  err = ROOT.Double(0.)
   count = hist.IntegralAndError(hist.FindBin(low), hist.FindBin(high-0.001), err)
   return (count, float (err))
 
