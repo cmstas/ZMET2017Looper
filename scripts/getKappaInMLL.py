@@ -3,7 +3,7 @@
 import ROOT, argparse, sys, math
 
 def errIndependentRatio(num, Dnum, denom, Ddenom):
-  return math.sqrt( ((Dnum**2)/(denom**2)) + ((Ddenom**2 * num**2)/(Ddenom**4)))
+  return math.sqrt( ((float(Dnum)**2)/(float(denom)**2)) + ((float(Ddenom)**2 * float(num)**2)/(float(denom)**4)))
 
 def getIntegralAndError(hist, low, high):
   """Returns a tuple of (integral, error) in value range for histogram"""
