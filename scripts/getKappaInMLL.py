@@ -1,13 +1,13 @@
 #!/usr/bin/env python
 
-import ROOT, argparse, sys
+import ROOT, argparse, sys, math
 
 def errIndependentRatio(num, Dnum, denom, Ddenom):
-  return sqrt( ((Dnum**2)/(denom**2)) + ((Ddenom**2 * num**2)/(Ddenom**4)))
+  return math.sqrt( ((Dnum**2)/(denom**2)) + ((Ddenom**2 * num**2)/(Ddenom**4)))
 
 def getIntegralAndError(hist, low, high):
   """Returns a tuple of (integral, error) in value range for histogram"""
-  err = ROOT.Double(0.)
+  errorrr = ROOT.Double(0.)
   count = hist.IntegralAndError(hist.FindBin(low), hist.FindBin(high-0.001), err)
   return (count, float (err))
 
@@ -15,7 +15,7 @@ def getIntegralAndErrorOffZ(hist, mll_low, mll_high):
   (count_low, err_low) = getIntegralAndError(hist, mll_low, 86)
   (count_high, err_high) = getIntegralAndError(hist, 96, mll_high)
 
-  return (count_low+count_high, sqrt(err_low*err_low + err_high+err_high))
+  return (count_low+count_high, math.sqrt(err_low*err_low + err_high+err_high))
 
 def getIntegralAndErrorOnZ(hist):
   return getIntegralAndError(hist, 86, 96)
@@ -63,8 +63,8 @@ def deriveKappaWithErrors(mll_low, mll_high, dir_path):
   
   mc_onZ=sum([a[0] for a in mc_onZ_counts])
   mc_offZ=sum([a[0] for a in mc_offZ_counts])
-  mc_err_onZ = sqrt(sum([a[1]**2 for a in mc_onZ_counts]))
-  mc_err_offZ = sqrt(sum([a[1]**2 for a in mc_offZ_counts]))
+  mc_err_onZ = math.sqrt(sum([a[1]**2 for a in mc_onZ_counts]))
+  mc_err_offZ = math.sqrt(sum([a[1]**2 for a in mc_offZ_counts]))
 
   print("MC: onZ %f+/-%f, offZ %f+/-%f, Kappa %f+/-%f" % (mc_onZ, mc_err_onZ, mc_offZ, mc_err_offZ, mc_onZ/mc_offZ, errIndependentRatio(mc_onZ, mc_err_onZ, mc_offZ, mc_err_offZ)))
   sys.stdout.write("MC computed with: ")
