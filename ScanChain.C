@@ -199,7 +199,7 @@ bool passMuonTriggers(){
         return (phys.HLT_DoubleMu() || phys.HLT_DoubleMu_tk() /*|| phys.HLT_DoubleMu_dbltk()*/ || phys.HLT_DoubleMu_nonDZ() || phys.HLT_DoubleMu_tk_nonDZ() || phys.HLT_DoubleMu_noiso());
       }
       else{
-        return (phys.HLT_DoubleMu() || phys.HLT_DoubleMu_tk() || phys.HLT_DoubleMu_dbltk() || phys.HLT_DoubleMu_nonDZ() || phys.HLT_DoubleMu_tk_nonDZ() || phys.HLT_DoubleMu_noiso());
+        return (phys.HLT_DoubleMu() || phys.HLT_DoubleMu_tk() /*|| phys.HLT_DoubleMu_dbltk()*/ || phys.HLT_DoubleMu_nonDZ() || phys.HLT_DoubleMu_tk_nonDZ() || phys.HLT_DoubleMu_noiso());
       }
     } 
   }
@@ -626,7 +626,7 @@ void readyVPTReweight(TString save_path){
   reweight_file->Close();
 }
 
-double getEff(const double &pt, const double &eta ){
+double getEff(const double &pt, const double &eta){
   /* Returns the trigger efficiency from g_pt_eff */
   if (abs(eta) < 1.4){
     return g_pt_eff_barrel->GetEfficiency(g_pt_eff_barrel->FindFixBin(pt));
