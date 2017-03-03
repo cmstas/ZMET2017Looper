@@ -668,7 +668,7 @@ double getReweight(){
       }
     }
     else{
-      std::string error = "Reweight varible is not a valid option, please choose vpt, or ht_wide, got: "+rwt_var.Data();
+      std::string error = TString("Reweight varible is not a valid option, please choose vpt, or ht_wide, got: "+rwt_var.Data()).Data();
       throw std::invalid_argument(error);
     }
   }
