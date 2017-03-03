@@ -45,7 +45,8 @@ TString getOutputDir(ConfigParser *conf, TString type){
 		}	
 	}
   else{
-    throw std::invalid_argument("In ConfigHelper::getOutputDir -- Did not recieve valid type, either hist or plot... got: "+type);
+    TString error = type.Prepend("In ConfigHelper::getOutputDir -- Did not recieve valid type, either hist or plot... got: ");
+    throw std::invalid_argument(error.Data());
     return TString("");
   }
 }
