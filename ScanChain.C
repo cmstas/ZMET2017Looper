@@ -1186,6 +1186,22 @@ bool passSUSYSingalCuts(){
       if (printFail) cout<<phys.evt()<<" :Failed mass chi cut"<<endl;
       return false;
     }
+  }
+
+  if (conf->get("mass_gluino") != ""){
+    if (phys.mass_gluino() != stod(conf->get("mass_gluino"))){
+      numEvents->Fill(55);
+      if (printFail) cout<<phys.evt()<<" :Failed mass gluino cut"<<endl;
+      return false;
+    }
+  }
+
+  if (conf->get("mass_LSP") != ""){
+    if (phys.mass_LSP() != stod(conf->get("mass_LSP"))){
+      numEvents->Fill(55);
+      if (printFail) cout<<phys.evt()<<" :Failed mass LSP cut"<<endl;
+      return false;
+    }
   } 
   //cout<<__LINE__<<endl;
   return true; 

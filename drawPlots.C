@@ -1464,7 +1464,7 @@ TString drawSingleTH1(ConfigParser *conf){
   p_hist->SetLineWidth(3);
   
   cout<<"Drawing histograms"<<endl;
-  TString plot_opts = (conf->get("plot_opts") != "") ? conf->get("plot_opts") : "HIST";
+  TString plot_opts = (conf->get("plot_opts") != "") ? conf->get("plot_opts") : "HIST E";
   h_axes->Draw();
   p_hist->Draw(plot_opts+" SAME");
   

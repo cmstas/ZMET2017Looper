@@ -54,7 +54,7 @@ def addSignalYields(d, SR, mass_gluino, mass_lsp):
 
 def addConstantVals(d):
   d["sig_trig_syst"] = properSpacing("{sig_trig_syst}","1.03")
-  d["sig_leptonFS_syst"] = properSpacing("{sig_leptonFS_syst}","1.06")
+  d["sig_leptonFS_syst"] = properSpacing("{sig_leptonFS_syst}","1.072")
   d["sig_lumi_syst"] = properSpacing("{sig_lumi_syst}","1.026")
 
 def getNuisenceParameters(SR):
