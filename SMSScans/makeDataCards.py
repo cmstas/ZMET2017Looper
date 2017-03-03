@@ -31,7 +31,8 @@ def addSignalYields(d, SR, mass_gluino, mass_lsp):
     isr_nuisence = 0
     JES_nuisence = 0
     avg_y = avg_yields[i]
-    
+    met_nuisence = 0
+
     #make sure we don't divide by 0
     if y != 0:
       stat_nuisence = (1 + stat_uncs[i]/float(y))
@@ -39,6 +40,8 @@ def addSignalYields(d, SR, mass_gluino, mass_lsp):
       bh_nuisence = bh_yields[i]/float(y)
       isr_nuisence = isr_yields[i]/float(y)
       JES_nuisence = 1+(JES[i]/float(y))
+    if avg_y != 0:
+      met_nuisence = (abs(y-avg_y)/float(avg_y))
 
     d["BGbin%d_sig" % i] = properSpacing("{BGbin1_sig}", "%.3f" % avg_y)
     d["sig_stat_syst_bin%d" % i] = properSpacing("{sig_stat_syst_bin1}","%.3f" % stat_nuisence)
@@ -50,7 +53,7 @@ def addSignalYields(d, SR, mass_gluino, mass_lsp):
 
     d["sig_JES_syst_bin%d" % i] = properSpacing("{sig_JES_syst_bin1}","%.3f" % JES_nuisence)
 
-    d["sig_metfromFS_syst_bin%d" % i] = properSpacing("{sig_metfromFS_syst_bin1}","%.3f" % (abs(y-avg_y)/float(avg_y)))
+    d["sig_metfromFS_syst_bin%d" % i] = properSpacing("{sig_metfromFS_syst_bin1}","%.3f" % met_nuisence)
 
 def addConstantVals(d):
   d["sig_trig_syst"] = properSpacing("{sig_trig_syst}","1.03")
