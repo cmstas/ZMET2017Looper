@@ -41,7 +41,7 @@ def addSignalYields(d, SR, mass_gluino, mass_lsp):
       isr_nuisence = isr_yields[i]/float(y)
       JES_nuisence = 1+(JES[i]/float(y))
     if avg_y != 0:
-      met_nuisence = (abs(y-avg_y)/float(avg_y))
+      met_nuisence = 1+(abs(y-avg_y)/float(avg_y))
 
     d["BGbin%d_sig" % i] = properSpacing("{BGbin1_sig}", "%.3f" % avg_y)
     d["sig_stat_syst_bin%d" % i] = properSpacing("{sig_stat_syst_bin1}","%.3f" % stat_nuisence)
