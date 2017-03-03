@@ -396,7 +396,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   //===========================
   //cout<<__LINE__<<endl;
   double ymax = 0;
-  double ymin = 0.1;
+  double ymin = 0;
   TH1D* clonedBG = (TH1D*) bg_sum->Clone("clonedBG_forReweight_"+plot_name);
   TH1D* clonedPrimary = (TH1D*) hists[0]->Clone("clonedPrimary_forReweight_"+plot_name);
   //cout<<__LINE__<<endl;
@@ -415,6 +415,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
     }
     if (conf->get("logy") == "true"){
       ymax *= 10;
+      ymin = 0.1;
     }
   }
 
@@ -1083,7 +1084,7 @@ TString drawArbitraryNumber(ConfigParser *conf){
   //===========================
   //cout<<__LINE__<<endl;
   double ymax = 0;
-  double ymin = 0.1;
+  double ymin = 0;
   TH1D* clonedBG = (TH1D*) bg_sum->Clone("clonedBG_forReweight_"+plot_name);
   //cout<<__LINE__<<endl;
   clonedBG->GetXaxis()->SetRangeUser(xmin,xmax);
@@ -1096,6 +1097,7 @@ TString drawArbitraryNumber(ConfigParser *conf){
   }
   if (conf->get("logy") == "true"){
       ymax *= 10;
+      ymin = 0.1;
   }
 
   if (conf->get("ymin") != ""){
@@ -1391,7 +1393,7 @@ TString drawSingleTH1(ConfigParser *conf){
   //===========================
   
   double ymax = 0;
-  double ymin = 0.1;
+  double ymin = 0;
   
   if (conf->get("ymax") != ""){
     ymax = stod(conf->get("ymax"));
@@ -1402,6 +1404,7 @@ TString drawSingleTH1(ConfigParser *conf){
 
   if (conf->get("logy") == "true"){
     ymax *= 10;
+    ymin = 0.1;
   }
 
   if (conf->get("ymin") != ""){
