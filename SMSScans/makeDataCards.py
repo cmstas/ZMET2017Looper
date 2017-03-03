@@ -50,7 +50,7 @@ def addSignalYields(d, SR, mass_gluino, mass_lsp):
 
     d["sig_JES_syst_bin%d" % i] = properSpacing("{sig_JES_syst_bin1}","%.3f" % JES_nuisence)
 
-    d["sig_metfromFS_syst_bin%d" % i] = properSpacing("{sig_metfromFS_syst_bin1}","%.3f" % abs(y-avg_y)/float(avg_y))
+    d["sig_metfromFS_syst_bin%d" % i] = properSpacing("{sig_metfromFS_syst_bin1}","%.3f" % (abs(y-avg_y)/float(avg_y)))
 
 def addConstantVals(d):
   d["sig_trig_syst"] = properSpacing("{sig_trig_syst}","1.03")
