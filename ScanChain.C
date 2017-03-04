@@ -221,7 +221,7 @@ bool passEMuTriggers(){
     return true;
   }
   else{
-    return (phys.HLT_MuEG() || phys.HLT_MuEG_2() || phys.HLT_MuEG_noiso() || phys.HLT_MuEG_noiso_2() || phys.HLT_Mu8_EG23_DZ() || phys.HLT_Mu12_EG23_DZ() || phys.HLT_Mu23_EG12_DZ());
+    return (phys.HLT_MuEG() || phys.HLT_MuEG_2() || phys.HLT_MuEG_noiso() || phys.HLT_MuEG_noiso_2() || phys.HLT_Mu8_EG23_DZ() || phys.HLT_Mu23_EG12_DZ() || HLT_Mu23_EG8_DZ); //updated for Moriond 2017
   }
 }
 
@@ -761,7 +761,7 @@ double getWeight(){
 
     //cout<<__LINE__<<endl;
 
-    if (conf->get("no_btag_sf") == ""){
+    if (conf->get("no_btag_sf") != "true"){
       //cout<<"Applying Btag Scale Factors"<<endl;
       weight *= phys.weight_btagsf();
     }
@@ -1238,84 +1238,39 @@ bool isDuplicate(){
 }
 
 bool passMETFilters(){
-  
+  //updated for Moriond 2017
   if (!phys.Flag_EcalDeadCellTriggerPrimitiveFilter()      ) { 
     numEvents->Fill(5);
     if (printFail) cout<<phys.evt()<<" :Failed EcalDeadCellTriggerPrimativeFilter cut"<<endl;
     return false;
   }
-  if(conf->get("signal_region") != "LeonoraEvtLists"){
-    if (!phys.Flag_badMuonFilterv2            ()      ){ 
-      numEvents->Fill(50);
-      if (printFail) cout<<phys.evt()<<" :Failed badMuonFilterv2 cut"<<endl;
-      return false;
-    }
-    if (!phys.Flag_badChargedCandidateFilterv2            ()      ){ 
-      numEvents->Fill(51);
-      if (printFail) cout<<phys.evt()<<" :Failed badChargedCandidateFilterv2 cut"<<endl;
-      return false;
-    }
+  if (!phys.Flag_HBHENoiseFilter                   ()      ){ 
+    numEvents->Fill(2);
+    if (printFail) cout<<phys.evt()<<" :Failed HBHENoiseFilter cut"<<endl;
+    return false;
   }
-  else{
-    if (!phys.Flag_badMuonFilter            ()      ){ 
-      numEvents->Fill(50);
-      if (printFail) cout<<phys.evt()<<" :Failed badMuonFilter cut"<<endl;
-      return false;
-    }
-    if (!phys.Flag_badChargedCandidateFilter            ()      ){ 
-      numEvents->Fill(51);
-      if (printFail) cout<<phys.evt()<<" :Failed badChargedCandidateFilter cut"<<endl;
-      return false;
-    }
-  }
-
-  if ( phys.isData() ) {
-    if ( phys.nVert() == 0 ) {
-      numEvents->Fill(1);
-      if (printFail) cout<<phys.evt()<<" :Failed nVerts cut"<<endl;
-      return false;
-    }
-    if (!phys.Flag_HBHENoiseFilter                   ()      ){ 
-      numEvents->Fill(2);
-      if (printFail) cout<<phys.evt()<<" :Failed HBHENoiseFilter cut"<<endl;
-      return false;
-    }
-    if (!phys.Flag_HBHEIsoNoiseFilter                ()      ){ 
-      numEvents->Fill(3);
-      if (printFail) cout<<phys.evt()<<" :Failed HBHEIsoNoiseFilter cut"<<endl;
-      return false;
-    } 
-    /*if (!phys.Flag_CSCTightHalo2015Filter            ()      ){ 
-      pass=false;
-      if (printFail) cout<<phys.evt()<<" :Failed CSCTightHalo2015Filter cut"<<endl;
-      numEvents->Fill(4);
-    }*/
-    if (!phys.Flag_goodVertices                      ()      ) { 
-      numEvents->Fill(6);
+  if (!phys.Flag_HBHEIsoNoiseFilter                ()      ){ 
+    numEvents->Fill(3);
+    if (printFail) cout<<phys.evt()<<" :Failed HBHEIsoNoiseFilter cut"<<endl;
+    return false;
+  } 
+  if (!phys.Flag_goodVertices                      ()      ) { 
+    numEvents->Fill(6);
       if (printFail) cout<<phys.evt()<<" :Failed goodVerticies cut"<<endl;
-      return false;
-    }
-    if (!phys.Flag_eeBadScFilter                     ()      ) { 
-      numEvents->Fill(7);
-      if (printFail) cout<<phys.evt()<<" :Failed eeBadScFilter cut"<<endl;
-      return false;
-    }
+    return false;
+  }
+  if (conf->get("susy_mc") != "true"){
     if (!phys.Flag_globalTightHalo2016            ()      ){ 
       numEvents->Fill(4);
       if (printFail) cout<<phys.evt()<<" :Failed CSCTightHalo2015Filter cut"<<endl;
       return false;
     }
-    if(conf->get("signal_region") != "LeonoraEvtLists"){
-      if (phys.nJet200MuFrac50DphiMet() > 0){
-        numEvents->Fill(70);
-        if (printFail) cout<<phys.evt()<<" :Failed nJet200MuFrac50DphiMet cut"<<endl;
-        return false;
-      }
-      if ((g_met / phys.met_calo_pt()) > 5){
-        numEvents->Fill(71);
-        if (printFail) cout<<phys.evt()<<" :Failed T1MET/CaloMET cut"<<endl;
-        return false;
-      }
+  }
+  if ( phys.isData() ) {
+    if (!phys.Flag_eeBadScFilter                     ()      ) { 
+      numEvents->Fill(7);
+      if (printFail) cout<<phys.evt()<<" :Failed eeBadScFilter cut"<<endl;
+      return false;
     }
   }
   
@@ -2503,7 +2458,14 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
           
           //cout<<__LINE__<<endl;
           
-          susy_type1MET_isr_up->Fill(g_met, phys.mass_gluino(), phys.mass_LSP(), (ISR_norm_up/ISR_norm)*(weight)*(1+(phys.isr_unc()/phys.isr_weight())) );
+          if (conf->get("data_set") == "t5zz"){
+            //isr_unc filled properly
+            susy_type1MET_isr_up->Fill(g_met, phys.mass_gluino(), phys.mass_LSP(), (ISR_norm_up/ISR_norm)*(weight)*(1+(phys.isr_unc()/phys.isr_weight())) );
+          }
+          else{
+            //isr_unc is just deviation from not using the scale factor
+            susy_type1MET_isr_up->Fill(g_met, phys.mass_gluino(), phys.mass_LSP(), (1/ISR_norm)*(weight)*(1/phys.isr_weight()));
+          }
       }
 
       if(conf->get("ECalTest") != ""){

@@ -60,7 +60,7 @@ def getSignalYields(SR, mass_gluino, mass_lsp, file_path="t5zz.root"):
                                          count.GetZaxis().FindBin(mass_lsp), 
                                          count.GetZaxis().FindBin(mass_lsp), 
                                          stat_unc_bin))
-    stat_uncs.append(stat_unc_bin)
+    stat_uncs.append(float(stat_unc_bin))
 
     GenMET_yields.append(GenMET_count.Integral(GenMET_count.GetXaxis().FindBin(b[0]), 
                                          GenMET_count.GetXaxis().FindBin(b[1] - 0.001), 
