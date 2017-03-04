@@ -1877,7 +1877,7 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
   //==============================
   //T5ZZ model natural binning
   //==============================
-  const int n_gluino_bins = 24;
+  /*const int n_gluino_bins = 24;
   const double gluino_bins[n_gluino_bins+1]={800.000000,900.000000,1000.000000,1050.000000,1100.000000,1150.000000,1200.000000,1250.000000,1300.000000,1350.000000,1400.000000,1450.000000,1500.000000,1550.000000,1600.000000,1650.000000,1700.000000,1750.000000,1800.000000,1850.000000,1900.000000,1950.000000,2000.000000,2050.000000,2100.000000};
 
   const int n_lsp_bins = 66;
@@ -1885,6 +1885,12 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
 
   const int n_met_bins = 5;
   const double met_bins[n_met_bins+1] = {50, 100, 150, 250, 350, 6000};
+
+  if ((conf->get("susy_mc") == "true") && (conf->get("data_set") != "t5zz")){
+    std::stringstream message;
+    message<<"You are going to run with T5ZZ binning on a MC that is not T5ZZ. You are running on dataset: "<<conf->get("data_set")<<".";
+    throw std::invalid_argument(message.str());
+  }*/
 
   //==============================
   //T5ZZ contrived binning 
@@ -1897,19 +1903,31 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
   const double lsp_bins[n_lsp_bins+1]={100.000000,150.000000,200.000000,250.000000,300.000000,350.000000,400.000000,450.000000,500.000000,550.000000,600.000000,650.000000,700.000000,750.000000,800.000000,850.000000,900.000000,950.000000,1000.000000,1050.000000,1100.000000,1150.000000,1200.000000,1250.000000,1300.000000,1350.000000,1400.000000,1450.000000,1500.000000,1550.000000,1600.000000,1650.000000,1700.000000,1750.000000,1800.000000,1850.000000,1900.000000,1950.000000,2000.000000,2050.000000};
 
   const int n_met_bins = 5;
-  const double met_bins[n_met_bins+1] = {50, 100, 150, 250, 350, 6000};*/
+  const double met_bins[n_met_bins+1] = {50, 100, 150, 250, 350, 6000};
+  
+  if ((conf->get("susy_mc") == "true") && (conf->get("data_set") != "t5zz")){
+    std::stringstream message;
+    message<<"You are going to run with T5ZZ binning on a MC that is not T5ZZ. You are running on dataset: "<<conf->get("data_set")<<".";
+    throw std::invalid_argument(message.str());
+  }*/
   
   //==============================
   //TChiWZ model natural binning
   //==============================
-  /*const int n_gluino_bins = 24;
+  const int n_gluino_bins = 24;
   const double gluino_bins[n_gluino_bins+1]={100.000000,125.000000,150.000000,175.000000,200.000000,225.000000,250.000000,275.000000,300.000000,325.000000,350.000000,375.000000,400.000000,425.000000,450.000000,475.000000,500.000000,525.000000,550.000000,575.000000,600.000000,625.000000,650.000000,675.000000,700.000000};
 
   const int n_lsp_bins = 69;
   const double lsp_bins[n_lsp_bins+1]={1.000000,5.000000,10.000000,15.000000,20.000000,25.000000,30.000000,35.000000,40.000000,45.000000,50.000000,55.000000,60.000000,65.000000,70.000000,75.000000,80.000000,85.000000,90.000000,93.000000,95.000000,100.000000,105.000000,110.000000,115.000000,118.000000,120.000000,125.000000,130.000000,135.000000,140.000000,143.000000,145.000000,150.000000,155.000000,160.000000,165.000000,168.000000,170.000000,175.000000,180.000000,185.000000,190.000000,193.000000,195.000000,200.000000,205.000000,210.000000,215.000000,218.000000,220.000000,225.000000,230.000000,235.000000,240.000000,243.000000,245.000000,250.000000,255.000000,260.000000,265.000000,268.000000,270.000000,275.000000,280.000000,285.000000,290.000000,293.000000,295.000000,300.000000};
 
   const int n_met_bins = 5;
-  const double met_bins[n_met_bins+1] = {50, 100, 150, 250, 350, 6000};*/
+  const double met_bins[n_met_bins+1] = {50, 100, 150, 250, 350, 6000};
+
+  if ((conf->get("susy_mc") == "true") && (conf->get("data_set") != "tchiwz")){
+    std::stringstream message;
+    message<<"You are going to run with TChiWZ binning on a MC that is not TChiWZ. You are running on dataset: "<<conf->get("data_set")<<".";
+    throw std::invalid_argument(message.str());
+  }
 
   TH3D *susy_type1MET_btaglight_up, *susy_type1MET_btagheavy_up, *susy_type1MET_isr_up;
 
