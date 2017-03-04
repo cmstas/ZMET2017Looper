@@ -1886,7 +1886,7 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
   const int n_met_bins = 5;
   const double met_bins[n_met_bins+1] = {50, 100, 150, 250, 350, 6000};
 
-  if ((conf->get("susy_mc") == "true") && (conf->get("data_set") != "t5zz")){
+  if ((conf->get("susy_mc") == "true") && (conf->get("data_set") != "T5ZZ")){
     std::stringstream message;
     message<<"You are going to run with T5ZZ binning on a MC that is not T5ZZ. You are running on dataset: "<<conf->get("data_set")<<".";
     throw std::invalid_argument(message.str());
@@ -1905,7 +1905,7 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
   const int n_met_bins = 5;
   const double met_bins[n_met_bins+1] = {50, 100, 150, 250, 350, 6000};
   
-  if ((conf->get("susy_mc") == "true") && (conf->get("data_set") != "t5zz")){
+  if ((conf->get("susy_mc") == "true") && (conf->get("data_set") != "T5ZZ")){
     std::stringstream message;
     message<<"You are going to run with T5ZZ binning on a MC that is not T5ZZ. You are running on dataset: "<<conf->get("data_set")<<".";
     throw std::invalid_argument(message.str());
@@ -1923,7 +1923,7 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
   const int n_met_bins = 5;
   const double met_bins[n_met_bins+1] = {50, 100, 150, 250, 350, 6000};
 
-  if ((conf->get("susy_mc") == "true") && (conf->get("data_set") != "tchiwz")){
+  if ((conf->get("susy_mc") == "true") && (conf->get("data_set") != "TChiWZ")){
     std::stringstream message;
     message<<"You are going to run with TChiWZ binning on a MC that is not TChiWZ. You are running on dataset: "<<conf->get("data_set")<<".";
     throw std::invalid_argument(message.str());

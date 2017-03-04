@@ -718,6 +718,14 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
       printLatexCounts(template_count, temp_err, rare_count, rare_err, FS_count, FS_err, stats_bins, signal_count, stod(conf->get("hist_5_scale")));
       //cout<<__LINE__<<endl;
 
+      /*TGraphAsymmErrors *bg_err = new TGraphAsymmErrors(bg_sum);
+  
+      if(conf->get("draw_bg_errs") == "true"){
+        bg_err->SetFillStyle(3244);
+        bg_err->SetFillColor(kGray+3);
+        bg_err->Draw("SAME 2");
+      }*/
+
       for (int i=0; i < num_hists; i++){
         if (conf->get("hist_"+to_string(i)+"_scale") != ""){
           hists[i]->Scale(stod(conf->get("hist_"+to_string(i)+"_scale")));
@@ -728,6 +736,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   
 
   cout<<"===========================================\nUpdate Overflow\n===========================================\n";
+  //Done stats after so that we don't double count these since they are not deleted from final bin.
   for (int i = 0; i<num_hists; i++){
     cout<<hist_labels[i]<<" Integral bin 0 to bin 100 Content: "<<hists[i]->Integral(hists[i]->FindBin(0),hists[i]->FindBin(100))<<endl;
   } 
