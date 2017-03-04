@@ -315,7 +315,7 @@ void printErrors(const vector<double> &temp_err, const vector<double> &rare_err,
   cout<<endl;
 }
 
-TGraphAsymmErrors* getErrorsTGraph(const vector<double> &temp_count, const vector<double> &temp_err, const vector<double> &rare_count, const vector<double> &rare_err, const vector<double> &fs_count, const pair<vector<double>,vector<double>> &fs_err, const vector<pair<double,double>> &bin_low, const vector<double> &data_count, double RSFOF /*Really just the scale factor*/){
+TGraphAsymmErrors* getErrorTGraph(const vector<double> &temp_count, const vector<double> &temp_err, const vector<double> &rare_count, const vector<double> &rare_err, const vector<double> &fs_count, const pair<vector<double>,vector<double>> &fs_err, const vector<pair<double,double>> &bin_low, const vector<double> &data_count, double RSFOF /*Really just the scale factor*/){
   Double_t bin_sum[temp_err.size()];
   Double_t bin_err_high[temp_err.size()];
   Double_t bin_err_low[temp_err.size()];
