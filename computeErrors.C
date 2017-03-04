@@ -332,7 +332,7 @@ TGraphAsymmErrors* getErrorTGraph(const vector<double> &temp_count, const vector
   }
 
   //TGraphAsymmErrors(num bins, x centers, y centers, x low width, x high width, y low width, y high width);
-  TGraphAsymmErrors* errs = new TGraphAsymmErrors(bin_sum.size(), bin_center, bin_sum, bin_half_width, bin_half_width, bin_err_low, bin_err_high);
+  TGraphAsymmErrors* errs = new TGraphAsymmErrors(temp_err.size(), bin_center, bin_sum, bin_half_width, bin_half_width, bin_err_low, bin_err_high);
 
   return errs;
 
