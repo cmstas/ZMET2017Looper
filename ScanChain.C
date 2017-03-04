@@ -221,7 +221,7 @@ bool passEMuTriggers(){
     return true;
   }
   else{
-    return (phys.HLT_MuEG() || phys.HLT_MuEG_2() || phys.HLT_MuEG_noiso() || phys.HLT_MuEG_noiso_2() || phys.HLT_Mu8_EG23_DZ() || phys.HLT_Mu23_EG12_DZ() || HLT_Mu23_EG8_DZ()); //updated for Moriond 2017
+    return (phys.HLT_MuEG() || phys.HLT_MuEG_2() || phys.HLT_MuEG_noiso() || phys.HLT_MuEG_noiso_2() || phys.HLT_Mu8_EG23_DZ() || phys.HLT_Mu23_EG12_DZ() || phys.HLT_Mu23_EG8_DZ()); //updated for Moriond 2017
   }
 }
 
