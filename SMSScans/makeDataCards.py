@@ -59,6 +59,8 @@ def addConstantVals(d):
   d["sig_trig_syst"] = properSpacing("{sig_trig_syst}","1.03")
   d["sig_leptonFS_syst"] = properSpacing("{sig_leptonFS_syst}","1.072")
   d["sig_lumi_syst"] = properSpacing("{sig_lumi_syst}","1.026")
+  d["sig_pileup_syst"] = properSpacing("{sig_pileup_syst}","1.03")
+  d["sig_refacAndNorm_syst"] = properSpacing("{sig_refacAndNorm_syst}","1.03")
 
 def getNuisenceParameters(SR):
   """Reads in the output of the plot maker for the signal region and collects all the key value pairs of nuisance parameters."""
