@@ -556,7 +556,9 @@ bool hasGoodGammaMu(){
   }
   else{
     cout<<"No Trigger Type Set"<<endl;
-    throw std::invalid_argument("Invalid or missing trigger type set in config. Please check config variable \"trigger_type\".");
+    std::stringstream message;
+    message<<"Invalid or missing trigger type set in config. Please check config variable \"trigger_type\".";
+    throw std::invalid_argument(message.str());
     return false;
   }
 
@@ -668,8 +670,9 @@ double getReweight(){
       }
     }
     else{
-      TString error = rwt_var.Prepend("Reweight varible is not a valid option, please choose vpt, or ht_wide, got: ");
-      throw std::invalid_argument(error.Data());
+      std::stringstream message;
+      message<<"Reweight varible is not a valid option, please choose vpt, or ht_wide, got: "<<rwt_var<<".";
+      throw std::invalid_argument(message.str());
     }
   }
 

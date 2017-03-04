@@ -129,7 +129,9 @@ vector<double> getMetTemplatesError(const vector<double> &stat_err, const vector
     MC_Closure_Error.push_back(.25);
   }
   else{
-    throw std::invalid_argument("Invalid or missing SR set in config. Please check config variable \"SR\". (got \'"+SR+"\')");
+    std::stringstream message;
+    message<<"Invalid or missing SR set in config. Please check config variable \"SR\". (got '"<<SR<<"').";
+    throw std::invalid_argument(message.str());
   }
 
   EWK_Data = getEWKNumsForSample(SR);
@@ -311,6 +313,29 @@ void printErrors(const vector<double> &temp_err, const vector<double> &rare_err,
     cout<<"+"<<temp_err[i]+rare_err[i]+fs_err.first[i]<<"-"<<temp_err[i]+rare_err[i]+fs_err.second[i]<<" ";
   }
   cout<<endl;
+}
+
+TGraphAsymmErrors* getErrorsTGraph(const vector<double> &temp_count, const vector<double> &temp_err, const vector<double> &rare_count, const vector<double> &rare_err, const vector<double> &fs_count, const pair<vector<double>,vector<double>> &fs_err, const vector<pair<double,double>> &bin_low, const vector<double> &data_count, double RSFOF /*Really just the scale factor*/){
+  Double_t bin_sum[temp_err.size()];
+  Double_t bin_err_high[temp_err.size()];
+  Double_t bin_err_low[temp_err.size()];
+  Double_t bin_half_width[temp_err.size()];
+  Double_t bin_center[temp_err.size()];
+
+  for (int i = 0; i<temp_err.size(); i++){
+    bin_sum[i] = temp_count[i]+RSFOF*fs_count[i]+rare_count[i];
+    bin_err_high[i] = sqrt(temp_err[i]*temp_err[i]+rare_err[i]*rare_err[i]+fs_err.first[i]*fs_err.first[i]);
+    bin_err_low[i] = sqrt(temp_err[i]*temp_err[i]+rare_err[i]*rare_err[i]+fs_err.second[i]*fs_err.second[i]);
+    
+    bin_center[i] = (bin_low[i].first + bin_low[i].second)/2; //average of bin low and bin high
+    bin_half_width[i] = bin_center[i] - bin_low[i].first; //center - low bin edge
+  }
+
+  //TGraphAsymmErrors(num bins, x centers, y centers, x low width, x high width, y low width, y high width);
+  TGraphAsymmErrors* errs = new TGraphAsymmErrors(bin_sum.size(), bin_center, bin_sum, bin_half_width, bin_half_width, bin_err_low, bin_err_high);
+
+  return errs;
+
 }
 
 void printCounts(const vector<double> &temp_count, const vector<double> &temp_err, const vector<double> &rare_count, const vector<double> &rare_err, const vector<double> &fs_count, const pair<vector<double>,vector<double>> &fs_err, const vector<pair<double,double>> &bin_low, const vector<double> &data_count, double RSFOF /*Really just the scale factor*/){

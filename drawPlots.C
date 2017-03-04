@@ -91,6 +91,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   //from 1, are added to a THStack which is normalized to hist_0 in the bin 0-50. 
   //num_hists should be the number of the number of histograms in the plot.
   TString errors="";
+  TGraphAsymmErrors *prediction_errors;
 
   int num_hists=stoi(conf->get("num_hists"));
   int BG_sum_from=(conf->get("BG_sum_from") != "") ? stoi(conf->get("BG_sum_from")) : 1;
@@ -716,15 +717,8 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
       }
       printCounts(template_count, temp_err, rare_count, rare_err, FS_count, FS_err, stats_bins, signal_count, stod(conf->get("hist_5_scale")));
       printLatexCounts(template_count, temp_err, rare_count, rare_err, FS_count, FS_err, stats_bins, signal_count, stod(conf->get("hist_5_scale")));
+      prediction_errors = getErrorTGraph(template_count, temp_err, rare_count, rare_err, FS_count, FS_err, stats_bins, signal_count, stod(conf->get("hist_5_scale")));
       //cout<<__LINE__<<endl;
-
-      /*TGraphAsymmErrors *bg_err = new TGraphAsymmErrors(bg_sum);
-  
-      if(conf->get("draw_bg_errs") == "true"){
-        bg_err->SetFillStyle(3244);
-        bg_err->SetFillColor(kGray+3);
-        bg_err->Draw("SAME 2");
-      }*/
 
       for (int i=0; i < num_hists; i++){
         if (conf->get("hist_"+to_string(i)+"_scale") != ""){
@@ -798,6 +792,12 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
     bg_err->SetFillStyle(3244);
     bg_err->SetFillColor(kGray+3);
     bg_err->Draw("SAME 2");
+  }
+
+  if ((conf->get("print_stats") == "true") && (conf->get("simple_errors") != "true")){
+    prediction_errors->SetFillStyle(3244);
+    prediction_errors->SetFillColor(kGray+3);
+    prediction_errors->Draw("SAME 2");
   }
 
   plotpad->RedrawAxis();
