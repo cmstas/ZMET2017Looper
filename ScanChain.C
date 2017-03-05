@@ -2022,10 +2022,10 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
   }
 
   if(conf->get("pileup_reweight") == "true"){
-    cout<<"Pileup reweighting with nvtx_ratio_true_26p4fb.root"<<endl;
-    g_pileup_hist_file = TFile::Open("auxFiles/nvtx_ratio_true_26p4fb.root", "READ");
+    cout<<"Pileup reweighting with puWeight_Moriond2017.root"<<endl;
+    g_pileup_hist_file = TFile::Open("auxFiles/puWeight_Moriond2017.root", "READ");
     //cout<<__LINE__<<endl;
-    g_pileup_hist = (TH1D*)g_pileup_hist_file->Get("h_vtx_ratio")->Clone("h_pileup_weight");
+    g_pileup_hist = (TH1D*)g_pileup_hist_file->Get("pileupWeight")->Clone("h_pileup_weight");
     //cout<<__LINE__<<endl;
     g_pileup_hist->SetDirectory(rootdir);
     //cout<<__LINE__<<endl;
