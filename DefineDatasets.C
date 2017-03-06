@@ -156,6 +156,19 @@ void addToChain(TChain *ch, TString set, bool hadoop=false, bool skimmed=true) {
     ch->Add(dir+"wz_2l2q_amcnlo*.root" );
   }
 
+  else if (set == "ZMC-DY-LeonoraSync"){
+    //TString dir="/hadoop/cms/store/user/olivito/AutoTwopler_babies/merged/ZMET/V08-22-11/skim/";
+    TString dir="/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-13/skims/";
+
+    cout<<"Adding ZMC for Leonora Sync ()"<<endl;
+    
+    ch->Add(dir+"dy_m1050_amcnlo*");
+    ch->Add(dir+"dy_m50_amcnlo*");
+   
+    //ZZ Sample
+    ch->Add(dir+"zz_4l_powheg*" );
+  }
+
 //====================================
 // SUSY MC
 //====================================
@@ -400,6 +413,15 @@ void addToChain(TChain *ch, TString set, bool hadoop=false, bool skimmed=true) {
     
     ch->Add(dir+"ttbar_dilep_mgmlm_ext1_*");
   }
+  else if (set == "FSMC-ttbar-dilep-mgmlm-LeonoraSync"){
+    //TString dir="/hadoop/cms/store/user/olivito/AutoTwopler_babies/merged/ZMET/V08-22-13/skim/";
+    TString dir="/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-13/skims/";
+
+    cout<<"Adding TTBar to dilep madgraph sample for Leonora Sync (has ext1 and nonext)"<<endl; 
+    
+    ch->Add(dir+"ttbar_dilep_mgmlm_ext1_*");
+    ch->Add(dir+"ttbar_dilep_mgmlm_nonext_*");
+  }
   else if (set == "FSMC-dilep-powheg"){
     cout<<"Adding FSMC-dilep-powheg (large stats sample)"<<endl; 
     ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/ttbar_dilep_powheg*.root"); //larger stats
@@ -438,6 +460,20 @@ void addToChain(TChain *ch, TString set, bool hadoop=false, bool skimmed=true) {
     ch->Add(dir+"ttbar_1ltbr_mgmlm_ext1*");
     ch->Add(dir+"ttbar_1ltop_mgmlm_ext1*");
   }
+
+  else if (set == "FSMC-TTto1Lep-LeonoraSync"){
+    //TString dir="/hadoop/cms/store/user/olivito/AutoTwopler_babies/merged/ZMET/V08-22-11/skim/";
+    TString dir="/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-13/skims/";
+
+    cout<<"Adding TTBar to 1lep sample for Leonora Sync (combo of ext1 and nonext)"<<endl; 
+    
+    ch->Add(dir+"ttbar_1ltbr_mgmlm_ext1*");
+    ch->Add(dir+"ttbar_1ltbr_mgmlm_nonext*");
+
+    ch->Add(dir+"ttbar_1ltop_mgmlm_ext1*");
+    ch->Add(dir+"ttbar_1ltop_mgmlm_nonext*");
+  }
+
   else if (set == "FSMC-singletop-inclusive"){
     cout<<"Adding FSMC-singletop"<<endl; 
     ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/sttw_antitop_powheg*.root");

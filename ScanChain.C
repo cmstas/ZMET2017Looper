@@ -2308,12 +2308,9 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
       weight_log->Fill(log10(abs(weight)));
       weight_log_flat->Fill(abs(weight));
 
-      if(conf->get("signal_region") == "LeonoraEvtLists"){
+      if(conf->get("printEvtList") == "true"){
         cout<<"evt: "<<phys.evt()<<" run: "<<phys.run()<<" lumi: "<<phys.lumi()<<endl;
       }
-      /*if(bosonPt() < 100){
-        cout<<"evt: "<<phys.evt()<<" run: "<<phys.run()<<" lumi: "<<phys.lumi()<<" pt: "<<bosonPt()<<" weight: "<<weight<<endl;
-      }*/
 //===========================================
 // Analysis Code
 //===========================================
