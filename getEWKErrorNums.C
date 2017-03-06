@@ -13,44 +13,44 @@ using namespace std;
 vector<TString> getFileLocation(TString sample_name){
   vector<TString> fnames;
   if (sample_name=="Strong_Btag_2j"){
-    fnames.push_back("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction/PhotonData_VPTRWT/Strong_Btag/2j/PhotonData.root");
-    fnames.push_back("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction/PhotonData_VPTRWT/Strong_Btag/2j/PhotonData_NoEWKSub.root");
+    fnames.push_back("/nfs-7/userdata/bobak/ZMET2017_Hists/prediction/PhotonData_VPTRWT/Strong_Btag/2j/PhotonData.root");
+    fnames.push_back("/nfs-7/userdata/bobak/ZMET2017_Hists/prediction/PhotonData_VPTRWT/Strong_Btag/2j/PhotonData_NoEWKSub.root");
   }
   else if (sample_name=="Strong_Btag_4j"){
-    fnames.push_back("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction/PhotonData_VPTRWT/Strong_Btag/4j/PhotonData.root");
-    fnames.push_back("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction/PhotonData_VPTRWT/Strong_Btag/4j/PhotonData_NoEWKSub.root");
+    fnames.push_back("/nfs-7/userdata/bobak/ZMET2017_Hists/prediction/PhotonData_VPTRWT/Strong_Btag/4j/PhotonData.root");
+    fnames.push_back("/nfs-7/userdata/bobak/ZMET2017_Hists/prediction/PhotonData_VPTRWT/Strong_Btag/4j/PhotonData_NoEWKSub.root");
   }
   else if (sample_name=="Strong_Btag_6j"){
-    fnames.push_back("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction/PhotonData_VPTRWT/Strong_Btag/6j/PhotonData.root");
-    fnames.push_back("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction/PhotonData_VPTRWT/Strong_Btag/6j/PhotonData_NoEWKSub.root");
+    fnames.push_back("/nfs-7/userdata/bobak/ZMET2017_Hists/prediction/PhotonData_VPTRWT/Strong_Btag/6j/PhotonData.root");
+    fnames.push_back("/nfs-7/userdata/bobak/ZMET2017_Hists/prediction/PhotonData_VPTRWT/Strong_Btag/6j/PhotonData_NoEWKSub.root");
   }
   else if (sample_name=="Strong_Bveto_2j"){
-    fnames.push_back("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction/PhotonData_VPTRWT/Strong_Bveto/2j/PhotonData.root");
-    fnames.push_back("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction/PhotonData_VPTRWT/Strong_Bveto/2j/PhotonData_NoEWKSub.root");
+    fnames.push_back("/nfs-7/userdata/bobak/ZMET2017_Hists/prediction/PhotonData_VPTRWT/Strong_Bveto/2j/PhotonData.root");
+    fnames.push_back("/nfs-7/userdata/bobak/ZMET2017_Hists/prediction/PhotonData_VPTRWT/Strong_Bveto/2j/PhotonData_NoEWKSub.root");
   }
   else if (sample_name=="Strong_Bveto_4j"){
-    fnames.push_back("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction/PhotonData_VPTRWT/Strong_Bveto/4j/PhotonData.root");
-    fnames.push_back("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction/PhotonData_VPTRWT/Strong_Bveto/4j/PhotonData_NoEWKSub.root");
+    fnames.push_back("/nfs-7/userdata/bobak/ZMET2017_Hists/prediction/PhotonData_VPTRWT/Strong_Bveto/4j/PhotonData.root");
+    fnames.push_back("/nfs-7/userdata/bobak/ZMET2017_Hists/prediction/PhotonData_VPTRWT/Strong_Bveto/4j/PhotonData_NoEWKSub.root");
   }
   else if (sample_name=="Strong_Bveto_6j"){
-    fnames.push_back("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction/PhotonData_VPTRWT/Strong_Bveto/6j/PhotonData.root");
-    fnames.push_back("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction/PhotonData_VPTRWT/Strong_Bveto/6j/PhotonData_NoEWKSub.root");
+    fnames.push_back("/nfs-7/userdata/bobak/ZMET2017_Hists/prediction/PhotonData_VPTRWT/Strong_Bveto/6j/PhotonData.root");
+    fnames.push_back("/nfs-7/userdata/bobak/ZMET2017_Hists/prediction/PhotonData_VPTRWT/Strong_Bveto/6j/PhotonData_NoEWKSub.root");
   }
   else if (sample_name=="TChiHZ"){
-    fnames.push_back("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction/PhotonData_VPTRWT/TChiHZ/PhotonData.root");
-    fnames.push_back("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction/PhotonData_VPTRWT/TChiHZ/PhotonData_NoEWKSub.root");
+    fnames.push_back("/nfs-7/userdata/bobak/ZMET2017_Hists/prediction/PhotonData_VPTRWT/TChiHZ/PhotonData.root");
+    fnames.push_back("/nfs-7/userdata/bobak/ZMET2017_Hists/prediction/PhotonData_VPTRWT/TChiHZ/PhotonData_NoEWKSub.root");
   }
   else if (sample_name=="TChiWZ"){
-    fnames.push_back("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction/PhotonData_VPTRWT/TChiWZ/PhotonData.root");
-    fnames.push_back("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction/PhotonData_VPTRWT/TChiWZ/PhotonData_NoEWKSub.root");
+    fnames.push_back("/nfs-7/userdata/bobak/ZMET2017_Hists/prediction/PhotonData_VPTRWT/TChiWZ/PhotonData.root");
+    fnames.push_back("/nfs-7/userdata/bobak/ZMET2017_Hists/prediction/PhotonData_VPTRWT/TChiWZ/PhotonData_NoEWKSub.root");
   }
   else if (sample_name=="2j"){
-    fnames.push_back("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction/PhotonData_VPTRWT/2j/PhotonData.root");
-    fnames.push_back("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction/PhotonData_VPTRWT/2j/PhotonData_NoEWKSub.root");
+    fnames.push_back("/nfs-7/userdata/bobak/ZMET2017_Hists/prediction/PhotonData_VPTRWT/2j/PhotonData.root");
+    fnames.push_back("/nfs-7/userdata/bobak/ZMET2017_Hists/prediction/PhotonData_VPTRWT/2j/PhotonData_NoEWKSub.root");
   }
   else if (sample_name=="baseline"){
-    fnames.push_back("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction/PhotonData_VPTRWT/baseline/PhotonData.root");
-    fnames.push_back("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction/PhotonData_VPTRWT/baseline/PhotonData_NoEWKSub.root");
+    fnames.push_back("/nfs-7/userdata/bobak/ZMET2017_Hists/prediction/PhotonData_VPTRWT/baseline/PhotonData.root");
+    fnames.push_back("/nfs-7/userdata/bobak/ZMET2017_Hists/prediction/PhotonData_VPTRWT/baseline/PhotonData_NoEWKSub.root");
   }
 
   return fnames;
