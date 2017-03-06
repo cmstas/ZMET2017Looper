@@ -2212,14 +2212,14 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
       printFail = false;
 
       //if (inspection_set.count(phys.evt()) != 0){
-      /*if ( inspection_set_erl.count(make_tuple(phys.evt(), phys.run(), phys.lumi())) != 0){
+      if ( inspection_set_erl.count(make_tuple(phys.evt(), phys.run(), phys.lumi())) != 0){
         cout<<"evt: "<<phys.evt()<<" run: "<<phys.run()<<" lumi: "<<phys.lumi()<<" scale1fb: "<<phys.evt_scale1fb()<<" weight: "<<weight<<endl;
         printStats=true;
         printFail=true;
-      }*/
-      /*else{ //Use if you don't want care about events in your list that are not in the other's
+      }
+      else{ //Use if you don't want care about events in your list that are not in the other's
         continue;
-      }*/
+      }
 //===========================================
 // Cuts
 //===========================================
