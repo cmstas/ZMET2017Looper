@@ -2207,33 +2207,13 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
       printFail = false;
 
       //if (inspection_set.count(phys.evt()) != 0){
-      /*if ( inspection_set_erl.count(make_tuple(phys.evt(), phys.run(), phys.lumi())) != 0){
+      if ( inspection_set_erl.count(make_tuple(phys.evt(), phys.run(), phys.lumi())) != 0){
         cout<<"evt: "<<phys.evt()<<" run: "<<phys.run()<<" lumi: "<<phys.lumi()<<endl;
         printStats=true;
         printFail=true;
       }
-      else{
+      /*else{ //Use if you don't want care about events in your list that are not in the other's
         continue;
-      }*/
-      
-      /*if ( inVinceNotMine.count(phys.evt()) != 0){
-        printFail = true;
-        cout<<"checking event: "<<phys.evt()<<endl;
-      }*/
-      /*if (conf->get("data_set") == "ttv"){
-        //cout<<__LINE__<<endl;
-        if ( inVinceNotMine.count(phys.evt()) != 0){
-          printFail = true;
-          if (phys.nlep() > 0){
-            cout<<phys.evt()<<" - jets: "<<g_njets<<" lep2_pt: "<<phys.lep_pt().at(1)<<" genZ: "<<phys.genPart_motherId().at(0)<<" dilmass: "<<phys.dilmass()<<"evt_type: "<<phys.evt_type()<<" nlep: "<<phys.nlep()<<endl;
-          }
-          else{
-            cout<<phys.evt()<<" - jets: "<<g_njets<<" genZ: "<<phys.genPart_motherId().at(0)<<" dilmass: "<<phys.dilmass()<<"evt_type: "<<phys.evt_type()<<" nlep: "<<phys.nlep()<<endl; 
-          }
-        }
-        if ( inMineNotVince.count(phys.evt()) != 0){
-          printPass = true;
-        }
       }*/
 //===========================================
 // Cuts
@@ -2308,7 +2288,7 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
       weight_log->Fill(log10(abs(weight)));
       weight_log_flat->Fill(abs(weight));
 
-      if(conf->get("printEvtList") == "true"){
+      if(conf->get("printEvtList") == "true" && (inspection_set_erl.count(make_tuple(phys.evt(), phys.run(), phys.lumi())) == 0)){
         cout<<"evt: "<<phys.evt()<<" run: "<<phys.run()<<" lumi: "<<phys.lumi()<<endl;
       }
 //===========================================
