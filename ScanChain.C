@@ -2668,8 +2668,8 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
   }
 
   cout<<"Events that weren't in your babies:"<<endl;
-  for (it=inspection_copy.begin(); it!=inspection_copy.end(); ++it){
-    cout<<"evt: "<<std::get<0>it<<" run: "<<std::get<1>it<<" lumi: "<<std::get<2>it<<endl;
+  for (set<tuple<long,long,long>>::iterator it=inspection_copy.begin(); it!=inspection_copy.end(); ++it){
+    cout<<"evt: "<<std::get<0>(*it)<<" run: "<<std::get<1>(*it)<<" lumi: "<<std::get<2>(*it)<<endl;
   }
 
   //close output file
