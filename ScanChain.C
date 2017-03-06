@@ -775,7 +775,6 @@ double getWeight(){
       double btag_norm=1./g_btagsf_norm->GetBinContent(g_btagsf_norm->GetXaxis()->FindBin(phys.mass_gluino()), g_btagsf_norm->GetYaxis()->FindBin(phys.mass_LSP()));
 
       //cout<<__LINE__<<endl;
-
       weight *= phys.isr_weight(); //ISR scale factor
       weight *= ISR_norm;
       
@@ -787,6 +786,8 @@ double getWeight(){
       
       for (int i = 0; i < phys.nlep(); i++){
         weight *= phys.weightsf_lepid_FS().at(i); //Fast Sim Lepton ID
+        weight *= phys.weightsf_lepiso_FS().at(i); //Fast Sim Lepton isolation
+        weight *= phys.weightsf_lepip_FS().at(i); //Fast Sim Lepton impact parameter
       } 
       //cout<<__LINE__<<endl;
     }
@@ -2203,6 +2204,10 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
 //===========================================
 // Debugging And Odd Corrections Before Cuts
 //===========================================
+      
+      // ----------------
+      // DEBUG MODE
+      // ----------------
       printStats = false;
       printFail = false;
 
@@ -2289,6 +2294,9 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
       weight_log_flat->Fill(abs(weight));
 
       if(conf->get("printEvtList") == "true"){
+        // ----------------
+        // DEBUG MODE
+        // ----------------
         if (inspection_set_erl.count(make_tuple(phys.evt(), phys.run(), phys.lumi())) == 0){
           cout<<"NEW||evt: "<<phys.evt()<<" run: "<<phys.run()<<" lumi: "<<phys.lumi()<<endl;
           cout<<"Inspection Set Count "<<inspection_set_erl.count(make_tuple(phys.evt(), phys.run(), phys.lumi()))<<endl;
@@ -2296,6 +2304,8 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
         else{
           inspection_copy.erase(make_tuple(phys.evt(), phys.run(), phys.lumi()));
         }
+        //When Debug mode is off, you can turn this on:
+        //cout<<"evt: "<<phys.evt()<<" run: "<<phys.run()<<" lumi: "<<phys.lumi()<<endl;
       }
 //===========================================
 // Analysis Code
@@ -2667,6 +2677,9 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
     pt_gamma_MET500->Write();
   }
 
+  // ----------------
+  // DEBUG MODE
+  // ----------------
   cout<<"Events that weren't in your babies:"<<endl;
   for (set<tuple<long,long,long>>::iterator it=inspection_copy.begin(); it!=inspection_copy.end(); ++it){
     cout<<"evt: "<<std::get<0>(*it)<<" run: "<<std::get<1>(*it)<<" lumi: "<<std::get<2>(*it)<<endl;
