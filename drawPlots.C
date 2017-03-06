@@ -650,9 +650,9 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
       double TTV_scale = (conf->get("hist_4_scale") == "") ? 1 : stod(conf->get("hist_4_scale"));
 
       double ZZ_scale_unc = (conf->get("hist_1_scale_unc") == "") ? .5 : stod(conf->get("hist_1_scale_unc"));
-      double WZ_scale_unc = (conf->get("hist_2_scale_unc") == "") ? .5 : stod(conf->get("hist_2_scale_unc"));
+      double WZ_scale_unc = (conf->get("hist_2_scale_unc") == "") ? .3 : stod(conf->get("hist_2_scale_unc"));
       double VVV_scale_unc = (conf->get("hist_3_scale_unc") == "") ? .5 : stod(conf->get("hist_3_scale_unc"));
-      double TTV_scale_unc = (conf->get("hist_4_scale_unc") == "") ? .5 : stod(conf->get("hist_4_scale_unc"));
+      double TTV_scale_unc = (conf->get("hist_4_scale_unc") == "") ? .3 : stod(conf->get("hist_4_scale_unc"));
 
       for (int i = 0; i < ZZ_err.size(); i++){
         cout<<"RAREDEBUG| bin "<<i<<": ZZ (scaled): "<<ZZ_count[i]<<" +/- "<<ZZ_err[i]<<" ("<<ZZ_count[i]*ZZ_scale<<")"<<endl;
