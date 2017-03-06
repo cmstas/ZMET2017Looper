@@ -2289,7 +2289,7 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
       weight_log_flat->Fill(abs(weight));
 
       if(conf->get("printEvtList") == "true" && (inspection_set_erl.count(make_tuple(phys.evt(), phys.run(), phys.lumi())) == 0)){
-        cout<<"evt: "<<phys.evt()<<" run: "<<phys.run()<<" lumi: "<<phys.lumi()<<endl;
+        cout<<"NEW||evt: "<<phys.evt()<<" run: "<<phys.run()<<" lumi: "<<phys.lumi()<<endl;
         cout<<"Inspection Set Count "<<inspection_set_erl.count(make_tuple(phys.evt(), phys.run(), phys.lumi()))<<endl;
       }
 //===========================================
