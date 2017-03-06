@@ -2207,6 +2207,8 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
       printFail = false;
 
       //if (inspection_set.count(phys.evt()) != 0){
+      set<tuple<long,long,long>> inspection_copy = inspection_set_erl;
+
       if ( inspection_set_erl.count(make_tuple(phys.evt(), phys.run(), phys.lumi())) != 0){
         cout<<"evt: "<<phys.evt()<<" run: "<<phys.run()<<" lumi: "<<phys.lumi()<<endl;
         printStats=true;
@@ -2288,9 +2290,14 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
       weight_log->Fill(log10(abs(weight)));
       weight_log_flat->Fill(abs(weight));
 
-      if(conf->get("printEvtList") == "true" && (inspection_set_erl.count(make_tuple(phys.evt(), phys.run(), phys.lumi())) == 0)){
-        cout<<"NEW||evt: "<<phys.evt()<<" run: "<<phys.run()<<" lumi: "<<phys.lumi()<<endl;
-        cout<<"Inspection Set Count "<<inspection_set_erl.count(make_tuple(phys.evt(), phys.run(), phys.lumi()))<<endl;
+      if(conf->get("printEvtList") == "true"){
+        if (inspection_set_erl.count(make_tuple(phys.evt(), phys.run(), phys.lumi())) == 0){
+          cout<<"NEW||evt: "<<phys.evt()<<" run: "<<phys.run()<<" lumi: "<<phys.lumi()<<endl;
+          cout<<"Inspection Set Count "<<inspection_set_erl.count(make_tuple(phys.evt(), phys.run(), phys.lumi()))<<endl;
+        }
+        else{
+          inspection_copy.erase(make_tuple(phys.evt(), phys.run(), phys.lumi()));
+        }
       }
 //===========================================
 // Analysis Code
@@ -2660,6 +2667,11 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
     pt_gamma_MET300->Write();
     pt_gamma_MET400->Write();
     pt_gamma_MET500->Write();
+  }
+
+  cout<<"Events that weren't in your babies:"<<endl;
+  for (it=inspection_copy.begin(); it!=inspection_copy.end(); ++it){
+    cout<<"evt: "<<get<0>*it<<" run: "<<get<1>*it<<" lumi: "<<get<2>*it<<endl;
   }
 
   //close output file
