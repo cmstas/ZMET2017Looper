@@ -29,7 +29,7 @@ void KappaPrettyPlot()
 
   gStyle->SetOptStat(kFALSE);
 
-  TString hist_dir="/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/";
+  TString hist_dir="/nfs-7/userdata/bobak/ZMET2017_Hists/FS_mass_window_studies/";
 
   vector <string> regionnames;
 
@@ -187,8 +187,8 @@ void KappaPrettyPlot()
   l1->AddEntry( hist    , "MC"   , "pe");
   l1->Draw("same");
 
-  c1->SaveAs(Form("~/public_html/ZMET2016_NovemberClean/FS_mass_window_studies/data_summary_kfactors.pdf"));
-  c1->SaveAs(Form("~/public_html/ZMET2016_NovemberClean/FS_mass_window_studies/data_summary_kfactors.png"));
+  c1->SaveAs(Form("~/public_html/ZMET2017/FS_mass_window_studies/data_summary_kfactors.pdf"));
+  c1->SaveAs(Form("~/public_html/ZMET2017/FS_mass_window_studies/data_summary_kfactors.png"));
   
   return;
 }
@@ -211,18 +211,18 @@ pair <double, double>  getonekfactorvalue(string region = "baseline_MET100")
 
   try{
 	if( TString(region).Contains("data") ){
-	  f_zz        = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/%s_onZ/EMuData.root"  , region.c_str() ), "READ" );   
+	  f_zz        = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2017_Hists/FS_mass_window_studies/%s_onZ/EMuData.root"  , region.c_str() ), "READ" );   
 	}else{
-	  f_TT_1lep   = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/%s_onZ/TT_1lep.root"  , region.c_str() ), "READ" );  
-	  f_TT_dilep  = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/%s_onZ/TT_dilep.root" , region.c_str() ), "READ" ); 
-	  f_VVV       = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/%s_onZ/VVV.root"      , region.c_str() ), "READ" );   
-	  f_Z_Base    = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/%s_onZ/Z_Base.root"   , region.c_str() ), "READ" );  
-	  f_singletop = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/%s_onZ/singletop.root", region.c_str() ), "READ" );
-	  f_ttv       = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/%s_onZ/ttv.root"      , region.c_str() ), "READ" );   
-	  f_ttw       = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/%s_onZ/ttw.root"      , region.c_str() ), "READ" );   
-	  f_ww        = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/%s_onZ/ww.root"       , region.c_str() ), "READ" );   
-	  f_wz        = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/%s_onZ/wz.root"       , region.c_str() ), "READ" );   
-	  f_zz        = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/%s_onZ/zz.root"       , region.c_str() ), "READ" );   
+	  f_TT_1lep   = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2017_Hists/FS_mass_window_studies/%s_onZ/TT_1lep.root"  , region.c_str() ), "READ" );  
+	  f_TT_dilep  = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2017_Hists/FS_mass_window_studies/%s_onZ/TT_dilep.root" , region.c_str() ), "READ" ); 
+	  f_VVV       = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2017_Hists/FS_mass_window_studies/%s_onZ/VVV.root"      , region.c_str() ), "READ" );   
+	  f_Z_Base    = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2017_Hists/FS_mass_window_studies/%s_onZ/Z_Base.root"   , region.c_str() ), "READ" );  
+	  f_singletop = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2017_Hists/FS_mass_window_studies/%s_onZ/singletop.root", region.c_str() ), "READ" );
+	  f_ttv       = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2017_Hists/FS_mass_window_studies/%s_onZ/ttv.root"      , region.c_str() ), "READ" );   
+	  f_ttw       = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2017_Hists/FS_mass_window_studies/%s_onZ/ttw.root"      , region.c_str() ), "READ" );   
+	  f_ww        = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2017_Hists/FS_mass_window_studies/%s_onZ/ww.root"       , region.c_str() ), "READ" );   
+	  f_wz        = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2017_Hists/FS_mass_window_studies/%s_onZ/wz.root"       , region.c_str() ), "READ" );   
+	  f_zz        = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2017_Hists/FS_mass_window_studies/%s_onZ/zz.root"       , region.c_str() ), "READ" );   
 	}
   }
   catch ( exception &e ){
@@ -289,19 +289,19 @@ pair <double, double>  getonekfactorvalue(string region = "baseline_MET100")
   try{
 
 	if( TString(region).Contains("data") ){
-	  f_TT_1lep   = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/%s_aboveZ/EMuData.root"  , region.c_str()), "READ" );  
+	  f_TT_1lep   = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2017_Hists/FS_mass_window_studies/%s_aboveZ/EMuData.root"  , region.c_str()), "READ" );  
 	  h_mll_TT_1lep   = dynamic_cast<TH1D*>(f_TT_1lep   -> Get(Form( "%s", variable.c_str() ))->Clone("h_mll_TT_1lep_met50"  ));
 	}else{
-	  f_TT_1lep   = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/%s_aboveZ/TT_1lep.root"  , region.c_str()), "READ" );  
-	  f_TT_dilep  = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/%s_aboveZ/TT_dilep.root" , region.c_str()), "READ" ); 
-	  f_VVV       = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/%s_aboveZ/VVV.root"      , region.c_str()), "READ" );   
-	  f_Z_Base    = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/%s_aboveZ/Z_Base.root"   , region.c_str()), "READ" );  
-	  f_singletop = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/%s_aboveZ/singletop.root", region.c_str()), "READ" );
-	  f_ttv       = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/%s_aboveZ/ttv.root"      , region.c_str()), "READ" );   
-	  f_ttw       = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/%s_aboveZ/ttw.root"      , region.c_str()), "READ" );   
-	  f_ww        = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/%s_aboveZ/ww.root"       , region.c_str()), "READ" );   
-	  f_wz        = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/%s_aboveZ/wz.root"       , region.c_str()), "READ" );   
-	  f_zz        = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/%s_aboveZ/zz.root"       , region.c_str()), "READ" );   
+	  f_TT_1lep   = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2017_Hists/FS_mass_window_studies/%s_aboveZ/TT_1lep.root"  , region.c_str()), "READ" );  
+	  f_TT_dilep  = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2017_Hists/FS_mass_window_studies/%s_aboveZ/TT_dilep.root" , region.c_str()), "READ" ); 
+	  f_VVV       = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2017_Hists/FS_mass_window_studies/%s_aboveZ/VVV.root"      , region.c_str()), "READ" );   
+	  f_Z_Base    = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2017_Hists/FS_mass_window_studies/%s_aboveZ/Z_Base.root"   , region.c_str()), "READ" );  
+	  f_singletop = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2017_Hists/FS_mass_window_studies/%s_aboveZ/singletop.root", region.c_str()), "READ" );
+	  f_ttv       = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2017_Hists/FS_mass_window_studies/%s_aboveZ/ttv.root"      , region.c_str()), "READ" );   
+	  f_ttw       = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2017_Hists/FS_mass_window_studies/%s_aboveZ/ttw.root"      , region.c_str()), "READ" );   
+	  f_ww        = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2017_Hists/FS_mass_window_studies/%s_aboveZ/ww.root"       , region.c_str()), "READ" );   
+	  f_wz        = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2017_Hists/FS_mass_window_studies/%s_aboveZ/wz.root"       , region.c_str()), "READ" );   
+	  f_zz        = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2017_Hists/FS_mass_window_studies/%s_aboveZ/zz.root"       , region.c_str()), "READ" );   
 	  h_mll_TT_1lep   = dynamic_cast<TH1D*>(f_TT_1lep   -> Get(Form( "%s", variable.c_str() ))->Clone("h_mll_TT_1lep_met50"  ));
 	  h_mll_TT_dilep  = dynamic_cast<TH1D*>(f_TT_dilep  -> Get(Form( "%s", variable.c_str() ))->Clone("h_mll_TT_dilep_met50" ));
 	  h_mll_VVV       = dynamic_cast<TH1D*>(f_VVV       -> Get(Form( "%s", variable.c_str() ))->Clone("h_mll_VVV_met50"      ));
@@ -335,19 +335,19 @@ pair <double, double>  getonekfactorvalue(string region = "baseline_MET100")
 	
   try{
 	if( TString(region).Contains("data") ){
-	  f_TT_1lep   = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/%s_belowZ/EMuData.root"  , region.c_str()), "READ" );  
+	  f_TT_1lep   = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2017_Hists/FS_mass_window_studies/%s_belowZ/EMuData.root"  , region.c_str()), "READ" );  
 	  h_mll_TT_1lep   = dynamic_cast<TH1D*>(f_TT_1lep   -> Get(Form( "%s", variable.c_str() ))->Clone("h_mll_TT_1lep_met50"  ));
 	}else{
-	  f_TT_1lep   = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/%s_belowZ/TT_1lep.root"  , region.c_str()), "READ" );  
-	  f_TT_dilep  = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/%s_belowZ/TT_dilep.root" , region.c_str()), "READ" ); 
-	  f_VVV       = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/%s_belowZ/VVV.root"      , region.c_str()), "READ" );   
-	  f_Z_Base    = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/%s_belowZ/Z_Base.root"   , region.c_str()), "READ" );  
-	  f_singletop = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/%s_belowZ/singletop.root", region.c_str()), "READ" );
-	  f_ttv       = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/%s_belowZ/ttv.root"      , region.c_str()), "READ" );   
-	  f_ttw       = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/%s_belowZ/ttw.root"      , region.c_str()), "READ" );   
-	  f_ww        = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/%s_belowZ/ww.root"       , region.c_str()), "READ" );   
-	  f_wz        = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/%s_belowZ/wz.root"       , region.c_str()), "READ" );   
-	  f_zz        = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/%s_belowZ/zz.root"       , region.c_str()), "READ" );   
+	  f_TT_1lep   = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2017_Hists/FS_mass_window_studies/%s_belowZ/TT_1lep.root"  , region.c_str()), "READ" );  
+	  f_TT_dilep  = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2017_Hists/FS_mass_window_studies/%s_belowZ/TT_dilep.root" , region.c_str()), "READ" ); 
+	  f_VVV       = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2017_Hists/FS_mass_window_studies/%s_belowZ/VVV.root"      , region.c_str()), "READ" );   
+	  f_Z_Base    = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2017_Hists/FS_mass_window_studies/%s_belowZ/Z_Base.root"   , region.c_str()), "READ" );  
+	  f_singletop = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2017_Hists/FS_mass_window_studies/%s_belowZ/singletop.root", region.c_str()), "READ" );
+	  f_ttv       = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2017_Hists/FS_mass_window_studies/%s_belowZ/ttv.root"      , region.c_str()), "READ" );   
+	  f_ttw       = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2017_Hists/FS_mass_window_studies/%s_belowZ/ttw.root"      , region.c_str()), "READ" );   
+	  f_ww        = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2017_Hists/FS_mass_window_studies/%s_belowZ/ww.root"       , region.c_str()), "READ" );   
+	  f_wz        = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2017_Hists/FS_mass_window_studies/%s_belowZ/wz.root"       , region.c_str()), "READ" );   
+	  f_zz        = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2017_Hists/FS_mass_window_studies/%s_belowZ/zz.root"       , region.c_str()), "READ" );   
 	  h_mll_TT_1lep   = dynamic_cast<TH1D*>(f_TT_1lep   -> Get(Form( "%s", variable.c_str() ))->Clone("h_mll_TT_1lep_met50"  ));
 	  h_mll_TT_dilep  = dynamic_cast<TH1D*>(f_TT_dilep  -> Get(Form( "%s", variable.c_str() ))->Clone("h_mll_TT_dilep_met50" ));
 	  h_mll_VVV       = dynamic_cast<TH1D*>(f_VVV       -> Get(Form( "%s", variable.c_str() ))->Clone("h_mll_VVV_met50"      ));
@@ -423,18 +423,18 @@ pair <double, double>  getonekfactorvalue_varbin(string region = "baseline_MET10
 
   try{
 	if( TString(region).Contains("data") ){
-	  f_zz        = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/%s_onZ/EMuData.root"  , region.c_str() ), "READ" );   
+	  f_zz        = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2017_Hists/FS_mass_window_studies/%s_onZ/EMuData.root"  , region.c_str() ), "READ" );   
 	}else{
-	  f_TT_1lep   = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/%s_onZ/TT_1lep.root"  , region.c_str() ), "READ" );  
-	  f_TT_dilep  = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/%s_onZ/TT_dilep.root" , region.c_str() ), "READ" ); 
-	  f_VVV       = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/%s_onZ/VVV.root"      , region.c_str() ), "READ" );   
-	  f_Z_Base    = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/%s_onZ/Z_Base.root"   , region.c_str() ), "READ" );  
-	  f_singletop = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/%s_onZ/singletop.root", region.c_str() ), "READ" );
-	  f_ttv       = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/%s_onZ/ttv.root"      , region.c_str() ), "READ" );   
-	  f_ttw       = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/%s_onZ/ttw.root"      , region.c_str() ), "READ" );   
-	  f_ww        = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/%s_onZ/ww.root"       , region.c_str() ), "READ" );   
-	  f_wz        = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/%s_onZ/wz.root"       , region.c_str() ), "READ" );   
-	  f_zz        = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/%s_onZ/zz.root"       , region.c_str() ), "READ" );   
+	  f_TT_1lep   = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2017_Hists/FS_mass_window_studies/%s_onZ/TT_1lep.root"  , region.c_str() ), "READ" );  
+	  f_TT_dilep  = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2017_Hists/FS_mass_window_studies/%s_onZ/TT_dilep.root" , region.c_str() ), "READ" ); 
+	  f_VVV       = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2017_Hists/FS_mass_window_studies/%s_onZ/VVV.root"      , region.c_str() ), "READ" );   
+	  f_Z_Base    = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2017_Hists/FS_mass_window_studies/%s_onZ/Z_Base.root"   , region.c_str() ), "READ" );  
+	  f_singletop = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2017_Hists/FS_mass_window_studies/%s_onZ/singletop.root", region.c_str() ), "READ" );
+	  f_ttv       = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2017_Hists/FS_mass_window_studies/%s_onZ/ttv.root"      , region.c_str() ), "READ" );   
+	  f_ttw       = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2017_Hists/FS_mass_window_studies/%s_onZ/ttw.root"      , region.c_str() ), "READ" );   
+	  f_ww        = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2017_Hists/FS_mass_window_studies/%s_onZ/ww.root"       , region.c_str() ), "READ" );   
+	  f_wz        = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2017_Hists/FS_mass_window_studies/%s_onZ/wz.root"       , region.c_str() ), "READ" );   
+	  f_zz        = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2017_Hists/FS_mass_window_studies/%s_onZ/zz.root"       , region.c_str() ), "READ" );   
 	}
   }
   catch ( exception &e ){
@@ -501,19 +501,19 @@ pair <double, double>  getonekfactorvalue_varbin(string region = "baseline_MET10
   try{
 
 	if( TString(region).Contains("data") ){
-	  f_TT_1lep   = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/%s_aboveZ/EMuData.root"  , region.c_str()), "READ" );  
+	  f_TT_1lep   = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2017_Hists/FS_mass_window_studies/%s_aboveZ/EMuData.root"  , region.c_str()), "READ" );  
 	  h_mll_TT_1lep   = dynamic_cast<TH1D*>(f_TT_1lep   -> Get(Form( "%s", variable.c_str() ))->Clone("h_mll_TT_1lep_met50"  ));
 	}else{
-	  f_TT_1lep   = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/%s_aboveZ/TT_1lep.root"  , region.c_str()), "READ" );  
-	  f_TT_dilep  = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/%s_aboveZ/TT_dilep.root" , region.c_str()), "READ" ); 
-	  f_VVV       = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/%s_aboveZ/VVV.root"      , region.c_str()), "READ" );   
-	  f_Z_Base    = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/%s_aboveZ/Z_Base.root"   , region.c_str()), "READ" );  
-	  f_singletop = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/%s_aboveZ/singletop.root", region.c_str()), "READ" );
-	  f_ttv       = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/%s_aboveZ/ttv.root"      , region.c_str()), "READ" );   
-	  f_ttw       = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/%s_aboveZ/ttw.root"      , region.c_str()), "READ" );   
-	  f_ww        = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/%s_aboveZ/ww.root"       , region.c_str()), "READ" );   
-	  f_wz        = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/%s_aboveZ/wz.root"       , region.c_str()), "READ" );   
-	  f_zz        = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/%s_aboveZ/zz.root"       , region.c_str()), "READ" );   
+	  f_TT_1lep   = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2017_Hists/FS_mass_window_studies/%s_aboveZ/TT_1lep.root"  , region.c_str()), "READ" );  
+	  f_TT_dilep  = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2017_Hists/FS_mass_window_studies/%s_aboveZ/TT_dilep.root" , region.c_str()), "READ" ); 
+	  f_VVV       = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2017_Hists/FS_mass_window_studies/%s_aboveZ/VVV.root"      , region.c_str()), "READ" );   
+	  f_Z_Base    = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2017_Hists/FS_mass_window_studies/%s_aboveZ/Z_Base.root"   , region.c_str()), "READ" );  
+	  f_singletop = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2017_Hists/FS_mass_window_studies/%s_aboveZ/singletop.root", region.c_str()), "READ" );
+	  f_ttv       = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2017_Hists/FS_mass_window_studies/%s_aboveZ/ttv.root"      , region.c_str()), "READ" );   
+	  f_ttw       = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2017_Hists/FS_mass_window_studies/%s_aboveZ/ttw.root"      , region.c_str()), "READ" );   
+	  f_ww        = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2017_Hists/FS_mass_window_studies/%s_aboveZ/ww.root"       , region.c_str()), "READ" );   
+	  f_wz        = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2017_Hists/FS_mass_window_studies/%s_aboveZ/wz.root"       , region.c_str()), "READ" );   
+	  f_zz        = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2017_Hists/FS_mass_window_studies/%s_aboveZ/zz.root"       , region.c_str()), "READ" );   
 	  h_mll_TT_1lep   = dynamic_cast<TH1D*>(f_TT_1lep   -> Get(Form( "%s", variable.c_str() ))->Clone("h_mll_TT_1lep_met50"  ));
 	  h_mll_TT_dilep  = dynamic_cast<TH1D*>(f_TT_dilep  -> Get(Form( "%s", variable.c_str() ))->Clone("h_mll_TT_dilep_met50" ));
 	  h_mll_VVV       = dynamic_cast<TH1D*>(f_VVV       -> Get(Form( "%s", variable.c_str() ))->Clone("h_mll_VVV_met50"      ));
@@ -547,19 +547,19 @@ pair <double, double>  getonekfactorvalue_varbin(string region = "baseline_MET10
 	
   try{
 	if( TString(region).Contains("data") ){
-	  f_TT_1lep   = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/%s_belowZ/EMuData.root"  , region.c_str()), "READ" );  
+	  f_TT_1lep   = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2017_Hists/FS_mass_window_studies/%s_belowZ/EMuData.root"  , region.c_str()), "READ" );  
 	  h_mll_TT_1lep   = dynamic_cast<TH1D*>(f_TT_1lep   -> Get(Form( "%s", variable.c_str() ))->Clone("h_mll_TT_1lep_met50"  ));
 	}else{
-	  f_TT_1lep   = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/%s_belowZ/TT_1lep.root"  , region.c_str()), "READ" );  
-	  f_TT_dilep  = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/%s_belowZ/TT_dilep.root" , region.c_str()), "READ" ); 
-	  f_VVV       = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/%s_belowZ/VVV.root"      , region.c_str()), "READ" );   
-	  f_Z_Base    = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/%s_belowZ/Z_Base.root"   , region.c_str()), "READ" );  
-	  f_singletop = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/%s_belowZ/singletop.root", region.c_str()), "READ" );
-	  f_ttv       = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/%s_belowZ/ttv.root"      , region.c_str()), "READ" );   
-	  f_ttw       = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/%s_belowZ/ttw.root"      , region.c_str()), "READ" );   
-	  f_ww        = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/%s_belowZ/ww.root"       , region.c_str()), "READ" );   
-	  f_wz        = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/%s_belowZ/wz.root"       , region.c_str()), "READ" );   
-	  f_zz        = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/%s_belowZ/zz.root"       , region.c_str()), "READ" );   
+	  f_TT_1lep   = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2017_Hists/FS_mass_window_studies/%s_belowZ/TT_1lep.root"  , region.c_str()), "READ" );  
+	  f_TT_dilep  = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2017_Hists/FS_mass_window_studies/%s_belowZ/TT_dilep.root" , region.c_str()), "READ" ); 
+	  f_VVV       = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2017_Hists/FS_mass_window_studies/%s_belowZ/VVV.root"      , region.c_str()), "READ" );   
+	  f_Z_Base    = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2017_Hists/FS_mass_window_studies/%s_belowZ/Z_Base.root"   , region.c_str()), "READ" );  
+	  f_singletop = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2017_Hists/FS_mass_window_studies/%s_belowZ/singletop.root", region.c_str()), "READ" );
+	  f_ttv       = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2017_Hists/FS_mass_window_studies/%s_belowZ/ttv.root"      , region.c_str()), "READ" );   
+	  f_ttw       = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2017_Hists/FS_mass_window_studies/%s_belowZ/ttw.root"      , region.c_str()), "READ" );   
+	  f_ww        = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2017_Hists/FS_mass_window_studies/%s_belowZ/ww.root"       , region.c_str()), "READ" );   
+	  f_wz        = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2017_Hists/FS_mass_window_studies/%s_belowZ/wz.root"       , region.c_str()), "READ" );   
+	  f_zz        = TFile::Open(Form("/nfs-7/userdata/bobak/ZMET2017_Hists/FS_mass_window_studies/%s_belowZ/zz.root"       , region.c_str()), "READ" );   
 	  h_mll_TT_1lep   = dynamic_cast<TH1D*>(f_TT_1lep   -> Get(Form( "%s", variable.c_str() ))->Clone("h_mll_TT_1lep_met50"  ));
 	  h_mll_TT_dilep  = dynamic_cast<TH1D*>(f_TT_dilep  -> Get(Form( "%s", variable.c_str() ))->Clone("h_mll_TT_dilep_met50" ));
 	  h_mll_VVV       = dynamic_cast<TH1D*>(f_VVV       -> Get(Form( "%s", variable.c_str() ))->Clone("h_mll_VVV_met50"      ));
