@@ -43,7 +43,14 @@ vector<double> getMetTemplatesError(const vector<double> &stat_err, const vector
 
   cout<<"Normalization Factor for templates from bin "<<norm_bin<<": "<<normalization/bin_count[norm_bin]<<endl;
 
-  normalization = err_mult(normalization, bin_count[norm_bin], sqrt(normalization), stat_err[norm_bin]);
+  vector<double> noSubStatErrs=getPercentStatErrorsForNoEWKSub(SR);
+
+  for (int i=0; i<=noSubStatErrs.size(); i++){
+    noSubStatErrs[i] = noSubStatErrs[i]*bin_count[i];
+  }
+
+  //normalization = err_mult(normalization, bin_count[norm_bin], sqrt(normalization), stat_err[norm_bin]);
+  normalization = err_mult(normalization, bin_count[norm_bin], sqrt(normalization), noSubStatErrs[norm_bin]);
 
   //=========
   // Input EWK and Closure Errors
@@ -152,7 +159,6 @@ vector<double> getMetTemplatesError(const vector<double> &stat_err, const vector
   double err_bin; //error in bin
 
   vector<double> closure_err, norm_err, ewk_err;
-  vector<double> noSubStatErrs=getPercentStatErrorsForNoEWKSub(SR);
 
   for (int i=0; i<stat_err.size(); i++){
 
@@ -165,11 +171,12 @@ vector<double> getMetTemplatesError(const vector<double> &stat_err, const vector
     cout<<" bin Count: "<<bin_count[i];
     cout<<" EWK Subtraction: "<<ewk_err[i];
     cout<<" Stat Error: "<< stat_err[i];
-    cout<<" Stat Error (noEwkSub): "<< bin_count[i]*noSubStatErrs[i];
+    cout<<" Stat Error (noEwkSub): "<< noSubStatErrs[i];
     cout<<" Closure Error: "<<closure_err[i];
     cout<<" Normalization: "<<norm_err[i];
 
-    err_bin = stat_err[i]*stat_err[i]; //Statistical Error
+    //err_bin = stat_err[i]*stat_err[i]; //Statistical Error
+    err_bin = noSubStatErrs[i]*noSubStatErrs[i]; //Statistical Error
     err_bin += bin_count[i]*bin_count[i]*MC_Closure_Error[i]*MC_Closure_Error[i]; //Closure Error
     err_bin += normalization*bin_count[i]*normalization*bin_count[i]; //Normalization of Zjets
     cout<<" Stat+Norm+Closure "<<sqrt(err_bin);
@@ -179,7 +186,7 @@ vector<double> getMetTemplatesError(const vector<double> &stat_err, const vector
     output_errors.push_back(sqrt(err_bin));
   }
 
-  printTemplatesDebug(bin_count, output_errors, stat_err, closure_err, norm_err, ewk_err, bin_edge);
+  printTemplatesDebug(bin_count, output_errors, noSubStatErrs, closure_err, norm_err, ewk_err, bin_edge);
 
   cout<<setprecision(10);
   //--------------------------------
@@ -202,7 +209,8 @@ vector<double> getMetTemplatesError(const vector<double> &stat_err, const vector
 
     cout<<"{BGbin"<<i<<"_zjets} "<<bin_count[i]<<endl;
     cout<<"{zjets_clos_bin"<<i<<"} "<<1.+MC_Closure_Error[i]<<endl;
-    cout<<"{zjets_stat_bin"<<i<<"} "<<1.+(stat_err[i]/bin_count_safe)<<endl;
+    //cout<<"{zjets_stat_bin"<<i<<"} "<<1.+(stat_err[i]/bin_count_safe)<<endl;
+    cout<<"{zjets_stat_bin"<<i<<"} "<<1.+(noSubStatErrs[i]/bin_count_safe)<<endl;
     cout<<"{zjets_ewk_bin"<<i<<"} "<<1.+(ewk_err[i]/bin_count_safe)<<endl;
   }
   cout<<setprecision(2);
