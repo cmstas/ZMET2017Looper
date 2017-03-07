@@ -126,6 +126,62 @@ pair<double, vector<double>> getEWKNumsForSample(TString sample_name){
   return make_pair(lowbin_withEwkSub, noSubNums);
 }
 
+vector<double> getPercentStatErrorsForNoEWKSub(TString sample_name){
+  cout<<setprecision(15);
+  vector<TString> fnames = getFileLocation(sample_name);
+
+  //cout<<__LINE__<<endl;
+
+  TFile* no_sub_file = TFile::Open(fnames[1]);
+
+  //cout<<__LINE__<<endl;
+  TH1D* no_sub_hist = (TH1D*) ((TH1D*) no_sub_file->Get("type1MET"));   
+
+
+  vector<double> bins, noSubCounts, noSubErrs;
+  double err_bin;
+
+  //cout<<__LINE__<<endl;
+
+  if(sample_name == "Strong_Bveto_6j" || sample_name == "Strong_Btag_6j" || sample_name == "baseline"){
+    //bins.push_back(0);
+    bins.push_back(50);
+    bins.push_back(100);
+    bins.push_back(150);
+    bins.push_back(6001);
+  }
+  else if(sample_name == "TChiWZ"){
+    //bins.push_back(0);
+    bins.push_back(50);
+    bins.push_back(100);
+    bins.push_back(150);
+    bins.push_back(250);
+    bins.push_back(350);
+    bins.push_back(6001);
+  }
+  else{
+    //bins.push_back(0);
+    bins.push_back(50);
+    bins.push_back(100);
+    bins.push_back(150);
+    bins.push_back(250);
+    bins.push_back(6001);
+  }
+  cout<<"Deriving NoEWKSub stat errors:"<<endl;
+
+  zeroNegatives(no_sub_hist);
+
+  for (int i = 0; i<(int)bins.size()-1; i++){
+    noSubCounts.push_back(no_sub_hist->IntegralAndError(bins[i],bins[i+1] - 0.01, err_bin));
+    noSubErrs.push_back(err_bin);
+  }
+  
+  for (int i = 0; i<(int)noSubErrs.size(); i++){
+    noSubErrs[i] = noSubErrs[i]/noSubCounts[i];
+  }
+  return noSubErrs;
+}
+
 /*void printDiff(TString a, TString b, TString c){
   cout<<setprecision(15);
 

@@ -152,6 +152,7 @@ vector<double> getMetTemplatesError(const vector<double> &stat_err, const vector
   double err_bin; //error in bin
 
   vector<double> closure_err, norm_err, ewk_err;
+  vector<double> noSubStatErrs=getPercentStatErrorsForNoEWKSub(SR);
 
   for (int i=0; i<stat_err.size(); i++){
 
@@ -164,7 +165,7 @@ vector<double> getMetTemplatesError(const vector<double> &stat_err, const vector
     cout<<" bin Count: "<<bin_count[i];
     cout<<" EWK Subtraction: "<<ewk_err[i];
     cout<<" Stat Error: "<< stat_err[i];
-    cout<<" Stat Error (noEwkSub): "<< bin_count[i]*(1/sqrt(No_EWK_BinCount[i]));
+    cout<<" Stat Error (noEwkSub): "<< bin_count[i]*noSubStatErrs[i];
     cout<<" Closure Error: "<<closure_err[i];
     cout<<" Normalization: "<<norm_err[i];
 
