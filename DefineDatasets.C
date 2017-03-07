@@ -569,20 +569,20 @@ void addToChain(TChain *ch, TString set, bool hadoop=false, bool skimmed=true) {
     ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/ttz_2l2n_amcnlo_ext*.root");
   } 
   else if (set == "RareMC-wz-Skimmed"){
-    TString dir="/hadoop/cms/store/user/olivito/AutoTwopler_babies/merged/ZMET/V08-22-16/skim/";
-    //TString dir="/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-16/skims/";
+    //TString dir="/hadoop/cms/store/user/olivito/AutoTwopler_babies/merged/ZMET/V08-22-16/skim/";
+    TString dir="/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-16/skims/";
     cout<<"Adding RareMC-wz skim"<<endl; 
     ch->Add(dir+"wz_3lnu_powheg*");
   }
   else if (set == "RareMC-zz-Skimmed"){
-    TString dir="/hadoop/cms/store/user/olivito/AutoTwopler_babies/merged/ZMET/V08-22-16/skim/";
-    //TString dir="/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-16/skims/";
+    //TString dir="/hadoop/cms/store/user/olivito/AutoTwopler_babies/merged/ZMET/V08-22-16/skim/";
+    TString dir="/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-16/skims/";
     cout<<"Adding RareMC-zz skim"<<endl; 
     ch->Add(dir+"zz_2l2n_powheg*");
   }
   else if (set == "RareMC-vvv-Skimmed"){
-    TString dir="/hadoop/cms/store/user/olivito/AutoTwopler_babies/merged/ZMET/V08-22-16/skim/";
-    //TString dir="/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-16/skims/";
+    //TString dir="/hadoop/cms/store/user/olivito/AutoTwopler_babies/merged/ZMET/V08-22-16/skim/";
+    TString dir="/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-16/skims/";
     cout<<"Adding RareMC-vvv skim"<<endl; 
     ch->Add(dir+"wwz_incl_amcnlo*");
     ch->Add(dir+"wzz_incl_amcnlo*");
@@ -591,12 +591,81 @@ void addToChain(TChain *ch, TString set, bool hadoop=false, bool skimmed=true) {
     ch->Add(dir+"sttwll_madgraph*");
   }
   else if (set == "RareMC-ttz-Skimmed"){
-    TString dir="/hadoop/cms/store/user/olivito/AutoTwopler_babies/merged/ZMET/V08-22-16/skim/";
-    //TString dir="/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-16/skims/";
+    //TString dir="/hadoop/cms/store/user/olivito/AutoTwopler_babies/merged/ZMET/V08-22-16/skim/";
+    TString dir="/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-16/skims/";
     cout<<"Adding RareMC-ttz skim"<<endl; 
     ch->Add(dir+"ttz_2l2n_amcnlo*");
     //ch->Add(dir+"ttz_incl_mgmlm_skim*");
   } 
+
+//====================================
+// EWK Subtraction MC
+//====================================
+
+  else if (set == "EWKSub-WJets"){
+    TString dir="/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-16/skims/";
+    
+    cout<<"Adding WJets EWK Subtraction Samples (no Photon Data)"<<endl;       
+    //============
+    // W+Jets
+    //============
+    //This is the Wjets sample, it is intended to have events with a prompt photon vetod
+    ch->Add(dir+"wjets_incl_mgmlm*");
+    ch->Add(dir+"wjets_ht100_mgmlm*");
+    ch->Add(dir+"wjets_ht200_mgmlm*");
+    ch->Add(dir+"wjets_ht400_mgmlm*");
+    ch->Add(dir+"wjets_ht600_mgmlm*");
+    ch->Add(dir+"wjets_ht800_mgmlm*");
+    ch->Add(dir+"wjets_ht1200_mgmlm*");
+    ch->Add(dir+"wjets_ht2500_mgmlm*");
+  }
+  else if (set == "EWKSub-WGJets"){
+    TString dir="/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-16/skims/";
+    
+    cout<<"Adding WGJets EWK Subtraction Samples (no Photon Data)"<<endl;       
+    //This is the W+Gamma+Jets, it is inteded to have events with non-prompt photons vetod
+    ch->Add(dir+"wgjets_incl_mgmlm*");
+    ch->Add(dir+"wgjets_ptg40_mgmlm*");
+    ch->Add(dir+"wgjets_ptg130_mgmlm*");
+  }
+  else if (set == "EWKSub-GZNuNu"){
+    TString dir="/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-16/skims/";
+    
+    cout<<"Adding Gamma Z -> NuNu EWK Subtraction Samples (no Photon Data)"<<endl;       
+    //============
+    // Gamma+Z->NuNu
+    //============
+    ch->Add(dir+"znunugamma_ptg40_mgmlm*");
+    ch->Add(dir+"znunugamma_ptg130_mgmlm*");
+  }
+  else if (set == "EWKSub-TTBar-1lep"){ 
+    TString dir="/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-16/skims/";
+    
+    cout<<"Adding TTbar -> 1 lep EWK Subtraction Samples (no Photon Data)"<<endl;       
+    //============
+    // TTbar
+    //============
+    //1lep
+    ch->Add(dir+"ttbar_1ltbr_mgmlm_ext1*");
+    ch->Add(dir+"ttbar_1ltop_mgmlm_ext1*");
+  }
+  else if (set == "EWKSub-TTBar-Dilep"){
+    TString dir="/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-16/skims/";
+    
+    cout<<"Adding ttbar->dilep EWK Subtraction Samples (no Photon Data)"<<endl;       
+    //dilep
+    ch->Add(dir+"ttbar_dilep_mgmlm_ext1*");
+  }
+  else if (set == "EWKSub-singleTop"){
+    TString dir="/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-16/skims/";
+    
+    cout<<"Adding Single Top EWK Subtraction Samples (no Photon Data)"<<endl;       
+    //============
+    // Single Top
+    //============
+    ch->Add(dir+"sttw_antitop_nofullhaddecay_powheg*");
+    ch->Add(dir+"sttw_top_nofullhaddecay_powheg*");
+  }
 
 //====================================
 // Photon Data
