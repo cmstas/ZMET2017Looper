@@ -150,7 +150,7 @@ void KappaPrettyPlot()
   central_dn->Draw("same");
 
   TLatex *lumitex = NULL;
-  float luminosity = 36.5;
+  float luminosity = 35.9;
   if( luminosity > 0.1 ) lumitex = new TLatex(0.59       , 0.94, Form("%.1f fb^{-1} (13 TeV)", luminosity) );    
   else                   lumitex = new TLatex(0.59 + 0.05, 0.94, "(13 TeV)" );    
 
