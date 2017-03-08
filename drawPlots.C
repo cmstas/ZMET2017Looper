@@ -802,7 +802,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   l1->SetFillColor(kWhite);
   l1->SetTextSize(.03);
   //cout<<__LINE__<<endl;
-  l1->AddEntry(hists[0], hist_labels[0], "p");
+  l1->AddEntry(hists[0], hist_labels[0], "pe");
   for (int i = num_hists-1; i>1; i--){
     l1->AddEntry(hists[i], hist_labels[i], "f");
   }
@@ -1283,7 +1283,7 @@ TString drawArbitraryNumber(ConfigParser *conf){
   l1->SetFillColor(kWhite);
   l1->SetTextSize(.03);
   //cout<<__LINE__<<endl;
-  l1->AddEntry(hists[0], hist_labels[0], "p");
+  l1->AddEntry(hists[0], hist_labels[0], "pe");
   for (int i = num_hists-1; i>1; i--){
     l1->AddEntry(hists[i], hist_labels[i], "f");
   }
