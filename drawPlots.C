@@ -11,7 +11,8 @@
 #include "TCut.h"
 #include "TH1D.h"
 
-#include "/home/users/bhashemi/Projects/GIT/Software/tableMaker/CTable.cpp"
+//#include "/home/users/bhashemi/Projects/GIT/Software/tableMaker/CTable.cpp"
+#include "CoreTools/tdrstyle_SUSY.C"
 
 #include "computeErrors.C"
 #include "ConfigParser.C"
@@ -367,29 +368,6 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   }
   //cout<<__LINE__<<endl;
   hists[0]->SetMarkerStyle(20);
-
-  //===========================
-  // BUILD LEGEND
-  //===========================
-
-  TLegend *l1;
-  if (conf->get("small_legend") == "true"){
-    l1 = new TLegend(0.73, 0.73, 0.88, 0.88);
-  }
-  else{
-    l1 = new TLegend(0.6, 0.55, 0.88, 0.88);
-  }
-  
-  
-  l1->SetLineColor(kWhite);  
-  l1->SetShadowColor(kWhite);
-  l1->SetFillColor(kWhite);
-  l1->SetTextSize(.03);
-  //cout<<__LINE__<<endl;
-  l1->AddEntry(hists[0], hist_labels[0], "p");
-  for (int i = 1; i<num_hists; i++){
-    l1->AddEntry(hists[i], hist_labels[i], "f");
-  }
   //cout<<__LINE__<<endl;
 
   //===========================
@@ -512,7 +490,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
       // End Table Building ==================================================
 
       // Print Table =========================================================
-      CTable table;
+      /*CTable table;
       table.setPrecision(2);
       //Set Column Labels
       //cout<<__LINE__<<endl;
@@ -563,7 +541,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
       conf_id.ReplaceAll("/","_");
       conf_id = conf_id(8, conf_id.Last('.')-8);
 
-      table.saveTex(Form("outputs/efficiency_table_%s.tex", conf_id.Data()));
+      table.saveTex(Form("outputs/efficiency_table_%s.tex", conf_id.Data()));*/
 
     }
     else{  
@@ -765,6 +743,8 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   h_axes->GetYaxis()->SetTitleOffset(1.3);
   h_axes->GetYaxis()->SetTitleSize(0.05);
   h_axes->GetYaxis()->SetLabelSize(0.04);
+  h_axes->GetXaxis()->SetTitleSize(0.05);
+  h_axes->GetXaxis()->SetLabelSize(0.04);
   //cout<<__LINE__<<endl;
   cout<<"Drawing histograms"<<endl;
   h_axes->Draw();
@@ -785,23 +765,47 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   if (conf->get("blindAfter") != ""){
     blindAfter(hists[0], stod(conf->get("blindAfter")));
   }
-  hists[0]->Draw("E1 SAME");
   TGraphAsymmErrors *bg_err = new TGraphAsymmErrors(bg_sum);
-  
-  if(conf->get("draw_bg_errs") == "true"){
-    bg_err->SetFillStyle(3244);
-    bg_err->SetFillColor(kGray+3);
-    bg_err->Draw("SAME 2");
-  }
 
   if ((conf->get("print_stats") == "true") && (conf->get("simple_errors") != "true")){
     prediction_errors->SetFillStyle(3244);
     prediction_errors->SetFillColor(kGray+3);
     prediction_errors->Draw("SAME 2");
   }
+  else if(conf->get("draw_bg_errs") != "false"){
+    cout<<"Drawing BG hatch bands"<<endl;
+    bg_err->SetFillStyle(3244);
+    bg_err->SetFillColor(kGray+3);
+    bg_err->Draw("SAME 2");
+  }
+
+  hists[0]->SetMarkerSize(1.5);
+  hists[0]->Draw("samex0e1");
 
   plotpad->RedrawAxis();
   //cout<<__LINE__<<endl;
+  //===========================
+  // BUILD LEGEND
+  //===========================
+
+  TLegend *l1;
+  if (conf->get("small_legend") == "true"){
+    l1 = new TLegend(0.78, 0.78, 0.93, 0.93);
+  }
+  else{
+    l1 = new TLegend(0.65, 0.6, 0.93, 0.93);
+  }
+  
+  
+  l1->SetLineColor(kWhite);  
+  l1->SetShadowColor(kWhite);
+  l1->SetFillColor(kWhite);
+  l1->SetTextSize(.03);
+  //cout<<__LINE__<<endl;
+  l1->AddEntry(hists[0], hist_labels[0], "p");
+  for (int i = num_hists-1; i>1; i--){
+    l1->AddEntry(hists[i], hist_labels[i], "f");
+  }
 
   l1->Draw("same");
   
@@ -857,11 +861,13 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   //cout<<__LINE__<<endl;
   TLine* line1 = new TLine(xmin,1,xmax,1);
   line1->SetLineStyle(2);
+
+  residual->SetMarkerSize(1.5);
   
   cout<<"Drawing ratio plot"<<endl;
   h_axis_ratio->Draw("axis");
   line1->Draw("same");
-  residual->Draw("same");
+  residual->Draw("samex0e1");
   //cout<<__LINE__<<endl;
   c->Update();
   c->cd();
@@ -1065,27 +1071,6 @@ TString drawArbitraryNumber(ConfigParser *conf){
     //cout<<__LINE__<<endl;
     hists[i]->SetFillStyle(1001);
   }
-
-  //===========================
-  // BUILD LEGEND
-  //===========================
-
-  TLegend *l1;
-  if (conf->get("small_legend") == "true"){
-    l1 = new TLegend(0.73, 0.73, 0.88, 0.88);
-  }
-  else{
-    l1 = new TLegend(0.6, 0.55, 0.88, 0.88);
-  }
-  
-  l1->SetLineColor(kWhite);  
-  l1->SetShadowColor(kWhite);
-  l1->SetFillColor(kWhite);
-  l1->SetTextSize(.03);
-  //cout<<__LINE__<<endl;
-  for (int i = 0; i<num_hists; i++){
-    l1->AddEntry(hists[i], hist_labels[i], "f");
-  }
   //cout<<__LINE__<<endl;
 
   //===========================
@@ -1175,7 +1160,7 @@ TString drawArbitraryNumber(ConfigParser *conf){
       // End Table Building ==================================================
 
       // Print Table =========================================================
-      CTable table;
+      /*CTable table;
       table.setPrecision(2);
       //Set Column Labels
       //cout<<__LINE__<<endl;
@@ -1208,7 +1193,7 @@ TString drawArbitraryNumber(ConfigParser *conf){
       conf_id.ReplaceAll("/","_");
       conf_id = conf_id(8, conf_id.Last('.')-8);
 
-      table.saveTex(Form("outputs/efficiency_table_%s.tex", conf_id.Data()));
+      table.saveTex(Form("outputs/efficiency_table_%s.tex", conf_id.Data()));*/
 
     }
   }
@@ -1270,7 +1255,8 @@ TString drawArbitraryNumber(ConfigParser *conf){
   
   TGraphAsymmErrors *bg_err = new TGraphAsymmErrors(bg_sum);
   
-  if(conf->get("draw_bg_errs") == "true"){
+  if(conf->get("draw_bg_errs") != "false"){
+    cout<<"Drawing BG hatch bands"<<endl;
     bg_err->SetFillStyle(3244);
     bg_err->SetFillColor(kGray+3);
     bg_err->Draw("SAME 2");
@@ -1278,6 +1264,29 @@ TString drawArbitraryNumber(ConfigParser *conf){
 
   fullpad->RedrawAxis();
   //cout<<__LINE__<<endl;
+
+  //===========================
+  // BUILD LEGEND
+  //===========================
+
+  TLegend *l1;
+  if (conf->get("small_legend") == "true"){
+    l1 = new TLegend(0.78, 0.78, 0.93, 0.93);
+  }
+  else{
+    l1 = new TLegend(0.65, 0.6, 0.93, 0.93);
+  }
+  
+  
+  l1->SetLineColor(kWhite);  
+  l1->SetShadowColor(kWhite);
+  l1->SetFillColor(kWhite);
+  l1->SetTextSize(.03);
+  //cout<<__LINE__<<endl;
+  l1->AddEntry(hists[0], hist_labels[0], "p");
+  for (int i = num_hists-1; i>1; i--){
+    l1->AddEntry(hists[i], hist_labels[i], "f");
+  }
 
   l1->Draw("same");
  
@@ -2056,6 +2065,8 @@ void drawPlots(TString config_file, bool draw_debugs = true){
   TString errors="";
 
   ConfigParser *configs=new ConfigParser(config_file.Data());
+
+  setTDRStyle();
   
   TGaxis::SetExponentOffset(-0.07, 0, "y"); // X and Y offset for Y axis
   TGaxis::SetExponentOffset(-.8, -0.07, "x"); // X and Y offset for X axis
