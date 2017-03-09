@@ -1893,7 +1893,7 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
   //==============================
   //T5ZZ model natural binning
   //==============================
-  const int n_gluino_bins = 24;
+  /*const int n_gluino_bins = 24;
   const double gluino_bins[n_gluino_bins+1]={800.000000,900.000000,1000.000000,1050.000000,1100.000000,1150.000000,1200.000000,1250.000000,1300.000000,1350.000000,1400.000000,1450.000000,1500.000000,1550.000000,1600.000000,1650.000000,1700.000000,1750.000000,1800.000000,1850.000000,1900.000000,1950.000000,2000.000000,2050.000000,2100.000000};
 
   const int n_lsp_bins = 66;
@@ -1906,7 +1906,7 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
     std::stringstream message;
     message<<"You are going to run with T5ZZ binning on a MC that is not T5ZZ. You are running on dataset: "<<conf->get("data_set")<<".";
     throw std::invalid_argument(message.str());
-  }
+  }*/
 
   //==============================
   //T5ZZ contrived binning 
@@ -1930,7 +1930,7 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
   //==============================
   //TChiWZ model natural binning
   //==============================
-  /*const int n_gluino_bins = 24;
+  const int n_gluino_bins = 24;
   const double gluino_bins[n_gluino_bins+1]={100.000000,125.000000,150.000000,175.000000,200.000000,225.000000,250.000000,275.000000,300.000000,325.000000,350.000000,375.000000,400.000000,425.000000,450.000000,475.000000,500.000000,525.000000,550.000000,575.000000,600.000000,625.000000,650.000000,675.000000,700.000000};
 
   const int n_lsp_bins = 69;
@@ -1943,7 +1943,7 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
     std::stringstream message;
     message<<"You are going to run with TChiWZ binning on a MC that is not TChiWZ. You are running on dataset: "<<conf->get("data_set")<<".";
     throw std::invalid_argument(message.str());
-  }*/
+  }
 
   TH3D *susy_type1MET_btaglight_up, *susy_type1MET_btagheavy_up, *susy_type1MET_isr_up;
 
