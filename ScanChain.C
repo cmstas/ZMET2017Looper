@@ -1263,6 +1263,18 @@ bool passMETFilters(){
       if (printFail) cout<<phys.evt()<<" :Failed goodVerticies cut"<<endl;
     return false;
   }
+  if(conf->get("signal_region") != "LeonoraEvtLists"){
+    if (phys.nJet200MuFrac50DphiMet() > 0){
+      numEvents->Fill(70);
+      if (printFail) cout<<phys.evt()<<" :Failed nJet200MuFrac50DphiMet cut"<<endl;
+      return false;
+    }
+    if ((g_met / phys.met_calo_pt()) > 5){
+      numEvents->Fill(71);
+      if (printFail) cout<<phys.evt()<<" :Failed T1MET/CaloMET cut"<<endl;
+      return false;
+    }
+  }
   if (conf->get("susy_mc") != "true"){
     if (!phys.Flag_globalTightHalo2016            ()      ){ 
       numEvents->Fill(4);
