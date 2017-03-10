@@ -54,6 +54,10 @@ bool TH1DIntegralSort(TH1D* hist_1, TH1D* hist_2){
   return (hist_1->Integral() < hist_2->Integral()) ;
 }
 
+bool LabeledHistSort(pair<TH1D*,TString> hist_1, pair<TH1D*,TString> hist_2){
+  return (hist_1.first->Integral() < hist_2.first->Integral()) ;
+}
+
 void drawCMSLatex(double luminosity){
   TLatex *lumitex = NULL;
   double height=1.01-gPad->GetTopMargin();
@@ -755,11 +759,19 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   THStack * stack = new THStack(("stack_"+conf->get("Name")).c_str(), conf->get("title").c_str());
   //cout<<__LINE__<<endl;
 
-  sort(hists.begin()+1, hists.end(), TH1DIntegralSort);
-  
+  vector<pair<TH1D*, TString>> hists_labeled; 
+
   for (int i=1; i<num_hists; i++)
   {
-    stack->Add(hists[i]);
+    hists_labeled.push_back(make_pair(hists[i], hist_labels[i]));
+  } 
+
+
+  sort(hists_labeled.begin(), hists_labeled.end(), LabeledHistSort);
+  //sort(hists.begin()+1, hists.end(), TH1DIntegralSort); 
+  for (int i=1; i<num_hists; i++)
+  {
+    stack->Add(hists_labeled[i].first);
   } 
   stack->Draw("HIST SAME");
   if (conf->get("blindAfter") != ""){
@@ -804,7 +816,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   //cout<<__LINE__<<endl;
   l1->AddEntry(hists[0], hist_labels[0], "pe");
   for (int i = num_hists-1; i>1; i--){
-    l1->AddEntry(hists[i], hist_labels[i], "f");
+    l1->AddEntry(hists_labeled[i].first, hists_labeled[i].second, "f");
   }
 
   l1->Draw("same");
@@ -1245,7 +1257,14 @@ TString drawArbitraryNumber(ConfigParser *conf){
   THStack * stack = new THStack(("stack_"+conf->get("Name")).c_str(), conf->get("title").c_str());
   //cout<<__LINE__<<endl;
 
-  sort(hists.begin()+1, hists.end(), TH1DIntegralSort);
+  vector<pair<TH1D*, TString>> hists_labeled; 
+
+  for (int i=1; i<num_hists; i++)
+  {
+    hists_labeled.push_back(make_pair(hists[i], hist_labels[i]));
+  } 
+
+  sort(hists_labeled.begin(), hists_labeled.end(), LabeledHistSort);
   
   for (int i=0; i<num_hists; i++)
   {
