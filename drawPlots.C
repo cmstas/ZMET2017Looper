@@ -12,13 +12,12 @@
 #include "TH1D.h"
 
 #include "External/CTable.cpp"
-#include "CoreTools/tdrstyle_SUSY.C"
+#include "External/tdrstyle_SUSY.C"
 
 #include "computeErrors.C"
 #include "ConfigParser.C"
 #include "ConfigHelper.C"
 #include "HistTools.C"
-
 
 using namespace std;
 
@@ -766,14 +765,19 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
     hists_labeled.push_back(make_pair(hists[i], hist_labels[i]));
   } 
 
+  cout<<"Sorting by total count"<<endl;
 
   sort(hists_labeled.begin(), hists_labeled.end(), LabeledHistSort);
+
+  cout<<"Sorted, Adding to Stack"<<endl;
+
   //sort(hists.begin()+1, hists.end(), TH1DIntegralSort); 
-  for (int i=1; i<num_hists; i++)
+  for (int i=0; i< (int)hists_labeled.size(); i++)
   {
     stack->Add(hists_labeled[i].first);
   } 
   stack->Draw("HIST SAME");
+  cout<<"Stack Drawn"<<endl;
   if (conf->get("blindAfter") != ""){
     blindAfter(hists[0], stod(conf->get("blindAfter")));
   }
@@ -800,6 +804,8 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   // BUILD LEGEND
   //===========================
 
+  cout<<"Building Legend"<<endl;
+
   TLegend *l1;
   if (conf->get("small_legend") == "true"){
     l1 = new TLegend(0.78, 0.78, 0.93, 0.93);
@@ -808,14 +814,13 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
     l1 = new TLegend(0.65, 0.6, 0.93, 0.93);
   }
   
-  
   l1->SetLineColor(kWhite);  
   l1->SetShadowColor(kWhite);
   l1->SetFillColor(kWhite);
   l1->SetTextSize(.03);
   //cout<<__LINE__<<endl;
   l1->AddEntry(hists[0], hist_labels[0], "pe");
-  for (int i = num_hists-1; i>1; i--){
+  for (int i = hists_labeled.size()-1; i>=0; i--){
     l1->AddEntry(hists_labeled[i].first, hists_labeled[i].second, "f");
   }
 
@@ -878,11 +883,15 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   
   cout<<"Drawing ratio plot"<<endl;
   h_axis_ratio->Draw("axis");
+  cout<<__LINE__<<endl;
   line1->Draw("same");
+  cout<<__LINE__<<endl;
   residual->Draw("samex0e1");
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
   c->Update();
+  cout<<__LINE__<<endl;
   c->cd();
+  cout<<__LINE__<<endl;
   
   //Draw luminosity and CMS tag
   if (conf->get("luminosity_fb") != ""){
@@ -899,6 +908,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   //cout<<__LINE__<<endl;
   cout<<"Cleaning up plot variables"<<endl;
   delete l1;
+  hists_labeled.clear();
   hists.clear();
   hist_names.clear();
   hist_labels.clear();
@@ -906,6 +916,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   delete ratiopad;
   delete plotpad;
   delete fullpad;
+  delete bg_err;
   delete c;
   //cout<<__LINE__<<endl;
   for (int i = 0; i<num_hists; i++){
@@ -1303,7 +1314,7 @@ TString drawArbitraryNumber(ConfigParser *conf){
   l1->SetTextSize(.03);
   //cout<<__LINE__<<endl;
   l1->AddEntry(hists[0], hist_labels[0], "pe");
-  for (int i = num_hists-1; i>1; i--){
+  for (int i = hists_labeled.size()-1; i>0; i--){
     l1->AddEntry(hists[i], hist_labels[i], "f");
   }
 
@@ -1324,9 +1335,11 @@ TString drawArbitraryNumber(ConfigParser *conf){
   //cout<<__LINE__<<endl;
   cout<<"Cleaning up plot variables"<<endl;
   delete l1;
+  hists_labeled.clear();
   hists.clear();
   hist_names.clear();
   hist_labels.clear();
+  delete bg_err;
   delete fullpad;
   delete c;
   //cout<<__LINE__<<endl;
