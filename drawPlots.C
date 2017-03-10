@@ -11,7 +11,7 @@
 #include "TCut.h"
 #include "TH1D.h"
 
-//#include "/home/users/bhashemi/Projects/GIT/Software/tableMaker/CTable.cpp"
+#include "External/CTable.cpp"
 #include "CoreTools/tdrstyle_SUSY.C"
 
 #include "computeErrors.C"
@@ -490,7 +490,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
       // End Table Building ==================================================
 
       // Print Table =========================================================
-      /*CTable table;
+      CTable table;
       table.setPrecision(2);
       //Set Column Labels
       //cout<<__LINE__<<endl;
@@ -541,7 +541,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
       conf_id.ReplaceAll("/","_");
       conf_id = conf_id(8, conf_id.Last('.')-8);
 
-      table.saveTex(Form("outputs/efficiency_table_%s.tex", conf_id.Data()));*/
+      table.saveTex(Form("outputs/efficiency_table_%s.tex", conf_id.Data()));
 
     }
     else{  
@@ -1160,7 +1160,7 @@ TString drawArbitraryNumber(ConfigParser *conf){
       // End Table Building ==================================================
 
       // Print Table =========================================================
-      /*CTable table;
+      CTable table;
       table.setPrecision(2);
       //Set Column Labels
       //cout<<__LINE__<<endl;
@@ -1193,7 +1193,7 @@ TString drawArbitraryNumber(ConfigParser *conf){
       conf_id.ReplaceAll("/","_");
       conf_id = conf_id(8, conf_id.Last('.')-8);
 
-      table.saveTex(Form("outputs/efficiency_table_%s.tex", conf_id.Data()));*/
+      table.saveTex(Form("outputs/efficiency_table_%s.tex", conf_id.Data()));
 
     }
   }

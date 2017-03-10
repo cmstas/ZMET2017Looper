@@ -31,10 +31,10 @@
 
 // CORE
 //You can not include headers!!! This is not compiled code.
-#include "CoreTools/dorky.cc"
-#include "CoreTools/goodrun.cc"
-#include "/home/users/bhashemi/Projects/GIT/CORE/Tools/MT2/MT2Utility.cc"
-#include "/home/users/bhashemi/Projects/GIT/CORE/Tools/MT2/MT2.cc"
+#include "External/dorky.cc"
+#include "External/goodrun.cc"
+#include "External/MT2Utility.cc"
+#include "External/MT2.cc"
 // Configuration parsing
 #include "ConfigParser.C"
 #include "ConfigHelper.C"
