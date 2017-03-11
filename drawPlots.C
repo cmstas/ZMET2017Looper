@@ -395,10 +395,11 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
     else {
         ymax = 1.2*clonedBG->GetMaximum();   
     }
-    if (conf->get("logy") == "true"){
-      ymax *= 10;
-      ymin = 0.1;
-    }
+  }
+
+  if (conf->get("logy") == "true"){
+    ymax *= 10;
+    ymin = 0.1;
   }
 
   if (conf->get("ymin") != ""){
