@@ -861,8 +861,18 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   h_axis_ratio->GetYaxis()->SetNdivisions(5);
   h_axis_ratio->GetYaxis()->SetLabelSize(0.15);
   //h_axis_ratio->GetYaxis()->SetRangeUser(0.5,1.5);
-  h_axis_ratio->GetYaxis()->SetRangeUser(0.001,2.0);
   
+  if(residual->GetMaximum() > 3 && residual->GetMaximum() <= 4 ){
+    h_axis_ratio->GetYaxis()->SetRangeUser(0.001,4.0);
+  }
+  else if(residual->GetMaximum() > 2 && residual->GetMaximum() <= 3 ){
+    h_axis_ratio->GetYaxis()->SetRangeUser(0.001,3.0);
+  }
+  else{
+    h_axis_ratio->GetYaxis()->SetRangeUser(0.001,2.0);
+  }
+
+
   if(conf->get("ratio_yaxis") != ""){
     h_axis_ratio->GetYaxis()->SetTitle(parseLatex(conf->get("ratio_yaxis")));  
   }
