@@ -2224,11 +2224,11 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
       printFail = false;
 
       //if (inspection_set.count(phys.evt()) != 0){
-      /*if ( inspection_set_erl.count(make_tuple(phys.evt(), phys.run(), phys.lumi())) != 0){
+      if ( inspection_set_erl.count(make_tuple(phys.evt(), phys.run(), phys.lumi())) != 0){
         cout<<"evt: "<<phys.evt()<<" run: "<<phys.run()<<" lumi: "<<phys.lumi()<<" scale1fb: "<<phys.evt_scale1fb()<<endl;
         printStats=true;
         printFail=true;
-      }*/
+      }
       /*else{ //Use if you don't want care about events in your list that are not in the other's
         continue;
       }*/
@@ -2556,6 +2556,15 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
     //cout<<__LINE__<<endl;
     file.Close();
   }
+
+  // ----------------
+  // DEBUG MODE
+  // ----------------
+  cout<<"Events that weren't in your babies:"<<endl;
+  for (set<tuple<long,long,long>>::iterator it=inspection_copy.begin(); it!=inspection_copy.end(); ++it){
+    cout<<"evt: "<<std::get<0>(*it)<<" run: "<<std::get<1>(*it)<<" lumi: "<<std::get<2>(*it)<<endl;
+  }
+  
   cout<<"Num events passed: "<<eventCount<<endl;
   files_log<<"Num events passed: "<<eventCount<<endl;
   if ( nEventsChain != nEventsTotal ) {
@@ -2688,14 +2697,6 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
     pt_gamma_MET400->Write();
     pt_gamma_MET500->Write();
   }
-
-  // ----------------
-  // DEBUG MODE
-  // ----------------
-  /*cout<<"Events that weren't in your babies:"<<endl;
-  for (set<tuple<long,long,long>>::iterator it=inspection_copy.begin(); it!=inspection_copy.end(); ++it){
-    cout<<"evt: "<<std::get<0>(*it)<<" run: "<<std::get<1>(*it)<<" lumi: "<<std::get<2>(*it)<<endl;
-  }*/
 
   //close output file
   output->Write();
