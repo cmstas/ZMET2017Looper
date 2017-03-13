@@ -894,15 +894,15 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   
   cout<<"Drawing ratio plot"<<endl;
   h_axis_ratio->Draw("axis");
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
   line1->Draw("same");
-  cout<<__LINE__<<endl;
-  residual->Draw("samex0e1");
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
+  residual->Draw("samex0e1p0");
+  //cout<<__LINE__<<endl;
   c->Update();
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
   c->cd();
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
   
   //Draw luminosity and CMS tag
   if (conf->get("luminosity_fb") != ""){
