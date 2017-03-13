@@ -797,7 +797,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   }
 
   hists[0]->SetMarkerSize(1.5);
-  hists[0]->Draw("samex0e1");
+  hists[0]->Draw("samex0e1p0");
 
   plotpad->RedrawAxis();
   //cout<<__LINE__<<endl;
