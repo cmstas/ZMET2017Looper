@@ -51,8 +51,8 @@ void addToChain(TChain *ch, TString set, bool hadoop=false, bool skimmed=true) {
   //---------------------------
   else if (set == "ZMC-inclusive-Skimmed"){
     //Inclusive HT
-    //TString dir="/hadoop/cms/store/user/olivito/AutoTwopler_babies/merged/ZMET/V08-22-11/skim/";
-    TString dir="/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-13/skims/";
+    //TString dir="/hadoop/cms/store/user/olivito/AutoTwopler_babies/merged/ZMET/V08-22-16/skim/";
+    TString dir="/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-16/skims/";
 
     cout<<"Adding ZMC-inclusive-Skimmed"<<endl;
     
@@ -60,8 +60,8 @@ void addToChain(TChain *ch, TString set, bool hadoop=false, bool skimmed=true) {
   }
   else if (set == "ZMC-100200-Skimmed"){
     //HT 100-200 
-    //TString dir="/hadoop/cms/store/user/olivito/AutoTwopler_babies/merged/ZMET/V08-22-11/skim/";
-    TString dir="/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-13/skims/";
+    //TString dir="/hadoop/cms/store/user/olivito/AutoTwopler_babies/merged/ZMET/V08-22-16/skim/";
+    TString dir="/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-16/skims/";
 
     cout<<"Adding ZMC-100200-Skimmed"<<endl;
     
@@ -69,8 +69,8 @@ void addToChain(TChain *ch, TString set, bool hadoop=false, bool skimmed=true) {
   }
   else if (set == "ZMC-200400-Skimmed"){
     //HT 200-400 
-    //TString dir="/hadoop/cms/store/user/olivito/AutoTwopler_babies/merged/ZMET/V08-22-11/skim/";
-    TString dir="/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-13/skims/";
+    //TString dir="/hadoop/cms/store/user/olivito/AutoTwopler_babies/merged/ZMET/V08-22-16/skim/";
+    TString dir="/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-16/skims/";
     
     cout<<"Adding ZMC-200400-Skimmed"<<endl;
     
@@ -78,8 +78,8 @@ void addToChain(TChain *ch, TString set, bool hadoop=false, bool skimmed=true) {
   }
   else if (set == "ZMC-400600-Skimmed"){
     //HT 400-600 
-    //TString dir="/hadoop/cms/store/user/olivito/AutoTwopler_babies/merged/ZMET/V08-22-11/skim/";
-    TString dir="/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-13/skims/";
+    //TString dir="/hadoop/cms/store/user/olivito/AutoTwopler_babies/merged/ZMET/V08-22-16/skim/";
+    TString dir="/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-16/skims/";
 
     cout<<"Adding ZMC-400600-Skimmed"<<endl;
     
@@ -87,16 +87,16 @@ void addToChain(TChain *ch, TString set, bool hadoop=false, bool skimmed=true) {
   }
   else if (set == "ZMC-600Inf-Skimmed"){
     //HT 600-Inf 
-    //TString dir="/hadoop/cms/store/user/olivito/AutoTwopler_babies/merged/ZMET/V08-22-11/skim/";
-    TString dir="/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-13/skims/";
+    //TString dir="/hadoop/cms/store/user/olivito/AutoTwopler_babies/merged/ZMET/V08-22-16/skim/";
+    TString dir="/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-16/skims/";
 
     cout<<"Adding ZMC-600Inf-Skimmed"<<endl;
     
     ch->Add(dir+"dy_m50_mgmlm_ht600*");
   }
   else if (set == "ZMC-fullmc-Skimmed"){
-    //TString dir="/hadoop/cms/store/user/olivito/AutoTwopler_babies/merged/ZMET/V08-22-11/skim/";
-    TString dir="/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-13/skims/";
+    //TString dir="/hadoop/cms/store/user/olivito/AutoTwopler_babies/merged/ZMET/V08-22-16/skim/";
+    TString dir="/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-16/skims/";
 
     cout<<"Adding ZMC-fullmc-Skimmed"<<endl;
     
@@ -106,8 +106,8 @@ void addToChain(TChain *ch, TString set, bool hadoop=false, bool skimmed=true) {
     ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-08/skims/wz_2l2q_amcnlo*.root");
   }
   else if (set == "ZMC-low-mass-Skimmed"){
-    //TString dir="/hadoop/cms/store/user/olivito/AutoTwopler_babies/merged/ZMET/V08-22-11/skim/";
-    TString dir="/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-13/skims/";
+    //TString dir="/hadoop/cms/store/user/olivito/AutoTwopler_babies/merged/ZMET/V08-22-16/skim/";
+    TString dir="/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-16/skims/";
 
     cout<<"Adding ZMC Low Mass Skimmed sample"<<endl;
     
@@ -451,7 +451,7 @@ void addToChain(TChain *ch, TString set, bool hadoop=false, bool skimmed=true) {
   }
   else if (set == "FSMC-dilep-powheg-Skimmed"){
     //TString dir="/hadoop/cms/store/user/olivito/AutoTwopler_babies/merged/ZMET/V08-22-16/skim/";
-    TString dir="/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-13/skims/";
+    TString dir="/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-16/skims/";
 
     cout<<"Adding Skimmed FSMC-dilep-powheg (large stats sample)"<<endl; 
     
@@ -470,9 +470,12 @@ void addToChain(TChain *ch, TString set, bool hadoop=false, bool skimmed=true) {
     ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-09/skims/ttg_incl_amcnlo*.root");
   }
   else if (set == "FSMC-1lep"){
+    TString dir="/hadoop/cms/store/user/olivito/AutoTwopler_babies/merged/ZMET/V08-22-16/output/";
+    
     cout<<"Adding FSMC-1lep"<<endl; 
-    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/ttbar_1ltbr_mgmlm*.root");
-    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/ttbar_1ltop_mgmlm*.root");
+    
+    ch->Add("/hadoop/cms/store/user/olivito/AutoTwopler_babies/merged/ZMET/V08-22-16/output/ttbar_1ltbr_mgmlm_ext1*");
+    ch->Add("/hadoop/cms/store/user/olivito/AutoTwopler_babies/merged/ZMET/V08-22-16/output/ttbar_1ltop_mgmlm_ext1*");
   }
   else if (set == "FSMC-1lep-Skimmed"){
     //TString dir="/hadoop/cms/store/user/olivito/AutoTwopler_babies/merged/ZMET/V08-22-16/skim/";
@@ -483,7 +486,6 @@ void addToChain(TChain *ch, TString set, bool hadoop=false, bool skimmed=true) {
     ch->Add(dir+"ttbar_1ltbr_mgmlm_ext1*");
     ch->Add(dir+"ttbar_1ltop_mgmlm_ext1*");
   }
-
   else if (set == "FSMC-TTto1Lep-LeonoraSync"){
     //TString dir="/hadoop/cms/store/user/olivito/AutoTwopler_babies/merged/ZMET/V08-22-16/skim/";
     TString dir="/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-16/skims/";
@@ -496,7 +498,6 @@ void addToChain(TChain *ch, TString set, bool hadoop=false, bool skimmed=true) {
     ch->Add(dir+"ttbar_1ltop_mgmlm_ext1*");
     ch->Add(dir+"ttbar_1ltop_mgmlm_nonext*");
   }
-
   else if (set == "FSMC-singletop-inclusive"){
     cout<<"Adding FSMC-singletop"<<endl; 
     ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/sttw_antitop_powheg*.root");
@@ -545,7 +546,6 @@ void addToChain(TChain *ch, TString set, bool hadoop=false, bool skimmed=true) {
     ch->Add(dir+"ttw_ln_amcnlo*");
     ch->Add(dir+"ttw_qq_amcnlo*");
   }
-
 //====================================
 // Rare MC
 //====================================
