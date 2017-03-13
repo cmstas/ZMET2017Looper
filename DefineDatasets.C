@@ -11,7 +11,7 @@ void addToChain(TChain *ch, TString set, bool hadoop=false, bool skimmed=true) {
   //---------------------------
   // DY Skims
   //---------------------------
-  else if (set == "ZMC-inclusive-Skimmed"){
+  if (set == "ZMC-inclusive-Skimmed"){
     //Inclusive HT
     //TString dir="/hadoop/cms/store/user/olivito/AutoTwopler_babies/merged/ZMET/V08-22-16/skim/";
     TString dir="/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-16/skims/";
