@@ -1893,82 +1893,162 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
   //==============================
   //T5ZZ model natural binning
   //==============================
-  /*const int n_gluino_bins = 24;
-  const double gluino_bins[n_gluino_bins+1]={800.000000,900.000000,1000.000000,1050.000000,1100.000000,1150.000000,1200.000000,1250.000000,1300.000000,1350.000000,1400.000000,1450.000000,1500.000000,1550.000000,1600.000000,1650.000000,1700.000000,1750.000000,1800.000000,1850.000000,1900.000000,1950.000000,2000.000000,2050.000000,2100.000000};
+  const int n_gluino_bins_t5zznat = 24;
+  const double gluino_bins_t5zznat[n_gluino_bins_t5zznat+1]={800.000000,900.000000,1000.000000,1050.000000,1100.000000,1150.000000,1200.000000,1250.000000,1300.000000,1350.000000,1400.000000,1450.000000,1500.000000,1550.000000,1600.000000,1650.000000,1700.000000,1750.000000,1800.000000,1850.000000,1900.000000,1950.000000,2000.000000,2050.000000,2100.000000};
 
-  const int n_lsp_bins = 66;
-  const double lsp_bins[n_lsp_bins+1]={25.000000,50.000000,100.000000,150.000000,200.000000,250.000000,300.000000,350.000000,400.000000,450.000000,500.000000,550.000000,600.000000,650.000000,700.000000,750.000000,790.000000,800.000000,850.000000,890.000000,900.000000,950.000000,990.000000,1000.000000,1040.000000,1050.000000,1090.000000,1100.000000,1140.000000,1150.000000,1190.000000,1200.000000,1240.000000,1250.000000,1290.000000,1300.000000,1340.000000,1350.000000,1390.000000,1400.000000,1440.000000,1450.000000,1490.000000,1500.000000,1540.000000,1550.000000,1590.000000,1600.000000,1640.000000,1650.000000,1690.000000,1700.000000,1740.000000,1750.000000,1790.000000,1800.000000,1840.000000,1850.000000,1890.000000,1900.000000,1940.000000,1950.000000,1990.000000,2000.000000,2040.000000,2050.000000,2090.000000};
+  const int n_lsp_bins_t5zznat = 66;
+  const double lsp_bins_t5zznat[n_lsp_bins_t5zznat+1]={25.000000,50.000000,100.000000,150.000000,200.000000,250.000000,300.000000,350.000000,400.000000,450.000000,500.000000,550.000000,600.000000,650.000000,700.000000,750.000000,790.000000,800.000000,850.000000,890.000000,900.000000,950.000000,990.000000,1000.000000,1040.000000,1050.000000,1090.000000,1100.000000,1140.000000,1150.000000,1190.000000,1200.000000,1240.000000,1250.000000,1290.000000,1300.000000,1340.000000,1350.000000,1390.000000,1400.000000,1440.000000,1450.000000,1490.000000,1500.000000,1540.000000,1550.000000,1590.000000,1600.000000,1640.000000,1650.000000,1690.000000,1700.000000,1740.000000,1750.000000,1790.000000,1800.000000,1840.000000,1850.000000,1890.000000,1900.000000,1940.000000,1950.000000,1990.000000,2000.000000,2040.000000,2050.000000,2090.000000};
 
-  const int n_met_bins = 5;
-  const double met_bins[n_met_bins+1] = {50, 100, 150, 250, 350, 6000};
-
-  if ((conf->get("susy_mc") == "true") && (conf->get("data_set") != "T5ZZ")){
-    std::stringstream message;
-    message<<"You are going to run with T5ZZ binning on a MC that is not T5ZZ. You are running on dataset: "<<conf->get("data_set")<<".";
-    throw std::invalid_argument(message.str());
-  }*/
+  const int n_met_bins_t5zznat = 5;
+  const double met_bins_t5zznat[n_met_bins_t5zznat+1] = {50, 100, 150, 250, 350, 6000};
 
   //==============================
   //T5ZZ contrived binning 
   //==============================
 
-  /*const int n_gluino_bins = 24;
-  const double gluino_bins[n_gluino_bins+1]={800.000000,900.000000,1000.000000,1050.000000,1100.000000,1150.000000,1200.000000,1250.000000,1300.000000,1350.000000,1400.000000,1450.000000,1500.000000,1550.000000,1600.000000,1650.000000,1700.000000,1750.000000,1800.000000,1850.000000,1900.000000,1950.000000,2000.000000,2050.000000,2100.000000};
+  const int n_gluino_bins_t5zzcontrived = 24;
+  const double gluino_bins_t5zzcontrived[n_gluino_bins_t5zzcontrived+1]={800.000000,900.000000,1000.000000,1050.000000,1100.000000,1150.000000,1200.000000,1250.000000,1300.000000,1350.000000,1400.000000,1450.000000,1500.000000,1550.000000,1600.000000,1650.000000,1700.000000,1750.000000,1800.000000,1850.000000,1900.000000,1950.000000,2000.000000,2050.000000,2100.000000};
 
-  const int n_lsp_bins = 39;
-  const double lsp_bins[n_lsp_bins+1]={100.000000,150.000000,200.000000,250.000000,300.000000,350.000000,400.000000,450.000000,500.000000,550.000000,600.000000,650.000000,700.000000,750.000000,800.000000,850.000000,900.000000,950.000000,1000.000000,1050.000000,1100.000000,1150.000000,1200.000000,1250.000000,1300.000000,1350.000000,1400.000000,1450.000000,1500.000000,1550.000000,1600.000000,1650.000000,1700.000000,1750.000000,1800.000000,1850.000000,1900.000000,1950.000000,2000.000000,2050.000000};
+  const int n_lsp_bins_t5zzcontrived = 39;
+  const double lsp_bins_t5zzcontrived[n_lsp_bins_t5zzcontrived+1]={100.000000,150.000000,200.000000,250.000000,300.000000,350.000000,400.000000,450.000000,500.000000,550.000000,600.000000,650.000000,700.000000,750.000000,800.000000,850.000000,900.000000,950.000000,1000.000000,1050.000000,1100.000000,1150.000000,1200.000000,1250.000000,1300.000000,1350.000000,1400.000000,1450.000000,1500.000000,1550.000000,1600.000000,1650.000000,1700.000000,1750.000000,1800.000000,1850.000000,1900.000000,1950.000000,2000.000000,2050.000000};
 
-  const int n_met_bins = 5;
-  const double met_bins[n_met_bins+1] = {50, 100, 150, 250, 350, 6000};
-  
-  if ((conf->get("susy_mc") == "true") && (conf->get("data_set") != "T5ZZ")){
-    std::stringstream message;
-    message<<"You are going to run with T5ZZ binning on a MC that is not T5ZZ. You are running on dataset: "<<conf->get("data_set")<<".";
-    throw std::invalid_argument(message.str());
-  }*/
+  const int n_met_bins_t5zzcontrived = 5;
+  const double met_bins_t5zzcontrived[n_met_bins_t5zzcontrived+1] = {50, 100, 150, 250, 350, 6000};
   
   //==============================
   //TChiWZ model natural binning
   //==============================
-  const int n_gluino_bins = 24;
-  const double gluino_bins[n_gluino_bins+1]={100.000000,125.000000,150.000000,175.000000,200.000000,225.000000,250.000000,275.000000,300.000000,325.000000,350.000000,375.000000,400.000000,425.000000,450.000000,475.000000,500.000000,525.000000,550.000000,575.000000,600.000000,625.000000,650.000000,675.000000,700.000000};
+  const int n_gluino_bins_tchiwz = 24;
+  const double gluino_bins_tchiwz[n_gluino_bins_tchiwz+1]={100.000000,125.000000,150.000000,175.000000,200.000000,225.000000,250.000000,275.000000,300.000000,325.000000,350.000000,375.000000,400.000000,425.000000,450.000000,475.000000,500.000000,525.000000,550.000000,575.000000,600.000000,625.000000,650.000000,675.000000,700.000000};
 
-  const int n_lsp_bins = 69;
-  const double lsp_bins[n_lsp_bins+1]={1.000000,5.000000,10.000000,15.000000,20.000000,25.000000,30.000000,35.000000,40.000000,45.000000,50.000000,55.000000,60.000000,65.000000,70.000000,75.000000,80.000000,85.000000,90.000000,93.000000,95.000000,100.000000,105.000000,110.000000,115.000000,118.000000,120.000000,125.000000,130.000000,135.000000,140.000000,143.000000,145.000000,150.000000,155.000000,160.000000,165.000000,168.000000,170.000000,175.000000,180.000000,185.000000,190.000000,193.000000,195.000000,200.000000,205.000000,210.000000,215.000000,218.000000,220.000000,225.000000,230.000000,235.000000,240.000000,243.000000,245.000000,250.000000,255.000000,260.000000,265.000000,268.000000,270.000000,275.000000,280.000000,285.000000,290.000000,293.000000,295.000000,300.000000};
+  const int n_lsp_bins_tchiwz = 69;
+  const double lsp_bins_tchiwz[n_lsp_bins_tchiwz+1]={1.000000,5.000000,10.000000,15.000000,20.000000,25.000000,30.000000,35.000000,40.000000,45.000000,50.000000,55.000000,60.000000,65.000000,70.000000,75.000000,80.000000,85.000000,90.000000,93.000000,95.000000,100.000000,105.000000,110.000000,115.000000,118.000000,120.000000,125.000000,130.000000,135.000000,140.000000,143.000000,145.000000,150.000000,155.000000,160.000000,165.000000,168.000000,170.000000,175.000000,180.000000,185.000000,190.000000,193.000000,195.000000,200.000000,205.000000,210.000000,215.000000,218.000000,220.000000,225.000000,230.000000,235.000000,240.000000,243.000000,245.000000,250.000000,255.000000,260.000000,265.000000,268.000000,270.000000,275.000000,280.000000,285.000000,290.000000,293.000000,295.000000,300.000000};
 
-  const int n_met_bins = 5;
-  const double met_bins[n_met_bins+1] = {50, 100, 150, 250, 350, 6000};
+  const int n_met_bins_tchiwz = 5;
+  const double met_bins_tchiwz[n_met_bins_tchiwz+1] = {50, 100, 150, 250, 350, 6000};
 
-  if ((conf->get("susy_mc") == "true") && (conf->get("data_set") != "TChiWZ")){
-    std::stringstream message;
-    message<<"You are going to run with TChiWZ binning on a MC that is not TChiWZ. You are running on dataset: "<<conf->get("data_set")<<".";
-    throw std::invalid_argument(message.str());
-  }
+  //==============================
+  //TChiHZ model natural binning
+  //==============================
+  const int n_chi_bins_tchihz = 24;
+  const double chi_bins_tchihz[n_chi_bins_tchihz+1]={100.000000,125.000000,150.000000,175.000000,200.000000,225.000000,250.000000,275.000000,300.000000,325.000000,350.000000,375.000000,400.000000,425.000000,450.000000,475.000000,500.000000,525.000000,550.000000,575.000000,600.000000,625.000000,650.000000,675.000000,700.000000};
+
+  const int n_met_bins_tchihz = 5;
+  const double met_bins_tchihz[n_met_bins_tchihz+1] = {50, 100, 150, 250, 350, 6000};
+
+
+  //==============================
+  //TChiZZ model natural binning
+  //==============================
+  const int n_chi_bins_tchizz = 24;
+  const double chi_bins_tchizz[n_chi_bins_tchizz+1]={100.000000,125.000000,150.000000,175.000000,200.000000,225.000000,250.000000,275.000000,300.000000,325.000000,350.000000,375.000000,400.000000,425.000000,450.000000,475.000000,500.000000,525.000000,550.000000,575.000000,600.000000,625.000000,650.000000,675.000000,700.000000};
+
+  const int n_met_bins_tchizz = 5;
+  const double met_bins_tchizz[n_met_bins_tchizz+1] = {50, 100, 150, 250, 350, 6000};
+
 
   TH3D *susy_type1MET_btaglight_up, *susy_type1MET_btagheavy_up, *susy_type1MET_isr_up;
 
   TH3D *susy_type1MET_counts,*susy_type1MET_nowt;
 
+  TH2D *susy_type1MET_btaglight_up_2d, *susy_type1MET_btagheavy_up_2d, *susy_type1MET_isr_up_2d;
+
+  TH2D *susy_type1MET_counts_2d,*susy_type1MET_nowt_2d;
+
   if(conf->get("SUSY_Glu_LSP_scan") == "true"){
-    susy_type1MET_counts = new TH3D("susy_type1MET_counts", "(x,y,z) = (met, m_glu, m_lsp). Type1MET for"+g_sample_name, n_met_bins, met_bins, n_gluino_bins, gluino_bins, n_lsp_bins, lsp_bins);
+    const int *n_gluino_bins, *n_lsp_bins, *n_met_bins;
+    const double *gluino_bins, *lsp_bins, *met_bins;
+
+    if (conf->get("data_set") == "TChiWZ"){
+      n_gluino_bins = &n_gluino_bins_tchiwz;
+      n_lsp_bins = &n_lsp_bins_tchiwz;
+      n_met_bins = &n_met_bins_tchiwz;
+
+      gluino_bins = gluino_bins_tchiwz;
+      lsp_bins = lsp_bins_tchiwz;
+      met_bins = met_bins_tchiwz;
+    }
+    else if (conf->get("data_set") == "T5ZZ"){
+      n_gluino_bins = &n_gluino_bins_t5zznat;
+      n_lsp_bins = &n_lsp_bins_t5zznat;
+      n_met_bins = &n_met_bins_t5zznat;
+
+      gluino_bins = gluino_bins_t5zznat;
+      lsp_bins = lsp_bins_t5zznat;
+      met_bins = met_bins_t5zznat;
+    }
+    else{
+      std::stringstream message;
+      message<<"You have not chosen a valid dataset for the SUSY_Glu_LSP_scan, got: "<<conf->get("data_set")<<".";
+      throw std::invalid_argument(message.str());
+    }
+
+    susy_type1MET_counts = new TH3D("susy_type1MET_counts", "(x,y,z) = (met, m_glu, m_lsp). Type1MET for"+g_sample_name, *n_met_bins, met_bins, *n_gluino_bins, gluino_bins, *n_lsp_bins, lsp_bins);
     susy_type1MET_counts->SetDirectory(rootdir);
     susy_type1MET_counts->Sumw2();
 
-    susy_type1MET_nowt = new TH3D("susy_type1MET_nowt", "(x,y,z) = (met, m_glu, m_lsp). Type1MET with no event weights for"+g_sample_name, n_met_bins, met_bins, n_gluino_bins, gluino_bins, n_lsp_bins, lsp_bins);
+    susy_type1MET_nowt = new TH3D("susy_type1MET_nowt", "(x,y,z) = (met, m_glu, m_lsp). Type1MET with no event weights for"+g_sample_name, *n_met_bins, met_bins, *n_gluino_bins, gluino_bins, *n_lsp_bins, lsp_bins);
     susy_type1MET_nowt->SetDirectory(rootdir);
     susy_type1MET_nowt->Sumw2();
 
-    susy_type1MET_btaglight_up = new TH3D("susy_type1MET_btaglight_up", " (x,y,z) = (met, m_glu, m_lsp). Type 1 MET with Light Btag SF fluctuated up for"+g_sample_name, n_met_bins, met_bins, n_gluino_bins, gluino_bins, n_lsp_bins, lsp_bins);
+    susy_type1MET_btaglight_up = new TH3D("susy_type1MET_btaglight_up", " (x,y,z) = (met, m_glu, m_lsp). Type 1 MET with Light Btag SF fluctuated up for"+g_sample_name, *n_met_bins, met_bins, *n_gluino_bins, gluino_bins, *n_lsp_bins, lsp_bins);
     susy_type1MET_btaglight_up->SetDirectory(rootdir);
     susy_type1MET_btaglight_up->Sumw2();
 
-    susy_type1MET_btagheavy_up = new TH3D("susy_type1MET_btagheavy_up", "(x,y,z) = (met, m_glu, m_lsp). Type 1 MET with Heavy Btag SF fluctuated up for"+g_sample_name, n_met_bins, met_bins, n_gluino_bins, gluino_bins, n_lsp_bins, lsp_bins);
+    susy_type1MET_btagheavy_up = new TH3D("susy_type1MET_btagheavy_up", "(x,y,z) = (met, m_glu, m_lsp). Type 1 MET with Heavy Btag SF fluctuated up for"+g_sample_name, *n_met_bins, met_bins, *n_gluino_bins, gluino_bins, *n_lsp_bins, lsp_bins);
     susy_type1MET_btagheavy_up->SetDirectory(rootdir);
     susy_type1MET_btagheavy_up->Sumw2();
 
-    susy_type1MET_isr_up = new TH3D("susy_type1MET_isr_up", "(x,y,z) = (met, m_glu, m_lsp). Type 1 MET with ISR SF fluctuated up for"+g_sample_name, n_met_bins, met_bins, n_gluino_bins, gluino_bins, n_lsp_bins, lsp_bins);
+    susy_type1MET_isr_up = new TH3D("susy_type1MET_isr_up", "(x,y,z) = (met, m_glu, m_lsp). Type 1 MET with ISR SF fluctuated up for"+g_sample_name, *n_met_bins, met_bins, *n_gluino_bins, gluino_bins, *n_lsp_bins, lsp_bins);
     susy_type1MET_isr_up->SetDirectory(rootdir);
     susy_type1MET_isr_up->Sumw2();
+  }
+
+  else if(conf->get("SUSY_chi_scan") == "true"){
+
+    const int *n_chi_bins, *n_met_bins;
+    const double *chi_bins, *met_bins;
+
+    if (conf->get("data_set") == "TChiHZ"){
+      n_chi_bins = &n_chi_bins_tchihz;
+      n_met_bins = &n_met_bins_tchihz;
+
+      chi_bins = chi_bins_tchihz;
+      met_bins = met_bins_tchihz;
+    }
+    else if (conf->get("data_set") == "TChiZZ"){
+      n_chi_bins = &n_chi_bins_tchizz;
+      n_met_bins = &n_met_bins_tchizz;
+
+      chi_bins = chi_bins_tchizz;
+      met_bins = met_bins_tchizz;
+    }
+    else{
+      std::stringstream message;
+      message<<"You have not chosen a valid dataset for the SUSY_chi_scan, got: "<<conf->get("data_set")<<".";
+      throw std::invalid_argument(message.str());
+    }
+
+    susy_type1MET_counts_2d = new TH2D("susy_type1MET_counts", "(x,y) = (met, m_chi). Type1MET for"+g_sample_name, *n_met_bins, met_bins, *n_chi_bins, chi_bins);
+    susy_type1MET_counts_2d->SetDirectory(rootdir);
+    susy_type1MET_counts_2d->Sumw2();
+
+    susy_type1MET_nowt_2d = new TH2D("susy_type1MET_nowt", "(x,y) = (met, m_chi). Type1MET with no event weights for"+g_sample_name, *n_met_bins, met_bins, *n_chi_bins, chi_bins);
+    susy_type1MET_nowt_2d->SetDirectory(rootdir);
+    susy_type1MET_nowt_2d->Sumw2();
+
+    susy_type1MET_btaglight_up_2d = new TH2D("susy_type1MET_btaglight_up", "(x,y) = (met, m_chi). Type 1 MET with Light Btag SF fluctuated up for"+g_sample_name, *n_met_bins, met_bins, *n_chi_bins, chi_bins);
+    susy_type1MET_btaglight_up_2d->SetDirectory(rootdir);
+    susy_type1MET_btaglight_up_2d->Sumw2();
+
+    susy_type1MET_btagheavy_up_2d = new TH2D("susy_type1MET_btagheavy_up", "(x,y) = (met, m_chi). Type 1 MET with Heavy Btag SF fluctuated up for"+g_sample_name, *n_met_bins, met_bins, *n_chi_bins, chi_bins);
+    susy_type1MET_btagheavy_up_2d->SetDirectory(rootdir);
+    susy_type1MET_btagheavy_up_2d->Sumw2();
+
+    susy_type1MET_isr_up_2d = new TH2D("susy_type1MET_isr_up", "(x,y) = (met, m_chi). Type 1 MET with ISR SF fluctuated up for"+g_sample_name, *n_met_bins, met_bins, *n_chi_bins, chi_bins);
+    susy_type1MET_isr_up_2d->SetDirectory(rootdir);
+    susy_type1MET_isr_up_2d->Sumw2();
+
   }
 
   TH1D *dphi_gamma_MET, *dphi_gamma_MET100, *dphi_gamma_MET200, *dphi_gamma_MET300, *dphi_gamma_MET400, *dphi_gamma_MET500;
@@ -2059,6 +2139,14 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
       //cout<<__LINE__<<endl;
       g_SUSYsf_norm_file = TFile::Open("auxFiles/nsig_weights_tchiwz.root", "READ");
     }
+    else if (conf->get("data_set") == "TChiHZ"){
+      //cout<<__LINE__<<endl;
+      g_SUSYsf_norm_file = TFile::Open("auxFiles/nsig_weights_tchihz.root", "READ");
+    }
+    else if (conf->get("data_set") == "TChiZZ"){
+      //cout<<__LINE__<<endl;
+      g_SUSYsf_norm_file = TFile::Open("auxFiles/nsig_weights_tchizz.root", "READ");
+    }
     else {
       //cout<<__LINE__<<endl;
       std::stringstream message;
@@ -2067,15 +2155,15 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
     }
     //cout<<__LINE__<<endl;
 
-    g_isr_norm = (TH1D*)g_SUSYsf_norm_file->Get("h_avg_weight_isr")->Clone("h_isr_norm");
+    g_isr_norm = (TH2D*)g_SUSYsf_norm_file->Get("h_avg_weight_isr")->Clone("h_isr_norm");
     //cout<<__LINE__<<endl;
-    g_isr_norm_up = (TH1D*)g_SUSYsf_norm_file->Get("h_avg_weight_isr_UP")->Clone("h_isr_norm_up");
+    g_isr_norm_up = (TH2D*)g_SUSYsf_norm_file->Get("h_avg_weight_isr_UP")->Clone("h_isr_norm_up");
     //cout<<__LINE__<<endl;
-    g_btagsf_norm = (TH1D*)g_SUSYsf_norm_file->Get("h_avg_weight_btagsf")->Clone("g_btagsf_norm");
+    g_btagsf_norm = (TH2D*)g_SUSYsf_norm_file->Get("h_avg_weight_btagsf")->Clone("g_btagsf_norm");
     //cout<<__LINE__<<endl;
-    g_btagsf_light_norm_up = (TH1D*)g_SUSYsf_norm_file->Get("h_avg_weight_btagsf_light_UP")->Clone("g_btagsf_light_norm_up");
+    g_btagsf_light_norm_up = (TH2D*)g_SUSYsf_norm_file->Get("h_avg_weight_btagsf_light_UP")->Clone("g_btagsf_light_norm_up");
     //cout<<__LINE__<<endl;
-    g_btagsf_heavy_norm_up = (TH1D*)g_SUSYsf_norm_file->Get("h_avg_weight_btagsf_heavy_UP")->Clone("g_btagsf_heavy_norm_up");
+    g_btagsf_heavy_norm_up = (TH2D*)g_SUSYsf_norm_file->Get("h_avg_weight_btagsf_heavy_UP")->Clone("g_btagsf_heavy_norm_up");
     //cout<<__LINE__<<endl;
     
 
@@ -2490,6 +2578,34 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
             //isr_unc is just deviation from not using the scale factor
             susy_type1MET_isr_up->Fill(g_met, phys.mass_gluino(), phys.mass_LSP(), (1/ISR_norm)*(weight)*(1/phys.isr_weight()));
           }
+      }
+      else if(conf->get("SUSY_chi_scan") == "true"){
+          //cout<<"mglu: "<<phys.mass_gluino()<<endl;
+          //cout<<"mlsp: "<<phys.mass_LSP()<<endl;
+          //cout<<"met: "<<g_met<<endl;
+          //cout<<"weight: "<<weight<<endl;
+
+          //cout<<__LINE__<<endl;
+
+          susy_type1MET_counts->Fill(g_met, phys.mass_chi(), weight);
+          susy_type1MET_nowt->Fill(g_met, phys.mass_chi(), phys.mass_LSP(), 1);
+          
+          //cout<<__LINE__<<endl;
+
+          double ISR_norm=1./g_isr_norm->GetBinContent(g_isr_norm->GetXaxis()->FindBin(phys.mass_chi()), 1);
+          double btag_norm=1./g_btagsf_norm->GetBinContent(g_btagsf_norm->GetXaxis()->FindBin(phys.mass_chi()), 1);
+         
+          double ISR_norm_up=1./g_isr_norm_up->GetBinContent(g_isr_norm_up->GetXaxis()->FindBin(phys.mass_chi()), 1);
+          
+          double btag_heavy_norm_up=1./g_btagsf_heavy_norm_up->GetBinContent(g_btagsf_heavy_norm_up->GetXaxis()->FindBin(phys.mass_chi()), 1);
+          double btag_light_norm_up=1./g_btagsf_light_norm_up->GetBinContent(g_btagsf_light_norm_up->GetXaxis()->FindBin(phys.mass_chi()), 1);
+          
+          susy_type1MET_btagheavy_up->Fill(g_met, phys.mass_chi(), (btag_heavy_norm_up/btag_norm)*weight*(phys.weight_btagsf_heavy_UP()/phys.weight_btagsf()));
+          susy_type1MET_btaglight_up->Fill(g_met, phys.mass_chi(), (btag_light_norm_up/btag_norm)*weight*(phys.weight_btagsf_light_UP()/phys.weight_btagsf()));
+          
+          //cout<<__LINE__<<endl;
+          //isr_unc is just deviation from not using the scale factor
+          susy_type1MET_isr_up->Fill(g_met, phys.mass_chi(),(1/ISR_norm)*(weight)*(1/phys.isr_weight()));
       }
 
       if(conf->get("ECalTest") != ""){

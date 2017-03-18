@@ -23,6 +23,11 @@ using namespace std;
 
 std::array<int, 14> ROOT_COLOR_PALATE = {46,8,9,38,40,2,30,6,28,42,3,5,7,41};
 
+/*std::pair<double,double> getLegendLocation(TH1D* bg_sum){
+  // Returns the best (xmin, ymin) pair for the location of the legend 
+
+}*/
+
 double errMult(double A, double B, double errA, double errB, double C) {
   return sqrt(C*C*(pow(errA/A,2) + pow(errB/B,2)));
 }
@@ -812,6 +817,14 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
     l1 = new TLegend(0.78, 0.78, 0.93, 0.93);
   }
   else{
+    /*cout<<"UtoPixel(0.65): "<<gPad->UtoPixel(.65)<<endl;
+    cout<<"PixelToX(..): "<<gPad->PixeltoX(gPad->UtoPixel(.65))<<endl;
+    double x_under_legend = gPad->PixeltoX(gPad->UtoPixel(.65));
+    double max_count_under_legend = bg_sum->GetBinContent(bg_sum->FindBin(x_under_legend));
+    
+    cout<<"x under legend: "<<x_under_legend<<endl;
+    cout<<"max count under legend: "<<max_count_under_legend<<endl;*/
+
     l1 = new TLegend(0.65, 0.6, 0.93, 0.93);
   }
   
