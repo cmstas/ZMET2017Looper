@@ -5,7 +5,7 @@ function getEventsNotInBabies {
   num_low=$((num_low+1))
   num_high=$((num_high-1))
 
-  while [[ $((num_low+30)) -leq $num_high ]]
+  while [[ $((num_low+30)) -le $num_high ]]
   do
     echo -n "ch->Scan(\"evt_event:evt_run:evt_lumiBlock\", \""
     cat $1 | sed -n "${num_low},$((num_low+30))p" | awk '{print " (evt_event==" $2 " && evt_run==" $4 " && evt_lumiBlock==" $6 " ) ||"}' | xargs
