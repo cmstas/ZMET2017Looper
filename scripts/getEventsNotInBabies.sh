@@ -11,6 +11,7 @@ function getEventsNotInBabies {
     echo -n "ch->Scan(\"evt_event:evt_run:evt_lumiBlock\", \""
     echo `cat $1 | sed -n "${num_low},$(($num_low+$MAXNUM))p" | awk '{print " (evt_event==" $2 " && evt_run==" $4 " && evt_lumiBlock==" $6 " ) ||"}' | xargs` "\")"
     num_low=$(($num_low+$MAXNUM))
+    echo "======================================================="
   done
   
   echo -n "ch->Scan(\"evt_event:evt_run:evt_lumiBlock\", \""
