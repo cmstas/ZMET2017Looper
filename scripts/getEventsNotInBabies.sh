@@ -6,8 +6,8 @@ function getEventsNotInBabies {
   num_low=$((num_low+1))
   num_high=$((num_high-1))
 
-  echo "TChain *ch = new TChain(\"Events\");"
-  echo "ch->Add(\"$2\");"
+  echo "{TChain *ch = new TChain(\"Events\");"
+  echo "ch->Add(\"$2/merged_ntuple_*\");"
 
   while [[ $(($num_low+$MAXNUM)) -le $num_high ]]
   do
@@ -19,6 +19,7 @@ function getEventsNotInBabies {
   echo -n "ch->Scan(\"evt_event:evt_run:evt_lumiBlock\", \""
   echo `cat $1 | sed -n "${num_low},${num_high}p" | awk '{print " (evt_event==" $2 " && evt_run==" $4 " && evt_lumiBlock==" $6 " ) ||"}' | xargs` "\");" | sed 's/|| ")/")/g'
 
+  echo "}"
 }
 
 if [[ $# < 1 ]]
