@@ -92,6 +92,52 @@ void drawCMSLatex(double luminosity){
   return;
 }
 
+void drawSRText(TString SR, double high_y, double low_x){
+  cout<<"Drawing SR Text"<<endl;
+  TString text;
+  float left_margin = gPad->GetLeftMargin();
+
+  if(SR == "Strong_Bveto_2j"){
+    text="#splitline{2-3 jets; No Btags}{H_{T} > 500 GeV M_{T2} > 80 GeV}";
+  }
+  else if(SR == "Strong_Bveto_4j"){
+    text="#splitline{4-5 jets; No Btags}{H_{T} > 500 GeV; M_{T2} > 80 GeV}";
+  }
+  else if(SR == "Strong_Bveto_6j"){
+    text="#splitline{4-5 jets; No Btags}{M_{T2} > 80 GeV}";
+  }
+  else if(SR == "Strong_Btag_2j"){
+    text="#splitline{2-3 jets; #geq 1 Btags}{H_{T} > 200 GeV; M_{T2} > 100 GeV}";
+  }
+  else if(SR == "Strong_Btag_4j"){
+    text="#splitline{4-5 jets; #geq 1 Btags}{H_{T} > 200 GeV; M_{T2} > 100 GeV}";
+  }
+  else if(SR == "Strong_Btag_6j"){
+    text="#splitline{4-5 jets; #geq 1 Btags}{M_{T2} > 100 GeV}";
+  }
+  else if(SR == "TChiWZ"){
+    text="EWK ZZ/WZ Region";
+  }
+  else if(SR == "TChiHZ"){
+    text="EWK HZ Region";
+  }
+  else{
+    cout<<"Coult not match SR: "<<SR<<endl;
+  }
+
+  cout<<"y_max: "<<high_y<<endl;
+
+  //TLatex *SRText = new TLatex(low_x, high_y, text.Data());   //Doesn't work because splitline was coded by an asshole
+  TLatex *SRText = new TLatex(left_margin+.05, .85, text.Data());   //just awful style, thanks ROOT.
+  SRText->SetNDC();
+  SRText->SetTextSize(0.03);    
+  SRText->SetLineWidth(2);
+  SRText->SetTextFont(62);    
+  SRText->Draw();
+
+  return;
+}
+
 TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   // This method expects conf to have a plot config loaded in already. 
   //In the conf, we expect there to be hist names of the form file_N_path,
@@ -921,6 +967,10 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   if (conf->get("luminosity_fb") != ""){
     plotpad->cd();
     drawCMSLatex(stod(conf->get("luminosity_fb")));
+  }
+  if (conf->get("SR") != ""){
+    plotpad->cd();
+    drawSRText(conf->get("SR"), bg_sum->GetMaximum(), xmin);
   }
   //cout<<__LINE__<<endl;
 
