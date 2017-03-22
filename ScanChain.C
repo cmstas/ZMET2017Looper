@@ -2797,6 +2797,15 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
 
     susy_type1MET_isr_up->Write();
   }
+  if(conf->get("SUSY_chi_scan") == "true"){
+    susy_type1MET_counts_2d->Write();
+    susy_type1MET_nowt_2d->Write();
+
+    susy_type1MET_btagheavy_up_2d->Write();
+    susy_type1MET_btaglight_up_2d->Write();
+
+    susy_type1MET_isr_up_2d->Write();
+  }
   if(conf->get("ECalTest") != ""){
     dphi_gamma_MET->Write();
     dphi_gamma_MET100->Write();
