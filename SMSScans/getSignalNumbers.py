@@ -13,7 +13,11 @@ def findJESDeviation(yeild, JES_up, JES_dn):
   return uncs
 
 def getSignalYields(SR, mass_gluino, mass_lsp, file_path="t5zz.root"):
-  """Reads all the histograms for the 2D scan and returns yeilds and uncertainies for the model in the signal region. Returns: (yield, stat uncertainty, btag light unc, btag heavy unc, isr unc, JES unc, fast sim MET unc)"""
+  """Reads all the histograms for the scan and returns yeilds and uncertainies for the model in the signal region. Returns: (yield, stat uncertainty, btag light unc, btag heavy unc, isr unc, JES unc, fast sim MET unc)
+  In the case of a 1D scan, send mass_lsp=-1"""
+
+  if mass_lsp==-1:
+    mass_chi=mass_gluino
 
   bins=[]
 
@@ -53,61 +57,100 @@ def getSignalYields(SR, mass_gluino, mass_lsp, file_path="t5zz.root"):
   GenMET_count=f_GenMET.Get("susy_type1MET_counts").Clone("GenMET_count")
 
   for b in bins:
-    RecoMET_yields.append(count.IntegralAndError(count.GetXaxis().FindBin(b[0]), 
-                                         count.GetXaxis().FindBin(b[1] - 0.001), 
-                                         count.GetYaxis().FindBin(mass_gluino), 
-                                         count.GetYaxis().FindBin(mass_gluino), 
-                                         count.GetZaxis().FindBin(mass_lsp), 
-                                         count.GetZaxis().FindBin(mass_lsp), 
-                                         stat_unc_bin))
-    stat_uncs.append(float(stat_unc_bin))
+    if (mass_lsp == -1):
+      RecoMET_yields.append(count.IntegralAndError(count.GetXaxis().FindBin(b[0]), 
+                                           count.GetXaxis().FindBin(b[1] - 0.001), 
+                                           count.GetYaxis().FindBin(mass_chi), 
+                                           count.GetYaxis().FindBin(mass_chi),  
+                                           stat_unc_bin))
+      stat_uncs.append(float(stat_unc_bin))
 
-    GenMET_yields.append(GenMET_count.Integral(GenMET_count.GetXaxis().FindBin(b[0]), 
-                                         GenMET_count.GetXaxis().FindBin(b[1] - 0.001), 
-                                         GenMET_count.GetYaxis().FindBin(mass_gluino), 
-                                         GenMET_count.GetYaxis().FindBin(mass_gluino), 
-                                         GenMET_count.GetZaxis().FindBin(mass_lsp), 
-                                         GenMET_count.GetZaxis().FindBin(mass_lsp)))
+      GenMET_yields.append(GenMET_count.Integral(GenMET_count.GetXaxis().FindBin(b[0]), 
+                                           GenMET_count.GetXaxis().FindBin(b[1] - 0.001), 
+                                           GenMET_count.GetYaxis().FindBin(mass_chi), 
+                                           GenMET_count.GetYaxis().FindBin(mass_chi)))
 
-    avg_yields.append((GenMET_yields[-1] + RecoMET_yields[-1])/2.0)
-    
-    bl_yields.append(btag_light_up.Integral(btag_light_up.GetXaxis().FindBin(b[0]),
-                                            btag_light_up.GetXaxis().FindBin(b[1] - 0.001), 
-                                            btag_light_up.GetYaxis().FindBin(mass_gluino), 
-                                            btag_light_up.GetYaxis().FindBin(mass_gluino), 
-                                            btag_light_up.GetZaxis().FindBin(mass_lsp), 
-                                            btag_light_up.GetZaxis().FindBin(mass_lsp)))
+      avg_yields.append((GenMET_yields[-1] + RecoMET_yields[-1])/2.0)
+      
+      bl_yields.append(btag_light_up.Integral(btag_light_up.GetXaxis().FindBin(b[0]),
+                                              btag_light_up.GetXaxis().FindBin(b[1] - 0.001), 
+                                              btag_light_up.GetYaxis().FindBin(mass_chi), 
+                                              btag_light_up.GetYaxis().FindBin(mass_chi)))
 
-    bh_yields.append(btag_heavy_up.Integral(btag_heavy_up.GetXaxis().FindBin(b[0]), 
-                                            btag_heavy_up.GetXaxis().FindBin(b[1] - 0.001), 
-                                            btag_heavy_up.GetYaxis().FindBin(mass_gluino), 
-                                            btag_heavy_up.GetYaxis().FindBin(mass_gluino), 
-                                            btag_heavy_up.GetZaxis().FindBin(mass_lsp), 
-                                            btag_heavy_up.GetZaxis().FindBin(mass_lsp)))
+      bh_yields.append(btag_heavy_up.Integral(btag_heavy_up.GetXaxis().FindBin(b[0]), 
+                                              btag_heavy_up.GetXaxis().FindBin(b[1] - 0.001), 
+                                              btag_heavy_up.GetYaxis().FindBin(mass_chi), 
+                                              btag_heavy_up.GetYaxis().FindBin(mass_chi)))
 
-    isr_yields.append(isr_up.Integral(isr_up.GetXaxis().FindBin(b[0]), 
-                                      isr_up.GetXaxis().FindBin(b[1] - 0.001), 
-                                      isr_up.GetYaxis().FindBin(mass_gluino), 
-                                      isr_up.GetYaxis().FindBin(mass_gluino), 
-                                      isr_up.GetZaxis().FindBin(mass_lsp), 
-                                      isr_up.GetZaxis().FindBin(mass_lsp)))
+      isr_yields.append(isr_up.Integral(isr_up.GetXaxis().FindBin(b[0]), 
+                                        isr_up.GetXaxis().FindBin(b[1] - 0.001), 
+                                        isr_up.GetYaxis().FindBin(mass_chi), 
+                                        isr_up.GetYaxis().FindBin(mass_chi)))
 
-    JES_up.append(JES_up_count.Integral(JES_up_count.GetXaxis().FindBin(b[0]), 
-                                         JES_up_count.GetXaxis().FindBin(b[1] - 0.001), 
-                                         JES_up_count.GetYaxis().FindBin(mass_gluino), 
-                                         JES_up_count.GetYaxis().FindBin(mass_gluino), 
-                                         JES_up_count.GetZaxis().FindBin(mass_lsp), 
-                                         JES_up_count.GetZaxis().FindBin(mass_lsp)))
+      JES_up.append(JES_up_count.Integral(JES_up_count.GetXaxis().FindBin(b[0]), 
+                                           JES_up_count.GetXaxis().FindBin(b[1] - 0.001), 
+                                           JES_up_count.GetYaxis().FindBin(mass_chi), 
+                                           JES_up_count.GetYaxis().FindBin(mass_chi)))
 
-    JES_dn.append(JES_dn_count.Integral(JES_dn_count.GetXaxis().FindBin(b[0]), 
-                                         JES_dn_count.GetXaxis().FindBin(b[1] - 0.001), 
-                                         JES_dn_count.GetYaxis().FindBin(mass_gluino), 
-                                         JES_dn_count.GetYaxis().FindBin(mass_gluino), 
-                                         JES_dn_count.GetZaxis().FindBin(mass_lsp), 
-                                         JES_dn_count.GetZaxis().FindBin(mass_lsp)))
+      JES_dn.append(JES_dn_count.Integral(JES_dn_count.GetXaxis().FindBin(b[0]), 
+                                           JES_dn_count.GetXaxis().FindBin(b[1] - 0.001), 
+                                           JES_dn_count.GetYaxis().FindBin(mass_chi), 
+                                           JES_dn_count.GetYaxis().FindBin(mass_chi)))
+    else:
+      RecoMET_yields.append(count.IntegralAndError(count.GetXaxis().FindBin(b[0]), 
+                                           count.GetXaxis().FindBin(b[1] - 0.001), 
+                                           count.GetYaxis().FindBin(mass_gluino), 
+                                           count.GetYaxis().FindBin(mass_gluino), 
+                                           count.GetZaxis().FindBin(mass_lsp), 
+                                           count.GetZaxis().FindBin(mass_lsp), 
+                                           stat_unc_bin))
+      stat_uncs.append(float(stat_unc_bin))
+
+      GenMET_yields.append(GenMET_count.Integral(GenMET_count.GetXaxis().FindBin(b[0]), 
+                                           GenMET_count.GetXaxis().FindBin(b[1] - 0.001), 
+                                           GenMET_count.GetYaxis().FindBin(mass_gluino), 
+                                           GenMET_count.GetYaxis().FindBin(mass_gluino), 
+                                           GenMET_count.GetZaxis().FindBin(mass_lsp), 
+                                           GenMET_count.GetZaxis().FindBin(mass_lsp)))
+
+      avg_yields.append((GenMET_yields[-1] + RecoMET_yields[-1])/2.0)
+      
+      bl_yields.append(btag_light_up.Integral(btag_light_up.GetXaxis().FindBin(b[0]),
+                                              btag_light_up.GetXaxis().FindBin(b[1] - 0.001), 
+                                              btag_light_up.GetYaxis().FindBin(mass_gluino), 
+                                              btag_light_up.GetYaxis().FindBin(mass_gluino), 
+                                              btag_light_up.GetZaxis().FindBin(mass_lsp), 
+                                              btag_light_up.GetZaxis().FindBin(mass_lsp)))
+
+      bh_yields.append(btag_heavy_up.Integral(btag_heavy_up.GetXaxis().FindBin(b[0]), 
+                                              btag_heavy_up.GetXaxis().FindBin(b[1] - 0.001), 
+                                              btag_heavy_up.GetYaxis().FindBin(mass_gluino), 
+                                              btag_heavy_up.GetYaxis().FindBin(mass_gluino), 
+                                              btag_heavy_up.GetZaxis().FindBin(mass_lsp), 
+                                              btag_heavy_up.GetZaxis().FindBin(mass_lsp)))
+
+      isr_yields.append(isr_up.Integral(isr_up.GetXaxis().FindBin(b[0]), 
+                                        isr_up.GetXaxis().FindBin(b[1] - 0.001), 
+                                        isr_up.GetYaxis().FindBin(mass_gluino), 
+                                        isr_up.GetYaxis().FindBin(mass_gluino), 
+                                        isr_up.GetZaxis().FindBin(mass_lsp), 
+                                        isr_up.GetZaxis().FindBin(mass_lsp)))
+
+      JES_up.append(JES_up_count.Integral(JES_up_count.GetXaxis().FindBin(b[0]), 
+                                           JES_up_count.GetXaxis().FindBin(b[1] - 0.001), 
+                                           JES_up_count.GetYaxis().FindBin(mass_gluino), 
+                                           JES_up_count.GetYaxis().FindBin(mass_gluino), 
+                                           JES_up_count.GetZaxis().FindBin(mass_lsp), 
+                                           JES_up_count.GetZaxis().FindBin(mass_lsp)))
+
+      JES_dn.append(JES_dn_count.Integral(JES_dn_count.GetXaxis().FindBin(b[0]), 
+                                           JES_dn_count.GetXaxis().FindBin(b[1] - 0.001), 
+                                           JES_dn_count.GetYaxis().FindBin(mass_gluino), 
+                                           JES_dn_count.GetYaxis().FindBin(mass_gluino), 
+                                           JES_dn_count.GetZaxis().FindBin(mass_lsp), 
+                                           JES_dn_count.GetZaxis().FindBin(mass_lsp)))
 
 
 
 
   return (avg_yields, RecoMET_yields, stat_uncs, bl_yields, bh_yields, isr_yields, findJESDeviation(RecoMET_yields, JES_up, JES_dn))
-
