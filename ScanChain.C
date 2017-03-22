@@ -2588,7 +2588,7 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
           //cout<<__LINE__<<endl;
 
           susy_type1MET_counts->Fill(g_met, phys.mass_chi(), weight);
-          susy_type1MET_nowt->Fill(g_met, phys.mass_chi(), phys.mass_LSP(), 1);
+          susy_type1MET_nowt->Fill(g_met, phys.mass_chi(), 1);
           
           //cout<<__LINE__<<endl;
 
