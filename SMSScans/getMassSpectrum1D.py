@@ -80,12 +80,25 @@ def printScanChainCode():
   arr+="};"
   print(arr)
 
+def printDataCardMakerCode():
+  print("elif (signal_name == %s):" % name)
+  print("histogram_Path=\"/nfs-7/userdata/bobak/ZMET2017_Hists/<FILL_IN_NAME>/CV/\"")
+  arr = "mass_spectrum = [" % (name, name)
+  for i in sorted(mass_points):
+    arr+=("%d," % i)
+  arr=arr[:-1]
+  arr+="]"
+  print(arr)
+
 if __name__ == "__main__":
   name=sys.argv[1]
   output_filename = "SMSScans/Spectra/mass_spectrum_%s.txt" % name
   if (sys.argv[2] == "scanchain"):
     fillMassSpectrumFromCache()
     printScanChainCode()
+  elif (sys.argv[2] == "datacard"):
+    fillMassSpectrumFromCache()
+    printDataCardMakerCode()
   else: 
     checkInputs()
     files_in=sys.argv[2:]
