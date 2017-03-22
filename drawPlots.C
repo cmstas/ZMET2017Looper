@@ -889,7 +889,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
     l1->AddEntry(hists_labeled[i].first, hists_labeled[i].second, "f");
   }*/
   //Put objects in legend in the order they are written in the config
-  for (int i = hists.size()-1; i>=0; i--){
+  for (int i = hists.size()-1; i>=1; i--){
     l1->AddEntry(hists[i], hist_labels[i], "f");
   }
 
@@ -1408,7 +1408,7 @@ TString drawArbitraryNumber(ConfigParser *conf){
     l1->AddEntry(hists[i], hist_labels[i], "f");
   }*/
   //Put objects in legend in the order they are written in the config
-  for (int i = hists.size()-1; i>=0; i--){
+  for (int i = hists.size()-1; i>=1; i--){
     l1->AddEntry(hists[i], hist_labels[i], "f");
   }
 
