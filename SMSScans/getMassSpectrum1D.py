@@ -71,13 +71,24 @@ def getMassSpectrum(name, f_paths):
 
   return mass_points
 
-if __name__ == "__main__":
-  checkInputs()
-  name=sys.argv[1]
-  files_in=sys.argv[2:]
-  output_filename = "SMSScans/Spectra/mass_spectrum_%s.txt" % name
-  fillMassSpectrum()
+def printScanChainCode():
+  print("const int n_chi_points_%s = %d" % (name, len(mass_points))
+  arr = "const double chi_points_%s = {" % (name)
+  for i in mass_points():
+    arr+=("%d," % i)
+  arr+="};"
+  print(arr)
 
-  for i in mass_points:
+if __name__ == "__main__":
+  name=sys.argv[1]
+  output_filename = "SMSScans/Spectra/mass_spectrum_%s.txt" % name
+  if (sys.argv[2] == "scanchain"):
+    fillMassSpectrumFromCache()
+    printScanChainCode()
+  else: 
+    checkInputs()
+    files_in=sys.argv[2:]
+    fillMassSpectrum()
+    for i in mass_points:
       print("mass_chi: %f" % i)
 
