@@ -1930,8 +1930,8 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
   //==============================
   //TChiHZ model natural binning
   //==============================
-  const int n_chi_points_tchihz = 35;
-  const double chi_points_tchihz[n_chi_points_tchihz+1] = {127,150,175,200,225,250,275,300,325,350,375,400,425,450,475,500,525,550,575,600,625,650,675,700,725,750,775,800,825,850,875,900,925,950,975,1000};
+  const int n_chi_bins_tchihz = 35;
+  const double chi_bins_tchihz[n_chi_points_tchihz+1] = {127,150,175,200,225,250,275,300,325,350,375,400,425,450,475,500,525,550,575,600,625,650,675,700,725,750,775,800,825,850,875,900,925,950,975,1000};
 
   const int n_met_bins_tchihz = 5;
   const double met_bins_tchihz[n_met_bins_tchihz+1] = {50, 100, 150, 250, 350, 6000};
@@ -1940,8 +1940,8 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
   //==============================
   //TChiZZ model natural binning
   //==============================
-  const int n_chi_points_tchizz = 36;
-  const double chi_points_tchizz[n_chi_points_tchizz+1] = {100,125,150,175,200,225,250,275,300,325,350,375,400,425,450,475,500,525,550,575,600,625,650,675,700,725,750,775,800,825,850,875,900,925,950,975,1000};
+  const int n_chi_bins_tchizz = 36;
+  const double chi_bins_tchizz[n_chi_points_tchizz+1] = {100,125,150,175,200,225,250,275,300,325,350,375,400,425,450,475,500,525,550,575,600,625,650,675,700,725,750,775,800,825,850,875,900,925,950,975,1000};
 
   const int n_met_bins_tchizz = 5;
   const double met_bins_tchizz[n_met_bins_tchizz+1] = {50, 100, 150, 250, 350, 6000};

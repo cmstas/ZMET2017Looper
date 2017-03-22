@@ -167,15 +167,18 @@ def main():
 
   if (args.t5zz):
     signal_name = "t5zz"
-    setupVars()
-    launch()
   elif (args.tchiwz):
     signal_name = "tchiwz"
-    setupVars()
-    launch()
+  elif (args.tchizz):
+    signal_name = "tchizz"
+  elif (args.tchihz):
+    signal_name = "tchihz"
   else:
     parser.print_help()
+    exit()
 
+  setupVars()
+  launch()
 
 if __name__=="__main__":
   main()
