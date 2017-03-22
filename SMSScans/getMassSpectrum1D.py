@@ -8,7 +8,7 @@ output_filename = ""
 def checkInputs():
   if (len(sys.argv) < 2) or (".root" in sys.argv[1]):
     print("Usage: ")
-    print("./getMassSpectrum.py <sample_name> <path_to_baby_1> <path_to_baby_2> ... <path_to_baby_n>")
+    print("./getMassSpectrum1D.py <sample_name> <path_to_baby_1> <path_to_baby_2> ... <path_to_baby_n>")
     exit(1)
 
   print("Getting mass spectrum for %d files" % len(sys.argv[1:]))
@@ -19,8 +19,7 @@ def fillMassSpectrumFromTChain():
     ch.Add(i)
 
   ch.SetBranchStatus("*", 0)
-  ch.SetBranchStatus("mass_LSP", 1)
-  ch.SetBranchStatus("mass_gluino", 1)
+  ch.SetBranchStatus("mass_chi", 1)
 
   n_entries = ch.GetEntries()
   for j_entry in range(n_entries):
@@ -39,13 +38,13 @@ def fillMassSpectrumFromTChain():
     if j_entry % 10000 == 0:
       print("Processing entry %d of %d" % (j_entry, n_entries))
 
-    if ((ch.mass_gluino,ch.mass_LSP) not in mass_points):
-      mass_points.add((ch.mass_gluino,ch.mass_LSP))
+    if ((ch.mass_chi) not in mass_points):
+      mass_points.add((ch.mass_chi))
 
   outfile = open(output_filename, 'w')
 
   for i in mass_points:
-    outfile.write("mass gluino: %f \t mass_LSP: %f \n" % (i[0], i[1]))
+    outfile.write("mass_chi: %f" % i)
 
   outfile.close()
 
@@ -54,7 +53,7 @@ def fillMassSpectrumFromCache():
   mass_file = open(output_filename, 'r')
   for line in mass_file:
     a=line.split()
-    mass_points.add((int(float(a[2])), int(float(a[4]))))
+    mass_points.add(int(float(a[1])))
 
 def fillMassSpectrum():
   """checks if the sample name already has a mass binning file made, if it does, parse it and fill the mass spectrum, otherwise read the files in a build the mass spectrum on the fly."""
@@ -80,5 +79,5 @@ if __name__ == "__main__":
   fillMassSpectrum()
 
   for i in mass_points:
-      print("mass gluino: %f \t mass_LSP: %f" % (i[0], i[1]))
+      print("mass_chi: %f" % i)
 
