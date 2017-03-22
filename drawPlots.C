@@ -884,8 +884,13 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   l1->SetTextSize(.03);
   //cout<<__LINE__<<endl;
   l1->AddEntry(hists[0], hist_labels[0], "pe");
+  /* //Put objects in legend with the same order as the they go into the stack
   for (int i = hists_labeled.size()-1; i>=0; i--){
     l1->AddEntry(hists_labeled[i].first, hists_labeled[i].second, "f");
+  }*/
+  //Put objects in legend in the order they are written in the config
+  for (int i = hists.size()-1; i>=0; i--){
+    l1->AddEntry(hists[i], hist_labels[i], "f");
   }
 
   l1->Draw("same");
@@ -1398,7 +1403,12 @@ TString drawArbitraryNumber(ConfigParser *conf){
   l1->SetTextSize(.03);
   //cout<<__LINE__<<endl;
   l1->AddEntry(hists[0], hist_labels[0], "pe");
+  /* //Put objects in legend with the same order as the they go into the stack
   for (int i = hists_labeled.size()-1; i>0; i--){
+    l1->AddEntry(hists[i], hist_labels[i], "f");
+  }*/
+  //Put objects in legend in the order they are written in the config
+  for (int i = hists.size()-1; i>=0; i--){
     l1->AddEntry(hists[i], hist_labels[i], "f");
   }
 
