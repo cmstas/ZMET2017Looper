@@ -1956,6 +1956,9 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
   TH2D *susy_type1MET_counts_2d,*susy_type1MET_nowt_2d;
 
   if(conf->get("SUSY_Glu_LSP_scan") == "true"){
+
+    cout<<"Setting up new hists for 2D mass gluino and mass LSP Scan"<<endl;
+
     const int *n_gluino_bins, *n_lsp_bins, *n_met_bins;
     const double *gluino_bins, *lsp_bins, *met_bins;
 
@@ -2005,6 +2008,8 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
   }
 
   else if(conf->get("SUSY_chi_scan") == "true"){
+
+    cout<<"Setting up new hists for 1D mass Chi Scan"<<endl;
 
     const int *n_chi_bins, *n_met_bins;
     const double *chi_bins, *met_bins;

@@ -179,7 +179,7 @@ void addToChain(TChain *ch, TString set, bool hadoop=false, bool skimmed=true) {
     //TString dir="/hadoop/cms/store/user/olivito/AutoTwopler_babies/merged/ZMET/V08-22-16/skim/";
     
     //TChiHZ Signal
-    cout<<"Adding TChiWZ Monte Carlo"<<endl;
+    cout<<"Adding TChiZZ Monte Carlo"<<endl;
     ch->Add(dir+"tchizz_80x_v2*");
   }
   else if (set == "T5ZZ"){
