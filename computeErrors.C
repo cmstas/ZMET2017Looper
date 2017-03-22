@@ -394,7 +394,7 @@ void printLatexCounts(const vector<double> temp_count, const vector<double> &tem
   }
   cout<<"l }"<<endl;
   
-  cout<<"LATEXTABLE: \MET [GeV] ";
+  cout<<"LATEXTABLE: \\MET [GeV] ";
   cout<<setprecision(0);
   for (int i = 0; i<temp_err.size(); i++){
     cout<<" & "<<(int) bin_low[i].first<<"-"<<(int) bin_low[i].second;
