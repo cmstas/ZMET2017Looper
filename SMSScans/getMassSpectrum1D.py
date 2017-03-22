@@ -74,7 +74,7 @@ def getMassSpectrum(name, f_paths):
 def printScanChainCode():
   print("const int n_chi_points_%s = %d" % (name, len(mass_points)))
   arr = "const double chi_points_%s = {" % (name)
-  for i in mass_points():
+  for i in mass_points:
     arr+=("%d," % i)
   arr+="};"
   print(arr)
