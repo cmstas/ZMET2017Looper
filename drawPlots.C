@@ -569,7 +569,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
           }
           for(int col=0; col < (int) stats_bins.size(); col++){
             //cout<<__LINE__<<endl;
-            table.setCell(Form("%.2f+/-%.2f", stats[row][col].first, stats[row][col].second, stats[row][col].first/stats[row][0].first), row, col);
+            table.setCell(Form("%.2f+/-%.2f", stats[row][col].first, stats[row][col].second), row, col);
           }
         }
       }
@@ -2138,8 +2138,6 @@ TString drawSingleTH2(ConfigParser *conf){
   fullpad->Draw();
   fullpad->cd();
     
-  
-
   h->Rebin2D(bin_size_x, bin_size_y);
 
   h->GetXaxis()->SetRangeUser(xmin, xmax);

@@ -298,7 +298,7 @@ vector<double> getRareSamplesError(const vector<double> &stat_err, const vector<
 }
 
 void printErrors(const vector<double> &temp_err, const vector<double> &rare_err, const pair<vector<double>, vector<double>> &fs_err, const vector<double> &bin_low){
-  cout<<"\MET [GeV] ";
+  cout<<"\\MET [GeV] ";
   for (int i = 0; i<temp_err.size(); i++){
     cout<<bin_low[i]<<"-"<<bin_low[i+1]<<" ";
   }
