@@ -11,7 +11,7 @@ def checkInputs():
     print("./getMassSpectrum2D.py <sample_name> <path_to_baby_1> <path_to_baby_2> ... <path_to_baby_n>")
     exit(1)
 
-  print("Getting mass spectrum for %d files" % len(sys.argv[1:]))
+  print("Getting mass spectrum for %d files" % len(sys.argv[2:]))
 
 def fillMassSpectrumFromTChain():
   ch = ROOT.TChain("t")
