@@ -2137,7 +2137,19 @@ TString drawSingleTH2(ConfigParser *conf){
   
   fullpad->Draw();
   fullpad->cd();
-    
+  
+  TH2F* h_axes = new TH2F(Form("%s_axes",plot_name.Data()),plot_title,1,xmin,xmax,1,ymin,ymax);
+  h_axes->GetXaxis()->SetTitle(xlabel);
+  h_axes->GetYaxis()->SetTitle(ylabel);
+  h_axes->GetYaxis()->SetTitleOffset(1.3);
+  h_axes->GetYaxis()->SetTitleSize(0.05);
+  h_axes->GetYaxis()->SetLabelSize(0.04);
+  h_axes->GetXaxis()->SetTitleSize(0.05);
+  h_axes->GetXaxis()->SetLabelSize(0.04);
+  //cout<<__LINE__<<endl;
+  cout<<"Drawing axes"<<endl;
+  h_axes->Draw();
+
   h->Rebin2D(bin_size_x, bin_size_y);
 
   h->GetXaxis()->SetRangeUser(xmin, xmax);
@@ -2166,7 +2178,7 @@ TString drawSingleTH2(ConfigParser *conf){
   gStyle->SetTitleH(.1); //title height 
   //h->SetTitleSize(2);
 
-  h->Draw("colz");
+  h->Draw("colz same");
 
   cout<<"Saving..."<<endl;
   c->SaveAs(save_dir+plot_name+TString(".pdf"));
