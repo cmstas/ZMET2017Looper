@@ -2587,8 +2587,8 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
 
           //cout<<__LINE__<<endl;
 
-          susy_type1MET_counts->Fill(g_met, phys.mass_chi(), weight);
-          susy_type1MET_nowt->Fill(g_met, phys.mass_chi(), 1);
+          susy_type1MET_counts_2d->Fill(g_met, phys.mass_chi(), weight);
+          susy_type1MET_nowt_2d->Fill(g_met, phys.mass_chi(), 1);
           
           //cout<<__LINE__<<endl;
 
@@ -2600,12 +2600,12 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
           double btag_heavy_norm_up=1./g_btagsf_heavy_norm_up->GetBinContent(g_btagsf_heavy_norm_up->GetXaxis()->FindBin(phys.mass_chi()), 1);
           double btag_light_norm_up=1./g_btagsf_light_norm_up->GetBinContent(g_btagsf_light_norm_up->GetXaxis()->FindBin(phys.mass_chi()), 1);
           
-          susy_type1MET_btagheavy_up->Fill(g_met, phys.mass_chi(), (btag_heavy_norm_up/btag_norm)*weight*(phys.weight_btagsf_heavy_UP()/phys.weight_btagsf()));
-          susy_type1MET_btaglight_up->Fill(g_met, phys.mass_chi(), (btag_light_norm_up/btag_norm)*weight*(phys.weight_btagsf_light_UP()/phys.weight_btagsf()));
+          susy_type1MET_btagheavy_up_2d->Fill(g_met, phys.mass_chi(), (btag_heavy_norm_up/btag_norm)*weight*(phys.weight_btagsf_heavy_UP()/phys.weight_btagsf()));
+          susy_type1MET_btaglight_up_2d->Fill(g_met, phys.mass_chi(), (btag_light_norm_up/btag_norm)*weight*(phys.weight_btagsf_light_UP()/phys.weight_btagsf()));
           
           //cout<<__LINE__<<endl;
           //isr_unc is just deviation from not using the scale factor
-          susy_type1MET_isr_up->Fill(g_met, phys.mass_chi(),(1/ISR_norm)*(weight)*(1/phys.isr_weight()));
+          susy_type1MET_isr_up_2d->Fill(g_met, phys.mass_chi(),(1/ISR_norm)*(weight)*(1/phys.isr_weight()));
       }
 
       if(conf->get("ECalTest") != ""){
