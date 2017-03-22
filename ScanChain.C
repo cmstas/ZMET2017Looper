@@ -770,10 +770,23 @@ double getWeight(){
     }
 
     if (conf->get("susy_mc") == "true"){
-      double ISR_norm=1./g_isr_norm->GetBinContent(g_isr_norm->GetXaxis()->FindBin(phys.mass_gluino()), g_isr_norm->GetYaxis()->FindBin(phys.mass_LSP()));
-      //cout<<__LINE__<<endl;
-      double btag_norm=1./g_btagsf_norm->GetBinContent(g_btagsf_norm->GetXaxis()->FindBin(phys.mass_gluino()), g_btagsf_norm->GetYaxis()->FindBin(phys.mass_LSP()));
-
+      double ISR_norm, btag_norm;
+      if(conf->get("SUSY_Glu_LSP_scan") == "true"){
+        ISR_norm=1./g_isr_norm->GetBinContent(g_isr_norm->GetXaxis()->FindBin(phys.mass_gluino()), g_isr_norm->GetYaxis()->FindBin(phys.mass_LSP()));
+        //cout<<__LINE__<<endl;
+        btag_norm=1./g_btagsf_norm->GetBinContent(g_btagsf_norm->GetXaxis()->FindBin(phys.mass_gluino()), g_btagsf_norm->GetYaxis()->FindBin(phys.mass_LSP()));
+      }
+      else if (conf->get("SUSY_chi_scan") == "true"){
+        //JUST READ FROM BIN 1 IN THE LSP ROW
+        ISR_norm=1./g_isr_norm->GetBinContent(g_isr_norm->GetXaxis()->FindBin(phys.mass_chi()), 1);
+        //cout<<__LINE__<<endl;
+        btag_norm=1./g_btagsf_norm->GetBinContent(g_btagsf_norm->GetXaxis()->FindBin(phys.mass_chi()), 1);
+      }
+      else{
+        std::stringstream message;
+        message<<"Can not get ISR or Btag normalization if SUSY_chi_scan or SUSY_Glu_LSP_scan are not set.";
+        throw std::invalid_argument(message.str());
+      }
       //cout<<__LINE__<<endl;
       weight *= phys.isr_weight(); //ISR scale factor
       weight *= ISR_norm;

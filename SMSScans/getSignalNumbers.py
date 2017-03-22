@@ -56,8 +56,8 @@ def getSignalYields(SR, mass_gluino, mass_lsp, file_path="t5zz.root"):
   JES_dn_count=f_JES_dn.Get("susy_type1MET_counts").Clone("JES_dn_count")
   GenMET_count=f_GenMET.Get("susy_type1MET_counts").Clone("GenMET_count")
 
-  for b in bins:
-    if (mass_lsp == -1):
+  if (mass_lsp == -1):
+    for b in bins:
       RecoMET_yields.append(count.IntegralAndError(count.GetXaxis().FindBin(b[0]), 
                                            count.GetXaxis().FindBin(b[1] - 0.001), 
                                            count.GetYaxis().FindBin(mass_chi), 
@@ -96,7 +96,8 @@ def getSignalYields(SR, mass_gluino, mass_lsp, file_path="t5zz.root"):
                                            JES_dn_count.GetXaxis().FindBin(b[1] - 0.001), 
                                            JES_dn_count.GetYaxis().FindBin(mass_chi), 
                                            JES_dn_count.GetYaxis().FindBin(mass_chi)))
-    else:
+  else:
+    for b in bins:
       RecoMET_yields.append(count.IntegralAndError(count.GetXaxis().FindBin(b[0]), 
                                            count.GetXaxis().FindBin(b[1] - 0.001), 
                                            count.GetYaxis().FindBin(mass_gluino), 
