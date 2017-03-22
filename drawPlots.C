@@ -846,8 +846,12 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
     bg_err->SetFillColor(kGray+3);
     bg_err->Draw("SAME 2");
   }
-
-  hists[0]->SetMarkerSize(1.5);
+  if (conf->get("print_stats") == "true" && conf->get("simple_errors") != "true"){
+    hists[0]->SetMarkerSize(2.5);
+  }
+  else{
+    hists[0]->SetMarkerSize(1.5);
+  }
   hists[0]->Draw("same e0 x0 e1 p0");
 
   plotpad->RedrawAxis();
@@ -949,7 +953,13 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   TLine* line1 = new TLine(xmin,1,xmax,1);
   line1->SetLineStyle(2);
 
-  residual->SetMarkerSize(1.5);
+  if (conf->get("print_stats") == "true" && conf->get("simple_errors") != "true"){
+    residual->SetMarkerSize(2.5);
+  }
+  else{
+    residual->SetMarkerSize(1.5);
+  }
+  
   
   cout<<"Drawing ratio plot"<<endl;
   h_axis_ratio->Draw("axis");
