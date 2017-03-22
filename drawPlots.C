@@ -104,7 +104,7 @@ void drawSRText(TString SR, double high_y, double low_x){
     text="#splitline{4-5 jets; No Btags}{H_{T} > 500 GeV; M_{T2} > 80 GeV}";
   }
   else if(SR == "Strong_Bveto_6j"){
-    text="#splitline{4-5 jets; No Btags}{M_{T2} > 80 GeV}";
+    text="#splitline{6+ jets; No Btags}{M_{T2} > 80 GeV}";
   }
   else if(SR == "Strong_Btag_2j"){
     text="#splitline{2-3 jets; #geq 1 Btags}{H_{T} > 200 GeV; M_{T2} > 100 GeV}";
@@ -113,10 +113,10 @@ void drawSRText(TString SR, double high_y, double low_x){
     text="#splitline{4-5 jets; #geq 1 Btags}{H_{T} > 200 GeV; M_{T2} > 100 GeV}";
   }
   else if(SR == "Strong_Btag_6j"){
-    text="#splitline{4-5 jets; #geq 1 Btags}{M_{T2} > 100 GeV}";
+    text="#splitline{6+ jets; #geq 1 Btags}{M_{T2} > 100 GeV}";
   }
   else if(SR == "TChiWZ"){
-    text="EWK ZZ/WZ Region";
+    text="EWK WZ/ZZ Region";
   }
   else if(SR == "TChiHZ"){
     text="EWK HZ Region";

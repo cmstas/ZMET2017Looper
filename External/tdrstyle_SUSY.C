@@ -55,6 +55,7 @@ void setTDRStyle() {
   // For the histo:
   // tdrStyle->SetHistFillColor(1);
   // tdrStyle->SetHistFillStyle(0);
+  tdrStyle->SetLineColor(kBlack);
   tdrStyle->SetHistLineColor(1);
   tdrStyle->SetHistLineStyle(0);
   tdrStyle->SetHistLineWidth(1);

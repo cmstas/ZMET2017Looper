@@ -298,7 +298,7 @@ vector<double> getRareSamplesError(const vector<double> &stat_err, const vector<
 }
 
 void printErrors(const vector<double> &temp_err, const vector<double> &rare_err, const pair<vector<double>, vector<double>> &fs_err, const vector<double> &bin_low){
-  cout<<"Sample ";
+  cout<<"\MET [GeV] ";
   for (int i = 0; i<temp_err.size(); i++){
     cout<<bin_low[i]<<"-"<<bin_low[i+1]<<" ";
   }
@@ -394,7 +394,7 @@ void printLatexCounts(const vector<double> temp_count, const vector<double> &tem
   }
   cout<<"l }"<<endl;
   
-  cout<<"LATEXTABLE: Sample ";
+  cout<<"LATEXTABLE: \MET [GeV] ";
   cout<<setprecision(0);
   for (int i = 0; i<temp_err.size(); i++){
     cout<<" & "<<(int) bin_low[i].first<<"-"<<(int) bin_low[i].second;
@@ -408,7 +408,7 @@ void printLatexCounts(const vector<double> temp_count, const vector<double> &tem
   cout<<" \\\\" <<endl;
   cout<<"LATEXTABLE: FS ";
   for (int i = 0; i<fs_err.first.size(); i++){
-    cout<<" & "<<"$"<<RSFOF*fs_count[i]<<"^{"<<fs_err.first[i]<<"}_{"<<fs_err.second[i]<<"}$ ";
+    cout<<" & "<<"$"<<RSFOF*fs_count[i]<<"^{+"<<fs_err.first[i]<<"}_{-"<<fs_err.second[i]<<"}$ ";
   }
   cout<<" \\\\" <<endl;
     cout<<"LATEXTABLE: Rares ";
@@ -418,7 +418,7 @@ void printLatexCounts(const vector<double> temp_count, const vector<double> &tem
   cout<<" \\\\ \\hline" <<endl;
   cout<<"LATEXTABLE: Sum ";
   for (int i = 0; i<temp_err.size(); i++){
-    cout<<" & "<<"$"<<temp_count[i]+RSFOF*fs_count[i]+rare_count[i]<<"^{"<<sqrt(temp_err[i]*temp_err[i]+rare_err[i]*rare_err[i]+fs_err.first[i]*fs_err.first[i])<<"}_{"<<sqrt(temp_err[i]*temp_err[i]+rare_err[i]*rare_err[i]+fs_err.second[i]*fs_err.second[i])<<"}$ ";
+    cout<<" & "<<"$"<<temp_count[i]+RSFOF*fs_count[i]+rare_count[i]<<"^{+"<<sqrt(temp_err[i]*temp_err[i]+rare_err[i]*rare_err[i]+fs_err.first[i]*fs_err.first[i])<<"}_{-"<<sqrt(temp_err[i]*temp_err[i]+rare_err[i]*rare_err[i]+fs_err.second[i]*fs_err.second[i])<<"}$ ";
   }
   cout<<"\\\\ \\hline"<<endl;
   cout<<"LATEXTABLE: Data ";

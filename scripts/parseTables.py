@@ -23,7 +23,8 @@ def resultsTable(infile, regions, print_header=True):
     print("\\begin{document}")
 
 
-  print("\\begin{table}[H]")
+  #print("\\begin{table}[H]")
+  print("\\begin{table}[ht!]")
   print("\\begin{center}")
 
   tabular_header_string=""
@@ -108,7 +109,8 @@ def templatesError(infile, print_header=True):
     print("\\begin{document}")
 
 
-  print("\\begin{table}[H]")
+  #print("\\begin{table}[H]")
+  print("\\begin{table}[ht!]")
   print("\\begin{center}")
 
   tabular_header_string=""
@@ -169,7 +171,8 @@ def templatesClosure(infile, print_header=True):
     print("\\begin{document}")
 
 
-  print("\\begin{table}[H]")
+  #print("\\begin{table}[H]")
+  print("\\begin{table}[ht!]")
   print("\\begin{center}")
 
   tabular_header_string=""
