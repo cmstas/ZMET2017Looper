@@ -76,6 +76,7 @@ def printScanChainCode():
   arr = "const double chi_points_%s = {" % (name)
   for i in mass_points:
     arr+=("%d," % i)
+  arr=arr[:-1]
   arr+="};"
   print(arr)
 
