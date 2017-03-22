@@ -87,19 +87,16 @@ def makeDataCard(sp, SR):
   if SR not in n_parms.keys():
     n_parms[SR] = getNuisenceParameters(SR)
 
-  if (len(sp) == 2):
-    addSignalYields(n_parms[SR], SR, sp[0], sp[1])
-  else:
-    addSignalYields(n_parms[SR], SR, sp[0], -1)
+  addSignalYields(n_parms[SR], SR, sp[0], sp[1])
 
   #for x in n_parms[SR].keys():
   #  print("%s : %s" % (x, n_parms[SR][x]))
 
   f_template=open("%s%s.txt" % (templates_path, SR), 'r')
-  if (len(sp) == 2):
-    f_out=open("%sdatacard_%s_mGluino_%d_mLSP_%d_.txt" % (output_path, SR, sp[0], sp[1]), 'w+')
-  else:
+  if (sp[1] == -1):
     f_out=open("%sdatacard_%s_mChi_%d_.txt" % (output_path, SR, sp[0]), 'w+')
+  else:
+    f_out=open("%sdatacard_%s_mGluino_%d_mLSP_%d_.txt" % (output_path, SR, sp[0], sp[1]), 'w+')
 
   f_out.write(f_template.read().format(**n_parms[SR]))
 
@@ -120,10 +117,10 @@ def launch():
       makeDataCard(sp, "TChiHZ")
       makeDataCard(sp, "TChiWZ")
     elif signal_name == "tchizz":
-      makeDataCard(tuple(sp), "TChiHZ")
-      makeDataCard(tuple(sp), "TChiWZ")
+      makeDataCard((sp,-1), "TChiHZ")
+      makeDataCard((sp,-1), "TChiWZ")
     elif signal_name == "tchihz":
-      makeDataCard(tuple(sp), "TChiHZ")
+      makeDataCard((sp,-1), "TChiHZ")
     else:
       print("Do not know how to run on signal model %s. Please use t5zz or tchiwz." % signal_name)
       exit(1)
