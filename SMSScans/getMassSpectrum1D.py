@@ -83,7 +83,7 @@ def printScanChainCode():
 def printDataCardMakerCode():
   print("elif (signal_name == %s):" % name)
   print("histogram_Path=\"/nfs-7/userdata/bobak/ZMET2017_Hists/<FILL_IN_NAME>/CV/\"")
-  arr = "mass_spectrum = [" % (name, name)
+  arr = "mass_spectrum = ["
   for i in sorted(mass_points):
     arr+=("%d," % i)
   arr=arr[:-1]
