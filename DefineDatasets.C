@@ -120,15 +120,16 @@ void addToChain(TChain *ch, TString set, bool hadoop=false, bool skimmed=true) {
     ch->Add(dir+"wz_2l2q_amcnlo*.root" );
   }
   else if (set == "ZMC-V08-22-16-Skimmed"){
-    TString dir="/hadoop/cms/store/user/olivito/AutoTwopler_babies/merged/ZMET/V08-22-16/skim/";
-    //TString dir="/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-16/skims/";
+    //TString dir="/hadoop/cms/store/user/olivito/AutoTwopler_babies/merged/ZMET/V08-22-16/skim/";
+    TString dir="/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-16/skims/";
 
     cout<<"Adding ZMC V08-22-16 Skimmed sample"<<endl;
     
     ch->Add(dir+"dy_m50_mgmlm_ext1*");
     ch->Add(dir+"dy_m50_mgmlm_ht100_ext1*");
     ch->Add(dir+"dy_m50_mgmlm_ht200_ext1*");
-    ch->Add(dir+"dy_m50_mgmlm_ht400_ext1*"); 
+    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-17/skims/dy_m50_mgmlm_ht400_ext1*"); 
+    //ch->Add(dir+"dy_m50_mgmlm_ht400_ext1*"); 
     ch->Add(dir+"dy_m50_mgmlm_ht600_nonext*");
     ch->Add(dir+"dy_m50_mgmlm_ht800_nonext*");
     ch->Add(dir+"dy_m50_mgmlm_ht1200_nonext*");
