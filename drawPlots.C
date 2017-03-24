@@ -98,7 +98,7 @@ void drawSRText(TString SR, double high_y, double low_x){
   float left_margin = gPad->GetLeftMargin();
 
   if(SR == "Strong_Bveto_2j"){
-    text="#splitline{2-3 jets; No b-tags}{H_{T} > 500 GeV M_{T2} > 80 GeV}";
+    text="#splitline{2-3 jets; No b-tags}{H_{T} > 500 GeV; M_{T2} > 80 GeV}";
   }
   else if(SR == "Strong_Bveto_4j"){
     text="#splitline{4-5 jets; No b-tags}{H_{T} > 500 GeV; M_{T2} > 80 GeV}";
