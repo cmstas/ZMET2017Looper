@@ -152,7 +152,7 @@ def setupVars():
   output_path="SMSScans/DataCards/%s/" % signal_name
 
 def main():
-  global signal_name
+  global signal_name, multiplier
   parser = argparse.ArgumentParser()
   
   parser.add_argument("--t5zz", help="make datacards for t5zz sample", action="store_true")
@@ -160,8 +160,6 @@ def main():
   parser.add_argument("--tchizz", help="make datacards for TChiZZ sample", action="store_true")
   parser.add_argument("--tchihz", help="make datacards for TChiHZ sample", action="store_true")
   
-  args=parser.parse_args()
-
   if (args.t5zz):
     signal_name = "t5zz"
   elif (args.tchiwz):
