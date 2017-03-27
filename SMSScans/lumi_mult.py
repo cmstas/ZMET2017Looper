@@ -97,7 +97,7 @@ def main(file_list):
 		f_out.close()	
 
 if __name__ == "__main__":
-	if len(sys.argv < 2):
+	if (len(sys.argv) < 2):
 		print("Usage: ./lumi_mult.py <path_to_file1> <path_to_file_2> ... ") 
 		print("Also be sure that the cards are in SMSScans/DataCards/<sample_name>/") 
 		print("And that there exists a directory <sample_name>_x2_tmp and <sample_name>_x2, replace 2 with the multiplier.")
