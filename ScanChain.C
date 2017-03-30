@@ -811,6 +811,15 @@ double getWeight(){
     weight *= getPrescaleWeight();
   }
 
+  if (conf->get("tchihz_tchizz_weightfix") == "true"){
+    if (TString(currentFile->GetTitle()).Contains("tchihz_80x_v2")){
+      weight *= 0.5;
+    }
+    else if (TString(currentFile->GetTitle()).Contains("tchizz_80x_v2")){
+      weight *= 0.25;
+    }
+  }
+
   //cout<<__LINE__<<endl;
 
   /*if (weight < 0){
