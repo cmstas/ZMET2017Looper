@@ -160,6 +160,8 @@ def main():
   parser.add_argument("--tchizz", help="make datacards for TChiZZ sample", action="store_true")
   parser.add_argument("--tchihz", help="make datacards for TChiHZ sample", action="store_true")
   
+  args=parser.parse_args()
+
   if (args.t5zz):
     signal_name = "t5zz"
   elif (args.tchiwz):
