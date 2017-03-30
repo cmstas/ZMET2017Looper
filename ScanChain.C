@@ -2036,7 +2036,7 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
     const int *n_chi_bins, *n_met_bins;
     const double *chi_bins, *met_bins;
 
-    if (conf->get("data_set") == "TChiHZ"){
+    if (conf->get("data_set") == "TChiHZ_TChiZZ"){
       n_chi_bins = &n_chi_bins_tchihz;
       n_met_bins = &n_met_bins_tchihz;
 
