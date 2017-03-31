@@ -121,6 +121,7 @@ def launch():
       makeDataCard((sp,-1), "TChiWZ")
     elif signal_name == "tchihz":
       makeDataCard((sp,-1), "TChiHZ")
+      makeDataCard((sp,-1), "TChiWZ")
     else:
       print("Do not know how to run on signal model %s. Please use t5zz or tchiwz." % signal_name)
       exit(1)
