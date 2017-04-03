@@ -547,13 +547,13 @@ if __name__ == "__main__":
   #makeTChiHZCutFlows(350)
   parser = argparse.ArgumentParser()
 
-  parser.add_argument("--t5zz", help="print cutflow table for T5ZZ sample (must specify mass_gluino and mass_lsp)", action="store_true")
-  parser.add_argument("--tchiwz", help="print cutflow table for TChiWZ sample (must specify mass_gluino and mass_lsp)", action="store_true")
-  parser.add_argument("--tchizz", help="print cutflow table for TChiZZ sample (must specify mass_chi)", action="store_true")
-  parser.add_argument("--tchihz", help="print cutflow table for TChiHZ sample (must specify mass_chi)", action="store_true")
-  parser.add_argument("--mass_chi", help="choose chi mass for TChiHZ or TChiZZ sample.", type=int)
-  parser.add_argument("--mass_gluino", help="choose gluino mass for T5ZZ or TChiWZ sample.", type=int)
-  parser.add_argument("--mass_lsp", help="choose chi mass for T5ZZ or TChiWZ sample.", type=int)
+  parser.add_argument("--t5zz", help="print cutflow table for T5ZZ sample (can specify mass_gluino and mass_lsp)", action="store_true")
+  parser.add_argument("--tchiwz", help="print cutflow table for TChiWZ sample (can specify mass_gluino and mass_lsp)", action="store_true")
+  parser.add_argument("--tchizz", help="print cutflow table for TChiZZ sample (can specify mass_chi)", action="store_true")
+  parser.add_argument("--tchihz", help="print cutflow table for TChiHZ sample (can specify mass_chi)", action="store_true")
+  parser.add_argument("--mass_chi", help="choose chi mass for TChiHZ or TChiZZ sample, default is 350 for both TChiHZ and TChiZZ", type=int)
+  parser.add_argument("--mass_gluino", help="choose gluino mass for T5ZZ or TChiWZ sample, defualt is 1400 for T5ZZ and 550 for TChiWZ", type=int)
+  parser.add_argument("--mass_lsp", help="choose chi mass for T5ZZ or TChiWZ sample, defualt is 700 for T5ZZ and 200 for TChiWZ", type=int)
   
   args=parser.parse_args()
 
@@ -561,22 +561,22 @@ if __name__ == "__main__":
     if args.mass_gluino and args.mass_lsp:
       makeT5ZZCutFlows(args.mass_gluino, args.mass_lsp)
     else:
-      print("You must specify a gluino and lsp mass to make that table")
+      makeT5ZZCutFlows(1400,700)
   elif (args.tchiwz):
     if args.mass_gluino and args.mass_lsp:
       makeTChiWZCutFlows(args.mass_gluino, args.mass_lsp)
     else:
-      print("You must specify a gluino and lsp mass to make that table")
+      makeTChiWZCutFlows(550,200)
   elif (args.tchizz):
     if args.mass_chi:
       makeTChiZZCutFlows(args.mass_chi)
     else:
-      print("You must specify a chi mass to make that table")
+      makeTChiZZCutFlows(350)
   elif (args.tchihz):
     if args.mass_chi:
       makeTChiHZCutFlows(args.mass_chi)
     else:
-      print("You must specify a chi mass to make that table")
+      makeTChiHZCutFlows(350)
   else:
     parser.print_help()
     exit()
