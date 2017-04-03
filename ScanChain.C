@@ -79,20 +79,20 @@ double getMbb(){
 double getMT2ForBjets(bool select_highest_csv/*=false*/){
   /*This function gets the MT2 built out of the two Bjets in an event, no guarentee is made about selecting the highest csv jets*/
   double mt2;
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
   if (select_highest_csv){
     pair<int, int> b_index = getMostBlike();
-    //cout<<__LINE__<<endl;
+    cout<<__LINE__<<endl;
     //make sure first index points to the higher csv of the first two jets
     mt2=MT2(g_met, g_met_phi, g_jets_p4.at(b_index.first), g_jets_p4.at(b_index.second), 0, 0);
-    //cout<<__LINE__<<endl;
+    cout<<__LINE__<<endl;
   }
   else{
     // MT2( MET_MAGNITUDE, MET_PHI, P4_LEPTON_1, P4_LEPTON_2, MASS_INVISIBLE_PARTICLE, Bool Verbose)
-    //cout<<__LINE__<<endl;
+    cout<<__LINE__<<endl;
     mt2=MT2(g_met, g_met_phi, g_jets_medb_p4.at(0), g_jets_medb_p4.at(1), 0, 0);
   }
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
   return mt2;
 }
 
@@ -184,16 +184,16 @@ bool passMuonTriggers(){
     return true;
   }
   else{
-    //cout<<__LINE__<<endl;
+    cout<<__LINE__<<endl;
     if ( conf->get("use_muon_DZ_triggers") == "true" ){
       //cout<<"Using DZ triggers"<<endl;
-      //cout<<__LINE__<<endl;
+      cout<<__LINE__<<endl;
       //if (printStats) { cout<<"HLT_DoubleMu: "<<phys.HLT_DoubleMu()<<" HLT_DoubleMu_tk: "<<phys.HLT_DoubleMu_tk()<<" "<<" HLT_DoubleMu_noiso: "<<phys.HLT_DoubleMu_noiso()<<" "; }
       return (phys.HLT_DoubleMu() || phys.HLT_DoubleMu_tk() || phys.HLT_DoubleMu_noiso());
     }
     else{
       //cout<<"Using Non DZ triggers"<<endl;
-      //cout<<__LINE__<<endl;
+      cout<<__LINE__<<endl;
       //if (printStats) { cout<<"HLT_DoubleMu_nonDZ: "<<phys.HLT_DoubleMu_nonDZ()<<" HLT_DoubleMu_tk_nonDZ: "<<phys.HLT_DoubleMu_tk_nonDZ()<<" "<<" HLT_DoubleMu_noiso: "<<phys.HLT_DoubleMu_noiso()<<" "; }
       if(conf->get("signal_region") == "LeonoraEvtLists"){
         return (phys.HLT_DoubleMu() || phys.HLT_DoubleMu_tk() /*|| phys.HLT_DoubleMu_dbltk()*/ || phys.HLT_DoubleMu_nonDZ() || phys.HLT_DoubleMu_tk_nonDZ() || phys.HLT_DoubleMu_noiso());
@@ -210,7 +210,7 @@ bool passElectronTriggers(){
     return true;
   }
   else{
-    //cout<<__LINE__<<endl;
+    cout<<__LINE__<<endl;
     //if (printStats) { cout<<"HLT_DoubleEl_DZ_2: "<<phys.HLT_DoubleEl_DZ_2()<<" HLT_DoubleEl_noiso: "<<phys.HLT_DoubleEl_noiso()<<" HLT_DoubleEl_DZ(): "<<phys.HLT_DoubleEl_DZ()<<endl; }
     return (phys.HLT_DoubleEl_DZ_2() || phys.HLT_DoubleEl_noiso() || phys.HLT_DoubleEl_DZ() );
   }
@@ -239,7 +239,7 @@ bool passLeptonHLTs(){
     return passEMuTriggers();
   }
   else{
-    //cout<<__LINE__<<endl;
+    cout<<__LINE__<<endl;
     if ( phys.hyp_type() == 1 ){ //Muon Event
       return passMuonTriggers();
     }
@@ -264,7 +264,7 @@ bool hasGoodZ(){
   }
   //if (printStats) { cout<<"Number of Leptons: "<<phys.nlep()<<" "; }
   
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
 
   if( phys.lep_pt().at(0) < 25        ) {
     numEvents->Fill(11); 
@@ -273,7 +273,7 @@ bool hasGoodZ(){
   }
   //if (printStats) { cout<<"lep1 pt: "<<phys.lep_pt().at(0)<<" "; }
 
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
 
   if( phys.lep_pt().at(1) < 20        ) {
     numEvents->Fill(12); 
@@ -282,7 +282,7 @@ bool hasGoodZ(){
   }
   //if (printStats) { cout<<"lep2 pt: "<<phys.lep_pt().at(1)<<" "; }
   
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
 
   if( abs(phys.lep_p4().at(0).eta())     > 2.4       ) {
     numEvents->Fill(13); 
@@ -291,7 +291,7 @@ bool hasGoodZ(){
   }    
   //if (printStats) { cout<<"lep1 eta: "<<phys.lep_p4().at(0).eta()<<" "; }
 
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
   
   if( abs(phys.lep_p4().at(1).eta())     > 2.4       ) {
     numEvents->Fill(14); 
@@ -300,7 +300,7 @@ bool hasGoodZ(){
   }
   //if (printStats) { cout<<"lep2 eta: "<<phys.lep_p4().at(1).eta()<<" "; }
 
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
 
   if (conf->get("dil_flavor") == "emu"){ //only true for ttbar estimate
     if (! (phys.hyp_type() == 2) ){ //require explicit emu event
@@ -321,7 +321,7 @@ bool hasGoodZ(){
   }
 
 
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
 
   //This is the original cut selection
   if( abs(phys.lep_p4().at(0).eta()) > 1.4 && abs(phys.lep_p4().at(0).eta()) < 1.6 ){
@@ -330,14 +330,14 @@ bool hasGoodZ(){
     return false;
   }
 
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
 
   if( phys.dilpt() <25 ){
     numEvents->Fill(26);
     if (printFail) cout<<phys.evt()<<" :Failed Z pt cut"<<endl;
     return false;
   }
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
 
   if( abs(phys.lep_p4().at(1).eta()) > 1.4 && abs(phys.lep_p4().at(1).eta()) < 1.6 ) {
     numEvents->Fill(18); 
@@ -345,7 +345,7 @@ bool hasGoodZ(){
     return false; // veto xition region
   }
 
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
   
   if( phys.dRll() < 0.1 ) {
     numEvents->Fill(19); 
@@ -354,7 +354,7 @@ bool hasGoodZ(){
   }
   //if (printStats) { cout<<"DeltaR_ll: "<<phys.dRll()<<" "; }
 
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
 
   if (! passLeptonHLTs()){
     numEvents->Fill(20);
@@ -362,7 +362,7 @@ bool hasGoodZ(){
     return false;
   }
 
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
 
   if( !(phys.evt_type() == 0 ) ) {
     numEvents->Fill(21); 
@@ -371,7 +371,7 @@ bool hasGoodZ(){
   }
   //if (printStats) { cout<<"evt_type: "<<phys.evt_type()<<" "; }
 
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
   //Set up Dilepton Masses
   double dilmass_low, dilmass_high;
 
@@ -401,7 +401,7 @@ bool hasGoodZ(){
   }
   //if (printStats) { cout<<"mass_ll: "<<phys.dilmass()<<" "; }
 
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
   
   //if (printPass) cout<<phys.evt()<<": Passes good Z Cuts"<<endl;
   return true;
@@ -503,7 +503,7 @@ bool hasGoodGammaMu(){
   }
   //if (printStats) { cout<<"Number of Leptons: "<<phys.nlep()<<" "; }
   
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
 
   if (abs(phys.lep_pdgId().at(0)) != 13){
     numEvents->Fill(61);
@@ -511,7 +511,7 @@ bool hasGoodGammaMu(){
     return false;
   }
 
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
 
   if( phys.lep_pt().at(0) < 25        ) {
     numEvents->Fill(11); 
@@ -520,7 +520,7 @@ bool hasGoodGammaMu(){
   }
   //if (printStats) { cout<<"lep1 pt: "<<phys.lep_pt().at(0)<<" "; }
 
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
 
   if( abs(phys.lep_p4().at(0).eta())     > 2.4       ) {
     numEvents->Fill(13); 
@@ -529,7 +529,7 @@ bool hasGoodGammaMu(){
   }    
   //if (printStats) { cout<<"lep1 eta: "<<phys.lep_p4().at(0).eta()<<" "; }
 
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
 
   //This is the original cut selection
   if( abs(phys.lep_p4().at(0).eta()) > 1.4 && abs(phys.lep_p4().at(0).eta()) < 1.6 ){
@@ -538,7 +538,7 @@ bool hasGoodGammaMu(){
     return false;
   }
 
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
 
   if (conf->get("trigger_type") == "singleMu"){
     if(/*phys.isData() &&*/ (! passSingleMuTriggers()) ){
@@ -562,7 +562,7 @@ bool hasGoodGammaMu(){
     return false;
   }
 
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
 
   //if (printPass) cout<<phys.evt()<<": Passes good muon cuts"<<endl;
   return hasGoodPhoton();  
@@ -695,7 +695,7 @@ double scale1fbFix(){
 double getWeight(){
   /*Gets the proper weight for the sample. */
   double weight=1;
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
   if ( ! ( phys.isData() ) ){
     weight *= phys.evt_scale1fb();
     
@@ -704,19 +704,19 @@ double getWeight(){
       weight *= stod(conf->get("scaleTofb"));
     }
     
-    //cout<<__LINE__<<endl;
+    cout<<__LINE__<<endl;
 
     if (conf->get("pileup_reweight") == "true"){
       weight*=g_pileup_hist->GetBinContent(g_pileup_hist->FindBin(phys.nTrueInt()));
     }
     
-    //cout<<__LINE__<<endl;
+    cout<<__LINE__<<endl;
     
     if (TString(conf->get("data_set")).Contains("GammaData-EWKSub")){
       weight *= -1; //EWK Subtraction
     }
   }
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
 
   weight *= g_scale_factor;
 
@@ -724,19 +724,19 @@ double getWeight(){
     weight *= getReweight();
   }
 
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
 
   if (conf->get("rwt_photon_eff") == "true" ){
     weight *= getEff(phys.gamma_pt().at(0), phys.gamma_eta().at(0));
   }
 
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
 
   if (conf->get("rwt_muon_eff") == "true"){
     weight *= getEff(phys.lep_pt().at(0), phys.lep_eta().at(0));
   }
 
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
 
  if ((! phys.isData()) ){    
     if ( conf->get("event_type") == "dilepton" && (! MCTriggerEmulation)){
@@ -746,23 +746,23 @@ double getWeight(){
       if (phys.hyp_type() == 2) weight *= 0.932; //emu
     }
 
-    //cout<<__LINE__<<endl;
+    cout<<__LINE__<<endl;
 
     for (int i = 0; i < phys.nlep(); i++){
-      //cout<<__LINE__<<endl;
+      cout<<__LINE__<<endl;
       weight*=phys.weightsf_lepid().at(i);
-      //cout<<__LINE__<<endl;
+      cout<<__LINE__<<endl;
       weight*=phys.weightsf_lepiso().at(i);
-      //cout<<__LINE__<<endl;
+      cout<<__LINE__<<endl;
       weight*=phys.weightsf_lepip().at(i);
-      //cout<<__LINE__<<endl;
+      cout<<__LINE__<<endl;
       weight*=phys.weightsf_lepreco().at(i);
-      //cout<<__LINE__<<endl;
+      cout<<__LINE__<<endl;
       weight*=phys.weightsf_lepconv().at(i);
-      //cout<<__LINE__<<endl;
+      cout<<__LINE__<<endl;
     }
 
-    //cout<<__LINE__<<endl;
+    cout<<__LINE__<<endl;
 
     if (conf->get("no_btag_sf") != "true"){
       //cout<<"Applying Btag Scale Factors"<<endl;
@@ -773,13 +773,13 @@ double getWeight(){
       double ISR_norm, btag_norm;
       if(conf->get("SUSY_Glu_LSP_scan") == "true"){
         ISR_norm=1./g_isr_norm->GetBinContent(g_isr_norm->GetXaxis()->FindBin(phys.mass_gluino()), g_isr_norm->GetYaxis()->FindBin(phys.mass_LSP()));
-        //cout<<__LINE__<<endl;
+        cout<<__LINE__<<endl;
         btag_norm=1./g_btagsf_norm->GetBinContent(g_btagsf_norm->GetXaxis()->FindBin(phys.mass_gluino()), g_btagsf_norm->GetYaxis()->FindBin(phys.mass_LSP()));
       }
       else if (conf->get("SUSY_chi_scan") == "true"){
         //JUST READ FROM BIN 1 IN THE LSP ROW
         ISR_norm=1./g_isr_norm->GetBinContent(g_isr_norm->GetXaxis()->FindBin(phys.mass_chi()), 1);
-        //cout<<__LINE__<<endl;
+        cout<<__LINE__<<endl;
         btag_norm=1./g_btagsf_norm->GetBinContent(g_btagsf_norm->GetXaxis()->FindBin(phys.mass_chi()), 1);
       }
       else{
@@ -787,25 +787,25 @@ double getWeight(){
         message<<"Can not get ISR or Btag normalization if SUSY_chi_scan or SUSY_Glu_LSP_scan are not set.";
         throw std::invalid_argument(message.str());
       }
-      //cout<<__LINE__<<endl;
+      cout<<__LINE__<<endl;
       weight *= phys.isr_weight(); //ISR scale factor
       weight *= ISR_norm;
       
-      //cout<<__LINE__<<endl;
+      cout<<__LINE__<<endl;
 
       weight *= btag_norm;
 
-      //cout<<__LINE__<<endl;
+      cout<<__LINE__<<endl;
       
       for (int i = 0; i < phys.nlep(); i++){
         weight *= phys.weightsf_lepid_FS().at(i); //Fast Sim Lepton ID
         weight *= phys.weightsf_lepiso_FS().at(i); //Fast Sim Lepton isolation
         weight *= phys.weightsf_lepip_FS().at(i); //Fast Sim Lepton impact parameter
       } 
-      //cout<<__LINE__<<endl;
+      cout<<__LINE__<<endl;
     }
   }
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
 
   if (phys.isData() && phys.ngamma() > 0 && TString(currentFile->GetTitle()).Contains("data") && TString(currentFile->GetTitle()).Contains("_ph")){
     weight *= getPrescaleWeight();
@@ -820,7 +820,7 @@ double getWeight(){
     }
   }
 
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
 
   /*if (weight < 0){
     cout<<"Negative Weight: "<<weight<<" "<<phys.evt()<<endl;
@@ -832,7 +832,7 @@ double getWeight(){
 }
 
 double getPrescaleWeight(){
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
   //cout<<"Getting Prescale Weights"<<endl;
   if( ((phys.HLT_Photon165_R9Id90_HE10_IsoM_matchedtophoton() && phys.HLT_Photon165_R9Id90_HE10_IsoM() > 0) || (phys.HLT_Photon165_HE10_matchedtophoton() && phys.HLT_Photon165_HE10() > 0)) && phys.gamma_pt().at(0) > 180 ) return 1;
   else if( phys.HLT_Photon120_R9Id90_HE10_IsoM_matchedtophoton() && phys.HLT_Photon120_R9Id90_HE10_IsoM() > 0 && phys.gamma_pt().at(0) > 135 && phys.gamma_pt().at(0) < 180 ) return phys.HLT_Photon120_R9Id90_HE10_IsoM();
@@ -858,7 +858,7 @@ double getPrescaleWeight(){
   //else if( phys.HLT_Photon22_R9Id90_HE10_IsoM()  > 0 && phys.gamma_pt().at(0) < 33. ) {
   //  return /*g_l1prescale_hist22->GetBinContent(g_l1prescale_hist22->FindBin(phys.nVert())) */ 1871 /*1667*/;
   //}
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
   //return 1; // should not get here
 }
 
@@ -877,7 +877,7 @@ bool passSignalRegionCuts(){
     }
   }
 
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
 
   //Njets Max Cut
   if (conf->get("Njets_max") != ""){
@@ -888,7 +888,7 @@ bool passSignalRegionCuts(){
     }
   }
 
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
   //if (printStats) { cout<<"NbjetsMed: "<<g_nBJetMedium<<" "; }
 
   //Num Bottom jets Min Cut
@@ -900,7 +900,7 @@ bool passSignalRegionCuts(){
     }
   }
 
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
 
   //Num Bottom jets Max Cut
   if (conf->get("NBjets_max") != ""){
@@ -920,7 +920,7 @@ bool passSignalRegionCuts(){
     }
   }
 
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
 
   //Num Bottom jets Min Cut
   if (conf->get("NBjets_loose_min") != ""){
@@ -932,7 +932,7 @@ bool passSignalRegionCuts(){
   }
 
 
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
   //if (printStats) { cout<<"g_dphi_metj1: "<<g_dphi_metj1<<" "; }
   //Leading Jet/MET Phi min
   if (conf->get("dPhi_MET_j1") != ""){
@@ -943,7 +943,7 @@ bool passSignalRegionCuts(){
     }
   }
 
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
   //if (printStats) { cout<<"g_dphi_metj2: "<<g_dphi_metj2<<" "; }
   //Trailing Jet/MET Phi min
   if (conf->get("dPhi_MET_j2") != ""){
@@ -954,7 +954,7 @@ bool passSignalRegionCuts(){
     }
   }
 
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
   //if (printStats) { cout<<"mt2b: "<<g_mt2b<<" "; }
   //MT2b min
   if (conf->get("MT2b_min") != "" && conf->get("event_type") != "photon"){
@@ -965,7 +965,7 @@ bool passSignalRegionCuts(){
     }
   }
 
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
 
   //MT2b min
   if (conf->get("MT2b_loose_min") != "" && conf->get("event_type") != "photon"){
@@ -976,7 +976,7 @@ bool passSignalRegionCuts(){
     }
   }
 
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
   //if (printStats) { cout<<"mt2b: "<<g_mt2b<<" "; }
   //MT2 min
   if (conf->get("MT2_min") != ""){
@@ -988,7 +988,7 @@ bool passSignalRegionCuts(){
   }
 
 
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
   //HT min
   if (conf->get("HT_min") != ""){
   //if (printStats) { cout<<"ht: "<<g_ht<<" "; }
@@ -999,7 +999,7 @@ bool passSignalRegionCuts(){
     }
   }
 
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
   //DiBottom mass difference from Higgs Mass
   if (conf->get("mbb_mh_diff") != ""){
   //if (printStats) { cout<<"mbb_mh_diff: "<<abs(mbb - 125)<<" "; }
@@ -1010,19 +1010,19 @@ bool passSignalRegionCuts(){
     }
   }
 
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
 
   //Wierd ATLAS SR cut
   if (conf->get("sum_HT_pt_pt") != ""){
     double pt;
-    //cout<<__LINE__<<endl;
+    cout<<__LINE__<<endl;
     if (phys.evt_type() == 2 && phys.ngamma() > 0){
       pt = phys.gamma_pt().at(0);
     }
     else{
       pt = phys.lep_pt().at(0) + phys.lep_pt().at(1);
     }
-    //cout<<__LINE__<<endl;
+    cout<<__LINE__<<endl;
     //if (printStats) { cout<<"sum_HT_pt_pt: "<<abs(ht + pt )<<" "; }
     if ( abs(g_ht + pt ) < stod(conf->get("sum_HT_pt_pt") ) ){
       numEvents->Fill(43);
@@ -1031,7 +1031,7 @@ bool passSignalRegionCuts(){
     }
   }
   
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
 
   if (conf->get("lep1_pt_min") != "" && conf->get("event_type") != "photon" ){
     if ( phys.lep_pt().at(0) < stod( conf->get("lep1_pt_min") )){
@@ -1041,7 +1041,7 @@ bool passSignalRegionCuts(){
     }
   }
 
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
 
   if (conf->get("lep2_pt_min") != "" && conf->get("event_type") != "photon" ){
     if ( phys.lep_pt().at(1) < stod( conf->get("lep2_pt_min") )){
@@ -1051,7 +1051,7 @@ bool passSignalRegionCuts(){
     }
   }
 
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
 
   if (conf->get("MET_min") != ""){
     if ( g_met < stod( conf->get("MET_min") )){
@@ -1061,7 +1061,7 @@ bool passSignalRegionCuts(){
     }
   }
 
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
 
   if (conf->get("MET_max") != ""){
     if ( g_met > stod( conf->get("MET_max") )){
@@ -1071,7 +1071,7 @@ bool passSignalRegionCuts(){
     }
   }
 
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
 
   if (conf->get("Mbb_max") != ""){
     if ( g_mbb > stod( conf->get("Mbb_max") )){
@@ -1081,7 +1081,7 @@ bool passSignalRegionCuts(){
     }
   }
 
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
 
   if (conf->get("Mbb_loose_max") != ""){
     if ( getMbb() > stod( conf->get("Mbb_loose_max") )){
@@ -1091,7 +1091,7 @@ bool passSignalRegionCuts(){
     }
   }
 
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
 
   if (conf->get("MT_LepMET_min") != ""){
     if ( getMTLepMET() < stod( conf->get("MT_LepMET_min") ) ){
@@ -1101,7 +1101,7 @@ bool passSignalRegionCuts(){
     }
   }
 
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
 
   if (conf->get("Mjj_dphi_max") != ""){
     if ( g_mjj_mindphi > stod( conf->get("Mjj_dphi_max") ) ){
@@ -1111,7 +1111,7 @@ bool passSignalRegionCuts(){
     }
   }
 
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
 
   if (conf->get("flavor") == "dimuon"){
     if ( phys.hyp_type() != 1){
@@ -1121,7 +1121,7 @@ bool passSignalRegionCuts(){
     }
   }
 
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
 
   if (conf->get("flavor") == "dielectron"){
     if ( phys.hyp_type() != 0){
@@ -1131,7 +1131,7 @@ bool passSignalRegionCuts(){
     }
   }
 
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
 
   if (conf->get("force_true_bjets") != ""){
     pair<int, int> b_index = getMostBlike();
@@ -1149,7 +1149,7 @@ bool passSignalRegionCuts(){
     }
   }
 
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
 
   if (conf->get("force_fake_bjets") != ""){
     pair<int, int> b_index = getMostBlike();
@@ -1161,7 +1161,7 @@ bool passSignalRegionCuts(){
     }
   }
 
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
   //if (printPass) cout<<phys.evt()<<": Passes Signal Region Cuts"<<endl;
   return true;
 }
@@ -1213,7 +1213,7 @@ bool passRareCuts(){
 } 
 
 bool passSUSYSingalCuts(){
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
   if (conf->get("mass_chi") != ""){
     if (phys.mass_chi() != stod(conf->get("mass_chi"))){
       numEvents->Fill(55);
@@ -1222,7 +1222,7 @@ bool passSUSYSingalCuts(){
     }
   }
   
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
 
   if (conf->get("mass_gluino") != ""){
     if (phys.mass_gluino() != stod(conf->get("mass_gluino"))){
@@ -1232,7 +1232,7 @@ bool passSUSYSingalCuts(){
     }
   }
   
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
 
   if (conf->get("mass_LSP") != ""){
     if (phys.mass_LSP() != stod(conf->get("mass_LSP"))){
@@ -1241,24 +1241,24 @@ bool passSUSYSingalCuts(){
       return false;
     }
   } 
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
   return true; 
 }
 
 bool isDuplicate(){
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
   if( phys.isData() ) {
     DorkyEventIdentifier id(phys.run(), phys.evt(), phys.lumi());
-    //cout<<__LINE__<<endl;
+    cout<<__LINE__<<endl;
     if (is_duplicate(id) ){
       ++nDuplicates;
-      //cout<<__LINE__<<endl;
+      cout<<__LINE__<<endl;
       if (printFail) cout<<phys.evt()<<" :Is a duplicate"<<endl;
       return true;
     }
-    //cout<<__LINE__<<endl;
+    cout<<__LINE__<<endl;
   }
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
   //if (printPass) cout<<phys.evt()<<": Passes not a duplicate"<<endl;
   return false;
 }
@@ -1365,7 +1365,7 @@ bool passBaseCut(){
     }
   }
 
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
   /*//if (printStats) { cout<<"g_dphi_metj1: "<<g_dphi_metj1<<" "; }
   //Leading Jet/MET Phi min
   if (g_dphi_metj1 < 0.4){
@@ -1373,7 +1373,7 @@ bool passBaseCut(){
     if (printFail) cout<<phys.evt()<<" :Failed dPhi MET with jet 1 cut"<<endl;
     return false;
   }
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
   //if (printStats) { cout<<"g_dphi_metj2: "<<g_dphi_metj2<<" "; }
   //Trailing Jet/MET Phi min
   if (g_dphi_metj2 < 0.4){
@@ -1661,10 +1661,10 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
   chain -- contains the files to make the histograms from, 
   configuration -- pointer to the configuration object
   */  
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
   //Set Global Vars
   conf=configuration;
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
   g_sample_name=conf->get("Name");
 
   if (conf->get("MCTriggerEmulation") != ""){
@@ -1681,7 +1681,7 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
   TString savePath = getOutputDir(conf, "hist");
   ofstream files_log;
   files_log.open((savePath+TString(g_sample_name+"_files.log")).Data());
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
   // Benchmark
   TBenchmark *bmark = new TBenchmark();
   bmark->Start("benchmark");
@@ -2128,7 +2128,7 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
   }
 
   cout<<"Histograms initialized"<<endl;
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
 //===========================================
 // Setup Stuff Pulled From External Files
 //===========================================
@@ -2144,11 +2144,11 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
   if(conf->get("pileup_reweight") == "true"){
     cout<<"Pileup reweighting with puWeight_Moriond2017.root"<<endl;
     g_pileup_hist_file = TFile::Open("auxFiles/puWeight_Moriond2017.root", "READ");
-    //cout<<__LINE__<<endl;
+    cout<<__LINE__<<endl;
     g_pileup_hist = (TH1D*)g_pileup_hist_file->Get("pileupWeight")->Clone("h_pileup_weight");
-    //cout<<__LINE__<<endl;
+    cout<<__LINE__<<endl;
     g_pileup_hist->SetDirectory(rootdir);
-    //cout<<__LINE__<<endl;
+    cout<<__LINE__<<endl;
     g_pileup_hist_file->Close();
   }
 
@@ -2157,65 +2157,65 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
   //--------------------------------------------------------
   if(conf->get("susy_mc") == "true"){
     cout<<"Setting up normalization weights for ISR and Btag Scale Factors."<<endl;
-    //cout<<__LINE__<<endl;
+    cout<<__LINE__<<endl;
     if (conf->get("data_set") == "T5ZZ"){
-      //cout<<__LINE__<<endl;
+      cout<<__LINE__<<endl;
       g_SUSYsf_norm_file = TFile::Open("auxFiles/nsig_weights_t5zz.root", "READ");
     }
     else if (conf->get("data_set") == "TChiWZ"){
-      //cout<<__LINE__<<endl;
+      cout<<__LINE__<<endl;
       g_SUSYsf_norm_file = TFile::Open("auxFiles/nsig_weights_tchiwz.root", "READ");
     }
     else if (conf->get("data_set") == "TChiHZ"){
-      //cout<<__LINE__<<endl;
+      cout<<__LINE__<<endl;
       g_SUSYsf_norm_file = TFile::Open("auxFiles/nsig_weights_tchihz.root", "READ");
     }
     else if (conf->get("data_set") == "TChiHZ_TChiZZ"){
-      //cout<<__LINE__<<endl;
+      cout<<__LINE__<<endl;
       g_SUSYsf_norm_file = TFile::Open("auxFiles/nsig_weights_tchihz.root", "READ");
     }
     else if (conf->get("data_set") == "TChiZZ"){
-      //cout<<__LINE__<<endl;
+      cout<<__LINE__<<endl;
       g_SUSYsf_norm_file = TFile::Open("auxFiles/nsig_weights_tchizz.root", "READ");
     }
     else {
-      //cout<<__LINE__<<endl;
+      cout<<__LINE__<<endl;
       std::stringstream message;
       message<<"Can not pull normalization weights file for "<<conf->get("data_set")<<", no file configured for that dataset.";
       throw std::invalid_argument(message.str());
     }
-    //cout<<__LINE__<<endl;
+    cout<<__LINE__<<endl;
 
     g_isr_norm = (TH2D*)g_SUSYsf_norm_file->Get("h_avg_weight_isr")->Clone("h_isr_norm");
-    //cout<<__LINE__<<endl;
+    cout<<__LINE__<<endl;
     g_isr_norm_up = (TH2D*)g_SUSYsf_norm_file->Get("h_avg_weight_isr_UP")->Clone("h_isr_norm_up");
-    //cout<<__LINE__<<endl;
+    cout<<__LINE__<<endl;
     g_btagsf_norm = (TH2D*)g_SUSYsf_norm_file->Get("h_avg_weight_btagsf")->Clone("g_btagsf_norm");
-    //cout<<__LINE__<<endl;
+    cout<<__LINE__<<endl;
     g_btagsf_light_norm_up = (TH2D*)g_SUSYsf_norm_file->Get("h_avg_weight_btagsf_light_UP")->Clone("g_btagsf_light_norm_up");
-    //cout<<__LINE__<<endl;
+    cout<<__LINE__<<endl;
     g_btagsf_heavy_norm_up = (TH2D*)g_SUSYsf_norm_file->Get("h_avg_weight_btagsf_heavy_UP")->Clone("g_btagsf_heavy_norm_up");
-    //cout<<__LINE__<<endl;
+    cout<<__LINE__<<endl;
     
 
     g_isr_norm->SetDirectory(rootdir);
-    //cout<<__LINE__<<endl;
+    cout<<__LINE__<<endl;
     g_isr_norm_up->SetDirectory(rootdir);
-    //cout<<__LINE__<<endl;
+    cout<<__LINE__<<endl;
     g_btagsf_norm->SetDirectory(rootdir);
-    //cout<<__LINE__<<endl;
+    cout<<__LINE__<<endl;
     g_btagsf_light_norm_up->SetDirectory(rootdir);
-    //cout<<__LINE__<<endl;
+    cout<<__LINE__<<endl;
     g_btagsf_heavy_norm_up->SetDirectory(rootdir);
-    //cout<<__LINE__<<endl;
+    cout<<__LINE__<<endl;
 
 
     g_SUSYsf_norm_file->Close();
-    //cout<<__LINE__<<endl;
+    cout<<__LINE__<<endl;
   }
 
    
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
   /*if( phys.isData() && conf->get("event_type")=="photon" ){
     cout<<"Pileup reweighting with "<<savePath+"L1PrescaleWeight_"+conf->get("signal_region")+".root"<<endl;
     g_l1prescale_file = TFile::Open(savePath+"L1PrescaleWeight_"+conf->get("signal_region")+".root", "READ");
@@ -2231,7 +2231,7 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
 
     g_l1prescale_file->Close();
   }*/
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
 
   if( conf->get("rwt_photon_eff") == "true" ){
     cout<<"Reweighting for Effeciency with trigeff_Photon165_zmet2016.root"<<endl;
@@ -2263,7 +2263,7 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
     weight_eff_file.Close();
   }  
 
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
   //set goodrun list
   if (conf->get("JSON") == "ICHEP"){
     const char* json_file = "auxFiles/golden_json_200716_12p9fb_snt.txt"; // ICHEP
@@ -2281,18 +2281,18 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
     set_goodrun_file(json_file);
   }
 
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
   // Loop over events to Analyze
   unsigned int nEventsTotal = 0;
   unsigned int nEventsChain = chain->GetEntries();
   int eventCount=0;
   cout<<"DATASET: "<<conf->get("data_set")<<endl;
   if( nEvents >= 0 ) nEventsChain = nEvents;
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
   TObjArray *listOfFiles = chain->GetListOfFiles();
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
   TIter fileIter(listOfFiles);
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
 //===========================================
 // File Loop
 //===========================================
@@ -2300,17 +2300,17 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
 
     // Get File Content
     TFile file( currentFile->GetTitle() );
-    //cout<<__LINE__<<endl;
+    cout<<__LINE__<<endl;
     TTree *tree = (TTree*)file.Get("t");
-    //cout<<__LINE__<<endl;
+    cout<<__LINE__<<endl;
     if(fast) TTreeCache::SetLearnEntries(10); //What does this do?
-    //cout<<__LINE__<<endl;
+    cout<<__LINE__<<endl;
     if(fast) tree->SetCacheSize(128*1024*1024); //What does this do?
-    //cout<<__LINE__<<endl;
+    cout<<__LINE__<<endl;
     phys.Init(tree); //Loads in all the branches
-    //cout<<__LINE__<<endl;
+    cout<<__LINE__<<endl;
     eventsInFile = 0;
-    //cout<<__LINE__<<endl;
+    cout<<__LINE__<<endl;
     files_log<<"Running over new file: "<<currentFile->GetTitle()<<endl;
     cout<<"Running over new file: "<<currentFile->GetTitle()<<endl;
 //===========================================
@@ -2325,13 +2325,13 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
       if(fast) tree->LoadTree(event);
       phys.GetEntry(event);
       ++nEventsTotal;
-      //cout<<__LINE__<<endl;    
+      cout<<__LINE__<<endl;    
       // Progress
       ZMET2016::progress( nEventsTotal, nEventsChain );
       setupGlobals();
       //eventsInFile++;
       //if (eventsInFile > 100) continue;
-      //cout<<__LINE__<<endl;
+      cout<<__LINE__<<endl;
 //===========================================
 // Debugging And Odd Corrections Before Cuts
 //===========================================
@@ -2355,7 +2355,7 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
 //===========================================
 // Cuts
 //===========================================
-      //cout<<__LINE__<<endl;      
+      cout<<__LINE__<<endl;      
       //Set up event weight
       /*if (event % 10000 == 0){
         cout<<"Weight: "<<weight<<endl;
@@ -2367,38 +2367,38 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
           continue;
         }
       }
-      //cout<<__LINE__<<endl;
+      cout<<__LINE__<<endl;
 
       if ( isDuplicate() ){
         //cout<<"Failed Duplicate"<<endl;
         numEvents->Fill(23);
         continue;
       } // check for duplicates
-      //cout<<__LINE__<<endl;      
+      cout<<__LINE__<<endl;      
 
       if (! passFileSelections() ){
         //cout<<"Failed File Selections"<<endl;
         continue;
       }
-      //cout<<__LINE__<<endl;
+      cout<<__LINE__<<endl;
 
       if (! passBaseCut()){ 
         //cout<<"Failed Baseline"<<endl;
         continue; 
       }// Base Cut
-      //cout<<__LINE__<<endl;      
+      cout<<__LINE__<<endl;      
 
       if (! hasGoodEvent()){
         //cout<<"Failed Good Event"<<endl;
         continue; // Event Type Specific Cuts
       }
-      //cout<<__LINE__<<endl;      
+      cout<<__LINE__<<endl;      
 
       if (! passSignalRegionCuts()){ 
         //cout<<"Failed SR"<<endl;
         continue; // Signal Region Cuts
       }
-      //cout<<__LINE__<<endl;
+      cout<<__LINE__<<endl;
 
       if (conf->get("rare_real_MET_Z") == "true"){ 
         if ( ! passRareCuts() ){
@@ -2439,11 +2439,11 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
 //===========================================
 // Analysis Code
 //===========================================
-      //cout<<__LINE__<<endl;
+      cout<<__LINE__<<endl;
       //cout<<"Event Weight "<<weight<<endl;      
       //Fill in Histos
       double sumMETFilters = phys.Flag_HBHENoiseFilter()+phys.Flag_HBHEIsoNoiseFilter()+phys.Flag_CSCTightHaloFilter()+phys.Flag_EcalDeadCellTriggerPrimitiveFilter()+phys.Flag_goodVertices()+phys.Flag_eeBadScFilter();
-      //cout<<__LINE__<<endl;      
+      cout<<__LINE__<<endl;      
       numMETFilters->Fill(sumMETFilters);
 
       /*if (weight < 0){
@@ -2472,15 +2472,15 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
       nlep->Fill(phys.nlep(), weight);
       //cout<<"Filling nisotrack"<<endl;
       nisotrack->Fill(phys.nisoTrack_mt2(), weight);
-      //cout<<__LINE__<<endl;
+      cout<<__LINE__<<endl;
       if (g_mt2 != 0 ) mt2->Fill(g_mt2, weight);
-      //cout<<__LINE__<<endl;
+      cout<<__LINE__<<endl;
       if (g_mt2b != 0 ) mt2b->Fill(g_mt2b, weight);
-      //cout<<__LINE__<<endl;
+      cout<<__LINE__<<endl;
       if (g_njets > 0) dphi_jet1_met->Fill(acos(cos(g_met_phi - g_jets_p4.at(0).phi())), weight);
-      //cout<<__LINE__<<endl;
+      cout<<__LINE__<<endl;
       if (g_njets > 1) dphi_jet2_met->Fill(acos(cos(g_met_phi - g_jets_p4.at(1).phi())), weight);
-      //cout<<__LINE__<<endl;
+      cout<<__LINE__<<endl;
       if (conf->get("event_type") == "dilepton") dilmass->Fill(phys.dilmass(), weight);
 //===========================================
 // Signal Region Specific Histos
@@ -2491,13 +2491,13 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
 
         double mt2_val_fromb;
 
-        //cout<<__LINE__<<endl;
+        cout<<__LINE__<<endl;
         if (conf->get("NBjets_loose_min") != "")
         {
           m_bb_csv->Fill(getMbb(), weight);
           m_bb_bpt->Fill(getMbb(), weight);  
           mt2_val_fromb = getMT2ForBjets(true);
-          //cout<<__LINE__<<endl;
+          cout<<__LINE__<<endl;
           mt2b->Fill(getMT2B(), weight);
           if (mt2_val_fromb != 0) mt2_fromb->Fill(mt2_val_fromb, weight);
         }
@@ -2505,38 +2505,38 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
           m_bb_csv->Fill(g_mbb, weight);
           m_bb_bpt->Fill(phys.mbb_bpt(), weight);
           mt2_val_fromb = getMT2ForBjets();
-          //cout<<__LINE__<<endl;
+          cout<<__LINE__<<endl;
           if (mt2_val_fromb != 0) mt2_fromb->Fill(mt2_val_fromb, weight);
         }
     
-        //cout<<__LINE__<<endl;
+        cout<<__LINE__<<endl;
 
         if (phys.mt2j() != 0 ) mt2j->Fill(phys.mt2j(), weight);
         
-        //cout<<__LINE__<<endl;
+        cout<<__LINE__<<endl;
 
         double mt2_val_hz = 0;
         if (phys.nlep() > 1 && g_nBJetMedium >= 2) mt2_val_hz = getMT2HiggsZ();
         if (mt2_val_hz != 0) mt2_hz->Fill(mt2_val_hz, weight);
 
-        //cout<<__LINE__<<endl;
+        cout<<__LINE__<<endl;
 
         if (g_mt2 != 0 && g_mt2b != 0 ) MT2_MT2B->Fill(g_mt2, g_mt2b, weight);
 
-        //cout<<__LINE__<<endl;
+        cout<<__LINE__<<endl;
 
         if (g_mt2 != 0 && mt2_val_fromb != 0 ) MT2_MT2_fromb->Fill(g_mt2, mt2_val_fromb, weight);
 
-        //cout<<__LINE__<<endl;
+        cout<<__LINE__<<endl;
 
         if (g_mt2 != 0 && mt2_val_hz != 0 ) MT2_MT2_HZ->Fill(g_mt2, mt2_val_hz, weight);
 
-        //cout<<__LINE__<<endl;
+        cout<<__LINE__<<endl;
 
         if (g_nBJetMedium >= 2){
           pair<int,int> b_index = getMostBlike();
           
-          //cout<<__LINE__<<endl;
+          cout<<__LINE__<<endl;
 
           double bb_pt = (g_jets_p4.at(b_index.first) + g_jets_p4.at(b_index.second)).pt();
           sum_pt_z_bb->Fill(bb_pt+phys.dilpt(), weight);
@@ -2546,7 +2546,7 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
       if (conf->get("signal_region") == "TChiWZ"){
         mjj_min_dphi->Fill(g_mjj_mindphi, weight);
       }
-      //cout<<__LINE__<<endl;
+      cout<<__LINE__<<endl;
       if(conf->get("signal_region") == "LeonoraXsecStudy"){
         
         if(phys.hyp_type() == 0){
@@ -2565,7 +2565,7 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
     
       }
 
-      //cout<<__LINE__<<endl;
+      cout<<__LINE__<<endl;
       
       if (conf->get("GammaMuStudy") == "true"){
         MT_MuMET->Fill(getMTLepMET(),weight);
@@ -2573,7 +2573,7 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
         mu_pt->Fill(phys.lep_pt().at(0), weight);
       }
 
-      //cout<<__LINE__<<endl;
+      cout<<__LINE__<<endl;
 
       if(conf->get("SUSY_Glu_LSP_scan") == "true"){
           //cout<<"mglu: "<<phys.mass_gluino()<<endl;
@@ -2581,12 +2581,12 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
           //cout<<"met: "<<g_met<<endl;
           //cout<<"weight: "<<weight<<endl;
 
-          //cout<<__LINE__<<endl;
+          cout<<__LINE__<<endl;
 
           susy_type1MET_counts->Fill(g_met, phys.mass_gluino(), phys.mass_LSP(), weight);
           susy_type1MET_nowt->Fill(g_met, phys.mass_gluino(), phys.mass_LSP(), 1);
           
-          //cout<<__LINE__<<endl;
+          cout<<__LINE__<<endl;
 
           double ISR_norm=1./g_isr_norm->GetBinContent(g_isr_norm->GetXaxis()->FindBin(phys.mass_gluino()), g_isr_norm->GetYaxis()->FindBin(phys.mass_LSP()));
           double btag_norm=1./g_btagsf_norm->GetBinContent(g_btagsf_norm->GetXaxis()->FindBin(phys.mass_gluino()), g_btagsf_norm->GetYaxis()->FindBin(phys.mass_LSP()));
@@ -2599,7 +2599,7 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
           susy_type1MET_btagheavy_up->Fill(g_met, phys.mass_gluino(), phys.mass_LSP(), (btag_heavy_norm_up/btag_norm)*weight*(phys.weight_btagsf_heavy_UP()/phys.weight_btagsf()));
           susy_type1MET_btaglight_up->Fill(g_met, phys.mass_gluino(), phys.mass_LSP(), (btag_light_norm_up/btag_norm)*weight*(phys.weight_btagsf_light_UP()/phys.weight_btagsf()));
           
-          //cout<<__LINE__<<endl;
+          cout<<__LINE__<<endl;
           
           if (conf->get("data_set") == "t5zz"){
             //isr_unc filled properly
@@ -2616,12 +2616,12 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
           //cout<<"met: "<<g_met<<endl;
           //cout<<"weight: "<<weight<<endl;
 
-          //cout<<__LINE__<<endl;
+          cout<<__LINE__<<endl;
 
           susy_type1MET_counts_2d->Fill(g_met, phys.mass_chi(), weight);
           susy_type1MET_nowt_2d->Fill(g_met, phys.mass_chi(), 1);
           
-          //cout<<__LINE__<<endl;
+          cout<<__LINE__<<endl;
 
           double ISR_norm=1./g_isr_norm->GetBinContent(g_isr_norm->GetXaxis()->FindBin(phys.mass_chi()), 1);
           double btag_norm=1./g_btagsf_norm->GetBinContent(g_btagsf_norm->GetXaxis()->FindBin(phys.mass_chi()), 1);
@@ -2634,7 +2634,7 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
           susy_type1MET_btagheavy_up_2d->Fill(g_met, phys.mass_chi(), (btag_heavy_norm_up/btag_norm)*weight*(phys.weight_btagsf_heavy_UP()/phys.weight_btagsf()));
           susy_type1MET_btaglight_up_2d->Fill(g_met, phys.mass_chi(), (btag_light_norm_up/btag_norm)*weight*(phys.weight_btagsf_light_UP()/phys.weight_btagsf()));
           
-          //cout<<__LINE__<<endl;
+          cout<<__LINE__<<endl;
           //isr_unc is just deviation from not using the scale factor
           susy_type1MET_isr_up_2d->Fill(g_met, phys.mass_chi(),(1/ISR_norm)*(weight)*(1/phys.isr_weight()));
       }
@@ -2665,14 +2665,14 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
         }
       }
 
-      //cout<<__LINE__<<endl;
+      cout<<__LINE__<<endl;
 //===========================================
 // Debugging And Odd Corrections After Cuts
 //===========================================
       /*if (conf->get("rares") == "true"){
-        //cout<<__LINE__<<endl;
+        cout<<__LINE__<<endl;
         //cout<<"EVENT-LIST "<<eventCount<<" : "<<phys.evt()<<endl;
-          //cout<<__LINE__<<endl;
+          cout<<__LINE__<<endl;
         cout<<"EVENT-LIST "<<eventCount<<" : "<<phys.evt()<<" "<<g_met<<endl;
         eventCount++;
         if ( inVinceNotMine.count(phys.evt()) != 0){
@@ -2696,9 +2696,9 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
       //}
     }
     // Clean Up
-    //cout<<__LINE__<<endl;
+    cout<<__LINE__<<endl;
     delete tree;
-    //cout<<__LINE__<<endl;
+    cout<<__LINE__<<endl;
     file.Close();
   }
 
@@ -2715,7 +2715,7 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
   if ( nEventsChain != nEventsTotal ) {
     cout << Form( "ERROR: number of events from files (%d) is not equal to total number of events (%d)", nEventsChain, nEventsTotal ) << endl;
   }  
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
 //=======================================
 // Write Out Histos
 //=======================================
@@ -2723,77 +2723,77 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
 
   //Write out histograms to file
   numEvents->Write();
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
   weight_log->Write();
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
   weight_log_flat->Write();
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
   numMETFilters->Write();
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
   t1met->Write();
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
   t1met_widebin->Write();
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
   rawmet->Write();
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
   ht->Write();
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
   ht_wide->Write();
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
   gen_ht->Write();
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
   vpt->Write();
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
   vpt_flat->Write();
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
   njets->Write();
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
   nlep->Write();
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
   nisotrack->Write();
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
   nbtags_m->Write();
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
   nbtags_l->Write();
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
   nbtags_t->Write();
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
   nVert->Write();
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
   mt2->Write();
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
   mt2b->Write();
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
   dphi_jet1_met->Write();
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
   dphi_jet2_met->Write();
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
   dilmass->Write();
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
 
   if (conf->get("signal_region") == "TChiHZ"){
     sum_mlb->Write();
-    //cout<<__LINE__<<endl;
+    cout<<__LINE__<<endl;
     m_bb_csv->Write();
-    //cout<<__LINE__<<endl;
+    cout<<__LINE__<<endl;
     m_bb_bpt->Write();
-    //cout<<__LINE__<<endl;
+    cout<<__LINE__<<endl;
     mt2j->Write();
-    //cout<<__LINE__<<endl;
+    cout<<__LINE__<<endl;
     mt2_fromb->Write();
-    //cout<<__LINE__<<endl;
+    cout<<__LINE__<<endl;
     mt2_hz->Write();
-    //cout<<__LINE__<<endl;
+    cout<<__LINE__<<endl;
     sum_pt_z_bb->Write();
-    //cout<<__LINE__<<endl;
+    cout<<__LINE__<<endl;
 
     //2D hists
     MT2_MT2B->Write();
-    //cout<<__LINE__<<endl;
+    cout<<__LINE__<<endl;
     MT2_MT2_fromb->Write();
-    //cout<<__LINE__<<endl;
+    cout<<__LINE__<<endl;
     MT2_MT2_HZ->Write();
-    //cout<<__LINE__<<endl;
+    cout<<__LINE__<<endl;
   }
 
   if (conf->get("signal_region") == "TChiWZ"){
@@ -2813,11 +2813,11 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
 
   if (conf->get("GammaMuStudy") == "true"){
     MT_MuMET->Write();
-    //cout<<__LINE__<<endl;
+    cout<<__LINE__<<endl;
     dR_GammaMu->Write();
-    //cout<<__LINE__<<endl;
+    cout<<__LINE__<<endl;
     mu_pt->Write();
-    //cout<<__LINE__<<endl;
+    cout<<__LINE__<<endl;
   }
   if(conf->get("SUSY_Glu_LSP_scan") == "true"){
     susy_type1MET_counts->Write();
@@ -2857,7 +2857,7 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
   output->Close();
   g_reweight_pairs.clear();
   files_log.close();
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
   // return
   bmark->Stop("benchmark");
   cout << endl;
