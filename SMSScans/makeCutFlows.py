@@ -531,12 +531,14 @@ def makeTChiWZTable(m_glu, m_lsp, model, m_chi=None):
   met_counts.append(h_met.Integral(100,6001))
   met_counts.append(h_met.Integral(150,6001))
   met_counts.append(h_met.Integral(250,6001))
+  met_counts.append(h_met.Integral(350,6001))
   f_met.Close()
   print("M$_{jj}$ for min $\Delta \Phi$ jets < 150 GeV|| %f" %n)
 
   print("$E^{miss}_{T} > 100$ GeV || %f" % met_counts[0])
   print("$E^{miss}_{T} > 150$ GeV || %f" % met_counts[1])
   print("$E^{miss}_{T} > 250$ GeV || %f" % met_counts[2])
+  print("$E^{miss}_{T} > 350$ GeV || %f" % met_counts[3])
 
 if __name__ == "__main__":
   #makeT5ZZCutFlows(1400,700)
