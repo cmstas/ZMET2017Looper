@@ -2166,6 +2166,10 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
       //cout<<__LINE__<<endl;
       g_SUSYsf_norm_file = TFile::Open("auxFiles/nsig_weights_tchiwz.root", "READ");
     }
+    else if (conf->get("data_set") == "TChiHZ"){
+      //cout<<__LINE__<<endl;
+      g_SUSYsf_norm_file = TFile::Open("auxFiles/nsig_weights_tchihz.root", "READ");
+    }
     else if (conf->get("data_set") == "TChiHZ_TChiZZ"){
       //cout<<__LINE__<<endl;
       g_SUSYsf_norm_file = TFile::Open("auxFiles/nsig_weights_tchihz.root", "READ");
