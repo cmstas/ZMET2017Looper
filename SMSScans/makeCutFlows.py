@@ -110,14 +110,34 @@ def makeTChiWZCutFlows(m_glu, m_lsp):
 	print("TChiWZ model, mass gluino: %.0f, mass LSP %.0f || Events in 35.9 fb$^{-1}$" % (m_glu, m_lsp))
 	n = getXSec("tchiwz", [m_glu, m_lsp])
 	print("All Entries || %f" % (n*1000*lumi_fb))
-	makeTChiWZTable(ch, cuts)
+	makeTChiWZTable(m_glu, m_lsp, "tchiwz")
 	
 	print("TChiHZ")
 	print("TChiWZ model, mass gluino: %.0f, mass LSP %.0f || Events in 35.9 fb$^{-1}$" % (m_glu, m_lsp))
 	n = getXSec("tchiwz", [m_glu, m_lsp])
 	print("All Entries || %f" % (n*1000*lumi_fb))
-	makeTChiHZTable(ch, cuts)
+	makeTChiHZTable(m_glu, m_lsp, "tchiwz")
 	
+def makeTChiZZCutFlows(m_chi):
+	print("TChiWZ")
+	print("TChiWZ model, mass chi: %.0f || Events in 35.9 fb$^{-1}$" % (m_chi))
+	n = getXSec("tchizz", m_chi)
+	print("All Entries || %f" % (n*1000*lumi_fb))
+	makeTChiWZTable(-1,-1,"tchizz", m_chi)
+	
+	print("TChiHZ")
+	print("TChiWZ model, mass chi: %.0f || Events in 35.9 fb$^{-1}$" % (m_chi))
+	n = getXSec("tchizz", m_chi)
+	print("All Entries || %f" % (n*1000*lumi_fb))
+	makeTChiHZTable(-1,-1,"tchizz", m_chi)
+
+def makeTChiZZCutFlows(m_chi):
+	print("TChiHZ")
+	print("TChiHZ model, mass chi: %.0f || Events in 35.9 fb$^{-1}$" % (m_chi))
+	n = getXSec("tchihz", m_chi)
+	print("All Entries || %f" % (n*1000*lumi_fb))
+	makeTChiHZTable(-1,-1,"tchihz", m_chi)
+
 def makeSRATable(m_glu, m_lsp):
 	hists_path = basedir+"T5ZZ/SRA/mglu%d_mlsp%d_" % (m_glu, m_lsp)
 	
@@ -452,7 +472,7 @@ def makeTChiHZTable(m_glu, m_lsp, model, m_chi=None):
 	print("$E^{miss}_{T} > 150$ GeV || %f" % met_counts[1])
 	print("$E^{miss}_{T} > 250$ GeV || %f" % met_counts[2])
 
-def makeTChiWZTable(ch, cuts):
+def makeTChiWZTable(m_glu, m_lsp, model, m_chi=None):
 	if model == "tchiwz":
 		hists_path = basedir+"TChiWZ/TChiWZ/mglu%d_mlsp%d_" % (m_glu, m_lsp)
 	elif model == "tchizz":
@@ -519,6 +539,44 @@ def makeTChiWZTable(ch, cuts):
 	print("$E^{miss}_{T} > 250$ GeV || %f" % met_counts[2])
 
 if __name__ == "__main__":
-	makeT5ZZCutFlows(1400,700)
-	makeTChiWZCutFlows(550,200)
+	#makeT5ZZCutFlows(1400,700)
+	#makeTChiWZCutFlows(550,200)
+	#makeTChiZZCutFlows(350)
+	#makeTChiHZCutFlows(350)
+
+	parser = argparse.ArgumentParser()
+  
+  parser.add_argument("--t5zz", help="print cutflow table for T5ZZ sample (must specify mass_gluino and mass_lsp)", action="store_true")
+  parser.add_argument("--tchiwz", help="print cutflow table for TChiWZ sample (must specify mass_gluino and mass_lsp)", action="store_true")
+  parser.add_argument("--tchizz", help="print cutflow table for TChiZZ sample (must specify mass_chi)", action="store_true")
+  parser.add_argument("--tchihz", help="print cutflow table for TChiHZ sample (must specify mass_chi)", action="store_true")
+  parser.add_argument("--mass_chi", help="choose chi mass for TChiHZ or TChiZZ sample.", type=int)
+  parser.add_argument("--mass_gluino", help="choose gluino mass for T5ZZ or TChiWZ sample.", type=int)
+  parser.add_argument("--mass_lsp", help="choose chi mass for T5ZZ or TChiWZ sample.", type=int)
+  
+  args=parser.parse_args()
+
+  if (args.t5zz):
+    if args.mass_gluino && args.mass_lsp:
+    	makeT5ZZCutFlows(args.mass_gluino, args.mass_lsp)
+    else:
+    	print("You must specify a gluino and lsp mass to make that table")
+  elif (args.tchiwz):
+  	if args.mass_gluino && args.mass_lsp:
+    	makeTChiWZCutFlows(args.mass_gluino, args.mass_lsp)
+    else:
+    	print("You must specify a gluino and lsp mass to make that table")
+  elif (args.tchizz):
+    if args.mass_chi:
+    	makeTChiZZCutFlows(args.mass_chi)
+    else:
+    	print("You must specify a chi mass to make that table")
+  elif (args.tchihz):
+    if args.mass_chi:
+    	makeTChiHZCutFlows(args.mass_chi)
+    else:
+    	print("You must specify a chi mass to make that table")
+  else:
+    parser.print_help()
+    exit()
 
