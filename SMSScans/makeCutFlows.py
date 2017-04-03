@@ -109,7 +109,7 @@ def makeTChiWZCutFlows(m_glu, m_lsp):
 	print("TChiWZ model, mass gluino: %.0f, mass LSP %.0f || Events in 35.9 fb$^{-1}$" % (m_glu, m_lsp))
 	makeTChiHZTable(ch, cuts)
 	
-def makeSRATable(mass_point):
+def makeSRATable(m_glu, m_lsp):
 	hists_path = basedir+"T5ZZ/SRA/mglu%d_mlsp_%d_" % (m_glu, m_lsp)
 	
 	n = getXSec([m_glu, m_lsp])
@@ -206,7 +206,7 @@ def makeSRATable(mass_point):
 	print("$E^{miss}_{T} > 150$ GeV || %f || %f" % (bveto_met_counts[1], btag_met_counts[1]))
 	print("$E^{miss}_{T} > 250$ GeV || %f || %f" % (bveto_met_counts[2], btag_met_counts[2]))
 
-def makeSRBTable(ch, cuts):
+def makeSRBTable(m_glu, m_lsp):
 	hists_path = basedir+"T5ZZ/SRB/mglu%d_mlsp_%d_" % (m_glu, m_lsp)
 	
 	n = getXSec([m_glu, m_lsp])
@@ -303,7 +303,7 @@ def makeSRBTable(ch, cuts):
 	print("$E^{miss}_{T} > 150$ GeV || %f || %f" % (bveto_met_counts[1], btag_met_counts[1]))
 	print("$E^{miss}_{T} > 250$ GeV || %f || %f" % (bveto_met_counts[2], btag_met_counts[2]))
 
-def makeSRCTable(ch, cuts):
+def makeSRCTable(m_glu, m_lsp):
 	hists_path = basedir+"T5ZZ/SRC/mglu%d_mlsp_%d_" % (m_glu, m_lsp)
 	
 	n = getXSec([m_glu, m_lsp])
