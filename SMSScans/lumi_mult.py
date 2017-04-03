@@ -5,6 +5,7 @@ import sys, math
 multiplier=2
 
 def main(file_list):
+	"""Reads the datacards and multiplies each yield by the multiplier factor, whilst dividing each statistical uncertainty by sqrt(multiplier). It does this in two passes, the first pass does what was described in the previous sentence. The second pass ensures the count for gamma uncertainties match the value given in the count times the weight, but this is currently broken because combine changes the order of the rows vs. columns and this program assumes that the first nuisance to appear in the top row is the first nuisance to appear in the columns."""
 
 	#should get folder inside DataCards/<folder>/card.txt
 	sample_name = file_list[0][file_list[0].find("DataCards/")+10:file_list[0].find("/", file_list[0].find("DataCards/")+10)]
