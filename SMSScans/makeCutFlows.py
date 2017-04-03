@@ -120,13 +120,13 @@ def makeTChiWZCutFlows(m_glu, m_lsp):
   
 def makeTChiZZCutFlows(m_chi):
   print("TChiWZ")
-  print("TChiWZ model, mass chi: %.0f || Events in 35.9 fb$^{-1}$" % (m_chi))
+  print("TChiZZ model, mass chi: %.0f || Events in 35.9 fb$^{-1}$" % (m_chi))
   n = getXSec("tchizz", m_chi)
   print("All Entries || %f" % (n*1000*lumi_fb))
   makeTChiWZTable(-1,-1,"tchizz", m_chi)
   
   print("TChiHZ")
-  print("TChiWZ model, mass chi: %.0f || Events in 35.9 fb$^{-1}$" % (m_chi))
+  print("TChiZZ model, mass chi: %.0f || Events in 35.9 fb$^{-1}$" % (m_chi))
   n = getXSec("tchizz", m_chi)
   print("All Entries || %f" % (n*1000*lumi_fb))
   makeTChiHZTable(-1,-1,"tchizz", m_chi)
