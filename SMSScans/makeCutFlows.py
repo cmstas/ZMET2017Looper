@@ -131,7 +131,7 @@ def makeTChiZZCutFlows(m_chi):
   print("All Entries || %f" % (n*1000*lumi_fb))
   makeTChiHZTable(-1,-1,"tchizz", m_chi)
 
-def makeTChiZZCutFlows(m_chi):
+def makeTChiHZCutFlows(m_chi):
   print("TChiHZ")
   print("TChiHZ model, mass chi: %.0f || Events in 35.9 fb$^{-1}$" % (m_chi))
   n = getXSec("tchihz", m_chi)
