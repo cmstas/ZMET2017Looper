@@ -162,7 +162,7 @@ def makeSRATable(m_glu, m_lsp):
   h_met = f_met.Get("type1MET").Clone("met_2lep_dilmass_njets")
   n=h_met.Integral(1,6001)
   f_met.Close()
-  print("2-3 Jets & \multicolumn{2}{c}{%f} \\" %n)
+  print("2-3 Jets & \multicolumn{2}{c}{%f} \\\\" %n)
 
   hp = hists_path+"2lep_dilmass_njets_dphi.root" 
   f_met = ROOT.TFile(hp, 'r')
