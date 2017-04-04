@@ -87,53 +87,55 @@ def getXSec(model, mass_point):
   return None
 
 def makeT5ZZCutFlows(m_glu, m_lsp):
-  print("SRA")
-  print("T5ZZ model, mass gluino: %.0f, mass LSP: %.0f || Events in 35.9 fb$^{-1}$" % (m_glu, m_lsp))
+  print("\\begin{tabular}{l|l|l}")
+  print("\\hline")
+  print("\\multicolumn{3}{c}{\\textbf{SRA}} \\\\ \\hline")
+  print("T5ZZ model, mass gluino: %.0f, mass LSP: %.0f &  \\multicolumn{2}{c}{Events in %f fb$^{-1}}$ \\\\ \\hline" % (m_glu, m_lsp, lumi_fb))
   n = getXSec("t5zz", [m_glu, m_lsp])
-  print("All Entries || %f" % (n*1000*lumi_fb))
+  print("All Entries & \multicolumn{2}{c}{%f} \\\\" % (n*1000*lumi_fb))
   makeSRATable(m_glu, m_lsp)
   
   print("SRB")
-  print("T5ZZ model, mass gluino: %.0f, mass LSP: %.0f || Events in 35.9 fb$^{-1}$" % (m_glu, m_lsp))
+  print("T5ZZ model, mass gluino: %.0f, mass LSP: %.0f || Events in %f fb$^{-1}$" % (m_glu, m_lsp, lumi_fb))
   n = getXSec("t5zz", [m_glu, m_lsp])
   print("All Entries || %f" % (n*1000*lumi_fb))
   makeSRBTable(m_glu, m_lsp)
   
   print("SRC")
-  print("T5ZZ model, mass gluino: %.0f, mass LSP: %.0f || Events in 35.9 fb$^{-1}$" % (m_glu, m_lsp))
+  print("T5ZZ model, mass gluino: %.0f, mass LSP: %.0f || Events in %f fb$^{-1}$" % (m_glu, m_lsp, lumi_fb))
   n = getXSec("t5zz", [m_glu, m_lsp])
   print("All Entries || %f" % (n*1000*lumi_fb))
   makeSRCTable(m_glu, m_lsp)
 
 def makeTChiWZCutFlows(m_glu, m_lsp):
   print("TChiWZ")
-  print("TChiWZ model, mass gluino: %.0f, mass LSP %.0f || Events in 35.9 fb$^{-1}$" % (m_glu, m_lsp))
+  print("TChiWZ model, mass gluino: %.0f, mass LSP %.0f || Events in %f fb$^{-1}$" % (m_glu, m_lsp, lumi_fb))
   n = getXSec("tchiwz", [m_glu, m_lsp])
   print("All Entries || %f" % (n*1000*lumi_fb))
   makeTChiWZTable(m_glu, m_lsp, "tchiwz")
   
   print("TChiHZ")
-  print("TChiWZ model, mass gluino: %.0f, mass LSP %.0f || Events in 35.9 fb$^{-1}$" % (m_glu, m_lsp))
+  print("TChiWZ model, mass gluino: %.0f, mass LSP %.0f || Events in %f fb$^{-1}$" % (m_glu, m_lsp, lumi_fb))
   n = getXSec("tchiwz", [m_glu, m_lsp])
   print("All Entries || %f" % (n*1000*lumi_fb))
   makeTChiHZTable(m_glu, m_lsp, "tchiwz")
   
 def makeTChiZZCutFlows(m_chi):
   print("TChiWZ")
-  print("TChiZZ model, mass chi: %.0f || Events in 35.9 fb$^{-1}$" % (m_chi))
+  print("TChiZZ model, mass chi: %.0f || Events in %f fb$^{-1}$" % (m_chi, lumi_fb))
   n = getXSec("tchizz", m_chi)
   print("All Entries || %f" % (n*1000*lumi_fb))
   makeTChiWZTable(-1,-1,"tchizz", m_chi)
   
   print("TChiHZ")
-  print("TChiZZ model, mass chi: %.0f || Events in 35.9 fb$^{-1}$" % (m_chi))
+  print("TChiZZ model, mass chi: %.0f || Events in %f fb$^{-1}$" % (m_chi, lumi_fb))
   n = getXSec("tchizz", m_chi)
   print("All Entries || %f" % (n*1000*lumi_fb))
   makeTChiHZTable(-1,-1,"tchizz", m_chi)
 
 def makeTChiHZCutFlows(m_chi):
   print("TChiHZ")
-  print("TChiHZ model, mass chi: %.0f || Events in 35.9 fb$^{-1}$" % (m_chi))
+  print("TChiHZ model, mass chi: %.0f || Events in %f fb$^{-1}$" % (m_chi, lumi_fb))
   n = getXSec("tchihz", m_chi)
   print("All Entries || %f" % (n*1000*lumi_fb))
   makeTChiHZTable(-1,-1,"tchihz", m_chi)
@@ -146,33 +148,33 @@ def makeSRATable(m_glu, m_lsp):
   h_met = f_met.Get("type1MET").Clone("met_2lep")
   n=h_met.Integral(1,6001)
   f_met.Close()
-  print("2 Leptons (e^{\pm} e^{\mp} or \mu^{\pm}\mu^{\mp}), with p_{T} > 25 (20) GeV || %f" %n)
+  print("2 Leptons (e$^{\pm}$ e$^{\mp}$ or $\mu^{\pm}\mu^{\mp}$), with p$_{T} > 25 (20) $GeV & \multicolumn{2}{c}{%f} \\" %n)
 
   hp = hists_path+"2lep_dilmass.root" 
   f_met = ROOT.TFile(hp, 'r')
   h_met = f_met.Get("type1MET").Clone("met_2lep_dilmass")
   n=h_met.Integral(1,6001)
   f_met.Close()
-  print("dilepton mass $\in$ Z mass window == (86,96) GeV|| %f" %n)
+  print("Dilepton mass $\in$ Z mass window (86,96) GeV & \multicolumn{2}{c}{%f} \\" %n)
 
   hp = hists_path+"2lep_dilmass_njets.root" 
   f_met = ROOT.TFile(hp, 'r')
   h_met = f_met.Get("type1MET").Clone("met_2lep_dilmass_njets")
   n=h_met.Integral(1,6001)
   f_met.Close()
-  print("2-3 Jets|| %f" %n)
+  print("2-3 Jets & \multicolumn{2}{c}{%f} \\" %n)
 
   hp = hists_path+"2lep_dilmass_njets_dphi.root" 
   f_met = ROOT.TFile(hp, 'r')
   h_met = f_met.Get("type1MET").Clone("met_2lep_dilmass_njets_dphi")
   n=h_met.Integral(1,6001)
   f_met.Close()
-  print("\Delta \Phi between MET and two highest p_{T} jets > 0.4 rad || %f" %n)
+  print("$\Delta \Phi$ between MET and two highest p$_{T}$ jets $> 0.4$ rad & \multicolumn{2}{c}{%f} \\" %n)
 
   # ==========================
   # Btagging Start
   # ==========================
-  print("Btag requirement || B Veto || >= 1 Btag")
+  print("\multicolumn{1}{c|}{\\textbf{Btag requirement}} & \\textbf{B Veto} & $\boldmath{\geq 1}$ \\textbf{Btag} \\ \cline{2-3}")
   hp = hists_path+"2lep_dilmass_njets_dphi_btag.root" 
   f_met = ROOT.TFile(hp, 'r')
   h_met = f_met.Get("type1MET").Clone("met_2lep_dilmass_njets_dphi_btag")
@@ -184,12 +186,12 @@ def makeSRATable(m_glu, m_lsp):
   h_met = f_met.Get("type1MET").Clone("met_2lep_dilmass_njets_dphi_bveto")
   n_bveto=h_met.Integral(1,6001)
   f_met.Close()
-  print(" || %f || %f" % (n_bveto, n_btag))
+  print(" & %f & %f \\ \hline" % (n_bveto, n_btag))
 
   # ==========================
   # MT2 Start
   # ==========================
-  print("MT2 > || 80 GeV || 100 GeV")
+  print("\multicolumn{1}{c|}{\\textbf{MT2}} > & \\textbf{80 GeV} & \\textbf{100 GeV} \\ \cline{2-3}")
   hp = hists_path+"2lep_dilmass_njets_dphi_btag_MT2.root" 
   f_met = ROOT.TFile(hp, 'r')
   h_met = f_met.Get("type1MET").Clone("met_2lep_dilmass_njets_dphi_btag_MT2")
@@ -201,12 +203,12 @@ def makeSRATable(m_glu, m_lsp):
   h_met = f_met.Get("type1MET").Clone("met_2lep_dilmass_njets_dphi_bveto_MT2")
   n_bveto=h_met.Integral(1,6001)
   f_met.Close()
-  print(" || %f || %f" % (n_bveto, n_btag))
+  print(" & %f & %f \\ \hline" % (n_bveto, n_btag))
 
   # ==========================
   # HT and MET Start
   # ==========================
-  print("$H_{T}$ > || 500 GeV || 200 GeV")
+  print("$H_{T}$ > & 500 GeV & 200 GeV")
   hp = hists_path+"2lep_dilmass_njets_dphi_btag_MT2_ht.root" 
   f_met = ROOT.TFile(hp, 'r')
   h_met = f_met.Get("type1MET").Clone("met_2lep_dilmass_njets_dphi_btag_MT2_ht")
@@ -226,11 +228,12 @@ def makeSRATable(m_glu, m_lsp):
   bveto_met_counts.append(h_met.Integral(150,6001))
   bveto_met_counts.append(h_met.Integral(250,6001))
   f_met.Close()
-  print(" || %f || %f" % (n_bveto, n_btag))
+  print(" & %f & %f \\ \hline" % (n_bveto, n_btag))
 
-  print("$E^{miss}_{T} > 100$ GeV || %f || %f" % (bveto_met_counts[0], btag_met_counts[0]))
-  print("$E^{miss}_{T} > 150$ GeV || %f || %f" % (bveto_met_counts[1], btag_met_counts[1]))
-  print("$E^{miss}_{T} > 250$ GeV || %f || %f" % (bveto_met_counts[2], btag_met_counts[2]))
+  print("$E^{miss}_{T} > 100$ GeV & %f & %f" % (bveto_met_counts[0], btag_met_counts[0]))
+  print("$E^{miss}_{T} > 150$ GeV & %f & %f" % (bveto_met_counts[1], btag_met_counts[1]))
+  print("$E^{miss}_{T} > 250$ GeV & %f & %f" % (bveto_met_counts[2], btag_met_counts[2]))
+  print("\end{tabular}")
 
 def makeSRBTable(m_glu, m_lsp):
   hists_path = basedir+"T5ZZ/SRB/mglu%d_mlsp%d_" % (m_glu, m_lsp)
@@ -240,14 +243,14 @@ def makeSRBTable(m_glu, m_lsp):
   h_met = f_met.Get("type1MET").Clone("met_2lep")
   n=h_met.Integral(1,6001)
   f_met.Close()
-  print("2 Leptons (e^{\pm} e^{\mp} or \mu^{\pm}\mu^{\mp}), with p_{T} > 25 (20) GeV || %f" %n)
+  print("2 Leptons (e$^{\pm}$ e$^{\mp}$ or $\mu^{\pm}\mu^{\mp}$), with p$_{T} > 25 (20) $GeV & \\multicolumn{2}{c}{%f} \\\\" %n)
 
   hp = hists_path+"2lep_dilmass.root" 
   f_met = ROOT.TFile(hp, 'r')
   h_met = f_met.Get("type1MET").Clone("met_2lep_dilmass")
   n=h_met.Integral(1,6001)
   f_met.Close()
-  print("dilepton mass $\in$ Z mass window == (86,96) GeV|| %f" %n)
+  print("Dilepton mass $\in$ Z mass window (86,96) GeV & \multicolumn{2}{c}{%f} \\\\" %n)
 
   hp = hists_path+"2lep_dilmass_njets.root" 
   f_met = ROOT.TFile(hp, 'r')
@@ -261,12 +264,12 @@ def makeSRBTable(m_glu, m_lsp):
   h_met = f_met.Get("type1MET").Clone("met_2lep_dilmass_njets_dphi")
   n=h_met.Integral(1,6001)
   f_met.Close()
-  print("\Delta \Phi between MET and two highest p_{T} jets > 0.4 rad || %f" %n)
+  print("$\Delta \Phi$ between MET and two highest p$_{T}$ jets $> 0.4$ rad & \multicolumn{2}{c}{%f} \\\\" %n)
 
   # ==========================
   # Btagging Start
   # ==========================
-  print("Btag requirement || B Veto || >= 1 Btag")
+  print("\multicolumn{1}{c|}{\textbf{Btag requirement}} & \textbf{B Veto} & $\boldmath{\geq 1}$ \textbf{Btag} \\ \cline{2-3}")
   hp = hists_path+"2lep_dilmass_njets_dphi_btag.root" 
   f_met = ROOT.TFile(hp, 'r')
   h_met = f_met.Get("type1MET").Clone("met_2lep_dilmass_njets_dphi_btag")
@@ -334,14 +337,14 @@ def makeSRCTable(m_glu, m_lsp):
   h_met = f_met.Get("type1MET").Clone("met_2lep")
   n=h_met.Integral(1,6001)
   f_met.Close()
-  print("2 Leptons (e^{\pm} e^{\mp} or \mu^{\pm}\mu^{\mp}), with p_{T} > 25 (20) GeV || %f" %n)
+  print("2 Leptons (e$^{\pm}$ e$^{\mp}$ or $\mu^{\pm}\mu^{\mp}$), with p$_{T} > 25 (20) $GeV & \\multicolumn{2}{c}{%f} \\\\" %n)
 
   hp = hists_path+"2lep_dilmass.root" 
   f_met = ROOT.TFile(hp, 'r')
   h_met = f_met.Get("type1MET").Clone("met_2lep_dilmass")
   n=h_met.Integral(1,6001)
   f_met.Close()
-  print("dilepton mass $\in$ Z mass window == (86,96) GeV|| %f" %n)
+  print("Dilepton mass $\in$ Z mass window (86,96) GeV & \multicolumn{2}{c}{%f} \\\\" %n)
 
   hp = hists_path+"2lep_dilmass_njets.root" 
   f_met = ROOT.TFile(hp, 'r')
@@ -355,12 +358,12 @@ def makeSRCTable(m_glu, m_lsp):
   h_met = f_met.Get("type1MET").Clone("met_2lep_dilmass_njets_dphi")
   n=h_met.Integral(1,6001)
   f_met.Close()
-  print("\Delta \Phi between MET and two highest p_{T} jets > 0.4 rad || %f" %n)
+  print("$\Delta \Phi$ between MET and two highest p$_{T}$ jets $> 0.4$ rad & \multicolumn{2}{c}{%f} \\\\" %n)
 
   # ==========================
   # Btagging Start
   # ==========================
-  print("Btag requirement || B Veto || >= 1 Btag")
+  print("\multicolumn{1}{c|}{\textbf{Btag requirement}} & \textbf{B Veto} & $\boldmath{\geq 1}$ \textbf{Btag} \\ \cline{2-3}")
   hp = hists_path+"2lep_dilmass_njets_dphi_btag.root" 
   f_met = ROOT.TFile(hp, 'r')
   h_met = f_met.Get("type1MET").Clone("met_2lep_dilmass_njets_dphi_btag")
@@ -420,14 +423,14 @@ def makeTChiHZTable(m_glu, m_lsp, model, m_chi=None):
   h_met = f_met.Get("type1MET").Clone("met_2lep")
   n=h_met.Integral(1,6001)
   f_met.Close()
-  print("2 leptons (e^{\pm} e^{\mp} or \mu^{\pm}\mu^{\mp}), with p_{T} > 25 (20) GeV || %f" %n)
+  print("2 Leptons (e$^{\pm}$ e$^{\mp}$ or $\mu^{\pm}\mu^{\mp}$), with p$_{T} > 25 (20) $GeV & \\multicolumn{2}{c}{%f} \\\\" %n)
 
   hp = hists_path+"2lep_dilmass.root" 
   f_met = ROOT.TFile(hp, 'r')
   h_met = f_met.Get("type1MET").Clone("met_2lep_dilmass")
   n=h_met.Integral(1,6001)
   f_met.Close()
-  print("Dilepton mass $\in$ Z mass window == (86,96) GeV|| %f" %n)
+  print("Dilepton mass $\in$ Z mass window (86,96) GeV & \multicolumn{2}{c}{%f} \\\\" %n)
 
   hp = hists_path+"2lep_dilmass_njets.root" 
   f_met = ROOT.TFile(hp, 'r')
@@ -441,7 +444,7 @@ def makeTChiHZTable(m_glu, m_lsp, model, m_chi=None):
   h_met = f_met.Get("type1MET").Clone("met_2lep_dilmass_njets_dphi")
   n=h_met.Integral(1,6001)
   f_met.Close()
-  print("\Delta \Phi between MET and two highest p_{T} jets > 0.4 rad || %f" %n)
+  print("$\Delta \Phi$ between MET and two highest p$_{T}$ jets $> 0.4$ rad & \multicolumn{2}{c}{%f} \\\\" %n)
 
   hp = hists_path+"2lep_dilmass_njets_dphi_btag.root" 
   f_met = ROOT.TFile(hp, 'r')
@@ -486,14 +489,14 @@ def makeTChiWZTable(m_glu, m_lsp, model, m_chi=None):
   h_met = f_met.Get("type1MET").Clone("met_2lep")
   n=h_met.Integral(1,6001)
   f_met.Close()
-  print("2 leptons (e^{\pm} e^{\mp} or \mu^{\pm}\mu^{\mp}), with p_{T} > 25 (20) GeV || %f" %n)
+  print("2 Leptons (e$^{\pm}$ e$^{\mp}$ or $\mu^{\pm}\mu^{\mp}$), with p$_{T} > 25 (20) $GeV & \\multicolumn{2}{c}{%f} \\\\" %n)
 
   hp = hists_path+"2lep_dilmass.root" 
   f_met = ROOT.TFile(hp, 'r')
   h_met = f_met.Get("type1MET").Clone("met_2lep_dilmass")
   n=h_met.Integral(1,6001)
   f_met.Close()
-  print("Dilepton mass $\in$ Z mass window == (86,96) GeV|| %f" %n)
+  print("Dilepton mass $\in$ Z mass window (86,96) GeV & \multicolumn{2}{c}{%f} \\\\" %n)
 
   hp = hists_path+"2lep_dilmass_njets.root" 
   f_met = ROOT.TFile(hp, 'r')
@@ -507,7 +510,7 @@ def makeTChiWZTable(m_glu, m_lsp, model, m_chi=None):
   h_met = f_met.Get("type1MET").Clone("met_2lep_dilmass_njets_dphi")
   n=h_met.Integral(1,6001)
   f_met.Close()
-  print("\Delta \Phi between MET and two highest p_{T} jets > 0.4 rad || %f" %n)
+  print("$\Delta \Phi$ between MET and two highest p$_{T}$ jets $> 0.4$ rad & \multicolumn{2}{c}{%f} \\\\" %n)
 
   hp = hists_path+"2lep_dilmass_njets_dphi_btag.root" 
   f_met = ROOT.TFile(hp, 'r')
