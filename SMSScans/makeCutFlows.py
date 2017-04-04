@@ -208,7 +208,7 @@ def makeSRATable(m_glu, m_lsp):
   # ==========================
   # HT and MET Start
   # ==========================
-  print("$H_{T}$ > & 500 GeV & 200 GeV")
+  print("\multicolumn{1}{c|}{\\textbf{H_${T}$} >} & \\textbf{500 GeV} & \\textbf{200 GeV}")
   hp = hists_path+"2lep_dilmass_njets_dphi_btag_MT2_ht.root" 
   f_met = ROOT.TFile(hp, 'r')
   h_met = f_met.Get("type1MET").Clone("met_2lep_dilmass_njets_dphi_btag_MT2_ht")
@@ -228,7 +228,7 @@ def makeSRATable(m_glu, m_lsp):
   bveto_met_counts.append(h_met.Integral(150,6001))
   bveto_met_counts.append(h_met.Integral(250,6001))
   f_met.Close()
-  print(" & %f & %f \\ \hline" % (n_bveto, n_btag))
+  print(" & %f & %f \\\\ \hline" % (n_bveto, n_btag))
 
   print("$E^{miss}_{T} > 100$ GeV & %f & %f \\\\" % (bveto_met_counts[0], btag_met_counts[0]))
   print("$E^{miss}_{T} > 150$ GeV & %f & %f \\\\" % (bveto_met_counts[1], btag_met_counts[1]))
