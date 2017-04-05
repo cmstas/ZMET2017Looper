@@ -110,7 +110,7 @@ def makeT5ZZCutFlows(m_glu, m_lsp):
   ch.Draw("nlep>>h_baseline_lepveto", cuts)
   n_baseline_lepveto = h_baseline_lepveto.Integral(0,-1)"""
 
-  print("\\begin{tabular}{l|l|l}")
+  print("\\begin{tabular}{l|c|c}")
   print("\\hline")
   print("\\multicolumn{3}{c}{\\textbf{SRA}} \\\\ \\hline")
   print("T5ZZ model, mass gluino: %.0f GeV, mass LSP: %.0f GeV &  \\multicolumn{2}{c}{Events in %.1f fb$^{-1}$} \\\\ \\hline" % (m_glu, m_lsp, lumi_fb))
@@ -120,7 +120,7 @@ def makeT5ZZCutFlows(m_glu, m_lsp):
  
   print("")
 
-  print("\\begin{tabular}{l|l|l}")
+  print("\\begin{tabular}{l|c|c}")
   print("\\hline")
   print("\\multicolumn{3}{c}{\\textbf{SRB}} \\\\ \\hline")
   print("T5ZZ model, mass gluino: %.0f GeV, mass LSP: %.0f GeV &  \\multicolumn{2}{c}{Events in %.1f fb$^{-1}$} \\\\ \\hline" % (m_glu, m_lsp, lumi_fb))
@@ -130,7 +130,7 @@ def makeT5ZZCutFlows(m_glu, m_lsp):
   
   print("")
 
-  print("\\begin{tabular}{l|l|l}")
+  print("\\begin{tabular}{l|c|c}")
   print("\\hline")
   print("\\multicolumn{3}{c}{\\textbf{SRC}} \\\\ \\hline")
   print("T5ZZ model, mass gluino: %.0f GeV, mass LSP: %.0f GeV &  \\multicolumn{2}{c}{Events in %.1f fb$^{-1}$} \\\\ \\hline" % (m_glu, m_lsp, lumi_fb))
