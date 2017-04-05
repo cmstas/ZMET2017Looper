@@ -692,6 +692,7 @@ if __name__ == "__main__":
   parser.add_argument("--tchiwz", help="print cutflow table for TChiWZ sample (can specify mass_gluino and mass_lsp)", action="store_true")
   parser.add_argument("--tchizz", help="print cutflow table for TChiZZ sample (can specify mass_chi)", action="store_true")
   parser.add_argument("--tchihz", help="print cutflow table for TChiHZ sample (can specify mass_chi)", action="store_true")
+  parser.add_argument("--all", help="print latex cutflow table for all samples (uses default masses)", action="store_true")
   parser.add_argument("--mass_chi", help="choose chi mass for TChiHZ or TChiZZ sample, default is 350 for both TChiHZ and TChiZZ", type=int)
   parser.add_argument("--mass_gluino", help="choose gluino mass for T5ZZ or TChiWZ sample, defualt is 1400 for T5ZZ and 550 for TChiWZ", type=int)
   parser.add_argument("--mass_lsp", help="choose chi mass for T5ZZ or TChiWZ sample, defualt is 700 for T5ZZ and 200 for TChiWZ", type=int)
@@ -718,6 +719,38 @@ if __name__ == "__main__":
       makeTChiHZCutFlows(args.mass_chi)
     else:
       makeTChiHZCutFlows(350)
+  elif (args.all):
+    print("\subsection*{T5ZZ}")
+    print("\\begin{table}[ht!]")
+    print("\\begin{center}")
+    makeT5ZZCutFlows(1400,700)
+    print("\end{center}")
+    print("\end{table}")
+    print("\clearpage")
+    
+    print("\subsection*{TChiWZ}")
+    print("\\begin{table}[ht!]")
+    print("\\begin{center}")
+    makeTChiWZCutFlows(550,200)
+    print("\end{center}")
+    print("\end{table}")
+
+    print("\subsection*{TChiZZ}")
+    print("\\begin{table}[ht!]")
+    print("\\begin{center}")
+    makeTChiZZCutFlows(350)
+    print("\end{center}")
+    print("\end{table}")
+    print("\clearpage")
+
+    print("\subsection*{TChiHZ}")
+    print("\\begin{table}[ht!]")
+    print("\\begin{center}")
+    makeTChiHZCutFlows(350)
+    print("\end{center}")
+    print("\end{table}")
+    print("\clearpage")
+
   else:
     parser.print_help()
     exit()
