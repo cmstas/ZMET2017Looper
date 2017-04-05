@@ -87,14 +87,40 @@ def getXSec(model, mass_point):
   return None
 
 def makeT5ZZCutFlows(m_glu, m_lsp):
+  ch = ROOT.TChain("t")
+  if m_glu >= 1850:
+    ch.Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-16/skims/t5zz_mg1850_80x_v2_skim_*")
+  else:
+    ch.Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-16/skims/t5zz_orig_80x_v2_skim_*")
+
+  cuts="((mass_gluino == %f) && (mass_LSP == %f))*evt_scale1fb*%f" % (m_glu, m_lsp, lumi_fb)
+  h_baseline_2lep = ROOT.TH1D("h_baseline_2lep", "2 lep baseline", 1,0,10)
+  ch.Draw("nlep>>h_baseline_2lep", cuts)
+  n_baseline_2lep = h_baseline_2lep.Integral(0,-1)
+
+  cuts="((lep_pt[0] > 25) && (lep_pt[1] > 20) && %s" % cuts[1:]
+  #print(cuts)
+  h_baseline_pt = ROOT.TH1D("h_baseline_pt", "lepton pt", 1,0,10)
+  ch.Draw("nlep>>h_baseline_pt", cuts)
+  n_baseline_pt = h_baseline_pt.Integral(0,-1)
+
+  cuts="(((nisoTrack_mt2+nlep) < 3) && (nveto_leptons < 1) && %s" % cuts[1:]
+  #print(cuts)
+  h_baseline_lepveto = ROOT.TH1D("h_baseline_lepveto", "extra lepton vetos", 1,0,10)
+  ch.Draw("nlep>>h_baseline_lepveto", cuts)
+  n_baseline_lepveto = h_baseline_lepveto.Integral(0,-1)
+
   print("\\begin{tabular}{l|l|l}")
   print("\\hline")
   print("\\multicolumn{3}{c}{\\textbf{SRA}} \\\\ \\hline")
   print("T5ZZ model, mass gluino: %.0f GeV, mass LSP: %.0f GeV &  \\multicolumn{2}{c}{Events in %.1f fb$^{-1}$} \\\\ \\hline" % (m_glu, m_lsp, lumi_fb))
   n = getXSec("t5zz", [m_glu, m_lsp])
-  print("All Entries & \multicolumn{2}{c}{%f} \\\\" % (n*1000*lumi_fb))
+  print("All events at mass point & \multicolumn{2}{c}{%f} \\\\" % (n*1000*lumi_fb))
+  print("$\geq$ 2 Leptons (e$^{\pm}$ e$^{\mp}$ or $\mu^{\pm}\mu^{\mp}$) with p$_{T} >$ 10 GeV & \multicolumn{2}{c}{%f} \\\\" % (n_baseline_2lep))
+  print("(Sub)Leading lepton p$_{T} > 25(20)$ GeV & \multicolumn{2}{c}{%f} \\\\" % (n_baseline_pt))
+  print("Extra lepton vetos & \multicolumn{2}{c}{%f} \\\\" % (n_baseline_lepveto))
   makeSRATable(m_glu, m_lsp)
-  
+ 
   print("")
 
   print("\\begin{tabular}{l|l|l}")
@@ -102,7 +128,10 @@ def makeT5ZZCutFlows(m_glu, m_lsp):
   print("\\multicolumn{3}{c}{\\textbf{SRB}} \\\\ \\hline")
   print("T5ZZ model, mass gluino: %.0f GeV, mass LSP: %.0f GeV &  \\multicolumn{2}{c}{Events in %.1f fb$^{-1}$} \\\\ \\hline" % (m_glu, m_lsp, lumi_fb))
   n = getXSec("t5zz", [m_glu, m_lsp])
-  print("All Entries & \multicolumn{2}{c}{%f} \\\\" % (n*1000*lumi_fb))
+  print("All events at mass point & \multicolumn{2}{c}{%f} \\\\" % (n*1000*lumi_fb))
+  print("$\geq$ 2 Leptons (e$^{\pm}$ e$^{\mp}$ or $\mu^{\pm}\mu^{\mp}$) with p$_{T} >$ 10 GeV & \multicolumn{2}{c}{%f} \\\\" % (n_baseline_2lep))
+  print("(Sub)Leading lepton p$_{T} > 25(20)$ GeV & \multicolumn{2}{c}{%f} \\\\" % (n_baseline_pt))
+  print("Extra lepton vetos & \multicolumn{2}{c}{%f} \\\\" % (n_baseline_lepveto))
   makeSRBTable(m_glu, m_lsp)
   
   print("")
@@ -112,52 +141,125 @@ def makeT5ZZCutFlows(m_glu, m_lsp):
   print("\\multicolumn{3}{c}{\\textbf{SRC}} \\\\ \\hline")
   print("T5ZZ model, mass gluino: %.0f GeV, mass LSP: %.0f GeV &  \\multicolumn{2}{c}{Events in %.1f fb$^{-1}$} \\\\ \\hline" % (m_glu, m_lsp, lumi_fb))
   n = getXSec("t5zz", [m_glu, m_lsp])
-  print("All Entries & \multicolumn{2}{c}{%f} \\\\" % (n*1000*lumi_fb))
+  print("All events at mass point & \multicolumn{2}{c}{%f} \\\\" % (n*1000*lumi_fb))
+  print("$\geq$ 2 Leptons (e$^{\pm}$ e$^{\mp}$ or $\mu^{\pm}\mu^{\mp}$) with p$_{T} >$ 10 GeV & \multicolumn{2}{c}{%f} \\\\" % (n_baseline_2lep))
+  print("(Sub)Leading lepton p$_{T} > 25(20)$ GeV & \multicolumn{2}{c}{%f} \\\\" % (n_baseline_pt))
+  print("Extra lepton vetos & \multicolumn{2}{c}{%f} \\\\" % (n_baseline_lepveto))
   makeSRCTable(m_glu, m_lsp)
 
 def makeTChiWZCutFlows(m_glu, m_lsp):
-  print("\\begin{tabular}{l|l}")
+  ch = ROOT.TChain("t")
+  ch.Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-16/skims/tchiwz_80x_v2*")
+
+  cuts="((mass_gluino == %f) && (mass_LSP == %f))*evt_scale1fb*%f" % (m_glu, m_lsp, lumi_fb)
+  h_baseline_2lep = ROOT.TH1D("h_baseline_2lep", "2 lep baseline", 1,0,10)
+  ch.Draw("nlep>>h_baseline_2lep", cuts)
+  n_baseline_2lep = h_baseline_2lep.Integral(0,-1)
+
+  cuts="((lep_pt[0] > 25) && (lep_pt[1] > 20) && %s" % cuts[1:]
+  h_baseline_pt = ROOT.TH1D("h_baseline_pt", "lepton pt", 1,0,10)
+  ch.Draw("nlep>>h_baseline_pt", cuts)
+  n_baseline_pt = h_baseline_pt.Integral(0,-1)
+
+  cuts="(((nisoTrack_mt2+nlep) < 3) && (nveto_leptons < 1) && %s" % cuts[1:]
+  h_baseline_lepveto = ROOT.TH1D("h_baseline_lepveto", "extra lepton vetos", 1,0,10)
+  ch.Draw("nlep>>h_baseline_lepveto", cuts)
+  n_baseline_lepveto = h_baseline_lepveto.Integral(0,-1)
+
+  print("\\begin{tabular}{l|r}")
   print("\\hline")
   print("\\multicolumn{2}{c}{\\textbf{TChiWZ}} \\\\ \\hline")
   print("TChiWZ model, mass gluino: %.0f GeV, mass LSP: %.0f GeV &  Events in %.1f fb$^{-1}$ \\\\ \\hline" % (m_glu, m_lsp, lumi_fb))
   n = getXSec("tchiwz", [m_glu, m_lsp])
-  print("All Entries & %f \\\\" % (n*1000*lumi_fb))
+  print("All events at mass point & %f \\\\" % (n*1000*lumi_fb))
+  print("$\geq$ 2 Leptons (e$^{\pm}$ e$^{\mp}$ or $\mu^{\pm}\mu^{\mp}$) with p$_{T} >$ 10 GeV & %f \\\\" % (n_baseline_2lep))
+  print("(Sub)Leading lepton p$_{T} > 25(20)$ GeV & %f \\\\" % (n_baseline_pt))
+  print("Extra lepton vetos & %f \\\\" % (n_baseline_lepveto))
   makeTChiWZTable(m_glu, m_lsp, "tchiwz")
-  
+ 
+  """ 
   print("")
 
-  print("\\begin{tabular}{l|l}")
+  print("\\begin{tabular}{l|r}")
   print("\\hline")
   print("\\multicolumn{2}{c}{\\textbf{TChiHZ}} \\\\ \\hline")
   print("TChiWZ model, mass gluino: %.0f GeV, mass LSP: %.0f GeV &  Events in %.1f fb$^{-1}$ \\\\ \\hline" % (m_glu, m_lsp, lumi_fb))
   n = getXSec("tchiwz", [m_glu, m_lsp])
-  print("All Entries & %f \\\\" % (n*1000*lumi_fb))
-  makeTChiHZTable(m_glu, m_lsp, "tchiwz")
+  print("All events at mass point & %f \\\\" % (n*1000*lumi_fb))
+  print("$\geq$ 2 Leptons (e$^{\pm}$ e$^{\mp}$ or $\mu^{\pm}\mu^{\mp}$) with p$_{T} >$ 10 GeV & %f \\\\" % (n_baseline_2lep))
+  print("(Sub)Leading lepton p$_{T} > 25(20)$ GeV & %f \\\\" % (n_baseline_pt))
+  print("Extra lepton vetos & %f \\\\" % (n_baseline_lepveto))
+  makeTChiHZTable(m_glu, m_lsp, "tchiwz")"""
   
 def makeTChiZZCutFlows(m_chi):
-  print("\\begin{tabular}{l|l}")
+  ch = ROOT.TChain("t")
+  ch.Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-17/skims/tchizz_80x_v2*")
+
+  cuts="(mass_chi == %f)*evt_scale1fb*%f" % (m_chi, lumi_fb)
+  h_baseline_2lep = ROOT.TH1D("h_baseline_2lep", "2 lep baseline", 1,0,10)
+  ch.Draw("nlep>>h_baseline_2lep", cuts)
+  n_baseline_2lep = h_baseline_2lep.Integral(0,-1)
+
+  cuts="((lep_pt[0] > 25) && (lep_pt[1] > 20) && %s" % cuts[1:]
+  h_baseline_pt = ROOT.TH1D("h_baseline_pt", "lepton pt", 1,0,10)
+  ch.Draw("nlep>>h_baseline_pt", cuts)
+  n_baseline_pt = h_baseline_pt.Integral(0,-1)
+
+  cuts="(((nisoTrack_mt2+nlep) < 3) && (nveto_leptons < 1) && %s" % cuts[1:]
+  h_baseline_lepveto = ROOT.TH1D("h_baseline_lepveto", "extra lepton vetos", 1,0,10)
+  ch.Draw("nlep>>h_baseline_lepveto", cuts)
+  n_baseline_lepveto = h_baseline_lepveto.Integral(0,-1)
+
+  print("\\begin{tabular}{l|r}")
   print("\\hline")
   print("\\multicolumn{2}{c}{\\textbf{TChiWZ}} \\\\ \\hline")
   print("TChiZZ model, mass chi: %.0f GeV &  Events in %.1f fb$^{-1}$ \\\\ \\hline" % (m_chi, lumi_fb))
   n = getXSec("tchizz", m_chi)
-  print("All Entries & %f \\\\" % (n*1000*lumi_fb))
+  print("All events at mass point & %f \\\\" % (n*1000*lumi_fb))
+  print("$\geq$ 2 Leptons (e$^{\pm}$ e$^{\mp}$ or $\mu^{\pm}\mu^{\mp}$) with p$_{T} >$ 10 GeV & %f \\\\" % (n_baseline_2lep))
+  print("(Sub)Leading lepton p$_{T} > 25(20)$ GeV & %f \\\\" % (n_baseline_pt))
+  print("Extra lepton vetos & %f \\\\" % (n_baseline_lepveto))
   makeTChiWZTable(-1,-1,"tchizz", m_chi)
   
-  print("\\begin{tabular}{l|l}")
+  print("\\begin{tabular}{l|r}")
   print("\\hline")
   print("\\multicolumn{2}{c}{\\textbf{TChiHZ}} \\\\ \\hline")
   print("TChiZZ model, mass chi: %.0f GeV &  Events in %.1f fb$^{-1}$ \\\\ \\hline" % (m_chi, lumi_fb))
   n = getXSec("tchizz", m_chi)
-  print("All Entries & %f \\\\" % (n*1000*lumi_fb))
+  print("All events at mass point & %f \\\\" % (n*1000*lumi_fb))
+  print("$\geq$ 2 Leptons (e$^{\pm}$ e$^{\mp}$ or $\mu^{\pm}\mu^{\mp}$) with p$_{T} >$ 10 GeV & %f \\\\" % (n_baseline_2lep))
+  print("(Sub)Leading lepton p$_{T} > 25(20)$ GeV & %f \\\\" % (n_baseline_pt))
+  print("Extra lepton vetos & %f \\\\" % (n_baseline_lepveto))
   makeTChiHZTable(-1,-1,"tchizz", m_chi)
 
 def makeTChiHZCutFlows(m_chi):
-  print("\\begin{tabular}{l|l}")
+  ch = ROOT.TChain("t")
+  ch.Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-17/skims/tchihz_80x_v2*")
+
+  cuts="(mass_chi == %f)*evt_scale1fb*%f" % (m_chi, lumi_fb)
+  h_baseline_2lep = ROOT.TH1D("h_baseline_2lep", "2 lep baseline", 1,0,10)
+  ch.Draw("nlep>>h_baseline_2lep", cuts)
+  n_baseline_2lep = h_baseline_2lep.Integral(0,-1)
+
+  cuts="((lep_pt[0] > 25) && (lep_pt[1] > 20) && %s" % cuts[1:]
+  h_baseline_pt = ROOT.TH1D("h_baseline_pt", "lepton pt", 1,0,10)
+  ch.Draw("nlep>>h_baseline_pt", cuts)
+  n_baseline_pt = h_baseline_pt.Integral(0,-1)
+
+  cuts="(((nisoTrack_mt2+nlep) < 3) && (nveto_leptons < 1) && %s" % cuts[1:]
+  h_baseline_lepveto = ROOT.TH1D("h_baseline_lepveto", "extra lepton vetos", 1,0,10)
+  ch.Draw("nlep>>h_baseline_lepveto", cuts)
+  n_baseline_lepveto = h_baseline_lepveto.Integral(0,-1)
+
+  print("\\begin{tabular}{l|r}")
   print("\\hline")
   print("\\multicolumn{2}{c}{\\textbf{TChiHZ}} \\\\ \\hline")
   print("TChiHZ model, mass chi: %.0f GeV &  Events in %.1f fb$^{-1}$ \\\\ \\hline" % (m_chi, lumi_fb))
   n = getXSec("tchihz", m_chi)
-  print("All Entries & %f \\\\" % (n*1000*lumi_fb))
+  print("All events at mass point & %f \\\\" % (n*1000*lumi_fb))
+  print("$\geq$ 2 Leptons (e$^{\pm}$ e$^{\mp}$ or $\mu^{\pm}\mu^{\mp}$) with p$_{T} >$ 10 GeV & %f \\\\" % (n_baseline_2lep))
+  print("(Sub)Leading lepton p$_{T} > 25(20)$ GeV & %f \\\\" % (n_baseline_pt))
+  print("Extra lepton vetos & %f \\\\" % (n_baseline_lepveto))
   makeTChiHZTable(-1,-1,"tchihz", m_chi)
 
 def makeSRATable(m_glu, m_lsp):
@@ -168,7 +270,7 @@ def makeSRATable(m_glu, m_lsp):
   h_met = f_met.Get("type1MET").Clone("met_2lep")
   n=h_met.Integral(1,6001)
   f_met.Close()
-  print("2 Leptons (e$^{\pm}$ e$^{\mp}$ or $\mu^{\pm}\mu^{\mp}$), with p$_{T} > 25 (20) $GeV & \multicolumn{2}{c}{%f} \\\\" %n)
+  print("Other lepton and event quality cuts, efficiency scale factors & \multicolumn{2}{c}{%f} \\\\" %n)
 
   hp = hists_path+"2lep_dilmass.root" 
   f_met = ROOT.TFile(hp, 'r')
@@ -228,7 +330,7 @@ def makeSRATable(m_glu, m_lsp):
   # ==========================
   # HT and MET Start
   # ==========================
-  print("\multicolumn{1}{c|}{\\textbf{H$_{T} >$}} & \\textbf{500 GeV} & \\textbf{200 GeV} \\\\")
+  print("\multicolumn{1}{c|}{\\textbf{H$_{T} >$}} & \\textbf{500 GeV} & \\textbf{200 GeV} \\\\ \cline{2-3}")
   hp = hists_path+"2lep_dilmass_njets_dphi_btag_MT2_ht.root" 
   f_met = ROOT.TFile(hp, 'r')
   h_met = f_met.Get("type1MET").Clone("met_2lep_dilmass_njets_dphi_btag_MT2_ht")
@@ -263,7 +365,7 @@ def makeSRBTable(m_glu, m_lsp):
   h_met = f_met.Get("type1MET").Clone("met_2lep")
   n=h_met.Integral(1,6001)
   f_met.Close()
-  print("2 Leptons (e$^{\pm}$ e$^{\mp}$ or $\mu^{\pm}\mu^{\mp}$), with p$_{T} > 25 (20) $GeV & \multicolumn{2}{c}{%f} \\\\" %n)
+  print("Other lepton and event quality cuts, efficiency scale factors & \multicolumn{2}{c}{%f} \\\\" %n)
 
   hp = hists_path+"2lep_dilmass.root" 
   f_met = ROOT.TFile(hp, 'r')
@@ -323,7 +425,7 @@ def makeSRBTable(m_glu, m_lsp):
   # ==========================
   # HT and MET Start
   # ==========================
-  print("\multicolumn{1}{c|}{\\textbf{H$_{T} >$}} & \\textbf{500 GeV} & \\textbf{200 GeV} \\\\")
+  print("\multicolumn{1}{c|}{\\textbf{H$_{T} >$}} & \\textbf{500 GeV} & \\textbf{200 GeV} \\\\ \cline{2-3}")
   hp = hists_path+"2lep_dilmass_njets_dphi_btag_MT2_ht.root" 
   f_met = ROOT.TFile(hp, 'r')
   h_met = f_met.Get("type1MET").Clone("met_2lep_dilmass_njets_dphi_btag_MT2_ht")
@@ -358,7 +460,7 @@ def makeSRCTable(m_glu, m_lsp):
   h_met = f_met.Get("type1MET").Clone("met_2lep")
   n=h_met.Integral(1,6001)
   f_met.Close()
-  print("2 Leptons (e$^{\pm}$ e$^{\mp}$ or $\mu^{\pm}\mu^{\mp}$), with p$_{T} > 25 (20) $GeV & \multicolumn{2}{c}{%f} \\\\" %n)
+  print("Other lepton and event quality cuts, efficiency scale factors & \multicolumn{2}{c}{%f} \\\\" %n)
 
   hp = hists_path+"2lep_dilmass.root" 
   f_met = ROOT.TFile(hp, 'r')
@@ -443,7 +545,7 @@ def makeTChiHZTable(m_glu, m_lsp, model, m_chi=None):
   h_met = f_met.Get("type1MET").Clone("met_2lep")
   n=h_met.Integral(1,6001)
   f_met.Close()
-  print("2 Leptons (e$^{\pm}$ e$^{\mp}$ or $\mu^{\pm}\mu^{\mp}$), with p$_{T} > 25 (20) $GeV & %f \\\\" %n)
+  print("Other lepton and event quality cuts, efficiency scale factors & %f \\\\" %n)
 
   hp = hists_path+"2lep_dilmass.root" 
   f_met = ROOT.TFile(hp, 'r')
@@ -510,7 +612,7 @@ def makeTChiWZTable(m_glu, m_lsp, model, m_chi=None):
   h_met = f_met.Get("type1MET").Clone("met_2lep")
   n=h_met.Integral(1,6001)
   f_met.Close()
-  print("2 Leptons (e$^{\pm}$ e$^{\mp}$ or $\mu^{\pm}\mu^{\mp}$), with p$_{T} > 25 (20) $GeV & %f \\\\" %n)
+  print("Other lepton and event quality cuts, efficiency scale factors & %f \\\\" %n)
 
   hp = hists_path+"2lep_dilmass.root" 
   f_met = ROOT.TFile(hp, 'r')
