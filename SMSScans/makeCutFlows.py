@@ -98,7 +98,7 @@ def makeT5ZZCutFlows(m_glu, m_lsp):
   ch.Draw("nlep>>h_baseline_2lep", cuts)
   n_baseline_2lep = h_baseline_2lep.Integral(0,-1)
 
-  cuts="((lep_pt[0] > 25) && (lep_pt[1] > 20) && %s" % cuts[1:]
+  """cuts="((lep_pt[0] > 25) && (lep_pt[1] > 20) && %s" % cuts[1:]
   #print(cuts)
   h_baseline_pt = ROOT.TH1D("h_baseline_pt", "lepton pt", 1,0,10)
   ch.Draw("nlep>>h_baseline_pt", cuts)
@@ -108,17 +108,14 @@ def makeT5ZZCutFlows(m_glu, m_lsp):
   #print(cuts)
   h_baseline_lepveto = ROOT.TH1D("h_baseline_lepveto", "extra lepton vetos", 1,0,10)
   ch.Draw("nlep>>h_baseline_lepveto", cuts)
-  n_baseline_lepveto = h_baseline_lepveto.Integral(0,-1)
+  n_baseline_lepveto = h_baseline_lepveto.Integral(0,-1)"""
 
   print("\\begin{tabular}{l|l|l}")
   print("\\hline")
   print("\\multicolumn{3}{c}{\\textbf{SRA}} \\\\ \\hline")
   print("T5ZZ model, mass gluino: %.0f GeV, mass LSP: %.0f GeV &  \\multicolumn{2}{c}{Events in %.1f fb$^{-1}$} \\\\ \\hline" % (m_glu, m_lsp, lumi_fb))
   n = getXSec("t5zz", [m_glu, m_lsp])
-  print("All events at mass point & \multicolumn{2}{c}{%f} \\\\" % (n*1000*lumi_fb))
-  print("$\geq$ 2 Leptons (e$^{\pm}$ e$^{\mp}$ or $\mu^{\pm}\mu^{\mp}$) with p$_{T} >$ 10 GeV & \multicolumn{2}{c}{%f} \\\\" % (n_baseline_2lep))
-  print("(Sub)Leading lepton p$_{T} > 25(20)$ GeV & \multicolumn{2}{c}{%f} \\\\" % (n_baseline_pt))
-  print("Extra lepton vetos & \multicolumn{2}{c}{%f} \\\\" % (n_baseline_lepveto))
+  print("Expected Production Rate & \multicolumn{2}{c}{%.2f} \\\\" % (n*1000*lumi_fb))
   makeSRATable(m_glu, m_lsp)
  
   print("")
@@ -128,10 +125,7 @@ def makeT5ZZCutFlows(m_glu, m_lsp):
   print("\\multicolumn{3}{c}{\\textbf{SRB}} \\\\ \\hline")
   print("T5ZZ model, mass gluino: %.0f GeV, mass LSP: %.0f GeV &  \\multicolumn{2}{c}{Events in %.1f fb$^{-1}$} \\\\ \\hline" % (m_glu, m_lsp, lumi_fb))
   n = getXSec("t5zz", [m_glu, m_lsp])
-  print("All events at mass point & \multicolumn{2}{c}{%f} \\\\" % (n*1000*lumi_fb))
-  print("$\geq$ 2 Leptons (e$^{\pm}$ e$^{\mp}$ or $\mu^{\pm}\mu^{\mp}$) with p$_{T} >$ 10 GeV & \multicolumn{2}{c}{%f} \\\\" % (n_baseline_2lep))
-  print("(Sub)Leading lepton p$_{T} > 25(20)$ GeV & \multicolumn{2}{c}{%f} \\\\" % (n_baseline_pt))
-  print("Extra lepton vetos & \multicolumn{2}{c}{%f} \\\\" % (n_baseline_lepveto))
+  print("Expected Production Rate & \multicolumn{2}{c}{%.2f} \\\\" % (n*1000*lumi_fb))
   makeSRBTable(m_glu, m_lsp)
   
   print("")
@@ -141,10 +135,7 @@ def makeT5ZZCutFlows(m_glu, m_lsp):
   print("\\multicolumn{3}{c}{\\textbf{SRC}} \\\\ \\hline")
   print("T5ZZ model, mass gluino: %.0f GeV, mass LSP: %.0f GeV &  \\multicolumn{2}{c}{Events in %.1f fb$^{-1}$} \\\\ \\hline" % (m_glu, m_lsp, lumi_fb))
   n = getXSec("t5zz", [m_glu, m_lsp])
-  print("All events at mass point & \multicolumn{2}{c}{%f} \\\\" % (n*1000*lumi_fb))
-  print("$\geq$ 2 Leptons (e$^{\pm}$ e$^{\mp}$ or $\mu^{\pm}\mu^{\mp}$) with p$_{T} >$ 10 GeV & \multicolumn{2}{c}{%f} \\\\" % (n_baseline_2lep))
-  print("(Sub)Leading lepton p$_{T} > 25(20)$ GeV & \multicolumn{2}{c}{%f} \\\\" % (n_baseline_pt))
-  print("Extra lepton vetos & \multicolumn{2}{c}{%f} \\\\" % (n_baseline_lepveto))
+  print("Expected Production Rate & \multicolumn{2}{c}{%.2f} \\\\" % (n*1000*lumi_fb))
   makeSRCTable(m_glu, m_lsp)
 
 def makeTChiWZCutFlows(m_glu, m_lsp):
@@ -156,7 +147,7 @@ def makeTChiWZCutFlows(m_glu, m_lsp):
   ch.Draw("nlep>>h_baseline_2lep", cuts)
   n_baseline_2lep = h_baseline_2lep.Integral(0,-1)
 
-  cuts="((lep_pt[0] > 25) && (lep_pt[1] > 20) && %s" % cuts[1:]
+  """cuts="((lep_pt[0] > 25) && (lep_pt[1] > 20) && %s" % cuts[1:]
   h_baseline_pt = ROOT.TH1D("h_baseline_pt", "lepton pt", 1,0,10)
   ch.Draw("nlep>>h_baseline_pt", cuts)
   n_baseline_pt = h_baseline_pt.Integral(0,-1)
@@ -164,17 +155,14 @@ def makeTChiWZCutFlows(m_glu, m_lsp):
   cuts="(((nisoTrack_mt2+nlep) < 3) && (nveto_leptons < 1) && %s" % cuts[1:]
   h_baseline_lepveto = ROOT.TH1D("h_baseline_lepveto", "extra lepton vetos", 1,0,10)
   ch.Draw("nlep>>h_baseline_lepveto", cuts)
-  n_baseline_lepveto = h_baseline_lepveto.Integral(0,-1)
+  n_baseline_lepveto = h_baseline_lepveto.Integral(0,-1)"""
 
   print("\\begin{tabular}{l|r}")
   print("\\hline")
   print("\\multicolumn{2}{c}{\\textbf{TChiWZ}} \\\\ \\hline")
   print("TChiWZ model, mass gluino: %.0f GeV, mass LSP: %.0f GeV &  Events in %.1f fb$^{-1}$ \\\\ \\hline" % (m_glu, m_lsp, lumi_fb))
   n = getXSec("tchiwz", [m_glu, m_lsp])
-  print("All events at mass point & %f \\\\" % (n*1000*lumi_fb))
-  print("$\geq$ 2 Leptons (e$^{\pm}$ e$^{\mp}$ or $\mu^{\pm}\mu^{\mp}$) with p$_{T} >$ 10 GeV & %f \\\\" % (n_baseline_2lep))
-  print("(Sub)Leading lepton p$_{T} > 25(20)$ GeV & %f \\\\" % (n_baseline_pt))
-  print("Extra lepton vetos & %f \\\\" % (n_baseline_lepveto))
+  print("Expected Production Rate & %.2f \\\\" % (n*1000*lumi_fb))
   makeTChiWZTable(m_glu, m_lsp, "tchiwz")
  
   """ 
@@ -200,7 +188,7 @@ def makeTChiZZCutFlows(m_chi):
   ch.Draw("nlep>>h_baseline_2lep", cuts)
   n_baseline_2lep = h_baseline_2lep.Integral(0,-1)
 
-  cuts="((lep_pt[0] > 25) && (lep_pt[1] > 20) && %s" % cuts[1:]
+  """cuts="((lep_pt[0] > 25) && (lep_pt[1] > 20) && %s" % cuts[1:]
   h_baseline_pt = ROOT.TH1D("h_baseline_pt", "lepton pt", 1,0,10)
   ch.Draw("nlep>>h_baseline_pt", cuts)
   n_baseline_pt = h_baseline_pt.Integral(0,-1)
@@ -208,17 +196,14 @@ def makeTChiZZCutFlows(m_chi):
   cuts="(((nisoTrack_mt2+nlep) < 3) && (nveto_leptons < 1) && %s" % cuts[1:]
   h_baseline_lepveto = ROOT.TH1D("h_baseline_lepveto", "extra lepton vetos", 1,0,10)
   ch.Draw("nlep>>h_baseline_lepveto", cuts)
-  n_baseline_lepveto = h_baseline_lepveto.Integral(0,-1)
+  n_baseline_lepveto = h_baseline_lepveto.Integral(0,-1)"""
 
   print("\\begin{tabular}{l|r}")
   print("\\hline")
   print("\\multicolumn{2}{c}{\\textbf{TChiWZ}} \\\\ \\hline")
   print("TChiZZ model, mass chi: %.0f GeV &  Events in %.1f fb$^{-1}$ \\\\ \\hline" % (m_chi, lumi_fb))
   n = getXSec("tchizz", m_chi)
-  print("All events at mass point & %f \\\\" % (n*1000*lumi_fb))
-  print("$\geq$ 2 Leptons (e$^{\pm}$ e$^{\mp}$ or $\mu^{\pm}\mu^{\mp}$) with p$_{T} >$ 10 GeV & %f \\\\" % (n_baseline_2lep))
-  print("(Sub)Leading lepton p$_{T} > 25(20)$ GeV & %f \\\\" % (n_baseline_pt))
-  print("Extra lepton vetos & %f \\\\" % (n_baseline_lepveto))
+  print("Expected Production Rate & %.2f \\\\" % (n*1000*lumi_fb))
   makeTChiWZTable(-1,-1,"tchizz", m_chi)
   
   print("\\begin{tabular}{l|r}")
@@ -226,10 +211,7 @@ def makeTChiZZCutFlows(m_chi):
   print("\\multicolumn{2}{c}{\\textbf{TChiHZ}} \\\\ \\hline")
   print("TChiZZ model, mass chi: %.0f GeV &  Events in %.1f fb$^{-1}$ \\\\ \\hline" % (m_chi, lumi_fb))
   n = getXSec("tchizz", m_chi)
-  print("All events at mass point & %f \\\\" % (n*1000*lumi_fb))
-  print("$\geq$ 2 Leptons (e$^{\pm}$ e$^{\mp}$ or $\mu^{\pm}\mu^{\mp}$) with p$_{T} >$ 10 GeV & %f \\\\" % (n_baseline_2lep))
-  print("(Sub)Leading lepton p$_{T} > 25(20)$ GeV & %f \\\\" % (n_baseline_pt))
-  print("Extra lepton vetos & %f \\\\" % (n_baseline_lepveto))
+  print("Expected Production Rate & %.2f \\\\" % (n*1000*lumi_fb))
   makeTChiHZTable(-1,-1,"tchizz", m_chi)
 
 def makeTChiHZCutFlows(m_chi):
@@ -241,7 +223,7 @@ def makeTChiHZCutFlows(m_chi):
   ch.Draw("nlep>>h_baseline_2lep", cuts)
   n_baseline_2lep = h_baseline_2lep.Integral(0,-1)
 
-  cuts="((lep_pt[0] > 25) && (lep_pt[1] > 20) && %s" % cuts[1:]
+  """cuts="((lep_pt[0] > 25) && (lep_pt[1] > 20) && %s" % cuts[1:]
   h_baseline_pt = ROOT.TH1D("h_baseline_pt", "lepton pt", 1,0,10)
   ch.Draw("nlep>>h_baseline_pt", cuts)
   n_baseline_pt = h_baseline_pt.Integral(0,-1)
@@ -249,49 +231,53 @@ def makeTChiHZCutFlows(m_chi):
   cuts="(((nisoTrack_mt2+nlep) < 3) && (nveto_leptons < 1) && %s" % cuts[1:]
   h_baseline_lepveto = ROOT.TH1D("h_baseline_lepveto", "extra lepton vetos", 1,0,10)
   ch.Draw("nlep>>h_baseline_lepveto", cuts)
-  n_baseline_lepveto = h_baseline_lepveto.Integral(0,-1)
+  n_baseline_lepveto = h_baseline_lepveto.Integral(0,-1)"""
 
   print("\\begin{tabular}{l|r}")
   print("\\hline")
   print("\\multicolumn{2}{c}{\\textbf{TChiHZ}} \\\\ \\hline")
   print("TChiHZ model, mass chi: %.0f GeV &  Events in %.1f fb$^{-1}$ \\\\ \\hline" % (m_chi, lumi_fb))
   n = getXSec("tchihz", m_chi)
-  print("All events at mass point & %f \\\\" % (n*1000*lumi_fb))
-  print("$\geq$ 2 Leptons (e$^{\pm}$ e$^{\mp}$ or $\mu^{\pm}\mu^{\mp}$) with p$_{T} >$ 10 GeV & %f \\\\" % (n_baseline_2lep))
-  print("(Sub)Leading lepton p$_{T} > 25(20)$ GeV & %f \\\\" % (n_baseline_pt))
-  print("Extra lepton vetos & %f \\\\" % (n_baseline_lepveto))
+  print("Expected Production Rate & %.2f \\\\" % (n*1000*lumi_fb))
   makeTChiHZTable(-1,-1,"tchihz", m_chi)
 
 def makeSRATable(m_glu, m_lsp):
   hists_path = basedir+"T5ZZ/SRA/mglu%d_mlsp%d_" % (m_glu, m_lsp)
   
+  hp = hists_path+"2pluslep.root"
+  f_met = ROOT.TFile(hp, 'r')
+  h_met = f_met.Get("type1MET").Clone("met_2pluslep")
+  n=h_met.Integral(1,6001)
+  f_met.Close()
+  print("$\geq$ 2 Leptons (e$^{\pm}$ e$^{\mp}$ or $\mu^{\pm}\mu^{\mp}$) with (sub)leading p$_{T} > 25 (20)$ GeV & \multicolumn{2}{c}{%.2f} \\\\" %n)
+
   hp = hists_path+"2lep.root"
   f_met = ROOT.TFile(hp, 'r')
   h_met = f_met.Get("type1MET").Clone("met_2lep")
   n=h_met.Integral(1,6001)
   f_met.Close()
-  print("Other lepton and event quality cuts, efficiency scale factors & \multicolumn{2}{c}{%f} \\\\" %n)
+  print("Extra Lepton Vetos & \multicolumn{2}{c}{%.2f} \\\\" %n)
 
   hp = hists_path+"2lep_dilmass.root" 
   f_met = ROOT.TFile(hp, 'r')
   h_met = f_met.Get("type1MET").Clone("met_2lep_dilmass")
   n=h_met.Integral(1,6001)
   f_met.Close()
-  print("Dilepton mass $\in$ Z mass window (86,96) GeV & \multicolumn{2}{c}{%f} \\\\" %n)
+  print("Dilepton mass $\in$ Z mass window (86,96) GeV & \multicolumn{2}{c}{%.2f} \\\\" %n)
 
   hp = hists_path+"2lep_dilmass_njets.root" 
   f_met = ROOT.TFile(hp, 'r')
   h_met = f_met.Get("type1MET").Clone("met_2lep_dilmass_njets")
   n=h_met.Integral(1,6001)
   f_met.Close()
-  print("2-3 Jets & \multicolumn{2}{c}{%f} \\\\" %n)
+  print("2-3 Jets & \multicolumn{2}{c}{%.2f} \\\\" %n)
 
   hp = hists_path+"2lep_dilmass_njets_dphi.root" 
   f_met = ROOT.TFile(hp, 'r')
   h_met = f_met.Get("type1MET").Clone("met_2lep_dilmass_njets_dphi")
   n=h_met.Integral(1,6001)
   f_met.Close()
-  print("$\Delta \Phi$ between MET and two highest p$_{T}$ jets $> 0.4$ rad & \multicolumn{2}{c}{%f} \\\\ \\hline" %n)
+  print("$\Delta \Phi$ between MET and two highest p$_{T}$ jets $> 0.4$ rad & \multicolumn{2}{c}{%.2f} \\\\ \\hline" %n)
 
   # ==========================
   # Btagging Start
@@ -308,7 +294,7 @@ def makeSRATable(m_glu, m_lsp):
   h_met = f_met.Get("type1MET").Clone("met_2lep_dilmass_njets_dphi_bveto")
   n_bveto=h_met.Integral(1,6001)
   f_met.Close()
-  print(" & %f & %f \\\\ \hline" % (n_bveto, n_btag))
+  print(" & %.2f & %.2f \\\\ \hline" % (n_bveto, n_btag))
 
   # ==========================
   # MT2 Start
@@ -325,7 +311,7 @@ def makeSRATable(m_glu, m_lsp):
   h_met = f_met.Get("type1MET").Clone("met_2lep_dilmass_njets_dphi_bveto_MT2")
   n_bveto=h_met.Integral(1,6001)
   f_met.Close()
-  print(" & %f & %f \\\\ \hline" % (n_bveto, n_btag))
+  print(" & %.2f & %.2f \\\\ \hline" % (n_bveto, n_btag))
 
   # ==========================
   # HT and MET Start
@@ -350,43 +336,50 @@ def makeSRATable(m_glu, m_lsp):
   bveto_met_counts.append(h_met.Integral(150,6001))
   bveto_met_counts.append(h_met.Integral(250,6001))
   f_met.Close()
-  print(" & %f & %f \\\\ \hline" % (n_bveto, n_btag))
+  print(" & %.2f & %.2f \\\\ \hline" % (n_bveto, n_btag))
 
-  print("$E^{miss}_{T} > 100$ GeV & %f & %f \\\\" % (bveto_met_counts[0], btag_met_counts[0]))
-  print("$E^{miss}_{T} > 150$ GeV & %f & %f \\\\" % (bveto_met_counts[1], btag_met_counts[1]))
-  print("$E^{miss}_{T} > 250$ GeV & %f & %f \\\\" % (bveto_met_counts[2], btag_met_counts[2]))
+  print("$E^{miss}_{T} > 100$ GeV & %.2f & %.2f \\\\" % (bveto_met_counts[0], btag_met_counts[0]))
+  print("$E^{miss}_{T} > 150$ GeV & %.2f & %.2f \\\\" % (bveto_met_counts[1], btag_met_counts[1]))
+  print("$E^{miss}_{T} > 250$ GeV & %.2f & %.2f \\\\" % (bveto_met_counts[2], btag_met_counts[2]))
   print("\end{tabular}")
 
 def makeSRBTable(m_glu, m_lsp):
   hists_path = basedir+"T5ZZ/SRB/mglu%d_mlsp%d_" % (m_glu, m_lsp)
   
+  hp = hists_path+"2pluslep.root"
+  f_met = ROOT.TFile(hp, 'r')
+  h_met = f_met.Get("type1MET").Clone("met_2pluslep")
+  n=h_met.Integral(1,6001)
+  f_met.Close()
+  print("$\geq$ 2 Leptons (e$^{\pm}$ e$^{\mp}$ or $\mu^{\pm}\mu^{\mp}$) with (sub)leading p$_{T} > 25 (20)$ GeV & \multicolumn{2}{c}{%.2f} \\\\" %n)
+
   hp = hists_path+"2lep.root"
   f_met = ROOT.TFile(hp, 'r')
   h_met = f_met.Get("type1MET").Clone("met_2lep")
   n=h_met.Integral(1,6001)
   f_met.Close()
-  print("Other lepton and event quality cuts, efficiency scale factors & \multicolumn{2}{c}{%f} \\\\" %n)
+  print("Extra Lepton Vetos & \multicolumn{2}{c}{%.2f} \\\\" %n)
 
   hp = hists_path+"2lep_dilmass.root" 
   f_met = ROOT.TFile(hp, 'r')
   h_met = f_met.Get("type1MET").Clone("met_2lep_dilmass")
   n=h_met.Integral(1,6001)
   f_met.Close()
-  print("Dilepton mass $\in$ Z mass window (86,96) GeV & \multicolumn{2}{c}{%f} \\\\" %n)
+  print("Dilepton mass $\in$ Z mass window (86,96) GeV & \multicolumn{2}{c}{%.2f} \\\\" %n)
 
   hp = hists_path+"2lep_dilmass_njets.root" 
   f_met = ROOT.TFile(hp, 'r')
   h_met = f_met.Get("type1MET").Clone("met_2lep_dilmass_njets")
   n=h_met.Integral(1,6001)
   f_met.Close()
-  print("4-5 Jets & \multicolumn{2}{c}{%f} \\\\" %n)
+  print("4-5 Jets & \multicolumn{2}{c}{%.2f} \\\\" %n)
 
   hp = hists_path+"2lep_dilmass_njets_dphi.root" 
   f_met = ROOT.TFile(hp, 'r')
   h_met = f_met.Get("type1MET").Clone("met_2lep_dilmass_njets_dphi")
   n=h_met.Integral(1,6001)
   f_met.Close()
-  print("$\Delta \Phi$ between MET and two highest p$_{T}$ jets $> 0.4$ rad & \multicolumn{2}{c}{%f} \\\\ \\hline" %n)
+  print("$\Delta \Phi$ between MET and two highest p$_{T}$ jets $> 0.4$ rad & \multicolumn{2}{c}{%.2f} \\\\ \\hline" %n)
 
   # ==========================
   # Btagging Start
@@ -403,7 +396,7 @@ def makeSRBTable(m_glu, m_lsp):
   h_met = f_met.Get("type1MET").Clone("met_2lep_dilmass_njets_dphi_bveto")
   n_bveto=h_met.Integral(1,6001)
   f_met.Close()
-  print(" & %f & %f \\\\ \hline" % (n_bveto, n_btag))
+  print(" & %.2f & %.2f \\\\ \hline" % (n_bveto, n_btag))
 
   # ==========================
   # MT2 Start
@@ -420,7 +413,7 @@ def makeSRBTable(m_glu, m_lsp):
   h_met = f_met.Get("type1MET").Clone("met_2lep_dilmass_njets_dphi_bveto_MT2")
   n_bveto=h_met.Integral(1,6001)
   f_met.Close()
-  print(" & %f & %f \\\\ \hline" % (n_bveto, n_btag))
+  print(" & %.2f & %.2f \\\\ \hline" % (n_bveto, n_btag))
 
   # ==========================
   # HT and MET Start
@@ -445,43 +438,50 @@ def makeSRBTable(m_glu, m_lsp):
   bveto_met_counts.append(h_met.Integral(150,6001))
   bveto_met_counts.append(h_met.Integral(250,6001))
   f_met.Close()
-  print(" & %f & %f \\\\ \hline" % (n_bveto, n_btag))
+  print(" & %.2f & %.2f \\\\ \hline" % (n_bveto, n_btag))
 
-  print("$E^{miss}_{T} > 100$ GeV & %f & %f \\\\" % (bveto_met_counts[0], btag_met_counts[0]))
-  print("$E^{miss}_{T} > 150$ GeV & %f & %f \\\\" % (bveto_met_counts[1], btag_met_counts[1]))
-  print("$E^{miss}_{T} > 250$ GeV & %f & %f \\\\" % (bveto_met_counts[2], btag_met_counts[2]))
+  print("$E^{miss}_{T} > 100$ GeV & %.2f & %.2f \\\\" % (bveto_met_counts[0], btag_met_counts[0]))
+  print("$E^{miss}_{T} > 150$ GeV & %.2f & %.2f \\\\" % (bveto_met_counts[1], btag_met_counts[1]))
+  print("$E^{miss}_{T} > 250$ GeV & %.2f & %.2f \\\\" % (bveto_met_counts[2], btag_met_counts[2]))
   print("\end{tabular}")
 
 def makeSRCTable(m_glu, m_lsp):
   hists_path = basedir+"T5ZZ/SRC/mglu%d_mlsp%d_" % (m_glu, m_lsp)
   
+  hp = hists_path+"2pluslep.root"
+  f_met = ROOT.TFile(hp, 'r')
+  h_met = f_met.Get("type1MET").Clone("met_2pluslep")
+  n=h_met.Integral(1,6001)
+  f_met.Close()
+  print("$\geq$ 2 Leptons (e$^{\pm}$ e$^{\mp}$ or $\mu^{\pm}\mu^{\mp}$) with (sub)leading p$_{T} > 25 (20)$ GeV & \multicolumn{2}{c}{%.2f} \\\\" %n)
+
   hp = hists_path+"2lep.root"
   f_met = ROOT.TFile(hp, 'r')
   h_met = f_met.Get("type1MET").Clone("met_2lep")
   n=h_met.Integral(1,6001)
   f_met.Close()
-  print("Other lepton and event quality cuts, efficiency scale factors & \multicolumn{2}{c}{%f} \\\\" %n)
+  print("Extra Lepton Vetos & \multicolumn{2}{c}{%.2f} \\\\" %n)
 
   hp = hists_path+"2lep_dilmass.root" 
   f_met = ROOT.TFile(hp, 'r')
   h_met = f_met.Get("type1MET").Clone("met_2lep_dilmass")
   n=h_met.Integral(1,6001)
   f_met.Close()
-  print("Dilepton mass $\in$ Z mass window (86,96) GeV & \multicolumn{2}{c}{%f} \\\\" %n)
+  print("Dilepton mass $\in$ Z mass window (86,96) GeV & \multicolumn{2}{c}{%.2f} \\\\" %n)
 
   hp = hists_path+"2lep_dilmass_njets.root" 
   f_met = ROOT.TFile(hp, 'r')
   h_met = f_met.Get("type1MET").Clone("met_2lep_dilmass_njets")
   n=h_met.Integral(1,6001)
   f_met.Close()
-  print("6+ Jets & \multicolumn{2}{c}{%f} \\\\" %n)
+  print("6+ Jets & \multicolumn{2}{c}{%.2f} \\\\" %n)
 
   hp = hists_path+"2lep_dilmass_njets_dphi.root" 
   f_met = ROOT.TFile(hp, 'r')
   h_met = f_met.Get("type1MET").Clone("met_2lep_dilmass_njets_dphi")
   n=h_met.Integral(1,6001)
   f_met.Close()
-  print("$\Delta \Phi$ between MET and two highest p$_{T}$ jets $> 0.4$ rad & \multicolumn{2}{c}{%f} \\\\ \hline" %n)
+  print("$\Delta \Phi$ between MET and two highest p$_{T}$ jets $> 0.4$ rad & \multicolumn{2}{c}{%.2f} \\\\ \hline" %n)
 
   # ==========================
   # Btagging Start
@@ -498,7 +498,7 @@ def makeSRCTable(m_glu, m_lsp):
   h_met = f_met.Get("type1MET").Clone("met_2lep_dilmass_njets_dphi_bveto")
   n_bveto=h_met.Integral(1,6001)
   f_met.Close()
-  print(" & %f & %f \\\\ \hline" % (n_bveto, n_btag))
+  print(" & %.2f & %.2f \\\\ \hline" % (n_bveto, n_btag))
 
   # ==========================
   # MT2 and MET Start
@@ -522,11 +522,11 @@ def makeSRCTable(m_glu, m_lsp):
   bveto_met_counts.append(h_met.Integral(100,6001))
   bveto_met_counts.append(h_met.Integral(150,6001))
   f_met.Close()
-  print(" & %f & %f \\\\ \hline" % (n_bveto, n_btag))
+  print(" & %.2f & %.2f \\\\ \hline" % (n_bveto, n_btag))
 
 
-  print("$E^{miss}_{T} > 100$ GeV & %f & %f \\\\" % (bveto_met_counts[0], btag_met_counts[0]))
-  print("$E^{miss}_{T} > 150$ GeV & %f & %f \\\\" % (bveto_met_counts[1], btag_met_counts[1]))
+  print("$E^{miss}_{T} > 100$ GeV & %.2f & %.2f \\\\" % (bveto_met_counts[0], btag_met_counts[0]))
+  print("$E^{miss}_{T} > 150$ GeV & %.2f & %.2f \\\\" % (bveto_met_counts[1], btag_met_counts[1]))
   print("\end{tabular}")
 
 def makeTChiHZTable(m_glu, m_lsp, model, m_chi=None):
@@ -540,47 +540,54 @@ def makeTChiHZTable(m_glu, m_lsp, model, m_chi=None):
     print ("No proper model given for TChiHZ table. Got: %s" % model)
     return None
 
+  hp = hists_path+"2pluslep.root"
+  f_met = ROOT.TFile(hp, 'r')
+  h_met = f_met.Get("type1MET").Clone("met_2pluslep")
+  n=h_met.Integral(1,6001)
+  f_met.Close()
+  print("$\geq$ 2 Leptons (e$^{\pm}$ e$^{\mp}$ or $\mu^{\pm}\mu^{\mp}$) with (sub)leading p$_{T} > 25 (20)$ GeV & %.2f \\\\" %n)
+
   hp = hists_path+"2lep.root"
   f_met = ROOT.TFile(hp, 'r')
   h_met = f_met.Get("type1MET").Clone("met_2lep")
   n=h_met.Integral(1,6001)
   f_met.Close()
-  print("Other lepton and event quality cuts, efficiency scale factors & %f \\\\" %n)
+  print("Extra Lepton Vetos & \multicolumn{2}{c}{%.2f} \\\\" %n)
 
   hp = hists_path+"2lep_dilmass.root" 
   f_met = ROOT.TFile(hp, 'r')
   h_met = f_met.Get("type1MET").Clone("met_2lep_dilmass")
   n=h_met.Integral(1,6001)
   f_met.Close()
-  print("Dilepton mass $\in$ Z mass window (86,96) GeV & %f \\\\" %n)
+  print("Dilepton mass $\in$ Z mass window (86,96) GeV & %.2f \\\\" %n)
 
   hp = hists_path+"2lep_dilmass_njets.root" 
   f_met = ROOT.TFile(hp, 'r')
   h_met = f_met.Get("type1MET").Clone("met_2lep_dilmass_njets")
   n=h_met.Integral(1,6001)
   f_met.Close()
-  print("2+ Jets & %f \\\\" %n)
+  print("2+ Jets & %.2f \\\\" %n)
 
   hp = hists_path+"2lep_dilmass_njets_dphi.root" 
   f_met = ROOT.TFile(hp, 'r')
   h_met = f_met.Get("type1MET").Clone("met_2lep_dilmass_njets_dphi")
   n=h_met.Integral(1,6001)
   f_met.Close()
-  print("$\Delta \Phi$ between MET and two highest p$_{T}$ jets $> 0.4$ rad & %f \\\\" %n)
+  print("$\Delta \Phi$ between MET and two highest p$_{T}$ jets $> 0.4$ rad & %.2f \\\\" %n)
 
   hp = hists_path+"2lep_dilmass_njets_dphi_btag.root" 
   f_met = ROOT.TFile(hp, 'r')
   h_met = f_met.Get("type1MET").Clone("met_2lep_dilmass_njets_dphi_btag")
   n=h_met.Integral(1,6001)
   f_met.Close()
-  print("Exactly 2 btags & %f \\\\" %n)
+  print("Exactly 2 btags & %.2f \\\\" %n)
 
   hp = hists_path+"2lep_dilmass_njets_dphi_btag_MT2b.root" 
   f_met = ROOT.TFile(hp, 'r')
   h_met = f_met.Get("type1MET").Clone("met_2lep_dilmass_njets_dphi_btag_MT2b")
   n=h_met.Integral(1,6001)
   f_met.Close()
-  print("MT2b $>$ 200 GeV & %f \\\\" %n)
+  print("MT2b $>$ 200 GeV & %.2f \\\\" %n)
 
   hp = hists_path+"2lep_dilmass_njets_dphi_btag_MT2b_Mbb.root" 
   f_met = ROOT.TFile(hp, 'r')
@@ -591,11 +598,11 @@ def makeTChiHZTable(m_glu, m_lsp, model, m_chi=None):
   met_counts.append(h_met.Integral(150,6001))
   met_counts.append(h_met.Integral(250,6001))
   f_met.Close()
-  print("M$_{bb} <$  150 GeV & %f \\\\ \hline" %n)
+  print("M$_{bb} <$  150 GeV & %.2f \\\\ \hline" %n)
 
-  print("$E^{miss}_{T} > 100$ GeV & %f \\\\" % met_counts[0])
-  print("$E^{miss}_{T} > 150$ GeV & %f \\\\" % met_counts[1])
-  print("$E^{miss}_{T} > 250$ GeV & %f \\\\" % met_counts[2])
+  print("$E^{miss}_{T} > 100$ GeV & %.2f \\\\" % met_counts[0])
+  print("$E^{miss}_{T} > 150$ GeV & %.2f \\\\" % met_counts[1])
+  print("$E^{miss}_{T} > 250$ GeV & %.2f \\\\" % met_counts[2])
   print("\end{tabular}")
 
 def makeTChiWZTable(m_glu, m_lsp, model, m_chi=None):
@@ -607,47 +614,54 @@ def makeTChiWZTable(m_glu, m_lsp, model, m_chi=None):
     print ("No proper model given for TChiWZ table. Got: %s" % model)
     return None
 
+  hp = hists_path+"2pluslep.root"
+  f_met = ROOT.TFile(hp, 'r')
+  h_met = f_met.Get("type1MET").Clone("met_2pluslep")
+  n=h_met.Integral(1,6001)
+  f_met.Close()
+  print("$\geq$ 2 Leptons (e$^{\pm}$ e$^{\mp}$ or $\mu^{\pm}\mu^{\mp}$) with (sub)leading p$_{T} > 25 (20)$ GeV & %.2f \\\\" %n)
+
   hp = hists_path+"2lep.root"
   f_met = ROOT.TFile(hp, 'r')
   h_met = f_met.Get("type1MET").Clone("met_2lep")
   n=h_met.Integral(1,6001)
   f_met.Close()
-  print("Other lepton and event quality cuts, efficiency scale factors & %f \\\\" %n)
+  print("Extra Lepton Vetos & \multicolumn{2}{c}{%.2f} \\\\" %n)
 
   hp = hists_path+"2lep_dilmass.root" 
   f_met = ROOT.TFile(hp, 'r')
   h_met = f_met.Get("type1MET").Clone("met_2lep_dilmass")
   n=h_met.Integral(1,6001)
   f_met.Close()
-  print("Dilepton mass $\in$ Z mass window (86,96) GeV & %f \\\\" %n)
+  print("Dilepton mass $\in$ Z mass window (86,96) GeV & %.2f \\\\" %n)
 
   hp = hists_path+"2lep_dilmass_njets.root" 
   f_met = ROOT.TFile(hp, 'r')
   h_met = f_met.Get("type1MET").Clone("met_2lep_dilmass_njets")
   n=h_met.Integral(1,6001)
   f_met.Close()
-  print("2-3 Jets & %f \\\\" %n)
+  print("2-3 Jets & %.2f \\\\" %n)
 
   hp = hists_path+"2lep_dilmass_njets_dphi.root" 
   f_met = ROOT.TFile(hp, 'r')
   h_met = f_met.Get("type1MET").Clone("met_2lep_dilmass_njets_dphi")
   n=h_met.Integral(1,6001)
   f_met.Close()
-  print("$\Delta \Phi$ between MET and two highest p$_{T}$ jets $> 0.4$ rad & %f \\\\" %n)
+  print("$\Delta \Phi$ between MET and two highest p$_{T}$ jets $> 0.4$ rad & %.2f \\\\" %n)
 
   hp = hists_path+"2lep_dilmass_njets_dphi_btag.root" 
   f_met = ROOT.TFile(hp, 'r')
   h_met = f_met.Get("type1MET").Clone("met_2lep_dilmass_njets_dphi_btag")
   n=h_met.Integral(1,6001)
   f_met.Close()
-  print("No btags & %f \\\\" %n)
+  print("No btags & %.2f \\\\" %n)
 
   hp = hists_path+"2lep_dilmass_njets_dphi_btag_MT2.root" 
   f_met = ROOT.TFile(hp, 'r')
   h_met = f_met.Get("type1MET").Clone("met_2lep_dilmass_njets_dphi_btag_MT2")
   n=h_met.Integral(1,6001)
   f_met.Close()
-  print("MT2 $>$ 80 GeV & %f \\\\" %n)
+  print("MT2 $>$ 80 GeV & %.2f \\\\" %n)
 
   hp = hists_path+"2lep_dilmass_njets_dphi_btag_MT2_Mjj.root" 
   f_met = ROOT.TFile(hp, 'r')
@@ -659,12 +673,12 @@ def makeTChiWZTable(m_glu, m_lsp, model, m_chi=None):
   met_counts.append(h_met.Integral(250,6001))
   met_counts.append(h_met.Integral(350,6001))
   f_met.Close()
-  print("M$_{jj}$ for min $\Delta \Phi$ jets $<$ 150 GeV & %f \\\\ \hline" %n)
+  print("M$_{jj}$ for min $\Delta \Phi$ jets $<$ 150 GeV & %.2f \\\\ \hline" %n)
 
-  print("$E^{miss}_{T} > 100$ GeV & %f \\\\" % met_counts[0])
-  print("$E^{miss}_{T} > 150$ GeV & %f \\\\" % met_counts[1])
-  print("$E^{miss}_{T} > 250$ GeV & %f \\\\" % met_counts[2])
-  print("$E^{miss}_{T} > 350$ GeV & %f \\\\" % met_counts[3])
+  print("$E^{miss}_{T} > 100$ GeV & %.2f \\\\" % met_counts[0])
+  print("$E^{miss}_{T} > 150$ GeV & %.2f \\\\" % met_counts[1])
+  print("$E^{miss}_{T} > 250$ GeV & %.2f \\\\" % met_counts[2])
+  print("$E^{miss}_{T} > 350$ GeV & %.2f \\\\" % met_counts[3])
   print("\end{tabular}")
 
 if __name__ == "__main__":
