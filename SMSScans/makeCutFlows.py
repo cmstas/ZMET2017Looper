@@ -115,7 +115,7 @@ def makeT5ZZCutFlows(m_glu, m_lsp):
   print("\\multicolumn{3}{c}{\\textbf{SRA}} \\\\ \\hline")
   print("T5ZZ model, mass gluino: %.0f GeV, mass LSP: %.0f GeV &  \\multicolumn{2}{c}{Events in %.1f fb$^{-1}$} \\\\ \\hline" % (m_glu, m_lsp, lumi_fb))
   n = getXSec("t5zz", [m_glu, m_lsp])
-  print("Expected Production Rate & \multicolumn{2}{c}{%.2f} \\\\" % (n*1000*lumi_fb))
+  print("Expected production rate & \multicolumn{2}{c}{%.2f} \\\\" % (n*1000*lumi_fb))
   makeSRATable(m_glu, m_lsp)
  
   print("")
@@ -125,7 +125,7 @@ def makeT5ZZCutFlows(m_glu, m_lsp):
   print("\\multicolumn{3}{c}{\\textbf{SRB}} \\\\ \\hline")
   print("T5ZZ model, mass gluino: %.0f GeV, mass LSP: %.0f GeV &  \\multicolumn{2}{c}{Events in %.1f fb$^{-1}$} \\\\ \\hline" % (m_glu, m_lsp, lumi_fb))
   n = getXSec("t5zz", [m_glu, m_lsp])
-  print("Expected Production Rate & \multicolumn{2}{c}{%.2f} \\\\" % (n*1000*lumi_fb))
+  print("Expected production rate & \multicolumn{2}{c}{%.2f} \\\\" % (n*1000*lumi_fb))
   makeSRBTable(m_glu, m_lsp)
   
   print("")
@@ -135,7 +135,7 @@ def makeT5ZZCutFlows(m_glu, m_lsp):
   print("\\multicolumn{3}{c}{\\textbf{SRC}} \\\\ \\hline")
   print("T5ZZ model, mass gluino: %.0f GeV, mass LSP: %.0f GeV &  \\multicolumn{2}{c}{Events in %.1f fb$^{-1}$} \\\\ \\hline" % (m_glu, m_lsp, lumi_fb))
   n = getXSec("t5zz", [m_glu, m_lsp])
-  print("Expected Production Rate & \multicolumn{2}{c}{%.2f} \\\\" % (n*1000*lumi_fb))
+  print("Expected production rate & \multicolumn{2}{c}{%.2f} \\\\" % (n*1000*lumi_fb))
   makeSRCTable(m_glu, m_lsp)
 
 def makeTChiWZCutFlows(m_glu, m_lsp):
@@ -162,7 +162,7 @@ def makeTChiWZCutFlows(m_glu, m_lsp):
   print("\\multicolumn{2}{c}{\\textbf{TChiWZ}} \\\\ \\hline")
   print("TChiWZ model, mass gluino: %.0f GeV, mass LSP: %.0f GeV &  Events in %.1f fb$^{-1}$ \\\\ \\hline" % (m_glu, m_lsp, lumi_fb))
   n = getXSec("tchiwz", [m_glu, m_lsp])
-  print("Expected Production Rate & %.2f \\\\" % (n*1000*lumi_fb))
+  print("Expected production rate & %.2f \\\\" % (n*1000*lumi_fb))
   makeTChiWZTable(m_glu, m_lsp, "tchiwz")
  
   """ 
@@ -203,7 +203,7 @@ def makeTChiZZCutFlows(m_chi):
   print("\\multicolumn{2}{c}{\\textbf{TChiWZ}} \\\\ \\hline")
   print("TChiZZ model, mass chi: %.0f GeV &  Events in %.1f fb$^{-1}$ \\\\ \\hline" % (m_chi, lumi_fb))
   n = getXSec("tchizz", m_chi)
-  print("Expected Production Rate & %.2f \\\\" % (n*1000*lumi_fb))
+  print("Expected production rate & %.2f \\\\" % (n*1000*lumi_fb))
   makeTChiWZTable(-1,-1,"tchizz", m_chi)
   
   print("\\begin{tabular}{l|r}")
@@ -211,7 +211,7 @@ def makeTChiZZCutFlows(m_chi):
   print("\\multicolumn{2}{c}{\\textbf{TChiHZ}} \\\\ \\hline")
   print("TChiZZ model, mass chi: %.0f GeV &  Events in %.1f fb$^{-1}$ \\\\ \\hline" % (m_chi, lumi_fb))
   n = getXSec("tchizz", m_chi)
-  print("Expected Production Rate & %.2f \\\\" % (n*1000*lumi_fb))
+  print("Expected production rate & %.2f \\\\" % (n*1000*lumi_fb))
   makeTChiHZTable(-1,-1,"tchizz", m_chi)
 
 def makeTChiHZCutFlows(m_chi):
@@ -238,7 +238,7 @@ def makeTChiHZCutFlows(m_chi):
   print("\\multicolumn{2}{c}{\\textbf{TChiHZ}} \\\\ \\hline")
   print("TChiHZ model, mass chi: %.0f GeV &  Events in %.1f fb$^{-1}$ \\\\ \\hline" % (m_chi, lumi_fb))
   n = getXSec("tchihz", m_chi)
-  print("Expected Production Rate & %.2f \\\\" % (n*1000*lumi_fb))
+  print("Expected production rate & %.2f \\\\" % (n*1000*lumi_fb))
   makeTChiHZTable(-1,-1,"tchihz", m_chi)
 
 def makeSRATable(m_glu, m_lsp):
@@ -256,7 +256,7 @@ def makeSRATable(m_glu, m_lsp):
   h_met = f_met.Get("type1MET").Clone("met_2lep")
   n=h_met.Integral(1,6001)
   f_met.Close()
-  print("Extra Lepton Vetos & \multicolumn{2}{c}{%.2f} \\\\" %n)
+  print("Extra lepton vetos & \multicolumn{2}{c}{%.2f} \\\\" %n)
 
   hp = hists_path+"2lep_dilmass.root" 
   f_met = ROOT.TFile(hp, 'r')
@@ -358,7 +358,7 @@ def makeSRBTable(m_glu, m_lsp):
   h_met = f_met.Get("type1MET").Clone("met_2lep")
   n=h_met.Integral(1,6001)
   f_met.Close()
-  print("Extra Lepton Vetos & \multicolumn{2}{c}{%.2f} \\\\" %n)
+  print("Extra lepton vetos & \multicolumn{2}{c}{%.2f} \\\\" %n)
 
   hp = hists_path+"2lep_dilmass.root" 
   f_met = ROOT.TFile(hp, 'r')
@@ -460,7 +460,7 @@ def makeSRCTable(m_glu, m_lsp):
   h_met = f_met.Get("type1MET").Clone("met_2lep")
   n=h_met.Integral(1,6001)
   f_met.Close()
-  print("Extra Lepton Vetos & \multicolumn{2}{c}{%.2f} \\\\" %n)
+  print("Extra lepton vetos & \multicolumn{2}{c}{%.2f} \\\\" %n)
 
   hp = hists_path+"2lep_dilmass.root" 
   f_met = ROOT.TFile(hp, 'r')
@@ -552,7 +552,7 @@ def makeTChiHZTable(m_glu, m_lsp, model, m_chi=None):
   h_met = f_met.Get("type1MET").Clone("met_2lep")
   n=h_met.Integral(1,6001)
   f_met.Close()
-  print("Extra Lepton Vetos & %.2f \\\\" %n)
+  print("Extra lepton vetos & %.2f \\\\" %n)
 
   hp = hists_path+"2lep_dilmass.root" 
   f_met = ROOT.TFile(hp, 'r')
@@ -626,7 +626,7 @@ def makeTChiWZTable(m_glu, m_lsp, model, m_chi=None):
   h_met = f_met.Get("type1MET").Clone("met_2lep")
   n=h_met.Integral(1,6001)
   f_met.Close()
-  print("Extra Lepton Vetos & %.2f \\\\" %n)
+  print("Extra lepton vetos & %.2f \\\\" %n)
 
   hp = hists_path+"2lep_dilmass.root" 
   f_met = ROOT.TFile(hp, 'r')
