@@ -552,7 +552,7 @@ def makeTChiHZTable(m_glu, m_lsp, model, m_chi=None):
   h_met = f_met.Get("type1MET").Clone("met_2lep")
   n=h_met.Integral(1,6001)
   f_met.Close()
-  print("Extra Lepton Vetos & \multicolumn{2}{c}{%.2f} \\\\" %n)
+  print("Extra Lepton Vetos & %.2f \\\\" %n)
 
   hp = hists_path+"2lep_dilmass.root" 
   f_met = ROOT.TFile(hp, 'r')
@@ -626,7 +626,7 @@ def makeTChiWZTable(m_glu, m_lsp, model, m_chi=None):
   h_met = f_met.Get("type1MET").Clone("met_2lep")
   n=h_met.Integral(1,6001)
   f_met.Close()
-  print("Extra Lepton Vetos & \multicolumn{2}{c}{%.2f} \\\\" %n)
+  print("Extra Lepton Vetos & %.2f \\\\" %n)
 
   hp = hists_path+"2lep_dilmass.root" 
   f_met = ROOT.TFile(hp, 'r')
