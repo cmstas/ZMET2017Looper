@@ -488,6 +488,21 @@ void ZMET2016::Init(TTree *tree) {
 		HLT_DoubleMu_noiso_branch = tree->GetBranch("HLT_DoubleMu_noiso");
 		if (HLT_DoubleMu_noiso_branch) {HLT_DoubleMu_noiso_branch->SetAddress(&HLT_DoubleMu_noiso_);}
 	}
+	HLT_DoubleMu_noiso_27_8_branch = 0;
+	if (tree->GetBranch("HLT_DoubleMu_noiso_27_8") != 0) {
+		HLT_DoubleMu_noiso_27_8_branch = tree->GetBranch("HLT_DoubleMu_noiso_27_8");
+		if (HLT_DoubleMu_noiso_27_8_branch) {HLT_DoubleMu_noiso_27_8_branch->SetAddress(&HLT_DoubleMu_noiso_27_8_);}
+	}
+	HLT_DoubleMu_noiso_30_11_branch = 0;
+	if (tree->GetBranch("HLT_DoubleMu_noiso_30_11") != 0) {
+		HLT_DoubleMu_noiso_30_11_branch = tree->GetBranch("HLT_DoubleMu_noiso_30_11");
+		if (HLT_DoubleMu_noiso_30_11_branch) {HLT_DoubleMu_noiso_30_11_branch->SetAddress(&HLT_DoubleMu_noiso_30_11_);}
+	}
+	HLT_DoubleMu_noiso_40_11_branch = 0;
+	if (tree->GetBranch("HLT_DoubleMu_noiso_40_11") != 0) {
+		HLT_DoubleMu_noiso_40_11_branch = tree->GetBranch("HLT_DoubleMu_noiso_40_11");
+		if (HLT_DoubleMu_noiso_40_11_branch) {HLT_DoubleMu_noiso_40_11_branch->SetAddress(&HLT_DoubleMu_noiso_40_11_);}
+	}
 	HLT_DoubleMu_branch = 0;
 	if (tree->GetBranch("HLT_DoubleMu") != 0) {
 		HLT_DoubleMu_branch = tree->GetBranch("HLT_DoubleMu");
@@ -1903,6 +1918,9 @@ void ZMET2016::GetEntry(unsigned int idx)
 		HLT_Mu23_EG12_isLoaded = false;
 		HLT_Mu23_EG12_DZ_isLoaded = false;
 		HLT_DoubleMu_noiso_isLoaded = false;
+		HLT_DoubleMu_noiso_27_8_isLoaded = false;
+		HLT_DoubleMu_noiso_30_11_isLoaded = false;
+		HLT_DoubleMu_noiso_40_11_isLoaded = false;
 		HLT_DoubleMu_isLoaded = false;
 		HLT_DoubleMu_tk_isLoaded = false;
 		HLT_DoubleMu_dbltk_isLoaded = false;
@@ -2270,6 +2288,9 @@ void ZMET2016::LoadAllBranches()
 	if (HLT_Mu23_EG12_branch != 0) HLT_Mu23_EG12();
 	if (HLT_Mu23_EG12_DZ_branch != 0) HLT_Mu23_EG12_DZ();
 	if (HLT_DoubleMu_noiso_branch != 0) HLT_DoubleMu_noiso();
+	if (HLT_DoubleMu_noiso_27_8_branch != 0) HLT_DoubleMu_noiso_27_8();
+	if (HLT_DoubleMu_noiso_30_11_branch != 0) HLT_DoubleMu_noiso_30_11();
+	if (HLT_DoubleMu_noiso_40_11_branch != 0) HLT_DoubleMu_noiso_40_11();
 	if (HLT_DoubleMu_branch != 0) HLT_DoubleMu();
 	if (HLT_DoubleMu_tk_branch != 0) HLT_DoubleMu_tk();
 	if (HLT_DoubleMu_dbltk_branch != 0) HLT_DoubleMu_dbltk();
@@ -3641,6 +3662,45 @@ void ZMET2016::LoadAllBranches()
 			HLT_DoubleMu_noiso_isLoaded = true;
 		}
 		return HLT_DoubleMu_noiso_;
+	}
+	const int &ZMET2016::HLT_DoubleMu_noiso_27_8()
+	{
+		if (not HLT_DoubleMu_noiso_27_8_isLoaded) {
+			if (HLT_DoubleMu_noiso_27_8_branch != 0) {
+				HLT_DoubleMu_noiso_27_8_branch->GetEntry(index);
+			} else { 
+				printf("branch HLT_DoubleMu_noiso_27_8_branch does not exist!\n");
+				exit(1);
+			}
+			HLT_DoubleMu_noiso_27_8_isLoaded = true;
+		}
+		return HLT_DoubleMu_noiso_27_8_;
+	}
+	const int &ZMET2016::HLT_DoubleMu_noiso_30_11()
+	{
+		if (not HLT_DoubleMu_noiso_30_11_isLoaded) {
+			if (HLT_DoubleMu_noiso_30_11_branch != 0) {
+				HLT_DoubleMu_noiso_30_11_branch->GetEntry(index);
+			} else { 
+				printf("branch HLT_DoubleMu_noiso_30_11_branch does not exist!\n");
+				exit(1);
+			}
+			HLT_DoubleMu_noiso_30_11_isLoaded = true;
+		}
+		return HLT_DoubleMu_noiso_30_11_;
+	}
+	const int &ZMET2016::HLT_DoubleMu_noiso_40_11()
+	{
+		if (not HLT_DoubleMu_noiso_40_11_isLoaded) {
+			if (HLT_DoubleMu_noiso_40_11_branch != 0) {
+				HLT_DoubleMu_noiso_40_11_branch->GetEntry(index);
+			} else { 
+				printf("branch HLT_DoubleMu_noiso_40_11_branch does not exist!\n");
+				exit(1);
+			}
+			HLT_DoubleMu_noiso_40_11_isLoaded = true;
+		}
+		return HLT_DoubleMu_noiso_40_11_;
 	}
 	const int &ZMET2016::HLT_DoubleMu()
 	{
@@ -7362,6 +7422,9 @@ namespace zmet {
 	const int &HLT_Mu23_EG12() { return phys.HLT_Mu23_EG12(); }
 	const int &HLT_Mu23_EG12_DZ() { return phys.HLT_Mu23_EG12_DZ(); }
 	const int &HLT_DoubleMu_noiso() { return phys.HLT_DoubleMu_noiso(); }
+	const int &HLT_DoubleMu_noiso_27_8() { return phys.HLT_DoubleMu_noiso_27_8(); }
+	const int &HLT_DoubleMu_noiso_30_11() { return phys.HLT_DoubleMu_noiso_30_11(); }
+	const int &HLT_DoubleMu_noiso_40_11() { return phys.HLT_DoubleMu_noiso_40_11(); }
 	const int &HLT_DoubleMu() { return phys.HLT_DoubleMu(); }
 	const int &HLT_DoubleMu_tk() { return phys.HLT_DoubleMu_tk(); }
 	const int &HLT_DoubleMu_dbltk() { return phys.HLT_DoubleMu_dbltk(); }

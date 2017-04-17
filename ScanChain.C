@@ -1355,12 +1355,22 @@ bool passBaseCut(){
       if (printFail) cout<<phys.evt()<<" :Failed multi-lepton analysis lepton veto"<<endl;
       return false;
     }
+    if (phys.nTaus20() >= 1){
+      numEvents->Fill(75);
+      if (printFail) cout<<phys.evt()<<" :Failed Tau veto"<<endl;
+      return false;
+    }
   }
 
   if(conf->get("multi_lep_veto") != ""){
     if (phys.nveto_leptons() >= 1){
       numEvents->Fill(66);
       if (printFail) cout<<phys.evt()<<" :Failed multi-lepton analysis lepton veto"<<endl;
+      return false;
+    }
+    if (phys.nTaus20() >= 1){
+      numEvents->Fill(75);
+      if (printFail) cout<<phys.evt()<<" :Failed Tau veto"<<endl;
       return false;
     }
   }
@@ -1700,7 +1710,7 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
   TFile * output = new TFile(TString(savePath+conf->get("Name")+".root"), "recreate");
   output->cd();
 
-  numEvents = new TH1I("numEvents", "Number of events in "+g_sample_name, 75, 0, 75);
+  numEvents = new TH1I("numEvents", "Number of events in "+g_sample_name, 80, 0, 80);
   numEvents->SetDirectory(rootdir);
 
   const int n_weight_log_bins = 54;
