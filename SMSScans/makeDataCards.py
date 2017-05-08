@@ -19,11 +19,16 @@ def properSpacing(key, param):
 
   return param
 
-def addSignalYields(d, SR, mass_1, mass_2):
+def addSignalYields(d, SR, mass_1, mass_2, BR_key=None):
   """Pulls and computes CV. yields, stat uncertainty, btag light SF unc, btag heavy SF unc, and ISR SF unc from the signal scan histogram at the proper mass point.
   mass 1 is meant for the gluino or chi and mass_2 is meant for the LSP, send mass_2 = -1 for 1D scan"""
 
-  avg_yields, RecoMET_yields, stat_uncs, bl_yields, bh_yields, isr_yields, JES = getSignalNumbers.getSignalYields(SR, mass_1, mass_2, "%s%s/%s.root" % (histogram_Path, SR, signal_name))
+  if BR_key:
+    file_name="%s_%s" %(signal_name, BR_key)
+  else:
+    file_name=signal_name
+
+  avg_yields, RecoMET_yields, stat_uncs, bl_yields, bh_yields, isr_yields, JES = getSignalNumbers.getSignalYields(SR, mass_1, mass_2, "%s%s/%s.root" % (histogram_Path, SR, file_name))
 
   for i,y in enumerate(RecoMET_yields):
     stat_nuisence = 0
@@ -84,11 +89,11 @@ def getNuisenceParameters(SR):
 
   return n_dict
 
-def makeDataCard(sp, SR):
+def makeDataCard(sp, SR, BR_key=None):
   if SR not in n_parms.keys():
     n_parms[SR] = getNuisenceParameters(SR)
 
-  addSignalYields(n_parms[SR], SR, sp[0], sp[1])
+  addSignalYields(n_parms[SR], SR, sp[0], sp[1], BR_key)
 
   #for x in n_parms[SR].keys():
   #  print("%s : %s" % (x, n_parms[SR][x]))
@@ -121,8 +126,28 @@ def launch():
       makeDataCard((sp,-1), "TChiHZ")
       makeDataCard((sp,-1), "TChiWZ")
     elif signal_name == "tchihz":
-      makeDataCard((sp,-1), "TChiHZ")
-      makeDataCard((sp,-1), "TChiWZ")
+      makeDataCard((sp,-1), "TChiHZ", "H100")
+      makeDataCard((sp,-1), "TChiWZ", "H100")
+      makeDataCard((sp,-1), "TChiHZ", "H90")
+      makeDataCard((sp,-1), "TChiWZ", "H90")
+      makeDataCard((sp,-1), "TChiHZ", "H80")
+      makeDataCard((sp,-1), "TChiWZ", "H80")
+      makeDataCard((sp,-1), "TChiHZ", "H70")
+      makeDataCard((sp,-1), "TChiWZ", "H70")
+      makeDataCard((sp,-1), "TChiHZ", "H60")
+      makeDataCard((sp,-1), "TChiWZ", "H60")
+      makeDataCard((sp,-1), "TChiHZ", "H50")
+      makeDataCard((sp,-1), "TChiWZ", "H50")
+      makeDataCard((sp,-1), "TChiHZ", "H40")
+      makeDataCard((sp,-1), "TChiWZ", "H40")
+      makeDataCard((sp,-1), "TChiHZ", "H30")
+      makeDataCard((sp,-1), "TChiWZ", "H30")
+      makeDataCard((sp,-1), "TChiHZ", "H20")
+      makeDataCard((sp,-1), "TChiWZ", "H20")
+      makeDataCard((sp,-1), "TChiHZ", "H10")
+      makeDataCard((sp,-1), "TChiWZ", "H10")
+      makeDataCard((sp,-1), "TChiHZ", "H0")
+      makeDataCard((sp,-1), "TChiWZ", "H0")
     else:
       print("Do not know how to run on signal model %s. Please use t5zz or tchiwz." % signal_name)
       exit(1)
@@ -134,6 +159,8 @@ def setupVars():
   global histogram_Path
   global output_path
   n_parms = {}
+
+  output_path="SMSScans/DataCards/%s/" % signal_name
 
   if signal_name == "t5zz":
     histogram_Path="/nfs-7/userdata/bobak/ZMET2017_Hists/T5ZZScan/CV/"
@@ -151,7 +178,6 @@ def setupVars():
     print("Do not know how to run on signal model %s. Please use t5zz or tchiwz." % signal_name)
     exit(1)
 
-  output_path="SMSScans/DataCards/%s/" % signal_name
 
 def main():
   global signal_name, multiplier
