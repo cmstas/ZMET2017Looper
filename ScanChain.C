@@ -812,11 +812,13 @@ double getWeight(){
   }
 
   if (conf->get("tchihz_tchizz_weightfix") == "true"){
+    double H_BR = (conf->get("tchihz_H_BR")) ? 0.5 : stod(conf->get("tchihz_H_BR"));
+    double Z_BR = 1-H_BR;
     if (TString(currentFile->GetTitle()).Contains("tchihz_80x_v2")){
-      weight *= 0.5;
+      weight *= 2*H_BR*Z_BR; //twice the BR to HZ since we have both HZ and ZH.
     }
     else if (TString(currentFile->GetTitle()).Contains("tchizz_80x_v2")){
-      weight *= 0.25;
+      weight *= Z_BR*Z_BR; 
     }
   }
 
