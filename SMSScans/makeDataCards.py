@@ -28,8 +28,6 @@ def addSignalYields(d, SR, mass_1, mass_2, BR_key=None):
   else:
     file_name=signal_name
 
-  print(file_name)
-
   avg_yields, RecoMET_yields, stat_uncs, bl_yields, bh_yields, isr_yields, JES = getSignalNumbers.getSignalYields(SR, mass_1, mass_2, "%s%s/%s.root" % (histogram_Path, SR, file_name))
 
   for i,y in enumerate(RecoMET_yields):
@@ -108,7 +106,6 @@ def makeDataCard(sp, SR, BR_key=None):
 
   f_template=open("%s%s.txt" % (templates_path, SR), 'r')
   if (sp[1] == -1):
-    print("%sdatacard_%s_mChi_%d_.txt" % (outdir, SR, sp[0]))
     f_out=open("%sdatacard_%s_mChi_%d_.txt" % (outdir, SR, sp[0]), 'w+')
   else:
     f_out=open("%sdatacard_%s_mGluino_%d_mLSP_%d_.txt" % (outdir, SR, sp[0], sp[1]), 'w+')
