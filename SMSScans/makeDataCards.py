@@ -98,6 +98,9 @@ def makeDataCard(sp, SR, BR_key=None):
   #for x in n_parms[SR].keys():
   #  print("%s : %s" % (x, n_parms[SR][x]))
 
+  if BR_key:
+    output_path+=BR_key+"/"
+
   f_template=open("%s%s.txt" % (templates_path, SR), 'r')
   if (sp[1] == -1):
     print("%sdatacard_%s_mChi_%d_.txt" % (output_path, SR, sp[0]))
