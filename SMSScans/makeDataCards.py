@@ -99,14 +99,17 @@ def makeDataCard(sp, SR, BR_key=None):
   #  print("%s : %s" % (x, n_parms[SR][x]))
 
   if BR_key:
-    output_path+=BR_key+"/"
+    outdir=output_path+BR_key+"/"
+  else:
+    outdir=output_path
+    
 
   f_template=open("%s%s.txt" % (templates_path, SR), 'r')
   if (sp[1] == -1):
-    print("%sdatacard_%s_mChi_%d_.txt" % (output_path, SR, sp[0]))
-    f_out=open("%sdatacard_%s_mChi_%d_.txt" % (output_path, SR, sp[0]), 'w+')
+    print("%sdatacard_%s_mChi_%d_.txt" % (outdir, SR, sp[0]))
+    f_out=open("%sdatacard_%s_mChi_%d_.txt" % (outdir, SR, sp[0]), 'w+')
   else:
-    f_out=open("%sdatacard_%s_mGluino_%d_mLSP_%d_.txt" % (output_path, SR, sp[0], sp[1]), 'w+')
+    f_out=open("%sdatacard_%s_mGluino_%d_mLSP_%d_.txt" % (outdir, SR, sp[0], sp[1]), 'w+')
 
   f_out.write(f_template.read().format(**n_parms[SR]))
 
