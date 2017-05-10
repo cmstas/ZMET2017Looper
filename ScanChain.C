@@ -146,6 +146,10 @@ double getdRGammaLep(short id/*=0*/){
   return sqrt(pow(dPhi, 2) + pow(dEta, 2));
 }
 
+/*int getHadDecayBoson(){
+
+}*/
+
 //=============================
 // Triggers
 //=============================
