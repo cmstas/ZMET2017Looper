@@ -128,6 +128,8 @@ def launch():
     elif signal_name == "tchiwz":
       makeDataCard(sp, "TChiHZ")
       makeDataCard(sp, "TChiWZ")
+      makeDataCard(sp, "TChiHZ", "halfweight")
+      makeDataCard(sp, "TChiWZ", "halfweight")
     elif signal_name == "tchizz":
       makeDataCard((sp,-1), "TChiHZ")
       makeDataCard((sp,-1), "TChiWZ")
