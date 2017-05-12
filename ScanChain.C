@@ -201,6 +201,11 @@ pair<int,int> getSUSYHadDecayBoson(){
     }
   }
 
+  if (quarks_pos != -1){
+    LorentzVector quark_syst = phys.genPart_p4().at(quarks_pos) + phys.genPart_p4().at(quarks_pos+1);
+    cout<<"Found Quarks at: "<<quarks_pos<<" and "<<quarks_pos+1<<" with (pt, eta, phi) = ("<<quark_syst.pt()<<", "<<quark_syst.eta()<<", "<<quark_syst.phi()<<") ";
+  }
+
   //loop through other particles looking for EWK bosons.
   for (int i = boson_search_begin; i>=0; i--) {
     if ( abs(phys.genPart_pdgId().at(i)) == target_pdgId ) { //find proper boson
@@ -208,6 +213,13 @@ pair<int,int> getSUSYHadDecayBoson(){
         boson_pos = i;
       }
     }
+  }
+
+  if (boson_pos != -1){
+    cout<<"EWK Boson at: "<<boson_pos<<" with (pt, eta, phi) = ("<<phys.genPart_p4().at(boson_pos).pt()<<", "<<phys.genPart_p4().at(boson_pos).eta()<<", "<<phys.genPart_p4().at(boson_pos).phi()<<") "<< endl;
+  }
+  else{
+    cout<<" But NO Boson found!"<<endl;
   }
 
   return make_pair(boson_pos, quarks_pos);
@@ -2763,10 +2775,13 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
       if (conf->get("fat_jet_study") == "true"){
         pair<int, int> SUSY_fat_jet_ind = getSUSYHadDecayBoson();
 
-        double fj_dr = DeltaR(phys.genPart_p4().at(SUSY_fat_jet_ind.first), phys.genPart_p4().at(SUSY_fat_jet_ind.second));
-
-        fj_ewkBoson_jetpt->Fill(phys.genPart_p4().at(SUSY_fat_jet_ind.first).pt(), weight);
-        fj_DeltaR->Fill(fj_dr, weight);
+        if (SUSY_fat_jet_ind.first != -1){
+          fj_ewkBoson_jetpt->Fill(phys.genPart_p4().at(SUSY_fat_jet_ind.first).pt(), weight);
+        }
+        if (SUSY_fat_jet_ind.second != -1){
+          double fj_dr = DeltaR(phys.genPart_p4().at(SUSY_fat_jet_ind.second), phys.genPart_p4().at(SUSY_fat_jet_ind.second+1));
+          fj_DeltaR->Fill(fj_dr, weight);
+        }
       }
 
       //cout<<__LINE__<<endl;
