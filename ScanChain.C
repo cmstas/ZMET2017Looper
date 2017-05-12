@@ -146,10 +146,78 @@ double getdRGammaLep(short id/*=0*/){
   return sqrt(pow(dPhi, 2) + pow(dEta, 2));
 }
 
-/*int getHadDecayBoson(){
+pair<int,int> getSUSYHadDecayBoson(){
+  /*Returns position in the gen particles for the ewk boson and first quark pair prodcued from the EWK Boson mother and SUSY grandmother. 
 
-}*/
+  The function looks for a pair of quarks next to each other in the gen record with a mother that's the proper boson and a SUSY grandma.
+  Then it checks that their diquark mass is within 10 GeV of boson's resonance mass, if this is true, the location of the pair is noted. 
 
+  Next it searches through the gen record backwards starting from the entry prior to the quarks position when they can be found, on cmd line it 
+  looked like ewk boson was normally the previous entry) and finds a EWK boson of proper flavor. If that boson has pt within 5 GeV of the diquark 
+  system, the boson's position is noted.
+
+  If no boson can be found, -1 is returned as the first position. 
+  If no quarks can be found, -1 is returned as the second positon.
+  */
+
+  int quarks_pos = -1; //pair produced are always consecutive rows, so only need one
+  int boson_pos = -1;
+
+  int target_pdgId, target_mass;
+  double target_pt = -1;
+  int SUSY_low_id = 1000000;
+  int quarks_high_id = 6;
+  int boson_search_begin = (int) phys.genPart_pdgId().size();
+
+  if (TString(currentFile->GetTitle()).Contains("tchiwz_80x")) {
+    target_pdgId = W_PDG_ID;
+    target_mass = W_MASS;
+  }
+  else if (TString(currentFile->GetTitle()).Contains("tchizz_80x")) {
+    target_pdgId = Z_PDG_ID;
+    target_mass = Z_MASS;
+  }
+  else if (TString(currentFile->GetTitle()).Contains("tchihz_80x")) {
+    target_pdgId = H_PDG_ID;
+    target_mass = H_MASS;
+  }
+  else{
+    std::stringstream message;
+    message<<"Can not get hadron from SUSY decay, sample name is not tchihz, tchiwz, or tchizz, got: "<<currentFile->GetTitle();
+    throw std::invalid_argument(message.str());
+  }
+
+  // loop through and find quark pairs
+  for (int i = 0; i<(int)phys.genPart_pdgId().size() - 1; i++){
+    if ( (abs(phys.genPart_pdgId().at(i)) <= quarks_high_id ) && (abs(phys.genPart_pdgId().at(i+1)) <= quarks_high_id) ) { //quarks have id 0 through 6
+      if ((phys.genPart_motherId().at(i) != target_pdgId) || (phys.genPart_motherId().at(i+1) != target_pdgId)) continue;
+      if ((phys.genPart_grandmaId().at(i) < SUSY_low_id) || (phys.genPart_grandmaId().at(i+1) < SUSY_low_id)) continue;
+      if (abs((phys.genPart_p4().at(i) + phys.genPart_p4().at(i+1)).M() - target_mass) < 10){ 
+        quarks_pos = i;
+        boson_search_begin = quarks_pos - 1;
+        target_pt = (phys.genPart_p4().at(i) + phys.genPart_p4().at(i+1)).pt();
+        break;
+      }
+    }
+  }
+
+  //loop through other particles looking for EWK bosons.
+  for (int i = boson_search_begin; i>=0; i--) {
+    if ( abs(phys.genPart_pdgId().at(i)) == target_pdgId ) { //find proper boson
+      if (abs(phys.genPart_p4().at(i).pt() - target_pt) < 5){ //check it has pt consistent with chosen quarks.
+        boson_pos = i;
+      }
+    }
+  }
+
+  return make_pair(boson_pos, quarks_pos);
+}
+
+double DeltaR(const LorentzVector p1, const LorentzVector p2){
+  /*Returns the DeltaR between objects p1 and p2.*/
+  //cout<<__LINE__<<endl;
+  return sqrt( (p1.eta() - p2.eta())*(p1.eta() - p2.eta())+(p1.phi() - p2.phi())*(p1.phi() - p2.phi()) );
+}
 //=============================
 // Triggers
 //=============================
@@ -1928,6 +1996,17 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
     mjj_min_dphi->Sumw2();
   }
 
+  TH1D *fj_ewkBoson_jetpt, *fj_DeltaR;
+  if (conf->get("fat_jet_study") == "true"){
+    fj_ewkBoson_jetpt = new TH1D("fj_ewkBoson_jetpt", "Pt of electroweak boson that becomes jets in SUSY model: "+g_sample_name, 6000,0,6000);
+    fj_ewkBoson_jetpt->SetDirectory(rootdir);
+    fj_ewkBoson_jetpt->Sumw2();
+
+    fj_DeltaR = new TH1D("fj_DeltaR", "#Delta R between quarks that come from ewk boson produced by SUSY particle in model: "+g_sample_name, 500,0,50);
+    fj_DeltaR->SetDirectory(rootdir);
+    fj_DeltaR->Sumw2();
+  }
+
   //==============================
   //T5ZZ model natural binning
   //==============================
@@ -2681,6 +2760,15 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
         }
       }
 
+      if (conf->get("fat_jet_study") == "true"){
+        pair<int, int> SUSY_fat_jet_ind = getSUSYHadDecayBoson();
+
+        double fj_dr = DeltaR(phys.genPart_p4().at(SUSY_fat_jet_ind.first), phys.genPart_p4().at(SUSY_fat_jet_ind.second));
+
+        fj_ewkBoson_jetpt->Fill(phys.genPart_p4().at(SUSY_fat_jet_ind.first).pt(), weight);
+        fj_DeltaR->Fill(fj_dr, weight);
+      }
+
       //cout<<__LINE__<<endl;
 //===========================================
 // Debugging And Odd Corrections After Cuts
@@ -2866,6 +2954,11 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
     pt_gamma_MET300->Write();
     pt_gamma_MET400->Write();
     pt_gamma_MET500->Write();
+  }
+  
+  if (conf->get("fat_jet_study") == "true"){
+    fj_ewkBoson_jetpt->Write();
+    fj_DeltaR->Write();
   }
 
   //close output file

@@ -140,6 +140,13 @@ vector<float> g_jets_csv;
 vector<LorentzVector> g_jets_p4;
 vector<LorentzVector> g_jets_medb_p4;
 
+const int Z_PDG_ID = 23;
+const int W_PDG_ID = 24;
+const int H_PDG_ID = 25;
+
+const int Z_MASS = 91;
+const int W_MASS = 80;
+const int H_MASS = 125;
 
 /* returns two most B-like jet indicies */
 pair<int, int> getMostBlike();
@@ -170,6 +177,21 @@ double getMTLepMET(short id=0);
 /* Builds the delta R (sqrt(dPhi^2 + dEta^2)) between the lepton at index id and the leading photon*/
 double getdRGammaLep(short id=0);
 
+/*Returns position in the gen particles for the ewk boson and first quark pair prodcued from the EWK Boson mother and SUSY grandmother. 
+
+  The function looks for a pair of quarks next to each other in the gen record with a mother that's the proper boson and a SUSY grandma.
+  Then it checks that their diquark mass is within 10 GeV of boson's resonance mass, if this is true, the location of the pair is noted. 
+
+  Next it searches through the gen record backwards starting from the entry prior to the quarks position when they can be found, on cmd line it 
+  looked like ewk boson was normally the previous entry) and finds a EWK boson of proper flavor. If that boson has pt within 10 GeV of the diquark 
+  system, the boson's position is noted.
+
+  If no boson can be found, -1 is returned as the first position. 
+  If no quarks can be found, -1 is returned as the second positon.*/
+pair<int,int> getSUSYHadDecayBoson();
+
+/*Returns the DeltaR between objects p1 and p2.*/
+double DeltaR(const LorentzVector p1, const LorentzVector p2);
 //=============================
 // Triggers
 //=============================
