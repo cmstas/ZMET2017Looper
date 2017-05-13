@@ -153,7 +153,7 @@ pair<int,int> getSUSYHadDecayBoson(){
   Then it checks that their diquark mass is within 10 GeV of boson's resonance mass, if this is true, the location of the pair is noted. 
 
   Next it searches through the gen record backwards starting from the entry prior to the quarks position when they can be found, on cmd line it 
-  looked like ewk boson was normally the previous entry) and finds a EWK boson of proper flavor. If that boson has pt within 5 GeV of the diquark 
+  looked like ewk boson was normally the previous entry) and finds a EWK boson of proper flavor. If that boson has pt within 1 GeV of the diquark 
   system, the boson's position is noted.
 
   If no boson can be found, -1 is returned as the first position. 
@@ -201,26 +201,26 @@ pair<int,int> getSUSYHadDecayBoson(){
     }
   }
 
-  if (quarks_pos != -1){
+  /*if (quarks_pos != -1){
     LorentzVector quark_syst = phys.genPart_p4().at(quarks_pos) + phys.genPart_p4().at(quarks_pos+1);
     cout<<"Found Quarks at: "<<quarks_pos<<" and "<<quarks_pos+1<<" with (pt, eta, phi) = ("<<quark_syst.pt()<<", "<<quark_syst.eta()<<", "<<quark_syst.phi()<<") ";
-  }
+  }*/
 
   //loop through other particles looking for EWK bosons.
   for (int i = boson_search_begin; i>=0; i--) {
     if ( abs(phys.genPart_pdgId().at(i)) == target_pdgId ) { //find proper boson
-      if (abs(phys.genPart_p4().at(i).pt() - target_pt) < 5){ //check it has pt consistent with chosen quarks.
+      if (abs(phys.genPart_p4().at(i).pt() - target_pt) < 1){ //check it has pt consistent with chosen quarks.
         boson_pos = i;
       }
     }
   }
 
-  if (boson_pos != -1){
+  /*if (boson_pos != -1){
     cout<<"EWK Boson at: "<<boson_pos<<" with (pt, eta, phi) = ("<<phys.genPart_p4().at(boson_pos).pt()<<", "<<phys.genPart_p4().at(boson_pos).eta()<<", "<<phys.genPart_p4().at(boson_pos).phi()<<") "<< endl;
   }
   else{
     cout<<" But NO Boson found!"<<endl;
-  }
+  }*/
 
   return make_pair(boson_pos, quarks_pos);
 }
