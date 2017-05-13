@@ -867,8 +867,10 @@ double getWeight(){
       weight *= phys.weight_btagsf();
     }
 
+    double ISR_norm, btag_norm;
+
     if (conf->get("susy_mc") == "true"){
-      double ISR_norm, btag_norm;
+      //double ISR_norm, btag_norm;
       if(conf->get("SUSY_Glu_LSP_scan") == "true"){
         ISR_norm=1./g_isr_norm->GetBinContent(g_isr_norm->GetXaxis()->FindBin(phys.mass_gluino()), g_isr_norm->GetYaxis()->FindBin(phys.mass_LSP()));
         //cout<<__LINE__<<endl;
