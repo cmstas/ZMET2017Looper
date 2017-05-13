@@ -167,7 +167,7 @@ pair<int,int> getSUSYHadDecayBoson(){
   double target_pt = -1;
   int SUSY_low_id = 1000000;
   int quarks_high_id = 6;
-  int boson_search_begin = (int) phys.genPart_pdgId().size();
+  int boson_search_begin = (int) phys.genPart_pdgId().size() - 1;
 
   if (TString(currentFile->GetTitle()).Contains("tchiwz_80x")) {
     target_pdgId = W_PDG_ID;
@@ -219,6 +219,10 @@ pair<int,int> getSUSYHadDecayBoson(){
     if ( abs(phys.genPart_pdgId().at(i)) == target_pdgId ) { //find proper boson
       cout<<__LINE__<<endl;
       if (abs(phys.genPart_p4().at(i).pt() - target_pt) < 1){ //check it has pt consistent with chosen quarks.
+        cout<<__LINE__<<endl;
+        boson_pos = i;
+      }
+      else if ((target_pt == -1) && (abs(phys.genPart_motherId().at(i)) > SUSY_low_id)) { //If the quarks weren't found, just take the first boson that's proper with the correct mother ID.
         cout<<__LINE__<<endl;
         boson_pos = i;
       }
