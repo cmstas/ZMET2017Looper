@@ -793,6 +793,7 @@ double scale1fbFix(){
 double getWeight(){
   /*Gets the proper weight for the sample. */
   double weight=1;
+  double ISR_norm, btag_norm;
   //cout<<__LINE__<<endl;
   if ( ! ( phys.isData() ) ){
     weight *= phys.evt_scale1fb();
@@ -866,8 +867,6 @@ double getWeight(){
       //cout<<"Applying Btag Scale Factors"<<endl;
       weight *= phys.weight_btagsf();
     }
-
-    double ISR_norm, btag_norm;
 
     if (conf->get("susy_mc") == "true"){
       //double ISR_norm, btag_norm;
