@@ -927,6 +927,7 @@ double getWeight(){
   }*/
 
   //weight *= scale1fbFix();
+  cout<<"weight: "<<weight<<" for evt: "<<phys.evt()<<" ISR_norm: "<<ISR_norm<<" Btag norm: "<<btag_norm<<endl;
 
   return weight;
 }
