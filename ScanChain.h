@@ -299,5 +299,12 @@ bool passFileSelections();
 /*Sets up global variables for the event which are the quantities that might be fluctuated in the process of computing uncertainty limits*/
 void setupGlobals();
 
+/*Loads the proper TH2 for the given SUSY sample which contains the BTag and ISR weights if running SUSY MC.*/
+void updateSUSYBtagISRNorms();
+
+/*Loads Pt reweighting histograms, pileup reweighting hists, and efficiency hists (which are no longer used really). Also sets up goodrun list*/
+void setupExternal(TString savePath);
+
+
 /*Obvi the event looper*/
 int ScanChain( TChain* chain, ConfigParser *configuration, bool fast = true, int nEvents = -1);

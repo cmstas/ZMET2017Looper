@@ -1766,6 +1766,156 @@ void setupGlobals(){
   }
 }
 
+void updateSUSYBtagISRNorms(){
+  /*Loads the proper TH2 for the given SUSY sample which contains the BTag and ISR weights if running SUSY MC.*/
+  //--------------------------------------------------------
+  // 2D SUSY Scan ISR and BTag SF normalization Histograms
+  //--------------------------------------------------------
+  if(conf->get("susy_mc") == "true"){
+    cout<<"Updating normalization weights for ISR and Btag Scale Factors."<<endl;
+    //cout<<__LINE__<<endl;
+    if (TString(currentFile->GetTitle()).Contains("t5zz_")){
+      //cout<<__LINE__<<endl;
+      g_SUSYsf_norm_file = TFile::Open("auxFiles/nsig_weights_t5zz.root", "READ");
+    }
+    else if (TString(currentFile->GetTitle()).Contains("wz")){
+      //cout<<__LINE__<<endl;
+      g_SUSYsf_norm_file = TFile::Open("auxFiles/nsig_weights_tchiwz.root", "READ");
+    }
+    else if (TString(currentFile->GetTitle()).Contains("hz")){
+      //cout<<__LINE__<<endl;
+      g_SUSYsf_norm_file = TFile::Open("auxFiles/nsig_weights_tchihz.root", "READ");
+    }
+    else if (TString(currentFile->GetTitle()).Contains("zz")){
+      //cout<<__LINE__<<endl;
+      g_SUSYsf_norm_file = TFile::Open("auxFiles/nsig_weights_tchizz.root", "READ");
+    }
+    else {    
+      //cout<<__LINE__<<endl;
+      std::stringstream message;
+      message<<"Can not update normalization weights file for file: "<<currentFile->GetTitle()<<", no external hist file configured for it.";
+      throw std::invalid_argument(message.str());
+    }
+    //cout<<__LINE__<<endl;
+
+    g_isr_norm = (TH2D*)g_SUSYsf_norm_file->Get("h_avg_weight_isr")->Clone("h_isr_norm");
+    //cout<<__LINE__<<endl;
+    g_isr_norm_up = (TH2D*)g_SUSYsf_norm_file->Get("h_avg_weight_isr_UP")->Clone("h_isr_norm_up");
+    //cout<<__LINE__<<endl;
+    g_btagsf_norm = (TH2D*)g_SUSYsf_norm_file->Get("h_avg_weight_btagsf")->Clone("g_btagsf_norm");
+    //cout<<__LINE__<<endl;
+    g_btagsf_light_norm_up = (TH2D*)g_SUSYsf_norm_file->Get("h_avg_weight_btagsf_light_UP")->Clone("g_btagsf_light_norm_up");
+    //cout<<__LINE__<<endl;
+    g_btagsf_heavy_norm_up = (TH2D*)g_SUSYsf_norm_file->Get("h_avg_weight_btagsf_heavy_UP")->Clone("g_btagsf_heavy_norm_up");
+    //cout<<__LINE__<<endl;
+    
+
+    g_isr_norm->SetDirectory(rootdir);
+    //cout<<__LINE__<<endl;
+    g_isr_norm_up->SetDirectory(rootdir);
+    //cout<<__LINE__<<endl;
+    g_btagsf_norm->SetDirectory(rootdir);
+    //cout<<__LINE__<<endl;
+    g_btagsf_light_norm_up->SetDirectory(rootdir);
+    //cout<<__LINE__<<endl;
+    g_btagsf_heavy_norm_up->SetDirectory(rootdir);
+    //cout<<__LINE__<<endl;
+
+
+    g_SUSYsf_norm_file->Close();
+    //cout<<__LINE__<<endl;
+  }
+}
+
+void setupExternal(TString savePath){
+  /*Loads Pt reweighting histograms, pileup reweighting hists, and efficiency hists (which are no longer used really). Also sets up goodrun list*/
+
+  //Set up manual vertex reweighting.  
+  if( conf->get("reweight") == "true" ){
+    readyReweightHists();
+  }
+  if( conf->get("vpt_reweight") == "true" ){
+    readyVPTReweight(savePath);
+  }
+
+  if(conf->get("pileup_reweight") == "true"){
+    cout<<"Pileup reweighting with puWeight_Moriond2017.root"<<endl;
+    g_pileup_hist_file = TFile::Open("auxFiles/puWeight_Moriond2017.root", "READ");
+    //cout<<__LINE__<<endl;
+    g_pileup_hist = (TH1D*)g_pileup_hist_file->Get("pileupWeight")->Clone("h_pileup_weight");
+    //cout<<__LINE__<<endl;
+    g_pileup_hist->SetDirectory(rootdir);
+    //cout<<__LINE__<<endl;
+    g_pileup_hist_file->Close();
+  }
+   
+  //cout<<__LINE__<<endl;
+  /*if( phys.isData() && conf->get("event_type")=="photon" ){
+    cout<<"Pileup reweighting with "<<savePath+"L1PrescaleWeight_"+conf->get("signal_region")+".root"<<endl;
+    g_l1prescale_file = TFile::Open(savePath+"L1PrescaleWeight_"+conf->get("signal_region")+".root", "READ");
+    
+    g_l1prescale_hist36 = (TH1D*)g_l1prescale_file->Get("rwt_nVert_HLT_Photon36_R9Id90_HE10_IsoM")->Clone("l1prescaleWeight36");
+    g_l1prescale_hist36->SetDirectory(rootdir);
+
+    g_l1prescale_hist30 = (TH1D*)g_l1prescale_file->Get("rwt_nVert_HLT_Photon30_R9Id90_HE10_IsoM")->Clone("l1prescaleWeight30");
+    g_l1prescale_hist30->SetDirectory(rootdir);
+
+    g_l1prescale_hist22 = (TH1D*)g_l1prescale_file->Get("rwt_nVert_HLT_Photon22_R9Id90_HE10_IsoM")->Clone("l1prescaleWeight22");
+    g_l1prescale_hist22->SetDirectory(rootdir);
+
+    g_l1prescale_file->Close();
+  }*/
+  //cout<<__LINE__<<endl;
+
+  if( conf->get("rwt_photon_eff") == "true" ){
+    cout<<"Reweighting for Effeciency with trigeff_Photon165_zmet2016.root"<<endl;
+    TFile weight_eff_file("auxFiles/trigeff_Photon165_zmet2016.root", "READ");
+    
+    //barrel
+    g_pt_eff_barrel = (TEfficiency*)weight_eff_file.Get("h_pt_eb_eff_jetht")->Clone("g_vpt_eff_barrel");
+    g_pt_eff_barrel->SetDirectory(rootdir);
+
+    //endcap
+    g_pt_eff_endcap = (TEfficiency*)weight_eff_file.Get("h_pt_ee_eff_jetht")->Clone("g_vpt_eff_barrel");
+    g_pt_eff_endcap->SetDirectory(rootdir);
+    
+    weight_eff_file.Close();
+  }
+
+  if( conf->get("rwt_muon_eff") == "true" ){
+    cout<<"Reweighting for single muon trigger effeciency"<<endl;
+    TFile weight_eff_file("/home/users/cwelke/analysis/CMSSW_8_0_22/V08-22-05/ZMET2015/makePlots/trigeff_Muon_pt_2016_withH.root", "READ");
+    
+    //barrel
+    g_pt_eff_barrel = (TEfficiency*)weight_eff_file.Get("h_pt_denom_eb_ele27WPLoose_clone")->Clone("g_pt_eff_barrel");
+    g_pt_eff_barrel->SetDirectory(rootdir);
+
+    //endcap
+    g_pt_eff_endcap = (TEfficiency*)weight_eff_file.Get("h_pt_denom_ee_ele27WPLoose_clone")->Clone("g_pt_eff_barrel");
+    g_pt_eff_endcap->SetDirectory(rootdir);
+    
+    weight_eff_file.Close();
+  }  
+
+  //cout<<__LINE__<<endl;
+  //set goodrun list
+  if (conf->get("JSON") == "ICHEP"){
+    const char* json_file = "auxFiles/golden_json_200716_12p9fb_snt.txt"; // ICHEP
+    cout<<"Setting good run list: "<<json_file<<endl;
+    set_goodrun_file(json_file);   
+  }
+  else if ((conf->get("JSON") == "18fb")){
+    const char* json_file = "auxFiles/Cert_271036-284044_13TeV_23Sep2016ReReco_Collisions16_JSON_unblind18_sorted_snt.txt"; // 18.1 fb
+    cout<<"Setting good run list: "<<json_file<<endl;
+    set_goodrun_file(json_file);
+  }
+  else{
+    const char* json_file = "auxFiles/Cert_271036-284044_13TeV_23Sep2016ReReco_Collisions16_JSON_snt.txt"; // 36.5 fb
+    cout<<"Setting good run list: "<<json_file<<endl;
+    set_goodrun_file(json_file);
+  }
+}
+
 int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/, int nEvents/* = -1*/) {
   /* Runs through baby files and makes histogram files. 
   
@@ -2256,153 +2406,8 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
 // Setup Stuff Pulled From External Files
 //===========================================
   int eventsInFile;
-  //Set up manual vertex reweighting.  
-  if( conf->get("reweight") == "true" ){
-    readyReweightHists();
-  }
-  if( conf->get("vpt_reweight") == "true" ){
-    readyVPTReweight(savePath);
-  }
 
-  if(conf->get("pileup_reweight") == "true"){
-    cout<<"Pileup reweighting with puWeight_Moriond2017.root"<<endl;
-    g_pileup_hist_file = TFile::Open("auxFiles/puWeight_Moriond2017.root", "READ");
-    //cout<<__LINE__<<endl;
-    g_pileup_hist = (TH1D*)g_pileup_hist_file->Get("pileupWeight")->Clone("h_pileup_weight");
-    //cout<<__LINE__<<endl;
-    g_pileup_hist->SetDirectory(rootdir);
-    //cout<<__LINE__<<endl;
-    g_pileup_hist_file->Close();
-  }
-
-  //--------------------------------------------------------
-  // 2D SUSY Scan ISR and BTag SF normalization Histograms
-  //--------------------------------------------------------
-  if(conf->get("susy_mc") == "true"){
-    cout<<"Setting up normalization weights for ISR and Btag Scale Factors."<<endl;
-    //cout<<__LINE__<<endl;
-    if (conf->get("data_set") == "T5ZZ"){
-      //cout<<__LINE__<<endl;
-      g_SUSYsf_norm_file = TFile::Open("auxFiles/nsig_weights_t5zz.root", "READ");
-    }
-    else if (conf->get("data_set") == "TChiWZ"){
-      //cout<<__LINE__<<endl;
-      g_SUSYsf_norm_file = TFile::Open("auxFiles/nsig_weights_tchiwz.root", "READ");
-    }
-    else if (conf->get("data_set") == "TChiHZ"){
-      //cout<<__LINE__<<endl;
-      g_SUSYsf_norm_file = TFile::Open("auxFiles/nsig_weights_tchihz.root", "READ");
-    }
-    else if (conf->get("data_set") == "TChiHZ_TChiZZ"){
-      //cout<<__LINE__<<endl;
-      g_SUSYsf_norm_file = TFile::Open("auxFiles/nsig_weights_tchihz.root", "READ");
-    }
-    else if (conf->get("data_set") == "TChiZZ"){
-      //cout<<__LINE__<<endl;
-      g_SUSYsf_norm_file = TFile::Open("auxFiles/nsig_weights_tchizz.root", "READ");
-    }
-    else {
-      //cout<<__LINE__<<endl;
-      std::stringstream message;
-      message<<"Can not pull normalization weights file for "<<conf->get("data_set")<<", no file configured for that dataset.";
-      throw std::invalid_argument(message.str());
-    }
-    //cout<<__LINE__<<endl;
-
-    g_isr_norm = (TH2D*)g_SUSYsf_norm_file->Get("h_avg_weight_isr")->Clone("h_isr_norm");
-    //cout<<__LINE__<<endl;
-    g_isr_norm_up = (TH2D*)g_SUSYsf_norm_file->Get("h_avg_weight_isr_UP")->Clone("h_isr_norm_up");
-    //cout<<__LINE__<<endl;
-    g_btagsf_norm = (TH2D*)g_SUSYsf_norm_file->Get("h_avg_weight_btagsf")->Clone("g_btagsf_norm");
-    //cout<<__LINE__<<endl;
-    g_btagsf_light_norm_up = (TH2D*)g_SUSYsf_norm_file->Get("h_avg_weight_btagsf_light_UP")->Clone("g_btagsf_light_norm_up");
-    //cout<<__LINE__<<endl;
-    g_btagsf_heavy_norm_up = (TH2D*)g_SUSYsf_norm_file->Get("h_avg_weight_btagsf_heavy_UP")->Clone("g_btagsf_heavy_norm_up");
-    //cout<<__LINE__<<endl;
-    
-
-    g_isr_norm->SetDirectory(rootdir);
-    //cout<<__LINE__<<endl;
-    g_isr_norm_up->SetDirectory(rootdir);
-    //cout<<__LINE__<<endl;
-    g_btagsf_norm->SetDirectory(rootdir);
-    //cout<<__LINE__<<endl;
-    g_btagsf_light_norm_up->SetDirectory(rootdir);
-    //cout<<__LINE__<<endl;
-    g_btagsf_heavy_norm_up->SetDirectory(rootdir);
-    //cout<<__LINE__<<endl;
-
-
-    g_SUSYsf_norm_file->Close();
-    //cout<<__LINE__<<endl;
-  }
-
-   
-  //cout<<__LINE__<<endl;
-  /*if( phys.isData() && conf->get("event_type")=="photon" ){
-    cout<<"Pileup reweighting with "<<savePath+"L1PrescaleWeight_"+conf->get("signal_region")+".root"<<endl;
-    g_l1prescale_file = TFile::Open(savePath+"L1PrescaleWeight_"+conf->get("signal_region")+".root", "READ");
-    
-    g_l1prescale_hist36 = (TH1D*)g_l1prescale_file->Get("rwt_nVert_HLT_Photon36_R9Id90_HE10_IsoM")->Clone("l1prescaleWeight36");
-    g_l1prescale_hist36->SetDirectory(rootdir);
-
-    g_l1prescale_hist30 = (TH1D*)g_l1prescale_file->Get("rwt_nVert_HLT_Photon30_R9Id90_HE10_IsoM")->Clone("l1prescaleWeight30");
-    g_l1prescale_hist30->SetDirectory(rootdir);
-
-    g_l1prescale_hist22 = (TH1D*)g_l1prescale_file->Get("rwt_nVert_HLT_Photon22_R9Id90_HE10_IsoM")->Clone("l1prescaleWeight22");
-    g_l1prescale_hist22->SetDirectory(rootdir);
-
-    g_l1prescale_file->Close();
-  }*/
-  //cout<<__LINE__<<endl;
-
-  if( conf->get("rwt_photon_eff") == "true" ){
-    cout<<"Reweighting for Effeciency with trigeff_Photon165_zmet2016.root"<<endl;
-    TFile weight_eff_file("auxFiles/trigeff_Photon165_zmet2016.root", "READ");
-    
-    //barrel
-    g_pt_eff_barrel = (TEfficiency*)weight_eff_file.Get("h_pt_eb_eff_jetht")->Clone("g_vpt_eff_barrel");
-    g_pt_eff_barrel->SetDirectory(rootdir);
-
-    //endcap
-    g_pt_eff_endcap = (TEfficiency*)weight_eff_file.Get("h_pt_ee_eff_jetht")->Clone("g_vpt_eff_barrel");
-    g_pt_eff_endcap->SetDirectory(rootdir);
-    
-    weight_eff_file.Close();
-  }
-
-  if( conf->get("rwt_muon_eff") == "true" ){
-    cout<<"Reweighting for single muon trigger effeciency"<<endl;
-    TFile weight_eff_file("/home/users/cwelke/analysis/CMSSW_8_0_22/V08-22-05/ZMET2015/makePlots/trigeff_Muon_pt_2016_withH.root", "READ");
-    
-    //barrel
-    g_pt_eff_barrel = (TEfficiency*)weight_eff_file.Get("h_pt_denom_eb_ele27WPLoose_clone")->Clone("g_pt_eff_barrel");
-    g_pt_eff_barrel->SetDirectory(rootdir);
-
-    //endcap
-    g_pt_eff_endcap = (TEfficiency*)weight_eff_file.Get("h_pt_denom_ee_ele27WPLoose_clone")->Clone("g_pt_eff_barrel");
-    g_pt_eff_endcap->SetDirectory(rootdir);
-    
-    weight_eff_file.Close();
-  }  
-
-  //cout<<__LINE__<<endl;
-  //set goodrun list
-  if (conf->get("JSON") == "ICHEP"){
-    const char* json_file = "auxFiles/golden_json_200716_12p9fb_snt.txt"; // ICHEP
-    cout<<"Setting good run list: "<<json_file<<endl;
-    set_goodrun_file(json_file);   
-  }
-  else if ((conf->get("JSON") == "18fb")){
-    const char* json_file = "auxFiles/Cert_271036-284044_13TeV_23Sep2016ReReco_Collisions16_JSON_unblind18_sorted_snt.txt"; // 18.1 fb
-    cout<<"Setting good run list: "<<json_file<<endl;
-    set_goodrun_file(json_file);
-  }
-  else{
-    const char* json_file = "auxFiles/Cert_271036-284044_13TeV_23Sep2016ReReco_Collisions16_JSON_snt.txt"; // 36.5 fb
-    cout<<"Setting good run list: "<<json_file<<endl;
-    set_goodrun_file(json_file);
-  }
+  setupExternal(savePath);
 
   //cout<<__LINE__<<endl;
   // Loop over events to Analyze
@@ -2436,6 +2441,8 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
     //cout<<__LINE__<<endl;
     files_log<<"Running over new file: "<<currentFile->GetTitle()<<endl;
     cout<<"Running over new file: "<<currentFile->GetTitle()<<endl;
+
+    if (conf->get("susy_mc")) updateSUSYBtagISRNorms();
 //===========================================
 // Loop over Events in current file
 //===========================================
