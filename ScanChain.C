@@ -2442,7 +2442,7 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
     files_log<<"Running over new file: "<<currentFile->GetTitle()<<endl;
     cout<<"Running over new file: "<<currentFile->GetTitle()<<endl;
 
-    if (conf->get("susy_mc")) updateSUSYBtagISRNorms();
+    if (conf->get("susy_mc") == "true") updateSUSYBtagISRNorms();
 //===========================================
 // Loop over Events in current file
 //===========================================
