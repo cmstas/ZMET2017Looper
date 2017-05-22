@@ -160,32 +160,32 @@ void addToChain(TChain *ch, TString set, bool hadoop=false, bool skimmed=true) {
 //====================================
 
   else if (set == "TChiHZ"){
-    TString dir="/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-17/skims/";
-    //TString dir="/hadoop/cms/store/user/olivito/AutoTwopler_babies/merged/ZMET/V08-22-16/skim/";
+    TString dir="/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-18/skims/";
+    //TString dir="/hadoop/cms/store/user/olivito/AutoTwopler_babies/merged/ZMET/V08-22-18/skim/";
 
     //TChiHZ Signal
     cout<<"Adding TChiHZ Monte Carlo"<<endl;
     ch->Add(dir+"tchihz_80x_v2*");
   }
   else if (set == "TChiWZ"){
-    TString dir="/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-16/skims/";
-    //TString dir="/hadoop/cms/store/user/olivito/AutoTwopler_babies/merged/ZMET/V08-22-16/skim/";
+    TString dir="/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-18/skims/";
+    //TString dir="/hadoop/cms/store/user/olivito/AutoTwopler_babies/merged/ZMET/V08-22-18/skim/";
     
     //TChiHZ Signal
     cout<<"Adding TChiWZ Monte Carlo"<<endl;
     ch->Add(dir+"tchiwz_80x_v2*");
   }
   else if (set == "TChiZZ"){
-    TString dir="/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-17/skims/";
-    //TString dir="/hadoop/cms/store/user/olivito/AutoTwopler_babies/merged/ZMET/V08-22-16/skim/";
+    TString dir="/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-18/skims/";
+    //TString dir="/hadoop/cms/store/user/olivito/AutoTwopler_babies/merged/ZMET/V08-22-18/skim/";
     
     //TChiHZ Signal
     cout<<"Adding TChiZZ Monte Carlo"<<endl;
     ch->Add(dir+"tchizz_80x_v2*");
   }
   else if (set == "T5ZZ"){
-    TString dir="/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-16/skims/";
-    //TString dir="/hadoop/cms/store/user/olivito/AutoTwopler_babies/merged/ZMET/V08-22-16/skim/";
+    TString dir="/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-18/skims/";
+    //TString dir="/hadoop/cms/store/user/olivito/AutoTwopler_babies/merged/ZMET/V08-22-18/skim/";
     
     //T5ZZ Signal
     cout<<"Adding T5ZZ Monte Carlo"<<endl;
