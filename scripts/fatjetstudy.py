@@ -12,6 +12,7 @@ def getPercentBelowDR(SR, m1, m2, DR):
     raise NameError("Signal Region %s unknown" % SR)
 
   f = ROOT.TFile(path)
+  print(path)
   h = f.Get("fj_DeltaR").Clone("h_fj_DR")
 
   return h.Integral(h.FindBin(0),h.FindBin(DR))/h.Integral()
