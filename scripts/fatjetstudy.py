@@ -4,7 +4,7 @@ def getPercentBelowDR(SR, m1, m2, DR):
   path = "/nfs-7/userdata/bobak/ZMET2017_Hists/FatJetStudy/"
   if SR == "wz":
     path+="TChiWZ/Vanilla/tchiwz_mglu%d_mlsp%d.root" % (m1,m2)
-  elif SR == "wz":
+  elif SR == "hz":
     path+="TChiHZ/Vanilla/tchihz_mchi%d.root" % m1
   elif SR == "zz":
     path+="TChiZZ/Vanilla/tchizz_mchi%d.root" % m1
@@ -23,13 +23,13 @@ def main():
 
   print("TChiWZ-------------------------")
   for mp in mp_tchiwz:
-    print("(%d, %d) BosonPt DeltaR (%f\% below DR = 1, %f\% below DR = 0.4)" % (mp[0],mp[1], getPercentBelowDR("tchiwz",mp[0],mp[1],1), getPercentBelowDR("tchiwz",mp[0],mp[1],0.4)) )
+    print("(%d, %d) BosonPt DeltaR (%f\% below DR = 1, %f\% below DR = 0.4)" % (mp[0],mp[1], getPercentBelowDR("wz",mp[0],mp[1],1), getPercentBelowDR("wz",mp[0],mp[1],0.4)) )
   print("TChiHZ-------------------------")
   for mp in mp_tchihz:
-    print("(%d) BosonPt DeltaR (%f\% below DR = 1, %f\% below DR = 0.4)" % (mp[0],mp[1], getPercentBelowDR("tchihz",mp[0],mp[1],1), getPercentBelowDR("tchihz",mp[0],mp[1],0.4)) )
+    print("(%d) BosonPt DeltaR (%f\% below DR = 1, %f\% below DR = 0.4)" % (mp[0],mp[1], getPercentBelowDR("hz",mp[0],mp[1],1), getPercentBelowDR("hz",mp[0],mp[1],0.4)) )
   print("TChiZZ-------------------------")
   for mp in mp_tchizz:
-    print("(%d) BosonPt DeltaR (%f\% below DR = 1, %f\% below DR = 0.4)" % (mp[0],mp[1], getPercentBelowDR("tchihz",mp[0],mp[1],1), getPercentBelowDR("tchihz",mp[0],mp[1],0.4)) )
+    print("(%d) BosonPt DeltaR (%f\% below DR = 1, %f\% below DR = 0.4)" % (mp[0],mp[1], getPercentBelowDR("zz",mp[0],mp[1],1), getPercentBelowDR("zz",mp[0],mp[1],0.4)) )
 
 
 
