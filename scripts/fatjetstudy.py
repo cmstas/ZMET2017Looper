@@ -12,7 +12,7 @@ def getPercentBelowDR(SR, m1, m2, DR):
     raise NameError("Signal Region %s unknown" % SR)
 
   f = ROOT.TFile(path)
-  print(path)
+  #print(path)
   h = f.Get("fj_DeltaR").Clone("h_fj_DR")
 
   return h.Integral(h.FindBin(0),h.FindBin(DR))/h.Integral()
@@ -24,13 +24,13 @@ def main():
 
   print("TChiWZ-------------------------")
   for mp in mp_tchiwz:
-    print("(%d, %d) BosonPt DeltaR (%f\% below DR = 1, %f\% below DR = 0.4)" % (mp[0],mp[1], getPercentBelowDR("wz",mp[0],mp[1],1), getPercentBelowDR("wz",mp[0],mp[1],0.4)) )
+    print("(%d, %d) BosonPt DeltaR (%f%% below DR = 1, %f%% below DR = 0.4)" % (mp[0],mp[1], getPercentBelowDR("wz",mp[0],mp[1],1), getPercentBelowDR("wz",mp[0],mp[1],0.4)) )
   print("TChiHZ-------------------------")
   for mp in mp_tchihz:
-    print("(%d) BosonPt DeltaR (%f\% below DR = 1, %f\% below DR = 0.4)" % (mp[0],mp[1], getPercentBelowDR("hz",mp[0],mp[1],1), getPercentBelowDR("hz",mp[0],mp[1],0.4)) )
+    print("(%d) BosonPt DeltaR (%f%% below DR = 1, %f%% below DR = 0.4)" % (mp[0],mp[1], getPercentBelowDR("hz",mp[0],mp[1],1), getPercentBelowDR("hz",mp[0],mp[1],0.4)) )
   print("TChiZZ-------------------------")
   for mp in mp_tchizz:
-    print("(%d) BosonPt DeltaR (%f\% below DR = 1, %f\% below DR = 0.4)" % (mp[0],mp[1], getPercentBelowDR("zz",mp[0],mp[1],1), getPercentBelowDR("zz",mp[0],mp[1],0.4)) )
+    print("(%d) BosonPt DeltaR (%f%% below DR = 1, %f%% below DR = 0.4)" % (mp[0],mp[1], getPercentBelowDR("zz",mp[0],mp[1],1), getPercentBelowDR("zz",mp[0],mp[1],0.4)) )
 
 
 
