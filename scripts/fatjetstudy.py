@@ -24,7 +24,7 @@ def main():
 
   print("TChiWZ-------------------------")
   for mp in mp_tchiwz:
-    print("(%d, %d) BosonPt DeltaR ( (%.2f%%, %.2f%%, %.2f%%, %.2f%%) below DR = (1, 0.8, 0.6, 0.4) )" % (mp[0],mp[1], getPercentBelowDR("wz",mp[0],mp[1],1), getPercentBelowDR("wz",mp[0],mp[1],0.8), getPercentBelowDR("wz",mp[0],mp[1],0.6) getPercentBelowDR("wz",mp[0],mp[1],0.4)) )
+    print("(%d, %d) BosonPt DeltaR ( (%.2f%%, %.2f%%, %.2f%%, %.2f%%) below DR = (1, 0.8, 0.6, 0.4) )" % (mp[0],mp[1], getPercentBelowDR("wz",mp[0],mp[1],1), getPercentBelowDR("wz",mp[0],mp[1],0.8), getPercentBelowDR("wz",mp[0],mp[1],0.6), getPercentBelowDR("wz",mp[0],mp[1],0.4)) )
   print("TChiHZ-------------------------")
   for mp in mp_tchihz:
     print("(%d) BosonPt DeltaR ( (%.2f%%, %.2f%%, %.2f%%, %.2f%%) below DR = (1, 0.8, 0.6, 0.4) )" % (mp[0], getPercentBelowDR("hz",mp[0],mp[1],1), getPercentBelowDR("hz",mp[0],mp[1],0.8), getPercentBelowDR("hz",mp[0],mp[1],0.6), getPercentBelowDR("hz",mp[0],mp[1],0.4)) )
