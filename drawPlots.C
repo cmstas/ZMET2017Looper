@@ -867,7 +867,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
     l1 = new TLegend(0.78, 0.78, 0.93, 0.93);
   }
   else if (conf->get("big_legend") == "true"){
-    l1 = new TLegend(0.60, 0.55, 0.93, 0.93);
+    l1 = new TLegend(0.55, 0.50, 0.93, 0.93);
   }
   else{
     /*cout<<"UtoPixel(0.65): "<<gPad->UtoPixel(.65)<<endl;
