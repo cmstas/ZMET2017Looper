@@ -812,11 +812,25 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   //cout<<__LINE__<<endl;
 
   vector<pair<TH1D*, TString>> hists_labeled; 
+  
+  // If combined Rares, simply replace the rares in the hists_labeled vector with their sum
+  TH1D* combined_rares;
 
-  for (int i=1; i<num_hists; i++)
-  {
-    hists_labeled.push_back(make_pair(hists[i], hist_labels[i]));
-  } 
+  if (conf->get("combine_rares") == "true"){
+    combine_rares = hists[4].Clone("h_rares_combined");
+    combined_rares.Add(hists[3]);
+    combined_rares.Add(hists[2]);
+    combined_rares.Add(hists[1]);
+    hists_labeled.push_back(make_pair(hists[5], hist_labels[5]));
+    hists_labeled.push_back(make_pair(hists[6], hist_labels[6]));
+    hists_labeled.push_back(make_pair(combined_rares, "Rares"));
+  }
+  else{
+    for (int i=1; i<num_hists; i++)
+    {
+      hists_labeled.push_back(make_pair(hists[i], hist_labels[i]));
+    } 
+  }
 
   cout<<"Sorting by total count"<<endl;
 

@@ -303,7 +303,7 @@ void printErrors(const vector<double> &temp_err, const vector<double> &rare_err,
     cout<<bin_low[i]<<"-"<<bin_low[i+1]<<" ";
   }
   cout<<endl;
-  cout<<"Z+jets ";
+  cout<<"DY+jets ";
   for (int i = 0; i<temp_err.size(); i++){
     cout<<"+/-"<<temp_err[i]<<" ";
   }
@@ -356,7 +356,7 @@ void printCounts(const vector<double> &temp_count, const vector<double> &temp_er
     cout<<bin_low[i].first<<"-"<<bin_low[i].second<<" ";
   }
   cout<<endl;
-  cout<<"STATTABLE: Z+jets ";
+  cout<<"STATTABLE: DY+jets ";
   for (int i = 0; i<temp_err.size(); i++){
     cout<<temp_count[i]<<"+/-"<<temp_err[i]<<" ";
   }
@@ -401,7 +401,7 @@ void printLatexCounts(const vector<double> temp_count, const vector<double> &tem
   }
   cout<<" \\\\ \\hline "<<endl;
   cout<<setprecision(1);
-  cout<<"LATEXTABLE: Z+jets ";
+  cout<<"LATEXTABLE: DY+jets ";
   for (int i = 0; i<temp_err.size(); i++){
     cout<<" & "<<temp_count[i]<<"$\\pm$"<<temp_err[i];
   }
