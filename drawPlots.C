@@ -820,8 +820,8 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
     combine_rares = hists[4]->Clone("h_rares_combined");
     cout<<__LINE__<<endl;
     combined_rares->Add(hists[3]);
-    combined_rares->Add(hists[2]);
-    combined_rares->Add(hists[1]);
+    //combined_rares->Add(hists[2]);
+    //combined_rares->Add(hists[1]);
     cout<<__LINE__<<endl;
     hists_labeled.push_back(make_pair(hists[5], hist_labels[5]));
     hists_labeled.push_back(make_pair(hists[6], hist_labels[6]));
