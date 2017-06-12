@@ -99,22 +99,28 @@ void drawSRText(TString SR, double high_y, double low_x){
   float left_margin = gPad->GetLeftMargin();
 
   if(SR == "Strong_Bveto_2j"){
-    text="#splitline{2-3 jets; No b-tags}{H_{T} > 500 GeV; M_{T2} > 80 GeV}";
+    //text="#splitline{2-3 jets; No b-tags}{H_{T} > 500 GeV; M_{T2} > 80 GeV}";
+    text="SRA, b veto";
   }
   else if(SR == "Strong_Bveto_4j"){
-    text="#splitline{4-5 jets; No b-tags}{H_{T} > 500 GeV; M_{T2} > 80 GeV}";
+    //text="#splitline{4-5 jets; No b-tags}{H_{T} > 500 GeV; M_{T2} > 80 GeV}";
+    text="SRB, b veto";
   }
   else if(SR == "Strong_Bveto_6j"){
-    text="#splitline{#geq 6 jets; No b-tags}{M_{T2} > 80 GeV}";
+    //text="#splitline{#geq 6 jets; No b-tags}{M_{T2} > 80 GeV}";
+    text="SRC, b veto";
   }
   else if(SR == "Strong_Btag_2j"){
-    text="#splitline{2-3 jets; #geq 1 b-tags}{H_{T} > 200 GeV; M_{T2} > 100 GeV}";
+    //text="#splitline{2-3 jets; #geq 1 b-tags}{H_{T} > 200 GeV; M_{T2} > 100 GeV}";
+    text="SRA, b tag";
   }
   else if(SR == "Strong_Btag_4j"){
-    text="#splitline{4-5 jets; #geq 1 b-tags}{H_{T} > 200 GeV; M_{T2} > 100 GeV}";
+    //text="#splitline{4-5 jets; #geq 1 b-tags}{H_{T} > 200 GeV; M_{T2} > 100 GeV}";
+    text="SRB, b tag";
   }
   else if(SR == "Strong_Btag_6j"){
-    text="#splitline{#geq 6 jets; #geq 1 b-tags}{M_{T2} > 100 GeV}";
+    //text="#splitline{#geq 6 jets; #geq 1 b-tags}{M_{T2} > 100 GeV}";
+    text="SRC, b tag";
   }
   else if(SR == "TChiWZ"){
     text="EWK WZ/ZZ Region";
@@ -131,7 +137,7 @@ void drawSRText(TString SR, double high_y, double low_x){
   //TLatex *SRText = new TLatex(low_x, high_y, text.Data());   //Doesn't work because splitline was coded by an asshole
   TLatex *SRText = new TLatex(left_margin+.05, .85, text.Data());   //just awful style, thanks ROOT.
   SRText->SetNDC();
-  SRText->SetTextSize(0.03);    
+  SRText->SetTextSize(0.04);    
   SRText->SetLineWidth(2);
   SRText->SetTextFont(62);    
   SRText->Draw();
@@ -423,6 +429,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   }
   //cout<<__LINE__<<endl;
   hists[0]->SetMarkerStyle(20);
+  hists[0]->SetMarkerColor(kBlack);
   //cout<<__LINE__<<endl;
 
   //===========================
@@ -814,20 +821,21 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   vector<pair<TH1D*, TString>> hists_labeled; 
   
   // If combined Rares, simply replace the rares in the hists_labeled vector with their sum
-  TH1D* combined_rares;
+  TH1D * combined_rares = (TH1D*) hists[4]->Clone("h_rares_combined");
 
   if (conf->get("combine_rares") == "true"){
-    combine_rares = hists[4]->Clone("h_rares_combined");
-    cout<<__LINE__<<endl;
+    //cout<<__LINE__<<endl;
     combined_rares->Add(hists[3]);
-    //combined_rares->Add(hists[2]);
-    //combined_rares->Add(hists[1]);
-    cout<<__LINE__<<endl;
+    //cout<<__LINE__<<endl;
+    combined_rares->Add(hists[2]);
+    //cout<<__LINE__<<endl;
+    combined_rares->Add(hists[1]);
+    //cout<<__LINE__<<endl;
     hists_labeled.push_back(make_pair(hists[5], hist_labels[5]));
     hists_labeled.push_back(make_pair(hists[6], hist_labels[6]));
-    cout<<__LINE__<<endl;
+    //cout<<__LINE__<<endl;
     hists_labeled.push_back(make_pair(combined_rares, "Rares"));
-    cout<<__LINE__<<endl;
+    //cout<<__LINE__<<endl;
   }
   else{
     for (int i=1; i<num_hists; i++)
@@ -866,11 +874,13 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
     bg_err->Draw("SAME 2");
   }
   if (conf->get("print_stats") == "true" && conf->get("simple_errors") != "true"){
-    hists[0]->SetMarkerSize(2.5);
+    hists[0]->SetMarkerSize(5);
   }
   else{
     hists[0]->SetMarkerSize(1.5);
   }
+  hists[0]->SetMarkerColor(kBlack);
+  hists[0]->SetLineColor(kBlack);
   hists[0]->Draw("same e0 x0 e1 p0");
 
   plotpad->RedrawAxis();
@@ -886,7 +896,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
     l1 = new TLegend(0.78, 0.78, 0.93, 0.93);
   }
   else if (conf->get("big_legend") == "true"){
-    l1 = new TLegend(0.55, 0.50, 0.93, 0.93);
+    l1 = new TLegend(0.6, 0.55, 0.93, 0.93);
   }
   else{
     /*cout<<"UtoPixel(0.65): "<<gPad->UtoPixel(.65)<<endl;
@@ -897,13 +907,13 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
     cout<<"x under legend: "<<x_under_legend<<endl;
     cout<<"max count under legend: "<<max_count_under_legend<<endl;*/
 
-    l1 = new TLegend(0.65, 0.6, 0.93, 0.93);
+    l1 = new TLegend(0.6, 0.6, 0.93, 0.93);
   }
   
   l1->SetLineColor(kWhite);  
   l1->SetShadowColor(kWhite);
   l1->SetFillColor(kWhite);
-  l1->SetTextSize(.03);
+  l1->SetTextSize(.04);
   //cout<<__LINE__<<endl;
   l1->AddEntry(hists[0], hist_labels[0], "pe");
   /* //Put objects in legend with the same order as the they go into the stack
@@ -911,8 +921,15 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
     l1->AddEntry(hists_labeled[i].first, hists_labeled[i].second, "f");
   }*/
   //Put objects in legend in the order they are written in the config
-  for (int i = hists.size()-1; i>=1; i--){
-    l1->AddEntry(hists[i], hist_labels[i], "f");
+  if (conf->get("combine_rares") == "true"){
+      l1->AddEntry(hists[5], hist_labels[5], "f");
+      l1->AddEntry(hists[6], hist_labels[6], "f");
+      l1->AddEntry(combined_rares, "Rares", "f");
+  }
+  else{
+    for (int i = hists.size()-1; i>=1; i--){
+      l1->AddEntry(hists[i], hist_labels[i], "f");
+    }
   }
 
   l1->Draw("same");
