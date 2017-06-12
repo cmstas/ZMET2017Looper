@@ -756,8 +756,10 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
           signal_count.push_back(hists[0]->Integral(hists[0]->FindBin(stats_bins[i].first), hists[0]->FindBin(stats_bins[i].second - 0.001)));
         }
       }
-      printCounts(template_count, temp_err, rare_count, rare_err, FS_count, FS_err, stats_bins, signal_count, stod(conf->get("hist_5_scale")));
-      printLatexCounts(template_count, temp_err, rare_count, rare_err, FS_count, FS_err, stats_bins, signal_count, stod(conf->get("hist_5_scale")));
+      if (conf->get("big_legend") != "true"){
+        printCounts(template_count, temp_err, rare_count, rare_err, FS_count, FS_err, stats_bins, signal_count, stod(conf->get("hist_5_scale")));
+        printLatexCounts(template_count, temp_err, rare_count, rare_err, FS_count, FS_err, stats_bins, signal_count, stod(conf->get("hist_5_scale")));
+      }
       prediction_errors = getErrorTGraph(template_count, temp_err, rare_count, rare_err, FS_count, FS_err, stats_bins, signal_count, stod(conf->get("hist_5_scale")));
       //cout<<__LINE__<<endl;
 
@@ -874,7 +876,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
     bg_err->Draw("SAME 2");
   }
   if (conf->get("print_stats") == "true" && conf->get("simple_errors") != "true"){
-    hists[0]->SetMarkerSize(5);
+    hists[0]->SetMarkerSize(4);
   }
   else{
     hists[0]->SetMarkerSize(1.5);
@@ -998,7 +1000,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   line1->SetLineStyle(2);
 
   if (conf->get("print_stats") == "true" && conf->get("simple_errors") != "true"){
-    residual->SetMarkerSize(2.5);
+    residual->SetMarkerSize(4);
   }
   else{
     residual->SetMarkerSize(1.5);
