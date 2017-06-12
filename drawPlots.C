@@ -877,12 +877,14 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   }
   if (conf->get("print_stats") == "true" && conf->get("simple_errors") != "true"){
     hists[0]->SetMarkerSize(4);
+    hists[0]->SetLineWidth(5);
   }
   else{
     hists[0]->SetMarkerSize(1.5);
   }
   hists[0]->SetMarkerColor(kBlack);
   hists[0]->SetLineColor(kBlack);
+  //hists[0]->SetLineWidth(5);
   hists[0]->Draw("same e0 x0 e1 p0");
 
   plotpad->RedrawAxis();
