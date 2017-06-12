@@ -100,27 +100,27 @@ void drawSRText(TString SR, double high_y, double low_x){
 
   if(SR == "Strong_Bveto_2j"){
     //text="#splitline{2-3 jets; No b-tags}{H_{T} > 500 GeV; M_{T2} > 80 GeV}";
-    text="SRA, b-veto";
+    text="SRA, b veto";
   }
   else if(SR == "Strong_Bveto_4j"){
     //text="#splitline{4-5 jets; No b-tags}{H_{T} > 500 GeV; M_{T2} > 80 GeV}";
-    text="SRB, b-veto";
+    text="SRB, b veto";
   }
   else if(SR == "Strong_Bveto_6j"){
     //text="#splitline{#geq 6 jets; No b-tags}{M_{T2} > 80 GeV}";
-    text="SRC, b-veto";
+    text="SRC, b veto";
   }
   else if(SR == "Strong_Btag_2j"){
     //text="#splitline{2-3 jets; #geq 1 b-tags}{H_{T} > 200 GeV; M_{T2} > 100 GeV}";
-    text="SRA, b-tag";
+    text="SRA, b tag";
   }
   else if(SR == "Strong_Btag_4j"){
     //text="#splitline{4-5 jets; #geq 1 b-tags}{H_{T} > 200 GeV; M_{T2} > 100 GeV}";
-    text="SRB, b-tag";
+    text="SRB, b tag";
   }
   else if(SR == "Strong_Btag_6j"){
     //text="#splitline{#geq 6 jets; #geq 1 b-tags}{M_{T2} > 100 GeV}";
-    text="SRC, b-tag";
+    text="SRC, b tag";
   }
   else if(SR == "TChiWZ"){
     text="EWK VZ Region";
