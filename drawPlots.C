@@ -123,10 +123,10 @@ void drawSRText(TString SR, double high_y, double low_x){
     text="SRC, b tag";
   }
   else if(SR == "TChiWZ"){
-    text="EWK VZ Region";
+    text="EW VZ Region";
   }
   else if(SR == "TChiHZ"){
-    text="EWK HZ Region";
+    text="EW HZ Region";
   }
   else{
     cout<<"Coult not match SR: "<<SR<<endl;
@@ -877,7 +877,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   }
   if (conf->get("print_stats") == "true" && conf->get("simple_errors") != "true"){
     hists[0]->SetMarkerSize(4);
-    hists[0]->SetLineWidth(5);
+    hists[0]->SetLineWidth(2);
   }
   else{
     hists[0]->SetMarkerSize(1.5);
