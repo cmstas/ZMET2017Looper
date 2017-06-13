@@ -876,8 +876,8 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
     bg_err->Draw("SAME 2");
   }
   if (conf->get("print_stats") == "true" && conf->get("simple_errors") != "true"){
-    hists[0]->SetMarkerSize(4);
-    hists[0]->SetLineWidth(2);
+    hists[0]->SetMarkerSize(3.5);
+    hists[0]->SetLineWidth(3);
   }
   else{
     hists[0]->SetMarkerSize(1.5);
@@ -1002,7 +1002,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   line1->SetLineStyle(2);
 
   if (conf->get("print_stats") == "true" && conf->get("simple_errors") != "true"){
-    residual->SetMarkerSize(4);
+    residual->SetMarkerSize(3.5);
   }
   else{
     residual->SetMarkerSize(1.5);
