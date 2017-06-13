@@ -76,18 +76,18 @@ void drawCMSLatex(double luminosity){
   }    
   // lumitex = new TLatex(0.66,0.955, Form("few pb^{-1} (13 TeV)") );    
   lumitex->SetNDC();    
-  lumitex->SetTextSize(0.03);    
+  lumitex->SetTextSize(0.04);    
   lumitex->SetLineWidth(2);
   lumitex->SetTextFont(42);    
   lumitex->Draw();
 
   TLatex *cmstex = NULL;
   //cmstex = new TLatex(left_margin, height, "#it{CMS #bf{Preliminary}}" );    
-  cmstex = new TLatex(left_margin, height, "#it{CMS}" );    
+  cmstex = new TLatex(left_margin, height, "CMS" );    
   cmstex->SetNDC();    
-  cmstex->SetTextSize(0.03);    
+  cmstex->SetTextSize(0.06);    
   cmstex->SetLineWidth(2);
-  cmstex->SetTextFont(62);    
+  cmstex->SetTextFont(61);    
   cmstex->Draw();
 
   return;
