@@ -21,7 +21,7 @@
 
 using namespace std;
 
-std::array<int, 14> ROOT_COLOR_PALATE = {46,8,9,38,40,2,30,6,28,42,3,5,7,41};
+std::array<int, 14> ROOT_COLOR_PALATE = {46,8,9,38,17,2,30,6,28,42,3,5,7,41};
 
 /*std::pair<double,double> getLegendLocation(TH1D* bg_sum){
   // Returns the best (xmin, ymin) pair for the location of the legend 
