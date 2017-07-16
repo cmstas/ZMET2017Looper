@@ -18,8 +18,8 @@ def fillMassSpectrumFromTChain():
   for i in files_in:
     ch.Add(i)
 
-  ch.SetBranchStatus("*", 0)
-  ch.SetBranchStatus("sparm_values", 1)
+  #ch.SetBranchStatus("*", 0)
+  #ch.SetBranchStatus("sparm_values", 1)
 
   n_entries = ch.GetEntries()
   for j_entry in range(n_entries):
