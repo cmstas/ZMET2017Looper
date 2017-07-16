@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-import ROOT, sys, sets, os
+import ROOT, sys, sets, os, time
 
 mass_points = sets.Set()
 files_in = []
@@ -18,10 +18,12 @@ def fillMassSpectrumFromTChain():
   for i in files_in:
     ch.Add(i)
 
-  #ch.SetBranchStatus("*", 0)
-  #ch.SetBranchStatus("sparm_values", 1)
+  ch.SetBranchStatus("*", 0)
+  ch.SetBranchStatus("floats_sParmMaker_sparmvalues_CMS3.obj", 1)
 
   n_entries = ch.GetEntries()
+  last_time = time.time()
+  this_time = time.time()
   for j_entry in range(n_entries):
     
     #if j_entry > 1000:
@@ -36,7 +38,9 @@ def fillMassSpectrumFromTChain():
 
 
     if j_entry % 10000 == 0:
-      print("Processing entry %d of %d" % (j_entry, n_entries))
+      this_time=time.time()
+      print("Processing entry %d of %d, eta: %f secs" % (j_entry, n_entries, (this_time - last_time)*((n_entries-j_entry)/10000) ))
+      last_time=this_time
 
     if ((ch.sparm_values[0],ch.sparm_values[1]) not in mass_points):
       mass_points.add((ch.sparm_values[0],ch.sparm_values[1]))
