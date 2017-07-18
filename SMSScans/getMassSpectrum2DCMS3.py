@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-import ROOT, sys, sets, os
+import ROOT, sys, sets, os, time
 
 mass_points = sets.Set()
 files_in = []
@@ -8,21 +8,22 @@ output_filename = ""
 def checkInputs():
   if (len(sys.argv) < 2) or (".root" in sys.argv[1]):
     print("Usage: ")
-    print("./getMassSpectrum2D.py <sample_name> <path_to_baby_1> <path_to_baby_2> ... <path_to_baby_n>")
+    print("./getMassSpectrum2DCMS3.py <sample_name> <path_to_CMS3_1> <path_to_CMS3_2> ... <path_to_CMS3_n>")
     exit(1)
 
   print("Getting mass spectrum for %d files" % len(sys.argv[2:]))
 
 def fillMassSpectrumFromTChain():
-  ch = ROOT.TChain("t")
+  ch = ROOT.TChain("Events")
   for i in files_in:
     ch.Add(i)
 
   ch.SetBranchStatus("*", 0)
-  ch.SetBranchStatus("mass_LSP", 1)
-  ch.SetBranchStatus("mass_gluino", 1)
+  ch.SetBranchStatus("floats_sParmMaker_sparmvalues_CMS3.obj", 1)
 
   n_entries = ch.GetEntries()
+  last_time = time.time()
+  this_time = time.time()
   for j_entry in range(n_entries):
     
     #if j_entry > 1000:
@@ -37,10 +38,12 @@ def fillMassSpectrumFromTChain():
 
 
     if j_entry % 10000 == 0:
-      print("Processing entry %d of %d" % (j_entry, n_entries))
+      this_time=time.time()
+      print("Processing entry %d of %d, eta: %f secs" % (j_entry, n_entries, (this_time - last_time)*((n_entries-j_entry)/10000) ))
+      last_time=this_time
 
-    if ((ch.mass_gluino,ch.mass_LSP) not in mass_points):
-      mass_points.add((ch.mass_gluino,ch.mass_LSP))
+    if ((ch.sparm_values[0],ch.sparm_values[1]) not in mass_points):
+      mass_points.add((ch.sparm_values[0],ch.sparm_values[1]))
 
   outfile = open(output_filename, 'w')
 
