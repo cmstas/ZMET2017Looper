@@ -836,7 +836,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
     hists_labeled.push_back(make_pair(hists[5], hist_labels[5]));
     hists_labeled.push_back(make_pair(hists[6], hist_labels[6]));
     //cout<<__LINE__<<endl;
-    hists_labeled.push_back(make_pair(combined_rares, "Rares"));
+    hists_labeled.push_back(make_pair(combined_rares, "Z+#nu"));
     //cout<<__LINE__<<endl;
   }
   else{
@@ -928,7 +928,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   if (conf->get("combine_rares") == "true"){
       l1->AddEntry(hists[5], hist_labels[5], "f");
       l1->AddEntry(hists[6], hist_labels[6], "f");
-      l1->AddEntry(combined_rares, "Rares", "f");
+      l1->AddEntry(combined_rares, "Z+#nu", "f");
   }
   else{
     for (int i = hists.size()-1; i>=1; i--){
