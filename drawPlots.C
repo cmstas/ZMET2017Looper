@@ -486,7 +486,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
 
   gStyle->SetTitleW(0.6);
   gStyle->SetTitleH(0.06);
-  gStyle->SetTitleFont(12);
+  //gStyle->SetTitleFont(12);
 
   //===========================
   // Print Closure Stats
@@ -1272,7 +1272,7 @@ TString drawArbitraryNumber(ConfigParser *conf){
 
   gStyle->SetTitleW(0.6);
   gStyle->SetTitleH(0.06);
-  gStyle->SetTitleFont(12);
+  //gStyle->SetTitleFont(12);
 
   //===========================
   // Print Closure Stats
@@ -2245,7 +2245,7 @@ void drawPlots(TString config_file, bool draw_debugs = true){
 
   ConfigParser *configs=new ConfigParser(config_file.Data());
 
-  //setTDRStyle();
+  setTDRStyle();
   
   TGaxis::SetExponentOffset(-0.07, 0, "y"); // X and Y offset for Y axis
   TGaxis::SetExponentOffset(-.8, -0.07, "x"); // X and Y offset for X axis
