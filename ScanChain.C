@@ -2225,14 +2225,14 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
   //==============================
   //TChiWZ EXT model natural binning
   //==============================
-  const int n_gluino_bins = 15;
-  const double gluino_bins[n_gluino_bins+1]={325.000000,350.000000,375.000000,400.000000,425.000000,450.000000,475.000000,500.000000,525.000000,550.000000,575.000000,600.000000,625.000000,650.000000,675.000000,700.000000};
+  const int n_gluino_bins_tchiwz_ext = 15;
+  const double gluino_bins_tchiwz_ext[n_gluino_bins_tchiwz_ext+1]={325.000000,350.000000,375.000000,400.000000,425.000000,450.000000,475.000000,500.000000,525.000000,550.000000,575.000000,600.000000,625.000000,650.000000,675.000000,700.000000};
 
-  const int n_lsp_bins = 12;
-  const double lsp_bins[n_lsp_bins+1]={300.000000,305.000000,310.000000,315.000000,318.000000,320.000000,325.000000,330.000000,335.000000,340.000000,343.000000,345.000000,350.000000};
+  const int n_lsp_bins_tchiwz_ext = 12;
+  const double lsp_bins_tchiwz_ext[n_lsp_bins_tchiwz_ext+1]={300.000000,305.000000,310.000000,315.000000,318.000000,320.000000,325.000000,330.000000,335.000000,340.000000,343.000000,345.000000,350.000000};
 
-  const int n_met_bins_tchiwz = 5;
-  const double met_bins_tchiwz[n_met_bins_tchiwz+1] = {50, 100, 150, 250, 350, 6000};
+  const int n_met_bins_tchiwz_tchiwz_ext = 5;
+  const double met_bins_tchiwz_tchiwz_ext[n_met_bins_tchiwz_tchiwz_ext+1] = {50, 100, 150, 250, 350, 6000};
 
   //==============================
   //TChiHZ model natural binning
@@ -2280,6 +2280,15 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
       gluino_bins = gluino_bins_tchiwz;
       lsp_bins = lsp_bins_tchiwz;
       met_bins = met_bins_tchiwz;
+    }
+    else if (conf->get("data_set") == "TChiWZ_EXT"){
+      n_gluino_bins = &n_gluino_bins_tchiwz_ext;
+      n_lsp_bins = &n_lsp_bins_tchiwz_ext;
+      n_met_bins = &n_met_bins_tchiwz_ext;
+
+      gluino_bins = gluino_bins_tchiwz_ext;
+      lsp_bins = lsp_bins_tchiwz_ext;
+      met_bins = met_bins_tchiwz_ext;
     }
     else if (conf->get("data_set") == "T5ZZ"){
       n_gluino_bins = &n_gluino_bins_t5zznat;
