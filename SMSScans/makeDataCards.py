@@ -25,6 +25,8 @@ def addSignalYields(d, SR, mass_1, mass_2, BR_key=None):
 
   if BR_key:
     file_name="%s_%s" %(signal_name, BR_key)
+  elif (signal_name == "tchiwz_ext"):
+    file_name="tchiwz"
   else:
     file_name=signal_name
 
