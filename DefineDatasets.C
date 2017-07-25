@@ -177,7 +177,7 @@ void addToChain(TChain *ch, TString set, bool hadoop=false, bool skimmed=true) {
   }
   else if (set == "TChiWZ_EXT"){
     cout<<"Adding TChiWZ extension"<<endl;
-    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-16/skims/tchiwz_constantin_ext_skim*")
+    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-16/skims/tchiwz_constantin_ext_skim*");
   }
   else if (set == "TChiZZ"){
     TString dir="/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-18/skims/";
