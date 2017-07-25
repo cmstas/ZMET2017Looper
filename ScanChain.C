@@ -2231,8 +2231,8 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
   const int n_lsp_bins_tchiwz_ext = 12;
   const double lsp_bins_tchiwz_ext[n_lsp_bins_tchiwz_ext+1]={300.000000,305.000000,310.000000,315.000000,318.000000,320.000000,325.000000,330.000000,335.000000,340.000000,343.000000,345.000000,350.000000};
 
-  const int n_met_bins_tchiwz_tchiwz_ext = 5;
-  const double met_bins_tchiwz_tchiwz_ext[n_met_bins_tchiwz_tchiwz_ext+1] = {50, 100, 150, 250, 350, 6000};
+  const int n_met_bins_tchiwz_ext = 5;
+  const double met_bins_tchiwz_ext[n_met_bins_tchiwz_ext+1] = {50, 100, 150, 250, 350, 6000};
 
   //==============================
   //TChiHZ model natural binning
