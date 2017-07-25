@@ -175,9 +175,9 @@ void addToChain(TChain *ch, TString set, bool hadoop=false, bool skimmed=true) {
     cout<<"Adding TChiWZ Monte Carlo"<<endl;
     ch->Add(dir+"tchiwz_80x_v2*");
   }
-  else if (set == "TChiWZ_EXT"){
+  else if (set == "TChiWZ-EXT"){
     cout<<"Adding TChiWZ extension"<<endl;
-    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-16/skims/tchiwz_constantin_ext_skim*");
+    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-18_Bobak/skims/tchiwz_constantin_ext_skim*");
   }
   else if (set == "TChiZZ"){
     TString dir="/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-18/skims/";
