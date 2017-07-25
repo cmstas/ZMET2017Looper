@@ -2281,7 +2281,7 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
       lsp_bins = lsp_bins_tchiwz;
       met_bins = met_bins_tchiwz;
     }
-    else if (conf->get("data_set") == "TChiWZ_EXT"){
+    else if (conf->get("data_set") == "TChiWZ-EXT"){
       n_gluino_bins = &n_gluino_bins_tchiwz_ext;
       n_lsp_bins = &n_lsp_bins_tchiwz_ext;
       n_met_bins = &n_met_bins_tchiwz_ext;
