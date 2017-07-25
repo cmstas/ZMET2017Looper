@@ -1,8 +1,9 @@
 #spectra_file="SMSScans/Spectra/mass_spectrum_t5zz_full.txt"
-spectra_file="SMSScans/Spectra/mass_spectrum_tchiwz.txt"
+#spectra_file="SMSScans/Spectra/mass_spectrum_tchiwz.txt"
+spectra_file="SMSScans/Spectra/mass_spectrum_tchiwz_CMS3_ext.txt"
 
-n_glu_points=`cat $spectra_file | awk '{print $3}' | sort -n | uniq | wc -l`
-glu_points=`cat $spectra_file | awk '{print $3}' | sort -n | uniq | xargs | tr ' ' ','`
+n_glu_points=`cat $spectra_file | awk '{print $2}' | sort -n | uniq | wc -l`
+glu_points=`cat $spectra_file | awk '{print $2}' | sort -n | uniq | xargs | tr ' ' ','`
 echo $n_glu_points
 
 echo "const int n_gluino_bins = $((n_glu_points-1));"
@@ -21,7 +22,7 @@ echo "const int n_lsp_bins = $((n_lsp_points-1));"
 echo "const double lsp_bins[n_lsp_bins+1]={$lsp_points};"
 
 #Natural Binning
-mp=`cat $spectra_file | awk '{print "("$3","$5")"}' | xargs | tr ' ' ','`
+mp=`cat $spectra_file | awk '{print "("$2","$4")"}' | xargs | tr ' ' ','`
 
 #Contrived Binning
 #mp=`cat $spectra_file | awk '{print "("$3","$5")"}' | grep -v "40\." | grep -v "90\." | grep -v ",25\." | grep -v ",50\." | xargs | tr ' ' ','`
