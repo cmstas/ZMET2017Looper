@@ -1277,7 +1277,7 @@ bool passSignalRegionCuts(){
     if (abs(phys.lep_p4().at(1).eta()) > 1.4){
       return false;
     }
-    if (phys.met() >= 150){
+    if (phys.met_pt() >= 150){
       if (phys.njets() < 2){
         return false;
       }
@@ -1286,7 +1286,7 @@ bool passSignalRegionCuts(){
       if (phys.njets() < 3){
         return false;
       } 
-    } 
+    }  
   }
 
   //cout<<__LINE__<<endl;
