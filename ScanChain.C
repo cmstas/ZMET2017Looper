@@ -432,33 +432,34 @@ bool hasGoodZ(){
 
   if (conf->get("signal_region") == "Legacy8TeV"){
     //For this legacy region, don't apply dilepton pT or dRll cuts.
-    return true;
   }
 
-  if( phys.dilpt() <25 ){
-    numEvents->Fill(26);
-    if (printFail) cout<<phys.evt()<<" :Failed Z pt cut"<<endl;
-    return false;
-  }
-  //cout<<__LINE__<<endl;
+  else{
+    if( phys.dilpt() <25 ){
+      numEvents->Fill(26);
+      if (printFail) cout<<phys.evt()<<" :Failed Z pt cut"<<endl;
+      return false;
+    }
+    //cout<<__LINE__<<endl;
 
-  if( abs(phys.lep_p4().at(1).eta()) > 1.4 && abs(phys.lep_p4().at(1).eta()) < 1.6 ) {
-    numEvents->Fill(18); 
-    if (printFail) cout<<phys.evt()<<" :Failed lep2 in xition region Z cut"<<endl;
-    return false; // veto xition region
-  }
+    if( abs(phys.lep_p4().at(1).eta()) > 1.4 && abs(phys.lep_p4().at(1).eta()) < 1.6 ) {
+      numEvents->Fill(18); 
+      if (printFail) cout<<phys.evt()<<" :Failed lep2 in xition region Z cut"<<endl;
+      return false; // veto xition region
+    }
 
-  //cout<<__LINE__<<endl;
+    //cout<<__LINE__<<endl;
+    
+    if( phys.dRll() < 0.1 ) {
+      numEvents->Fill(19); 
+      if (printFail) cout<<phys.evt()<<" :Failed deltaR Z cut"<<endl;
+      return false;
+    }
+    //if (printStats) { cout<<"DeltaR_ll: "<<phys.dRll()<<" "; }
+
+    //cout<<__LINE__<<endl;
+  }
   
-  if( phys.dRll() < 0.1 ) {
-    numEvents->Fill(19); 
-    if (printFail) cout<<phys.evt()<<" :Failed deltaR Z cut"<<endl;
-    return false;
-  }
-  //if (printStats) { cout<<"DeltaR_ll: "<<phys.dRll()<<" "; }
-
-  //cout<<__LINE__<<endl;
-
   if (! passLeptonHLTs()){
     numEvents->Fill(20);
     if (printFail) cout<<phys.evt()<<" :Failed HLT Z cut"<<endl;
