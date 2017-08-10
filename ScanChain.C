@@ -433,7 +433,6 @@ bool hasGoodZ(){
   if (conf->get("signal_region") == "Legacy8TeV"){
     //For this legacy region, don't apply dilepton pT or dRll cuts.
   }
-
   else{
     if( phys.dilpt() <25 ){
       numEvents->Fill(26);
