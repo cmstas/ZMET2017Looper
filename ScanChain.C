@@ -430,6 +430,11 @@ bool hasGoodZ(){
 
   //cout<<__LINE__<<endl;
 
+  if (conf->get("signal_region") == "Legacy8TeV"){
+    //For this legacy region, don't apply dilepton pT or dRll cuts.
+    return true;
+  }
+
   if( phys.dilpt() <25 ){
     numEvents->Fill(26);
     if (printFail) cout<<phys.evt()<<" :Failed Z pt cut"<<endl;
@@ -1261,6 +1266,27 @@ bool passSignalRegionCuts(){
       if (printFail) cout<<phys.evt()<<" :Failed truth level bjet cut"<<endl;
       return false;
     }
+  }
+
+  if (conf->get("signal_region") == "Legacy8TeV"){
+    //cuts are leptons need to have |eta|<1.4 and 2jets for 100<=MET<150, 3jets for 150<=MET
+
+    if (abs(phys.lep_p4().at(0).eta()) > 1.4){
+      return false;
+    }
+    if (abs(phys.lep_p4().at(1).eta()) > 1.4){
+      return false;
+    }
+    if (phys.met() >= 150){
+      if (phys.njets() < 2){
+        return false;
+      }
+    }
+    else{
+      if (phys.njets() < 3){
+        return false;
+      } 
+    } 
   }
 
   //cout<<__LINE__<<endl;
