@@ -1293,6 +1293,52 @@ bool passSignalRegionCuts(){
     }  
   }
 
+  if (conf->get("has_tight_photon") == "true"){
+    if( phys.ngamma() <  1 ) {
+      numEvents->Fill(24);
+      if (printFail) cout<<phys.evt()<<" :Failed at least 1 photon cut"<<endl;
+      return false; // require at least 1 good photon
+    }
+        
+    if( phys.gamma_pt().at(0) < 25 ) {
+      numEvents->Fill(26);
+      if (printFail) cout<<phys.evt()<<" :Failed pt < 22 photon cut"<<endl;
+      return false; // photon pt > 22 GeV
+    }
+    
+    if( abs(phys.gamma_p4().at(0).eta()) > 1.4 && abs(phys.gamma_p4().at(0).eta()) < 1.6 ) {
+      numEvents->Fill(27);
+      if (printFail) cout<<phys.evt()<<" :Failed gamm ain xition region photon cut"<<endl;
+      return false; // veto xition region
+    }
+    
+    if( abs(phys.gamma_p4().at(0).eta()) > 2.4 ) {
+      numEvents->Fill(28);
+      if (printFail) cout<<phys.evt()<<" :Failed gamma eta > 2.4 photon cut"<<endl;
+      return false; // photon in EC or EB
+    }
+    
+    if( phys.gamma_hOverE().at(0) > 0.1 ) {
+      numEvents->Fill(29);
+      if (printFail) cout<<phys.evt()<<" :Failed gamma hOverE photon cut"<<endl;
+      return false; // H/E < 0.1
+    }
+    
+    // if( phys.matched_neutralemf()          < 0.7   ) return false; // jet neutral EM fraction cut
+    
+    if( phys.matched_emf() < 0.7 ) {
+      numEvents->Fill(30);
+      if (printFail) cout<<phys.evt()<<" :Failed matched_emf photon cut"<<endl;
+      return false; // jet neutral EM fraction cut
+    }
+    
+    if( phys.elveto() ) {
+      numEvents->Fill(32);
+      if (printFail) cout<<phys.evt()<<" :Failed electron pixel veto photon cut"<<endl;
+      return false; // veto pixel match
+    }
+  }
+
   //cout<<__LINE__<<endl;
   //if (printPass) cout<<phys.evt()<<": Passes Signal Region Cuts"<<endl;
   return true;
