@@ -39,3 +39,8 @@ Everything automatically output to directories set in ConfigHelper.C, plots are 
 ## Running the nuisance variations
 
 ## Templates Closure Test
+
+## Kappa Closure Test
+`scripts/FS_mass_window_studies.C`
+
+## Signal Scans
