@@ -8,7 +8,7 @@ The babies are made with the [ZMET2016 code in the cmstas group](https://github.
 
 Use branch "Send"
 
-#Running the full prediction
+# Running the full prediction
 
 ```bash
 . funcs.sh
@@ -36,6 +36,6 @@ makeAllForDir configs/prediction/Final_for_paper plots
 Everything automatically output to directories set in ConfigHelper.C, plots are automatically generated and dropped into your ~/public_html. 
 
 
-##Running the nuisance variations
+## Running the nuisance variations
 
-##Templates Closure Test
+## Templates Closure Test
