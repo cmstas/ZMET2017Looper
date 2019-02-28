@@ -1,9 +1,8 @@
 #include "ScanChain.h"
-
+#include "ScanChain_shared.h"
 //=============================
 // Variable Computation
 //=============================
-
 pair<int, int> getMostBlike(){
   /* returns two most B-like jet indicies */
   int first_index = 0;
@@ -364,6 +363,29 @@ bool hasGoodZ(){
   
   //cout<<__LINE__<<endl;
 
+  if (conf->get("dil_flavor") == "emu"){ //only true for ttbar estimate
+    if (! (phys.hyp_type() == 2) ){ //require explicit emu event
+      numEvents->Fill(15); 
+      if (printFail) cout<<phys.evt()<<" :Failed not explicit e/mu Z cut, for ttbar only"<<endl;
+      return false; // require explicit opposite flavor event
+    }
+    //if (printStats) { cout<<"hyp_type: "<<phys.hyp_type()<<" "; }
+  }
+  else{
+    //require explicit hypothesis type
+    if( !( phys.hyp_type() == 0 || phys.hyp_type() == 1 ) ) {
+        numEvents->Fill(15); 
+        if (printFail) cout<<phys.evt()<<" :Failed explicit mu/mu or e/e Z cut"<<endl;
+        return false; // require explicit same flavor event
+    }
+    //if (printStats) { cout<<"hyp_type: "<<phys.hyp_type()<<" "; } 
+  }
+
+  if(conf->get("signal_region") == "synchronization")
+      eMuChannelPass ++ ;
+
+  
+  
   if( phys.lep_pt().at(0) < 25        ) {
     numEvents->Fill(11); 
     if (printFail) cout<<phys.evt()<<" :Failed lep1 pt < 25 Z cut"<<endl;
@@ -400,7 +422,7 @@ bool hasGoodZ(){
 
   //cout<<__LINE__<<endl;
 
-  if (conf->get("dil_flavor") == "emu"){ //only true for ttbar estimate
+  /*if (conf->get("dil_flavor") == "emu"){ //only true for ttbar estimate
     if (! (phys.hyp_type() == 2) ){ //require explicit emu event
       numEvents->Fill(15); 
       if (printFail) cout<<phys.evt()<<" :Failed not explicit e/mu Z cut, for ttbar only"<<endl;
@@ -416,7 +438,7 @@ bool hasGoodZ(){
         return false; // require explicit same flavor event
     }
     //if (printStats) { cout<<"hyp_type: "<<phys.hyp_type()<<" "; } 
-  }
+  }*/
 
 
   //cout<<__LINE__<<endl;
@@ -507,6 +529,11 @@ bool hasGoodZ(){
   //cout<<__LINE__<<endl;
   
   //if (printPass) cout<<phys.evt()<<": Passes good Z Cuts"<<endl;
+  //
+  if(conf->get("signal_region") == "synchronization")
+      baselinePass++;
+      
+
   return true;
 }
 
@@ -983,6 +1010,8 @@ bool passSignalRegionCuts(){
       return false;
     }
   }
+  if(conf->get("signal_region") == "synchronization")
+      twojPass++;
 
   //cout<<__LINE__<<endl;
 
@@ -997,28 +1026,9 @@ bool passSignalRegionCuts(){
 
   //cout<<__LINE__<<endl;
   //if (printStats) { cout<<"NbjetsMed: "<<g_nBJetMedium<<" "; }
-
-  //Num Bottom jets Min Cut
-  if (conf->get("NBjets_min") != ""){
-    if (g_nBJetMedium < stod(conf->get("NBjets_min"))){
-      numEvents->Fill(36);
-      if (printFail) cout<<phys.evt()<<" :Failed min bjet cut"<<endl;
-      return false;
-    }
-  }
-
-  //cout<<__LINE__<<endl;
-
-  //Num Bottom jets Max Cut
-  if (conf->get("NBjets_max") != ""){
-    if (g_nBJetMedium > stod(conf->get("NBjets_max"))){
-      numEvents->Fill(37);
-      if (printFail) cout<<phys.evt()<<" :Failed max bjet cut"<<endl;
-      return false;
-    }
-  }
-
-  //Num Bottom jets Max Cut
+  //
+  //
+//Num Bottom jets Max Cut
   if (conf->get("NBjets_loose_max") != ""){
     if (phys.nBJetLoose() > stod(conf->get("NBjets_loose_max"))){
       numEvents->Fill(37);
@@ -1038,6 +1048,55 @@ bool passSignalRegionCuts(){
     }
   }
 
+  if(conf->get("signal_region") == "synchronization")
+      bjetLoosePass ++;
+
+
+  //Num Bottom jets Min Cut
+  if (conf->get("NBjets_min") != ""){
+    if (g_nBJetMedium < stod(conf->get("NBjets_min"))){
+      numEvents->Fill(36);
+      if (printFail) cout<<phys.evt()<<" :Failed min bjet cut"<<endl;
+      return false;
+    }
+  }
+  if(conf->get("signal_region") == "synchronization")
+      bjetMediumPass ++;
+
+  //cout<<__LINE__<<endl;
+
+  //Num Bottom jets Max Cut
+  if (conf->get("NBjets_max") != ""){
+    if (g_nBJetMedium > stod(conf->get("NBjets_max"))){
+      numEvents->Fill(37);
+      if (printFail) cout<<phys.evt()<<" :Failed max bjet cut"<<endl;
+      return false;
+    }
+  }
+
+  //Num Bottom jets Max Cut
+/*  if (conf->get("NBjets_loose_max") != ""){
+    if (phys.nBJetLoose() > stod(conf->get("NBjets_loose_max"))){
+      numEvents->Fill(37);
+      if (printFail) cout<<phys.evt()<<" :Failed max bjet cut"<<endl;
+      return false;
+    }
+  }
+
+  //cout<<__LINE__<<endl;
+
+  //Num Bottom jets Min Cut
+  if (conf->get("NBjets_loose_min") != ""){
+    if (phys.nBJetLoose() < stod(conf->get("NBjets_loose_min"))){
+      numEvents->Fill(36);
+      if (printFail) cout<<phys.evt()<<" :Failed min bjet cut"<<endl;
+      return false;
+    }
+  }
+
+  if(conf->get("signal_region") == "synchronization")
+      bjetLoosePass ++;
+*/
 
   //cout<<__LINE__<<endl;
   //if (printStats) { cout<<"g_dphi_metj1: "<<g_dphi_metj1<<" "; }
@@ -1161,12 +1220,20 @@ bool passSignalRegionCuts(){
   //cout<<__LINE__<<endl;
 
   if (conf->get("MET_min") != ""){
-    if ( g_met < stod( conf->get("MET_min") )){
+    double temp_met = g_met;
+    if(conf->get("signal_region") == "synchronization")
+        temp_met = phys.met_pt();
+    if ( temp_met < stod( conf->get("MET_min") )){
       numEvents->Fill(56);
       if (printFail) cout<<phys.evt()<<" :Failed lep2 min pt cut"<<endl;
       return false;
     }
   }
+  if(conf->get("signal_region") == "synchronization")
+  {
+      metPass++;
+  }
+
 
   //cout<<__LINE__<<endl;
 
@@ -1501,11 +1568,12 @@ bool passBaseCut(){
   //bool pass=true;
 
   if (phys.isData()){
-    if (! (goodrun(phys.run(), phys.lumi()))){ 
       numEvents->Fill(8);
-      if (printFail) cout<<phys.evt()<<" :Failed golden JSON cut"<<endl;
-      return false; //golden json
-    }
+  /*  if (! (goodrun(phys.run(), phys.lumi()))){ 
+      numEvents->Fill(8);
+  //    if (printFail) cout<<phys.evt()<<" :Failed golden JSON cut"<<endl;
+    //  return false; //golden json
+    }*/
   }
   //Old Method, using branch
   /*if (! (phys.evt_passgoodrunlist() > 0)){ 
@@ -1635,7 +1703,10 @@ bool passFileSelections(){
   /* Method which holds all the file specific selections, for instance cutting out the
   events with genht > 100 in the DY inclusive samples */
 
-
+  if(conf->get("signal_region") == "synchronization")
+      return true;
+  
+    
   //Zjets Monte Carlo samples
   if ( (! phys.isData()) && TString(conf->get("data_set")).Contains("ZMC")){
     //cout<<"Zjets MC event"<<endl;
@@ -1979,7 +2050,7 @@ void setupExternal(TString savePath){
 
   //cout<<__LINE__<<endl;
   //set goodrun list
-  if (conf->get("JSON") == "ICHEP"){
+  /*if (conf->get("JSON") == "ICHEP"){
     const char* json_file = "auxFiles/golden_json_200716_12p9fb_snt.txt"; // ICHEP
     cout<<"Setting good run list: "<<json_file<<endl;
     set_goodrun_file(json_file);   
@@ -1993,7 +2064,18 @@ void setupExternal(TString savePath){
     const char* json_file = "auxFiles/Cert_271036-284044_13TeV_23Sep2016ReReco_Collisions16_JSON_snt.txt"; // 36.5 fb
     cout<<"Setting good run list: "<<json_file<<endl;
     set_goodrun_file(json_file);
-  }
+  }*/
+}
+
+bool syncFileWrite(fstream& syncFile)
+{
+    if(syncFile.is_open())
+    {
+        syncFile<<phys.run()<<","<<phys.lumi()<<","<<phys.evt()<<","<<phys.lep_pt().at(0)<<","<<phys.lep_pt().at(1)<<","<<phys.dilpt()<<","<<phys.dilmass()<<","<<g_njets<<","<<phys.met_pt()<<endl;
+        return true;
+    }
+    else
+        return false;
 }
 
 int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/, int nEvents/* = -1*/) {
@@ -2039,7 +2121,7 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
   clear_list(); //Event duplicate removal clear list
 
   cout<<"Opening file "<<TString(savePath+conf->get("Name")+".root")<<endl;
-  TFile * output = new TFile(TString(savePath+conf->get("Name")+".root"), "recreate");
+  TFile * output = new TFile(TString(savePath+conf->get("Name")+".root"), "RECREATE");
   output->cd();
 
   numEvents = new TH1I("numEvents", "Number of events in "+g_sample_name, 80, 0, 80);
@@ -2528,6 +2610,19 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
 //===========================================
 // File Loop
 //===========================================
+  fstream syncFile;
+
+  if(conf->get("signal_region") == "synchronization")
+  {
+      syncFile.open("syncFile.txt",ios::out);
+      if(syncFile.is_open())
+      {
+          syncFile<<"Run,Lumi,Event,lep1_pt,lep2_pt,ll_pt,mll,nJets,met"<<endl;
+
+      }
+
+      //assumption : only one file used to synchronize
+  }
   while ( (currentFile = (TFile*)fileIter.Next()) ) {
 
     // Get File Content
@@ -2574,7 +2669,7 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
       // DEBUG MODE
       // ----------------
       printStats = false;
-      printFail = false;
+      printFail = true;
 
       //if (inspection_set.count(phys.evt()) != 0){
       /*if ( inspection_set_erl.count(make_tuple(phys.evt(), phys.run(), phys.lumi())) != 0){
@@ -2586,6 +2681,7 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
       /*else{ //Use if you don't want care about events in your list that are not in the other's
         continue;
       }*/
+      //}
 //===========================================
 // Cuts
 //===========================================
@@ -2628,11 +2724,23 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
       }
       //cout<<__LINE__<<endl;      
 
-      if (! passSignalRegionCuts()){ 
+      if (! passSignalRegionCuts()){
+              
         //cout<<"Failed SR"<<endl;
         continue; // Signal Region Cuts
       }
+
       //cout<<__LINE__<<endl;
+
+      if(conf->get("signal_region") == "synchronization")
+      {
+          //Event passed all sync cuts
+          //Write event out here
+          bool staus = syncFileWrite(syncFile);
+          if(staus == false)
+              cout<<"Not able to write to syncFile!!"<<endl;
+          continue;
+      }
 
       if (conf->get("rare_real_MET_Z") == "true"){ 
         if ( ! passRareCuts() ){
@@ -2946,6 +3054,18 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
     delete tree;
     //cout<<__LINE__<<endl;
     file.Close();
+
+    if(conf->get("signal_region") == "synchronization")
+    {
+        syncFile<<"Intial event number "<<nEventsChain<<endl;
+        syncFile<<"E+Mu "<<eMuChannelPass<<endl;
+        syncFile<<"Baseline "<<baselinePass<<endl;
+        syncFile<<"Two Jets "<<twojPass<<endl;
+        syncFile<<"B Jet Medium "<<bjetMediumPass<<endl;
+        syncFile<<"B Jet Loose "<<bjetLoosePass<<endl;
+        syncFile<<"MET "<<metPass<<endl;
+
+    }
   }
 
   // ----------------

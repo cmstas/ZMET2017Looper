@@ -1,13 +1,4 @@
-#ifndef INCLUDED_CONFIG_PARSER
-#define INCLUDED_CONFIG_PARSER
-
-#include <string>
-#include <fstream>
-#include <sstream>
-#include <iostream>	
-#include <map>
-
-using namespace std;
+# include "ConfigParser.h"
 
 bool isWhiteSpace(const string &str){
 	for (int i = 0; i<(int)str.size(); i++){
@@ -18,23 +9,15 @@ bool isWhiteSpace(const string &str){
 	return true;
 }
 
-class ConfigParser{
-
-private:
-	ifstream *config_file;
-	string conf_path;
-	map<string, string> options;
-	map<string, string> default_options;
-	int currentLocation=0;
-
-	string cleanedArg(const string &arg){
+string ConfigParser::cleanedArg(const string &arg)
+{
 		string cleaned = arg.substr(0,arg.find("#")); //get argument before comment
 		cleaned = cleaned.substr(0, cleaned.find_last_not_of(" \t")+1); //strip off tabs and spaces.
 
 		return cleaned;
 	}
 
-	bool addOpt(string opt_key, string opt_value, bool default_opt=false){
+bool ConfigParser::addOpt(string opt_key, string opt_value, bool default_opt){
 		if(opt_key != "" && opt_value != ""){
 			//if default option, add it to defaults dict
 			if (default_opt){
@@ -50,7 +33,7 @@ private:
 		}
 	}
 
-	void extractOptFromLine(string line, bool default_opt=false){
+void ConfigParser::extractOptFromLine(string line, bool default_opt){
 		/*Extract a value from a line*/
 		string opt_key; // holds key from line
 		string opt_value; // holds value for key
@@ -62,20 +45,19 @@ private:
 		}
 	}
 
-public:
 
-	ConfigParser(string filename){
+ConfigParser::ConfigParser(string filename){
 		//just opens the file stream 
 		config_file = new ifstream(filename);
 		conf_path=filename;
 	}
 
-	string findFirstConfig(){
+	string ConfigParser::findFirstConfig(){
 		config_file->seekg(0,config_file->beg); //set to begining
 		return findNextConfig();
 	}
 
-	bool hasKey(const map<string, string> &m, const string &key){
+bool ConfigParser::hasKey(const map<string, string> &m, const string &key){
 		//returns true if the map has the key, false otherwise.
 		map<string, string>::const_iterator i = m.find(key);
 		if (i != m.end()){
@@ -86,7 +68,7 @@ public:
 		}
 	}
 
-	string findNextConfig(){
+string ConfigParser::findNextConfig(){
 		//Finds and returns name token in next line with "Name="
 		string line;  //holds line of config file
 		while(getline(*config_file, line)){
@@ -98,7 +80,7 @@ public:
 		return "";
 	}
 
-	bool loadNextConfig(){
+bool ConfigParser::loadNextConfig(){
 		//loads the next configuration, will load the first one if called before any other config.
 		config_file->seekg(currentLocation);
 		string next_name=findNextConfig();
@@ -110,7 +92,7 @@ public:
 		} 
 	}
 
-	bool loadConfig(string config_name){
+	bool ConfigParser::loadConfig(string config_name){
 		//
 		//	Starts from the begining of the file and picks up all the defaults until it gets to 
 		//  the config_name shown, and then marks the location in currentLocation. If it can not 
@@ -176,7 +158,7 @@ public:
 		return found_config;
 	}
 
-	void print(){
+	void ConfigParser::print(){
 		for (std::map<string,string>::iterator it=default_options.begin(); it!=default_options.end(); it++){
 	    	cout <<"DEFAULT::"<< it->first << " => " << it->second << endl;
 		}
@@ -185,7 +167,7 @@ public:
 		}
 	}
 
-	string get(string key){
+	string ConfigParser::get(string key){
 		if (hasKey(options, key)){
 			return options[key];
 		}
@@ -197,7 +179,7 @@ public:
 		}
 	}
 
-	string operator [] (string key) {
+	string ConfigParser::operator [] (string key) {
 		if (hasKey(options, key)){
 			return options[key];
 		}
@@ -209,6 +191,5 @@ public:
 		}
 	}
 
-};
 
-#endif
+

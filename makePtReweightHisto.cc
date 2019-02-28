@@ -1,12 +1,5 @@
-#include <iostream>
-#include <stdexcept>
 
-#include <TFile.h>
-#include <TH1D.h>
-
-#include "ConfigParser.C"
-#include "ConfigHelper.C"
-#include "HistTools.C"
+# include "makePtReweightHisto.h"
 
 using namespace std;
 

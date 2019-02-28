@@ -1,8 +1,4 @@
-#include "TString.h"
-#include "ScanChain.C"
-#include "DefineDatasets.C"
-#include "ConfigParser.C"
-#include "makePtReweightHisto.C"
+# include "doAll.h"
 
 void runScanChain(ConfigParser* conf){
   cout<<"Using config:"<<endl;
@@ -16,7 +12,7 @@ void runScanChain(ConfigParser* conf){
   ScanChain(getTChain(conf->get("data_set")), conf);
 }
 
-void doAll ( TString config_name, TString config_file="configs/run_modes.conf" ) {
+void doAll ( TString config_name, TString config_file) {
 
   ConfigParser *conf = new ConfigParser(config_file.Data());
 
@@ -37,9 +33,9 @@ void doAll ( TString config_name, TString config_file="configs/run_modes.conf" )
   }
 }
 
-int main(int argC, char** argV) {
-  TString config_name="GammaZtoNuNu";
-  TString config_file="configs/gamma_mu_studies/SingleMuon_ttg/run_modes.conf";
+int main(int argc, char* argv[]) {
+  TString config_name= argv[1];
+  TString config_file=argv[2];
   doAll(config_name, config_file);
 
   return 0;

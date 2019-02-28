@@ -13,6 +13,7 @@ SMSScans/DataCards/
 #compiled stuff
 *.so
 *.d
+*.o
 *.pcm
 *.pyc
 *.pyo

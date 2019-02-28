@@ -1,10 +1,10 @@
 #include <iostream>
 #include <stdexcept>
 
-#include <TFile.h>
-#include <TH1D.h>
-#include <TString.h>
-#include <TDirectory.h>
+#include "TFile.h"
+#include "TH1D.h"
+#include "TString.h"
+#include "TDirectory.h"
 
 using namespace std;
 
@@ -72,4 +72,9 @@ void makeWeightHisto_noconf(TString output_location, TString infile1, TString in
   cout<<"Reweight histogram succesfully made at "<<output_location<<endl;
   
   return ;
+}
+
+int main(int argc, char* argv)
+{
+    
 }

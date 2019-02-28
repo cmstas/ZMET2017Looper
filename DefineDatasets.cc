@@ -1,6 +1,44 @@
-#include "TChain.h"
-#include "TString.h"
-#include "ConfigHelper.C"
+# include "DefineDatasets.h"
+
+std::unordered_map <std::string,std::vector<std::string>> readFromTextFile(std::string fileName)
+{
+    std::fstream f(fileName.c_str(),std::ios::in);
+    std::string line;
+    std::string currentDS;
+    std::unordered_map<std::string, std::vector<std::string>> datasets;
+    while(std::getline(f,line))
+    {
+        if(line.find("ds") != std::string::npos)
+        {
+            currentDS = line.substr(line.find("ds")+2,std::string::npos);
+        }
+        else
+        {
+            datasets[currentDS].push_back(line);
+        }
+    }
+
+    return datasets;
+}
+
+
+
+void addToChain(std::unordered_map<std::string, std::vector<std::string>> datasets,TChain *ch, TString set)
+{
+    std::string setToAdd(set.Data());
+    
+    if(datasets[setToAdd].size() == 0) //illegal file name!
+    {
+        std::cout<<"wrong dataset name!"<<std::endl;
+        exit(1);
+    }
+    for(auto &it:datasets[setToAdd])
+    {
+        ch->Add(it.c_str());
+    }
+}
+
+
 
 void addToChain(TChain *ch, TString set, bool hadoop=false, bool skimmed=true) {
 
@@ -913,6 +951,19 @@ void addToChain(TChain *ch, TString set, bool hadoop=false, bool skimmed=true) {
     ch->Add(dir+"sttw_top_nofullhaddecay_powheg*");
   }
 
+  else if(set == "sync")
+  {
+      //TString dir = "/hadoop/cms/store/user/bsathian/synchronization_file/";
+      TString dir = "configs/synctest/";
+      cout <<"Adding sync file"<<endl;
+
+      //=================
+      //Sync File
+      //=================
+      
+      ch->Add(dir+"baby.root");
+  }
+
 //====================================
 // End Building TChain
 //====================================
@@ -939,10 +990,13 @@ TChain * getTChain(TString data_set) {
     }
   }
 
+  cout<<"Reading datasets text file"<<endl;
+  std::unordered_map<std::string, std::vector<std::string>> datasets = readFromTextFile("zmet_datasets.txt");
+  
   cout<<"Datasets Incoming: "<<endl;
   cout<<"===================================="<<endl;
   for (std::vector<TString>::iterator i=sets.begin(); i != sets.end(); i++){
-    addToChain(ch, *i);
+    addToChain(datasets,ch, *i);
   }
   cout<<"===================================="<<endl;
   

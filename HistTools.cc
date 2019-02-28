@@ -1,7 +1,4 @@
-//Helper functions for Config parsing.
-#ifndef INCLUDED_HIST_TOOLS
-#define INCLUDED_HIST_TOOLS
-
+# include "HistTools.h"
 
 void updateOverUnderflow( TH1D * &hist, double xmax, double xmin = -100000 ){
   /* updates bins at the edges of xmax (xmin) with everything above (below) including over(under)flow */
@@ -42,4 +39,3 @@ void zeroNegatives(TH1D* &hist){
   }
 }
 
-#endif

@@ -2,10 +2,11 @@
 #ifndef INCLUDED_CONFIG_HELPER
 #define INCLUDED_CONFIG_HELPER
 
-#include "ConfigParser.C"
+# include "ConfigHelper.h"
 
-TString PLOT_OUTPUT_LOCATION="/home/users/bsathian/ZMet/";
-TString HIST_OUTPUT_LOCATION="/home/users/bsathian/ZMet/hists/";
+TString PLOT_OUTPUT_LOCATION = "/home/users/bsathian/ZMet";
+TString HIST_OUTPUT_LOCATION = "/home/users/bsathian/ZMet/hists";
+
 
 TString parseConfDir(TString conf_path){
   /* Replace *configs/.../FNAME.conf with .../ */
