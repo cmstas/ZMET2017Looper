@@ -10,7 +10,7 @@ std::unordered_map <std::string,std::vector<std::string>> readFromTextFile(std::
     {
         if(line.find("ds") != std::string::npos)
         {
-            currentDS = line.substr(line.find("ds")+2,std::string::npos);
+            currentDS = line.substr(line.find("ds")+3,std::string::npos);
         }
         else
         {
@@ -996,6 +996,7 @@ TChain * getTChain(TString data_set) {
   cout<<"Datasets Incoming: "<<endl;
   cout<<"===================================="<<endl;
   for (std::vector<TString>::iterator i=sets.begin(); i != sets.end(); i++){
+      cout<<"Adding dataset "<<*i<<" to TChain"<<endl;
     addToChain(datasets,ch, *i);
   }
   cout<<"===================================="<<endl;
