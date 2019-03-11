@@ -36,3 +36,6 @@ efficiency_table*
 
 #Local Scratch Directory
 scratch/
+
+LinkDef_out.cxx
+LinkDef_out.o
