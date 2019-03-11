@@ -266,4 +266,7 @@ void updateSUSYBtagISRNorms();
 /*Loads Pt reweighting histograms, pileup reweighting hists, and efficiency hists (which are no longer used really). Also sets up goodrun list*/
 void setupExternal(TString savePath);
 
+//Photon HLT Test
+std::unordered_map<std::string,int> HLTOnly;
+std::unordered_map<std::string,int> HLTAndMomentum;
 

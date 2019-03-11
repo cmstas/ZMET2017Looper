@@ -259,12 +259,98 @@ bool passPhotonEmulatedTrigger() {
   return true;
 }
 
+void PhotonHLTTest()
+{
+   if(phys.HLT_Photon165_R9Id90_HE10_IsoM())
+   {
+        if(HLTOnly.find("Photon165") != HLTOnly.end())
+            HLTOnly["Photon165"] += 1;
+        else
+            HLTOnly["Photon165"] = 1;
+        if(phys.gamma_pt(0) > 180)
+        {
+            if(HLTAndMomentum.find("Photon165") != HLTAndMomentum.end())
+                HLTAndMomentum["Photon165"] += 1;
+            else
+                HLTAndMomentum["Photon165"] = 1;
+        }
+    }
+
+   if(phys.HLT_Photon120_R9Id90_HE10_IsoM())
+   {
+        if(HLTOnly.find("Photon120") != HLTOnly.end())
+            HLTOnly["Photon120"] += 1;
+        else
+            HLTOnly["Photon120"] = 1;
+
+        if(phys.gamma_pt(0) > 135)
+        {
+            if(HLTAndMomentum.find("Photon120") != HLTAndMomentum.end())
+                HLTAndMomentum["Photon120"] += 1;
+            else
+                HLTAndMomentum["Photon120"] = 1;
+        }
+
+   }
+   if(phys.HLT_Photon90_R9Id90_HE10_IsoM())
+   {
+        if(HLTOnly.find("Photon90") != HLTOnly.end())
+            HLTOnly["Photon90"] += 1;
+        else
+            HLTOnly["Photon90"] = 1;
+
+        if(phys.gamma_pt(0) > 105)
+        {
+            if(HLTAndMomentum.find("Photon90") != HLTAndMomentum.end())
+                HLTAndMomentum["Photon90"] += 1;
+            else
+                HLTAndMomentum["Photon90"] = 1;
+        }
+
+   }
+   if(phys.HLT_Photon75_R9Id90_HE10_IsoM())
+   {
+        if(HLTOnly.find("Photon75") != HLTOnly.end())
+            HLTOnly["Photon75"] += 1;
+        else
+            HLTOnly["Photon75"] = 1;
+
+       if(phys.gamma_pt(0) > 85)
+        {
+            if(HLTAndMomentum.find("Photon75") != HLTAndMomentum.end())
+                HLTAndMomentum["Photon75"] += 1;
+            else
+                HLTAndMomentum["Photon75"] = 1;
+        }
+
+   }
+   if(phys.HLT_Photon50_R9Id90_HE10_IsoM())
+   {
+       if(HLTOnlly.find("Photon50") != HLTOnly.end())
+           HLTOnly["Photon50"] += 1;
+       else
+           HLTOnly["Photon50"] = 1;
+
+        if(phys.gamma_pt(0) > 55)
+        {
+            if(HLTAndMomentum.find("Photon50") != HLTAndMomentum.end())
+                HLTAndMomentum["Photon50"] += 1;
+            else
+                HLTAndMomentum["Photon50"] = 1;
+        }
+   }
+}
+
 bool passPhotonTriggers(){
+
+    if(phys.isData())    {
+        PhotonHLTTest();
+    }
   if ( (! MCTriggerEmulation) && (! phys.isData()) ){
     return true;
   }
   else{
-    if( ((phys.HLT_Photon165_R9Id90_HE10_IsoM_matchedtophoton() && phys.HLT_Photon165_R9Id90_HE10_IsoM() > 0) || (phys.HLT_Photon165_HE10_matchedtophoton() && phys.HLT_Photon165_HE10() > 0)) && phys.gamma_pt().at(0) > 180 ) return true;
+    if( ((!phys.HLT_Photon165_R9Id90_HE10_IsoM_matchedtophoton() && phys.HLT_Photon165_R9Id90_HE10_IsoM() > 0) || (!phys.HLT_Photon165_HE10_matchedtophoton() && phys.HLT_Photon165_HE10() > 0)) && phys.gamma_pt().at(0) > 180 ) return true;
     else if( !phys.HLT_Photon120_R9Id90_HE10_IsoM_matchedtophoton() && phys.HLT_Photon120_R9Id90_HE10_IsoM() > 0 && phys.gamma_pt().at(0) > 135 && phys.gamma_pt().at(0) < 180 ) return true;
     else if( !phys.HLT_Photon90_R9Id90_HE10_IsoM_matchedtophoton() && phys.HLT_Photon90_R9Id90_HE10_IsoM()  > 0 && phys.gamma_pt().at(0) > 105 && phys.gamma_pt().at(0) < 135  ) return true;
     else if( !phys.HLT_Photon75_R9Id90_HE10_IsoM_matchedtophoton() && phys.HLT_Photon75_R9Id90_HE10_IsoM()  > 0 && phys.gamma_pt().at(0) > 85 && phys.gamma_pt().at(0) < 105   ) return true;
@@ -3288,6 +3374,19 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
     delete dR_GammaMu;
     delete mu_pt;
   }*/
+
+  std::fstream fileHLTOnly("HLTOnly.txt",std::ios::out);
+  
+  for(auto it = HLTOnly.begin(); it != HLTOnly.end(); it++)
+  {
+      fileHLTOnly<<it->first<<" "<<it->second<<std::endl;
+  }
+
+  std::fstream fileHLTAndMomentum("HLTAndMomentum.txt",std::ios::out);
+  for(auto &it : HLTAndMomentum)
+  {
+      fileHLTAndMomentum<<it->first<<" " <<it->second<<std::endl;
+  }
 
   return 0;
 }
