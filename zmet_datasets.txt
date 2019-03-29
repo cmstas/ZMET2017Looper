@@ -1,2 +1,2 @@
 ds:GammaData-SinglePhoton-Skimmed_GammaData-EWKSub
-/hadoop/cms/store/user/bsathian/ZMET_babies/SinglePhoton_Run2017D-31Mar2018-v1_MINIAOD_ZMET_babies/
+/hadoop/cms/store/user/bsathian/ZMET_babies/SinglePhoton_Run2017D-31Mar2018-v1_MINIAOD_ZMET_babies/*
