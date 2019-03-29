@@ -321,6 +321,9 @@ protected:
 	int	HLT_Photon165_R9Id90_HE10_IsoM_;
 	TBranch *HLT_Photon165_R9Id90_HE10_IsoM_branch;
 	bool HLT_Photon165_R9Id90_HE10_IsoM_isLoaded;
+    int HLT_Photon200_;
+    TBranch *HLT_Photon200_branch;
+    bool HLT_Photon200_isLoaded;
 	int	HLT_Photon165_HE10_;
 	TBranch *HLT_Photon165_HE10_branch;
 	bool HLT_Photon165_HE10_isLoaded;
@@ -1220,6 +1223,7 @@ void LoadAllBranches();
 	const int &HLT_Photon90_R9Id90_HE10_IsoM();
 	const int &HLT_Photon120_R9Id90_HE10_IsoM();
 	const int &HLT_Photon165_R9Id90_HE10_IsoM();
+    const int &HLT_Photon200();
 	const int &HLT_Photon165_HE10();
 	const int &HLT_CaloJet500_NoJetID();
 	const int &HLT_ECALHT800_NoJetID();
@@ -1594,6 +1598,7 @@ namespace zmet {
 	const int &HLT_Photon90_R9Id90_HE10_IsoM();
 	const int &HLT_Photon120_R9Id90_HE10_IsoM();
 	const int &HLT_Photon165_R9Id90_HE10_IsoM();
+    const int &HLT_Photon200();
 	const int &HLT_Photon165_HE10();
 	const int &HLT_CaloJet500_NoJetID();
 	const int &HLT_ECALHT800_NoJetID();

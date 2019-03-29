@@ -568,6 +568,12 @@ void ZMET2016::Init(TTree *tree) {
 		HLT_Photon165_R9Id90_HE10_IsoM_branch = tree->GetBranch("HLT_Photon165_R9Id90_HE10_IsoM");
 		if (HLT_Photon165_R9Id90_HE10_IsoM_branch) {HLT_Photon165_R9Id90_HE10_IsoM_branch->SetAddress(&HLT_Photon165_R9Id90_HE10_IsoM_);}
 	}
+    HLT_Photon200_branch = 0;
+    if(tree->GetBranch("HLT_Photon200") != 0)
+    {
+        HLT_Photon200_branch = tree->GetBranch("HLT_Photon200");
+        if(HLT_Photon200) {HLT_Photon200->SetAddress(&HLT_Photon200_);}
+    }
 	HLT_Photon165_HE10_branch = 0;
 	if (tree->GetBranch("HLT_Photon165_HE10") != 0) {
 		HLT_Photon165_HE10_branch = tree->GetBranch("HLT_Photon165_HE10");
@@ -1934,6 +1940,7 @@ void ZMET2016::GetEntry(unsigned int idx)
 		HLT_Photon90_R9Id90_HE10_IsoM_isLoaded = false;
 		HLT_Photon120_R9Id90_HE10_IsoM_isLoaded = false;
 		HLT_Photon165_R9Id90_HE10_IsoM_isLoaded = false;
+        HLT_Photon200_isLoaded = false;
 		HLT_Photon165_HE10_isLoaded = false;
 		HLT_CaloJet500_NoJetID_isLoaded = false;
 		HLT_ECALHT800_NoJetID_isLoaded = false;
@@ -2304,6 +2311,7 @@ void ZMET2016::LoadAllBranches()
 	if (HLT_Photon90_R9Id90_HE10_IsoM_branch != 0) HLT_Photon90_R9Id90_HE10_IsoM();
 	if (HLT_Photon120_R9Id90_HE10_IsoM_branch != 0) HLT_Photon120_R9Id90_HE10_IsoM();
 	if (HLT_Photon165_R9Id90_HE10_IsoM_branch != 0) HLT_Photon165_R9Id90_HE10_IsoM();
+    if (HLT_Photon200_branch != 0) HLT_Photon200();
 	if (HLT_Photon165_HE10_branch != 0) HLT_Photon165_HE10();
 	if (HLT_CaloJet500_NoJetID_branch != 0) HLT_CaloJet500_NoJetID();
 	if (HLT_ECALHT800_NoJetID_branch != 0) HLT_ECALHT800_NoJetID();
@@ -3871,6 +3879,21 @@ void ZMET2016::LoadAllBranches()
 		}
 		return HLT_Photon165_R9Id90_HE10_IsoM_;
 	}
+    const int &ZMET2016::HLT_Photon200()
+    {
+        if(not HLT_Photon200_isLoaded)
+        {
+            if(HLT_Photon200_branch != 0)
+            {
+                HLT_Photon200_branch->GetEntry(index);
+            }
+            else
+            {
+                printf("branch HLT_Photon200_branch does not exist!\n");
+                exit(1);
+            }
+        }
+    }
 	const int &ZMET2016::HLT_Photon165_HE10()
 	{
 		if (not HLT_Photon165_HE10_isLoaded) {
