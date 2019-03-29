@@ -1139,7 +1139,7 @@ double getWeight(){
   }
   //cout<<__LINE__<<endl;
 
-  if (phys.isData() && phys.ngamma() > 0 && TString(conf->get("event_type") == "photon")){
+  if (phys.isData() && phys.ngamma() > 0 && conf->get("event_type") == "photon"){
     weight *= getPrescaleWeight();
   }
 
@@ -3389,7 +3389,6 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
   }
   if(conf->get("SUSY_Glu_LSP_scan") == "true"){
     susy_type1MET_counts->Write();
-float histCorrelations[5][5];
     susy_type1MET_nowt->Write();
 
     susy_type1MET_btagheavy_up->Write();
