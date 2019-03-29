@@ -1139,7 +1139,7 @@ double getWeight(){
   }
   //cout<<__LINE__<<endl;
 
-  if (phys.isData() && phys.ngamma() > 0 && TString(currentFile->GetTitle()).Contains("data") && TString(currentFile->GetTitle()).Contains("_ph")){
+  if (phys.isData() && phys.ngamma() > 0 && TString(conf->get("event_type") == "photon"){
     weight *= getPrescaleWeight();
   }
 
