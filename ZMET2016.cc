@@ -572,7 +572,7 @@ void ZMET2016::Init(TTree *tree) {
     if(tree->GetBranch("HLT_Photon200") != 0)
     {
         HLT_Photon200_branch = tree->GetBranch("HLT_Photon200");
-        if(HLT_Photon200) {HLT_Photon200->SetAddress(&HLT_Photon200_);}
+        if(HLT_Photon200_branch) {HLT_Photon200_branch->SetAddress(&HLT_Photon200_);}
     }
 	HLT_Photon165_HE10_branch = 0;
 	if (tree->GetBranch("HLT_Photon165_HE10") != 0) {
@@ -3893,6 +3893,7 @@ void ZMET2016::LoadAllBranches()
                 exit(1);
             }
         }
+        return HLT_Photon200_;
     }
 	const int &ZMET2016::HLT_Photon165_HE10()
 	{
