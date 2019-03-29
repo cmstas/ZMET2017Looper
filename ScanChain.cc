@@ -261,95 +261,208 @@ bool passPhotonEmulatedTrigger() {
 
 void PhotonHLTTest()
 {
-   if(phys.HLT_Photon165_R9Id90_HE10_IsoM())
-   {
-        if(HLTOnly.find("Photon165") != HLTOnly.end())
-            HLTOnly["Photon165"] += 1;
-        else
-            HLTOnly["Photon165"] = 1;
-        if(phys.gamma_pt(0) > 180)
+    matchedHistsFile->cd(); 
+    int counter = 0;
+    if(phys.HLT_Photon165_R9Id90_HE10_IsoM() && phys.gamma_pt().at(0) > 180)
+    {
+        //if(phys.gamma_pt().size() > 1)
         {
-            if(HLTAndMomentum.find("Photon165") != HLTAndMomentum.end())
-                HLTAndMomentum["Photon165"] += 1;
-            else
-                HLTAndMomentum["Photon165"] = 1;
+           if(matchedPhotonHists["Photon165"] == nullptr)
+           {
+                matchedPhotonHists["Photon165"] = new TH1D("Photon165","Photon165",5,0,5);
+                matchedPhotonHists["Photon165"]->SetDirectory(matchedHistsFile);
+
+           }
+           if(matchedPhotonMomentumHists["Photon165"] == nullptr)
+           {
+               matchedPhotonMomentumHists["Photon165"] = new TH1D("PhotonMomentum165","PhotonMomentum165",100,0,1000);
+               matchedPhotonMomentumHists["Photon165"]->SetDirectory(matchedHistsFile);
+           }
+           for(auto &it:phys.gamma_pt())
+           {
+               if(it > 180)
+               {
+                    matchedPhotonMomentumHists["Photon165"]->Fill(it); 
+                    counter += 1;
+                }
+            }
+           //if(counter > 1)
+            matchedPhotonHists["Photon165"]->Fill(counter);
         }
     }
 
-   if(phys.HLT_Photon120_R9Id90_HE10_IsoM())
-   {
-        if(HLTOnly.find("Photon120") != HLTOnly.end())
-            HLTOnly["Photon120"] += 1;
-        else
-            HLTOnly["Photon120"] = 1;
-
-        if(phys.gamma_pt(0) > 135)
+    counter = 0;
+    
+    if(phys.HLT_Photon120_R9Id90_HE10_IsoM() && phys.gamma_pt().at(0) > 135)
+    {
+        //if(phys.gamma_pt().size() > 1)
         {
-            if(HLTAndMomentum.find("Photon120") != HLTAndMomentum.end())
-                HLTAndMomentum["Photon120"] += 1;
-            else
-                HLTAndMomentum["Photon120"] = 1;
+           if(matchedPhotonHists["Photon120"] == nullptr)
+           {
+                matchedPhotonHists["Photon120"] = new TH1D("Photon120","Photon120",5,0,5);
+                matchedPhotonHists["Photon120"]->SetDirectory(matchedHistsFile);
+                matchedPhotonMomentumHists["Photon120"] = new TH1D("PhotonMomentum120","PhotonMomentum120",100,0,1000);
+                matchedPhotonMomentumHists["Photon120"]->SetDirectory(matchedHistsFile);
+           }
+           for(auto &it:phys.gamma_pt())
+           {
+               if(it > 135) 
+               {
+                   matchedPhotonMomentumHists["Photon120"]->Fill(it);
+                   counter += 1;
+                }
+            }
+           //if(counter > 1)
+            matchedPhotonHists["Photon120"]->Fill(counter);
+
         }
+    }
 
-   }
-   if(phys.HLT_Photon90_R9Id90_HE10_IsoM())
-   {
-        if(HLTOnly.find("Photon90") != HLTOnly.end())
-            HLTOnly["Photon90"] += 1;
-        else
-            HLTOnly["Photon90"] = 1;
+    counter = 0;
 
-        if(phys.gamma_pt(0) > 105)
+    if(phys.HLT_Photon90_R9Id90_HE10_IsoM() && phys.gamma_pt().at(0) > 105)
+    {
+        //if(phys.gamma_pt().size() > 1)
         {
-            if(HLTAndMomentum.find("Photon90") != HLTAndMomentum.end())
-                HLTAndMomentum["Photon90"] += 1;
-            else
-                HLTAndMomentum["Photon90"] = 1;
+           if(matchedPhotonHists["Photon90"] == nullptr)
+           {
+                matchedPhotonHists["Photon90"] = new TH1D("Photon90","Photon90",5,0,5);
+                matchedPhotonHists["Photon90"]->SetDirectory(matchedHistsFile);
+                matchedPhotonMomentumHists["Photon90"] = new TH1D("PhotonMomentum90","PhotonMomentum90",100,0,1000);
+                matchedPhotonMomentumHists["Photon90"]->SetDirectory(matchedHistsFile);
+           }
+           for(auto &it:phys.gamma_pt())
+           {
+               if(it > 105)
+               {
+                   matchedPhotonMomentumHists["Photon90"]->Fill(it);
+                   counter += 1;
+               }
+           }
+           //if(counter > 1)
+            matchedPhotonHists["Photon90"]->Fill(counter);
         }
+    }
 
-   }
-   if(phys.HLT_Photon75_R9Id90_HE10_IsoM())
-   {
-        if(HLTOnly.find("Photon75") != HLTOnly.end())
-            HLTOnly["Photon75"] += 1;
-        else
-            HLTOnly["Photon75"] = 1;
+    counter = 0;
 
-       if(phys.gamma_pt(0) > 85)
+    if(phys.HLT_Photon75_R9Id90_HE10_IsoM() && phys.gamma_pt().at(0) > 85)
+    {
+        //if(phys.gamma_pt().size() > 1)
         {
-            if(HLTAndMomentum.find("Photon75") != HLTAndMomentum.end())
-                HLTAndMomentum["Photon75"] += 1;
-            else
-                HLTAndMomentum["Photon75"] = 1;
+           if(matchedPhotonHists["Photon75"] == nullptr)
+           {
+                matchedPhotonHists["Photon75"] = new TH1D("Photon75","Photon75",5,0,5);
+                matchedPhotonHists["Photon75"]->SetDirectory(matchedHistsFile);
+                matchedPhotonMomentumHists["Photon75"] = new TH1D("PhotonMomentum75","PhotonMomentum75",100,0,1000);
+                matchedPhotonMomentumHists["Photon75"]->SetDirectory(matchedHistsFile);
+
+           }
+           for(auto &it:phys.gamma_pt())
+           {
+                if(it > 85)
+                {
+                    matchedPhotonMomentumHists["Photon75"]->Fill(it);
+                    counter += 1;
+                }
+           }
+           //if(counter > 1)
+            matchedPhotonHists["Photon75"]->Fill(counter);
+
         }
+    }
 
-   }
-   if(phys.HLT_Photon50_R9Id90_HE10_IsoM())
-   {
-       if(HLTOnlly.find("Photon50") != HLTOnly.end())
-           HLTOnly["Photon50"] += 1;
-       else
-           HLTOnly["Photon50"] = 1;
-
-        if(phys.gamma_pt(0) > 55)
+    if(phys.HLT_Photon50_R9Id90_HE10_IsoM() && phys.gamma_pt().at(0) > 55)
+    {
+        //if(phys.gamma_pt().size() > 1)
         {
-            if(HLTAndMomentum.find("Photon50") != HLTAndMomentum.end())
-                HLTAndMomentum["Photon50"] += 1;
-            else
-                HLTAndMomentum["Photon50"] = 1;
+           if(matchedPhotonHists["Photon50"] == nullptr)
+           {
+                matchedPhotonHists["Photon50"] = new TH1D("Photon50","Photon50",5,0,5);
+                matchedPhotonHists["Photon50"]->SetDirectory(matchedHistsFile);
+                matchedPhotonMomentumHists["Photon50"] = new TH1D("PhotonMomentum50","PhotonMomentum50",100,0,1000);
+                matchedPhotonMomentumHists["Photon50"]->SetDirectory(matchedHistsFile);
+           }
+
+           for(auto &it:phys.gamma_pt())
+           {
+               if(it > 55)
+               {
+                   matchedPhotonMomentumHists["Photon50"]->Fill(it);
+                   counter += 1;
+               }
+           }
+           //if(counter > 1)
+            matchedPhotonHists["Photon50"]->Fill(counter);
         }
-   }
+    }
 }
 
+void FillTriggerHistograms()
+{
+    //I apologize for the shit tier code here
+    triggerCorrelationHist->SetDirectory(matchedHistsFile);
+    int i,j;
+    if(phys.HLT_Photon165_R9Id90_HE10_IsoM() && phys.gamma_pt().at(0) > 180)
+    {
+        i = 0;
+        if(phys.HLT_Photon120_R9Id90_HE10_IsoM())
+            j = 1;
+        else if(phys.HLT_Photon90_R9Id90_HE10_IsoM())
+            j = 2;
+        else if(phys.HLT_Photon75_R9Id90_HE10_IsoM())
+            j = 3;
+        else if(phys.HLT_Photon50_R9Id90_HE10_IsoM())
+            j = 4;
+        else j = 0;
+    }
+    else if(phys.HLT_Photon120_R9Id90_HE10_IsoM() && phys.gamma_pt().at(0) > 135)
+    {
+        i = 1;
+        if(phys.HLT_Photon90_R9Id90_HE10_IsoM())
+            j = 2;
+        else if(phys.HLT_Photon75_R9Id90_HE10_IsoM())
+            j = 3;
+        else if(phys.HLT_Photon50_R9Id90_HE10_IsoM())
+            j = 4;
+        else j = 1;
+    }
+    else if(phys.HLT_Photon90_R9Id90_HE10_IsoM() && phys.gamma_pt().at(0) > 105)
+    {
+        i = 2;
+        if(phys.HLT_Photon75_R9Id90_HE10_IsoM())
+            j = 3;
+        else if(phys.HLT_Photon50_R9Id90_HE10_IsoM())
+            j = 4;
+        else j = 2;
+    }
+    else if(phys.HLT_Photon75_R9Id90_HE10_IsoM() && phys.gamma_pt().at(0) > 85)
+    {
+        i = 3;
+        if(phys.HLT_Photon50_R9Id90_HE10_IsoM())
+            j = 4;
+        else j = 3;
+    }
+    else if(phys.HLT_Photon50_R9Id90_HE10_IsoM() && phys.gamma_pt().at(0) > 55)
+    {
+        i = 4;
+        j = 4;
+    }
+
+    triggerCorrelationHist->Fill(i,j);
+}
 bool passPhotonTriggers(){
 
     if(phys.isData())    {
         PhotonHLTTest();
+        FillTriggerHistograms();
     }
   if ( (! MCTriggerEmulation) && (! phys.isData()) ){
     return true;
   }
   else{
+      //year based shit goes here
+
     if( ((!phys.HLT_Photon165_R9Id90_HE10_IsoM_matchedtophoton() && phys.HLT_Photon165_R9Id90_HE10_IsoM() > 0) || (!phys.HLT_Photon165_HE10_matchedtophoton() && phys.HLT_Photon165_HE10() > 0)) && phys.gamma_pt().at(0) > 180 ) return true;
     else if( !phys.HLT_Photon120_R9Id90_HE10_IsoM_matchedtophoton() && phys.HLT_Photon120_R9Id90_HE10_IsoM() > 0 && phys.gamma_pt().at(0) > 135 && phys.gamma_pt().at(0) < 180 ) return true;
     else if( !phys.HLT_Photon90_R9Id90_HE10_IsoM_matchedtophoton() && phys.HLT_Photon90_R9Id90_HE10_IsoM()  > 0 && phys.gamma_pt().at(0) > 105 && phys.gamma_pt().at(0) < 135  ) return true;
@@ -1678,7 +1791,7 @@ bool passBaseCut(){
   if(conf->get("n_lep_veto") != ""){
     if( (phys.nisoTrack_mt2() + phys.nlep()) >= stod(conf->get("n_lep_veto"))){
         numEvents->Fill(54);
-        if (printFail) cout<<phys.evt()<<" :Failed extra lepton veto"<<endl;
+        if (printFail) cout<<phys.evt()<<" :Failed isotrack veto"<<endl;
         return false; //third lepton veto
         //pass=false;
     }
@@ -2755,7 +2868,7 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
       // DEBUG MODE
       // ----------------
       printStats = false;
-      printFail = true;
+      printFail = false;
 
       //if (inspection_set.count(phys.evt()) != 0){
       /*if ( inspection_set_erl.count(make_tuple(phys.evt(), phys.run(), phys.lumi())) != 0){
@@ -3273,6 +3386,7 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
   }
   if(conf->get("SUSY_Glu_LSP_scan") == "true"){
     susy_type1MET_counts->Write();
+float histCorrelations[5][5];
     susy_type1MET_nowt->Write();
 
     susy_type1MET_btagheavy_up->Write();
@@ -3375,18 +3489,6 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
     delete mu_pt;
   }*/
 
-  std::fstream fileHLTOnly("HLTOnly.txt",std::ios::out);
-  
-  for(auto it = HLTOnly.begin(); it != HLTOnly.end(); it++)
-  {
-      fileHLTOnly<<it->first<<" "<<it->second<<std::endl;
-  }
-
-  std::fstream fileHLTAndMomentum("HLTAndMomentum.txt",std::ios::out);
-  for(auto &it : HLTAndMomentum)
-  {
-      fileHLTAndMomentum<<it->first<<" " <<it->second<<std::endl;
-  }
-
+  matchedHistsFile->Write();
   return 0;
 }

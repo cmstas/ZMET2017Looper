@@ -12,6 +12,7 @@
 #include <tuple>
 #include <utility>
 #include <fstream>
+#include <unordered_map>
 
 
 // ROOT
@@ -80,7 +81,7 @@ double g_scale_factor=1; //Holds scale factors for sample.
 TH1I *numEvents; //Holds the number of events in the whole script and the number that pass various cuts 
 
 bool printStats = false;
-bool printFail = true;
+bool printFail = false;
 
 //=======================================================
 // Global variables used for uncertainty fluctuations
@@ -267,6 +268,7 @@ void updateSUSYBtagISRNorms();
 void setupExternal(TString savePath);
 
 //Photon HLT Test
-std::unordered_map<std::string,int> HLTOnly;
-std::unordered_map<std::string,int> HLTAndMomentum;
-
+TFile *matchedHistsFile = new TFile("matchedHists.root","RECREATE");
+std::unordered_map<std::string, TH1D*> matchedPhotonHists;
+std::unordered_map<std::string,TH1D*> matchedPhotonMomentumHists;
+TH2D* triggerCorrelationHist = new TH2D("triggerCorr","Trigger correlation",5,0,5,5,0,5);
