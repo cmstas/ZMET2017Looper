@@ -1,0 +1,5 @@
+Photon30 - Let this be completely on by 45
+
+
+Denominator = PassHLT30
+Efficiency = (PassHLT50 && Denominator)/(Denominator)

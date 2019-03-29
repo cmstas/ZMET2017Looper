@@ -757,7 +757,7 @@ bool hasGoodPhoton(){
   
   if( abs(phys.gamma_p4().at(0).eta()) > 1.4 && abs(phys.gamma_p4().at(0).eta()) < 1.6 ) {
     numEvents->Fill(27);
-    if (printFail) cout<<phys.evt()<<" :Failed gamm ain xition region photon cut"<<endl;
+    if (printFail) cout<<phys.evt()<<" :Failed gamma in xition region photon cut"<<endl;
     return false; // veto xition region
   }
   
