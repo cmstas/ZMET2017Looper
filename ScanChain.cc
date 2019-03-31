@@ -1769,20 +1769,11 @@ bool passBaseCut(){
   
   //bool pass=true;
 
-  if (phys.isData()){
-      numEvents->Fill(8);
-  /*  if (! (goodrun(phys.run(), phys.lumi()))){ 
-      numEvents->Fill(8);
-  //    if (printFail) cout<<phys.evt()<<" :Failed golden JSON cut"<<endl;
-    //  return false; //golden json
-    }*/
-  }
-  //Old Method, using branch
-  /*if (! (phys.evt_passgoodrunlist() > 0)){ 
-    pass=false; //golden json
+  if (! (phys.evt_passgoodrunlist() > 0)){ 
     if (printFail) cout<<phys.evt()<<" :Failed golden JSON cut"<<endl;
     numEvents->Fill(8);
-  } */
+    return false;
+  } 
 
   /*if (! (g_njets >= 2) ){ 
     numEvents->Fill(9);
@@ -1796,7 +1787,6 @@ bool passBaseCut(){
         numEvents->Fill(54);
         if (printFail) cout<<phys.evt()<<" :Failed isotrack veto"<<endl;
         return false; //third lepton veto
-        //pass=false;
     }
     if (phys.nveto_leptons() >= 1){
       numEvents->Fill(66);
