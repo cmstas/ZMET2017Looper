@@ -798,6 +798,7 @@ bool hasGoodPhoton(){
   }
 
   if(conf->get("event_type") == "photon"){
+      
     if (phys.isData() && (! passPhotonTriggers()) ){
       numEvents->Fill(52);
       if (printFail) cout<<phys.evt()<<" :Failed Photon trigger cut"<<endl;
@@ -2328,6 +2329,17 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
   TH1D* weight_log_flat = new TH1D("weight_log_flat", "Event weights in "+g_sample_name, 101 , 0, 1.01);
   weight_log_flat->SetDirectory(rootdir);
 
+  //Photon momentum histo
+  TH1D * PhotonPt;
+  TH1D * PhotonEta;
+  if(conf->get("event_type") == "photon")
+  {
+    PhotonPt = new TH1D("photonPt","Photon Pt for "+g_sample_name,1000,0,1000);
+    PhotonPt->SetDirectory(rootdir);
+    PhotonEta = new TH1D("photonEta","Photon eta for "+g_sample_name,200,-2.4,2.4);
+    PhotonEta->SetDirectory(rootdir);
+  }
+
   //MET Histos
   TH1D *t1met = new TH1D("type1MET", "Type 1 MET for "+g_sample_name, 6000,0,6000);
   t1met->SetDirectory(rootdir);
@@ -2984,6 +2996,13 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
          cout<<"Negative Weight2: "<<weight<<" "<<phys.evt()<<endl;
       }
       */
+
+      if(conf->get("event_type") == "photon")
+      {
+          PhotonPt->Fill(phys.gamma_p4().at(0).pt(),weight);
+          PhotonEta->Fill(phys.gamma_p4().at(0).eta(),weight);
+      }
+
       if (g_met != 0) {
         t1met->Fill(g_met, weight);
         t1met_widebin->Fill(g_met, weight);
