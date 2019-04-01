@@ -3307,6 +3307,11 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
   //cout<<__LINE__<<endl;
   numMETFilters->Write();
   //cout<<__LINE__<<endl;
+  if(conf->get("event_type") == "photon")
+  {
+      PhotonPt->Write();
+      PhotonEta->Write();
+  }
   t1met->Write();
   //cout<<__LINE__<<endl;
   t1met_widebin->Write();
