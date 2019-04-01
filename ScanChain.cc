@@ -282,7 +282,7 @@ void PhotonHLTTest()
            {
                if(it > 180)
                {
-                    matchedPhotonMomentumHists["Photon165"]->Fill(it); 
+                    matchedPhotonMomentumHists["Photon165"]->Fill(it,phys.HLT_Photon165_R9Id90_HE10_IsoM()); 
                     counter += 1;
                 }
             }
@@ -308,7 +308,7 @@ void PhotonHLTTest()
            {
                if(it > 135) 
                {
-                   matchedPhotonMomentumHists["Photon120"]->Fill(it);
+                   matchedPhotonMomentumHists["Photon120"]->Fill(it,phys.HLT_Photon120_R9Id90_HE10_IsoM());
                    counter += 1;
                 }
             }
@@ -335,7 +335,7 @@ void PhotonHLTTest()
            {
                if(it > 105)
                {
-                   matchedPhotonMomentumHists["Photon90"]->Fill(it);
+                   matchedPhotonMomentumHists["Photon90"]->Fill(it,phys.HLT_Photon90_R9Id90_HE10_IsoM());
                    counter += 1;
                }
            }
@@ -362,7 +362,7 @@ void PhotonHLTTest()
            {
                 if(it > 85)
                 {
-                    matchedPhotonMomentumHists["Photon75"]->Fill(it);
+                    matchedPhotonMomentumHists["Photon75"]->Fill(it,phys.HLT_Photon75_R9Id90_HE10_IsoM());
                     counter += 1;
                 }
            }
@@ -388,7 +388,7 @@ void PhotonHLTTest()
            {
                if(it > 55)
                {
-                   matchedPhotonMomentumHists["Photon50"]->Fill(it);
+                   matchedPhotonMomentumHists["Photon50"]->Fill(it,phys.HLT_Photon50_R9Id90_HE10_IsoM());
                    counter += 1;
                }
            }
