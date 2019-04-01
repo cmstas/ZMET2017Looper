@@ -1171,7 +1171,7 @@ double getPrescaleWeight(){
   //cout<<__LINE__<<endl;
   //cout<<"Getting Prescale Weights"<<endl;
   if(phys.HLT_Photon200() > 0 && phys.gamma_pt().at(0) > 210) return phys.HLT_Photon200();
-  if(!phys.HLT_Photon165_R9Id90_HE10_IsoM_matchedtophoton() && phys.HLT_Photon165_R9Id90_HE10_IsoM() > 0  && phys.gamma_pt().at(0) > 180 && phys.gamma_pt().at(0) < 210) return phys.HLT_Photon165_R9Id90_HE10_IsoM();
+  else if(!phys.HLT_Photon165_R9Id90_HE10_IsoM_matchedtophoton() && phys.HLT_Photon165_R9Id90_HE10_IsoM() > 0  && phys.gamma_pt().at(0) > 180 && phys.gamma_pt().at(0) < 210) return phys.HLT_Photon165_R9Id90_HE10_IsoM();
   else if( !phys.HLT_Photon120_R9Id90_HE10_IsoM_matchedtophoton() && phys.HLT_Photon120_R9Id90_HE10_IsoM() > 0 && phys.gamma_pt().at(0) > 135 && phys.gamma_pt().at(0) < 180 ) return phys.HLT_Photon120_R9Id90_HE10_IsoM();
   else if( !phys.HLT_Photon90_R9Id90_HE10_IsoM_matchedtophoton() && phys.HLT_Photon90_R9Id90_HE10_IsoM()  > 0 && phys.gamma_pt().at(0) > 105 && phys.gamma_pt().at(0) < 135  ) return phys.HLT_Photon90_R9Id90_HE10_IsoM();
   else if( !phys.HLT_Photon75_R9Id90_HE10_IsoM_matchedtophoton() && phys.HLT_Photon75_R9Id90_HE10_IsoM()  > 0 && phys.gamma_pt().at(0) > 85 && phys.gamma_pt().at(0) < 105   ) return phys.HLT_Photon75_R9Id90_HE10_IsoM();
@@ -3000,6 +3000,8 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
       if(conf->get("event_type") == "photon")
       {
           PhotonPt->Fill(phys.gamma_p4().at(0).pt(),weight);
+          if(gamma_p4().at(0).pt() < 80)
+              cout<<gamma_p4().at(0).pt()<<" "<<weight<<endl;
           PhotonEta->Fill(phys.gamma_p4().at(0).eta(),weight);
       }
 
