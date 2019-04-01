@@ -4,3 +4,13 @@ ds:GammaData-SinglePhoton-Skimmed
 /hadoop/cms/store/user/bsathian/ZMET_babies/SinglePhoton_Run2017C-31Mar2018-v1_MINIAOD_ZMET_babies/*
 /hadoop/cms/store/user/bsathian/ZMET_babies/SinglePhoton_Run2017E-31Mar2018-v1_MINIAOD_ZMET_babies/*
 /hadoop/cms/store/user/bsathian/ZMET_babies/SinglePhoton_Run2017F-31Mar2018-v1_MINIAOD_ZMET_babies/*
+ds:GammaMC-40100-Skimmed
+/hadoop/cms/store/user/bsathian/ZMET_babies/GJets_HT-40To100_TuneCP5_13TeV-madgraphMLM-pythia8_RunIIFall17MiniAODv2-PU2017_12Apr2018_new_pmx_94X_mc2017_realistic_v14_ext1-v2_MINIAODSIM_ZMET_babies/*
+ds:GammaMC-100200-Skimmed
+/hadoop/cms/store/user/bsathian/ZMET_babies/GJets_HT-100To200_TuneCP5_13TeV-madgraphMLM-pythia8_RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1_MINIAODSIM_ZMET_babies/*
+ds:GammaMC-200400-Skimmed
+/hadoop/cms/store/user/bsathian/ZMET_babies/GJets_HT-200To400_TuneCP5_13TeV-madgraphMLM-pythia8_RunIIFall17MiniAODv2-PU2017_12Apr2018_new_pmx_94X_mc2017_realistic_v14-v2_MINIAODSIM_ZMET_babies/*
+ds:GammaMC-400600-Skimmed
+/hadoop/cms/store/user/bsathian/ZMET_babies/GJets_HT-400To600_TuneCP5_13TeV-madgraphMLM-pythia8_RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1_MINIAODSIM_ZMET_babies/*
+ds:GammaMC-600Inf-Skimmed
+/hadoop/cms/store/user/bsathian/ZMET_babies/GJets_HT-600ToInf_TuneCP5_13TeV-madgraphMLM-pythia8_RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1_MINIAODSIM_ZMET_babies/*
