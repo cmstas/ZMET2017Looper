@@ -1,3 +1,3 @@
 make
 
-./ZMETLooper PhotonData_NoEWKSub configs/prediction/PhotonData/baseline/run_modes.conf
+./ZMETLooper PhotonData_NoEWKSub configs/dataMC/data/run_modes.conf
