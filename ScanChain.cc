@@ -3000,8 +3000,6 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
       if(conf->get("event_type") == "photon")
       {
           PhotonPt->Fill(phys.gamma_p4().at(0).pt(),weight);
-          if(gamma_p4().at(0).pt() < 80)
-              cout<<gamma_p4().at(0).pt()<<" "<<weight<<endl;
           PhotonEta->Fill(phys.gamma_p4().at(0).eta(),weight);
       }
 
