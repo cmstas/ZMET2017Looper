@@ -18,8 +18,9 @@ ds:WJets
 /hadoop/cms/store/user/bsathian/ZMET_babies/WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_mc2017_realistic_v14_ext1-v2_MINIAODSIM_ZMET_babies/*
 ds:WGamma
 /hadoop/cms/store/user/bsathian/ZMET_babies/WGToLNuG_TuneCP5_13TeV-madgraphMLM-pythia8_RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1_MINIAODSIM_ZMET_babies/*
-ds:ttbar
+ds:ttbar-2lep
 /hadoop/cms/store/user/bsathian/ZMET_babies/TTJets_DiLept_TuneCP5_13TeV-madgraphMLM-pythia8_RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1_MINIAODSIM_ZMET_babies/*
+ds:ttbar-1lep
 /hadoop/cms/store/user/bsathian/ZMET_babies/TTJets_SingleLeptFromT_TuneCP5_13TeV-madgraphMLM-pythia8_RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1_MINIAODSIM_ZMET_babies/*
 /hadoop/cms/store/user/bsathian/ZMET_babies/TTJets_SingleLeptFromTbar_TuneCP5_13TeV-madgraphMLM-pythia8_RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1_MINIAODSIM_ZMET_babies/*
 ds:SingleTop
