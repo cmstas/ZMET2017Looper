@@ -989,6 +989,13 @@ void ZMET2016::Init(TTree *tree) {
 		genPart_isp6status3_branch = tree->GetBranch("genPart_isp6status3");
 		if (genPart_isp6status3_branch) {genPart_isp6status3_branch->SetAddress(&genPart_isp6status3_);}
 	}
+    genPart_isPromptFinalState_branch = 0;
+	if (tree->GetBranch("genPart_isPromptFinalState") != 0) {
+		genPart_isPromptFinalState_branch = tree->GetBranch("genPart_isPromptFinalState");
+		if (genPart_isPromptFinalState_branch) {genPart_isPromptFinalState_branch->SetAddress(&genPart_isPromptFinalState_);}
+	}
+
+
 	ngenLep_branch = 0;
 	if (tree->GetBranch("ngenLep") != 0) {
 		ngenLep_branch = tree->GetBranch("ngenLep");
@@ -2027,6 +2034,7 @@ void ZMET2016::GetEntry(unsigned int idx)
 		genPart_motherId_isLoaded = false;
 		genPart_grandmaId_isLoaded = false;
 		genPart_isp6status3_isLoaded = false;
+        genPart_isPromptFinalState_isLoaded = false;
 		ngenLep_isLoaded = false;
 		genLep_pt_isLoaded = false;
 		genLep_eta_isLoaded = false;
@@ -2398,6 +2406,7 @@ void ZMET2016::LoadAllBranches()
 	if (genPart_motherId_branch != 0) genPart_motherId();
 	if (genPart_grandmaId_branch != 0) genPart_grandmaId();
 	if (genPart_isp6status3_branch != 0) genPart_isp6status3();
+    if(genPart_isPromptFinalState_branch != 0) genPart_isPromptFinalState();
 	if (ngenLep_branch != 0) ngenLep();
 	if (genLep_pt_branch != 0) genLep_pt();
 	if (genLep_eta_branch != 0) genLep_eta();
@@ -5013,6 +5022,21 @@ void ZMET2016::LoadAllBranches()
 		}
 		return *genPart_isp6status3_;
 	}
+
+    const vector<bool> &ZMET2016::genPart_isPromptFinalState()
+	{
+		if (not genPart_isPromptFinalState_isLoaded) {
+			if (genPart_isPromptFinalState_branch != 0) {
+				genPart_isPromptFinalState_branch->GetEntry(index);
+			} else { 
+				printf("branch genPart_isPromptFinalState_branch does not exist!\n");
+				exit(1);
+			}
+			genPart_isPromptFinalState_isLoaded = true;
+		}
+		return *genPart_isPromptFinalState_;
+	}
+
 	const int &ZMET2016::ngenLep()
 	{
 		if (not ngenLep_isLoaded) {
@@ -7548,6 +7572,7 @@ namespace zmet {
 	const vector<int> &genPart_motherId() { return phys.genPart_motherId(); }
 	const vector<int> &genPart_grandmaId() { return phys.genPart_grandmaId(); }
 	const vector<bool> &genPart_isp6status3() { return phys.genPart_isp6status3(); }
+    const vector<bool> &genPart_isPromptFinalState() {return phys.isPromptFinalState();}
 	const int &ngenLep() { return phys.ngenLep(); }
 	const vector<float> &genLep_pt() { return phys.genLep_pt(); }
 	const vector<float> &genLep_eta() { return phys.genLep_eta(); }

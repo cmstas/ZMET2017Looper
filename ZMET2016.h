@@ -582,6 +582,11 @@ protected:
 	vector<bool> *genPart_isp6status3_;
 	TBranch *genPart_isp6status3_branch;
 	bool genPart_isp6status3_isLoaded;
+    vector<bool> *genPart_isPromptFinalState_;
+    TBranch *genPart_isPromptFinalState_branch;
+    bool genPart_isPromptFinalState_isLoaded;
+
+
 	int	ngenLep_;
 	TBranch *ngenLep_branch;
 	bool ngenLep_isLoaded;
@@ -1310,6 +1315,7 @@ void LoadAllBranches();
 	const vector<int> &genPart_motherId();
 	const vector<int> &genPart_grandmaId();
 	const vector<bool> &genPart_isp6status3();
+    const vector<bool> &genPart_isPromptFinalState();
 	const int &ngenLep();
 	const vector<float> &genLep_pt();
 	const vector<float> &genLep_eta();
@@ -1685,6 +1691,7 @@ namespace zmet {
 	const vector<int> &genPart_motherId();
 	const vector<int> &genPart_grandmaId();
 	const vector<bool> &genPart_isp6status3();
+    const vector<bool> &genPart_isPromptFinalState();
 	const int &ngenLep();
 	const vector<float> &genLep_pt();
 	const vector<float> &genLep_eta();
