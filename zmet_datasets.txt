@@ -26,3 +26,9 @@ ds:ttbar-1lep
 ds:SingleTop
 /hadoop/cms/store/user/bsathian/ZMET_babies/ST_tW_top_5f_NoFullyHadronicDecays_TuneCP5_13TeV-powheg-pythia8_RunIIFall17MiniAODv2-PU2017_12Apr2018_new_pmx_94X_mc2017_realistic_v14-v1_MINIAODSIM_ZMET_babies/*
 /hadoop/cms/store/user/bsathian/ZMET_babies/ST_tW_antitop_5f_NoFullyHadronicDecays_TuneCP5_13TeV-powheg-pythia8_RunIIFall17MiniAODv2-PU2017_12Apr2018_new_pmx_94X_mc2017_realistic_v14-v1_MINIAODSIM_ZMET_babies/*
+ds:SingleMuData
+/hadoop/cms/store/user/bsathian/ZMET_babies/SingleMuon_Run2017B-31Mar2018-v1_MINIAOD_ZMET_babies/*
+/hadoop/cms/store/user/bsathian/ZMET_babies/SingleMuon_Run2017C-31Mar2018-v1_MINIAOD_ZMET_babies/*
+/hadoop/cms/store/user/bsathian/ZMET_babies/SingleMuon_Run2017D-31Mar2018-v1_MINIAOD_ZMET_babies/*
+/hadoop/cms/store/user/bsathian/ZMET_babies/SingleMuon_Run2017E-31Mar2018-v1_MINIAOD_ZMET_babies/*
+/hadoop/cms/store/user/bsathian/ZMET_babies/SingleMuon_Run2017F-31Mar2018-v1_MINIAOD_ZMET_babies/*
