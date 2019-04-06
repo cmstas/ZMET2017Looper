@@ -7572,7 +7572,7 @@ namespace zmet {
 	const vector<int> &genPart_motherId() { return phys.genPart_motherId(); }
 	const vector<int> &genPart_grandmaId() { return phys.genPart_grandmaId(); }
 	const vector<bool> &genPart_isp6status3() { return phys.genPart_isp6status3(); }
-    const vector<bool> &genPart_isPromptFinalState() {return phys.isPromptFinalState();}
+    const vector<bool> &genPart_isPromptFinalState() {return phys.genPart_isPromptFinalState();}
 	const int &ngenLep() { return phys.ngenLep(); }
 	const vector<float> &genLep_pt() { return phys.genLep_pt(); }
 	const vector<float> &genLep_eta() { return phys.genLep_eta(); }
