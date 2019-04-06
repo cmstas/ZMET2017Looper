@@ -1946,7 +1946,7 @@ bool passFileSelections(){
   }
 
   //WJets cocktail for inclusive photon sample and Electroweak Subtraction
-  if ( TString(conf->get("data_set")).Contains("GammaMC-WGamma") || TString(conf->get("data_set")).Contains("GammaData-EWKSub")){
+  if ( TString(conf->get("data_set")).Contains("WGamma") || TString(conf->get("data_set")).Contains("EWKSub")){
     
     //Inclusive GenHT Cut
     if( TString(currentFile->GetTitle()).Contains("wjets_incl_mgmlm") ){
@@ -1959,14 +1959,14 @@ bool passFileSelections(){
     }
 
     //Remove overlap between WGammaJets and WJets
-    if( TString(currentFile->GetTitle()).Contains("wjets") ){ //WJets
+    if(conf->get("data_set") == "WGamma"){ //WJets
       if( phys.ngamma() > 0 && phys.gamma_genIsPromptFinalState().at(0) == 1 ) {
         //cout<<"skipped"<<endl;
         numEvents->Fill(64);
         return false;
       }
     }
-    else if ( TString(currentFile->GetTitle()).Contains("wgjets_") ){ //WGammaJets
+    else if (conf->get("data_set") == "WJets"){ //WGammaJets
       if( phys.ngamma() > 0 && phys.gamma_genIsPromptFinalState().at(0) != 1 ) {
         //cout<<"skipped"<<endl;
         numEvents->Fill(64);
