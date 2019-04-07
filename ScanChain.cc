@@ -1959,14 +1959,14 @@ bool passFileSelections(){
     }
 
     //Remove overlap between WGammaJets and WJets
-    if(conf->get("data_set") == "WGamma"){ //WJets
+    if(conf->get("data_set") == "WJets"){ //WJets
       if( phys.ngamma() > 0 && phys.gamma_genIsPromptFinalState().at(0) == 1 ) {
         //cout<<"skipped"<<endl;
         numEvents->Fill(64);
         return false;
       }
     }
-    else if (conf->get("data_set") == "WJets"){ //WGammaJets
+    else if (conf->get("data_set") == "WGamma"){ //WGammaJets
       if( phys.ngamma() > 0 && phys.gamma_genIsPromptFinalState().at(0) != 1 ) {
         //cout<<"skipped"<<endl;
         numEvents->Fill(64);
