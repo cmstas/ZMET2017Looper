@@ -751,9 +751,9 @@ bool hasGoodPhoton(){
     return false; // photon + jets events
   }
   
-  if( phys.gamma_pt().at(0) < 55 ) {
+  if( phys.gamma_pt().at(0) < 22 ) {
     numEvents->Fill(26);
-    if (printFail) cout<<phys.evt()<<" :Failed pt < 50 photon cut"<<endl;
+    if (printFail) cout<<phys.evt()<<" :Failed pt < 25 photon cut"<<endl;
     return false; // photon pt > 22 GeV
   }
   
