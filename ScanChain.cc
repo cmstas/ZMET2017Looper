@@ -1946,7 +1946,7 @@ bool passFileSelections(){
   }
 
   //WJets cocktail for inclusive photon sample and Electroweak Subtraction
-  if ( TString(conf->get("data_set")).Contains("WGamma") || TString(conf->get("data_set")).Contains("EWKSub")){
+  if ( TString(conf->get("data_set")).Contains("WGamma") ||TString(conf->get("data_set")).Contains("WJets") || TString(conf->get("data_set")).Contains("EWKSub")){
     
     //Inclusive GenHT Cut
     if( TString(currentFile->GetTitle()).Contains("wjets_incl_mgmlm") ){
