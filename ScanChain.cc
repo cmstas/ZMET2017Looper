@@ -2008,7 +2008,7 @@ bool passFileSelections(){
  {
     //Overlap removal between TTGamma and TTJets
     //
-    if(conf->get("data_set").Contains("ttbarGamma"))
+    if(TString(conf->get("data_set")).Contains("ttbarGamma"))
     {
         if( phys.ngamma() > 0 && phys.gamma_genIsPromptFinalState().at(0) != 1 ) {
         //cout<<"skipped"<<endl;
@@ -2017,7 +2017,7 @@ bool passFileSelections(){
       }
 
     }
-    else if(conf->get("data_set").Contains("ttbarJets"))
+    else if(TString(conf->get("data_set")).Contains("ttbarJets"))
     {
         if( phys.ngamma() > 0 && phys.gamma_genIsPromptFinalState().at(0) == 1 ) {
         //cout<<"skipped"<<endl;
