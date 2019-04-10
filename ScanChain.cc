@@ -2003,6 +2003,32 @@ bool passFileSelections(){
     } 
   }
 
+  
+ if(TString(conf->get("data_set")).Contains("ttbarGamma") || TString(conf->get("data_set")).Contains("ttbarJets"))
+ {
+    //Overlap removal between TTGamma and TTJets
+    //
+    if(conf->get("data_set").Contains("ttbarGamma"))
+    {
+        if( phys.ngamma() > 0 && phys.gamma_genIsPromptFinalState().at(0) != 1 ) {
+        //cout<<"skipped"<<endl;
+        numEvents->Fill(64);
+        return false;
+      }
+
+    }
+    else if(conf->get("data_set").Contains("ttbarJets"))
+    {
+        if( phys.ngamma() > 0 && phys.gamma_genIsPromptFinalState().at(0) == 1 ) {
+        //cout<<"skipped"<<endl;
+        numEvents->Fill(64);
+        return false;
+      }
+
+    }
+    
+ }
+
   if ( TString(conf->get("data_set")).Contains("FSMC-TTBar-NoPromptGamma") ){
     
     //Remove prompt photons from TTBar
