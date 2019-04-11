@@ -2002,8 +2002,6 @@ bool passFileSelections(){
       }
     } 
   }
-  else
-      cout<<"no overlap"<<endl;
 
   
  if((TString(conf->get("data_set")).Contains("ttbarGamma") || TString(conf->get("data_set")).Contains("ttbarJets")) && !TString(conf->get("Name")).Contains("no_overlap"))
