@@ -1946,7 +1946,7 @@ bool passFileSelections(){
   }
 
   //WJets cocktail for inclusive photon sample and Electroweak Subtraction
-  if ( TString(conf->get("data_set")).Contains("WGamma") ||TString(conf->get("data_set")).Contains("WJets") || TString(conf->get("data_set")).Contains("EWKSub") && !TString(conf->get("Name")).Contains("no-overlap")){
+  if ( (TString(conf->get("data_set")).Contains("WGamma") ||TString(conf->get("data_set")).Contains("WJets") || TString(conf->get("data_set")).Contains("EWKSub")) && !TString(conf->get("Name")).Contains("no-overlap")){
     
     //Inclusive GenHT Cut
     if( TString(currentFile->GetTitle()).Contains("wjets_incl_mgmlm") ){
@@ -2002,9 +2002,11 @@ bool passFileSelections(){
       }
     } 
   }
+  else
+      cout<<"no overlap"<<endl;
 
   
- if(TString(conf->get("data_set")).Contains("ttbarGamma") || TString(conf->get("data_set")).Contains("ttbarJets") && !TString(conf->get("Name")).Contains("no_overlap"))
+ if((TString(conf->get("data_set")).Contains("ttbarGamma") || TString(conf->get("data_set")).Contains("ttbarJets")) && !TString(conf->get("Name")).Contains("no_overlap"))
  {
     //Overlap removal between TTGamma and TTJets
     //
