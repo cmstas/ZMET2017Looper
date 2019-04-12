@@ -2004,7 +2004,7 @@ bool passFileSelections(){
   }
 
   
- if((TString(conf->get("data_set")).Contains("ttbarGamma") || TString(conf->get("data_set")).Contains("ttbarJets")) && !TString(conf->get("Name")).Contains("no_overlap"))
+/* if((TString(conf->get("data_set")).Contains("ttbarGamma") || TString(conf->get("data_set")).Contains("ttbarJets")) && !TString(conf->get("Name")).Contains("no_overlap"))
  {
     //Overlap removal between TTGamma and TTJets
     //
@@ -2027,7 +2027,7 @@ bool passFileSelections(){
 
     }
     
- }
+ }*/
 
   if ( TString(conf->get("data_set")).Contains("FSMC-TTBar-NoPromptGamma") ){
     
