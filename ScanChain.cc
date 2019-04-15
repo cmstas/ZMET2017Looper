@@ -572,15 +572,31 @@ bool hasGoodZ(){
     }
     //if (printStats) { cout<<"hyp_type: "<<phys.hyp_type()<<" "; }
   }
-  else{
-    //require explicit hypothesis type
+  else if(conf->get("dil_flavor") == "ee")
+  {
+      if(!phys.hyp_type() == 0)
+    {
+        numEvents->Fill(15);
+        return false;
+    }
+  }
+  else if(conf->get("dil_flavor") == "mumu")
+  {
+    if(!phys.hyp_type() == 1)
+    {
+        numEvents->Fill(15);
+        return false;
+    }
+  }
+  else
+  {
     if( !( phys.hyp_type() == 0 || phys.hyp_type() == 1 ) ) {
         numEvents->Fill(15); 
         if (printFail) cout<<phys.evt()<<" :Failed explicit mu/mu or e/e Z cut"<<endl;
         return false; // require explicit same flavor event
-    }
-    //if (printStats) { cout<<"hyp_type: "<<phys.hyp_type()<<" "; } 
+        }
   }
+    //if (printStats) { cout<<"hyp_type: "<<phys.hyp_type()<<" "; } 
 
   if(conf->get("signal_region") == "synchronization")
       eMuChannelPass ++ ;
