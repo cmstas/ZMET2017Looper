@@ -3457,6 +3457,12 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
     mu_pt->Write();
     //cout<<__LINE__<<endl;
   }
+
+  if(conf->get("dilep_control_region") == "true")
+  {
+      leadingLepPt->Write();
+      trailingLepPt->Write();
+  }
   if(conf->get("SUSY_Glu_LSP_scan") == "true"){
     susy_type1MET_counts->Write();
     susy_type1MET_nowt->Write();
