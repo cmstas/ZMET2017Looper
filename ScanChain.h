@@ -267,6 +267,9 @@ void updateSUSYBtagISRNorms();
 /*Loads Pt reweighting histograms, pileup reweighting hists, and efficiency hists (which are no longer used really). Also sets up goodrun list*/
 void setupExternal(TString savePath);
 
+//Lepton hists
+TH1D *leadingLepPt, *trailingLepPt;
+
 //Photon HLT Test
 TFile *matchedHistsFile = new TFile("matchedHists.root","RECREATE");
 std::unordered_map<std::string, TH1D*> matchedPhotonHists;

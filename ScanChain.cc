@@ -2371,6 +2371,15 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
   TH1D* weight_log_flat = new TH1D("weight_log_flat", "Event weights in "+g_sample_name, 101 , 0, 1.01);
   weight_log_flat->SetDirectory(rootdir);
 
+  if(conf->get("dilep_control_region") == "true")
+  {
+      leadingLepPt = new TH1D("ll_pt","Leading lepton Pt for "+g_sample_name,1000,0,1000);
+      leadingLepPt->SetDirectory(rootdir);
+      trailingLepPt = new TH1D("lt_pt","Trailing lepton Pt for "+g_sample_name,1000,0,1000);
+      trailingLepPt->SetDirectory(rootdir);
+  }
+
+
   //Photon momentum histo
   TH1D * PhotonPt;
   TH1D * PhotonEta;
@@ -3166,6 +3175,11 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
         MT_MuMET->Fill(getMTLepMET(),weight);
         dR_GammaMu->Fill(getdRGammaLep(),weight);
         mu_pt->Fill(phys.lep_pt().at(0), weight);
+      }
+      if(conf->get("dilep_control_region") == "true")
+      {
+        leadingLepPt->Fill(phys.lep_pt().at(0));
+        trailingLepPt->Fill(phys.lep_pt().at(1));
       }
 
       //cout<<__LINE__<<endl;
