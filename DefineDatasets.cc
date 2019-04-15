@@ -8,7 +8,7 @@ std::unordered_map <std::string,std::vector<std::string>> readFromTextFile(std::
     std::unordered_map<std::string, std::vector<std::string>> datasets;
     while(std::getline(f,line))
     {
-        if(line.find("ds") != std::string::npos)
+        if(line.find("ds") == 0)
         {
             currentDS = line.substr(line.find("ds")+3,std::string::npos);
         }
