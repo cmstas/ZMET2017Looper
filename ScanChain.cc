@@ -497,7 +497,9 @@ bool passMuonTriggers(){
         return (phys.HLT_DoubleMu() || phys.HLT_DoubleMu_tk() /*|| phys.HLT_DoubleMu_dbltk()*/ || phys.HLT_DoubleMu_nonDZ() || phys.HLT_DoubleMu_tk_nonDZ() || phys.HLT_DoubleMu_noiso());
       }
       else{
-        return (phys.HLT_DoubleMu() || phys.HLT_DoubleMu_tk() /*|| phys.HLT_DoubleMu_dbltk()*/ || phys.HLT_DoubleMu_nonDZ() || phys.HLT_DoubleMu_tk_nonDZ() || phys.HLT_DoubleMu_noiso());
+        
+        bool triggers = phys.HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8() || phys.HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ() || HLT_Mu37_TkMu27();
+        return triggers;
       }
     } 
   }
@@ -510,7 +512,8 @@ bool passElectronTriggers(){
   else{
     //cout<<__LINE__<<endl;
     //if (printStats) { cout<<"HLT_DoubleEl_DZ_2: "<<phys.HLT_DoubleEl_DZ_2()<<" HLT_DoubleEl_noiso: "<<phys.HLT_DoubleEl_noiso()<<" HLT_DoubleEl_DZ(): "<<phys.HLT_DoubleEl_DZ()<<endl; }
-    return (phys.HLT_DoubleEl_DZ_2() || phys.HLT_DoubleEl_noiso() || phys.HLT_DoubleEl_DZ() );
+    bool eleTriggers = phys.HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL() || phys.HLT_DoubleEle33_CaloIdL_MW() || phys.HLT_DoubleEle25_CaloIdL_MW();
+    return eleTriggers;
   }
 }
 
@@ -519,7 +522,9 @@ bool passEMuTriggers(){
     return true;
   }
   else{
-    return (phys.HLT_MuEG() || phys.HLT_MuEG_2() || phys.HLT_MuEG_noiso() || phys.HLT_MuEG_noiso_2() || phys.HLT_Mu8_EG23_DZ() || phys.HLT_Mu23_EG12_DZ() || phys.HLT_Mu23_EG8_DZ()); //updated for Moriond 2017
+      bool trigger = phys.HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ() || phys.HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL() || phys.HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ() || phys.HLT_Mu27_Ele37_CaloIdL_MW() || phys.HLT_Mu37_Ele27_CaloIdL_MW();
+
+      return trigger;
   }
 }
 
