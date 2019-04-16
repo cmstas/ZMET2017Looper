@@ -3178,8 +3178,8 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
       }
       if(conf->get("dilep_control_region") == "true")
       {
-        leadingLepPt->Fill(phys.lep_pt().at(0));
-        trailingLepPt->Fill(phys.lep_pt().at(1));
+        leadingLepPt->Fill(phys.lep_pt().at(0),weight);
+        trailingLepPt->Fill(phys.lep_pt().at(1),weight);
       }
 
       //cout<<__LINE__<<endl;
