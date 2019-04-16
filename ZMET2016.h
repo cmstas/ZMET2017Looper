@@ -13,7 +13,7 @@
 #include <unistd.h>
 typedef ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > LorentzVector;
 
-// Generated with file: /hadoop/cms/store/user/bsathian/ZMET_babies/DoubleMuon_Run2017B-31Mar2018-v1_MINIAOD_ZMET_babies/baby_11.root
+// Generated with file: /hadoop/cms/store/user/bsathian/ZMET_babies/DoubleMuon_Run2017B-31Mar2018-v1_MINIAOD_ZMET_babies/baby_10.root
 
 using namespace std;
 class ZMET2016 {
@@ -419,6 +419,9 @@ protected:
   int year_;
   TBranch *year_branch;
   bool year_isLoaded;
+  int HLT_DoubleEle27_CaloIdL_MW_Edge_;
+  TBranch *HLT_DoubleEle27_CaloIdL_MW_Edge_branch;
+  bool HLT_DoubleEle27_CaloIdL_MW_Edge_isLoaded;
   vector<float> *genLepFromTau_eta_;
   TBranch *genLepFromTau_eta_branch;
   bool genLepFromTau_eta_isLoaded;
@@ -794,6 +797,9 @@ protected:
   int nBadMuons20_;
   TBranch *nBadMuons20_branch;
   bool nBadMuons20_isLoaded;
+  int HLT_DoubleEle25_CaloIdL_MW_;
+  TBranch *HLT_DoubleEle25_CaloIdL_MW_branch;
+  bool HLT_DoubleEle25_CaloIdL_MW_isLoaded;
   int HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_;
   TBranch *HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_branch;
   bool HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_isLoaded;
@@ -866,9 +872,6 @@ protected:
   vector<int> *genLep_status_;
   TBranch *genLep_status_branch;
   bool genLep_status_isLoaded;
-  int HLT_DoubleEle25_CaloIdl_MW_;
-  TBranch *HLT_DoubleEle25_CaloIdl_MW_branch;
-  bool HLT_DoubleEle25_CaloIdl_MW_isLoaded;
   vector<int> *gamma_genIsPromptFinalState_;
   TBranch *gamma_genIsPromptFinalState_branch;
   bool gamma_genIsPromptFinalState_isLoaded;
@@ -1061,6 +1064,9 @@ protected:
   int HLT_Photon200_;
   TBranch *HLT_Photon200_branch;
   bool HLT_Photon200_isLoaded;
+  float evt_filter_;
+  TBranch *evt_filter_branch;
+  bool evt_filter_isLoaded;
   int hyp_type_;
   TBranch *hyp_type_branch;
   bool hyp_type_isLoaded;
@@ -1184,9 +1190,9 @@ protected:
   vector<float> *genPart_eta_;
   TBranch *genPart_eta_branch;
   bool genPart_eta_isLoaded;
-  float evt_filter_;
-  TBranch *evt_filter_branch;
-  bool evt_filter_isLoaded;
+  int HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_;
+  TBranch *HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_branch;
+  bool HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_isLoaded;
   int Flag_duplicateMuons_;
   TBranch *Flag_duplicateMuons_branch;
   bool Flag_duplicateMuons_isLoaded;
@@ -1333,6 +1339,7 @@ public:
   const vector<float> &lep_x2ondof();
   const float &ht_dn();
   const int &year();
+  const int &HLT_DoubleEle27_CaloIdL_MW_Edge();
   const vector<float> &genLepFromTau_eta();
   const int &HLT_ECALHT800_NoJetID();
   const vector<float> &gamma_genPt();
@@ -1458,6 +1465,7 @@ public:
   const float &chpfcands_30in_sumet();
   const int &HLT_MuEG_2();
   const int &nBadMuons20();
+  const int &HLT_DoubleEle25_CaloIdL_MW();
   const int &HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ();
   const float &nupfcands_1624_phi();
   const vector<float> &gamma_r9();
@@ -1482,7 +1490,6 @@ public:
   const vector<float> &weightsf_lepiso_FS();
   const float &mbb_bpt();
   const vector<int> &genLep_status();
-  const int &HLT_DoubleEle25_CaloIdl_MW();
   const vector<int> &gamma_genIsPromptFinalState();
   const float &mbb_csv();
   const float &mbb_csv_dn();
@@ -1547,6 +1554,7 @@ public:
   const float &decayedphoton_mt2();
   const float &chpfcands_1624_sumet();
   const int &HLT_Photon200();
+  const float &evt_filter();
   const int &hyp_type();
   const vector<int> &genLep_sourceId();
   const int &nBJetLoose_dn();
@@ -1588,7 +1596,7 @@ public:
   const int &nVert();
   const vector<float> &gamma_hOverE();
   const vector<float> &genPart_eta();
-  const float &evt_filter();
+  const int &HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL();
   const int &Flag_duplicateMuons();
   const float &sumet_raw();
   const int &Flag_CSCTightHalo2015Filter();
@@ -1734,6 +1742,7 @@ namespace zmet {
   const vector<float> &lep_x2ondof();
   const float &ht_dn();
   const int &year();
+  const int &HLT_DoubleEle27_CaloIdL_MW_Edge();
   const vector<float> &genLepFromTau_eta();
   const int &HLT_ECALHT800_NoJetID();
   const vector<float> &gamma_genPt();
@@ -1859,6 +1868,7 @@ namespace zmet {
   const float &chpfcands_30in_sumet();
   const int &HLT_MuEG_2();
   const int &nBadMuons20();
+  const int &HLT_DoubleEle25_CaloIdL_MW();
   const int &HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ();
   const float &nupfcands_1624_phi();
   const vector<float> &gamma_r9();
@@ -1883,7 +1893,6 @@ namespace zmet {
   const vector<float> &weightsf_lepiso_FS();
   const float &mbb_bpt();
   const vector<int> &genLep_status();
-  const int &HLT_DoubleEle25_CaloIdl_MW();
   const vector<int> &gamma_genIsPromptFinalState();
   const float &mbb_csv();
   const float &mbb_csv_dn();
@@ -1948,6 +1957,7 @@ namespace zmet {
   const float &decayedphoton_mt2();
   const float &chpfcands_1624_sumet();
   const int &HLT_Photon200();
+  const float &evt_filter();
   const int &hyp_type();
   const vector<int> &genLep_sourceId();
   const int &nBJetLoose_dn();
@@ -1989,7 +1999,7 @@ namespace zmet {
   const int &nVert();
   const vector<float> &gamma_hOverE();
   const vector<float> &genPart_eta();
-  const float &evt_filter();
+  const int &HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL();
   const int &Flag_duplicateMuons();
   const float &sumet_raw();
   const int &Flag_CSCTightHalo2015Filter();
