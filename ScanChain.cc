@@ -512,7 +512,7 @@ bool passElectronTriggers(){
   else{
     //cout<<__LINE__<<endl;
     //if (printStats) { cout<<"HLT_DoubleEl_DZ_2: "<<phys.HLT_DoubleEl_DZ_2()<<" HLT_DoubleEl_noiso: "<<phys.HLT_DoubleEl_noiso()<<" HLT_DoubleEl_DZ(): "<<phys.HLT_DoubleEl_DZ()<<endl; }
-    bool eleTriggers = phys.HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL() || phys.HLT_DoubleEle33_CaloIdL_MW() || phys.HLT_DoubleEle25_CaloIdL_MW();
+    bool eleTriggers = phys.HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL() || phys.HLT_DoubleEle33_CaloIdL_MW() || phys.HLT_DoubleEle25_CaloIdl_MW();
     return eleTriggers;
   }
 }
