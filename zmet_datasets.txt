@@ -45,6 +45,8 @@ ds:ttbar-1lep-powheg
 /hadoop/cms/store/user/bsathian/ZMET_babies/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8_RunIIFall17MiniAODv2-PU2017_12Apr2018_new_pmx_94X_mc2017_realistic_v14-v1_MINIAODSIM_ZMET_babies/*
 ds:ZMC-inclusive-amcnlo
 /hadoop/cms/store/user/bsathian/ZMET_babies/DYJetsToLL_M-50_TuneCP5_13TeV-amcatnloFXFX-pythia8_RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1_MINIAODSIM_ZMET_babies/*
+ds:ZMC-inclusive-amcnlo-ext
+/hadoop/cms/store/user/bsathian/ZMET_babies/DYJetsToLL_M-50_TuneCP5_13TeV-amcatnloFXFX-pythia8_RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_mc2017_realistic_v14_ext1-v1_MINIAODSIM_ZMET_babies/*
 ds:DoubleEG
 /hadoop/cms/store/user/bsathian/ZMET_babies/DoubleEG_Run2017E-31Mar2018-v1_MINIAOD_ZMET_babies/*
 /hadoop/cms/store/user/bsathian/ZMET_babies/DoubleEG_Run2017C-31Mar2018-v1_MINIAOD_ZMET_babies/*
