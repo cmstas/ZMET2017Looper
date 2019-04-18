@@ -268,7 +268,7 @@ void updateSUSYBtagISRNorms();
 void setupExternal(TString savePath);
 
 //Lepton hists
-TH1D *leadingLepPt, *trailingLepPt *leadingLepEta, *leadingLepPhi, *trailingLepEta, *trailingLepPhi;
+TH1D *leadingLepPt, *trailingLepPt, *leadingLepEta, *leadingLepPhi, *trailingLepEta, *trailingLepPhi;
 
 //Photon HLT Test
 TFile *matchedHistsFile = new TFile("matchedHists.root","RECREATE");
