@@ -2379,8 +2379,16 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
   if(conf->get("dilep_control_region") == "true")
   {
       leadingLepPt = new TH1D("ll_pt","Leading lepton Pt for "+g_sample_name,1000,0,1000);
+      leadingLepEta = new TH1D("ll_eta","Leading lepton Eta for "+g_sample_name,100,-2.5,2.5);
+      leadingLepPhi = new TH1D("ll_phi","Leading lepton Phi for "+g_sample_name,200,-6.28,6.28);
       leadingLepPt->SetDirectory(rootdir);
+      leadingLepEta->SetDirectory(rootdir);
+      leadingLepPhi->SetDirectory(rootdir);
       trailingLepPt = new TH1D("lt_pt","Trailing lepton Pt for "+g_sample_name,1000,0,1000);
+      trailingLepEta = new TH1D("lt_eta","Trailing lepton Eta for "+g_sample_name,100,-2.5,2.5);
+      trailingLepPhi = new TH1D("lt_phi","Trailing lepton Phi for"+g_sample_name,200,-6.28,6.28);
+      trailingLepEta->SetDirectory(rootdir);
+      trailingLepPhi->SetDirectory(rootdir);
       trailingLepPt->SetDirectory(rootdir);
   }
 
