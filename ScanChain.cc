@@ -473,10 +473,10 @@ int ZMETLooper::hasGoodZ(){
   
   //cout<<__LINE__<<endl;
   //
-  int dil_flavor = phys.hyp_type();
+  int temp_dil_flavor = phys.hyp_type();
   if(conf->get("dil_flavor") == "all")
   {
-    if(!(dil_flavor == 1 || dil_flavor == 0 || dil_flavor == 2))
+    if(!(temp_dil_flavor == 1 || temp_dil_flavor == 0 || temp_dil_flavor == 2))
     {
         numEvents->Fill(15);
         if(printFail) cout<<"Require 2 leptons, but event does not have it"<<endl;
@@ -666,7 +666,7 @@ int ZMETLooper::hasGoodZ(){
   //
         
 
-  return dil_flavor;
+  return temp_dil_flavor;
 }
 
 bool ZMETLooper::hasGoodPhoton(){
@@ -3138,6 +3138,8 @@ int ZMETLooper::ScanChain( TChain* chain, ConfigParser *configuration, bool fast
           fj_DeltaR->Fill(fj_dr, weight);
         }
       }
+
+      eventCount++;
 
       //cout<<__LINE__<<endl;
 //===========================================
