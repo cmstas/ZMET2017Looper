@@ -19,14 +19,6 @@ ZMETLooper::ZMETLooper()
     printStats = false;
     printFail = false;
 
-    Z_PDG_ID = 23;
-    W_PDG_ID = 24;
-    H_PDG_ID = 25;
-
-    Z_MASS = 91;
-    W_MASS = 80;
-    H_MASS = 125;
-
     dil_flavor = -1;
 }
 
@@ -337,7 +329,7 @@ bool ZMETLooper::passMuonTriggers(){
   }
 }
 
-bool ZMetLooper::passElectronTriggers(){
+bool ZMETLooper::passElectronTriggers(){
   if ( (! MCTriggerEmulation) && (! phys.isData()) ){
     return true;
   }
