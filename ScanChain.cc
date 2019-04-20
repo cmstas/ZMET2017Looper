@@ -370,7 +370,6 @@ bool ZMETLooper::passLeptonHLTs(){
       return passElectronTriggers();
     else
       return false; 
-  }
 }
 
 //=============================
