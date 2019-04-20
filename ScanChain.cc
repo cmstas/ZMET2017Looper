@@ -467,7 +467,7 @@ int ZMETLooper::hasGoodZ(){
   if( phys.nlep() < 2         ){ 
     numEvents->Fill(10);
     if (printFail) cout<<phys.evt()<<" :Failed 2 lepton Z cut"<<endl;
-    return false; // require at least 2 good leptons
+    return -1; // require at least 2 good leptons
   }
   //if (printStats) { cout<<"Number of Leptons: "<<phys.nlep()<<" "; }
   
@@ -2760,8 +2760,6 @@ int ZMETLooper::ScanChain( TChain* chain, ConfigParser *configuration, bool fast
       // ----------------
       // DEBUG MODE
       // ----------------
-      printStats = false;
-      printFail = false;
 
       //if (inspection_set.count(phys.evt()) != 0){
       /*if ( inspection_set_erl.count(make_tuple(phys.evt(), phys.run(), phys.lumi())) != 0){
