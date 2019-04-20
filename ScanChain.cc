@@ -380,7 +380,7 @@ int ZMETLooper::hasGoodZ(){
   if( phys.nlep() < 2         ){ 
     numEvents->Fill(10);
     if (printFail) cout<<phys.evt()<<" :Failed 2 lepton Z cut"<<endl;
-    return -1; // require at least 2 good leptons
+    return false; // require at least 2 good leptons
   }
   //if (printStats) { cout<<"Number of Leptons: "<<phys.nlep()<<" "; }
   
@@ -1892,7 +1892,7 @@ bool ZMETLooper::passFileSelections(){
 // Setup
 //=============================
 
-void ZMEETLooper::setupGlobals(){
+void ZMETLooper::setupGlobals(){
   if ( conf->get("uncertainty_mode") == "JES_up" ){
     g_dphi_metj1 = phys.dphi_metj1_up();
     g_dphi_metj2 = phys.dphi_metj2_up();
@@ -2859,7 +2859,7 @@ int ZMETLooper::ScanChain( TChain* chain, ConfigParser *configuration, bool fast
           m_bb_bpt->Fill(getMbb(), weight);  
           mt2_val_fromb = getMT2ForBjets(true);
           //cout<<__LINE__<<endl;
-          mt2b->Fill(getMT2B(), weight);
+          //mt2b->Fill(getMT2B(), weight);
           if (mt2_val_fromb != 0) mt2_fromb->Fill(mt2_val_fromb, weight);
         }
         else{
@@ -2937,12 +2937,12 @@ int ZMETLooper::ScanChain( TChain* chain, ConfigParser *configuration, bool fast
       if(conf->get("dilep_control_region") == "true")
       {
           std::string dilepPrefix;
-          if(phys.dil_flavor == 0)
+          if(dil_flavor == 0)
               dilepPrefix = "ee";
-          else if(phys.dil_flavor == 1)
-              dilepPreifx = "mumu";
-          else if(phys.dil_flavor == 2)
-              dilepPreifx = "emu";
+          else if(dil_flavor == 1)
+              dilepPrefix = "mumu";
+          else if(dil_flavor == 2)
+              dilepPrefix = "emu";
 
           fillDilepCRHists(dilepPrefix);
       }
@@ -3344,7 +3344,7 @@ void ZMETLooper::fillCommonHists(std::string prefix)
         {
             fill1DHistograms(prefix+"type1MET",g_met,weight,allHistos,"",6000,0,6000,rootdir);
  //       t1met->Fill(g_met, weight);
-        fill1DHistogram(prefix+"type1MET_widebin",g_met,weight,allHistos,"",n_metbins_wide_std,metbins_wide_std,rootdir);
+        fill1DHistograms(prefix+"type1MET_widebin",g_met,weight,allHistos,"",n_metbins_wide_std,metbins_wide_std,rootdir);
 
         }
 

@@ -187,7 +187,7 @@ class ZMETLooper
     //=============================
     /*Lepton quality and Z mass cuts*/
 
-    bool hasGoodZ(); //0 for ee, 1 for emu, 2 for mumu, -1 for no lepton
+    int hasGoodZ(); //0 for ee, 1 for emu, 2 for mumu, -1 for no lepton
     int dil_flavor;
 
     /*Photon quality cuts*/
