@@ -1,5 +1,34 @@
 # include "HistTools.h"
 
+void fill1DHistograms(std::string name, float xval, double weight, std::unordered_map<std::string,TH1*> &allHistos,std::string title, int nbins, double xmin, double xmax,TDirectory *rootdir)
+{
+    if(title == "")
+        title = name;
+    if(allHistos[name] == nullptr)
+    {
+        allHistos[name] = new TH1D(name.c_str(),title.c_str(),nbins,xmin,xmax);
+        allHistos[name]->SetDirectory(rootdir);
+    }
+
+    allHistos[name]->Fill(xval,weight);
+}
+
+
+void fill1DHistograms(std::string name, float xval, double weight, std::unordered_map<std::string, TH1*> &allHistos,std::string title, int nbins,const double *xbins,TDirectory *rootdir)
+{
+    if(title == "")
+        title = name;
+    if(allHistos[name] == nullptr)
+    {
+        allHistos[name] = new TH1D(name.c_str(),title.c_str(),xbins);
+        allHistos[name]->SetDirectory(rootdir);
+    }
+
+    allHistos[name]->Fill(xval,weight);
+
+}
+
+
 void updateOverUnderflow( TH1D * &hist, double xmax, double xmin = -100000 ){
   /* updates bins at the edges of xmax (xmin) with everything above (below) including over(under)flow */
   int overflowbin = hist->FindBin(xmax-0.0001);

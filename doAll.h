@@ -3,7 +3,7 @@
 
 # include "TString.h"
 # include "ConfigParser.h"
-# include "ScanChain_shared.h"
+# include "ScanChain.h"
 # include "DefineDatasets.h"
 # include "makePtReweightHisto.h"
 

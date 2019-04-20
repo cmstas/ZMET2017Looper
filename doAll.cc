@@ -1,6 +1,6 @@
 # include "doAll.h"
 
-void runScanChain(ConfigParser* conf){
+void runScanChain(ZMETLooper l,ConfigParser* conf){
   cout<<"Using config:"<<endl;
   conf->print();
 
@@ -9,17 +9,17 @@ void runScanChain(ConfigParser* conf){
     makePtReweightHisto(conf);
   }
 
-  ScanChain(getTChain(conf->get("data_set")), conf);
+  l.ScanChain(getTChain(conf->get("data_set")), conf);
 }
 
-void doAll ( TString config_name, TString config_file) {
+void doAll (ZMETLooper l,TString config_name, TString config_file) {
 
   ConfigParser *conf = new ConfigParser(config_file.Data());
 
   if (config_name == "all") {
     while ( conf->loadNextConfig() )
     {
-      runScanChain(conf);
+      runScanChain(l,conf);
     }
   }
 
@@ -36,7 +36,9 @@ void doAll ( TString config_name, TString config_file) {
 int main(int argc, char* argv[]) {
   TString config_name= argv[1];
   TString config_file=argv[2];
-  doAll(config_name, config_file);
+
+  class ZMETLooper l;
+  doAll(l,config_name, config_file);
 
   return 0;
 }
