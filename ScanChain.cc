@@ -473,7 +473,7 @@ int ZMETLooper::hasGoodZ(){
   
   //cout<<__LINE__<<endl;
   //
-  int temp_dil_flavor = phys.hyp_type();
+  dil_flavor = phys.hyp_type();
   if(conf->get("dil_flavor") == "all")
   {
     if(!(temp_dil_flavor == 1 || temp_dil_flavor == 0 || temp_dil_flavor == 2))
