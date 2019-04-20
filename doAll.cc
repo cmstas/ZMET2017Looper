@@ -24,7 +24,7 @@ void doAll (ZMETLooper l,TString config_name, TString config_file) {
   }
 
   else if ( conf->loadConfig(config_name.Data()) ){
-    runScanChain(conf);
+    runScanChain(l,conf);
   }
 
   else{
