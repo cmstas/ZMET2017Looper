@@ -476,7 +476,7 @@ int ZMETLooper::hasGoodZ(){
   dil_flavor = phys.hyp_type();
   if(conf->get("dil_flavor") == "all")
   {
-    if(!(temp_dil_flavor == 1 || temp_dil_flavor == 0 || temp_dil_flavor == 2))
+    if(!(dil_flavor == 1 || dil_flavor == 0 || dil_flavor == 2))
     {
         numEvents->Fill(15);
         if(printFail) cout<<"Require 2 leptons, but event does not have it"<<endl;
@@ -666,7 +666,7 @@ int ZMETLooper::hasGoodZ(){
   //
         
 
-  return temp_dil_flavor;
+  return dil_flavor;
 }
 
 bool ZMETLooper::hasGoodPhoton(){
