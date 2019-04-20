@@ -467,7 +467,7 @@ int ZMETLooper::hasGoodZ(){
   if( phys.nlep() < 2         ){ 
     numEvents->Fill(10);
     if (printFail) cout<<phys.evt()<<" :Failed 2 lepton Z cut"<<endl;
-    return false; // require at least 2 good leptons
+    return -1; // require at least 2 good leptons
   }
   //if (printStats) { cout<<"Number of Leptons: "<<phys.nlep()<<" "; }
   
@@ -479,6 +479,7 @@ int ZMETLooper::hasGoodZ(){
     if(!(dil_flavor == 1 || dil_flavor == 0 || dil_flavor == 2))
     {
         numEvents->Fill(15);
+        if(printFail) cout<<"Require 2 leptons, but event does not have it"<<endl;
         return -1;
     }
   }
@@ -496,6 +497,7 @@ int ZMETLooper::hasGoodZ(){
       if(!(phys.hyp_type() == 0))
     {
         numEvents->Fill(15);
+        if(printFail) cout<<"Failed 2 electron requirement"<<endl;
         return -1;
     }
   }
@@ -504,6 +506,7 @@ int ZMETLooper::hasGoodZ(){
     if(!(phys.hyp_type() == 1))
     {
         numEvents->Fill(15);
+        if(printFail) cout<<"Failed 2 muon requirement"<<endl;
         return -1;
     }
   }
@@ -2760,8 +2763,6 @@ int ZMETLooper::ScanChain( TChain* chain, ConfigParser *configuration, bool fast
       // ----------------
       // DEBUG MODE
       // ----------------
-      printStats = false;
-      printFail = false;
 
       //if (inspection_set.count(phys.evt()) != 0){
       /*if ( inspection_set_erl.count(make_tuple(phys.evt(), phys.run(), phys.lumi())) != 0){
