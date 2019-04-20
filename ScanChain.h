@@ -103,13 +103,14 @@ class ZMETLooper
     vector<LorentzVector> g_jets_p4;
     vector<LorentzVector> g_jets_medb_p4;
 
-    const int Z_PDG_ID;
-    const int W_PDG_ID;
-    const int H_PDG_ID;
+    const int Z_PDG_ID = 23;
+    const int W_PDG_ID = 24;
+    const int H_PDG_ID = 25;
 
-    const int Z_MASS;
-    const int W_MASS;
-    const int H_MASS;
+    const int Z_MASS = 91;
+    const int W_MASS = 80;
+    const int H_MASS = 125;
+
 
     /* returns two most B-like jet indicies */
     pair<int, int> getMostBlike();
