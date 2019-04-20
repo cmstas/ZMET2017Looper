@@ -4,7 +4,7 @@
 # include <vector>
 # include <string>
 # include <unordered_map>
-
+# include <cstring>
 
 
 void updateOverUnderFlow(TH1D *& hist, double xmax, double xmin);

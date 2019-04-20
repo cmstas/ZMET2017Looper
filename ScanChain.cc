@@ -2944,7 +2944,7 @@ int ZMETLooper::ScanChain( TChain* chain, ConfigParser *configuration, bool fast
           else if(dil_flavor == 2)
               dilepPrefix = "emu";
 
-          fillDilepCRHists(dilepPrefix);
+          fillDileptonCRHists(dilepPrefix);
       }
 
       //cout<<__LINE__<<endl;
@@ -3340,7 +3340,7 @@ void ZMETLooper::fillCommonHists(std::string prefix)
         fill1DHistograms(prefix+"weight_log_flat",abs(weight),1,allHistos,"",101,0,1.01,rootdir);
         fill1DHistograms(prefix+"numMETFilters",sumMETFilters,1,allHistos,"",50,0,50,rootdir);
 
-        if(g_Met != 0)
+        if(g_met != 0)
         {
             fill1DHistograms(prefix+"type1MET",g_met,weight,allHistos,"",6000,0,6000,rootdir);
  //       t1met->Fill(g_met, weight);
@@ -3352,12 +3352,12 @@ void ZMETLooper::fillCommonHists(std::string prefix)
         fill1DHistograms(prefix+"rawMET",phys.met_rawPt(),weight,allHistos,"",6000,0,6000,rootdir);
       if (g_ht != 0) {
         fill1DHistograms(prefix+"ht",g_ht,weight,allHistos,"",6000,0,6000,rootdir);
-        fill1DHisograms(prefix+"ht_wide",g_ht,weight,allHistos,"",60,0,6000,rootdir);
+        fill1DHistograms(prefix+"ht_wide",g_ht,weight,allHistos,"",60,0,6000,rootdir);
         //ht->Fill(g_ht, weight);
         //ht_wide->Fill(g_ht, weight);
       }
       if (phys.gen_ht() != 0) 
-          fill1DHistograms(prefix+"genht",phys.gen_ht(),weight,allHistos,6000,0,6000,rootdir);
+          fill1DHistograms(prefix+"genht",phys.gen_ht(),weight,allHistos,"",6000,0,6000,rootdir);
           //gen_ht->Fill(phys.gen_ht(), weight);
       if (bosonPt() != 0){
         fill1DHistograms(prefix+"vpt",bosonPt(),weight,allHistos,"",n_ptbins_std,ptbins_std,rootdir);
@@ -3366,32 +3366,32 @@ void ZMETLooper::fillCommonHists(std::string prefix)
       }
       fill1DHistograms(prefix+"njets",g_njets,weight,allHistos,"",50,0,50,rootdir);
 
-      fill1DHistograms(prefix+"nbtags_m",g_nBJetMedium,weight,allHistos,"",50,0,50,rootdif);
-      fill1DHistograms(prefix+"nbtags_l",g_nBJetLoose,weight,allHistos,"",50,0,50,rootdir);
+      fill1DHistograms(prefix+"nbtags_m",g_nBJetMedium,weight,allHistos,"",50,0,50,rootdir);
+      fill1DHistograms(prefix+"nbtags_l",phys.nBJetLoose(),weight,allHistos,"",50,0,50,rootdir);
 
-      fill1DHistograms(prefix+"nbtags_t",g_nBJetTight,weight,allHistos,"",50,0,50,rootdir);
+      fill1DHistograms(prefix+"nbtags_t",phys.nBJetTight(),weight,allHistos,"",50,0,50,rootdir);
       
       fill1DHistograms(prefix+"nVert",phys.nvert(),weight,allHistos,"",150,0,150,rootdir);
       fill1DHistograms(prefix+"nlep",phys.nlep(),weight,allHistos,"",20,0,20,rootdir);
-      fill1DHistograms(prefix+"nisotrack",phys.nisotrack_mt2(),weight,allHistos,"",20,0,20,rootdir);
+      fill1DHistograms(prefix+"nisotrack",phys.nisoTrack_mt2(),weight,allHistos,"",20,0,20,rootdir);
       if (g_mt2 != 0 )
           fill1DHistograms(prefix+"mt2",g_mt2,weight,allHistos,"",500,0,50,rootdir);
       if (g_mt2b != 0 )
-          fill1DHistograms(prefix+"mt2b",g_mt2b,weight,allHistos,"",6000,0,6000);
+          fill1DHistograms(prefix+"mt2b",g_mt2b,weight,allHistos,"",6000,0,6000,rootdir);
       //cout<<__LINE__<<endl;
       if (g_njets > 0)
           fill1DHistograms(prefix+"dphi_jet1_met",acos(cos(g_met_phi - g_jets_p4.at(0).phi())),allHistos,"",100,0,3.15,rootdir);
       //cout<<__LINE__<<endl;
       if (g_njets > 1) 
-          fill1DHistograms(prefix+"dphi_jet2_met",acos(cos(g_met_phi - g_jets_p4.at(1).phi())),allHistos,"",100,0,3.15,rootdir);
+          fill1DHistograms(prefix+"dphi_jet2_met",acos(cos(g_met_phi - g_jets_p4.at(1).phi())),weight,allHistos,"",100,0,3.15,rootdir);
 
     
 }
 
 void ZMETLooper::fillPhotonCRHists(std::string prefix)
 {
-    fill1DHistograms(prefix+"photonPt",gamma_p4().at(0).pt(),weight,allHistos,"",1000,0,1000,rootdir);
-    fill1DHistograms(prefix+"photonEta",gamma_p4().at(0).eta(),weight,allHistos,"",200,-2.4,2.4,rootdir);
+    fill1DHistograms(prefix+"photonPt",phys.gamma_p4().at(0).pt(),weight,allHistos,"",1000,0,1000,rootdir);
+    fill1DHistograms(prefix+"photonEta",phys.gamma_p4().at(0).eta(),weight,allHistos,"",200,-2.4,2.4,rootdir);
 }
 
 void ZMETLooper::fillGammaMuCRHists(std::string prefix)
@@ -3406,10 +3406,10 @@ void ZMETLooper::fillDileptonCRHists(std::string prefix)
         fill1DHistograms(prefix+"dilmass",phys.dilmass(),weight,allHistos,"",6000,0,6000,rootdir);
         fill1DHistograms(prefix+"ll_pt",phys.lep_pt().at(0),weight,allHistos,"",1000,0,1000,rootdir);
         fill1DHistograms(prefix+"lt_pt",phys.lep_pt().at(1),weight,allHistos,"",1000,0,1000,rootdir);
-        fill1DHistograms(prefix+"ll_eta",phys.lep_p4().at(0).eta(),weight,allHistos,"",200,-2.4,2.4);
-        fill1DHistograms(prefix+"lt_eta",phys.lep_p4().at(1).eta(),weight,allHistos,"",200,-2.4,2.4);
-        fill1DHistograms(prefix+"ll_phi",phys.lep_p4().at(0).phi(),weight,allHistos,"",200,-6.28,6.28);
-        fill1DHistograms(prefix+"lt_phi",phys.lep_p4().at(1).phi(),weight,allHistos,"",200,-6.28,6.28);
+        fill1DHistograms(prefix+"ll_eta",phys.lep_p4().at(0).eta(),weight,allHistos,"",200,-2.4,2.4,rootdir);
+        fill1DHistograms(prefix+"lt_eta",phys.lep_p4().at(1).eta(),weight,allHistos,"",200,-2.4,2.4,rootdir);
+        fill1DHistograms(prefix+"ll_phi",phys.lep_p4().at(0).phi(),weight,allHistos,"",200,-6.28,6.28,rootdir);
+        fill1DHistograms(prefix+"lt_phi",phys.lep_p4().at(1).phi(),weight,allHistos,"",200,-6.28,6.28,rootdir);
     
 }
 
