@@ -3026,11 +3026,11 @@ int ZMETLooper::ScanChain( TChain* chain, ConfigParser *configuration, bool fast
       {
           std::string dilepPrefix;
           if(dil_flavor == 0)
-              dilepPrefix = "ee";
+              dilepPrefix = "ee_";
           else if(dil_flavor == 1)
-              dilepPrefix = "mumu";
+              dilepPrefix = "mumu_";
           else if(dil_flavor == 2)
-              dilepPrefix = "emu";
+              dilepPrefix = "emu_";
 
           fillDileptonCRHists(dilepPrefix);
       }
