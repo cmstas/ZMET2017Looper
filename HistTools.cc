@@ -17,7 +17,7 @@ void fill1DHistograms(std::string name, float xval, double weight, std::unordere
 void fill1DHistograms(std::string name, float xval, double weight, std::unordered_map<std::string, TH1*> &allHistos,const char *title, int nbins,const double *xbins,TDirectory *rootdir)
 {
     if(title == "")
-        title = name;
+        title = name.c_str();
     if(allHistos[name] == nullptr)
     {
         allHistos[name] = new TH1D(name.c_str(),title.c_str(),xbins);
