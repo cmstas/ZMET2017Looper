@@ -362,8 +362,8 @@ class ZMETLooper
     const int *n_gluino_bins, *n_lsp_bins, *n_met_bins;
     const double *gluino_bins, *lsp_bins, *met_bins;
 
-    const int *n_chi_bins, *n_met_bins;
-    const double *chi_bins, *met_bins;
+    const int *n_chi_bins;  //CHECK THIS DUDE IF YOU ENCOUNTER A met_bins RELATED ISSUE!!!
+    const double *chi_bins;
 
     double weight=1;
     double sumMETFilters;
