@@ -20,7 +20,7 @@ void fill1DHistograms(std::string name, float xval, double weight, std::unordere
         title = name.c_str();
     if(allHistos[name] == nullptr)
     {
-        allHistos[name] = new TH1D(name.c_str(),title,xbins);
+        allHistos[name] = new TH1D(name.c_str(),title,nbins,xbins);
         allHistos[name]->SetDirectory(rootdir);
     }
 
