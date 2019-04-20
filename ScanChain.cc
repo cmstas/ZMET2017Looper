@@ -406,7 +406,7 @@ int ZMETLooper::hasGoodZ(){
   }
   else if(conf->get("dil_flavor") == "ee")
   {
-      if(!phys.hyp_type() == 0)
+      if(!(phys.hyp_type() == 0))
     {
         numEvents->Fill(15);
         return -1;
@@ -414,7 +414,7 @@ int ZMETLooper::hasGoodZ(){
   }
   else if(conf->get("dil_flavor") == "mumu")
   {
-    if(!phys.hyp_type() == 1)
+    if(!(phys.hyp_type() == 1))
     {
         numEvents->Fill(15);
         return -1;
