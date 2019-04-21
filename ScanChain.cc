@@ -2871,11 +2871,11 @@ int ZMETLooper::ScanChain( TChain* chain, ConfigParser *configuration, bool fast
       if(conf->get("dil_flavor") == "all")
       {
             if(dil_flavor == 0)
-                commonHistPrefix = "ee";
+                commonHistPrefix = "ee_";
             else if(dil_flavor == 1)
-                commonHistPrefix = "mumu";
+                commonHistPrefix = "mumu_";
             else if(dil_flavor == 2)
-                commonHistPrefix = "emu";
+                commonHistPrefix = "emu_";
             else commonHistPrefix = "";
       }
       fillCommonHists(commonHistPrefix);
