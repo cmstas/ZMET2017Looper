@@ -2866,6 +2866,8 @@ int ZMETLooper::ScanChain( TChain* chain, ConfigParser *configuration, bool fast
       //
       //
         
+      weight = getWeight();
+
       std::string commonHistPrefix = "";
         
       if(conf->get("dil_flavor") == "all")
