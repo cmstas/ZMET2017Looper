@@ -3211,7 +3211,7 @@ int ZMETLooper::ScanChain( TChain* chain, ConfigParser *configuration, bool fast
   {
       cout<<"Num ee events passed: "<<ee_eventCount<<endl;
       cout<<"Num mumu events passed: "<<mumu_eventCount<<endl;
-      cout<<"Num mumu events passed: "<<emu_eventCount<<endl;
+      cout<<"Num emu events passed: "<<emu_eventCount<<endl;
   }
   files_log<<"Num events passed: "<<eventCount<<endl;
   if ( nEventsChain != nEventsTotal ) {
