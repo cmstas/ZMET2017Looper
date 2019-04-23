@@ -2707,7 +2707,7 @@ int ZMETLooper::ScanChain( TChain* chain, ConfigParser *configuration, bool fast
   unsigned int nEventsTotal = 0;
   unsigned int nEventsChain = chain->GetEntries();
   int eventCount=0;
-  if(config->get("dil_flavor") == "all")
+  if(conf->get("dil_flavor") == "all")
   {
       ee_eventCount = 0;
       mumu_eventCount = 0;
