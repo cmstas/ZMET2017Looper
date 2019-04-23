@@ -2707,6 +2707,12 @@ int ZMETLooper::ScanChain( TChain* chain, ConfigParser *configuration, bool fast
   unsigned int nEventsTotal = 0;
   unsigned int nEventsChain = chain->GetEntries();
   int eventCount=0;
+  if(config->get("dil_flavor") == "all")
+  {
+      ee_eventCount = 0;
+      mumu_eventCount = 0;
+      emu_eventCount = 0;
+  }
   cout<<"DATASET: "<<conf->get("data_set")<<endl;
   if( nEvents >= 0 ) nEventsChain = nEvents;
   //cout<<__LINE__<<endl;
@@ -3143,6 +3149,16 @@ int ZMETLooper::ScanChain( TChain* chain, ConfigParser *configuration, bool fast
 
       eventCount++;
 
+      if(conf->get("dil_flavor") == "all")
+      {
+          if(dil_flavor == 0)
+              ee_eventCount++;
+          else if(dil_flavor == 1)
+              mumu_eventCount++;
+          else if(dil_flavor == 2)
+              emu_eventCount++;
+      }
+
       //cout<<__LINE__<<endl;
 //===========================================
 // Debugging And Odd Corrections After Cuts
@@ -3190,6 +3206,13 @@ int ZMETLooper::ScanChain( TChain* chain, ConfigParser *configuration, bool fast
   }*/
 
   cout<<"Num events passed: "<<eventCount<<endl;
+
+  if(conf->get("dil_flavor") == "all")
+  {
+      cout<<"Num ee events passed: "<<ee_eventCount<<endl;
+      cout<<"Num mumu events passed: "<<mumu_eventCount<<endl;
+      cout<<"Num mumu events passed: "<<emu_eventCount<<endl;
+  }
   files_log<<"Num events passed: "<<eventCount<<endl;
   if ( nEventsChain != nEventsTotal ) {
     cout << Form( "ERROR: number of events from files (%d) is not equal to total number of events (%d)", nEventsChain, nEventsTotal ) << endl;

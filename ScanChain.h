@@ -59,6 +59,8 @@ class ZMETLooper
     int num_events_veto_ttbar;
     int num_events_veto_ttgamma;
     bool MCTriggerEmulation;
+
+    int ee_eventCount = 0, mumu_eventCount = 0, emu_eventCount = 0;
  
 
     //master histogram map
