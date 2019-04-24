@@ -74,7 +74,21 @@ void makeWeightHisto_noconf(TString output_location, TString infile1, TString in
   return ;
 }
 
-int main(int argc, char* argv)
+int main(int argc, char* argv[])
 {
-    
+    if(argc != 7)
+    {
+        cout<<"Usage ./makeWeightHisto_noconf output_location infile1 infile2 hist1 hist2 output_hist_name"<<endl;
+        cout<<"Primary = infile1, secondary=infile2, ratio = primary/secondary"<<endl;
+        exit(1);
+    }
+    TString output_location(argv[1]);
+    TString infile1(argv[2]);
+    TString infile2(argv[3]);
+    TString hist1(argv[4]);
+    TString hist2(argv[5]);
+    TString output_hist_name(argv[6]);
+
+    makeWeightHisto_noconf(output_location,infile1,infile2,hist1,hist2,output_hist_name);
+    return 0;
 }
