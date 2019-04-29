@@ -1007,10 +1007,27 @@ double ZMETLooper::getWeight(){
 
  if ((! phys.isData()) ){    
     if ( conf->get("event_type") == "dilepton" && (! MCTriggerEmulation)){
-      //simulated trigger efficiencies
-      if (phys.hyp_type() == 0) weight *= 0.969; //ee
-      if (phys.hyp_type() == 1) weight *= 0.980; //mumu
-      if (phys.hyp_type() == 2) weight *= 0.932; //emu
+        if(g_year == 2016)
+        {
+            //simulated trigger efficiencies
+            if (phys.hyp_type() == 0) weight *= 0.969; //ee
+            if (phys.hyp_type() == 1) weight *= 0.980; //mumu
+            if (phys.hyp_type() == 2) weight *= 0.932; //emu
+        }
+        else if(g_year == 2017)
+        {
+            //Ratio of data eff to MC eff because we run MC through the data HLTs
+            //Taken from https://indico.cern.ch/event/816453/contributions/3408147/attachments/1834682/3005439/ZEdge-19-04-25_MariusT.pdf
+
+            if(phys.hyp_type() == 0) weight *= 0.906/0.955;
+            if(phys.hyp_type() == 1) weight *= 0.873/0.949;
+            if(phys.hyp_type() == 2) weight *= 0.858/0.926;
+        }
+        else if(g_year == 2018)
+        {
+            cout<<"No trigger efficiencies yet, using 1"<<endl;
+        }
+        
     }
 
     //cout<<__LINE__<<endl;
