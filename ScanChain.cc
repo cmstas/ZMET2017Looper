@@ -2132,7 +2132,7 @@ void ZMETLooper::setupExternal(TString savePath){
     readyVPTReweight(savePath);
   }
 
-  if(conf->get("pileup_reweight") == "true" and !phys.isData()){
+  if(conf->get("pileup_reweight") == "true"){
     if(g_year == 2016)
     {
         cout<<"Pileup reweighting with puWeight_Moriond2017.root"<<endl;
