@@ -80,6 +80,7 @@ class ZMETLooper
     TString g_sample_name;
     TFile* currentFile;
     double g_scale_factor; //Holds scale factors for sample.
+    int g_year;
 
     TH1I *numEvents; //Holds the number of events in the whole script and the number that pass various cuts 
 

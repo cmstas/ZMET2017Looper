@@ -973,7 +973,7 @@ double ZMETLooper::getWeight(){
     
     //cout<<__LINE__<<endl;
 
-    if (conf->get("pileup_reweight") == "true"){
+    if (conf->get("pileup_reweight") == "true" and !phys.isData()){
       weight*=g_pileup_hist->GetBinContent(g_pileup_hist->FindBin(phys.nTrueInt()));
     }
     
@@ -1995,7 +1995,6 @@ void ZMETLooper::setupGlobals(){
     g_mt2 = phys.mt2_up();
     g_mt2b = phys.mt2b_up();
     g_ht = phys.ht_up();
-
     g_jets_p4 = phys.jets_up_p4();
     g_jets_medb_p4 = phys.jets_medb_up_p4();
     g_jets_csv = phys.jets_up_csv();
@@ -2049,6 +2048,11 @@ void ZMETLooper::setupGlobals(){
     g_jets_p4 = phys.jets_p4();
     g_jets_medb_p4 = phys.jets_medb_p4();
     g_jets_csv = phys.jets_csv();
+  }
+  g_year = 2017; //DEFAULT
+  if(conf->get("year") != "")
+  {
+      g_year = conf->get("year");
   }
 }
 
@@ -2128,9 +2132,23 @@ void ZMETLooper::setupExternal(TString savePath){
     readyVPTReweight(savePath);
   }
 
-  if(conf->get("pileup_reweight") == "true"){
-    cout<<"Pileup reweighting with puWeight_Moriond2017.root"<<endl;
-    g_pileup_hist_file = TFile::Open("auxFiles/puWeight_Moriond2017.root", "READ");
+  if(conf->get("pileup_reweight") == "true" and !phys.isData()){
+    if(g_year == 2016)
+    {
+        cout<<"Pileup reweighting with puWeight_Moriond2017.root"<<endl;
+        g_pileup_hist_file = TFile::Open("auxFiles/puWeight_Moriond2017.root", "READ");
+    }
+    else if(g_year == 2017)
+    {
+        cout<<"Pileup reweighting with puWeight2017.root"<<endl;
+        g_pileup_hist_file = TFile::Open("auxFiles/puWeight2017.root","READ");
+    }
+    else if(g_year == 2018)
+    {
+        cout<<"Pileup reweighting with puWeight2018.root"<<endl;
+        g_pileup_hist_file = TFile::Open("auxFiles/puWeight2018.root","READ");
+    }
+
     //cout<<__LINE__<<endl;
     g_pileup_hist = (TH1D*)g_pileup_hist_file->Get("pileupWeight")->Clone("h_pileup_weight");
     //cout<<__LINE__<<endl;
