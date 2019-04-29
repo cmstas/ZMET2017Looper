@@ -2052,7 +2052,7 @@ void ZMETLooper::setupGlobals(){
   g_year = 2017; //DEFAULT
   if(conf->get("year") != "")
   {
-      g_year = conf->get("year");
+      g_year = stoi(conf->get("year"));
   }
 }
 
