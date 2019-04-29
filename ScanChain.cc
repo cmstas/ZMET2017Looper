@@ -2049,11 +2049,6 @@ void ZMETLooper::setupGlobals(){
     g_jets_medb_p4 = phys.jets_medb_p4();
     g_jets_csv = phys.jets_csv();
   }
-  g_year = 2017; //DEFAULT
-  if(conf->get("year") != "")
-  {
-      g_year = stoi(conf->get("year"));
-  }
 }
 
 void ZMETLooper::updateSUSYBtagISRNorms(){
@@ -2124,7 +2119,11 @@ void ZMETLooper::updateSUSYBtagISRNorms(){
 void ZMETLooper::setupExternal(TString savePath){
   /*Loads Pt reweighting histograms, pileup reweighting hists, and efficiency hists (which are no longer used really). Also sets up goodrun list*/
 
-  //Set up manual vertex reweighting.  
+  //Set up manual vertex reweighting. 
+
+ //set up year
+ 
+  g_year = conf->get("year")!="" ? stoi(conf->get("year")) : 2017;
   if( conf->get("reweight") == "true" ){
     readyReweightHists();
   }
