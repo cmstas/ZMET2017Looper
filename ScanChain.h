@@ -65,6 +65,7 @@ class ZMETLooper
 
     //master histogram map
     std::unordered_map<std::string,TH1*> allHistos; 
+    std::unordered_map<std::string,TH2*> all2DHistos;
 
     vector<pair <TH1D*, TString> > g_reweight_pairs;
     TDirectory *rootdir;

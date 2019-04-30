@@ -16,7 +16,7 @@ void fill1DHistograms(std::string name, float xval, double weight, std::unordere
 
 void fill1DHistograms(std::string name, float xval, double weight, std::unordered_map<std::string, TH1*> &allHistos,const char *title, int nbins,const double *xbins,TDirectory *rootdir)
 {
-    if(title == "")
+    if(strcmp(title, "") == 0)
         title = name.c_str();
     if(allHistos[name] == nullptr)
     {
@@ -25,8 +25,58 @@ void fill1DHistograms(std::string name, float xval, double weight, std::unordere
     }
 
     allHistos[name]->Fill(xval,weight);
-
 }
+
+
+void fill2DHistograms(std::string name,float xval, float yval, double weight, std::unordered_map<std::string, TH2*> &all2DHistos, const char *title, int nbinsx, double xmin, double xmax, int nbinsy, double ymin, double ymax, TDirectory *rootdir)
+{
+    if(strcmp(title, "") == 0)
+        title = name.c_str();
+    if(all2DHistos[name] == nullptr)
+    {
+        all2DHistos[name] = new TH2D(name.c_str(),title,nbinsx,xmin,xmax,nbinsy,ymin,ymax);
+        all2DHistos[name]->SetDirectory(rootdir);
+    }
+
+    all2DHistos[name]->Fill(xval,yval,weight);
+}
+
+void fill2DHistograms(std::string name,float xval, float yval, double weight, std::unordered_map<std::string, TH2*> &all2DHistos, const char *title, int nbinsx, const double *xbins, int nbinsy, double ymin, double ymax, TDirectory *rootdir)
+{
+    if(strcmp(title, "") == 0)
+        title = name.c_str();
+    if(all2DHistos[name] == nullptr)
+    {
+        all2DHistos[name] = new TH2D(name.c_str(),title,nbinsx,xbins,nbinsy,ymin,ymax);
+        all2DHistos[name]->SetDirectory(rootdir);
+    }
+    all2DHistos[name]->Fill(xval,yval,weight);
+}
+
+void fill2DHistograms(std::string name,float xval, float yval, double weight, std::unordered_map<std::string, TH2*> &all2DHistos, const char *title, int nbinsx, const double *xbins, int nbinsy, const double *ybins, TDirectory *rootdir)
+{
+    if(strcmp(title, "") == 0)
+        title = name.c_str();
+    if(all2DHistos[name] == nullptr)
+    {
+        all2DHistos[name] = new TH2D(name.c_str(),title,nbinsx,xbins,nbinsy,ybins);
+        all2DHistos[name]->SetDirectory(rootdir);
+    }
+    all2DHistos[name]->Fill(xval,yval,weight);
+}
+
+void fill2DHistograms(std::string name,float xval, float yval, double weight, std::unordered_map<std::string, TH2*> &all2DHistos, const char *title, int nbinsx, double xmin, double xmax, int nbinsy, const double *ybins, TDirectory *rootdir)
+{
+    if(strcmp(title, "") == 0)
+        title = name.c_str();
+    if(all2DHistos[name] == nullptr)
+    {
+        all2DHistos[name] = new TH2D(name.c_str(),title,nbinsx,xmin,xmax,nbinsy,ybins);
+        all2DHistos[name]->SetDirectory(rootdir);
+    }
+    all2DHistos[name]->Fill(xval,yval,weight);
+}
+
 
 
 void updateOverUnderflow( TH1D * &hist, double xmax, double xmin = -100000 ){

@@ -18,7 +18,7 @@ static const int n_metbins_wide_std = 6;
 const double metbins_wide_std[n_metbins_wide_std+1] = {0, 50, 100, 150, 225, 300, 500};
 
 static const int n_ptbins_std = 10;
-    const double ptbins_std[n_ptbins_std+1] = {0, 22, 33, 40, 55, 85, 105, 135, 180, 250, 6000};
+    const double ptbins_std[n_ptbins_std+1] = {0, 22, 33, 40, 55, 85, 105, 135, 180, 210, 6000};
 
     static const int n_ptbins_fine = 51;
     const double ptbins_fine[n_ptbins_fine+1] = {0, 22, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100, 105, 110, 115, 120, 125, 130, 135, 140, 145, 150, 155, 160, 165, 170, 175, 180, 185, 190, 195, 200, 205, 210, 215, 220, 225, 230, 235, 240, 245, 250, 300, 350, 400, 6001};
@@ -1839,14 +1839,14 @@ bool ZMETLooper::passFileSelections(){
     
   //Zjets Monte Carlo samples
   if ( (! phys.isData()) && TString(conf->get("data_set")).Contains("ZMC")){
-    //cout<<"Zjets MC event"<<endl;
-    if( TString(currentFile->GetTitle()).Contains("dy_m50_mgmlm") && (! TString(currentFile->GetTitle()).Contains("_ht")) ){
-      //cout<<"File: "<<currentFile->GetTitle()<<" with gen_ht: "<<phys.gen_ht()<<endl;
+    if( phys.evt_dataset().at(0).Contains("DYJetsToLL") and !phys.evt_dataset().at(0).Contains("HT")){
+        //cut inclusive MC at 100 GeV gen HT
       if( phys.gen_ht() > 100 ) {
         //cout<<"skipped"<<endl;
         numEvents->Fill(44);
         return false;
       }
+      /*
       if(phys.evt_scale1fb() > 30){
         numEvents->Fill(60);
         return false;
@@ -1855,19 +1855,20 @@ bool ZMETLooper::passFileSelections(){
         //cout<<"skipped"<<endl;
         numEvents->Fill(69);
         return false;
-      }
+      }*/
     }
+    /*
     if( TString(currentFile->GetTitle()).Contains("dy_m50_mgmlm_ht100")){
       if( abs(phys.gen_ht() - g_ht) > 300 ) {
         //cout<<"skipped"<<endl;
         numEvents->Fill(69);
         return false;
       }
-      /*if (conf->get("signal_region") == "TChiHZ" && phys.evt() == 24645544 && TString(conf->get("conf_path")).Contains("TemplatesClosure") ){
+      if (conf->get("signal_region") == "TChiHZ" && phys.evt() == 24645544 && TString(conf->get("conf_path")).Contains("TemplatesClosure") ){
         cout<<"Hand removed the one TChiHZ event"<<endl;
         return false;
-      }*/
-    }
+      }
+    }*/
   }
 
   //Photon MC samples
@@ -2923,60 +2924,12 @@ int ZMETLooper::ScanChain( TChain* chain, ConfigParser *configuration, bool fast
       fillCommonHists(commonHistPrefix);
 
       sumMETFilters = phys.Flag_HBHENoiseFilter()+phys.Flag_HBHEIsoNoiseFilter()+phys.Flag_CSCTightHaloFilter()+phys.Flag_EcalDeadCellTriggerPrimitiveFilter()+phys.Flag_goodVertices()+phys.Flag_eeBadScFilter();
-      //cout<<__LINE__<<endl;     
-      //fill1DHistograms("numMETFilters",sumMETFilters,1,allHistos,"Number of MET Filters"+g_sample_name,50,0,50,rootdir);
-//      numMETFilters->Fill(sumMETFilters);
-
-      /*if (weight < 0){
-         cout<<"Negative Weight2: "<<weight<<" "<<phys.evt()<<endl;
-      }
-      */
 
       if(conf->get("event_type") == "photon")
-      {
-          //fill1DHistograms("photonPt",gamma_p4().at(0).pt(),weight,allHistos,"Photon Pt for "+g_sample_name,1000,0,1000,rootdir);
-          //fill1DHistograms("photonEta",gamma_p4().at(0).eta(),weight,allHistos,"Photon Eta for "+g_sample_name,200,-2.4,2.4,rootdir);
+          fillPhotonCRHists();
+      if(conf->get("signal_region") == "TemplatesClosure")
+          fillClosureHists();
 
-//          PhotonPt->Fill(phys.gamma_p4().at(0).pt(),weight);
-//         PhotonEta->Fill(phys.gamma_p4().at(0).eta(),weight);
-      fillPhotonCRHists();
-      }
-/*
-      if (g_met != 0) {
-         
-        //fill1DHistograms("type1MET",g_met,weight,allHistos,"Type 1 MET for "+g_sample_name,6000,0,6000,rootdir);
- //       t1met->Fill(g_met, weight);
-        //fill1DHistogram("type1MET_widebin",g_met,weight,allHistos,"Type 1 MET for "+g_sample_name,n_metbins_wide_std,metbins_wide_std,rootdir);
-//        t1met_widebin->Fill(g_met, weight);
-      }i
-      if (phys.met_rawPt() != 0) rawmet->Fill(phys.met_rawPt(), weight);
-      if (g_ht != 0) {
-        ht->Fill(g_ht, weight);
-        ht_wide->Fill(g_ht, weight);
-      }
-      if (phys.gen_ht() != 0) gen_ht->Fill(phys.gen_ht(), weight);
-      if (bosonPt() != 0){ 
-        vpt->Fill(bosonPt(), weight); 
-        vpt_flat->Fill(bosonPt(), weight); 
-      }
-      njets->Fill(g_njets, weight);
-      nbtags_m->Fill(g_nBJetMedium, weight);
-      nbtags_l->Fill(phys.nBJetLoose(), weight);
-      nbtags_t->Fill(phys.nBJetTight(), weight);
-      nVert->Fill(phys.nVert(), weight);
-      nlep->Fill(phys.nlep(), weight);
-      //cout<<"Filling nisotrack"<<endl;
-      nisotrack->Fill(phys.nisoTrack_mt2(), weight);
-      //cout<<__LINE__<<endl;
-      if (g_mt2 != 0 ) mt2->Fill(g_mt2, weight);
-      //cout<<__LINE__<<endl;
-      if (g_mt2b != 0 ) mt2b->Fill(g_mt2b, weight);
-      //cout<<__LINE__<<endl;
-      if (g_njets > 0) dphi_jet1_met->Fill(acos(cos(g_met_phi - g_jets_p4.at(0).phi())), weight);
-      //cout<<__LINE__<<endl;
-      if (g_njets > 1) dphi_jet2_met->Fill(acos(cos(g_met_phi - g_jets_p4.at(1).phi())), weight);
-      //cout<<__LINE__<<endl;
-      if (conf->get("event_type") == "dilepton") dilmass->Fill(phys.dilmass(), weight);*/
 //===========================================
 // Signal Region Specific Histos
 //===========================================
@@ -3410,6 +3363,10 @@ int ZMETLooper::ScanChain( TChain* chain, ConfigParser *configuration, bool fast
   {
       it.second->Write();
   }
+  for(auto &it:all2DHistos)
+  {
+      it.second->Write();
+  }
   //close output file
   output->Write();
   output->Close();
@@ -3507,7 +3464,6 @@ void ZMETLooper::fillCommonHists(std::string prefix)
       }
       if (phys.gen_ht() != 0) 
           fill1DHistograms(prefix+"genht",phys.gen_ht(),weight,allHistos,"",6000,0,6000,rootdir);
-          //gen_ht->Fill(phys.gen_ht(), weight);
       if (bosonPt() != 0){
         fill1DHistograms(prefix+"vpt",bosonPt(),weight,allHistos,"",n_ptbins_std,ptbins_std,rootdir);
         fill1DHistograms(prefix+"vpt_fine",bosonPt(),weight,allHistos,"",n_ptbins_fine,ptbins_fine,rootdir);
@@ -3562,9 +3518,13 @@ void ZMETLooper::fillDileptonCRHists(std::string prefix)
     
 }
 
+
 void ZMETLooper::fillClosureHists(std::string prefix)
 {
-
+    fill1DHistograms(prefix+"genRecoHT",abs(phys.gen_ht() - g_ht),weight,allHistos,"",1000,0,1000,rootdir);
+    fill1DHistograms(prefix+"evtscale1fb",phys.evt_scale1fb(),weight,allHistos,"",1000,0,300,rootdir);
+    fill2DHistograms(prefix+"_PtvMET",g_met,bosonPt(),weight,all2DHistos,"",6000,0,6000,n_ptbins_std,ptbins_std,rootdir);
+    fill2DHistograms(prefix+"PtFinevsMET",g_met,bosonPt(),weight,all2DHistos,"",6000,0,6000,n_ptbins_fine,ptbins_fine,rootdir);
 }
 
 void ZMETLooper::fillSignalRegionHists(std::string prefix)
