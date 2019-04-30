@@ -1838,7 +1838,7 @@ bool ZMETLooper::passFileSelections(){
   
     
   //Zjets Monte Carlo samples
-  if ( (! phys.isData()) && TString(conf->get("data_set")).Contains("ZMC")){
+  if ( (! phys.isData()) && TString(conf->get("data_set")).Contains("ZMC") && conf->get("signal_region") == "TemplatesClosure"){
     if( phys.evt_dataset().at(0).Contains("DYJetsToLL") and !phys.evt_dataset().at(0).Contains("HT")){
         //cut inclusive MC at 100 GeV gen HT
       if( phys.gen_ht() > 100 ) {
