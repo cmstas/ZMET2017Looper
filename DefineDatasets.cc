@@ -14,6 +14,8 @@ std::unordered_map <std::string,std::vector<std::string>> readFromTextFile(std::
         }
         else
         {
+            if(line.back() == "/")
+                line += "*";
             datasets[currentDS].push_back(line);
         }
     }
