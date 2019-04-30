@@ -1,6 +1,7 @@
 #ifndef INCLUDED_HIST_TOOLS
 #define INCLUDED_HIST_TOOLS
 # include "TH1D.h"
+# include "TH2D.h"
 # include <vector>
 # include <string>
 # include <unordered_map>
