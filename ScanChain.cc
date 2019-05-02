@@ -2285,6 +2285,8 @@ int ZMETLooper::ScanChain( TChain* chain, ConfigParser *configuration, bool fast
   clear_list(); //Event duplicate removal clear list
 
   cout<<"Opening file "<<TString(savePath+conf->get("Name")+".root")<<endl;
+  std::string folderCreation = "mkdir -p" + savePath;
+  system(folderCreation.c_str());
   TFile * output = new TFile(TString(savePath+conf->get("Name")+".root"), "RECREATE");
   output->cd();
 
