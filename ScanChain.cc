@@ -590,7 +590,7 @@ int ZMETLooper::hasGoodZ(){
     //For this legacy region, don't apply dilepton pT or dRll cuts.
   }
   else{
-    if( phys.dilpt() <25 ){
+    if( phys.dilpt() < 55 ){
       numEvents->Fill(26);
       if (printFail) cout<<phys.evt()<<" :Failed Z pt cut"<<endl;
       return -1;
@@ -682,7 +682,7 @@ bool ZMETLooper::hasGoodPhoton(){
     return false; // photon + jets events
   }
   
-  if( phys.gamma_pt().at(0) < 22 ) {
+  if( phys.gamma_pt().at(0) < 55 ) {
     numEvents->Fill(26);
     if (printFail) cout<<phys.evt()<<" :Failed pt < 25 photon cut"<<endl;
     return false; // photon pt > 22 GeV
