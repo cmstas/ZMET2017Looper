@@ -3,8 +3,8 @@
 ## Functions for doing 2017 MET Closure Tests
 ## Bobak Hashemi
 
-HIST_OUTPUT_LOCATION=`cat ConfigHelper.cc | grep "^TString HIST_OUTPUT_LOCATION =" |sed "s/.*HIST_OUTPUT_LOCATION =\"\(.*\)\";*/\1/g"`
-PLOT_OUTPUT_LOCATION=`cat ConfigHelper.cc | grep "^TString PLOT_OUTPUT_LOCATION =" | sed "s/.*PLOT_OUTPUT_LOCATION =\"\(.*\)\";*/\1/g"`
+HIST_OUTPUT_LOCATION=`cat ConfigHelper.cc | grep "TString HIST_OUTPUT_LOCATION =" |sed "s/.*HIST_OUTPUT_LOCATION = \"\(.*\)\";*/\1/g"`
+PLOT_OUTPUT_LOCATION=`cat ConfigHelper.cc | grep "TString PLOT_OUTPUT_LOCATION =" | sed "s/.*PLOT_OUTPUT_LOCATION = \"\(.*\)\";*/\1/g"`
 mkdir -p outputs/
 function makePlots {
 	if [[ $# < 1 ]]
@@ -30,7 +30,7 @@ function makeHistos {
 	#./preprocessConf.py $2
 
 	#nice -n 19 root -l -b -q "doAll.C+(\"$1\", \"$conf_tmp_path\")" | tee ${HIST_OUTPUT_LOCATION}${SR_IDENTITY}/$1.output
-    echo "./ZMETLooper $1 $2 > ${HIST_OUTPUT_LOCATION}${SR_IDENTITY}/$1.out &"
+    echo "nohup ./ZMETLooper $1 $2 > ${HIST_OUTPUT_LOCATION}${SR_IDENTITY}/$1.out &"
     nohup ./ZMETLooper $1 $2 > ${HIST_OUTPUT_LOCATION}${SR_IDENTITY}/$1.out &
 	#echo https://github.com/bth5032/ZMETBabyLooper2017/commit/`git rev-parse HEAD`/ > ${HIST_OUTPUT_LOCATION}${SR_IDENTITY}/commiturl.txt
 }
