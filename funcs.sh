@@ -3,9 +3,9 @@
 ## Functions for doing 2017 MET Closure Tests
 ## Bobak Hashemi
 
-HIST_OUTPUT_LOCATION=`cat ConfigHelper.C | grep "^TString HIST_OUTPUT_LOCATION=" |sed "s/.*HIST_OUTPUT_LOCATION=\"\(.*\)\";*/\1/g"`
-PLOT_OUTPUT_LOCATION=`cat ConfigHelper.C | grep "^TString PLOT_OUTPUT_LOCATION=" | sed "s/.*PLOT_OUTPUT_LOCATION=\"\(.*\)\";*/\1/g"`
-
+HIST_OUTPUT_LOCATION=`cat ConfigHelper.cc | grep "^TString HIST_OUTPUT_LOCATION =" |sed "s/.*HIST_OUTPUT_LOCATION =\"\(.*\)\";*/\1/g"`
+PLOT_OUTPUT_LOCATION=`cat ConfigHelper.cc | grep "^TString PLOT_OUTPUT_LOCATION =" | sed "s/.*PLOT_OUTPUT_LOCATION =\"\(.*\)\";*/\1/g"`
+mkdir -p outputs/
 function makePlots {
 	if [[ $# < 1 ]]
 	then
@@ -24,14 +24,16 @@ function makePlots {
 	echo https://github.com/bth5032/ZMETBabyLooper2017/commit/`git rev-parse HEAD`/ > ${PLOT_OUTPUT_LOCATION}${SR_IDENTITY}`basename $conf_filename .conf`/commiturl.txt
 }
 
-function makeHistos {	
+function makeHistos {
 	mkdirs $2 hists
-	conf_tmp_path=${2//.conf/.conf_tmp}
-	./preprocessConf.py $2
-	
-	nice -n 19 root -l -b -q "doAll.C+(\"$1\", \"$conf_tmp_path\")" | tee ${HIST_OUTPUT_LOCATION}${SR_IDENTITY}/$1.output
-	echo https://github.com/bth5032/ZMETBabyLooper2017/commit/`git rev-parse HEAD`/ > ${HIST_OUTPUT_LOCATION}${SR_IDENTITY}/commiturl.txt
-}	
+	#conf_tmp_path=${2//.conf/.conf_tmp}
+	#./preprocessConf.py $2
+
+	#nice -n 19 root -l -b -q "doAll.C+(\"$1\", \"$conf_tmp_path\")" | tee ${HIST_OUTPUT_LOCATION}${SR_IDENTITY}/$1.output
+    echo "./ZMETLooper $1 $2 > ${HIST_OUTPUT_LOCATION}${SR_IDENTITY}/$1.out &"
+    nohup ./ZMETLooper $1 $2 > ${HIST_OUTPUT_LOCATION}${SR_IDENTITY}/$1.out &
+	#echo https://github.com/bth5032/ZMETBabyLooper2017/commit/`git rev-parse HEAD`/ > ${HIST_OUTPUT_LOCATION}${SR_IDENTITY}/commiturl.txt
+}
 
 function setOutputLocations {
 	if [[ $# > 0 ]]
@@ -49,13 +51,13 @@ function setOutputLocations {
 
 function mkdirs {
 	conf_filename=$1
-	setOutputLocations $conf_filename 
+	setOutputLocations $conf_filename
 
 	if [[ $2 == "hists" ]]
 	then
 		#Make Hist output location if it's not there
 		if [[ ! -d ${HIST_OUTPUT_LOCATION}${SR_IDENTITY} ]]
-		then	
+		then
 			mkdir -p ${HIST_OUTPUT_LOCATION}${SR_IDENTITY}
 		fi
 
@@ -168,14 +170,14 @@ function addIndexToDirTree {
 
 	while [[ ${topdir%ZMET2017*} == "/home/users/bhashemi/public_html/" ]]
 	do
-		
+
 		if [[ ! -a ${topdir}/index.php ]]
 		then
 			cp ~/public_html/index.php ${topdir}/index.php
 		fi
 
 		topdir=`dirname $topdir`
-	
+
 	done
 }
 
@@ -192,15 +194,11 @@ function makeAllConfigs {
 	done
 }
 
-function numjobs {
-	psout=`ps aux | grep bsathian | grep "configs/"` 
+function monitorJobs {
+	psout=`ps aux | grep bsathian | grep "configs/"`
 
-	if [[ $1 == "v" ]]
-	then 
-		echo "$psout" | grep "root -l"
-	fi
+	echo "$psout" | grep "ZMETLooper"
 
-	echo "scale=3; "`echo "$psout" | wc  -l`"*(1/2) - 1/2" | bc;
 }
 
 function pullHists {
@@ -211,7 +209,7 @@ function pullHists {
 		return 1
 	fi
 
-	scp uaf:${HIST_OUTPUT_LOCATION}${SR_IDENTITY}*.root histos/ 
+	scp uaf:${HIST_OUTPUT_LOCATION}${SR_IDENTITY}*.root histos/
 }
 
 function killjobs {
@@ -236,7 +234,7 @@ function addHists {
 
 	for arg in ${@:3}
 	do
-		HADD_LIST="$HADD_LIST ${HIST_OUTPUT_LOCATION}${SR_IDENTITY}${arg}.root" 
+		HADD_LIST="$HADD_LIST ${HIST_OUTPUT_LOCATION}${SR_IDENTITY}${arg}.root"
 	done
 
 	echo "Running: hadd ${HIST_OUTPUT_LOCATION}${SR_IDENTITY}$1.root $HADD_LIST"
@@ -317,12 +315,12 @@ function effTable {
 	#===========================================================
 	# Prints the efficiency table for the configuration with
 	# a few cosmetic fixes, such a removing {document} tags and
-	# changing ranges x-6001 to x+. 
+	# changing ranges x-6001 to x+.
 	#
-	# This is mainly used for the Templates Closure Tests at the 
+	# This is mainly used for the Templates Closure Tests at the
 	# moment, which are default output to outputs/efficiency_table...
 	#===========================================================
-	
+
 
 	if [[ $# < 1 ]]
 	then
@@ -356,7 +354,7 @@ function backupConfig {
 	# you to leave a message in the backup dir which tells what has
 	# changed in the new version.
 	#===========================================================
-	
+
 	backupConfig_path=$1
 
 	if [[ $# < 1 ]]
@@ -386,14 +384,14 @@ function backupConfig {
   	return
   fi
 
- 	if [[ -d ${backupConfig_histdir} ]] 
+ 	if [[ -d ${backupConfig_histdir} ]]
  	then
  		read -p "move hists at ${backupConfig_histdir} to ${backupConfig_histbak}? (y/n)" backupConfig_moveHists
 	else
 		echo "No previous hists found at ${backupConfig_histdir}"
 	fi
 
-	if [[ -d ${backupConfig_plotdir} ]] 
+	if [[ -d ${backupConfig_plotdir} ]]
  	then
  		read -p "move plots at ${backupConfig_plotdir} to ${backupConfig_plotbak}? (y/n)" backupConfig_movePlots
 	else
