@@ -23,6 +23,7 @@ class ConfigParser
     string cleanedArg(const string &arg);
     bool addOpt(string opt_kjey, string opt_value, bool default_opt = false);
     void extractOptFromLine(string line, bool default_opt = false);
+    void loadIncludedFiles(std::string incl_fileName);
 
     public:
     ConfigParser(string filename);

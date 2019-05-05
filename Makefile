@@ -97,7 +97,8 @@ clean:
 	rm -f \
 	LinkDef_out* \
 	*.o \
-	*.so
+	*.so \
+	ZMETLooper
 
 
 

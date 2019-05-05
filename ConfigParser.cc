@@ -80,6 +80,21 @@ string ConfigParser::findNextConfig(){
 		return "";
 	}
 
+void ConfigParser::loadIncludedFiles(std::string incl_fileName)
+{
+   ifstream inclFile(incl_fileName);
+   std::string line,opt_line;
+   while(getline(inclFile,line))
+   {
+        if (line.substr(0, 9) == "DEFAULT::"){
+            opt_line=line.substr(9);
+			//cout<<"Found default opt: "<<opt_line<<endl;
+			extractOptFromLine(opt_line, true); //if we find an option this way, add it to the defaults map. 
+			}
+   }
+}
+
+
 bool ConfigParser::loadNextConfig(){
 		//loads the next configuration, will load the first one if called before any other config.
 		config_file->seekg(currentLocation);
@@ -115,11 +130,19 @@ bool ConfigParser::loadNextConfig(){
 		string opt_line; //Holds lines like option="value".
 		string opt_key; //Holds 'option' in the above example
 		string opt_value; //Holds "value" in the above example
+        string incl_config_fileName;
 
 		while(getline(*config_file, line)){
 
 			//cout<<"MAIN LOOP"<<line<<endl;
 			if (line.front() == '#') continue; //allow for comments
+
+            if(line.substr(0,8) == "<include")
+            {
+                incl_config_fileName=line.substr(9,line.size()-1-9);
+                cout<<"included file="<<incl_config_fileName<<endl;
+                loadIncludedFiles(incl_config_fileName);
+            }
 
 			if (line.substr(0, 9) == "DEFAULT::"){
 				opt_line=line.substr(9);
