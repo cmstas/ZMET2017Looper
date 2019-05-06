@@ -985,7 +985,7 @@ double ZMETLooper::getWeight(){
     
     //cout<<__LINE__<<endl;
     
-    if (TString(conf->get("data_set")).Contains("GammaData-EWKSub")){
+    if (TString(conf->get("name")).Contains("EWKSub")){
       weight *= -1; //EWK Subtraction
     }
   }
