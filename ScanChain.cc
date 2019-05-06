@@ -750,6 +750,12 @@ bool ZMETLooper::hasGoodPhoton(){
       return false;
     }
   }
+
+  if(conf->get("dr_min_photon_parton")! = "")
+  {
+      if(phys.gamma_drMinParton() < stoi(conf->get("dr_min_photon_parton")))
+          return false;
+  }
   
   //if (printPass) cout<<phys.evt()<<": Passes good gamma Cuts"<<endl;
   return true;  
@@ -2266,7 +2272,7 @@ int ZMETLooper::ScanChain( TChain* chain, ConfigParser *configuration, bool fast
     }
   }
 
-  TString savePath = getOutputDir(conf, "hist");
+ TString savePath = getOutputDir(conf, "hist");
   ofstream files_log;
   files_log.open((savePath+TString(g_sample_name+"_files.log")).Data());
   //cout<<__LINE__<<endl;
