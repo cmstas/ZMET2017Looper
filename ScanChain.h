@@ -14,6 +14,7 @@
 #include <fstream>
 #include <unordered_map>
 #include <cstdlib>
+#include <algorithm>
 
 // ROOT
 #include "TBenchmark.h"

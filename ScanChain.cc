@@ -751,9 +751,9 @@ bool ZMETLooper::hasGoodPhoton(){
     }
   }
 
-  if(conf->get("dr_min_photon_parton")! = "")
+  if(conf->get("dr_min_photon_parton") != "")
   {
-      if(phys.gamma_drMinParton() < stoi(conf->get("dr_min_photon_parton")))
+      if(*std::min_element(phys.gamma_drMinParton().begin(),phys.gamma_drMinParton().end()) < stoi(conf->get("dr_min_photon_parton")))
           return false;
   }
   
