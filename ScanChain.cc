@@ -1684,7 +1684,7 @@ bool ZMETLooper::passMETFilters(){
       if (printFail) cout<<phys.evt()<<" :Failed nJet200MuFrac50DphiMet cut"<<endl;
       return false;
     }
-    if ((g_met / phys.met_calo_pt()) > 5){
+    if (g_year == 2016 && (g_met / phys.met_calo_pt()) > 5){
       numEvents->Fill(71);
       if (printFail) cout<<phys.evt()<<" :Failed T1MET/CaloMET cut"<<endl;
       return false;
