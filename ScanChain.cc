@@ -590,7 +590,7 @@ int ZMETLooper::hasGoodZ(){
     //For this legacy region, don't apply dilepton pT or dRll cuts.
   }
   else{
-    if( phys.dilpt() < 55 ){
+    if( phys.dilpt() < 25 ){
       numEvents->Fill(26);
       if (printFail) cout<<phys.evt()<<" :Failed Z pt cut"<<endl;
       return -1;
