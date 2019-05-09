@@ -116,6 +116,8 @@ class ZMETLooper
     const int W_MASS = 80;
     const int H_MASS = 125;
 
+    double z_pt;
+
 
     /* returns two most B-like jet indicies */
     pair<int, int> getMostBlike();

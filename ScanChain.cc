@@ -464,6 +464,7 @@ bool ZMETLooper::passLeptonHLTs(){
 //=============================
 
 int ZMETLooper::hasGoodZ(){
+
   if( phys.nlep() < 2         ){ 
     numEvents->Fill(10);
     if (printFail) cout<<phys.evt()<<" :Failed 2 lepton Z cut"<<endl;
@@ -590,7 +591,8 @@ int ZMETLooper::hasGoodZ(){
     //For this legacy region, don't apply dilepton pT or dRll cuts.
   }
   else{
-    if( phys.dilpt() < 25 ){
+      z_pt = (conf->get("z_pt") != "") ? stoi(conf->get("z_pt")) : 55;
+    if( phys.dilpt() < z_pt){
       numEvents->Fill(26);
       if (printFail) cout<<phys.evt()<<" :Failed Z pt cut"<<endl;
       return -1;
