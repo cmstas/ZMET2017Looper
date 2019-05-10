@@ -37,6 +37,8 @@ efficiency_table*
 #Local Scratch Directory
 scratch/
 
+*.out
+
 LinkDef_out.cxx
 LinkDef_out.o
 ZMETLooper
