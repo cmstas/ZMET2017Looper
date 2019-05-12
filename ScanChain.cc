@@ -17,8 +17,8 @@ const double weight_log_bins[n_weight_log_bins+1] = {-5, -4.5, -4, -3.5, -3, -2.
 static const int n_metbins_wide_std = 6;
 const double metbins_wide_std[n_metbins_wide_std+1] = {0, 50, 100, 150, 225, 300, 500};
 
-static const int n_ptbins_std = 10;
-    const double ptbins_std[n_ptbins_std+1] = {0, 22, 33, 40, 55, 85, 105, 135, 180, 210, 6000};
+static const int n_ptbins_std = 20;
+    const double ptbins_std[n_ptbins_std+1] = {0, 11,22,27,33,37,40,48,55, 70,85,95, 105,120, 135, 158,180,195, 210,500, 6000};
 
     static const int n_ptbins_fine = 51;
     const double ptbins_fine[n_ptbins_fine+1] = {0, 22, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100, 105, 110, 115, 120, 125, 130, 135, 140, 145, 150, 155, 160, 165, 170, 175, 180, 185, 190, 195, 200, 205, 210, 215, 220, 225, 230, 235, 240, 245, 250, 300, 350, 400, 6001};
