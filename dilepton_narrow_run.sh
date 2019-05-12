@@ -15,7 +15,7 @@ nohup ./ZMETLooper $sampleName configs/2017/DoubleLepton_narrow/MCTemplates/run_
 mkdir -p ../hists2017/DoubleLepton_narrow/dataTemplates
 for sampleName in ZJets GammaJets
 do
-    cp ../hists2017/DoubleLepton_narrow/MCTemplates/$sampleName.root ../hists2017/DoubleLepton_narrow/dataTemplates/$(sampleName)_MC.root
+    cp ../hists2017/DoubleLepton_narrow/MCTemplates/$sampleName.root ../hists2017/DoubleLepton_narrow/dataTemplates/$sampleName\_MC.root
 done
 #Do reweight of GammaData and EWKSub MCs
 for sampleName in GammaData WJets-EWKSub WGamma-EWKSub TTJets-2lep-EWKSub TTJets-1lep-EWKSub SingleTop-EWKSub
