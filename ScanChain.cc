@@ -1311,6 +1311,13 @@ bool ZMETLooper::passSignalRegionCuts(){
 
 
   //cout<<__LINE__<<endl;
+  //
+  //
+  if(!phys.isData() and conf->get("genHT_min") != "")
+  {
+      if(phys.gen_ht() < stod(conf->get("genHT_min")))
+          return false;
+  }
   //HT min
   if (conf->get("HT_min") != ""){
   //if (printStats) { cout<<"ht: "<<g_ht<<" "; }
