@@ -1748,11 +1748,11 @@ bool ZMETLooper::passBaseCut(){
       if (printFail) cout<<phys.evt()<<" :Failed multi-lepton analysis lepton veto"<<endl;
       return false;
     }
-    if (phys.nTaus20() >= 1){
+/*    if (phys.nTaus20() >= 1){
       numEvents->Fill(75);
       if (printFail) cout<<phys.evt()<<" :Failed Tau veto"<<endl;
       return false;
-    }
+    }*/
   }
 
   if(conf->get("multi_lep_veto") != ""){
