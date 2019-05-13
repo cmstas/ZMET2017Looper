@@ -2309,8 +2309,11 @@ int ZMETLooper::ScanChain( TChain* chain, ConfigParser *configuration, bool fast
  if(conf->get("dilep_control_region") == "true" and conf->get("data") == "true")
  {
      ee_numEvents = new TH1I("ee_numEvents","ee_numEvents",80,0,80); 
-     mumu_numEvents = new TH1I("ee_numEvents","ee_numEvents",80,0,80);  
-     emu_numEvents = new TH1I("ee_numEvents","ee_numEvents",80,0,80);
+     ee_numEvents->SetDirectory(rootdir);
+     mumu_numEvents = new TH1I("mumu_numEvents","ee_numEvents",80,0,80);  
+     mumu_numEvents->SetDirectory(rootdir);
+     emu_numEvents = new TH1I("emu_numEvents","ee_numEvents",80,0,80);
+     emu_numEvents->SetDirectory(rootdir);
  }
 
   else {
