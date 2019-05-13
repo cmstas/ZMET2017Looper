@@ -85,6 +85,7 @@ class ZMETLooper
     int g_year;
 
     TH1I *numEvents; //Holds the number of events in the whole script and the number that pass various cuts 
+    TH1I *ee_numEvents,*mumu_numEvents,*emu_numEvents;
 
     bool printStats;
     bool printFail;

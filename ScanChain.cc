@@ -2306,8 +2306,18 @@ int ZMETLooper::ScanChain( TChain* chain, ConfigParser *configuration, bool fast
   output->cd();
 
  //Special snowflake histogram - Cannot go into the main map
-  numEvents = new TH1I("numEvents", "Number of events in "+g_sample_name, 80, 0, 80);
-  numEvents->SetDirectory(rootdir);
+ if(conf->get("dilep_control_region") == "true" and conf->get("data") == "true")
+ {
+     ee_numEvents = new TH1I("ee_numEvents","ee_numEvents",80,0,80); 
+     mumu_numEvents = new TH1I("ee_numEvents","ee_numEvents",80,0,80);  
+     emu_numEvents = new TH1I("ee_numEvents","ee_numEvents",80,0,80);
+ }
+
+  else {
+    numEvents = new TH1I("numEvents", "Number of events in "+g_sample_name, 80, 0, 80);
+    numEvents->SetDirectory(rootdir);
+ }
+ 
   
   TH1D *sum_mlb, *m_bb_csv, *m_bb_bpt, *mt2j, *sum_pt_z_bb, *mt2_fromb, *mt2_hz;
   TH2D *MT2_MT2B, *MT2_MT2_fromb, *MT2_MT2_HZ;
@@ -2607,6 +2617,16 @@ int ZMETLooper::ScanChain( TChain* chain, ConfigParser *configuration, bool fast
     //cout<<__LINE__<<endl;
     files_log<<"Running over new file: "<<currentFile->GetTitle()<<endl;
     cout<<"Running over new file: "<<currentFile->GetTitle()<<endl;
+
+    if(conf->get("dilep_control_region") == "true" and phys.isData())
+    {
+        if(TString(currentFile->GetTitle()).Contains("DoubleEG"))
+            numEvents = ee_numEvents;
+        else if(TString(currentFile->GetTitle()).Contains("DoubleMuon"))
+            numEvents = mumu_numEvents;
+        else if(TString(currentFile->GetTitle()).Contains("MuonEG"))
+            numEvents = emu_numEvents;
+    }
 
     if (conf->get("susy_mc") == "true") updateSUSYBtagISRNorms();
 //===========================================
