@@ -3121,22 +3121,7 @@ int ZMETLooper::ScanChain( TChain* chain, ConfigParser *configuration, bool fast
 
     susy_type1MET_isr_up_2d->Write();
   }
-  if(conf->get("ECalTest") != ""){
-    dphi_gamma_MET->Write();
-    dphi_gamma_MET100->Write();
-    dphi_gamma_MET200->Write();
-    dphi_gamma_MET300->Write();
-    dphi_gamma_MET400->Write();
-    dphi_gamma_MET500->Write();
-
-    pt_gamma_MET100->Write();
-    pt_gamma_MET200->Write();
-    pt_gamma_MET300->Write();
-    pt_gamma_MET400->Write();
-    pt_gamma_MET500->Write();
-  }
-  
-  if (conf->get("fat_jet_study") == "true"){
+    if (conf->get("fat_jet_study") == "true"){
     fj_ewkBoson_jetpt->Write();
     fj_DeltaR->Write();
   }
