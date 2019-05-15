@@ -8,6 +8,7 @@ void fill1DHistograms(std::string name, float xval, double weight, std::unordere
     {
         allHistos[name] = new TH1D(name.c_str(),title,nbins,xmin,xmax);
         allHistos[name]->SetDirectory(rootdir);
+        allHistos[name]->Sumw2();
     }
 
     allHistos[name]->Fill(xval,weight);
@@ -22,6 +23,7 @@ void fill1DHistograms(std::string name, float xval, double weight, std::unordere
     {
         allHistos[name] = new TH1D(name.c_str(),title,nbins,xbins);
         allHistos[name]->SetDirectory(rootdir);
+        allHistos[name]->Sumw2();
     }
 
     allHistos[name]->Fill(xval,weight);
@@ -36,6 +38,7 @@ void fill2DHistograms(std::string name,float xval, float yval, double weight, st
     {
         all2DHistos[name] = new TH2D(name.c_str(),title,nbinsx,xmin,xmax,nbinsy,ymin,ymax);
         all2DHistos[name]->SetDirectory(rootdir);
+        all2DHistos[name]->Sumw2();
     }
 
     all2DHistos[name]->Fill(xval,yval,weight);
@@ -49,6 +52,8 @@ void fill2DHistograms(std::string name,float xval, float yval, double weight, st
     {
         all2DHistos[name] = new TH2D(name.c_str(),title,nbinsx,xbins,nbinsy,ymin,ymax);
         all2DHistos[name]->SetDirectory(rootdir);
+        all2DHistos[name]->Sumw2();
+
     }
     all2DHistos[name]->Fill(xval,yval,weight);
 }
@@ -61,6 +66,7 @@ void fill2DHistograms(std::string name,float xval, float yval, double weight, st
     {
         all2DHistos[name] = new TH2D(name.c_str(),title,nbinsx,xbins,nbinsy,ybins);
         all2DHistos[name]->SetDirectory(rootdir);
+        all2DHistos[name]->Sumw2();
     }
     all2DHistos[name]->Fill(xval,yval,weight);
 }
@@ -73,6 +79,8 @@ void fill2DHistograms(std::string name,float xval, float yval, double weight, st
     {
         all2DHistos[name] = new TH2D(name.c_str(),title,nbinsx,xmin,xmax,nbinsy,ybins);
         all2DHistos[name]->SetDirectory(rootdir);
+        all2DHistos[name]->Sumw2();
+
     }
     all2DHistos[name]->Fill(xval,yval,weight);
 }
