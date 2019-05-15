@@ -8,6 +8,8 @@ std::unordered_map <std::string,std::vector<std::string>> readFromTextFile(std::
     std::unordered_map<std::string, std::vector<std::string>> datasets;
     while(std::getline(f,line))
     {
+        if(line.length() == 0)
+            continue;
         if(line.at(0) == '#') //comment
             continue;
         if(line.find("ds") == 0)

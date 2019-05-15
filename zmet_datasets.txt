@@ -110,4 +110,3 @@ ds:ZMC-closure-200400
 /hadoop/cms/store/user/bsathian/ZMET_babies/DYJetsToLL_M-50_HT-200to400_TuneCP5_13TeV-madgraphMLM-pythia8_RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v2_MINIAODSIM_ZMET_babies_new/
 ds:ZMC-closure-12002500
 /hadoop/cms/store/user/bsathian/ZMET_babies/DYJetsToLL_M-50_HT-1200to2500_TuneCP5_13TeV-madgraphMLM-pythia8_RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1_MINIAODSIM_ZMET_babies_new/
-
