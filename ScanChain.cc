@@ -1,5 +1,4 @@
 #include "ScanChain.h"
-#include "ScanChain_shared.h"
 //=============================
 // Variable Computation
 //=============================
@@ -107,6 +106,30 @@ ZMETLooper::ZMETLooper()
     printFail = false;
 
     dil_flavor = -1;
+}
+
+double ZMETLooper::computeMht()
+{
+    LorentzVector sumMht_p4 = LorentzVector(0,0,0,0);
+    for(auto &it:phys.jets_p4())
+    {
+        sumMht_p4 -= it;
+    }
+    if(conf->get("event_type") != "photon")
+    {
+        for(auto &it:phys.lep_p4())
+        {
+            sumMht_p4 -= it;
+        }
+    }
+    else
+    {
+        for(auto &it:phys.gamma_p4())
+        {
+            sumMht_p4 -= it;
+        }
+    }
+    return sumMht_p4.pt();
 }
 
 
@@ -1700,12 +1723,27 @@ bool ZMETLooper::passMETFilters(){
     }
   }
   if (conf->get("susy_mc") != "true"){
-    if (!phys.Flag_globalTightHalo2016            ()      ){ 
+    if (!phys.Flag_globalSuperTightHalo2016()){ 
       numEvents->Fill(4);
-      if (printFail) cout<<phys.evt()<<" :Failed CSCTightHalo2015Filter cut"<<endl;
+      if (printFail) cout<<phys.evt()<<" :Failed globalSuperTightHalo2016 cut"<<endl;
       return false;
     }
   }
+
+  if(!phys.Flag_badChargedCandidateFilter())
+  {
+      numEvents->Fill(51);
+      if(printFail) cout<<phys.evt()<<" :Failed BadChargedCandidate filter"<<endl;
+      return false;
+  }
+
+  if(!phys.Flag_BadMuonFilter())
+  {
+      numEvents->Fill(50);
+      if(printFail) cout<<phys.evt()<<" :Failed BadMuonFilter"<<endl;
+      return false;
+  }
+
   if ( phys.isData() ) {
     if (!phys.Flag_eeBadScFilter                     ()      ) { 
       numEvents->Fill(7);
@@ -2078,6 +2116,7 @@ void ZMETLooper::setupGlobals(){
     g_mt2 = phys.mt2();
     g_mt2b = phys.mt2b();
     g_ht = phys.ht();
+    g_mht = computeMht();
     g_jets_p4 = phys.jets_p4();
     g_jets_medb_p4 = phys.jets_medb_p4();
     g_jets_csv = phys.jets_csv();
@@ -3227,8 +3266,12 @@ void ZMETLooper::fillCommonHists(std::string prefix)
       if (g_ht != 0) {
         fill1DHistograms(prefix+"ht",g_ht,weight,allHistos,"",6000,0,6000,rootdir);
         fill1DHistograms(prefix+"ht_wide",g_ht,weight,allHistos,"",60,0,6000,rootdir);
-        //ht->Fill(g_ht, weight);
-        //ht_wide->Fill(g_ht, weight);
+      }
+
+      if(g_mht != 0)
+      {
+        fill1DHistograms(prefix+"mht",g_mht,weight,allHistos,"",6000,0,6000);
+        fill1DHistograms(prefix+"met/mht",g_met/g_mht,weight,allHistos,"",6000,0,6000);
       }
       if (phys.gen_ht() != 0) 
           fill1DHistograms(prefix+"genht",phys.gen_ht(),weight,allHistos,"",6000,0,6000,rootdir);
@@ -3257,6 +3300,8 @@ void ZMETLooper::fillCommonHists(std::string prefix)
       //cout<<__LINE__<<endl;
       if (g_njets > 1) 
           fill1DHistograms(prefix+"dphi_jet2_met",acos(cos(g_met_phi - g_jets_p4.at(1).phi())),weight,allHistos,"",100,0,3.15,rootdir);
+      if(g_nets > 2)
+          fill1DHistograms(prefix+"dphi_jet3_met",acos(cos(g_met_phi - g_jets_p4.at(2).phi())),weight,allHistos,"",100,0,3.15,rootdir);
 
     
 }
@@ -3265,6 +3310,7 @@ void ZMETLooper::fillPhotonCRHists(std::string prefix)
 {
     fill1DHistograms(prefix+"photonPt",phys.gamma_p4().at(0).pt(),weight,allHistos,"",1000,0,1000,rootdir);
     fill1DHistograms(prefix+"photonEta",phys.gamma_p4().at(0).eta(),weight,allHistos,"",200,-2.4,2.4,rootdir);
+    fill1DHistograms(prefix+"photonPhi",phys.gamma_p4().at(0).phi(),weight,allHistos,"",400,-6.30,6.30,rootdir);
 }
 
 void ZMETLooper::fillGammaMuCRHists(std::string prefix)

@@ -104,6 +104,7 @@ class ZMETLooper
     double g_mt2;
     double g_mt2b;
     double g_ht;
+    double g_mht;
 
     vector<float> g_jets_csv;
     vector<LorentzVector> g_jets_p4;
