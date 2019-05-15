@@ -1737,7 +1737,7 @@ bool ZMETLooper::passMETFilters(){
       return false;
   }
 
-  if(!phys.Flag_BadMuonFilter())
+  if(!phys.Flag_badMuonFilter())
   {
       numEvents->Fill(50);
       if(printFail) cout<<phys.evt()<<" :Failed BadMuonFilter"<<endl;
@@ -3300,7 +3300,7 @@ void ZMETLooper::fillCommonHists(std::string prefix)
       //cout<<__LINE__<<endl;
       if (g_njets > 1) 
           fill1DHistograms(prefix+"dphi_jet2_met",acos(cos(g_met_phi - g_jets_p4.at(1).phi())),weight,allHistos,"",100,0,3.15,rootdir);
-      if(g_nets > 2)
+      if(g_njets > 2)
           fill1DHistograms(prefix+"dphi_jet3_met",acos(cos(g_met_phi - g_jets_p4.at(2).phi())),weight,allHistos,"",100,0,3.15,rootdir);
 
     

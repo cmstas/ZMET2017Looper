@@ -315,6 +315,7 @@ class ZMETLooper
     void fillClosureHists(std::string prefix = "");
     void fillSignalRegionHists(std::string prefix = "");
     void fillEcalHists(std::string prefix = "");
+    double computeMht(); 
     //SR Hists comin' soon...
     //
 
