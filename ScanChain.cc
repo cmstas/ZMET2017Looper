@@ -3270,8 +3270,8 @@ void ZMETLooper::fillCommonHists(std::string prefix)
 
       if(g_mht != 0)
       {
-        fill1DHistograms(prefix+"mht",g_mht,weight,allHistos,"",6000,0,6000);
-        fill1DHistograms(prefix+"met/mht",g_met/g_mht,weight,allHistos,"",6000,0,6000);
+        fill1DHistograms(prefix+"mht",g_mht,weight,allHistos,"",6000,0,6000,rootdir);
+        fill1DHistograms(prefix+"met/mht",g_met/g_mht,weight,allHistos,"",6000,0,6000,rootdir);
       }
       if (phys.gen_ht() != 0) 
           fill1DHistograms(prefix+"genht",phys.gen_ht(),weight,allHistos,"",6000,0,6000,rootdir);
