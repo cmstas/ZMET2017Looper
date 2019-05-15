@@ -13,7 +13,7 @@
 #include <unistd.h>
 typedef ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > LorentzVector;
 
-// Generated with file: /hadoop/cms/store/user/bsathian/ZMET_babies/DoubleMuon_Run2017B-31Mar2018-v1_MINIAOD_ZMET_babies/baby_10.root
+// Generated with file: /hadoop/cms/store/user/bsathian/ZMET_babies/DYJetsToLL_M-50_TuneCP5_13TeV-amcatnloFXFX-pythia8_RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_mc2017_realistic_v14_ext1-v1_MINIAODSIM_ZMET_babies_new/baby_20.root
 
 using namespace std;
 class ZMET2016 {
@@ -908,6 +908,9 @@ protected:
   int HLT_Photon120_R9Id90_HE10_IsoM_;
   TBranch *HLT_Photon120_R9Id90_HE10_IsoM_branch;
   bool HLT_Photon120_R9Id90_HE10_IsoM_isLoaded;
+  int Flag_globalSuperTightHalo2016_;
+  TBranch *Flag_globalSuperTightHalo2016_branch;
+  bool Flag_globalSuperTightHalo2016_isLoaded;
   float weight_btagsf_;
   TBranch *weight_btagsf_branch;
   bool weight_btagsf_isLoaded;
@@ -1502,6 +1505,7 @@ public:
   const float &met_T1CHS_miniAOD_CORE_dn_pt();
   const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &isotrack_p4();
   const int &HLT_Photon120_R9Id90_HE10_IsoM();
+  const int &Flag_globalSuperTightHalo2016();
   const float &weight_btagsf();
   const int &HLT_DoubleMu_dbltk();
   const int &HLT_Photon110EB_TightID_TightIso();
@@ -1905,6 +1909,7 @@ namespace zmet {
   const float &met_T1CHS_miniAOD_CORE_dn_pt();
   const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &isotrack_p4();
   const int &HLT_Photon120_R9Id90_HE10_IsoM();
+  const int &Flag_globalSuperTightHalo2016();
   const float &weight_btagsf();
   const int &HLT_DoubleMu_dbltk();
   const int &HLT_Photon110EB_TightID_TightIso();

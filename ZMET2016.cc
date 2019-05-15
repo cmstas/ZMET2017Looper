@@ -1503,6 +1503,11 @@ void ZMET2016::Init(TTree *tree) {
     HLT_Photon120_R9Id90_HE10_IsoM_branch = tree->GetBranch("HLT_Photon120_R9Id90_HE10_IsoM");
     if (HLT_Photon120_R9Id90_HE10_IsoM_branch) { HLT_Photon120_R9Id90_HE10_IsoM_branch->SetAddress(&HLT_Photon120_R9Id90_HE10_IsoM_); }
   }
+  Flag_globalSuperTightHalo2016_branch = 0;
+  if (tree->GetBranch("Flag_globalSuperTightHalo2016") != 0) {
+    Flag_globalSuperTightHalo2016_branch = tree->GetBranch("Flag_globalSuperTightHalo2016");
+    if (Flag_globalSuperTightHalo2016_branch) { Flag_globalSuperTightHalo2016_branch->SetAddress(&Flag_globalSuperTightHalo2016_); }
+  }
   weight_btagsf_branch = 0;
   if (tree->GetBranch("weight_btagsf") != 0) {
     weight_btagsf_branch = tree->GetBranch("weight_btagsf");
@@ -2273,6 +2278,7 @@ void ZMET2016::GetEntry(unsigned int idx) {
   met_T1CHS_miniAOD_CORE_dn_pt_isLoaded = false;
   isotrack_p4_isLoaded = false;
   HLT_Photon120_R9Id90_HE10_IsoM_isLoaded = false;
+  Flag_globalSuperTightHalo2016_isLoaded = false;
   weight_btagsf_isLoaded = false;
   HLT_DoubleMu_dbltk_isLoaded = false;
   HLT_Photon110EB_TightID_TightIso_isLoaded = false;
@@ -2669,6 +2675,7 @@ void ZMET2016::LoadAllBranches() {
   if (met_T1CHS_miniAOD_CORE_dn_pt_branch != 0) met_T1CHS_miniAOD_CORE_dn_pt();
   if (isotrack_p4_branch != 0) isotrack_p4();
   if (HLT_Photon120_R9Id90_HE10_IsoM_branch != 0) HLT_Photon120_R9Id90_HE10_IsoM();
+  if (Flag_globalSuperTightHalo2016_branch != 0) Flag_globalSuperTightHalo2016();
   if (weight_btagsf_branch != 0) weight_btagsf();
   if (HLT_DoubleMu_dbltk_branch != 0) HLT_DoubleMu_dbltk();
   if (HLT_Photon110EB_TightID_TightIso_branch != 0) HLT_Photon110EB_TightID_TightIso();
@@ -6320,6 +6327,18 @@ const int &ZMET2016::HLT_Photon120_R9Id90_HE10_IsoM() {
   }
   return HLT_Photon120_R9Id90_HE10_IsoM_;
 }
+const int &ZMET2016::Flag_globalSuperTightHalo2016() {
+  if (not Flag_globalSuperTightHalo2016_isLoaded) {
+    if (Flag_globalSuperTightHalo2016_branch != 0) {
+      Flag_globalSuperTightHalo2016_branch->GetEntry(index);
+    } else {
+      printf("branch Flag_globalSuperTightHalo2016_branch does not exist!\n");
+      exit(1);
+    }
+    Flag_globalSuperTightHalo2016_isLoaded = true;
+  }
+  return Flag_globalSuperTightHalo2016_;
+}
 const float &ZMET2016::weight_btagsf() {
   if (not weight_btagsf_isLoaded) {
     if (weight_btagsf_branch != 0) {
@@ -7811,6 +7830,7 @@ namespace zmet {
   const float &met_T1CHS_miniAOD_CORE_dn_pt() { return phys.met_T1CHS_miniAOD_CORE_dn_pt(); }
   const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &isotrack_p4() { return phys.isotrack_p4(); }
   const int &HLT_Photon120_R9Id90_HE10_IsoM() { return phys.HLT_Photon120_R9Id90_HE10_IsoM(); }
+  const int &Flag_globalSuperTightHalo2016() { return phys.Flag_globalSuperTightHalo2016(); }
   const float &weight_btagsf() { return phys.weight_btagsf(); }
   const int &HLT_DoubleMu_dbltk() { return phys.HLT_DoubleMu_dbltk(); }
   const int &HLT_Photon110EB_TightID_TightIso() { return phys.HLT_Photon110EB_TightID_TightIso(); }
