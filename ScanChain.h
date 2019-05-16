@@ -27,7 +27,7 @@
 #include "TH1.h"
 #include "TH2.h"
 #include "TH3.h"
-
+#include "TVector2.h"
 // Analysis Specific
 #include "ZMET2016.h"
 
@@ -105,6 +105,8 @@ class ZMETLooper
     double g_mt2b;
     double g_ht;
     double g_mht;
+    double g_mht_phi;
+    double mhtMETDifference; 
 
     vector<float> g_jets_csv;
     vector<LorentzVector> g_jets_p4;
@@ -315,7 +317,7 @@ class ZMETLooper
     void fillClosureHists(std::string prefix = "");
     void fillSignalRegionHists(std::string prefix = "");
     void fillEcalHists(std::string prefix = "");
-    double computeMht(); 
+    LorentzVector computeMht(); 
     //SR Hists comin' soon...
     //
 

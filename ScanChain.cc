@@ -108,7 +108,7 @@ ZMETLooper::ZMETLooper()
     dil_flavor = -1;
 }
 
-double ZMETLooper::computeMht()
+LorentzVector ZMETLooper::computeMht()
 {
     LorentzVector sumMht_p4 = LorentzVector(0,0,0,0);
     for(auto &it:phys.jets_p4())
@@ -129,7 +129,7 @@ double ZMETLooper::computeMht()
             sumMht_p4 -= it;
         }
     }
-    return sumMht_p4.pt();
+    return sumMht_p4;
 }
 
 
@@ -2116,7 +2116,8 @@ void ZMETLooper::setupGlobals(){
     g_mt2 = phys.mt2();
     g_mt2b = phys.mt2b();
     g_ht = phys.ht();
-    g_mht = computeMht();
+    g_mht = computeMht().pt();
+    g_mht_phi = computeMht().phi();
     g_jets_p4 = phys.jets_p4();
     g_jets_medb_p4 = phys.jets_medb_p4();
     g_jets_csv = phys.jets_csv();
@@ -3271,7 +3272,10 @@ void ZMETLooper::fillCommonHists(std::string prefix)
       if(g_mht != 0)
       {
         fill1DHistograms(prefix+"mht",g_mht,weight,allHistos,"",6000,0,6000,rootdir);
-        fill1DHistograms(prefix+"metBymht",g_met/g_mht,weight,allHistos,"",6000,0,6000,rootdir);
+        TVector2 mhtVector = TVector2(g_mht * cos(g_mht_phi),g_mht * sin(g_mht_phi));
+        TVector2 metVector = TVector2(g_met * cos(g_met_phi),g_met*sin(g_met_phi));
+        mhtMETDifference = (mhtVector - metVector).Mod2();
+        fill1DHistograms(prefix+"mhtDiffBymet",mhtMETDifference/g_met,weight,allHistos,"",6000,0,6000,rootdir);
       }
       if (phys.gen_ht() != 0) 
           fill1DHistograms(prefix+"genht",phys.gen_ht(),weight,allHistos,"",6000,0,6000,rootdir);
