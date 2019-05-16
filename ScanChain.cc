@@ -3274,7 +3274,7 @@ void ZMETLooper::fillCommonHists(std::string prefix)
         fill1DHistograms(prefix+"mht",g_mht,weight,allHistos,"",6000,0,6000,rootdir);
         TVector2 mhtVector = TVector2(g_mht * cos(g_mht_phi),g_mht * sin(g_mht_phi));
         TVector2 metVector = TVector2(g_met * cos(g_met_phi),g_met*sin(g_met_phi));
-        mhtMETDifference = (mhtVector - metVector).Mod2();
+        mhtMETDifference = (mhtVector - metVector).Mod();
         fill1DHistograms(prefix+"mhtDiffBymet",mhtMETDifference/g_met,weight,allHistos,"",1000,0,100,rootdir);
       }
       if (phys.gen_ht() != 0) 
