@@ -13,7 +13,7 @@
 #include <unistd.h>
 typedef ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > LorentzVector;
 
-// Generated with file: /hadoop/cms/store/user/bsathian/ZMET_babies/DYJetsToLL_M-50_TuneCP5_13TeV-amcatnloFXFX-pythia8_RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_mc2017_realistic_v14_ext1-v1_MINIAODSIM_ZMET_babies_new/baby_20.root
+// Generated with file: /hadoop/cms/store/user/bsathian/ZMET_babies/GJets_DR-0p4_HT-200To400_TuneCP5_13TeV-madgraphMLM-pythia8_v2_RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1_MINIAODSIM_ZMET_babies_new/baby_1.root
 
 using namespace std;
 class ZMET2016 {
@@ -98,9 +98,9 @@ protected:
   vector<int> *gamma_idCutBased_;
   TBranch *gamma_idCutBased_branch;
   bool gamma_idCutBased_isLoaded;
-  float dphi_genmetj2_;
-  TBranch *dphi_genmetj2_branch;
-  bool dphi_genmetj2_isLoaded;
+  float dphi_metj3_dn_;
+  TBranch *dphi_metj3_dn_branch;
+  bool dphi_metj3_dn_isLoaded;
   float dphi_genmetj1_;
   TBranch *dphi_genmetj1_branch;
   bool dphi_genmetj1_isLoaded;
@@ -446,6 +446,9 @@ protected:
   float dphi_metj2_up_;
   TBranch *dphi_metj2_up_branch;
   bool dphi_metj2_up_isLoaded;
+  float dphi_metj3_up_;
+  TBranch *dphi_metj3_up_branch;
+  bool dphi_metj3_up_isLoaded;
   vector<int> *isotrack_pdgId_;
   TBranch *isotrack_pdgId_branch;
   bool isotrack_pdgId_isLoaded;
@@ -461,6 +464,12 @@ protected:
   int ngenLepFromTau_;
   TBranch *ngenLepFromTau_branch;
   bool ngenLepFromTau_isLoaded;
+  float dphi_genmetj3_;
+  TBranch *dphi_genmetj3_branch;
+  bool dphi_genmetj3_isLoaded;
+  float dphi_genmetj2_;
+  TBranch *dphi_genmetj2_branch;
+  bool dphi_genmetj2_isLoaded;
   float nupfcands_0013_sumet_;
   TBranch *nupfcands_0013_sumet_branch;
   bool nupfcands_0013_sumet_isLoaded;
@@ -494,6 +503,9 @@ protected:
   vector<float> *genLep_eta_;
   TBranch *genLep_eta_branch;
   bool genLep_eta_isLoaded;
+  int nJetFailId_;
+  TBranch *nJetFailId_branch;
+  bool nJetFailId_isLoaded;
   int Flag_HBHENoiseFilter_;
   TBranch *Flag_HBHENoiseFilter_branch;
   bool Flag_HBHENoiseFilter_isLoaded;
@@ -743,6 +755,9 @@ protected:
   float dphi_metj2_;
   TBranch *dphi_metj2_branch;
   bool dphi_metj2_isLoaded;
+  float dphi_metj3_;
+  TBranch *dphi_metj3_branch;
+  bool dphi_metj3_isLoaded;
   float dphi_metj1_;
   TBranch *dphi_metj1_branch;
   bool dphi_metj1_isLoaded;
@@ -1235,7 +1250,7 @@ public:
   const int &HLT_DoubleMu_noiso_40_11();
   const unsigned long long &evt();
   const vector<int> &gamma_idCutBased();
-  const float &dphi_genmetj2();
+  const float &dphi_metj3_dn();
   const float &dphi_genmetj1();
   const int &njets();
   const int &mass_LSP();
@@ -1351,11 +1366,14 @@ public:
   const int &HLT_DoubleMu();
   const vector<unsigned long> &isotrack_index();
   const float &dphi_metj2_up();
+  const float &dphi_metj3_up();
   const vector<int> &isotrack_pdgId();
   const float &evt_kfactor();
   const int &HLT_CaloJet500_NoJetID();
   const vector<float> &lep_relIso03MRDB();
   const int &ngenLepFromTau();
+  const float &dphi_genmetj3();
+  const float &dphi_genmetj2();
   const float &nupfcands_0013_sumet();
   const int &HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass8();
   const int &HLT_singleEl();
@@ -1367,6 +1385,7 @@ public:
   const int &HLT_Photon165_HE10();
   const float &nupfcands_0013_pt();
   const vector<float> &genLep_eta();
+  const int &nJetFailId();
   const int &Flag_HBHENoiseFilter();
   const float &deta_jj();
   const float &metsig_unofficial_dn();
@@ -1450,6 +1469,7 @@ public:
   const vector<float> &lep_glb_pterrOpt();
   const vector<bool> &genPart_isPromptFinalState();
   const float &dphi_metj2();
+  const float &dphi_metj3();
   const float &dphi_metj1();
   const vector<float> &genLep_phi();
   const float &phpfcands_1316_pt();
@@ -1639,7 +1659,7 @@ namespace zmet {
   const int &HLT_DoubleMu_noiso_40_11();
   const unsigned long long &evt();
   const vector<int> &gamma_idCutBased();
-  const float &dphi_genmetj2();
+  const float &dphi_metj3_dn();
   const float &dphi_genmetj1();
   const int &njets();
   const int &mass_LSP();
@@ -1755,11 +1775,14 @@ namespace zmet {
   const int &HLT_DoubleMu();
   const vector<unsigned long> &isotrack_index();
   const float &dphi_metj2_up();
+  const float &dphi_metj3_up();
   const vector<int> &isotrack_pdgId();
   const float &evt_kfactor();
   const int &HLT_CaloJet500_NoJetID();
   const vector<float> &lep_relIso03MRDB();
   const int &ngenLepFromTau();
+  const float &dphi_genmetj3();
+  const float &dphi_genmetj2();
   const float &nupfcands_0013_sumet();
   const int &HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass8();
   const int &HLT_singleEl();
@@ -1771,6 +1794,7 @@ namespace zmet {
   const int &HLT_Photon165_HE10();
   const float &nupfcands_0013_pt();
   const vector<float> &genLep_eta();
+  const int &nJetFailId();
   const int &Flag_HBHENoiseFilter();
   const float &deta_jj();
   const float &metsig_unofficial_dn();
@@ -1854,6 +1878,7 @@ namespace zmet {
   const vector<float> &lep_glb_pterrOpt();
   const vector<bool> &genPart_isPromptFinalState();
   const float &dphi_metj2();
+  const float &dphi_metj3();
   const float &dphi_metj1();
   const vector<float> &genLep_phi();
   const float &phpfcands_1316_pt();
