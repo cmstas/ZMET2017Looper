@@ -3285,6 +3285,7 @@ void ZMETLooper::fillCommonHists(std::string prefix)
         fill1DHistograms(prefix+"vpt_flat",bosonPt(),weight,allHistos,"",6000,0,6000,rootdir);
       }
       fill1DHistograms(prefix+"njets",g_njets,weight,allHistos,"",50,0,50,rootdir);
+      fill1DHistograms(prefix+"nJetFailId",phys.nJetFailId(),weight,allHistos,"",50,0,50,rootdir);
 
       fill1DHistograms(prefix+"nbtags_m",g_nBJetMedium,weight,allHistos,"",50,0,50,rootdir);
       fill1DHistograms(prefix+"nbtags_l",phys.nBJetLoose(),weight,allHistos,"",50,0,50,rootdir);
