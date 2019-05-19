@@ -1940,8 +1940,9 @@ bool ZMETLooper::passFileSelections(){
   if ( (TString(conf->get("data_set")).Contains("WGamma") ||TString(conf->get("data_set")).Contains("WJets") || TString(conf->get("data_set")).Contains("EWKSub")) && !TString(conf->get("Name")).Contains("no-overlap")){
     
     //Inclusive GenHT Cut
-    if( TString(currentFile->GetTitle()).Contains("wjets_incl_mgmlm") ){
-      //cout<<"File: "<<currentFile->GetTitle()<<" with gen_ht: "<<phys.gen_ht()<<endl;
+    //if( TString(currentFile->GetTitle()).Contains("wjets_incl_mgmlm") ){
+    if(phys.evt_dataset().at(0).Contains("WJets") and not phys.evt_dataset().at(0).Contains("HT")){
+     // cout<<"File: "<<currentFile->GetTitle()<<" with gen_ht: "<<phys.gen_ht()<<endl;
       if( phys.gen_ht() > 100 ) {
         //cout<<"skipped"<<endl;
         numEvents->Fill(44);
