@@ -375,17 +375,17 @@ double ZMETLooper::DeltaR(const LorentzVector p1, const LorentzVector p2){
 }
 
 
-bool InEtaPhiVetoRegion(float eta, float phi, int year)
+bool ZMETLooper::InEtaPhiVetoRegion(float eta, float phi, int year)
 {
     if(veto_hist == nullptr)
     {
-        TFile *veto_histFile = TFile("External/veto_etaphi.root");
+        TFile veto_histFile = TFile("External/veto_etaphi.root");
         if(year == 2016)
-            veto_hist = veto_histFile->etaphi_veto_16;
+            veto_hist = veto_histFile.Get("etaphi_veto_16");
         else if(year == 2017)
-            veto_hist = veto_histFile->etaphi_veto_17;
+            veto_hist = veto_histFile.Get("etaphi_veto_17");
         else if(year == 2018)
-            veto_hist = veto_histFile->etaphi_veto_18;
+            veto_hist = veto_histFile.Get("etaphi_veto_18");
     }
     if(veto_hist->GetBinContent(eta,phi))
         return true;
