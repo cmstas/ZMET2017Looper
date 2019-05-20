@@ -79,6 +79,7 @@ class ZMETLooper
 
     //2D Photon veto histogram based on ECAL bad spots
 
+    TFile veto_histFile;
     TH2F *veto_hist;
 
     TEfficiency *g_pt_eff_barrel, *g_pt_eff_endcap; 
