@@ -767,6 +767,7 @@ bool ZMETLooper::hasGoodPhoton(){
 
   if(conf->get("photon_ecal_veto") == "true" && InEtaPhiVetoRegion(phys.gamma_eta().at(0),phys.gamma_phi().at(0),g_year))
   {
+      numEvents->Fill(76);
       if(printFail) cout<<"Photon in veto region"<<endl;
       return false;
   }
