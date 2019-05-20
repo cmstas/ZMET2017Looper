@@ -373,6 +373,24 @@ double ZMETLooper::DeltaR(const LorentzVector p1, const LorentzVector p2){
   //cout<<__LINE__<<endl;
   return sqrt( (p1.eta() - p2.eta())*(p1.eta() - p2.eta())+(p1.phi() - p2.phi())*(p1.phi() - p2.phi()) );
 }
+
+
+bool InEtaPhiVetoRegion(float eta, float phi, int year)
+{
+    if(veto_hist == nullptr)
+    {
+        TFile *veto_histFile = TFile("External/veto_etaphi.root");
+        if(year == 2016)
+            veto_hist = veto_histFile->etaphi_veto_16;
+        else if(year == 2017)
+            veto_hist = veto_histFile->etaphi_veto_17;
+        else if(year == 2018)
+            veto_hist = veto_histFile->etaphi_veto_18;
+    }
+    if(veto_hist->GetBinContent(eta,phi))
+        return true;
+    else return false;
+}
 //=============================
 // Triggers
 //=============================
@@ -745,6 +763,12 @@ bool ZMETLooper::hasGoodPhoton(){
       if (printFail) cout<<phys.evt()<<" :Failed photons aligned with MET photon cut"<<endl;
       return false; // kill photons aligned with MET
     }
+  }
+
+  if(conf->get("photon_ecal_veto") == "true" && InEtaPhiVetoRegion(phys.gamma_eta().at(0),phys.gamma_phi().at(0)))
+  {
+      if(printFail) cout<<"Photon in veto region"<<endl;
+      return false;
   }
   
   if( phys.elveto() ) {

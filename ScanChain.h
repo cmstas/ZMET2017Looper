@@ -77,6 +77,10 @@ class ZMETLooper
     TH2D *g_isr_norm, *g_isr_norm_up;
     TFile *g_SUSYsf_norm_file;
 
+    //2D Photon veto histogram based on ECAL bad spots
+
+    TH2F *veto_hist;
+
     TEfficiency *g_pt_eff_barrel, *g_pt_eff_endcap; 
     TFile *g_weight_hist_file, *g_pileup_hist_file, *g_l1prescale_file;
     TString g_sample_name;
@@ -276,6 +280,8 @@ class ZMETLooper
     //=============================
     /*Sets up global variables for the event which are the quantities that might be fluctuated in the process of computing uncertainty limits*/
     void setupGlobals();
+
+    bool InEtaPhiVetoRegion(float eta, float phi); 
 
     /*Loads the proper TH2 for the given SUSY sample which contains the BTag and ISR weights if running SUSY MC.*/
     void updateSUSYBtagISRNorms();
