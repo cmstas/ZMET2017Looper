@@ -374,17 +374,21 @@ double ZMETLooper::DeltaR(const LorentzVector p1, const LorentzVector p2){
   return sqrt( (p1.eta() - p2.eta())*(p1.eta() - p2.eta())+(p1.phi() - p2.phi())*(p1.phi() - p2.phi()) );
 }
 
-TFile VetoFile("veto_etaphi.root");
+TFile VetoFile("External/veto_etaphi.root");
 TH2F* veto_etaphi_16 = (TH2F*) VetoFile.Get("etaphi_veto_16");
 TH2F* veto_etaphi_17 = (TH2F*) VetoFile.Get("etaphi_veto_17");
 TH2F* veto_etaphi_18 = (TH2F*) VetoFile.Get("etaphi_veto_18");
 
 bool ZMETLooper::InEtaPhiVetoRegion(float eta, float phi, int year) {
-  if (fabs(eta) > 2.4) return -1;
+  if (fabs(eta) > 2.4) return false;
   TH2F* veto_hist = veto_etaphi_16;
   if (year == 2017) veto_hist = veto_etaphi_17;
   if (year == 2018) veto_hist = veto_etaphi_18;
-  return (bool) veto_hist->GetBinContent(veto_hist->FindBin(eta,phi));
+  int flag =  (int) veto_hist->GetBinContent(veto_hist->FindBin(eta,phi));
+  if(flag == 1)
+      return true;
+  else
+      return false;
 }
 //=============================
 // Triggers
