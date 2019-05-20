@@ -281,7 +281,7 @@ class ZMETLooper
     /*Sets up global variables for the event which are the quantities that might be fluctuated in the process of computing uncertainty limits*/
     void setupGlobals();
 
-    bool InEtaPhiVetoRegion(float eta, float phi); 
+    bool InEtaPhiVetoRegion(float eta, float phi, int year); 
 
     /*Loads the proper TH2 for the given SUSY sample which contains the BTag and ISR weights if running SUSY MC.*/
     void updateSUSYBtagISRNorms();
