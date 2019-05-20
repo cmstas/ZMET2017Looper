@@ -377,6 +377,8 @@ double ZMETLooper::DeltaR(const LorentzVector p1, const LorentzVector p2){
 
 bool ZMETLooper::InEtaPhiVetoRegion(float eta, float phi, int year)
 {
+    if(eta > 2.4)
+        return false;
     if(veto_hist == nullptr)
     {
         TFile veto_histFile("External/veto_etaphi.root");
@@ -387,7 +389,9 @@ bool ZMETLooper::InEtaPhiVetoRegion(float eta, float phi, int year)
         else if(year == 2018)
             veto_hist = (TH2F*)veto_histFile.Get("etaphi_veto_18");
     }
-    if(veto_hist->GetBinContent(eta,phi))
+    int flag = (int) veto_hist->GetBinContent(veto_hist->FindBin(eta,phi));
+
+    if(flag)
         return true;
     else return false;
 }
