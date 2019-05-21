@@ -1830,6 +1830,16 @@ bool ZMETLooper::passBaseCut(){
     return false; //2 jet cut
     //pass=false;
   }*/
+  for(int iter = 0; iter < 2; iter++)
+  {
+    if(conf->get("photon_ecal_veto") == "true" && InEtaPhiVetoRegion(g_jets_p4.at(iter).eta(),g_jets_p4.at(iter).phi(),g_year))
+    {
+        numEvents->Fill(76);
+        if(printFail) cout<<"Jet in veto region"<<endl;
+        return false;
+    }
+  }
+  
 
   if(conf->get("n_lep_veto") != ""){
     if( (phys.nisoTrack_mt2() + phys.nlep()) >= stod(conf->get("n_lep_veto"))){
