@@ -795,7 +795,7 @@ bool ZMETLooper::hasGoodPhoton(){
   dphi_gm = acos(cos(g_met_phi - phys.gamma_p4().at(0).phi())); 
   if(conf->get("dPhi_Gamma_MET_max") != "")
   {
-    if(dphi_gm > stoi(conf->get("dPhi_Gamma_MET_max")))
+    if(dphi_gm > stod(conf->get("dPhi_Gamma_MET_max")))
     {
         numEvents->Fill(77);
         if(printFail) cout<<phys.evt()<<" :Failed dphi(gamma,MET) cut"<<endl;
