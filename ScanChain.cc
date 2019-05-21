@@ -1380,7 +1380,7 @@ bool ZMETLooper::passSignalRegionCuts(){
   }
 
 if (conf->get("MT2_max") != ""){
-    if (g_mt2 < stod(conf->get("MT2_max"))){
+    if (g_mt2 > stod(conf->get("MT2_max"))){
       numEvents->Fill(59);
       if (printFail) cout<<phys.evt()<<" :Failed MT2 cut"<<endl;
       return false;
