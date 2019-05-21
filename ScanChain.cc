@@ -792,6 +792,17 @@ bool ZMETLooper::hasGoodPhoton(){
     return false;
   }
 
+  dphi_gm = acos(cos(g_met_phi - phys.gamma_p4().at(0).phi())); 
+  if(conf->get("dPhi_Gamma_MET_max") != "")
+  {
+    if(dphi_gm > stoi(conf->get("dPhi_Gamma_MET_max")))
+    {
+        numEvents->Fill(77);
+        if(printFail) cout<<phys.evt()<<" :Failed dphi(gamma,MET) cut"<<endl;
+        return false;
+    }
+  }
+
   if (conf->get("nisoTrack_5gev_max") != ""){
     if( phys.nisoTrack_5gev() > stoi(conf->get("nisoTrack_5gev_max")) ){
       numEvents->Fill(62);
@@ -3384,7 +3395,6 @@ void ZMETLooper::fillClosureHists(std::string prefix)
 
 void ZMETLooper::fillEcalHists(std::string prefix)
 {
-    dphi_gm = acos(cos(g_met_phi - phys.gamma_p4().at(0).phi()));
     fill1DHistograms(prefix+"dphi_gamma_met",dphi_gm,weight,allHistos,"",100,0,3.15,rootdir);
     if(g_met >= 100)
     {
