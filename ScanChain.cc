@@ -803,6 +803,16 @@ bool ZMETLooper::hasGoodPhoton(){
     }
   }
 
+  if(conf->get("dPhi_Gamma_MET_min") != "")
+  {
+    if(dphi_gm < stod(conf->get("dPhi_Gamma_MET_min")))
+    {
+        numEvents->Fill(77);
+        if(printFail) cout<<phys.evt()<<" :Failed dphi(gamma,MET) cut"<<endl;
+        return false;
+    }
+  }
+
   if (conf->get("nisoTrack_5gev_max") != ""){
     if( phys.nisoTrack_5gev() > stoi(conf->get("nisoTrack_5gev_max")) ){
       numEvents->Fill(62);
