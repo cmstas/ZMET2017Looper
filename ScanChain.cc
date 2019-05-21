@@ -1830,7 +1830,7 @@ bool ZMETLooper::passBaseCut(){
     return false; //2 jet cut
     //pass=false;
   }*/
-  for(int iter = 0; iter < 2; iter++)
+ /* for(int iter = 0; iter < 2; iter++)
   {
      if(phys.njets() < 2)
          break;
@@ -1840,7 +1840,7 @@ bool ZMETLooper::passBaseCut(){
         if(printFail) cout<<"Jet in veto region"<<endl;
         return false;
     }
-  }
+  }*/
   
 
   if(conf->get("n_lep_veto") != ""){
