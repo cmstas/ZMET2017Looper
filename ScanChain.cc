@@ -3353,7 +3353,7 @@ void ZMETLooper::fillCommonHists(std::string prefix)
       fill1DHistograms(prefix+"nlep",phys.nlep(),weight,allHistos,"",20,0,20,rootdir);
       fill1DHistograms(prefix+"nisotrack",phys.nisoTrack_mt2(),weight,allHistos,"",20,0,20,rootdir);
       if (g_mt2 != 0 )
-          fill1DHistograms(prefix+"mt2",g_mt2,weight,allHistos,"",500,0,50,rootdir);
+          fill1DHistograms(prefix+"mt2",g_mt2,weight,allHistos,"",1000,0,1000,rootdir);
       if (g_mt2b != 0 )
           fill1DHistograms(prefix+"mt2b",g_mt2b,weight,allHistos,"",6000,0,6000,rootdir);
       //cout<<__LINE__<<endl;
@@ -3440,6 +3440,12 @@ void ZMETLooper::fillEcalHists(std::string prefix)
         fill1DHistograms(prefix+"pt_gamma_met500",bosonPt(),weight,allHistos,"",6000,0,6000,rootdir);
 
     }
+    float dphi_jet1_gamma = acos(cos(g_met_phi - phys.jets_p4().at(0).phi()));
+    float dphi_jet2_gamma = acos(cos(g_met_phi - phys.jets_p4().at(1).phi()));
+    fill1DHistograms(prefix+"dphi_gamma_jet1",dphi_jet1_gamma,weight,allHistos,"",100,0,3.15,rootdir);
+    fill1DHistograms(prefix+"dphi_gamma_jet1",dphi_jet2_gamma,weight,allHistos,"",100,0,3.15,rootdir);
+
+
 }
 
 void ZMETLooper::fillSignalRegionHists(std::string prefix)
