@@ -1334,7 +1334,7 @@ bool ZMETLooper::passSignalRegionCuts(){
   }
 
   if (conf->get("dPhi_MET_j1_max") != ""){
-    if (g_dphi_metj1 > stod(conf->get("dPhi_MET_j1"))){
+    if (g_dphi_metj1 > stod(conf->get("dPhi_MET_j1_max"))){
       numEvents->Fill(38);
       if (printFail) cout<<phys.evt()<<" :Failed dPhi MET with jet 1 cut"<<endl;
       return false;
@@ -1353,7 +1353,7 @@ bool ZMETLooper::passSignalRegionCuts(){
   }
 
   if (conf->get("dPhi_MET_j2_max") != ""){
-    if (g_dphi_metj2 > stod(conf->get("dPhi_MET_j2"))){
+    if (g_dphi_metj2 > stod(conf->get("dPhi_MET_j2_max"))){
       numEvents->Fill(39);
       if (printFail) cout<<phys.evt()<<" :Failed dPhi MET with jet 2 cut"<<endl;
       return false;
