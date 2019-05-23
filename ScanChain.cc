@@ -1333,6 +1333,14 @@ bool ZMETLooper::passSignalRegionCuts(){
     }
   }
 
+  if (conf->get("dPhi_MET_j1_max") != ""){
+    if (g_dphi_metj1 > stod(conf->get("dPhi_MET_j1"))){
+      numEvents->Fill(38);
+      if (printFail) cout<<phys.evt()<<" :Failed dPhi MET with jet 1 cut"<<endl;
+      return false;
+    }
+  }
+
   //cout<<__LINE__<<endl;
   //if (printStats) { cout<<"g_dphi_metj2: "<<g_dphi_metj2<<" "; }
   //Trailing Jet/MET Phi min
@@ -1343,6 +1351,15 @@ bool ZMETLooper::passSignalRegionCuts(){
       return false;
     }
   }
+
+  if (conf->get("dPhi_MET_j2_max") != ""){
+    if (g_dphi_metj2 > stod(conf->get("dPhi_MET_j2"))){
+      numEvents->Fill(39);
+      if (printFail) cout<<phys.evt()<<" :Failed dPhi MET with jet 2 cut"<<endl;
+      return false;
+    }
+  }
+
 
   //cout<<__LINE__<<endl;
   //if (printStats) { cout<<"mt2b: "<<g_mt2b<<" "; }
@@ -1406,6 +1423,15 @@ if (conf->get("MT2_max") != ""){
       return false;
     }
   }
+
+  if (conf->get("HT_max") != ""){
+  //if (printStats) { cout<<"ht: "<<g_ht<<" "; }
+    if (g_ht > stod(conf->get("HT_max"))){
+      numEvents->Fill(41);
+      if (printFail) cout<<phys.evt()<<" :Failed sum HT max cut"<<endl;
+      return false;
+    }
+  } 
 
   //cout<<__LINE__<<endl;
   //DiBottom mass difference from Higgs Mass
