@@ -1108,7 +1108,7 @@ double ZMETLooper::getWeight(){
 
     //cout<<__LINE__<<endl;
 
-    for (int i = 0; i < phys.nlep(); i++){
+    /*for (int i = 0; i < phys.nlep(); i++){
       //cout<<__LINE__<<endl;
       weight*=phys.weightsf_lepid().at(i);
       //cout<<__LINE__<<endl;
@@ -1120,7 +1120,7 @@ double ZMETLooper::getWeight(){
       //cout<<__LINE__<<endl;
       weight*=phys.weightsf_lepconv().at(i);
       //cout<<__LINE__<<endl;
-    }
+    }*/
 
     //cout<<__LINE__<<endl;
 
