@@ -1333,8 +1333,8 @@ bool ZMETLooper::passSignalRegionCuts(){
     }
   }
 
-  if (conf->get("dPhi_MET_j1_max") != ""){
-    if (g_dphi_metj1 > stod(conf->get("dPhi_MET_j1_max"))){
+  if (conf->get("dPhi_MET_j1j2_max") != ""){
+    if (g_dphi_metj1 > stod(conf->get("dPhi_MET_j1j2_max")) && g_dphi_metj2 > stod(conf->get("dPhi_MET_j1j2_max"))){
       numEvents->Fill(38);
       if (printFail) cout<<phys.evt()<<" :Failed dPhi MET with jet 1 cut"<<endl;
       return false;
@@ -1351,15 +1351,7 @@ bool ZMETLooper::passSignalRegionCuts(){
       return false;
     }
   }
-
-  if (conf->get("dPhi_MET_j2_max") != ""){
-    if (g_dphi_metj2 > stod(conf->get("dPhi_MET_j2_max"))){
-      numEvents->Fill(39);
-      if (printFail) cout<<phys.evt()<<" :Failed dPhi MET with jet 2 cut"<<endl;
-      return false;
-    }
-  }
-
+ 
 
   //cout<<__LINE__<<endl;
   //if (printStats) { cout<<"mt2b: "<<g_mt2b<<" "; }
