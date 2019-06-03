@@ -4,15 +4,40 @@
 #include <vector>
 #include <utility>
 #include <iostream>
-#include <iomanip> 
+#include <iomanip>
 
-#include "HistTools.C"
+#include "../../HistTools.h"
 
 using namespace std;
 
 vector<TString> getFileLocation(TString sample_name){
   vector<TString> fnames;
-  if (sample_name=="Strong_Btag_2j"){
+  if(sample_name == "VRA")
+  {
+    fnames.push_back("/home/bsathian/ZMet/DoubleLepton_narrowband/DoubleLepton_narrow_validation/VRA4/full_prediction/dataTemplates/GammaData_EWKSub.root");
+    fnames.push_back("/home/bsathian/ZMet/DoubleLepton_narrowband/DoubleLepton_narrow_validation/VRA4/full_prediction/DoubleLepton/GammaData.root");
+  }
+  else if(sample_name == "VRB")
+  {
+    fnames.push_back("/home/bsathian/ZMet/DoubleLepton_narrowband/DoubleLepton_narrow_validation/VRB/full_prediction/dataTemplates/GammaData_EWKSub.root");
+    fnames.push_back("/home/bsathian/ZMet/DoubleLepton_narrowband/DoubleLepton_narrow_validation/VRB/full_prediction/DoubleLepton/GammaData.root");
+  }
+  else if(sample_name == "VRC")
+  {
+    fnames.push_back("/home/bsathian/ZMet/DoubleLepton_narrowband/DoubleLepton_narrow_validation/VRC/full_prediction/dataTemplates/GammaData_EWKSub.root");
+    fnames.push_back("/home/bsathian/ZMet/DoubleLepton_narrowband/DoubleLepton_narrow_validation/VRC/full_prediction/DoubleLepton/GammaData.root");
+  }
+  else if(sample_name == "VRWZ")
+  {
+    fnames.push_back("/home/bsathian/ZMet/DoubleLepton_narrowband/DoubleLepton_narrow_validation/VRWZ/full_prediction/dataTemplates/GammaData_EWKSub.root");
+    fnames.push_back("/home/bsathian/ZMet/DoubleLepton_narrowbandDoubleLepton_narrow_validation/VRWZ/full_prediction/DoubleLepton/GammaData.root");
+  }
+  else if(sample_name == "VRHZ")
+  {
+    fnames.push_back("/home/bsathian/ZMet/DoubleLepton_narrowband/DoubleLepton_narrow_validation/VRHZ/full_prediction/dataTemplates/GammaData_EWKSub.root");
+    fnames.push_back("/home/bsathian/ZMet/DoubleLepton_narrowband/DoubleLepton_narrow_validation/VRHZ/full_prediction/DoubleLepton/GammaData.root");
+  }
+  else if (sample_name=="Strong_Btag_2j"){
     fnames.push_back("/nfs-7/userdata/bobak/ZMET2017_Hists/prediction/PhotonData_VPTRWT/Strong_Btag/2j/PhotonData.root");
     fnames.push_back("/nfs-7/userdata/bobak/ZMET2017_Hists/prediction/PhotonData_VPTRWT/Strong_Btag/2j/PhotonData_NoEWKSub.root");
   }
@@ -25,8 +50,8 @@ vector<TString> getFileLocation(TString sample_name){
     fnames.push_back("/nfs-7/userdata/bobak/ZMET2017_Hists/prediction/PhotonData_VPTRWT/Strong_Btag/6j/PhotonData_NoEWKSub.root");
   }
   else if (sample_name=="Strong_Bveto_2j"){
-    fnames.push_back("/nfs-7/userdata/bobak/ZMET2017_Hists/prediction/PhotonData_VPTRWT/Strong_Bveto/2j/PhotonData.root");
-    fnames.push_back("/nfs-7/userdata/bobak/ZMET2017_Hists/prediction/PhotonData_VPTRWT/Strong_Bveto/2j/PhotonData_NoEWKSub.root");
+    fnames.push_back("/home/bsathian/ZMet/DoubleLepton_narrowband/DoubleLepton_narrow_validation/VRA4/full_prediction/dataTemplates/GammaData_EWKSub.root");
+    fnames.push_back("/home/bsathian/ZMet/DoubleLepton_narrowband/DoubleLepton_narrow_validation/VRA4/full_prediction/DoubleLepton/GammaData.root");
   }
   else if (sample_name=="Strong_Bveto_4j"){
     fnames.push_back("/nfs-7/userdata/bobak/ZMET2017_Hists/prediction/PhotonData_VPTRWT/Strong_Bveto/4j/PhotonData.root");
@@ -68,7 +93,7 @@ pair<double, vector<double>> getEWKNumsForSample(TString sample_name){
   //cout<<__LINE__<<endl;
 
   TH1D* sub_hist = (TH1D*) ((TH1D*) sub_file->Get("type1MET"));
-  TH1D* no_sub_hist = (TH1D*) ((TH1D*) no_sub_file->Get("type1MET"));   
+  TH1D* no_sub_hist = (TH1D*) ((TH1D*) no_sub_file->Get("type1MET"));
 
 
   vector<double> bins, noSubNums;
@@ -119,7 +144,7 @@ pair<double, vector<double>> getEWKNumsForSample(TString sample_name){
     if (i == 2){
       lowbin_withEwkSub = count_in_sub;
     }
-    
+
     noSubNums.push_back(count_in_no);
   }
 
@@ -135,7 +160,7 @@ vector<double> getPercentStatErrorsForNoEWKSub(TString sample_name){
   TFile* no_sub_file = TFile::Open(fnames[1]);
 
   //cout<<__LINE__<<endl;
-  TH1D* no_sub_hist = (TH1D*) ((TH1D*) no_sub_file->Get("type1MET"));   
+  TH1D* no_sub_hist = (TH1D*) ((TH1D*) no_sub_file->Get("type1MET"));
 
 
   vector<double> bins, noSubCounts, noSubErrs;
@@ -175,7 +200,7 @@ vector<double> getPercentStatErrorsForNoEWKSub(TString sample_name){
     noSubCounts.push_back(no_sub_hist->IntegralAndError(bins[i],bins[i+1] - 0.01, err_bin));
     noSubErrs.push_back(err_bin);
   }
-  
+
   for (int i = 0; i<(int)noSubErrs.size(); i++){
     noSubErrs[i] = noSubErrs[i]/noSubCounts[i];
   }
@@ -187,7 +212,7 @@ vector<double> getPercentStatErrorsForNoEWKSub(TString sample_name){
 
   TFile* norm_file = TFile::Open(c);
   TFile* sub_file = TFile::Open(a);
-  TFile* no_sub_file = TFile::Open(b); 
+  TFile* no_sub_file = TFile::Open(b);
 
   TH1D* sub_hist = (TH1D*) ((TH1D*) sub_file->Get("gjets_type1MET"));
   TH1D* no_sub_hist = (TH1D*) ((TH1D*) no_sub_file->Get("gjets_type1MET"));

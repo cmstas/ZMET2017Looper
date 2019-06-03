@@ -17,7 +17,7 @@ double err_mult(double A, double B, double errA, double errB) {
 }
 
 void printTemplatesDebug(const vector<double> &prediction, const vector<double> &prediction_err, const vector<double> &stat_err, const vector<double> &closure_err, const vector<double> &norm_err, const vector<double> &ewk_err, const vector<pair<double, double>> &bin_edge){
-  /* Prints a latex table of the sources of error that go into the templates */ 
+  /* Prints a latex table of the sources of error that go into the templates */
   cout<<fixed;
   cout<<setprecision(2);
 
@@ -57,7 +57,7 @@ vector<double> getMetTemplatesError(const vector<double> &stat_err, const vector
   //=========
 
   vector<double> No_EWK_BinCount;
-  
+
   pair<double, vector<double>> EWK_Data;
   double EWK_LowBin;
   vector<double> MC_Closure_Error;
@@ -82,34 +82,34 @@ vector<double> getMetTemplatesError(const vector<double> &stat_err, const vector
     MC_Closure_Error.push_back(.2);  //100-150
     MC_Closure_Error.push_back(.31);  //150+
   }
-  else if(SR == "Strong_Bveto_2j"){
+  else if(SR == "Strong_Bveto_2j" || SR == "VRA"){
     //MC_Closure_Error.push_back(.00); //0-50
     MC_Closure_Error.push_back(.00); //50-100
     MC_Closure_Error.push_back(.2); //100-150
     MC_Closure_Error.push_back(.26); //150-250
     MC_Closure_Error.push_back(.26); //250+
   }
-  else if(SR == "Strong_Bveto_4j"){
+  else if(SR == "Strong_Bveto_4j" || SR == "VRB"){
     //MC_Closure_Error.push_back(.00); //0-50
     MC_Closure_Error.push_back(.00); //50-100
     MC_Closure_Error.push_back(.12); //100-150
     MC_Closure_Error.push_back(.15); //150-250
     MC_Closure_Error.push_back(.15); //250+
   }
-  else if(SR == "Strong_Bveto_6j"){
+  else if(SR == "Strong_Bveto_6j" || SR == "VRC"){
     //MC_Closure_Error.push_back(.00); //0-50
     MC_Closure_Error.push_back(.00); //50-100
     MC_Closure_Error.push_back(.15); //100-150
     MC_Closure_Error.push_back(.29); //150+
   }
-  else if(SR == "TChiHZ"){
+  else if(SR == "TChiHZ" || SR == "VRHZ"){
     //MC_Closure_Error.push_back(.00); //0-50
     MC_Closure_Error.push_back(.00); //50-100
     MC_Closure_Error.push_back(.8); //100-150
     MC_Closure_Error.push_back(.34); //150-250
     MC_Closure_Error.push_back(.34); //250+
   }
-  else if(SR == "TChiWZ"){
+  else if(SR == "TChiWZ" || SR == "VRWZ"){
     //MC_Closure_Error.push_back(.00); //0-50
     MC_Closure_Error.push_back(.00); //50-100
     MC_Closure_Error.push_back(.11); //100-150
@@ -167,7 +167,7 @@ vector<double> getMetTemplatesError(const vector<double> &stat_err, const vector
     closure_err.push_back(bin_count[i]*MC_Closure_Error[i]);
 
     cout<<"TRACE| Bin "<<i<<" ";
-    
+
     cout<<" bin Count: "<<bin_count[i];
     cout<<" EWK Subtraction: "<<ewk_err[i];
     cout<<" Stat Error: "<< stat_err[i];
@@ -229,7 +229,7 @@ pair<vector<double>,vector<double>> getFSError(const vector<double> &bin_count, 
   for (int i = 0; i<bin_count.size(); i++){
     RooHistError::instance().getPoissonInterval(bin_count[i], bin_dn, bin_up);
 
-    cout<<"bin count "<<bin_count[i]<<" Error_up "<<bin_up<<" Error_dn "<<bin_dn<<endl; 
+    cout<<"bin count "<<bin_count[i]<<" Error_up "<<bin_up<<" Error_dn "<<bin_dn<<endl;
     bin_up = RSFOFxKappa*RSFOFxKappa*((bin_up - bin_count[i])*(bin_up - bin_count[i]) + RSFOF_unc*RSFOF_unc*bin_count[i]*bin_count[i] + kappa_unc*kappa_unc*bin_count[i]*bin_count[i]);
     bin_dn = RSFOFxKappa*RSFOFxKappa*((bin_count[i] - bin_dn)*(bin_count[i] - bin_dn) + RSFOF_unc*RSFOF_unc*bin_count[i]*bin_count[i] + kappa_unc*kappa_unc*bin_count[i]*bin_count[i]);
 
@@ -279,7 +279,7 @@ vector<double> getRareSamplesError(const vector<double> &stat_err, const vector<
 
   cout<<"{BGmet150to250_mcbkg} "<<bin_count[3]<<endl;
   cout<<"{mc_stat_met150to250} "<<stat_err[3]<<endl;
-  
+
   if(SR == "TChiWZ"){
     cout<<"{BGmet250to350_mcbkg} "<<bin_count[4]<<endl;
     cout<<"{mc_stat_met250to350} "<<stat_err[4]<<endl;
@@ -292,7 +292,7 @@ vector<double> getRareSamplesError(const vector<double> &stat_err, const vector<
     cout<<"{mc_stat_met250toInf} "<<stat_err[4]<<endl;
   }*/
 
-  
+
 
   return error;
 }
@@ -337,7 +337,7 @@ TGraphAsymmErrors* getErrorTGraph(const vector<double> &temp_count, const vector
     bin_sum[i] = temp_count[i]+RSFOF*fs_count[i]+rare_count[i];
     bin_err_high[i] = sqrt(temp_err[i]*temp_err[i]+rare_err[i]*rare_err[i]+fs_err.first[i]*fs_err.first[i]);
     bin_err_low[i] = sqrt(temp_err[i]*temp_err[i]+rare_err[i]*rare_err[i]+fs_err.second[i]*fs_err.second[i]);
-    
+
     bin_left[i] = bin_low[i].first; //left bin so that all centers are in plot for sure.
     bin_width[i] = bin_low[i].second - bin_low[i].first; //high bin edge - low bin edge
     zeros[i] = 0; //used as x low width to get around bin center not on screen.
@@ -384,16 +384,16 @@ void printCounts(const vector<double> &temp_count, const vector<double> &temp_er
 }
 
 void printLatexCounts(const vector<double> temp_count, const vector<double> &temp_err, const vector<double> &rare_count, const vector<double> &rare_err, const vector<double> &fs_count, const pair<vector<double>,vector<double>> &fs_err, const vector<pair<double,double>> &bin_low, const vector<double> &data_count, double RSFOF /*Really just the scale factor*/){
-  
+
   cout<<fixed;
   cout<<setprecision(1);
 
   cout<<"LATEXTABLE: \\begin{tabular} {";
   for (int i = 0; i < (int) temp_count.size(); i++){
-    cout<<"l | "; 
+    cout<<"l | ";
   }
   cout<<"l }"<<endl;
-  
+
   cout<<"LATEXTABLE: \\MET [GeV] ";
   cout<<setprecision(0);
   for (int i = 0; i<temp_err.size(); i++){
@@ -437,7 +437,7 @@ void computeErrors(){
   bin_edge.push_back(make_pair(100,150));
   bin_edge.push_back(make_pair(150,225));
   bin_edge.push_back(make_pair(225,6001));
-  
+
   vector<double> temp_stat_err = {100,10,5,2,1};
   vector<double> temp_bin_count = {6947.05,1634.16,90.83,14.22,8};
 
