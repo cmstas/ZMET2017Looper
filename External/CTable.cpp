@@ -35,13 +35,13 @@ CTable::~CTable(){
 }
 
 
-CTableCellSetter CTable::setCells() 
+CTableCellSetter CTable::setCells()
 {
     return CTableCellSetter(*this);
 }
 
 
-CTableColumnLabeler CTable::setTable() 
+CTableColumnLabeler CTable::setTable()
 {
     return CTableColumnLabeler(*this);
 }
@@ -110,13 +110,13 @@ void CTable::setCell(const TString& entryTS, size_t r, size_t c){
 }
 
 void CTable::printHLine(int row){
-  if (row != 0) hlines_.push_back(row);  
+  if (row != 0) hlines_.push_back(row);
 }
 
 void CTable::printCLine(int row, int start, int end){
-  clines_row_.push_back(row);  
-  clines_start_.push_back(start);  
-  clines_end_.push_back(end);  
+  clines_row_.push_back(row);
+  clines_start_.push_back(start);
+  clines_end_.push_back(end);
 }
 
 void CTable::setCell(double entryd, size_t r, size_t c){
@@ -198,27 +198,27 @@ void CTable::printLine(char symbol, size_t length, bool endline) const {
 
 std::string CTable::delineator(int i, int j) const {
   for (unsigned int r = 0; r < multicolumn_row.size(); r++){
-    int row = multicolumn_row[r]; 
+    int row = multicolumn_row[r];
     if (row != i) continue;
     int start = multicolumn_start[r];
-    if (start > j) continue; 
-    int finish = multicolumn_finish[r]; 
-    if (finish <= j) continue; 
-    return "   "; 
+    if (start > j) continue;
+    int finish = multicolumn_finish[r];
+    if (finish <= j) continue;
+    return "   ";
   }
   return delineator_;
 }
 
 int CTable::isMultiColumn(int i, int j) const {
   for (unsigned int r = 0; r < multicolumn_row.size(); r++){
-    int row = multicolumn_row[r]; 
+    int row = multicolumn_row[r];
     if (row != i) continue;
     int start = multicolumn_start[r];
-    if (start > j) continue; 
-    int finish = multicolumn_finish[r]; 
-    if (finish < j) continue; 
-    if (start == j) return finish-start; 
-    else return -1; 
+    if (start > j) continue;
+    int finish = multicolumn_finish[r];
+    if (finish < j) continue;
+    if (start == j) return finish-start;
+    else return -1;
   }
   return 0;
 
@@ -238,7 +238,7 @@ void CTable::print() const {
 	size_t line=calcLine();
     for(size_t i=0; i<height_; i++){
       for (unsigned int j = 0; j < hlines_.size(); j++){
-        if (hlines_[j] == i) printLine('-', line);  
+        if (hlines_[j] == i) printLine('-', line);
       }
       if(dispLines_){printLine('-',line);}
       (*out_)<<" "<<std::setw(rowLabelWidth_)<<std::left<<rowLabels_[i]<<std::right;
@@ -256,7 +256,7 @@ void CTable::print() const {
     if(dispLines_){printLine('-',line);}
   }else{
     (*out_)<<"->  Table Empty  <-"<<std::endl;
-    
+
   }
 }
 
@@ -347,10 +347,10 @@ void CTable::setRowLabel(const TString& labelTS, size_t r){
 
 void CTable::saveAs(const std::string& filename, bool overwrite){
   if(filename.length()>0){
-    if(file_==NULL){file_=new ofstream;}
+    if(file_==NULL){file_=new std::ofstream;}
     if(file_->good()){file_->close();}
     if(overwrite){file_->open(filename.c_str());}
-    else{file_->open(filename.c_str(),ofstream::out | ofstream::app);}
+    else{file_->open(filename.c_str(),std::ofstream::out | std::ofstream::app);}
     if(!file_->fail()){out_=file_;}
     else{
       std::cout<<"Failed to open file "<<filename<<", defaulting to terminal."<<std::endl;
@@ -360,7 +360,7 @@ void CTable::saveAs(const std::string& filename, bool overwrite){
 }
 
 void CTable::setColLine(int i){
-  colLines_.push_back(i); 
+  colLines_.push_back(i);
 }
 
 bool CTable::isColLine(int i){
@@ -371,7 +371,7 @@ bool CTable::isColLine(int i){
 
 void CTable::saveTex(const std::string& filename, bool standalone, bool withtitle){
   if(filename.length()>0){
-    if(file_==NULL){file_=new ofstream;}
+    if(file_==NULL){file_=new std::ofstream;}
     if(file_->good()){file_->close();}
     file_->open(filename.c_str());
     if(!file_->fail()){out_=file_;}
@@ -390,11 +390,11 @@ void CTable::saveTex(const std::string& filename, bool standalone, bool withtitl
   if (!standalone) (*out_)<<"\\begin{table}"<<std::endl;
   if (standalone) (*out_)<<"\\begin{center}"<<std::endl;
     (*out_) <<"\\begin{tabular}{"<<cols<<"}";
-  if (withtitle) (*out_) << "\\multicolumn{" << colLabels_.size()+1 << "}{c}{" << title_ << "} \\\\ ";  
-    (*out_) << "\\hline"<<std::endl 
+  if (withtitle) (*out_) << "\\multicolumn{" << colLabels_.size()+1 << "}{c}{" << title_ << "} \\\\ ";
+    (*out_) << "\\hline"<<std::endl
          <<" ";
   for(size_t i=0;i<colLabels_.size();i++){
-	if (isMultiColumn(-1, i) > 0 ) (*out_) << Form("& \\multicolumn{%i}{%sc%s}{%s}", isMultiColumn(-1,i)+1, isColLine(i)  ? "|" : "", (isColLine(i+(isMultiColumn(-1,i)))) ? "|" : "", colLabels_[i].c_str()); 
+	if (isMultiColumn(-1, i) > 0 ) (*out_) << Form("& \\multicolumn{%i}{%sc%s}{%s}", isMultiColumn(-1,i)+1, isColLine(i)  ? "|" : "", (isColLine(i+(isMultiColumn(-1,i)))) ? "|" : "", colLabels_[i].c_str());
     if (isMultiColumn(-1, i) == 0) (*out_)<<"&"<<colLabels_[i];
   }
   if (rowLabels_[0] != "") (*out_)<<"\\\\"<<std::endl<<"\\hline"<<std::endl;
@@ -410,7 +410,7 @@ void CTable::saveTex(const std::string& filename, bool standalone, bool withtitl
       (*out_)<<rowLabels_[i];
       for(size_t j=0; j<width_; j++){
 		if(table_[i].size()>j){
-	      if (isMultiColumn(i,j) > 0 ) (*out_) << Form("& \\multicolumn{%i}{l}{%s}", isMultiColumn(i,j)+1, table_[i][j].c_str()); 
+	      if (isMultiColumn(i,j) > 0 ) (*out_) << Form("& \\multicolumn{%i}{l}{%s}", isMultiColumn(i,j)+1, table_[i][j].c_str());
 		  if (isMultiColumn(i,j) == 0) (*out_) << " & " << table_[i][j];
 		}else{
 		  (*out_)<<" &  ";
@@ -420,7 +420,7 @@ void CTable::saveTex(const std::string& filename, bool standalone, bool withtitl
     }
   }else{
     (*out_)<<" & ->  Table Empty  <-"<<std::endl;
-  }  
+  }
   (*out_)<<"\\hline"<<std::endl<<"\\end{tabular}"<<std::endl;
   if (standalone) (*out_) <<"\\end{center}"<<std::endl;
   (*out_) <<"\\end{table}"<<std::endl;
@@ -457,7 +457,7 @@ void CTable::printTex() const {
     }
   }else{
     cout   <<" & ->  Table Empty  <-"<<std::endl;
-  }  
+  }
   cout   <<"\\hline"<<std::endl<<"\\end{tabular}"<<std::endl
          <<"\\end{center}"<<std::endl<<"\\end{table}"<<std::endl;
          //<<"\\end{document}"<<std::endl;

@@ -21,7 +21,7 @@ void tdrGrid(bool gridOn) {
 
 void setTDRStyle() {
 
-  cout << "Using TDR style file: https://twiki.cern.ch/twiki/pub/CMS/SUSYLimitTools/tdrstyle.C" << endl;
+  std::cout << "Using TDR style file: https://twiki.cern.ch/twiki/pub/CMS/SUSYLimitTools/tdrstyle.C" << std::endl;
 
   tdrStyle = new TStyle("tdrStyle","Style for P-TDR");
 
@@ -65,7 +65,7 @@ void setTDRStyle() {
   tdrStyle->SetEndErrorSize(2);
   //  tdrStyle->SetErrorMarker(20);
   //tdrStyle->SetErrorX(0.);
-  
+
   tdrStyle->SetMarkerStyle(20);
 
   //For the fit/function:
