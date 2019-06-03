@@ -118,7 +118,7 @@ void drawCMSLatex(double luminosity,TString cms_label = "")
 
     float xcms = gPad->GetLeftMargin();
     float ycms = 1.01 - gPad->GetTopMargin();
-    float xlumi = 1.01 - gPad->GetRightMargin();
+    float xlumi = 1.00 - gPad->GetRightMargin();
     int energy = 13;
     if(cms_label != "")
     {
