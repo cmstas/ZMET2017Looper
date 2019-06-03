@@ -1046,7 +1046,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
 
   //cout<<__LINE__<<endl;
   TLine* line1 = new TLine(xmin,1,xmax,1);
-  line1->SetLineStyle(2);
+  line1->SetLineStyle(1);
 
   if (conf->get("print_stats") == "true" && conf->get("simple_errors") != "true"){
     residual->SetMarkerSize(3.5);
