@@ -26,6 +26,7 @@ void printTemplatesDebug(const vector<double> &prediction, const vector<double> 
 }
 
 vector<double> getMetTemplatesError(const vector<double> &stat_err, const vector<double> &bin_count, double normalization, int norm_bin, const vector<pair<double, double>> &bin_edge, TString SR){
+    cout<<"Computing MET templates systematics"<<endl;
   /* stat_err == statistical error on the template bins
      bin count == bin count on template bins
      normalization == bin count to which the sample was normalized
@@ -33,7 +34,7 @@ vector<double> getMetTemplatesError(const vector<double> &stat_err, const vector
      SR == name of signal region */
   vector<double> output_errors;
 
-  cout<<"Normalization Factor for templates from bin "<<norm_bin<<": "<<normalization/bin_count[norm_bin]<<endl;
+  cout<<"Normalization Factor for templates from bin "<<norm_bin<<": "<<normalization/bin_count.at(norm_bin)<<endl;
 
   vector<double> noSubStatErrs=getPercentStatErrorsForNoEWKSub(SR);
 

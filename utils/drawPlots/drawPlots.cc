@@ -45,7 +45,6 @@ void assignColor(std::vector<TH1D*> hists)
 
 TH1D *combine_histograms(TFile* hist_file, std::vector<TString> hist_names,int count,TString plot_name)
 {
-  cout<<hist_names[0]<<endl;
   TH1D *final_hist =(TH1D*) ((TH1D*)(hist_file->Get(hist_names[0])))->Clone("hist_"+to_string(count)+"_"+plot_name);
   cout<<"in combine"<<count<<endl;
   for(size_t i = 1; i<hist_names.size(); i++)
@@ -253,7 +252,6 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
 
   std::vector<TH1D*> hists (num_hists);
   for (int i = 0; i<num_hists; i++){
-    cout<<"Doing histogram number"<<hist_names[i].at(0)<<endl;
     hists[i] = (TH1D*) (combine_histograms(hist_files[i],hist_names[i],i,plot_name));
     //hists[i] = (TH1D*) combine_histograms((TH1D*) hist_files[i]->Get(hist_names[i]))->Clone("hist_"+to_string(i)+"_"+plot_name);
     for(auto &it:hist_names[i])
@@ -524,6 +522,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
     }
 
     if(conf->get("simple_errors") == "true"){
+      cout<<"Doing simple errors"<<endl;
       vector<vector<pair<double, double>>> stats; //holds a pair of count error for each sample, and the bg sum
       double count, error;
       vector<pair<double,double>> stat_row;
@@ -697,6 +696,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
       // Compute Full Errors
       //=========================
       //Compute Rare Sample Errors
+      cout<<"Computing full errors"<<endl;
 
       //Get Rare Scale factors
       double ZZ_scale = (conf->get("hist_1_scale") == "") ? 1 : stod(conf->get("hist_1_scale"));
@@ -891,7 +891,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
     bg_err->Draw("SAME 2");
   }
   if (conf->get("print_stats") == "true" && conf->get("simple_errors") != "true"){
-    hists[0]->SetMarkerSize(3.5);
+    hists[0]->SetMarkerSize(0.8);
     hists[0]->SetLineWidth(4);
   }
   else{
@@ -1023,7 +1023,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   line1->SetLineStyle(1);
 
   if (conf->get("print_stats") == "true" && conf->get("simple_errors") != "true"){
-    residual->SetMarkerSize(3.5);
+    residual->SetMarkerSize(0.8);
   }
   else{
     residual->SetMarkerSize(0.8);

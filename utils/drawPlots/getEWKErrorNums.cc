@@ -5,7 +5,7 @@ vector<TString> getFileLocation(TString sample_name){
   if(sample_name == "VRA")
   {
     fnames.push_back("/home/bsathian/ZMet/DoubleLepton_narrowband/DoubleLepton_narrow_validation/VRA4/full_prediction/dataTemplates/GammaData_EWKSub.root");
-    fnames.push_back("/home/bsathian/ZMet/DoubleLepton_narrowband/DoubleLepton_narrow_validation/VRA4/full_prediction/DoubleLepton/GammaData.root");
+    fnames.push_back("/home/bsathian/ZMet/DoubleLepton_narrowband/DoubleLepton_narrow_validation/VRA4/full_prediction/dataTemplates/GammaData.root");
   }
   else if(sample_name == "VRB")
   {
