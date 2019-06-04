@@ -12,7 +12,7 @@ ifndef VERBOSE
   QUIET := @
 endif
 
-#ROOFITINCLUDE = 
+#ROOFITINCLUDE =
 #ifdef CMSSW_VERSION
 #	ROOFITINCLUDE = $(shell scramv1 tool info roofitcore | grep INCLUDE | sed 's/^INCLUDE=/-I/')
 #endif
@@ -21,7 +21,7 @@ CC = g++
 CMSROOT = ./
 INCLUDE = $(shell root-config --cflags) -I$(CMSROOT)
 CFLAGS = -Wall -Wno-unused-function -g -O2 -fPIC $(INCLUDE) $(EXTRACFLAGS)
-ROOTLIBS = $(shell root-config --ldflags --cflags --libs) -lTMVA #-lEG -lGenVector
+ROOTLIBS = $(shell root-config --ldflags --cflags --libs) -lTMVA -lRooFit#-lEG -lGenVector
 
 LINKER = g++
 LINKERFLAGS = $(shell root-config --ldflags --libs) -lEG -lGenVector -lTMVA
@@ -33,7 +33,7 @@ DIR = ./
 
 SOURCES = $(wildcard *.cc)
 OBJECTS = $(SOURCES:.cc=.o)
-LIB = libmakeReweightHist_noconf.so
+LIB = libDrawPlots.so
 
 LIBS = $(LIB)
 
@@ -50,7 +50,7 @@ $(LIB): $(OBJECTS)
 $(EXE):  $(LIBS)
 	$(QUIET) echo "Building $@"; \
 	echo "$(CC) -o $@ $(LIBS) $(ROOTLIBS) -Wl,-rpath,./"; \
-	$(CC) -o $@ $(LIBS) $(ROOTLIBS) -Wl,-rpath,./ 
+	$(CC) -o $@ $(LIBS) $(ROOTLIBS) -Wl,-rpath,./
 
 
 %.o : %.cc

@@ -1,15 +1,7 @@
-#ifndef INCLUDED_COMPUTE_ERROS
-#define INCLUDED_COMPUTE_ERROS
-
-#include <vector>
-#include <utility>
-#include "TString.h"
-#include "RooHistError.h"
-#include "getEWKErrorNums.C"
-
+# include "computeErrors.h"
 using namespace std;
 
-double err_mult(double A, double B, double errA, double errB) {
+double err_divide(double A, double B, double errA, double errB) {
   /* A = data yeild in norm bin
   B = template yield in norm bin
   errA/errB = statistical error in those bins*/
@@ -23,9 +15,9 @@ void printTemplatesDebug(const vector<double> &prediction, const vector<double> 
 
   cout<<"TEMPLATEDEBUG: \\begin{tabular} {l | l | l | l | l | l}"<<endl;
   cout<<"TEMPLATEDEBUG: MET Bin & Prediction & Closure (ratio) & Normalization (ratio) & Statistical (ratio) & EWK Sub (ratio) \\\\ \\hline"<<endl;
-  for (int i = 0; i<bin_edge.size(); i++){
+  for (size_t i = 0; i<bin_edge.size(); i++){
     cout<<"TEMPLATEDEBUG: "<<(int) bin_edge[i].first<<"-"<<(int) bin_edge[i].second<<" & "<<prediction[i]<<" $\\pm$ "<<prediction_err[i]<<" & "<<closure_err[i]<<" ("<<closure_err[i]/prediction_err[i]<<") & "<<norm_err[i]<<" ("<<norm_err[i]/prediction_err[i]<<") & "<<stat_err[i]<<" ("<<stat_err[i]/prediction_err[i]<<") & "<<ewk_err[i]<<" ("<<ewk_err[i]/prediction_err[i]<<") \\\\";
-    if (i == (int) bin_edge.size() -1 ){
+    if (i == bin_edge.size() -1 ){
       cout<<" \\hline";
     }
     cout<<endl;
@@ -45,12 +37,12 @@ vector<double> getMetTemplatesError(const vector<double> &stat_err, const vector
 
   vector<double> noSubStatErrs=getPercentStatErrorsForNoEWKSub(SR);
 
-  for (int i=0; i<=noSubStatErrs.size(); i++){
+  for (size_t i=0; i<=noSubStatErrs.size(); i++){
     noSubStatErrs[i] = noSubStatErrs[i]*bin_count[i];
   }
 
   //normalization = err_mult(normalization, bin_count[norm_bin], sqrt(normalization), stat_err[norm_bin]);
-  normalization = err_mult(normalization, bin_count[norm_bin], sqrt(normalization), noSubStatErrs[norm_bin]);
+  normalization = err_divide(normalization, bin_count[norm_bin], sqrt(normalization), noSubStatErrs[norm_bin]);
 
   //=========
   // Input EWK and Closure Errors
@@ -160,7 +152,7 @@ vector<double> getMetTemplatesError(const vector<double> &stat_err, const vector
 
   vector<double> closure_err, norm_err, ewk_err;
 
-  for (int i=0; i<stat_err.size(); i++){
+  for (size_t i=0; i<stat_err.size(); i++){
 
     ewk_err.push_back(0.3*abs(bin_count[i] - EWK_Norm*No_EWK_BinCount[i]));
     norm_err.push_back(normalization*bin_count[i]);
@@ -226,7 +218,7 @@ pair<vector<double>,vector<double>> getFSError(const vector<double> &bin_count, 
   vector<double> error_dn;
 
   double bin_up, bin_dn;
-  for (int i = 0; i<bin_count.size(); i++){
+  for (size_t i = 0; i<bin_count.size(); i++){
     RooHistError::instance().getPoissonInterval(bin_count[i], bin_dn, bin_up);
 
     cout<<"bin count "<<bin_count[i]<<" Error_up "<<bin_up<<" Error_dn "<<bin_dn<<endl;
@@ -261,7 +253,7 @@ vector<double> getRareSamplesError(const vector<double> &stat_err, const vector<
   vector<double> error;
 
   //σ^2 = stat_err^2 + (scale*bin_count*.5)^2
-  for(int i=0; i<stat_err.size(); i++){
+  for(size_t i=0; i<stat_err.size(); i++){
     err_bin = 0;
     err_bin += scale*scale*scale_unc*scale_unc*bin_count[i]*bin_count[i];
     err_bin += stat_err[i]*stat_err[i];
@@ -299,27 +291,27 @@ vector<double> getRareSamplesError(const vector<double> &stat_err, const vector<
 
 void printErrors(const vector<double> &temp_err, const vector<double> &rare_err, const pair<vector<double>, vector<double>> &fs_err, const vector<double> &bin_low){
   cout<<"\\MET [GeV] ";
-  for (int i = 0; i<temp_err.size(); i++){
+  for (size_t i = 0; i<temp_err.size(); i++){
     cout<<bin_low[i]<<"-"<<bin_low[i+1]<<" ";
   }
   cout<<endl;
   cout<<"DY+jets ";
-  for (int i = 0; i<temp_err.size(); i++){
+  for (size_t i = 0; i<temp_err.size(); i++){
     cout<<"+/-"<<temp_err[i]<<" ";
   }
   cout<<endl;
   cout<<"FS ";
-  for (int i = 0; i<fs_err.first.size(); i++){
+  for (size_t i = 0; i<fs_err.first.size(); i++){
     cout<<"+"<<fs_err.first[i]<<"-"<<fs_err.second[i]<<" ";
   }
   cout<<endl;
   cout<<"Rares ";
-  for (int i = 0; i<rare_err.size(); i++){
+  for (size_t i = 0; i<rare_err.size(); i++){
     cout<<"+/-"<<rare_err[i]<<" ";
   }
   cout<<endl;
   cout<<"Sum ";
-  for (int i = 0; i<temp_err.size(); i++){
+  for (size_t i = 0; i<temp_err.size(); i++){
     cout<<"+"<<temp_err[i]+rare_err[i]+fs_err.first[i]<<"-"<<temp_err[i]+rare_err[i]+fs_err.second[i]<<" ";
   }
   cout<<endl;
@@ -333,7 +325,7 @@ TGraphAsymmErrors* getErrorTGraph(const vector<double> &temp_count, const vector
   Double_t bin_left[temp_err.size()];
   Double_t zeros[temp_err.size()];
 
-  for (int i = 0; i<temp_err.size(); i++){
+  for (size_t i = 0; i<temp_err.size(); i++){
     bin_sum[i] = temp_count[i]+RSFOF*fs_count[i]+rare_count[i];
     bin_err_high[i] = sqrt(temp_err[i]*temp_err[i]+rare_err[i]*rare_err[i]+fs_err.first[i]*fs_err.first[i]);
     bin_err_low[i] = sqrt(temp_err[i]*temp_err[i]+rare_err[i]*rare_err[i]+fs_err.second[i]*fs_err.second[i]);
@@ -352,32 +344,32 @@ TGraphAsymmErrors* getErrorTGraph(const vector<double> &temp_count, const vector
 
 void printCounts(const vector<double> &temp_count, const vector<double> &temp_err, const vector<double> &rare_count, const vector<double> &rare_err, const vector<double> &fs_count, const pair<vector<double>,vector<double>> &fs_err, const vector<pair<double,double>> &bin_low, const vector<double> &data_count, double RSFOF /*Really just the scale factor*/){
   cout<<"STATTABLE: Sample ";
-  for (int i = 0; i<temp_err.size(); i++){
+  for (size_t i = 0; i<temp_err.size(); i++){
     cout<<bin_low[i].first<<"-"<<bin_low[i].second<<" ";
   }
   cout<<endl;
   cout<<"STATTABLE: DY+jets ";
-  for (int i = 0; i<temp_err.size(); i++){
+  for (size_t i = 0; i<temp_err.size(); i++){
     cout<<temp_count[i]<<"+/-"<<temp_err[i]<<" ";
   }
   cout<<endl;
   cout<<"STATTABLE: FS ";
-  for (int i = 0; i<fs_err.first.size(); i++){
+  for (size_t i = 0; i<fs_err.first.size(); i++){
     cout<<RSFOF*fs_count[i]<<"+"<<fs_err.first[i]<<"-"<<fs_err.second[i]<<" ";
   }
   cout<<endl;
     cout<<"STATTABLE: Rares ";
-  for (int i = 0; i<rare_err.size(); i++){
+  for (size_t i = 0; i<rare_err.size(); i++){
     cout<<rare_count[i]<<"+/-"<<rare_err[i]<<" ";
   }
   cout<<endl;
   cout<<"STATTABLE: Sum ";
-  for (int i = 0; i<temp_err.size(); i++){
+  for (size_t i = 0; i<temp_err.size(); i++){
     cout<<temp_count[i]+RSFOF*fs_count[i]+rare_count[i]<<"+"<<sqrt(temp_err[i]*temp_err[i]+rare_err[i]*rare_err[i]+fs_err.first[i]*fs_err.first[i])<<"-"<<sqrt(temp_err[i]*temp_err[i]+rare_err[i]*rare_err[i]+fs_err.second[i]*fs_err.second[i])<<" ";
   }
   cout<<endl;
   cout<<"STATTABLE: Data ";
-  for (int i = 0; i<temp_err.size(); i++){
+  for (size_t i = 0; i<temp_err.size(); i++){
     cout<<data_count[i]<<" ";
   }
   cout<<endl;
@@ -396,33 +388,33 @@ void printLatexCounts(const vector<double> temp_count, const vector<double> &tem
 
   cout<<"LATEXTABLE: \\MET [GeV] ";
   cout<<setprecision(0);
-  for (int i = 0; i<temp_err.size(); i++){
+  for (size_t i = 0; i<temp_err.size(); i++){
     cout<<" & "<<(int) bin_low[i].first<<"-"<<(int) bin_low[i].second;
   }
   cout<<" \\\\ \\hline "<<endl;
   cout<<setprecision(1);
   cout<<"LATEXTABLE: DY+jets ";
-  for (int i = 0; i<temp_err.size(); i++){
+  for (size_t i = 0; i<temp_err.size(); i++){
     cout<<" & "<<temp_count[i]<<"$\\pm$"<<temp_err[i];
   }
   cout<<" \\\\" <<endl;
   cout<<"LATEXTABLE: FS ";
-  for (int i = 0; i<fs_err.first.size(); i++){
+  for (size_t i = 0; i<fs_err.first.size(); i++){
     cout<<" & "<<"$"<<RSFOF*fs_count[i]<<"^{+"<<fs_err.first[i]<<"}_{-"<<fs_err.second[i]<<"}$ ";
   }
   cout<<" \\\\" <<endl;
     cout<<"LATEXTABLE: Rares ";
-  for (int i = 0; i<rare_err.size(); i++){
+  for (size_t i = 0; i<rare_err.size(); i++){
     cout<<" & "<<rare_count[i]<<"$\\pm$"<<rare_err[i];
   }
   cout<<" \\\\ \\hline" <<endl;
   cout<<"LATEXTABLE: Sum ";
-  for (int i = 0; i<temp_err.size(); i++){
+  for (size_t i = 0; i<temp_err.size(); i++){
     cout<<" & "<<"$"<<temp_count[i]+RSFOF*fs_count[i]+rare_count[i]<<"^{+"<<sqrt(temp_err[i]*temp_err[i]+rare_err[i]*rare_err[i]+fs_err.first[i]*fs_err.first[i])<<"}_{-"<<sqrt(temp_err[i]*temp_err[i]+rare_err[i]*rare_err[i]+fs_err.second[i]*fs_err.second[i])<<"}$ ";
   }
   cout<<"\\\\ \\hline"<<endl;
   cout<<"LATEXTABLE: Data ";
-  for (int i = 0; i<temp_err.size(); i++){
+  for (size_t i = 0; i<temp_err.size(); i++){
     cout<<" & "<<data_count[i];
   }
   cout<<endl;
@@ -452,5 +444,3 @@ void computeErrors(){
   cout<<"====================================\n\n\n";
   printErrors(temp_err, rare_err, FS_err, bin_low);
 }
-
-#endif

@@ -1,23 +1,4 @@
-#include <iostream>
-#include <stdexcept>
-#include <vector>
-
-#include "TChain.h"
-#include "TLegend.h"
-#include "TCanvas.h"
-#include "TColor.h"
-#include "THStack.h"
-#include "TGaxis.h"
-#include "TCut.h"
-#include "TH1D.h"
-
-#include "CTable.cpp"
-#include "tdrstyle_SUSY.C"
-
-#include "computeErrors.C"
-#include "../../ConfigParser.cc"
-#include "../../ConfigHelper.cc"
-#include "../../HistTools.cc"
+# include "drawPlots.h"
 
 using namespace std;
 
@@ -45,22 +26,17 @@ std::vector<TString> split_histogram_names(TString histNameString)
   return histNames;
 }
 
-bool histOrdering(TH1D* h1, TH1D* h2)
-{
-  //a part of Balaji's jobless functions
-  return h1->Integral() > h2->Integral();
-}
 void assignColor(std::vector<TH1D*> hists)
 {
   //Balaji was jobless and hence he wrote this function
 
   std::vector<TH1D*> histOrdered;
-  for(int i=1;i<hists.size();i++)
+  for(size_t i=1;i<hists.size();i++)
   {
     histOrdered.push_back(hists[i]);
   }
-  std::sort(histOrdered.begin(),histOrdered.end(),histOrdering);
-  for(int i=0;i<histOrdered.size();i++)
+  std::sort(histOrdered.rbegin(),histOrdered.rend(),TH1DIntegralSort);
+  for(size_t i=0;i<histOrdered.size();i++)
   {
     histOrdered[i]->SetFillColor(ROOT_COLOR_PALATE[i%ROOT_COLOR_PALATE.size()]);
     histOrdered[i]->SetFillStyle(1001);
@@ -109,7 +85,7 @@ bool LabeledHistSort(pair<TH1D*,TString> hist_1, pair<TH1D*,TString> hist_2){
   return (hist_1.first->Integral() < hist_2.first->Integral()) ;
 }
 
-void drawCMSLatex(double luminosity,TString cms_label = "")
+void drawCMSLatex(double luminosity,TString cms_label)
 {
     TLatex* t = new TLatex();
     t->SetTextAlign(11);
@@ -119,7 +95,6 @@ void drawCMSLatex(double luminosity,TString cms_label = "")
     float xcms = gPad->GetLeftMargin();
     float ycms = 1.01 - gPad->GetTopMargin();
     float xlumi = 1.00 - gPad->GetRightMargin();
-    int energy = 13;
     if(cms_label != "")
     {
       t->DrawLatexNDC(xcms,ycms,"#scale[1.25]{#font[61]{CMS}} #scale[1.1]{#font[52]{"+cms_label+"}}");
@@ -138,7 +113,6 @@ void drawSRText(TString SR, double high_y, double low_x){
   cout<<"Drawing SR Text"<<endl;
   TString text;
   float left_margin = gPad->GetLeftMargin();
-  float top_margin = gPad->GetTopMargin();
   if(SR == "VRA")
   {
     text="VRA";
@@ -608,14 +582,14 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
 
       if (conf->get("templates_closure") == "true"){
         //Output Rows for samples
-        for(int row = 0; row <= (int) hists.size(); row++ ){
+        for(size_t row = 0; row <= hists.size(); row++ ){
           if (row == hists.size()){
             table.setRowLabel("Ratio", hists.size());
           }
           else{
             table.setRowLabel(hist_labels[row], row);
           }
-          for(int col=0; col < (int) stats_bins.size(); col++){
+          for(size_t col=0; col < stats_bins.size(); col++){
             //cout<<__LINE__<<endl;
             table.setCell(Form("%.2f+/-%.2f", stats[row][col].first, stats[row][col].second), row, col);
           }
@@ -623,14 +597,14 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
       }
       else{
         //Output Rows for samples
-        for(int row = 0; row <= (int) hists.size(); row++ ){
+        for(size_t row = 0; row <= hists.size(); row++ ){
           if (row == hists.size()){
             table.setRowLabel("Sum of BG", hists.size());
           }
           else{
             table.setRowLabel(hist_labels[row], row);
           }
-          for(int col=0; col < (int) stats_bins.size(); col++){
+          for(size_t col=0; col < stats_bins.size(); col++){
             //cout<<__LINE__<<endl;
             table.setCell(Form("%.2f+/-%.2f; Eff: %.2f", stats[row][col].first, stats[row][col].second, stats[row][col].first/stats[row][0].first), row, col);
           }
@@ -682,7 +656,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
       //=======================================
       // Get Bin Counts and Statistical Errors
       //=======================================
-      for (int i = 0; i < stats_bins.size(); i++){
+      for (size_t i = 0; i < stats_bins.size(); i++){
         signal_count.push_back(hists[0]->Integral(hists[0]->FindBin(stats_bins[i].first), hists[0]->FindBin(stats_bins[i].second - 0.001)));
         FS_count.push_back(hists[5]->Integral(hists[5]->FindBin(stats_bins[i].first), hists[5]->FindBin(stats_bins[i].second - 0.001)));
 
@@ -735,7 +709,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
       double VVV_scale_unc = (conf->get("hist_3_scale_unc") == "") ? .5 : stod(conf->get("hist_3_scale_unc"));
       double TTV_scale_unc = (conf->get("hist_4_scale_unc") == "") ? .3 : stod(conf->get("hist_4_scale_unc"));
 
-      for (int i = 0; i < ZZ_err.size(); i++){
+      for (size_t i = 0; i < ZZ_err.size(); i++){
         cout<<"RAREDEBUG| bin "<<i<<": ZZ (scaled): "<<ZZ_count[i]<<" +/- "<<ZZ_err[i]<<" ("<<ZZ_count[i]*ZZ_scale<<")"<<endl;
         cout<<"RAREDEBUG| bin "<<i<<": WZ (scaled): "<<WZ_count[i]<<" +/- "<<WZ_err[i]<<" ("<<WZ_count[i]*WZ_scale<<")"<<endl;
         cout<<"RAREDEBUG| bin "<<i<<": VVV (scaled): "<<VVV_count[i]<<" +/- "<<VVV_err[i]<<" ("<<VVV_count[i]*VVV_scale<<")"<<endl;
@@ -758,7 +732,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
       //cout<<__LINE__<<endl;
 
       //Add all rare samples together with scale factors applied
-      for (int i = 0; i < ZZ_err.size(); i++){
+      for (size_t i = 0; i < ZZ_err.size(); i++){
 
         cout<<"RAREDEBUG| bin "<<i<<": ZZ (scaled): "<<ZZ_count[i]<<" ("<<ZZ_count[i]*ZZ_scale<<" +/- "<<ZZ_err[i]<<")"<<endl;
         cout<<"RAREDEBUG| bin "<<i<<": WZ (scaled): "<<WZ_count[i]<<" ("<<WZ_count[i]*WZ_scale<<" +/- "<<WZ_err[i]<<")"<<endl;
@@ -792,7 +766,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
       if (conf->get("blindAfter") != ""){
         blindAfter(hists[0], stod(conf->get("blindAfter")));
         signal_count.clear();
-        for (int i = 0; i < stats_bins.size(); i++){
+        for (size_t i = 0; i < stats_bins.size(); i++){
           signal_count.push_back(hists[0]->Integral(hists[0]->FindBin(stats_bins[i].first), hists[0]->FindBin(stats_bins[i].second - 0.001)));
         }
       }
@@ -1378,14 +1352,14 @@ TString drawArbitraryNumber(ConfigParser *conf){
       //cout<<__LINE__<<endl;
 
       //Output Rows for samples
-      for(int row = 0; row <= (int) hists.size(); row++ ){
+      for(size_t row = 0; row <= hists.size(); row++ ){
         if (row == hists.size()){
           table.setRowLabel("Sum of BG", hists.size());
         }
         else{
           table.setRowLabel(hist_labels[row], row);
         }
-        for(int col=0; col < (int) stats_bins.size(); col++){
+        for(size_t col=0; col < stats_bins.size(); col++){
           //cout<<__LINE__<<endl;
           table.setCell(Form("%.2f+/-%.2f; Eff: %.2f", stats[row][col].first, stats[row][col].second, stats[row][col].first/stats[row][0].first), row, col);
         }
@@ -2290,7 +2264,7 @@ TString drawSingleTH2(ConfigParser *conf){
   return errors;
 }
 
-void drawPlots(TString config_file, bool draw_debugs = true){
+void drawPlots(TString config_file, bool draw_debugs){
   TString errors="";
   gEnv->SetValue("RooFit.Banner","0");
   ConfigParser *configs=new ConfigParser(config_file.Data());

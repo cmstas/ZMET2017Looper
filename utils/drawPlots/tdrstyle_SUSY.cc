@@ -2,12 +2,12 @@
 // https://twiki.cern.ch/twiki/pub/CMS/SUSYLimitTools/tdrstyle.C
 
 
-#include "TStyle.h"
+#include "tdrstyle_SUSY.h"
 
 // tdrGrid: Turns the grid lines on (true) or off (false)
 
-TStyle *tdrStyle;
 
+TStyle *tdrStyle;
 void tdrGrid(bool gridOn) {
   tdrStyle->SetPadGridX(gridOn);
   tdrStyle->SetPadGridY(gridOn);

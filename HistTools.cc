@@ -87,7 +87,7 @@ void fill2DHistograms(std::string name,float xval, float yval, double weight, st
 
 
 
-void updateOverUnderflow( TH1D * &hist, double xmax, double xmin = -100000 ){
+void updateOverUnderflow( TH1D * &hist, double xmax, double xmin){
   /* updates bins at the edges of xmax (xmin) with everything above (below) including over(under)flow */
   int overflowbin = hist->FindBin(xmax-0.0001);
   for( int bini = overflowbin; bini <= hist->GetNbinsX(); bini++ ){
