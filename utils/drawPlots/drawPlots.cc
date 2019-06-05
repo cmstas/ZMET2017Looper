@@ -43,13 +43,17 @@ void assignColor(std::vector<TH1D*> hists)
   }
 }
 
-TH1D *combine_histograms(TFile* hist_file, std::vector<TString> hist_names,int count,TString plot_name)
+TH1D *combine_histograms(vector<TFile*> hist_files, std::vector<TString> hist_names,int count,TString plot_name)
 {
-  TH1D *final_hist =(TH1D*) ((TH1D*)(hist_file->Get(hist_names[0])))->Clone("hist_"+to_string(count)+"_"+plot_name);
-  cout<<"in combine"<<count<<endl;
-  for(size_t i = 1; i<hist_names.size(); i++)
+  TH1D *final_hist =(TH1D*) ((TH1D*)(hist_files[0]->Get(hist_names[0])))->Clone("hist_"+to_string(count)+"_"+plot_name);
+  for(size_t i = 0; i < hist_files.size(); i++)
   {
-    final_hist->Add((TH1D*)hist_file->Get(hist_names[i]));
+    for(size_t j = 0; j<hist_names.size(); j++)
+    {
+      if(i == 0 && j == 0)
+        continue;
+      final_hist->Add((TH1D*)hist_files.at(i)->Get(hist_names.at(j)));
+    }
   }
   return final_hist;
 }
@@ -199,17 +203,23 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
 
   //Add files from which to obtain histos
   TString default_hist_dir = getDefaultHistDir(conf);
-  vector<TFile*> hist_files (num_hists);
+  vector<vector<TFile*>> hist_files (num_hists);
+  vector<TString> file_list;
   for (int i = 0; i<num_hists; i++){
     TString sample_loc = "";
     if (conf->get("file_"+to_string(i)+"_path") != ""){
+
       sample_loc = TString(conf->get("file_"+to_string(i)+"_path"));
+      file_list = split_histogram_names(sample_loc);
+      for(auto &it:file_list)
+      {
+        hist_files[i].push_back(new TFile(it));
+      }
     }
     else{
       sample_loc = default_hist_dir+conf->get("sample_"+to_string(i))+".root";
+      hist_files[i].push_back(new TFile(sample_loc));
     }
-
-    hist_files[i]=new TFile(sample_loc);
   }
   cout << "Found files "<<endl;
 
@@ -256,7 +266,10 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
     //hists[i] = (TH1D*) combine_histograms((TH1D*) hist_files[i]->Get(hist_names[i]))->Clone("hist_"+to_string(i)+"_"+plot_name);
     for(auto &it:hist_names[i])
     {
-      cout<<it<<" found in "<<hist_files[i]->GetName()<<endl;
+      for(auto &it2:hist_files[i])
+      {
+      cout<<it<<" found in "<<it2->GetName()<<endl;
+      }
     }
     cout<<hist_labels[i]<<" Integral bin 0 to bin 100 Content: "<<hists[i]->Integral(0,100)<<endl;
   }
@@ -1076,7 +1089,10 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   delete c;
   //cout<<__LINE__<<endl;
   for (int i = 0; i<num_hists; i++){
-    hist_files[i]->Close();
+    for(auto &it:hist_files[i])
+    {
+      it->Close();
+    }
   }
   hist_files.clear();
   //cout<<__LINE__<<endl;
