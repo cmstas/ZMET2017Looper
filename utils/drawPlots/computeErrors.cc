@@ -34,6 +34,8 @@ vector<double> getMetTemplatesError(const vector<double> &stat_err, const vector
      SR == name of signal region */
   vector<double> output_errors;
 
+  cout<<"Computing data/MC normalization errors...."<<endl;
+  cout<<"Data count="<<normalization<<" "<<"Template MC count"<<bin_count.at(norm_bin)<<endl;
   cout<<"Normalization Factor for templates from bin "<<norm_bin<<": "<<normalization/bin_count.at(norm_bin)<<endl;
 
   vector<double> noSubStatErrs=getPercentStatErrorsForNoEWKSub(SR);

@@ -638,7 +638,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
       //Get Normalization
       //========================
       double normalization = numEventsData;
-
+      cout<<"Number of events in first bin in data"<<numEventsData<<endl;
       //cout<<__LINE__<<endl;
 
       vector<double> template_count;
@@ -673,7 +673,6 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
         FS_count.push_back(hists[5]->Integral(hists[5]->FindBin(stats_bins[i].first), hists[5]->FindBin(stats_bins[i].second - 0.001)));
 
         //cout<<__LINE__<<endl;
-
         template_count.push_back(hists[6]->IntegralAndError(hists[6]->FindBin(stats_bins[i].first), hists[6]->FindBin(stats_bins[i].second - 0.001), t_err));
         template_error.push_back(t_err);
 
@@ -738,7 +737,8 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
       //cout<<__LINE__<<endl;
       TTV_err = getRareSamplesError(TTV_err, TTV_count, TTV_scale, TTV_scale_unc, conf->get("SR"));
       //cout<<__LINE__<<endl;
-
+      
+      cout<<"Template count in normalization bin="<<template_count[norm_bin]<<endl;
       vector<double> temp_err = getMetTemplatesError(template_error, template_count, normalization, norm_bin, stats_bins, conf->get("SR"));
       //cout<<__LINE__<<endl;
       pair<vector<double>,vector<double>> FS_err = getFSError(FS_count, stod(conf->get("hist_5_scale")), conf->get("SR"));
