@@ -62,15 +62,15 @@ class ZMETLooper
     bool MCTriggerEmulation;
 
     int ee_eventCount = 0, mumu_eventCount = 0, emu_eventCount = 0;
- 
+
 
     //master histogram map
-    std::unordered_map<std::string,TH1*> allHistos; 
+    std::unordered_map<std::string,TH1*> allHistos;
     std::unordered_map<std::string,TH2*> all2DHistos;
 
     vector<pair <TH1D*, TString> > g_reweight_pairs;
     TDirectory *rootdir;
-    TH1D *g_pileup_hist, *g_l1prescale_hist22, *g_l1prescale_hist30, *g_l1prescale_hist36; 
+    TH1D *g_pileup_hist, *g_l1prescale_hist22, *g_l1prescale_hist30, *g_l1prescale_hist36;
 
     //Btag and ISR Scale Factor overall normalization
     TH2D *g_btagsf_norm, *g_btagsf_light_norm_up, *g_btagsf_heavy_norm_up;
@@ -79,14 +79,14 @@ class ZMETLooper
 
     //2D Photon veto histogram based on ECAL bad spots
 
-    TEfficiency *g_pt_eff_barrel, *g_pt_eff_endcap; 
+    TEfficiency *g_pt_eff_barrel, *g_pt_eff_endcap;
     TFile *g_weight_hist_file, *g_pileup_hist_file, *g_l1prescale_file;
     TString g_sample_name;
     TFile* currentFile;
     double g_scale_factor; //Holds scale factors for sample.
     int g_year;
 
-    TH1I *numEvents; //Holds the number of events in the whole script and the number that pass various cuts 
+    TH1I *numEvents; //Holds the number of events in the whole script and the number that pass various cuts
     TH1I *ee_numEvents,*mumu_numEvents,*emu_numEvents;
 
     bool printStats;
@@ -108,7 +108,7 @@ class ZMETLooper
     double g_ht;
     double g_mht;
     double g_mht_phi;
-    double mhtMETDifference; 
+    double mhtMETDifference;
 
     vector<float> g_jets_csv;
     vector<LorentzVector> g_jets_p4;
@@ -137,11 +137,11 @@ class ZMETLooper
     /*Builds Mbb from two highest CSV jets*/
     double getMbb();
 
-    /*This function gets the MT2 built out of the two Bjets in an event, no guarentee 
+    /*This function gets the MT2 built out of the two Bjets in an event, no guarentee
     is made about selecting the highest csv jets*/
     double getMT2ForBjets(bool select_highest_csv=false);
 
-    /*Builds MT2 for the two leading Bjets unless select_closest_higgs_mass is set, in which case it 
+    /*Builds MT2 for the two leading Bjets unless select_closest_higgs_mass is set, in which case it
     builds it out of the two bjets with dijet mass nearest the mass of the higgs.*/
     double getMT2HiggsZ(bool select_highest_closest_higgs_mass=false);
 
@@ -154,16 +154,16 @@ class ZMETLooper
     /* Builds the delta R (sqrt(dPhi^2 + dEta^2)) between the lepton at index id and the leading photon*/
     double getdRGammaLep(short id=0);
 
-    /*Returns position in the gen particles for the ewk boson and first quark pair prodcued from the EWK Boson mother and SUSY grandmother. 
+    /*Returns position in the gen particles for the ewk boson and first quark pair prodcued from the EWK Boson mother and SUSY grandmother.
 
   The function looks for a pair of quarks next to each other in the gen record with a mother that's the proper boson and a SUSY grandma.
-  Then it checks that their diquark mass is within 10 GeV of boson's resonance mass, if this is true, the location of the pair is noted. 
+  Then it checks that their diquark mass is within 10 GeV of boson's resonance mass, if this is true, the location of the pair is noted.
 
-  Next it searches through the gen record backwards starting from the entry prior to the quarks position when they can be found, on cmd line it 
-  looked like ewk boson was normally the previous entry) and finds a EWK boson of proper flavor. If that boson has pt within 10 GeV of the diquark 
+  Next it searches through the gen record backwards starting from the entry prior to the quarks position when they can be found, on cmd line it
+  looked like ewk boson was normally the previous entry) and finds a EWK boson of proper flavor. If that boson has pt within 10 GeV of the diquark
   system, the boson's position is noted.
 
-  If no boson can be found, -1 is returned as the first position. 
+  If no boson can be found, -1 is returned as the first position.
   If no quarks can be found, -1 is returned as the second positon.*/
     pair<int,int> getSUSYHadDecayBoson();
 
@@ -233,7 +233,7 @@ class ZMETLooper
     bin in the histogram*/
     double getReweight();
 
-    /*This method stores fixes to the evt_scale1fb in the event of file corruptions. 
+    /*This method stores fixes to the evt_scale1fb in the event of file corruptions.
     It's basically just a lookup table*/
     double scale1fbFix();
 
@@ -249,6 +249,23 @@ class ZMETLooper
 
     /*Holds the cuts for all the signal regions, basically all the cuts that are turned on with a config option*/
     bool passSignalRegionCuts();
+
+    //New SR and VR cuts
+    bool passSRACuts();
+    bool passSRAbCuts();
+    bool passVRACuts();
+    bool passSRBCuts();
+    bool passSRBbCuts();
+    bool passVRBCuts();
+    bool passSRCCuts();
+    bool passSRCbCuts();
+    bool passVRCCuts();
+    bool passSRVZCuts();
+    bool passVRVZCuts();
+    bool passSRVZBoostedCuts();
+    bool passVRVZBoostedCuts();
+    bool passSRHZCuts();
+    bool passVRHZCuts();
 
     /*Checks for a gen Neutrino (Real MET) and a gen Z (Real Z), only should be run when running
     over samples tagged as "rares". This is only neccesary for the full prediction.*/
@@ -279,7 +296,7 @@ class ZMETLooper
     /*Sets up global variables for the event which are the quantities that might be fluctuated in the process of computing uncertainty limits*/
     void setupGlobals();
 
-    bool InEtaPhiVetoRegion(float eta, float phi, int year); 
+    bool InEtaPhiVetoRegion(float eta, float phi, int year);
 
     /*Loads the proper TH2 for the given SUSY sample which contains the BTag and ISR weights if running SUSY MC.*/
     void updateSUSYBtagISRNorms();
@@ -293,8 +310,8 @@ class ZMETLooper
 
 
     //Histogram stuff
-    
-   
+
+
     const int *n_gluino_bins, *n_lsp_bins, *n_met_bins;
     const double *gluino_bins, *lsp_bins, *met_bins;
 
@@ -310,7 +327,7 @@ class ZMETLooper
     double mt2_val_hz = 0;
 
     //SUSY variables
-    
+
     double ISR_norm,btag_norm,ISR_norm_up,btag_heavy_norm_up,btag_light_norm_up;
     double dphi_gm;
 
@@ -321,14 +338,14 @@ class ZMETLooper
     void fillClosureHists(std::string prefix = "");
     void fillSignalRegionHists(std::string prefix = "");
     void fillEcalHists(std::string prefix = "");
-    LorentzVector computeMht(); 
+    LorentzVector computeMht();
     //SR Hists comin' soon...
     //
 
 
     public:
     ZMETLooper();
-    int ScanChain( TChain* chain, ConfigParser *configuration, bool fast = true, int nEvents = -1); 
+    int ScanChain( TChain* chain, ConfigParser *configuration, bool fast = true, int nEvents = -1);
 };
 
 //Global Vars
