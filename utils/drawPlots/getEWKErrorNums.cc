@@ -91,7 +91,7 @@ pair<double, vector<double>> getEWKNumsForSample(TString sample_name){
 
   //cout<<__LINE__<<endl;
 
-  if(sample_name == "Strong_Bveto_6j" || sample_name == "Strong_Btag_6j" || sample_name == "baseline"){
+  if(sample_name == "Strong_Bveto_6j" || sample_name == "Strong_Btag_6j" || sample_name == "baseline" || sample_name == "VRC"){
     //bins.push_back(0);
     bins.push_back(50);
     bins.push_back(100);
@@ -112,7 +112,8 @@ pair<double, vector<double>> getEWKNumsForSample(TString sample_name){
     bins.push_back(50);
     bins.push_back(100);
     bins.push_back(150);
-    bins.push_back(250);
+    bins.push_back(230);
+    bins.push_back(300);
     bins.push_back(6001);
   }
 
@@ -179,7 +180,8 @@ vector<double> getPercentStatErrorsForNoEWKSub(TString sample_name){
     bins.push_back(50);
     bins.push_back(100);
     bins.push_back(150);
-    bins.push_back(250);
+    bins.push_back(230);
+    bins.push_back(300);
     bins.push_back(6001);
   }
   cout<<"Deriving NoEWKSub stat errors:"<<endl;
