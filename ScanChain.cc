@@ -2861,6 +2861,8 @@ int ZMETLooper::ScanChain( TChain* chain, ConfigParser *configuration, bool fast
       }
 
 
+
+      weight = getWeight();
       if(conf->get("printEvtList") == "true"){
         // ----------------
         // DEBUG MODE
@@ -2881,7 +2883,6 @@ int ZMETLooper::ScanChain( TChain* chain, ConfigParser *configuration, bool fast
       //
       //
 
-      weight = getWeight();
 
       std::string commonHistPrefix = "";
 
