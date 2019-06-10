@@ -5,6 +5,7 @@
 # include <iostream>
 # include <stdexcept>
 # include <vector>
+# include <algorithm>
 
 //ROOT
 # include "TEnv.h"
