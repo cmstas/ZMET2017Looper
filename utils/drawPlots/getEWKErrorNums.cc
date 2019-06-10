@@ -29,37 +29,37 @@ vector<TString> getFileLocation(TString sample_name){
   }
   else if(sample_name == "SRA")
   {
-    fnames.push_back("/home/users/bsathian/ZMet/hists2017/DoubleLepton_narrowband/DoubleLepton_narrow_signal/SRA/dataTemplates/GammaData_EWKSub.root");
-    fnames.push_back("/home/users/bsathian/ZMet/hists2017/DoubleLepton_narrowband/DoubleLepton_narrow_signal/SRA/dataTemplates/GammaData.root"); 
+    fnames.push_back("/home/users/bsathian/ZMet/hists2017/DoubleLepton_narrow/DoubleLepton_narrow_signal/SRA/dataTemplates/GammaData_EWKSub.root");
+    fnames.push_back("/home/users/bsathian/ZMet/hists2017/DoubleLepton_narrow/DoubleLepton_narrow_signal/SRA/dataTemplates/GammaData.root"); 
   }
   else if(sample_name == "SRAb")
   {
-    fnames.push_back("/home/users/bsathian/ZMet/hists2017/DoubleLepton_narrowband/DoubleLepton_narrow_signal/SRAb/dataTemplates/GammaData_EWKSub.root");
-    fnames.push_back("/home/users/bsathian/ZMet/hists2017/DoubleLepton_narrowband/DoubleLepton_narrow_signal/SRAb/dataTemplates/GammaData.root"); 
+    fnames.push_back("/home/users/bsathian/ZMet/hists2017/DoubleLepton_narrow/DoubleLepton_narrow_signal/SRAb/dataTemplates/GammaData_EWKSub.root");
+    fnames.push_back("/home/users/bsathian/ZMet/hists2017/DoubleLepton_narrow/DoubleLepton_narrow_signal/SRAb/dataTemplates/GammaData.root"); 
   }
 
   else if(sample_name == "SRB")
   {
-    fnames.push_back("/home/users/bsathian/ZMet/hists2017/DoubleLepton_narrowband/DoubleLepton_narrow_signal/SRB/dataTemplates/GammaData_EWKSub.root");
-    fnames.push_back("/home/users/bsathian/ZMet/hists2017/DoubleLepton_narrowband/DoubleLepton_narrow_signal/SRB/dataTemplates/GammaData.root"); 
+    fnames.push_back("/home/users/bsathian/ZMet/hists2017/DoubleLepton_narrow/DoubleLepton_narrow_signal/SRB/dataTemplates/GammaData_EWKSub.root");
+    fnames.push_back("/home/users/bsathian/ZMet/hists2017/DoubleLepton_narrow/DoubleLepton_narrow_signal/SRB/dataTemplates/GammaData.root"); 
   }
 
   else if(sample_name == "SRBb")
   {
-    fnames.push_back("/home/users/bsathian/ZMet/hists2017/DoubleLepton_narrowband/DoubleLepton_narrow_signal/SRBb/dataTemplates/GammaData_EWKSub.root");
-    fnames.push_back("/home/users/bsathian/ZMet/hists2017/DoubleLepton_narrowband/DoubleLepton_narrow_signal/SRBb/dataTemplates/GammaData.root"); 
+    fnames.push_back("/home/users/bsathian/ZMet/hists2017/DoubleLepton_narrow/DoubleLepton_narrow_signal/SRBb/dataTemplates/GammaData_EWKSub.root");
+    fnames.push_back("/home/users/bsathian/ZMet/hists2017/DoubleLepton_narrow/DoubleLepton_narrow_signal/SRBb/dataTemplates/GammaData.root"); 
   }
  
   else if(sample_name == "SRC")
   {
-    fnames.push_back("/home/users/bsathian/ZMet/hists2017/DoubleLepton_narrowband/DoubleLepton_narrow_signal/SRC/dataTemplates/GammaData_EWKSub.root");
-    fnames.push_back("/home/users/bsathian/ZMet/hists2017/DoubleLepton_narrowband/DoubleLepton_narrow_signal/SRC/dataTemplates/GammaData.root"); 
+    fnames.push_back("/home/users/bsathian/ZMet/hists2017/DoubleLepton_narrow/DoubleLepton_narrow_signal/SRC/dataTemplates/GammaData_EWKSub.root");
+    fnames.push_back("/home/users/bsathian/ZMet/hists2017/DoubleLepton_narrow/DoubleLepton_narrow_signal/SRC/dataTemplates/GammaData.root"); 
   }
 
   else if(sample_name == "SRCb")
   {
-    fnames.push_back("/home/users/bsathian/ZMet/hists2017/DoubleLepton_narrowband/DoubleLepton_narrow_signal/SRCb/dataTemplates/GammaData_EWKSub.root");
-    fnames.push_back("/home/users/bsathian/ZMet/hists2017/DoubleLepton_narrowband/DoubleLepton_narrow_signal/SRCb/dataTemplates/GammaData.root"); 
+    fnames.push_back("/home/users/bsathian/ZMet/hists2017/DoubleLepton_narrow/DoubleLepton_narrow_signal/SRCb/dataTemplates/GammaData_EWKSub.root");
+    fnames.push_back("/home/users/bsathian/ZMet/hists2017/DoubleLepton_narrow/DoubleLepton_narrow_signal/SRCb/dataTemplates/GammaData.root"); 
   }
 
 
