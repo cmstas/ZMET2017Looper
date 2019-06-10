@@ -27,6 +27,42 @@ vector<TString> getFileLocation(TString sample_name){
     fnames.push_back("/home/bsathian/ZMet/DoubleLepton_narrowband/DoubleLepton_narrow_validation/VRHZ/full_prediction/dataTemplates/GammaData_EWKSub.root");
     fnames.push_back("/home/bsathian/ZMet/DoubleLepton_narrowband/DoubleLepton_narrow_validation/VRHZ/full_prediction/DoubleLepton/GammaData.root");
   }
+  else if(sample_name == "SRA")
+  {
+    fnames.push_back("/home/users/bsathian/ZMet/hists2017/DoubleLepton_narrowband/DoubleLepton_narrow_signal/SRA/dataTemplates/GammaData_EWKSub.root");
+    fnames.push_back("/home/users/bsathian/ZMet/hists2017/DoubleLepton_narrowband/DoubleLepton_narrow_signal/SRA/dataTemplates/GammaData.root"); 
+  }
+  else if(sample_name == "SRAb")
+  {
+    fnames.push_back("/home/users/bsathian/ZMet/hists2017/DoubleLepton_narrowband/DoubleLepton_narrow_signal/SRAb/dataTemplates/GammaData_EWKSub.root");
+    fnames.push_back("/home/users/bsathian/ZMet/hists2017/DoubleLepton_narrowband/DoubleLepton_narrow_signal/SRAb/dataTemplates/GammaData.root"); 
+  }
+
+  else if(sample_name == "SRB")
+  {
+    fnames.push_back("/home/users/bsathian/ZMet/hists2017/DoubleLepton_narrowband/DoubleLepton_narrow_signal/SRB/dataTemplates/GammaData_EWKSub.root");
+    fnames.push_back("/home/users/bsathian/ZMet/hists2017/DoubleLepton_narrowband/DoubleLepton_narrow_signal/SRB/dataTemplates/GammaData.root"); 
+  }
+
+  else if(sample_name == "SRBb")
+  {
+    fnames.push_back("/home/users/bsathian/ZMet/hists2017/DoubleLepton_narrowband/DoubleLepton_narrow_signal/SRBb/dataTemplates/GammaData_EWKSub.root");
+    fnames.push_back("/home/users/bsathian/ZMet/hists2017/DoubleLepton_narrowband/DoubleLepton_narrow_signal/SRBb/dataTemplates/GammaData.root"); 
+  }
+ 
+  else if(sample_name == "SRC")
+  {
+    fnames.push_back("/home/users/bsathian/ZMet/hists2017/DoubleLepton_narrowband/DoubleLepton_narrow_signal/SRC/dataTemplates/GammaData_EWKSub.root");
+    fnames.push_back("/home/users/bsathian/ZMet/hists2017/DoubleLepton_narrowband/DoubleLepton_narrow_signal/SRC/dataTemplates/GammaData.root"); 
+  }
+
+  else if(sample_name == "SRCb")
+  {
+    fnames.push_back("/home/users/bsathian/ZMet/hists2017/DoubleLepton_narrowband/DoubleLepton_narrow_signal/SRCb/dataTemplates/GammaData_EWKSub.root");
+    fnames.push_back("/home/users/bsathian/ZMet/hists2017/DoubleLepton_narrowband/DoubleLepton_narrow_signal/SRCb/dataTemplates/GammaData.root"); 
+  }
+
+
   else if (sample_name=="Strong_Btag_2j"){
     fnames.push_back("/nfs-7/userdata/bobak/ZMET2017_Hists/prediction/PhotonData_VPTRWT/Strong_Btag/2j/PhotonData.root");
     fnames.push_back("/nfs-7/userdata/bobak/ZMET2017_Hists/prediction/PhotonData_VPTRWT/Strong_Btag/2j/PhotonData_NoEWKSub.root");
