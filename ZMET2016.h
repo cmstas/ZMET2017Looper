@@ -13,7 +13,7 @@
 #include <unistd.h>
 typedef ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > LorentzVector;
 
-// Generated with file: /hadoop/cms/store/user/bsathian/ZMET_babies/GJets_DR-0p4_HT-200To400_TuneCP5_13TeV-madgraphMLM-pythia8_v2_RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1_MINIAODSIM_ZMET_babies_new/baby_1.root
+// Generated with file: /nfs-7/userdata/bsathian/ZMET_babies_new/GJets_DR-0p4_HT-200To400_TuneCP5_13TeV-madgraphMLM-pythia8_v2_RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1_MINIAODSIM_ZMET_babies/baby_100.root
 
 using namespace std;
 class ZMET2016 {
@@ -23,6 +23,15 @@ protected:
   int HLT_Mu37_Ele27_CaloIdL_MW_;
   TBranch *HLT_Mu37_Ele27_CaloIdL_MW_branch;
   bool HLT_Mu37_Ele27_CaloIdL_MW_isLoaded;
+  vector<float> *ak8jets_tau1_;
+  TBranch *ak8jets_tau1_branch;
+  bool ak8jets_tau1_isLoaded;
+  vector<float> *ak8jets_tau3_;
+  TBranch *ak8jets_tau3_branch;
+  bool ak8jets_tau3_isLoaded;
+  vector<float> *ak8jets_tau2_;
+  TBranch *ak8jets_tau2_branch;
+  bool ak8jets_tau2_isLoaded;
   vector<int> *genLepFromTau_status_;
   TBranch *genLepFromTau_status_branch;
   bool genLepFromTau_status_isLoaded;
@@ -116,6 +125,9 @@ protected:
   vector<float> *genTau_phi_;
   TBranch *genTau_phi_branch;
   bool genTau_phi_isLoaded;
+  vector<int> *ak8jets_parton_flavor_;
+  TBranch *ak8jets_parton_flavor_branch;
+  bool ak8jets_parton_flavor_isLoaded;
   float nupfcands_1316_sumet_;
   TBranch *nupfcands_1316_sumet_branch;
   bool nupfcands_1316_sumet_isLoaded;
@@ -365,6 +377,9 @@ protected:
   float chpfcands_1624_phi_;
   TBranch *chpfcands_1624_phi_branch;
   bool chpfcands_1624_phi_isLoaded;
+  vector<float> *lep_pt_;
+  TBranch *lep_pt_branch;
+  bool lep_pt_isLoaded;
   vector<float> *gamma_pt_;
   TBranch *gamma_pt_branch;
   bool gamma_pt_isLoaded;
@@ -518,6 +533,9 @@ protected:
   float dR_jj_;
   TBranch *dR_jj_branch;
   bool dR_jj_isLoaded;
+  int nFatJets_;
+  TBranch *nFatJets_branch;
+  bool nFatJets_isLoaded;
   int HLT_Mu37_TkMu27_;
   TBranch *HLT_Mu37_TkMu27_branch;
   bool HLT_Mu37_TkMu27_isLoaded;
@@ -725,6 +743,9 @@ protected:
   int nisoTrack_PFMu5_woverlaps_;
   TBranch *nisoTrack_PFMu5_woverlaps_branch;
   bool nisoTrack_PFMu5_woverlaps_isLoaded;
+  vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > *ak8jets_p4_;
+  TBranch *ak8jets_p4_branch;
+  bool ak8jets_p4_isLoaded;
   int HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ_;
   TBranch *HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ_branch;
   bool HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ_isLoaded;
@@ -845,9 +866,9 @@ protected:
   int HLT_Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ_;
   TBranch *HLT_Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ_branch;
   bool HLT_Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ_isLoaded;
-  vector<float> *lep_pt_;
-  TBranch *lep_pt_branch;
-  bool lep_pt_isLoaded;
+  vector<float> *ak8jets_softDropMass_;
+  TBranch *ak8jets_softDropMass_branch;
+  bool ak8jets_softDropMass_isLoaded;
   vector<float> *lep_eta_;
   TBranch *lep_eta_branch;
   bool lep_eta_isLoaded;
@@ -1225,6 +1246,9 @@ public:
   void GetEntry(unsigned int idx);
   void LoadAllBranches();
   const int &HLT_Mu37_Ele27_CaloIdL_MW();
+  const vector<float> &ak8jets_tau1();
+  const vector<float> &ak8jets_tau3();
+  const vector<float> &ak8jets_tau2();
   const vector<int> &genLepFromTau_status();
   const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genPart_p4();
   const int &HLT_Mu50();
@@ -1256,6 +1280,7 @@ public:
   const int &mass_LSP();
   const vector<float> &weightsf_lepip_FS();
   const vector<float> &genTau_phi();
+  const vector<int> &ak8jets_parton_flavor();
   const float &nupfcands_1316_sumet();
   const vector<float> &jets_csv();
   const float &dphi_metj2_dn();
@@ -1339,6 +1364,7 @@ public:
   const int &Flag_EcalDeadCellTriggerPrimitiveFilter();
   const bool &HLT_Photon22_R9Id90_HE10_IsoM_matchedtophoton();
   const float &chpfcands_1624_phi();
+  const vector<float> &lep_pt();
   const vector<float> &gamma_pt();
   const vector<float> &highPtPFcands_dz();
   const vector<float> &weightsf_lepid_FS();
@@ -1390,6 +1416,7 @@ public:
   const float &deta_jj();
   const float &metsig_unofficial_dn();
   const float &dR_jj();
+  const int &nFatJets();
   const int &HLT_Mu37_TkMu27();
   const float &nupfcands_30in_sumet();
   const float &mjj_mindphi_up();
@@ -1459,6 +1486,7 @@ public:
   const float &metsig_unofficial_up();
   const float &rho25();
   const int &nisoTrack_PFMu5_woverlaps();
+  const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &ak8jets_p4();
   const int &HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ();
   const float &mt2b_up();
   const float &ht_up();
@@ -1499,7 +1527,7 @@ public:
   const int &Flag_badMuons();
   const float &metsig_unofficial();
   const int &HLT_Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ();
-  const vector<float> &lep_pt();
+  const vector<float> &ak8jets_softDropMass();
   const vector<float> &lep_eta();
   const vector<int> &genPart_status();
   const int &nBJetLoose_up();
@@ -1634,6 +1662,9 @@ extern ZMET2016 phys;
 namespace zmet {
 
   const int &HLT_Mu37_Ele27_CaloIdL_MW();
+  const vector<float> &ak8jets_tau1();
+  const vector<float> &ak8jets_tau3();
+  const vector<float> &ak8jets_tau2();
   const vector<int> &genLepFromTau_status();
   const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genPart_p4();
   const int &HLT_Mu50();
@@ -1665,6 +1696,7 @@ namespace zmet {
   const int &mass_LSP();
   const vector<float> &weightsf_lepip_FS();
   const vector<float> &genTau_phi();
+  const vector<int> &ak8jets_parton_flavor();
   const float &nupfcands_1316_sumet();
   const vector<float> &jets_csv();
   const float &dphi_metj2_dn();
@@ -1748,6 +1780,7 @@ namespace zmet {
   const int &Flag_EcalDeadCellTriggerPrimitiveFilter();
   const bool &HLT_Photon22_R9Id90_HE10_IsoM_matchedtophoton();
   const float &chpfcands_1624_phi();
+  const vector<float> &lep_pt();
   const vector<float> &gamma_pt();
   const vector<float> &highPtPFcands_dz();
   const vector<float> &weightsf_lepid_FS();
@@ -1799,6 +1832,7 @@ namespace zmet {
   const float &deta_jj();
   const float &metsig_unofficial_dn();
   const float &dR_jj();
+  const int &nFatJets();
   const int &HLT_Mu37_TkMu27();
   const float &nupfcands_30in_sumet();
   const float &mjj_mindphi_up();
@@ -1868,6 +1902,7 @@ namespace zmet {
   const float &metsig_unofficial_up();
   const float &rho25();
   const int &nisoTrack_PFMu5_woverlaps();
+  const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &ak8jets_p4();
   const int &HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ();
   const float &mt2b_up();
   const float &ht_up();
@@ -1908,7 +1943,7 @@ namespace zmet {
   const int &Flag_badMuons();
   const float &metsig_unofficial();
   const int &HLT_Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ();
-  const vector<float> &lep_pt();
+  const vector<float> &ak8jets_softDropMass();
   const vector<float> &lep_eta();
   const vector<int> &genPart_status();
   const int &nBJetLoose_up();
