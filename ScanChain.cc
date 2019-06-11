@@ -1231,46 +1231,47 @@ double ZMETLooper::getPrescaleWeight(){
 //=============================
 bool ZMETLooper::passSRACuts()
 {
+    return true;
 }
 
 bool ZMETLooper::passSRAbCuts()
 {
-
+    return true;
 }
 
 bool ZMETLooper::passSRBCuts()
 {
-
+    return true;
 }
 
 bool ZMETLooper::passSRBbCuts()
 {
-
+    return true;
 }
 
 bool ZMETLooper::passSRCCuts()
-{
-
+{  
+    return true;
 }
 
 bool ZMETLooper::passSRCbCuts()
-{
-
+{   
+    return true;
 }
 
 bool ZMETLooper::passSRVZCuts()
 {
-
+    return true;
 }
 
 bool ZMETLooper::passSRVZBoostedCuts()
 {
-
+    return true;
 }
 
 bool ZMETLooper::passSRHZCuts()
 {
-
+    return true;
 }
 bool ZMETLooper::passSignalRegionCuts(){
 
@@ -2491,91 +2492,9 @@ int ZMETLooper::ScanChain( TChain* chain, ConfigParser *configuration, bool fast
  }
 
 
-  TH1D *sum_mlb, *m_bb_csv, *m_bb_bpt, *mt2j, *sum_pt_z_bb, *mt2_fromb, *mt2_hz;
-  TH2D *MT2_MT2B, *MT2_MT2_fromb, *MT2_MT2_HZ;
 
-  if(conf->get("signal_region") == "TChiHZ"){
-    sum_mlb = new TH1D("sum_mlb", "#Sigma M_{lb} for "+g_sample_name, 6000,0,6000);
-    sum_mlb->SetDirectory(rootdir);
-    sum_mlb->Sumw2();
+  
 
-    m_bb_csv = new TH1D("m_bb_csv", "M_{bb} by CSV for "+g_sample_name, 6000,0,6000);
-    m_bb_csv->SetDirectory(rootdir);
-    m_bb_csv->Sumw2();
-
-    m_bb_bpt = new TH1D("m_bb_bpt", "M_{bb} by B P_{T} for "+g_sample_name, 6000,0,6000);
-    m_bb_bpt->SetDirectory(rootdir);
-    m_bb_bpt->Sumw2();
-
-    mt2j = new TH1D("mt2j", "MT2j for "+g_sample_name, 6000,0,6000);
-    mt2j->SetDirectory(rootdir);
-    mt2j->Sumw2();
-
-    mt2_fromb = new TH1D("mt2_fromb", "MT2 From Bjets for "+g_sample_name, 6000,0,6000);
-    mt2_fromb->SetDirectory(rootdir);
-    mt2_fromb->Sumw2();
-
-    mt2_hz = new TH1D("mt2_hz", "MT2 From Higgs and Z for "+g_sample_name, 6000,0,6000);
-    mt2_hz->SetDirectory(rootdir);
-    mt2_hz->Sumw2();
-
-    sum_pt_z_bb = new TH1D("sum_pt_z_bb", "P_{T}(Z) + P_{T}(BB) for "+g_sample_name, 6000,0,6000);
-    sum_pt_z_bb->SetDirectory(rootdir);
-    sum_pt_z_bb->Sumw2();
-
-    MT2_MT2B = new TH2D("MT2_MT2B", "MT2 vs. MT2b for "+g_sample_name, 6000, 0, 6000, 6000, 0, 6000);
-    MT2_MT2B->SetDirectory(rootdir);
-    MT2_MT2B->Sumw2();
-
-    MT2_MT2_fromb = new TH2D("MT2_MT2_fromb", "MT2 vs. MT2(made from b-tagged jets) for "+g_sample_name, 6000, 0, 6000, 6000, 0, 6000);
-    MT2_MT2_fromb->SetDirectory(rootdir);
-    MT2_MT2_fromb->Sumw2();
-
-    MT2_MT2_HZ = new TH2D("MT2_MT2_HZ", "MT2(from leptons) vs. MT2(from Higgs and Z) for "+g_sample_name, 6000, 0, 6000, 6000, 0, 6000);
-    MT2_MT2_HZ->SetDirectory(rootdir);
-    MT2_MT2_HZ->Sumw2();
-  }
-
-  TH1D* mjj_min_dphi;
-
-  if(conf->get("signal_region") == "TChiWZ"){
-    mjj_min_dphi = new TH1D("mjj_min_dphi", "M_{jj} (for minimum #Delta #Phi Jets) in "+g_sample_name, 6000,0,6000);
-    mjj_min_dphi->SetDirectory(rootdir);
-    mjj_min_dphi->Sumw2();
-  }
-
-  TH1D *lep1_eta,*lep2_eta,*lep1_eta_ee,*lep2_eta_ee,*lep1_eta_mm,*lep2_eta_mm,*dilmass_ee,*dilmass_mm;
-  if(conf->get("signal_region") == "LeonoraXsecStudy"){
-
-    dilmass_ee = new TH1D("dilmass_ee", "Dilepton Mass for just electrons"+g_sample_name, 500,0,500);
-    dilmass_mm = new TH1D("dilmass_mm", "Dilepton Mass for just muons"+g_sample_name, 500,0,500);
-
-    lep1_eta = new TH1D("lep1_eta", "#eta for leading lepton"+g_sample_name, 100,-3,3);
-    lep2_eta = new TH1D("lep2_eta", "#eta for subleading lepton"+g_sample_name, 100,-3,3);
-
-    lep1_eta_ee = new TH1D("lep1_eta_ee", "#eta for leading electron"+g_sample_name, 100,-3,3);
-    lep2_eta_ee = new TH1D("lep2_eta_ee", "#eta for subleading electron"+g_sample_name, 100,-3,3);
-
-    lep1_eta_mm = new TH1D("lep1_eta_mm", "#eta for leading muon"+g_sample_name, 100,-3,3);
-    lep2_eta_mm = new TH1D("lep2_eta_mm", "#eta for subleading muon"+g_sample_name, 100,-3,3);
-  }
-
-  if(conf->get("signal_region") == "TChiWZ"){
-    mjj_min_dphi = new TH1D("mjj_min_dphi", "M_{jj} (for minimum #Delta #Phi Jets) in "+g_sample_name, 6000,0,6000);
-    mjj_min_dphi->SetDirectory(rootdir);
-    mjj_min_dphi->Sumw2();
-  }
-
-  TH1D *fj_ewkBoson_jetpt, *fj_DeltaR;
-  if (conf->get("fat_jet_study") == "true"){
-    fj_ewkBoson_jetpt = new TH1D("fj_ewkBoson_jetpt", "Pt of electroweak boson that becomes jets in SUSY model: "+g_sample_name, 6000,0,6000);
-    fj_ewkBoson_jetpt->SetDirectory(rootdir);
-    fj_ewkBoson_jetpt->Sumw2();
-
-    fj_DeltaR = new TH1D("fj_DeltaR", "#Delta R between quarks that come from ewk boson produced by SUSY particle in model: "+g_sample_name, 500,0,50);
-    fj_DeltaR->SetDirectory(rootdir);
-    fj_DeltaR->Sumw2();
-  }
 
 
   TH3D *susy_type1MET_btaglight_up, *susy_type1MET_btagheavy_up, *susy_type1MET_isr_up;
@@ -2908,89 +2827,25 @@ int ZMETLooper::ScanChain( TChain* chain, ConfigParser *configuration, bool fast
 //===========================================
 // Signal Region Specific Histos
 //===========================================
-      if (conf->get("signal_region") == "TChiHZ"){
-        sum_mlb->Fill(phys.sum_mlb(), weight);
-        //cout<<__LINE__<<endl;
-        if (conf->get("NBjets_loose_min") != "")
-        {
-          m_bb_csv->Fill(getMbb(), weight);
-          m_bb_bpt->Fill(getMbb(), weight);
-          mt2_val_fromb = getMT2ForBjets(true);
-          //cout<<__LINE__<<endl;
-          //mt2b->Fill(getMT2B(), weight);
-          if (mt2_val_fromb != 0) mt2_fromb->Fill(mt2_val_fromb, weight);
-        }
-        else{
-          m_bb_csv->Fill(g_mbb, weight);
-          m_bb_bpt->Fill(phys.mbb_bpt(), weight);
-          mt2_val_fromb = getMT2ForBjets();
-          //cout<<__LINE__<<endl;
-          if (mt2_val_fromb != 0) mt2_fromb->Fill(mt2_val_fromb, weight);
-        }
-
-        //cout<<__LINE__<<endl;
-
-        if (phys.mt2j() != 0 ) mt2j->Fill(phys.mt2j(), weight);
-
-        //cout<<__LINE__<<endl;
-
-        if (phys.nlep() > 1 && g_nBJetMedium >= 2) mt2_val_hz = getMT2HiggsZ();
-        if (mt2_val_hz != 0) mt2_hz->Fill(mt2_val_hz, weight);
-
-        //cout<<__LINE__<<endl;
-
-        if (g_mt2 != 0 && g_mt2b != 0 ) MT2_MT2B->Fill(g_mt2, g_mt2b, weight);
-
-        //cout<<__LINE__<<endl;
-
-        if (g_mt2 != 0 && mt2_val_fromb != 0 ) MT2_MT2_fromb->Fill(g_mt2, mt2_val_fromb, weight);
-
-        //cout<<__LINE__<<endl;
-
-        if (g_mt2 != 0 && mt2_val_hz != 0 ) MT2_MT2_HZ->Fill(g_mt2, mt2_val_hz, weight);
-
-        //cout<<__LINE__<<endl;
-
-        if (g_nBJetMedium >= 2){
-          pair<int,int> b_index = getMostBlike();
-
-          //cout<<__LINE__<<endl;
-
-          bb_pt = (g_jets_p4.at(b_index.first) + g_jets_p4.at(b_index.second)).pt();
-          sum_pt_z_bb->Fill(bb_pt+phys.dilpt(), weight);
-        }
+        
+      if(conf->get("signal_region") == "TChiWZ")
+      {
+          fillTChiWZHists(commonHistPrefix);
+      }
+      if(conf->get("signal_region") == "TChiHZ")
+      {
+          fillTChiHZHists(commonHistPrefix);
+      }
+ 
+    
+      if(conf->get("signal_region").find("Boosted") != std::string::npos)
+      {
+          fillBoostedHists(commonHistPrefix);
       }
 
-      if (conf->get("signal_region") == "TChiWZ"){
-        mjj_min_dphi->Fill(g_mjj_mindphi, weight);
-      }
-      //cout<<__LINE__<<endl;
-      if(conf->get("signal_region") == "LeonoraXsecStudy"){
-
-        if(phys.hyp_type() == 0){
-          dilmass_ee->Fill(phys.dilmass(),weight);
-          lep1_eta_ee->Fill(phys.lep_eta().at(0),weight);
-          lep2_eta_ee->Fill(phys.lep_eta().at(1),weight);
-        }
-        else if (phys.hyp_type() == 1){
-          dilmass_mm->Fill(phys.dilmass(),weight);
-          lep1_eta_mm->Fill(phys.lep_eta().at(0),weight);
-          lep2_eta_mm->Fill(phys.lep_eta().at(1),weight);
-        }
-
-        lep1_eta->Fill(phys.lep_eta().at(0),weight);
-        lep2_eta->Fill(phys.lep_eta().at(1),weight);
-
-      }
-
-      //cout<<__LINE__<<endl;
-
-      if (conf->get("GammaMuStudy") == "true"){
+      if (conf->get("GammaMuStudy") == "true")
+      {
           fillGammaMuCRHists();
-          /*
-        MT_MuMET->Fill(getMTLepMET(),weight);
-        dR_GammaMu->Fill(getdRGammaLep(),weight);
-        mu_pt->Fill(phys.lep_pt().at(0), weight);*/
       }
       if(conf->get("dilep_control_region") == "true")
       {
@@ -3073,19 +2928,7 @@ int ZMETLooper::ScanChain( TChain* chain, ConfigParser *configuration, bool fast
 
       if(conf->get("ECalTest") != ""){
           fillEcalHists();
-              }
-
-      if (conf->get("fat_jet_study") == "true"){
-        pair<int, int> SUSY_fat_jet_ind = getSUSYHadDecayBoson();
-
-        if (SUSY_fat_jet_ind.first != -1){
-          fj_ewkBoson_jetpt->Fill(phys.genPart_p4().at(SUSY_fat_jet_ind.first).pt(), weight);
-        }
-        if (SUSY_fat_jet_ind.second != -1){
-          double fj_dr = DeltaR(phys.genPart_p4().at(SUSY_fat_jet_ind.second), phys.genPart_p4().at(SUSY_fat_jet_ind.second+1));
-          fj_DeltaR->Fill(fj_dr, weight);
-        }
-      }
+              } 
 
       eventCount++;
 
@@ -3219,45 +3062,11 @@ int ZMETLooper::ScanChain( TChain* chain, ConfigParser *configuration, bool fast
   dilmass->Write();
   //cout<<__LINE__<<endl;*/
 
-  if (conf->get("signal_region") == "TChiHZ"){
-    sum_mlb->Write();
-    //cout<<__LINE__<<endl;
-    m_bb_csv->Write();
-    //cout<<__LINE__<<endl;
-    m_bb_bpt->Write();
-    //cout<<__LINE__<<endl;
-    mt2j->Write();
-    //cout<<__LINE__<<endl;
-    mt2_fromb->Write();
-    //cout<<__LINE__<<endl;
-    mt2_hz->Write();
-    //cout<<__LINE__<<endl;
-    sum_pt_z_bb->Write();
-    //cout<<__LINE__<<endl;
+  
 
-    //2D hists
-    MT2_MT2B->Write();
-    //cout<<__LINE__<<endl;
-    MT2_MT2_fromb->Write();
-    //cout<<__LINE__<<endl;
-    MT2_MT2_HZ->Write();
-    //cout<<__LINE__<<endl;
-  }
+  
 
-  if (conf->get("signal_region") == "TChiWZ"){
-    mjj_min_dphi->Write();
-  }
-
-  if(conf->get("signal_region") == "LeonoraXsecStudy"){
-    dilmass_ee->Write();
-    lep1_eta_ee->Write();
-    lep2_eta_ee->Write();
-    dilmass_mm->Write();
-    lep1_eta_mm->Write();
-    lep2_eta_mm->Write();
-    lep1_eta->Write();
-    lep2_eta->Write();
-  }
+  
 
 /*  if (conf->get("GammaMuStudy") == "true"){
     MT_MuMET->Write();
@@ -3291,10 +3100,7 @@ int ZMETLooper::ScanChain( TChain* chain, ConfigParser *configuration, bool fast
 
     susy_type1MET_isr_up_2d->Write();
   }
-    if (conf->get("fat_jet_study") == "true"){
-    fj_ewkBoson_jetpt->Write();
-    fj_DeltaR->Write();
-  }
+ 
 
 
   for(auto &it:allHistos)
@@ -3441,6 +3247,24 @@ void ZMETLooper::fillCommonHists(std::string prefix)
 
 }
 
+void ZMETLooper::fillBoostedHists(std::string prefix)
+{
+    fill1DHistograms(prefix+"nFatJets",phys.nFatJets(),weight,allHistos,"",50,0,50,rootdir);
+    for(size_t iJet = 0; iJet < phys.ak8jets_tau2().size(); iJet++)
+    {
+        if(phys.ak8jets_tau2().at(iJet) != 0 && phys.ak8jets_tau1().at(iJet) != 0)
+        {
+            fill1DHistograms(prefix+"tau21",phys.ak8jets_tau2().at(iJet)/phys.ak8jets_tau1().at(iJet),weight,allHistos,"",1000,0,10,rootdir);
+
+        }
+    }
+    for(auto &it:phys.ak8jets_softDropMass())
+    {
+        if(it != 0)
+            fill1DHistograms(prefix+"softDropMass",it,weight,allHistos,"",6000,0,6000,rootdir);
+    }
+}
+
 void ZMETLooper::fillPhotonCRHists(std::string prefix)
 {
     fill1DHistograms(prefix+"photonPt",phys.gamma_p4().at(0).pt(),weight,allHistos,"",1000,0,1000,rootdir);
@@ -3520,6 +3344,83 @@ void ZMETLooper::fillEcalHists(std::string prefix)
 
 
 }
+
+void ZMETLooper::fillTChiWZHists(std::string prefix)
+{
+    fill1DHistograms(prefix+"mjj_min_dphi",g_mjj_mindphi,weight,allHistos,"",6000,0,6000,rootdir);
+}
+
+void ZMETLooper::fillTChiHZHists(std::string prefix)
+{
+    fill1DHistograms(prefix+"sum_mlb",phys.sum_mlb(),weight,allHistos,"",6000,0,6000,rootdir);
+    if(conf->get("NBjets_loose_min") != "")
+    {
+        fill1DHistograms(prefix+"m_bb_csv",getMbb(),weight,allHistos,"",6000,0,6000,rootdir);
+        fill1DHistograms(prefix+"m_bb_bpt",getMbb(),weight,allHistos,"",6000,0,6000,rootdir);
+        mt2_val_fromb = getMT2ForBjets(true);
+        if(mt2_val_fromb != 0)
+        {
+            fill1DHistograms(prefix+"mt2_fromb",mt2_val_fromb,weight,allHistos,"",6000,0,6000,rootdir);
+        }
+    }
+    else
+    {
+
+        fill1DHistograms(prefix+"m_bb_csv",g_mbb,weight,allHistos,"",6000,0,6000,rootdir);
+        fill1DHistograms(prefix+"m_bb_bpt",phys.mbb_bpt(),weight,allHistos,"",6000,0,6000,rootdir);
+
+        mt2_val_fromb = getMT2ForBjets();
+        if(mt2_val_fromb != 0)
+        {
+            fill1DHistograms(prefix+"mt2_fromb",mt2_val_fromb,weight,allHistos,"",6000,0,6000,rootdir);
+        }
+
+    }
+
+    if(phys.mt2j()!=0)
+    {
+        fill1DHistograms(prefix+"mt2j",phys.mt2j(),weight,allHistos,"",6000,0,6000,rootdir); 
+    }
+
+    if (phys.nlep() > 1 && g_nBJetMedium >= 2) 
+    {
+        mt2_val_hz = getMT2HiggsZ();
+    }
+        if (mt2_val_hz != 0) 
+        {
+            fill1DHistograms(prefix+"mt2_hz",mt2_val_hz,weight,allHistos,"",6000,0,6000,rootdir);
+        }
+
+        //cout<<__LINE__<<endl;
+
+        if (g_mt2 != 0 && g_mt2b != 0 ) 
+        {
+            fill2DHistograms(prefix+"MT2_MT2B",g_mt2,g_mt2b,weight,all2DHistos,"",6000,0,6000,6000,0,6000,rootdir);
+        }
+
+
+        if (g_mt2 != 0 && mt2_val_fromb != 0 ) 
+        {
+            fill2DHistograms(prefix+"MT2_MT2_fromb",g_mt2,mt2_val_fromb,weight,all2DHistos,"",6000,0,6000,6000,0,6000,rootdir);
+        }
+
+
+        if (g_mt2 != 0 && mt2_val_hz != 0 ) 
+        {
+            fill2DHistograms(prefix+"MT2_MT2_HZ",g_mt2,mt2_val_hz,weight,all2DHistos,"",6000,0,6000,6000,0,6000,rootdir);
+        }
+
+        //cout<<__LINE__<<endl;
+
+        if (g_nBJetMedium >= 2)
+        {
+            pair<int,int> b_index = getMostBlike();
+            bb_pt = (g_jets_p4.at(b_index.first) + g_jets_p4.at(b_index.second)).pt();
+            fill1DHistograms(prefix+"sum_pt_z_bb",bb_pt+phys.dilpt(),weight,allHistos,"",6000,0,6000,rootdir);
+        }
+
+}
+
 
 void ZMETLooper::fillSignalRegionHists(std::string prefix)
 {

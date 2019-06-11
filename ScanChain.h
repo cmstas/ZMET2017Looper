@@ -338,6 +338,9 @@ class ZMETLooper
     void fillClosureHists(std::string prefix = "");
     void fillSignalRegionHists(std::string prefix = "");
     void fillEcalHists(std::string prefix = "");
+    void fillTChiWZHists(std::string prefix = "");
+    void fillTChiHZHists(std::string prefix = "");
+    void fillBoostedHists(std::string prefix = "");
     LorentzVector computeMht();
     //SR Hists comin' soon...
     //
