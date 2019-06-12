@@ -1369,7 +1369,7 @@ bool ZMETLooper::passSignalRegionCuts(){
   //if (printStats) { cout<<"g_dphi_metj1: "<<g_dphi_metj1<<" "; }
   //
 
-  if (conf->get("nFatJets_min") != "")
+  if (conf->get("NFatJets_min") != "")
   {
       if(phys.nFatJets() < stod(conf->get("nFatJets_min")))
       {
