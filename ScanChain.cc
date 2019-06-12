@@ -1367,6 +1367,18 @@ bool ZMETLooper::passSignalRegionCuts(){
 
   //cout<<__LINE__<<endl;
   //if (printStats) { cout<<"g_dphi_metj1: "<<g_dphi_metj1<<" "; }
+  //
+
+  if (conf->get("nFatJets_min") != "")
+  {
+      if(phys.nFatJets() < stod(conf->get("nFatJets_min")))
+      {
+          numEvents->Fill(78);
+          if(printFail) cout<<phys.evt()<<" :Failed minimum fat jets cut"<<endl;
+          return false;
+      }
+  }
+
   //Leading Jet/MET Phi min
   if (conf->get("dPhi_MET_j1") != ""){
     if (g_dphi_metj1 < stod(conf->get("dPhi_MET_j1"))){
