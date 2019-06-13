@@ -733,19 +733,19 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
       }
 
       //Compute rare errors
-      ZZ_err = getRareSamplesError(ZZ_err, ZZ_count, ZZ_scale, ZZ_scale_unc, conf->get("SR"));
+      ZZ_err = getRareSamplesError(ZZ_err, ZZ_count, ZZ_scale, ZZ_scale_unc, SR == "" ? conf->get("SR"):SR);
       //cout<<__LINE__<<endl;
-      WZ_err = getRareSamplesError(WZ_err, WZ_count, WZ_scale, WZ_scale_unc, conf->get("SR"));
+      WZ_err = getRareSamplesError(WZ_err, WZ_count, WZ_scale, WZ_scale_unc, SR == "" ? conf->get("SR"):SR);
       //cout<<__LINE__<<endl;
-      VVV_err = getRareSamplesError(VVV_err, VVV_count, VVV_scale, VVV_scale_unc, conf->get("SR"));
+      VVV_err = getRareSamplesError(VVV_err, VVV_count, VVV_scale, VVV_scale_unc, SR == "" ? conf->get("SR"):SR);
       //cout<<__LINE__<<endl;
-      TTV_err = getRareSamplesError(TTV_err, TTV_count, TTV_scale, TTV_scale_unc, conf->get("SR"));
+      TTV_err = getRareSamplesError(TTV_err, TTV_count, TTV_scale, TTV_scale_unc, SR == "" ? conf->get("SR"): SR);
       //cout<<__LINE__<<endl;
       
       cout<<"Template count in normalization bin="<<template_count[norm_bin]<<endl;
       vector<double> temp_err = getMetTemplatesError(template_error, template_count, normalization, norm_bin, stats_bins, SR == "" ? conf->get("SR"): SR);
       //cout<<__LINE__<<endl;
-      pair<vector<double>,vector<double>> FS_err = getFSError(FS_count, stod(conf->get("hist_5_scale")), conf->get("SR"));
+      pair<vector<double>,vector<double>> FS_err = getFSError(FS_count, stod(conf->get("hist_5_scale")), SR == ""?conf->get("SR"):SR);
       //cout<<__LINE__<<endl;
 
       //Add all rare samples together with scale factors applied
@@ -1067,9 +1067,9 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
     }
     else drawCMSLatex(stod(conf->get("luminosity_fb")));
   }
-  if (conf->get("SR") != ""){
+  if (conf->get("SR") != "" || SR != ""){
     plotpad->cd();
-    drawSRText(conf->get("SR"), bg_sum->GetMaximum(), xmin);
+    drawSRText(SR == ""?conf->get("SR"):SR, bg_sum->GetMaximum(), xmin);
   }
   //cout<<__LINE__<<endl;
 
