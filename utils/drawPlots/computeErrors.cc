@@ -97,14 +97,14 @@ vector<double> getMetTemplatesError(const vector<double> &stat_err, const vector
     MC_Closure_Error.push_back(.15); //100-150
     MC_Closure_Error.push_back(.29); //150+
   }
-  else if(SR == "TChiHZ" || SR == "VRHZ"){
+  else if(SR == "TChiHZ" || SR == "VRHZ" || SR == "SRHZ"){
     //MC_Closure_Error.push_back(.00); //0-50
     MC_Closure_Error.push_back(.00); //50-100
     MC_Closure_Error.push_back(.8); //100-150
     MC_Closure_Error.push_back(.34); //150-250
     MC_Closure_Error.push_back(.34); //250+
   }
-  else if(SR == "TChiWZ" || SR == "VRWZ"){
+  else if(SR == "TChiWZ" || SR == "VRWZ" || SR == "SRVZ" || SR == "SRVZBoosted"){
     //MC_Closure_Error.push_back(.00); //0-50
     MC_Closure_Error.push_back(.00); //50-100
     MC_Closure_Error.push_back(.11); //100-150
