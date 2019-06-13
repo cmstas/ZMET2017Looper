@@ -959,7 +959,7 @@ void ZMETLooper::readyReweightHists(){
 void ZMETLooper::readyVPTReweight_allSR(TString save_path)
 {
   TString vpt_reweight_path = save_path + conf->get("Name") + "_vpt_rwt.root";
-  TString rwt_hist_name_suffix = "_vpt_ratio";
+  TString rwt_hist_name_suffix = "vpt_ratio";
 
   cout<<"Reweighting with "<<vpt_reweight_path<<endl;
 

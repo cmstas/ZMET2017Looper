@@ -138,7 +138,7 @@ void makePtReweightHisto_allSR(ConfigParser *conf)
 {
   //make reweight histograms for all SRs and VRs
 
-  TString hist_name_suffix = "_vpt";
+  TString hist_name_suffix = "vpt";
   TString output_dir = getOutputDir(conf,"hist");
   TString output_location = output_dir + conf->get("Name") + "vpt_rwt.root";
 
