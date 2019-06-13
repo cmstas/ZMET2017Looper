@@ -69,6 +69,9 @@ class ZMETLooper
     std::unordered_map<std::string,TH2*> all2DHistos;
 
     vector<pair <TH1D*, TString> > g_reweight_pairs;
+    //This is used only for multiple SR vpt reweighting
+    std::unordered_map<std::string,TH1D*> g_vpt_reweight_pairs;
+
     TDirectory *rootdir;
     TH1D *g_pileup_hist, *g_l1prescale_hist22, *g_l1prescale_hist30, *g_l1prescale_hist36;
 
@@ -113,6 +116,7 @@ class ZMETLooper
     vector<float> g_jets_csv;
     vector<LorentzVector> g_jets_p4;
     vector<LorentzVector> g_jets_medb_p4;
+    vector<size_t> g_fatjet_indices;
 
     const int Z_PDG_ID = 23;
     const int W_PDG_ID = 24;
@@ -225,6 +229,7 @@ class ZMETLooper
 
     /* Adds the vpt reweighting histogram to the g_reweight_pairs vector */
     void readyVPTReweight(TString save_path);
+    void readyVPTReweight_allSR(TString save_path);
 
     /* Returns the trigger efficiency from g_pt_eff */
     double getEff(const double &pt, const double &eta);
@@ -232,13 +237,13 @@ class ZMETLooper
     /*Loads the reweight hists from g_reweight_pairs and multiplies returns the weight associated with the proper
     bin in the histogram*/
     double getReweight();
-
+    double getReweight_allSR(TString SR);
     /*This method stores fixes to the evt_scale1fb in the event of file corruptions.
     It's basically just a lookup table*/
     double scale1fbFix();
 
     /*Main function for determining the weights for each event*/
-    double getWeight();
+    double getWeight(TString SR = "");
 
     /*Returns the weight associated with the photon prescales*/
     double getPrescaleWeight();
@@ -266,6 +271,10 @@ class ZMETLooper
     bool passVRVZBoostedCuts();
     bool passSRHZCuts();
     bool passVRHZCuts();
+
+    bool passStrongSRCuts();
+    bool passEWKSRCuts();
+    bool passInclusiveCuts();
 
     /*Checks for a gen Neutrino (Real MET) and a gen Z (Real Z), only should be run when running
     over samples tagged as "rares". This is only neccesary for the full prediction.*/
@@ -331,7 +340,10 @@ class ZMETLooper
     double ISR_norm,btag_norm,ISR_norm_up,btag_heavy_norm_up,btag_light_norm_up;
     double dphi_gm;
 
-    void fillCommonHists(std::string prefix="");
+    std::string commonHistPrefix;
+
+    void fillallHistograms(std::string prefix = "");
+    void fillCommonHists(std::string prefix = "");
     void fillPhotonCRHists(std::string prefix = "");
     void fillGammaMuCRHists(std::string prefix = "");
     void fillDileptonCRHists(std::string prefix = "");
@@ -345,6 +357,16 @@ class ZMETLooper
     //SR Hists comin' soon...
     //
 
+    //SUSY signal Histograms
+
+
+    TH3D *susy_type1MET_btaglight_up, *susy_type1MET_btagheavy_up, *susy_type1MET_isr_up;
+
+  TH3D *susy_type1MET_counts,*susy_type1MET_nowt;
+
+  TH2D *susy_type1MET_btaglight_up_2d, *susy_type1MET_btagheavy_up_2d, *susy_type1MET_isr_up_2d;
+
+  TH2D *susy_type1MET_counts_2d,*susy_type1MET_nowt_2d;
 
     public:
     ZMETLooper();

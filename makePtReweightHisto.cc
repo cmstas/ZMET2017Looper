@@ -42,9 +42,9 @@ void makePtReweightHisto(ConfigParser * conf)
     subtractor_scales.push_back(1); //RSFOF*kappa
   }
   else{
-    subtractor_scales.push_back(0.073905); //RSFOF*kappa 
+    subtractor_scales.push_back(0.073905); //RSFOF*kappa
   }
-  
+
   if (conf->get("signal_region") != "ICHEP"){
     //ZNu---------------------------
     s_path = primary_path;
@@ -77,7 +77,7 @@ void makePtReweightHisto(ConfigParser * conf)
   for (int i=0; i < (int) subtractor_paths.size(); i++){
     f_subtractors.push_back(TFile::Open(subtractor_paths.at(i), "READ")); //locations of flavor symmetric and ZNu counterparts.
   }
-  
+
   cout<<"Found input files for reweighting"<<endl;
   TH1D * h_primary;
   TH1D * h_secondary;
@@ -90,7 +90,7 @@ void makePtReweightHisto(ConfigParser * conf)
 
   h_primary = (TH1D*)f_primary->Get(hist_name)->Clone(primary_name);
   h_secondary = (TH1D*)f_secondary->Get(hist_name)->Clone(secondary_name);
-  
+
   if (conf->get("no_subtraction_vpt_rwt") != "true"){
     h_subtractor = (TH1D*)(f_subtractors.at(0))->Get(hist_name)->Clone("subtractor_"+primary_name);
     h_subtractor->Scale(subtractor_scales.at(0));
@@ -109,7 +109,7 @@ void makePtReweightHisto(ConfigParser * conf)
   zeroNegatives(h_secondary);
 
   TH1D * h_ratio_unscaled = (TH1D*) h_primary->Clone(hist_name+"_ratio_unscaled");
-  h_ratio_unscaled->Divide(h_secondary); 
+  h_ratio_unscaled->Divide(h_secondary);
 
   h_primary_scaled=(TH1D*) h_primary->Clone(primary_name+"_scaled");
   h_secondary_scaled=(TH1D*) h_secondary->Clone(secondary_name+"_scaled");
@@ -132,3 +132,93 @@ void makePtReweightHisto(ConfigParser * conf)
   cout<<"Reweight histogram succesfully made at "<<output_location<<endl;
   return ;
 }
+
+
+void makePtReweightHisto_allSR(ConfigParser *conf)
+{
+  //make reweight histograms for all SRs and VRs
+
+  TString hist_name_suffix = "_vpt";
+  TString output_dir = getOutputDir(conf,"hist");
+  TString output_location = output_dir + conf->get("Name") + "vpt_rwt.root";
+
+  TString primary_path = output_dir;
+
+  primary_path.ReplaceAll("/PhotonData_VPTRWT/", "/DileptonData/");
+  primary_path += (conf->get("vpt_rwt_primary_samplename") != "") ? conf->get("vpt_rwt_primary_samplename")+".root" : "DileptonData.root";
+
+  TString secondary_path = output_dir;
+  secondary_path.ReplaceAll("/PhotonData_VPTRWT/", "/PhotonData/");
+  secondary_path += (conf->get("vpt_rwt_secondary_samplename") != "") ? conf->get("vpt_rwt_secondary_samplename")+".root" : conf->get("Name")+".root";
+
+
+  cout<<"primary_histogram file: "<<primary_path<<endl;
+  cout<<"output_dir: "<<output_dir<<endl;
+  cout<<"secondary_path: "<<secondary_path<<endl;
+  cout<<"output_location: "<<output_location<<endl;
+
+  TFile *f_primary = TFile::Open(primary_path,"READ"); //path to zjets
+  TFile *f_secondary = TFile::Open(secondary_path,"READ"); //path to WGammaJets
+  cout<<"Found input files for reweighting"<<endl;
+  vector<TString> SRs = {"SRA","SRAb","SRB","SRBb","SRC","SRCb","SRVz","SRVZBoosted","SRHZ"};
+
+  TH1D * h_primary;
+  TH1D * h_secondary;
+  TH1D * h_primary_scaled;
+  TH1D * h_secondary_scaled;
+  vector<TH1D*> h_ratios_unscaled;
+  vector<TH1D*> h_ratios;
+  vector<TH1D*> h_primaries_scaled;
+  vector<TH1D*> h_secondaries_scaled;
+  TH1D* h_ratio_unscaled;
+  TH1D* h_ratio;
+  TString hist_name;
+  TString primary_name = "DYJets";
+  TString secondary_name = "GammaJets";
+  for(auto &it:SRs)
+  {
+    hist_name = it + hist_name_suffix;
+
+    h_primary = (TH1D*)f_primary->Get(hist_name)->Clone(primary_name);
+    h_secondary = (TH1D*)f_secondary->Get(hist_name)->Clone(secondary_name);
+    cout<<"Zeroing negative bins"<<endl;
+
+    zeroNegatives(h_primary);
+    zeroNegatives(h_secondary);
+
+    h_ratio_unscaled = (TH1D*) h_primary->Clone(hist_name+"_ratio_unscaled");
+    h_ratio_unscaled->Divide(h_secondary);
+    h_ratios_unscaled.push_back(h_ratio_unscaled);
+
+    h_primary_scaled=(TH1D*) h_primary->Clone(primary_name+"_scaled");
+    h_secondary_scaled=(TH1D*) h_secondary->Clone(secondary_name+"_scaled");
+    h_secondary_scaled->Scale(1./h_secondary->GetSumOfWeights());
+    h_primary_scaled->Scale(1./h_primary->GetSumOfWeights());
+    h_primaries_scaled.push_back(h_primary_scaled);
+    h_secondaries_scaled.push_back(h_secondary_scaled);
+
+    h_ratio = (TH1D*) h_primary_scaled->Clone(hist_name+"_ratio");
+    h_ratio->Divide(h_secondary_scaled);
+    h_ratios.push_back(h_ratio);
+    }
+
+    TFile * file = TFile::Open(output_location,"RECREATE");
+    file->cd();
+    for(auto &it:h_ratios)
+    {
+      it->Write();
+    }
+    for(auto &it:h_ratios_unscaled)
+    {
+      it->Write();
+    }
+    for(auto &it:h_primaries_scaled)
+    {
+      it->Write();
+    }
+    for(auto &it:h_secondaries_scaled)
+    {
+      it->Write();
+    }
+    file->Close();
+  }

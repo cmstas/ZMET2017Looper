@@ -10,5 +10,5 @@
 using namespace std;
 
 void makePtReweightHisto(ConfigParser *conf);
-
+void makePtReweightHisto_allSR(ConfigParser *conf);
 #endif

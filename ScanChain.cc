@@ -91,6 +91,9 @@ static const int n_ptbins_std = 20;
     static const int n_met_bins_tchizz = 5;
     const double met_bins_tchizz[n_met_bins_tchizz+1] = {50, 100, 150, 250, 350, 6000};
 
+    static const int n_SR = 9;
+    const TString SRs[n_SR] = {"SRA","SRB","SRC","SRAb","SRBb","SRCb","SRVZ","SRVZBoosted","SRHZ"};
+
 
 ZMETLooper::ZMETLooper()
 {
@@ -953,8 +956,25 @@ void ZMETLooper::readyReweightHists(){
   cout<<"Reweight hists loaded, proceeding with conf "<<conf->get("Name")<<endl;
 }
 
+void ZMETLooper::readyVPTReweight_allSR(TString save_path)
+{
+  TString vpt_reweight_path = save_path + conf->get("Name") + "_vpt_rwt.root";
+  TString rwt_hist_name_suffix = "_vpt_ratio";
+
+  cout<<"Reweighting with "<<vpt_reweight_path<<endl;
+
+  TFile *reweight_file = TFile::Open(vpt_reweight_path,"READ");
+  for(auto &it:SRs)
+  {
+      TString rwt_hist_name = it + rwt_hist_name_suffix;
+      g_vpt_reweight_pairs[std::string(it.Data())] = (TH1D*) reweight_file->Get(rwt_hist_name)->Clone(it+TString("_vpt_reweight_hist"));
+  }
+  reweight_file->Close();
+}
+
+
 void ZMETLooper::readyVPTReweight(TString save_path){
-  /* Adds the vpt reweighting histogram to the g_reweight_pairs vector */
+  /* Adds the vpt reweighting histograms to the g_reweight_pairs vector */
 
   TString vpt_weight_path = save_path+conf->get("Name")+"_vpt_rwt.root";
   TString rwt_hist_name = "vpt_ratio";
@@ -1021,6 +1041,12 @@ double ZMETLooper::getReweight(){
   return weight;
 }
 
+double ZMETLooper::getReweight_allSR(TString SR)
+{
+    /*I'm doing this under the assumption that in case of all SRs, the vpt reweights are found only in the g_vpt_reweight_pairs vector, and not in the g_reweight_pairs vector*/
+    return g_vpt_reweight_pairs[std::string(SR.Data())]->GetBinContent(g_vpt_reweight_pairs[std::string(SR.Data())]->FindBin(bosonPt()));
+}
+
 double ZMETLooper::scale1fbFix(){
   /*This method stores fixes to the evt_scale1fb in the event of file corruptions. It's basically just a lookup table*/
 
@@ -1034,7 +1060,7 @@ double ZMETLooper::scale1fbFix(){
   }
 }
 
-double ZMETLooper::getWeight(){
+double ZMETLooper::getWeight(TString SR){
   /*Gets the proper weight for the sample. */
   double weight=1;
   double ISR_norm, btag_norm;
@@ -1065,6 +1091,11 @@ double ZMETLooper::getWeight(){
 
   if ( conf->get("reweight") == "true" || conf->get("vpt_reweight") == "true") {
     weight *= getReweight();
+
+    if(conf->get("signal_region") == "all")
+    {
+      weight *= getReweight_allSR(SR);
+    }
   }
 
   //cout<<__LINE__<<endl;
@@ -1231,46 +1262,259 @@ double ZMETLooper::getPrescaleWeight(){
 //=============================
 bool ZMETLooper::passSRACuts()
 {
+    if(g_dphi_metj1 < 0.4)
+    {
+      return false;
+    }
+    if(g_dphi_metj2 < 0.4)
+    {
+      return false;
+    }
+    if(g_mt2 < 80)
+    {
+      return false;
+    }
+    if(g_njets < 2 || g_njets > 3)
+    {
+      return false;
+    }
+    if(g_ht < 500)
+    {
+      return false;
+    }
+    if(g_nBJetMedium > 0)
+    {
+      return false;
+    }
     return true;
 }
 
 bool ZMETLooper::passSRAbCuts()
 {
+
+    if(g_dphi_metj1 < 0.4)
+    {
+      return false;
+    }
+    if(g_dphi_metj2 < 0.4)
+    {
+      return false;
+    }
+    if(g_mt2 < 100)
+    {
+      return false;
+    }
+    if(g_njets < 2 || g_njets > 3)
+    {
+      return false;
+    }
+    if(g_ht < 200)
+    {
+      return false;
+    }
+    if(g_nBJetMedium < 1)
+    {
+      return false;
+    }
     return true;
 }
 
 bool ZMETLooper::passSRBCuts()
 {
+
+    if(g_dphi_metj1 < 0.4)
+    {
+      return false;
+    }
+    if(g_dphi_metj2 < 0.4)
+    {
+      return false;
+    }
+    if(g_mt2 < 80)
+    {
+      return false;
+    }
+    if(g_njets < 4 || g_njets > 5)
+    {
+      return false;
+    }
+    if(g_ht < 500)
+    {
+      return false;
+    }
+    if(g_nBJetMedium > 0)
+    {
+      return false;
+    }
+
     return true;
 }
 
 bool ZMETLooper::passSRBbCuts()
 {
+
+    if(g_dphi_metj1 < 0.4)
+    {
+      return false;
+    }
+    if(g_dphi_metj2 < 0.4)
+    {
+      return false;
+    }
+    if(g_mt2 < 100)
+    {
+      return false;
+    }
+    if(g_njets < 4 || g_njets > 5)
+    {
+      return false;
+    }
+    if(g_ht < 200)
+    {
+      return false;
+    }
+    if(g_nBJetMedium < 1)
+    {
+      return false;
+    }
+
     return true;
 }
 
 bool ZMETLooper::passSRCCuts()
-{  
+{
+
+    if(g_dphi_metj1 < 0.4)
+    {
+      return false;
+    }
+    if(g_dphi_metj2 < 0.4)
+    {
+      return false;
+    }
+    if(g_njets < 6)
+    {
+      return false;
+    }
+    if(g_nBJetMedium > 0)
+    {
+      return false;
+    }
+    if(g_mt2 < 80)
+    {
+      return false;
+    }
+
     return true;
 }
 
 bool ZMETLooper::passSRCbCuts()
-{   
+{
+
+    if(g_dphi_metj1 < 0.4)
+    {
+      return false;
+    }
+    if(g_dphi_metj2 < 0.4)
+    {
+      return false;
+    }
+    if(g_njets < 6)
+    {
+      return false;
+    }
+    if(g_nBJetMedium < 1)
+    {
+      return false;
+    }
+    if(g_mt2 < 100)
+    {
+      return false;
+    }
     return true;
 }
 
 bool ZMETLooper::passSRVZCuts()
 {
+    if(g_dphi_metj1 < 0.4)
+    {
+      return false;
+    }
+    if(g_dphi_metj2 < 0.4)
+    {
+      return false;
+    }
+    if(g_njets < 2)
+    {
+      return false;
+    }
+    if(g_nBJetMedium > 0)
+    {
+      return false;
+    }
+    if(g_mt2 < 80)
+    {
+      return false;
+    }
+    if(g_mjj_mindphi > 110)
+    {
+      return false;
+    }
     return true;
 }
 
 bool ZMETLooper::passSRVZBoostedCuts()
 {
+    if(phys.nFatJets() < 1)
+    {
+      return false;
+    }
+    if(g_nBJetMedium > 0)
+    {
+      return false;
+    }
+    for(size_t iJet = 0; iJet < phys.ak8jets_p4().size(); iJet++)
+    {
+      if(phys.ak8jets_tau2().at(iJet)/phys.ak8jets_tau1().at(iJet) > 0.6)
+      {
+        continue;
+      }
+      if(phys.ak8jets_softDropMass().at(iJet) < 60 || phys.ak8jets_softDropMass().at(iJet) > 100)
+      {
+        continue;
+      }
+    //indices of fat jets that pass selection. Needed for filling histograms
+    g_fatjet_indices.push_back(iJet);
+    }
     return true;
 }
 
 bool ZMETLooper::passSRHZCuts()
 {
+    if(g_dphi_metj1 < 0.4)
+    {
+      return false;
+    }
+    if(g_dphi_metj2 < 0.4)
+    {
+      return false;
+    }
+    if(g_njets < 2)
+    {
+      return false;
+    }
+    if(g_nBJetMedium != 2)
+    {
+      return false;
+    }
+     if(g_mt2b < 200)
+     {
+       return false;
+     }
+     if(g_mbb > 150)
+     {
+       return false;
+     }
     return true;
 }
 bool ZMETLooper::passSignalRegionCuts(){
@@ -1371,7 +1615,7 @@ bool ZMETLooper::passSignalRegionCuts(){
 
   if (conf->get("NFatJets_min") != "")
   {
-      if(phys.nFatJets() < stod(conf->get("nFatJets_min")))
+      if(phys.nFatJets() < stod(conf->get("NFatJets_min")))
       {
           numEvents->Fill(78);
           if(printFail) cout<<phys.evt()<<" :Failed minimum fat jets cut"<<endl;
@@ -1725,7 +1969,7 @@ bool ZMETLooper::passRareCuts(){
   bool hasrealmet = true;
   bool realzpair  = true;
 
-  if( TString(conf->get("data_set")).Contains("RareMC-vvv") || TString(conf->get("data_set")).Contains("RareMC-ttz")){
+  if( TString(conf->get("data_set")).Contains("VVV") || TString(conf->get("data_set")).Contains("TTZ")){
     //cout<<"Checking for rare cuts"<<endl;
     hasrealmet = false;
     realzpair  = false;
@@ -2032,7 +2276,7 @@ bool ZMETLooper::passFileSelections(){
 
 
   //Zjets Monte Carlo samples
-  if ( (! phys.isData()) && TString(conf->get("data_set")).Contains("ZMC") && conf->get("signal_region") == "TemplatesClosure"){
+  if ( (! phys.isData()) && TString(conf->get("data_set")).Contains("ZMC") && conf->get("TemplatesClosure") == "true"){
     if( phys.evt_dataset().at(0).Contains("DYJetsToLL") and !phys.evt_dataset().at(0).Contains("HT")){
         //cut inclusive MC at 100 GeV gen HT
       if( phys.gen_ht() > 100 ) {
@@ -2264,6 +2508,9 @@ void ZMETLooper::setupGlobals(){
     g_jets_medb_p4 = phys.jets_medb_p4();
     g_jets_csv = phys.jets_csv();
   }
+
+  //fat jet setup
+  g_fatjet_indices.clear();
 }
 
 void ZMETLooper::updateSUSYBtagISRNorms(){
@@ -2343,7 +2590,14 @@ void ZMETLooper::setupExternal(TString savePath){
     readyReweightHists();
   }
   if( conf->get("vpt_reweight") == "true" ){
-    readyVPTReweight(savePath);
+    if(conf->get("signal_region") == "all")
+    {
+      readyVPTReweight_allSR(savePath);
+    }
+    else
+    {
+      readyVPTReweight(savePath);
+    }
   }
 
   if(conf->get("pileup_reweight") == "true" and conf->get("data") == "false"){
@@ -2502,20 +2756,6 @@ int ZMETLooper::ScanChain( TChain* chain, ConfigParser *configuration, bool fast
     numEvents = new TH1I("numEvents", "Number of events in "+g_sample_name, 80, 0, 80);
     numEvents->SetDirectory(rootdir);
  }
-
-
-
-  
-
-
-
-  TH3D *susy_type1MET_btaglight_up, *susy_type1MET_btagheavy_up, *susy_type1MET_isr_up;
-
-  TH3D *susy_type1MET_counts,*susy_type1MET_nowt;
-
-  TH2D *susy_type1MET_btaglight_up_2d, *susy_type1MET_btagheavy_up_2d, *susy_type1MET_isr_up_2d;
-
-  TH2D *susy_type1MET_counts_2d,*susy_type1MET_nowt_2d;
 
   if(conf->get("SUSY_Glu_LSP_scan") == "true"){
 
@@ -2763,14 +3003,6 @@ int ZMETLooper::ScanChain( TChain* chain, ConfigParser *configuration, bool fast
       }
       //cout<<__LINE__<<endl;
 
-      if (! passSignalRegionCuts()){
-
-        //cout<<"Failed SR"<<endl;
-        continue; // Signal Region Cuts
-      }
-
-      //cout<<__LINE__<<endl;
-
       if (conf->get("rare_real_MET_Z") == "true"){
         if ( ! passRareCuts() ){
           //cout<<"Failed Rare Cuts"<<endl;
@@ -2790,10 +3022,33 @@ int ZMETLooper::ScanChain( TChain* chain, ConfigParser *configuration, bool fast
         //cout<<"checking MET filters"<<endl;
         if (! passMETFilters()) continue; ///met filters
       }
+      commonHistPrefix.clear();
 
+      if(conf->get("signal_region") != "all")
+      {
+        if (! passSignalRegionCuts()){
 
+        //cout<<"Failed SR"<<endl;
+          continue; // Signal Region Cuts
+        }
+        fillallHistograms();
+      }
+      else
+      {
+        //hack to ensure event gets checked for all regions
+        bool flag = false;
 
-      weight = getWeight();
+        flag = passStrongSRCuts();
+        flag = passEWKSRCuts();
+        flag = passInclusiveCuts();
+
+        if(flag == false)
+        {
+          continue;
+        }
+      }
+      //cout<<__LINE__<<endl;
+
       if(conf->get("printEvtList") == "true"){
         // ----------------
         // DEBUG MODE
@@ -2815,132 +3070,8 @@ int ZMETLooper::ScanChain( TChain* chain, ConfigParser *configuration, bool fast
       //
 
 
-      std::string commonHistPrefix = "";
 
-      if(conf->get("dil_flavor") == "all")
-      {
-            if(dil_flavor == 0)
-                commonHistPrefix = "ee_";
-            else if(dil_flavor == 1)
-                commonHistPrefix = "mumu_";
-            else if(dil_flavor == 2)
-                commonHistPrefix = "emu_";
-            else commonHistPrefix = "";
-      }
-      fillCommonHists(commonHistPrefix);
 
-      sumMETFilters = phys.Flag_HBHENoiseFilter()+phys.Flag_HBHEIsoNoiseFilter()+phys.Flag_CSCTightHaloFilter()+phys.Flag_EcalDeadCellTriggerPrimitiveFilter()+phys.Flag_goodVertices()+phys.Flag_eeBadScFilter();
-
-      if(conf->get("event_type") == "photon")
-          fillPhotonCRHists();
-      if(conf->get("signal_region") == "TemplatesClosure")
-          fillClosureHists();
-
-//===========================================
-// Signal Region Specific Histos
-//===========================================
-        
-      if(conf->get("signal_region") == "TChiWZ")
-      {
-          fillTChiWZHists(commonHistPrefix);
-      }
-      if(conf->get("signal_region") == "TChiHZ")
-      {
-          fillTChiHZHists(commonHistPrefix);
-      }
- 
-    
-      if(conf->get("signal_region").find("Boosted") != std::string::npos)
-      {
-          fillBoostedHists(commonHistPrefix);
-      }
-
-      if (conf->get("GammaMuStudy") == "true")
-      {
-          fillGammaMuCRHists();
-      }
-      if(conf->get("dilep_control_region") == "true")
-      {
-          std::string dilepPrefix;
-          if(dil_flavor == 0)
-              dilepPrefix = "ee_";
-          else if(dil_flavor == 1)
-              dilepPrefix = "mumu_";
-          else if(dil_flavor == 2)
-              dilepPrefix = "emu_";
-
-          fillDileptonCRHists(dilepPrefix);
-      }
-
-      //cout<<__LINE__<<endl;
-
-      if(conf->get("SUSY_Glu_LSP_scan") == "true"){
-          //cout<<"mglu: "<<phys.mass_gluino()<<endl;
-          //cout<<"mlsp: "<<phys.mass_LSP()<<endl;
-          //cout<<"met: "<<g_met<<endl;
-          //cout<<"weight: "<<weight<<endl;
-
-          //cout<<__LINE__<<endl;
-
-          susy_type1MET_counts->Fill(g_met, phys.mass_gluino(), phys.mass_LSP(), weight);
-          susy_type1MET_nowt->Fill(g_met, phys.mass_gluino(), phys.mass_LSP(), 1);
-
-          //cout<<__LINE__<<endl;
-
-          ISR_norm=1./g_isr_norm->GetBinContent(g_isr_norm->GetXaxis()->FindBin(phys.mass_gluino()), g_isr_norm->GetYaxis()->FindBin(phys.mass_LSP()));
-          btag_norm=1./g_btagsf_norm->GetBinContent(g_btagsf_norm->GetXaxis()->FindBin(phys.mass_gluino()), g_btagsf_norm->GetYaxis()->FindBin(phys.mass_LSP()));
-
-          ISR_norm_up=1./g_isr_norm_up->GetBinContent(g_isr_norm_up->GetXaxis()->FindBin(phys.mass_gluino()), g_isr_norm_up->GetYaxis()->FindBin(phys.mass_LSP()));
-
-          btag_heavy_norm_up=1./g_btagsf_heavy_norm_up->GetBinContent(g_btagsf_heavy_norm_up->GetXaxis()->FindBin(phys.mass_gluino()), g_btagsf_heavy_norm_up->GetYaxis()->FindBin(phys.mass_LSP()));
-          btag_light_norm_up=1./g_btagsf_light_norm_up->GetBinContent(g_btagsf_light_norm_up->GetXaxis()->FindBin(phys.mass_gluino()), g_btagsf_light_norm_up->GetYaxis()->FindBin(phys.mass_LSP()));
-
-          susy_type1MET_btagheavy_up->Fill(g_met, phys.mass_gluino(), phys.mass_LSP(), (btag_heavy_norm_up/btag_norm)*weight*(phys.weight_btagsf_heavy_UP()/phys.weight_btagsf()));
-          susy_type1MET_btaglight_up->Fill(g_met, phys.mass_gluino(), phys.mass_LSP(), (btag_light_norm_up/btag_norm)*weight*(phys.weight_btagsf_light_UP()/phys.weight_btagsf()));
-
-          //cout<<__LINE__<<endl;
-
-          if (conf->get("data_set") == "t5zz"){
-            //isr_unc filled properly
-            susy_type1MET_isr_up->Fill(g_met, phys.mass_gluino(), phys.mass_LSP(), (ISR_norm_up/ISR_norm)*(weight)*(1+(phys.isr_unc()/phys.isr_weight())) );
-          }
-          else{
-            //isr_unc is just deviation from not using the scale factor
-            susy_type1MET_isr_up->Fill(g_met, phys.mass_gluino(), phys.mass_LSP(), (1/ISR_norm)*(weight)*(1/phys.isr_weight()));
-          }
-      }
-      else if(conf->get("SUSY_chi_scan") == "true"){
-          //cout<<"mglu: "<<phys.mass_gluino()<<endl;
-          //cout<<"mlsp: "<<phys.mass_LSP()<<endl;
-          //cout<<"met: "<<g_met<<endl;
-          //cout<<"weight: "<<weight<<endl;
-
-          //cout<<__LINE__<<endl;
-
-          susy_type1MET_counts_2d->Fill(g_met, phys.mass_chi(), weight);
-          susy_type1MET_nowt_2d->Fill(g_met, phys.mass_chi(), 1);
-
-          //cout<<__LINE__<<endl;
-
-          ISR_norm=1./g_isr_norm->GetBinContent(g_isr_norm->GetXaxis()->FindBin(phys.mass_chi()), 1);
-          btag_norm=1./g_btagsf_norm->GetBinContent(g_btagsf_norm->GetXaxis()->FindBin(phys.mass_chi()), 1);
-
-          ISR_norm_up=1./g_isr_norm_up->GetBinContent(g_isr_norm_up->GetXaxis()->FindBin(phys.mass_chi()), 1);
-
-          btag_heavy_norm_up=1./g_btagsf_heavy_norm_up->GetBinContent(g_btagsf_heavy_norm_up->GetXaxis()->FindBin(phys.mass_chi()), 1);
-          btag_light_norm_up=1./g_btagsf_light_norm_up->GetBinContent(g_btagsf_light_norm_up->GetXaxis()->FindBin(phys.mass_chi()), 1);
-
-          susy_type1MET_btagheavy_up_2d->Fill(g_met, phys.mass_chi(), (btag_heavy_norm_up/btag_norm)*weight*(phys.weight_btagsf_heavy_UP()/phys.weight_btagsf()));
-          susy_type1MET_btaglight_up_2d->Fill(g_met, phys.mass_chi(), (btag_light_norm_up/btag_norm)*weight*(phys.weight_btagsf_light_UP()/phys.weight_btagsf()));
-
-          //cout<<__LINE__<<endl;
-          //isr_unc is just deviation from not using the scale factor
-          susy_type1MET_isr_up_2d->Fill(g_met, phys.mass_chi(),(1/ISR_norm)*(weight)*(1/phys.isr_weight()));
-      }
-
-      if(conf->get("ECalTest") != ""){
-          fillEcalHists();
-              } 
 
       eventCount++;
 
@@ -3074,11 +3205,11 @@ int ZMETLooper::ScanChain( TChain* chain, ConfigParser *configuration, bool fast
   dilmass->Write();
   //cout<<__LINE__<<endl;*/
 
-  
 
-  
 
-  
+
+
+
 
 /*  if (conf->get("GammaMuStudy") == "true"){
     MT_MuMET->Write();
@@ -3112,7 +3243,7 @@ int ZMETLooper::ScanChain( TChain* chain, ConfigParser *configuration, bool fast
 
     susy_type1MET_isr_up_2d->Write();
   }
- 
+
 
 
   for(auto &it:allHistos)
@@ -3193,82 +3324,296 @@ int ZMETLooper::ScanChain( TChain* chain, ConfigParser *configuration, bool fast
 }
 
 
+void ZMETLooper::fillallHistograms(std::string prefix)
+{
+  std::string SR;
+  std::string commonHistPrefix = prefix;
+  double weight;
+  if(conf->get("signal_region") == "all")
+  {
+    SR = prefix;
+    weight = getWeight(TString(SR.c_str()));
+  }
+  else
+  {
+    weight = getWeight();
+  }
+    if(conf->get("dil_flavor") == "all")
+      {
+            if(dil_flavor == 0)
+                commonHistPrefix += "ee_";
+            else if(dil_flavor == 1)
+                commonHistPrefix += "mumu_";
+            else if(dil_flavor == 2)
+                commonHistPrefix += "emu_";
+      }
+      fillCommonHists(commonHistPrefix);
+
+      sumMETFilters = phys.Flag_HBHENoiseFilter()+phys.Flag_HBHEIsoNoiseFilter()+phys.Flag_CSCTightHaloFilter()+phys.Flag_EcalDeadCellTriggerPrimitiveFilter()+phys.Flag_goodVertices()+phys.Flag_eeBadScFilter();
+
+      if(conf->get("event_type") == "photon")
+          fillPhotonCRHists(prefix);
+      if(conf->get("TemplatesClosure") == "true")
+          fillClosureHists(prefix);
+
+//===========================================
+// Signal Region Specific Histos
+//===========================================
+
+      if(conf->get("signal_region") == "TChiWZ" || conf->get("signal_region") == "all")
+      {
+          fillTChiWZHists(prefix);
+      }
+      if(conf->get("signal_region") == "TChiHZ" || conf->get("signal_region") == "all")
+      {
+          fillTChiHZHists(prefix);
+      }
+
+
+      if(conf->get("signal_region").find("Boosted") != std::string::npos || conf->get("signal_region") == "all")
+      {
+          fillBoostedHists(prefix);
+      }
+
+      if (conf->get("GammaMuStudy") == "true")
+      {
+          fillGammaMuCRHists(prefix);
+      }
+      if(conf->get("dilep_control_region") == "true")
+      {
+          std::string dilepPrefix = prefix;
+          if(dil_flavor == 0)
+              dilepPrefix += "ee_";
+          else if(dil_flavor == 1)
+              dilepPrefix += "mumu_";
+          else if(dil_flavor == 2)
+              dilepPrefix += "emu_";
+
+          fillDileptonCRHists(dilepPrefix);
+      }
+
+      //cout<<__LINE__<<endl;
+
+      if(conf->get("SUSY_Glu_LSP_scan") == "true"){
+          //cout<<"mglu: "<<phys.mass_gluino()<<endl;
+          //cout<<"mlsp: "<<phys.mass_LSP()<<endl;
+          //cout<<"met: "<<g_met<<endl;
+          //cout<<"weight: "<<weight<<endl;
+
+          //cout<<__LINE__<<endl;
+
+          susy_type1MET_counts->Fill(g_met, phys.mass_gluino(), phys.mass_LSP(), weight);
+          susy_type1MET_nowt->Fill(g_met, phys.mass_gluino(), phys.mass_LSP(), 1);
+
+          //cout<<__LINE__<<endl;
+
+          ISR_norm=1./g_isr_norm->GetBinContent(g_isr_norm->GetXaxis()->FindBin(phys.mass_gluino()), g_isr_norm->GetYaxis()->FindBin(phys.mass_LSP()));
+          btag_norm=1./g_btagsf_norm->GetBinContent(g_btagsf_norm->GetXaxis()->FindBin(phys.mass_gluino()), g_btagsf_norm->GetYaxis()->FindBin(phys.mass_LSP()));
+
+          ISR_norm_up=1./g_isr_norm_up->GetBinContent(g_isr_norm_up->GetXaxis()->FindBin(phys.mass_gluino()), g_isr_norm_up->GetYaxis()->FindBin(phys.mass_LSP()));
+
+          btag_heavy_norm_up=1./g_btagsf_heavy_norm_up->GetBinContent(g_btagsf_heavy_norm_up->GetXaxis()->FindBin(phys.mass_gluino()), g_btagsf_heavy_norm_up->GetYaxis()->FindBin(phys.mass_LSP()));
+          btag_light_norm_up=1./g_btagsf_light_norm_up->GetBinContent(g_btagsf_light_norm_up->GetXaxis()->FindBin(phys.mass_gluino()), g_btagsf_light_norm_up->GetYaxis()->FindBin(phys.mass_LSP()));
+
+          susy_type1MET_btagheavy_up->Fill(g_met, phys.mass_gluino(), phys.mass_LSP(), (btag_heavy_norm_up/btag_norm)*weight*(phys.weight_btagsf_heavy_UP()/phys.weight_btagsf()));
+          susy_type1MET_btaglight_up->Fill(g_met, phys.mass_gluino(), phys.mass_LSP(), (btag_light_norm_up/btag_norm)*weight*(phys.weight_btagsf_light_UP()/phys.weight_btagsf()));
+
+          //cout<<__LINE__<<endl;
+
+          if (conf->get("data_set") == "t5zz"){
+            //isr_unc filled properly
+            susy_type1MET_isr_up->Fill(g_met, phys.mass_gluino(), phys.mass_LSP(), (ISR_norm_up/ISR_norm)*(weight)*(1+(phys.isr_unc()/phys.isr_weight())) );
+          }
+          else{
+            //isr_unc is just deviation from not using the scale factor
+            susy_type1MET_isr_up->Fill(g_met, phys.mass_gluino(), phys.mass_LSP(), (1/ISR_norm)*(weight)*(1/phys.isr_weight()));
+          }
+      }
+      else if(conf->get("SUSY_chi_scan") == "true"){
+          //cout<<"mglu: "<<phys.mass_gluino()<<endl;
+          //cout<<"mlsp: "<<phys.mass_LSP()<<endl;
+          //cout<<"met: "<<g_met<<endl;
+          //cout<<"weight: "<<weight<<endl;
+
+          //cout<<__LINE__<<endl;
+
+          susy_type1MET_counts_2d->Fill(g_met, phys.mass_chi(), weight);
+          susy_type1MET_nowt_2d->Fill(g_met, phys.mass_chi(), 1);
+
+          //cout<<__LINE__<<endl;
+
+          ISR_norm=1./g_isr_norm->GetBinContent(g_isr_norm->GetXaxis()->FindBin(phys.mass_chi()), 1);
+          btag_norm=1./g_btagsf_norm->GetBinContent(g_btagsf_norm->GetXaxis()->FindBin(phys.mass_chi()), 1);
+
+          ISR_norm_up=1./g_isr_norm_up->GetBinContent(g_isr_norm_up->GetXaxis()->FindBin(phys.mass_chi()), 1);
+
+          btag_heavy_norm_up=1./g_btagsf_heavy_norm_up->GetBinContent(g_btagsf_heavy_norm_up->GetXaxis()->FindBin(phys.mass_chi()), 1);
+          btag_light_norm_up=1./g_btagsf_light_norm_up->GetBinContent(g_btagsf_light_norm_up->GetXaxis()->FindBin(phys.mass_chi()), 1);
+
+          susy_type1MET_btagheavy_up_2d->Fill(g_met, phys.mass_chi(), (btag_heavy_norm_up/btag_norm)*weight*(phys.weight_btagsf_heavy_UP()/phys.weight_btagsf()));
+          susy_type1MET_btaglight_up_2d->Fill(g_met, phys.mass_chi(), (btag_light_norm_up/btag_norm)*weight*(phys.weight_btagsf_light_UP()/phys.weight_btagsf()));
+
+          //cout<<__LINE__<<endl;
+          //isr_unc is just deviation from not using the scale factor
+          susy_type1MET_isr_up_2d->Fill(g_met, phys.mass_chi(),(1/ISR_norm)*(weight)*(1/phys.isr_weight()));
+      }
+
+      if(conf->get("ECalTest") != ""){
+          fillEcalHists();
+              }
+}
+
+bool ZMETLooper::passStrongSRCuts()
+{
+    if(passSRACuts())
+    {
+      commonHistPrefix = "SRA";
+    }
+    else if(passSRAbCuts())
+    {
+      commonHistPrefix = "SRAb";
+    }
+    else if(passSRBCuts())
+    {
+      commonHistPrefix = "SRB";
+    }
+    else if(passSRBbCuts())
+    {
+      commonHistPrefix = "SRBb";
+    }
+    else if(passSRCCuts())
+    {
+      commonHistPrefix = "SRC";
+    }
+    else if(passSRCbCuts())
+    {
+      commonHistPrefix = "SRCb";
+    }
+    else
+    {
+      return false;
+    }
+    fillallHistograms(commonHistPrefix);
+    return true;
+}
+
+bool ZMETLooper::passEWKSRCuts()
+{
+  /*Implementing Strategy A for SRWZ - veto events with fat jet in resolved region*/
+  bool flag=false;
+  if(passSRVZBoostedCuts())
+  {
+    commonHistPrefix = "SRVZBoosted";
+    flag = true;
+  }
+  else if(passSRVZCuts())
+  {
+    commonHistPrefix = "SRVZ";
+    flag = true;
+  }
+  if(flag == true)
+  {
+    fillallHistograms(commonHistPrefix);
+  }
+
+  if(passSRHZCuts())
+  {
+      commonHistPrefix = "SRHZ";
+      flag = true;
+      fillallHistograms(commonHistPrefix);
+  }
+
+  return flag;
+
+}
+bool ZMETLooper::passInclusiveCuts()
+{
+  return true; //Temporary
+}
+
 void ZMETLooper::fillCommonHists(std::string prefix)
 {
-
-
         //create histograms
-        fill1DHistograms(prefix+"weight_log",log10(abs(weight)),1,allHistos,"",n_weight_log_bins,weight_log_bins,rootdir);
-        fill1DHistograms(prefix+"weight_log_flat",abs(weight),1,allHistos,"",101,0,1.01,rootdir);
-        fill1DHistograms(prefix+"numMETFilters",sumMETFilters,1,allHistos,"",50,0,50,rootdir);
+        //for(auto &prefix:prefixes)
+        //{
+          fill1DHistograms(prefix+"weight_log",log10(abs(weight)),1,allHistos,"",n_weight_log_bins,weight_log_bins,rootdir);
+          fill1DHistograms(prefix+"weight_log_flat",abs(weight),1,allHistos,"",101,0,1.01,rootdir);
+          fill1DHistograms(prefix+"numMETFilters",sumMETFilters,1,allHistos,"",50,0,50,rootdir);
 
-        if(g_met != 0)
-        {
-            fill1DHistograms(prefix+"type1MET",g_met,weight,allHistos,"",6000,0,6000,rootdir);
+          if(g_met != 0)
+          {
+              fill1DHistograms(prefix+"type1MET",g_met,weight,allHistos,"",6000,0,6000,rootdir);
  //       t1met->Fill(g_met, weight);
-        fill1DHistograms(prefix+"type1MET_widebin",g_met,weight,allHistos,"",n_metbins_wide_std,metbins_wide_std,rootdir);
+          fill1DHistograms(prefix+"type1MET_widebin",g_met,weight,allHistos,"",n_metbins_wide_std,metbins_wide_std,rootdir);
 
-        }
+          }
 
-      if (phys.met_rawPt() != 0) //rawmet->Fill(phys.met_rawPt(), weight);
-        fill1DHistograms(prefix+"rawMET",phys.met_rawPt(),weight,allHistos,"",6000,0,6000,rootdir);
-      if (g_ht != 0) {
-        fill1DHistograms(prefix+"ht",g_ht,weight,allHistos,"",6000,0,6000,rootdir);
-        fill1DHistograms(prefix+"ht_wide",g_ht,weight,allHistos,"",60,0,6000,rootdir);
-      }
+          if (phys.met_rawPt() != 0) //rawmet->Fill(phys.met_rawPt(), weight);
+          {
+            fill1DHistograms(prefix+"rawMET",phys.met_rawPt(),weight,allHistos,"",6000,0,6000,rootdir);
+          }
+          if (g_ht != 0) {
+            fill1DHistograms(prefix+"ht",g_ht,weight,allHistos,"",6000,0,6000,rootdir);
+            fill1DHistograms(prefix+"ht_wide",g_ht,weight,allHistos,"",60,0,6000,rootdir);
+          }
 
-      if(g_mht != 0)
-      {
-        fill1DHistograms(prefix+"mht",g_mht,weight,allHistos,"",6000,0,6000,rootdir);
-        TVector2 mhtVector = TVector2(g_mht * cos(g_mht_phi),g_mht * sin(g_mht_phi));
-        TVector2 metVector = TVector2(g_met * cos(g_met_phi),g_met*sin(g_met_phi));
-        mhtMETDifference = (mhtVector - metVector).Mod();
-        fill1DHistograms(prefix+"mhtDiffBymet",mhtMETDifference/g_met,weight,allHistos,"",1000,0,100,rootdir);
-      }
-      if (phys.gen_ht() != 0)
-          fill1DHistograms(prefix+"genht",phys.gen_ht(),weight,allHistos,"",6000,0,6000,rootdir);
-      if (bosonPt() != 0){
-        fill1DHistograms(prefix+"vpt",bosonPt(),weight,allHistos,"",n_ptbins_std,ptbins_std,rootdir);
-        fill1DHistograms(prefix+"vpt_fine",bosonPt(),weight,allHistos,"",n_ptbins_fine,ptbins_fine,rootdir);
-        fill1DHistograms(prefix+"vpt_flat",bosonPt(),weight,allHistos,"",6000,0,6000,rootdir);
-      }
-      fill1DHistograms(prefix+"njets",g_njets,weight,allHistos,"",50,0,50,rootdir);
-      fill1DHistograms(prefix+"nJetFailId",phys.nJetFailId(),weight,allHistos,"",50,0,50,rootdir);
+          if(g_mht != 0)
+          {
+            fill1DHistograms(prefix+"mht",g_mht,weight,allHistos,"",6000,0,6000,rootdir);
+            TVector2 mhtVector = TVector2(g_mht * cos(g_mht_phi),g_mht * sin(g_mht_phi));
+            TVector2 metVector = TVector2(g_met * cos(g_met_phi),g_met*sin(g_met_phi));
+            mhtMETDifference = (mhtVector - metVector).Mod();
+            fill1DHistograms(prefix+"mhtDiffBymet",mhtMETDifference/g_met,weight,allHistos,"",1000,0,100,rootdir);
+          }
+            if (phys.gen_ht() != 0)
+            {
+              fill1DHistograms(prefix+"genht",phys.gen_ht(),weight,allHistos,"",6000,0,6000,rootdir);
+            }
+              if (bosonPt() != 0){
+                fill1DHistograms(prefix+"vpt",bosonPt(),weight,allHistos,"",n_ptbins_std,ptbins_std,rootdir);
+                fill1DHistograms(prefix+"vpt_fine",bosonPt(),weight,allHistos,"",n_ptbins_fine,ptbins_fine,rootdir);
+                fill1DHistograms(prefix+"vpt_flat",bosonPt(),weight,allHistos,"",6000,0,6000,rootdir);
+            }
+            fill1DHistograms(prefix+"njets",g_njets,weight,allHistos,"",50,0,50,rootdir);
+        fill1DHistograms(prefix+"nJetFailId",phys.nJetFailId(),weight,allHistos,"",50,0,50,rootdir);
 
-      fill1DHistograms(prefix+"nbtags_m",g_nBJetMedium,weight,allHistos,"",50,0,50,rootdir);
-      fill1DHistograms(prefix+"nbtags_l",phys.nBJetLoose(),weight,allHistos,"",50,0,50,rootdir);
+        fill1DHistograms(prefix+"nbtags_m",g_nBJetMedium,weight,allHistos,"",50,0,50,rootdir);
+        fill1DHistograms(prefix+"nbtags_l",phys.nBJetLoose(),weight,allHistos,"",50,0,50,rootdir);
 
-      fill1DHistograms(prefix+"nbtags_t",phys.nBJetTight(),weight,allHistos,"",50,0,50,rootdir);
+        fill1DHistograms(prefix+"nbtags_t",phys.nBJetTight(),weight,allHistos,"",50,0,50,rootdir);
 
-      fill1DHistograms(prefix+"nVert",phys.nVert(),weight,allHistos,"",150,0,150,rootdir);
-      fill1DHistograms(prefix+"nlep",phys.nlep(),weight,allHistos,"",20,0,20,rootdir);
-      fill1DHistograms(prefix+"nisotrack",phys.nisoTrack_mt2(),weight,allHistos,"",20,0,20,rootdir);
-      if (g_mt2 != 0 )
-          fill1DHistograms(prefix+"mt2",g_mt2,weight,allHistos,"",1000,0,1000,rootdir);
-      if (g_mt2b != 0 )
-          fill1DHistograms(prefix+"mt2b",g_mt2b,weight,allHistos,"",6000,0,6000,rootdir);
+        fill1DHistograms(prefix+"nVert",phys.nVert(),weight,allHistos,"",150,0,150,rootdir);
+        fill1DHistograms(prefix+"nlep",phys.nlep(),weight,allHistos,"",20,0,20,rootdir);
+        fill1DHistograms(prefix+"nisotrack",phys.nisoTrack_mt2(),weight,allHistos,"",20,0,20,rootdir);
+        if (g_mt2 != 0 )
+            fill1DHistograms(prefix+"mt2",g_mt2,weight,allHistos,"",1000,0,1000,rootdir);
+          if (g_mt2b != 0 )
+            fill1DHistograms(prefix+"mt2b",g_mt2b,weight,allHistos,"",6000,0,6000,rootdir);
       //cout<<__LINE__<<endl;
-      if (g_njets > 0)
-          fill1DHistograms(prefix+"dphi_jet1_met",acos(cos(g_met_phi - g_jets_p4.at(0).phi())),weight,allHistos,"",100,0,3.15,rootdir);
+        if (g_njets > 0)
+            fill1DHistograms(prefix+"dphi_jet1_met",acos(cos(g_met_phi - g_jets_p4.at(0).phi())),weight,allHistos,"",100,0,3.15,rootdir);
       //cout<<__LINE__<<endl;
-      if (g_njets > 1)
-          fill1DHistograms(prefix+"dphi_jet2_met",acos(cos(g_met_phi - g_jets_p4.at(1).phi())),weight,allHistos,"",100,0,3.15,rootdir);
-      if(g_njets > 2)
-          fill1DHistograms(prefix+"dphi_jet3_met",acos(cos(g_met_phi - g_jets_p4.at(2).phi())),weight,allHistos,"",100,0,3.15,rootdir);
+        if (g_njets > 1)
+            fill1DHistograms(prefix+"dphi_jet2_met",acos(cos(g_met_phi - g_jets_p4.at(1).phi())),weight,allHistos,"",100,0,3.15,rootdir);
+          if(g_njets > 2)
+            fill1DHistograms(prefix+"dphi_jet3_met",acos(cos(g_met_phi - g_jets_p4.at(2).phi())),weight,allHistos,"",100,0,3.15,rootdir);
+        //}
 
 
 }
 
 void ZMETLooper::fillBoostedHists(std::string prefix)
 {
-    fill1DHistograms(prefix+"nFatJets",phys.nFatJets(),weight,allHistos,"",50,0,50,rootdir);
-    for(size_t iJet = 0; iJet < phys.ak8jets_tau2().size(); iJet++)
-    {
-        if(phys.ak8jets_tau2().at(iJet) != 0 && phys.ak8jets_tau1().at(iJet) != 0)
-        {
-            fill1DHistograms(prefix+"tau21",phys.ak8jets_tau2().at(iJet)/phys.ak8jets_tau1().at(iJet),weight,allHistos,"",1000,0,10,rootdir);
+    //for(auto &prefix:prefixes)
+    //{
+      fill1DHistograms(prefix+"nFatJets",phys.nFatJets(),weight,allHistos,"",50,0,50,rootdir);
+      for(size_t iJet = 0; iJet < phys.ak8jets_tau2().size(); iJet++)
+      {
+          if(phys.ak8jets_tau2().at(iJet) != 0 && phys.ak8jets_tau1().at(iJet) != 0)
+          {
+              fill1DHistograms(prefix+"tau21",phys.ak8jets_tau2().at(iJet)/phys.ak8jets_tau1().at(iJet),weight,allHistos,"",1000,0,10,rootdir);
 
-        }
+            }
     }
     for(auto &it:phys.ak8jets_softDropMass())
     {
@@ -3279,27 +3624,29 @@ void ZMETLooper::fillBoostedHists(std::string prefix)
 
 void ZMETLooper::fillPhotonCRHists(std::string prefix)
 {
-    fill1DHistograms(prefix+"photonPt",phys.gamma_p4().at(0).pt(),weight,allHistos,"",1000,0,1000,rootdir);
-    fill1DHistograms(prefix+"photonEta",phys.gamma_p4().at(0).eta(),weight,allHistos,"",200,-2.4,2.4,rootdir);
-    fill1DHistograms(prefix+"photonPhi",phys.gamma_p4().at(0).phi(),weight,allHistos,"",400,-6.30,6.30,rootdir);
+
+      fill1DHistograms(prefix+"photonPt",phys.gamma_p4().at(0).pt(),weight,allHistos,"",1000,0,1000,rootdir);
+      fill1DHistograms(prefix+"photonEta",phys.gamma_p4().at(0).eta(),weight,allHistos,"",200,-2.4,2.4,rootdir);
+      fill1DHistograms(prefix+"photonPhi",phys.gamma_p4().at(0).phi(),weight,allHistos,"",400,-6.30,6.30,rootdir);
 }
 
 void ZMETLooper::fillGammaMuCRHists(std::string prefix)
 {
-    fill1DHistograms(prefix+"MT_MuMET",getMTLepMET(),weight,allHistos,"",6000,0,6000,rootdir);
-    fill1DHistograms(prefix+"dR_GammaMu",getdRGammaLep(),weight,allHistos,"",200,0,5.8,rootdir);
-    fill1DHistograms(prefix+"mu_pt",phys.lep_pt().at(0),weight,allHistos,"",6000,0,6000,rootdir);
+      fill1DHistograms(prefix+"MT_MuMET",getMTLepMET(),weight,allHistos,"",6000,0,6000,rootdir);
+      fill1DHistograms(prefix+"dR_GammaMu",getdRGammaLep(),weight,allHistos,"",200,0,5.8,rootdir);
+      fill1DHistograms(prefix+"mu_pt",phys.lep_pt().at(0),weight,allHistos,"",6000,0,6000,rootdir);
 }
 
 void ZMETLooper::fillDileptonCRHists(std::string prefix)
 {
-        fill1DHistograms(prefix+"dilmass",phys.dilmass(),weight,allHistos,"",6000,0,6000,rootdir);
-        fill1DHistograms(prefix+"ll_pt",phys.lep_pt().at(0),weight,allHistos,"",1000,0,1000,rootdir);
-        fill1DHistograms(prefix+"lt_pt",phys.lep_pt().at(1),weight,allHistos,"",1000,0,1000,rootdir);
-        fill1DHistograms(prefix+"ll_eta",phys.lep_p4().at(0).eta(),weight,allHistos,"",200,-2.4,2.4,rootdir);
-        fill1DHistograms(prefix+"lt_eta",phys.lep_p4().at(1).eta(),weight,allHistos,"",200,-2.4,2.4,rootdir);
-        fill1DHistograms(prefix+"ll_phi",phys.lep_p4().at(0).phi(),weight,allHistos,"",200,-6.28,6.28,rootdir);
-        fill1DHistograms(prefix+"lt_phi",phys.lep_p4().at(1).phi(),weight,allHistos,"",200,-6.28,6.28,rootdir);
+
+    fill1DHistograms(prefix+"dilmass",phys.dilmass(),weight,allHistos,"",6000,0,6000,rootdir);
+    fill1DHistograms(prefix+"ll_pt",phys.lep_pt().at(0),weight,allHistos,"",1000,0,1000,rootdir);
+    fill1DHistograms(prefix+"lt_pt",phys.lep_pt().at(1),weight,allHistos,"",1000,0,1000,rootdir);
+    fill1DHistograms(prefix+"ll_eta",phys.lep_p4().at(0).eta(),weight,allHistos,"",200,-2.4,2.4,rootdir);
+    fill1DHistograms(prefix+"lt_eta",phys.lep_p4().at(1).eta(),weight,allHistos,"",200,-2.4,2.4,rootdir);
+    fill1DHistograms(prefix+"ll_phi",phys.lep_p4().at(0).phi(),weight,allHistos,"",200,-6.28,6.28,rootdir);
+    fill1DHistograms(prefix+"lt_phi",phys.lep_p4().at(1).phi(),weight,allHistos,"",200,-6.28,6.28,rootdir);
 
 }
 
@@ -3308,7 +3655,7 @@ void ZMETLooper::fillClosureHists(std::string prefix)
 {
     fill1DHistograms(prefix+"genRecoHT",abs(phys.gen_ht() - g_ht),weight,allHistos,"",1000,0,1000,rootdir);
     fill1DHistograms(prefix+"evtscale1fb",phys.evt_scale1fb(),weight,allHistos,"",1000,0,300,rootdir);
-    fill2DHistograms(prefix+"_PtvMET",g_met,bosonPt(),weight,all2DHistos,"",6000,0,6000,n_ptbins_std,ptbins_std,rootdir);
+    fill2DHistograms(prefix+"PtvMET",g_met,bosonPt(),weight,all2DHistos,"",6000,0,6000,n_ptbins_std,ptbins_std,rootdir);
     fill2DHistograms(prefix+"PtFinevsMET",g_met,bosonPt(),weight,all2DHistos,"",6000,0,6000,n_ptbins_fine,ptbins_fine,rootdir);
 }
 
@@ -3354,7 +3701,6 @@ void ZMETLooper::fillEcalHists(std::string prefix)
     fill1DHistograms(prefix+"dphi_gamma_jet1",dphi_jet1_gamma,weight,allHistos,"",100,0,3.15,rootdir);
     fill1DHistograms(prefix+"dphi_gamma_jet1",dphi_jet2_gamma,weight,allHistos,"",100,0,3.15,rootdir);
 
-
 }
 
 void ZMETLooper::fillTChiWZHists(std::string prefix)
@@ -3391,33 +3737,33 @@ void ZMETLooper::fillTChiHZHists(std::string prefix)
 
     if(phys.mt2j()!=0)
     {
-        fill1DHistograms(prefix+"mt2j",phys.mt2j(),weight,allHistos,"",6000,0,6000,rootdir); 
+        fill1DHistograms(prefix+"mt2j",phys.mt2j(),weight,allHistos,"",6000,0,6000,rootdir);
     }
 
-    if (phys.nlep() > 1 && g_nBJetMedium >= 2) 
+    if (phys.nlep() > 1 && g_nBJetMedium >= 2)
     {
         mt2_val_hz = getMT2HiggsZ();
     }
-        if (mt2_val_hz != 0) 
+        if (mt2_val_hz != 0)
         {
             fill1DHistograms(prefix+"mt2_hz",mt2_val_hz,weight,allHistos,"",6000,0,6000,rootdir);
         }
 
         //cout<<__LINE__<<endl;
 
-        if (g_mt2 != 0 && g_mt2b != 0 ) 
+        if (g_mt2 != 0 && g_mt2b != 0 )
         {
             fill2DHistograms(prefix+"MT2_MT2B",g_mt2,g_mt2b,weight,all2DHistos,"",6000,0,6000,6000,0,6000,rootdir);
         }
 
 
-        if (g_mt2 != 0 && mt2_val_fromb != 0 ) 
+        if (g_mt2 != 0 && mt2_val_fromb != 0 )
         {
             fill2DHistograms(prefix+"MT2_MT2_fromb",g_mt2,mt2_val_fromb,weight,all2DHistos,"",6000,0,6000,6000,0,6000,rootdir);
         }
 
 
-        if (g_mt2 != 0 && mt2_val_hz != 0 ) 
+        if (g_mt2 != 0 && mt2_val_hz != 0 )
         {
             fill2DHistograms(prefix+"MT2_MT2_HZ",g_mt2,mt2_val_hz,weight,all2DHistos,"",6000,0,6000,6000,0,6000,rootdir);
         }
@@ -3430,11 +3776,4 @@ void ZMETLooper::fillTChiHZHists(std::string prefix)
             bb_pt = (g_jets_p4.at(b_index.first) + g_jets_p4.at(b_index.second)).pt();
             fill1DHistograms(prefix+"sum_pt_z_bb",bb_pt+phys.dilpt(),weight,allHistos,"",6000,0,6000,rootdir);
         }
-
-}
-
-
-void ZMETLooper::fillSignalRegionHists(std::string prefix)
-{
-
 }

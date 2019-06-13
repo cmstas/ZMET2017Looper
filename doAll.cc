@@ -6,7 +6,14 @@ void runScanChain(ZMETLooper l,ConfigParser* conf){
 
   if (conf->get("vpt_reweight") == "true"){
     cout<<"Making Reweight Histogram"<<endl;
-    makePtReweightHisto(conf);
+    if(conf->get("signal_region") == "all")
+    {
+      makePtReweightHisto_allSR(conf);
+    }
+    else
+    {
+        makePtReweightHisto(conf);
+    }
   }
 
   l.ScanChain(getTChain(conf->get("data_set")), conf);
