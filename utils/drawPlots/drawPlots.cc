@@ -43,7 +43,7 @@ void assignColor(std::vector<TH1D*> hists)
   }
 }
 
-TH1D *combine_histograms(vector<TFile*> hist_files, std::vector<TString> hist_names,int count,TString plot_name)
+TH1D *combine_histograms(vector<TFile*> hist_files, std::vector<TString> hist_names,int count,TString plot_name,TString SR)
 {
   TH1D *final_hist =(TH1D*) ((TH1D*)(hist_files[0]->Get(hist_names[0])))->Clone("hist_"+to_string(count)+"_"+plot_name);
   for(size_t i = 0; i < hist_files.size(); i++)
@@ -52,7 +52,7 @@ TH1D *combine_histograms(vector<TFile*> hist_files, std::vector<TString> hist_na
     {
       if(i == 0 && j == 0)
         continue;
-      final_hist->Add((TH1D*)hist_files.at(i)->Get(hist_names.at(j)));
+      final_hist->Add((TH1D*)hist_files.at(i)->Get(SR+hist_names.at(j)));
     }
   }
   return final_hist;
@@ -183,7 +183,7 @@ void drawSRText(TString SR, double high_y, double low_x){
   return;
 }
 
-TString drawArbitraryNumberWithResidual(ConfigParser *conf){
+TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
   // This method expects conf to have a plot config loaded in already.
   //In the conf, we expect there to be hist names of the form file_N_path,
   //hist_n_name, starting with 0 for the primary histogram, which is normally
@@ -262,7 +262,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
 
   std::vector<TH1D*> hists (num_hists);
   for (int i = 0; i<num_hists; i++){
-    hists[i] = (TH1D*) (combine_histograms(hist_files[i],hist_names[i],i,plot_name));
+    hists[i] = (TH1D*) (combine_histograms(hist_files[i],hist_names[i],i,plot_name,SR));
     //hists[i] = (TH1D*) combine_histograms((TH1D*) hist_files[i]->Get(hist_names[i]))->Clone("hist_"+to_string(i)+"_"+plot_name);
     for(auto &it:hist_names[i])
     {
@@ -2280,7 +2280,7 @@ TString drawSingleTH2(ConfigParser *conf){
   return errors;
 }
 
-void drawPlots(TString config_file, bool draw_debugs){
+void drawPlots(TString config_file, TString SR,bool draw_debugs){
   TString errors="";
   gEnv->SetValue("RooFit.Banner","0");
   ConfigParser *configs=new ConfigParser(config_file.Data());
@@ -2292,7 +2292,7 @@ void drawPlots(TString config_file, bool draw_debugs){
 
   while(configs->loadNextConfig()) {
     if (configs->get("PLOT_TYPE") == "ratio"){
-      errors+=drawArbitraryNumberWithResidual(configs);
+      errors+=drawArbitraryNumberWithResidual(configs,SR);
     }
     else if (configs->get("PLOT_TYPE") == "single"){
       errors+=drawSingleTH1(configs);
@@ -2318,6 +2318,6 @@ void drawPlots(TString config_file, bool draw_debugs){
 
 int main(int argc, char* argv[])
 {
-  drawPlots(argv[1],false);
+  drawPlots(argv[1],argv[2],false);
   return 0;
 }
