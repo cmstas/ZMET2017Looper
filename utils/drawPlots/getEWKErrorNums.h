@@ -11,7 +11,7 @@
 
 #include "../../HistTools.h"
 std::vector<TString> getFileLocation(TString sample_name);
-std::pair<double, std::vector<double>> getEWKNumsForSample(TString sample_name);
-std::vector<double> getPercentStatErrorsForNoEWKSub(TString sample_name);
+std::pair<double, std::vector<double>> getEWKNumsForSample(TString sample_name,bool allSR = false);
+std::vector<double> getPercentStatErrorsForNoEWKSub(TString sample_name,bool allSR = false);
 void getEWKErrorNums();
 #endif

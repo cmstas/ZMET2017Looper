@@ -107,9 +107,14 @@ vector<TString> getFileLocation(TString sample_name){
   return fnames;
 }
 
-pair<double, vector<double>> getEWKNumsForSample(TString sample_name){
+pair<double, vector<double>> getEWKNumsForSample(TString sample_name,bool allSR){
   cout<<setprecision(15);
-  vector<TString> fnames = getFileLocation(sample_name);
+  vector<TString> fnames;
+  if(!allSR)
+      fnames = getFileLocation(sample_name);
+  else
+      fnames = getFileLocation("all");
+
 
   //cout<<__LINE__<<endl;
 
@@ -117,9 +122,17 @@ pair<double, vector<double>> getEWKNumsForSample(TString sample_name){
   TFile* no_sub_file = TFile::Open(fnames[1]);
 
   //cout<<__LINE__<<endl;
-
-  TH1D* sub_hist = (TH1D*) ((TH1D*) sub_file->Get("type1MET"));
-  TH1D* no_sub_hist = (TH1D*) ((TH1D*) no_sub_file->Get("type1MET"));
+  TH1D *sub_hist, *no_sub_hist;
+  if(!allSR)
+  {
+    sub_hist = (TH1D*) ((TH1D*) sub_file->Get("type1MET"));
+    no_sub_hist = (TH1D*) ((TH1D*) no_sub_file->Get("type1MET"));
+  }
+  else
+  {
+      sub_hist = (TH1D*) ((TH1D*) sub_file->Get(sample_name+TString("type1MET")));
+      no_sub_hist = (TH1D*) ((TH1D*) no_sub_file->Get(sample_name+TString("type1MET")));
+  }
 
 
   vector<double> bins, noSubNums;
@@ -178,16 +191,24 @@ pair<double, vector<double>> getEWKNumsForSample(TString sample_name){
   return make_pair(lowbin_withEwkSub, noSubNums);
 }
 
-vector<double> getPercentStatErrorsForNoEWKSub(TString sample_name){
+vector<double> getPercentStatErrorsForNoEWKSub(TString sample_name,bool allSR){
   cout<<setprecision(15);
-  vector<TString> fnames = getFileLocation(sample_name);
+  vector<TString> fnames;
+  if(!allSR)
+      fnames = getFileLocation(sample_name);
+  else
+      fnames = getFileLocation("all");
 
   //cout<<__LINE__<<endl;
 
   TFile* no_sub_file = TFile::Open(fnames[1]);
 
   //cout<<__LINE__<<endl;
-  TH1D* no_sub_hist = (TH1D*) ((TH1D*) no_sub_file->Get("type1MET"));
+  TH1D * no_sub_hist;
+  if(!allSR)
+      no_sub_hist = (TH1D*) ((TH1D*) no_sub_file->Get("type1MET"));
+  else
+      no_sub_hist = (TH1D*) ((TH1D*) no_sub_file->Get(sample_name+TString("type1MET")));
 
 
   vector<double> bins, noSubCounts, noSubErrs;

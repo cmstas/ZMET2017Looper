@@ -25,7 +25,7 @@ void printTemplatesDebug(const vector<double> &prediction, const vector<double> 
   cout<<"TEMPLATEDEBUG: \\end{tabular}"<<endl;
 }
 
-vector<double> getMetTemplatesError(const vector<double> &stat_err, const vector<double> &bin_count, double normalization, int norm_bin, const vector<pair<double, double>> &bin_edge, TString SR){
+vector<double> getMetTemplatesError(const vector<double> &stat_err, const vector<double> &bin_count, double normalization, int norm_bin, const vector<pair<double, double>> &bin_edge, TString SR,bool allSR){
     cout<<"Computing MET templates systematics"<<endl;
   /* stat_err == statistical error on the template bins
      bin count == bin count on template bins
