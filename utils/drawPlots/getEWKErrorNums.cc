@@ -2,6 +2,13 @@
 using namespace std;
 vector<TString> getFileLocation(TString sample_name){
   vector<TString> fnames;
+
+  if(sample_name == "all")
+  {
+        fnames.push_back("/home/users/bsathian/ZMet/hists2017/DoubleLepton_narrow/DoubleLepton_narrow_signal/all/dataTemplates/GammaData_EWKSub.root");
+        fnames.push_back("/home/users/bsathian/ZMet/hists2017/DoubleLepton_narrow/DoubleLepton_narrow_signal/all/dataTemplates/GammaData.root"); 
+
+  }
   if(sample_name == "VRA")
   {
     fnames.push_back("/home/bsathian/ZMet/DoubleLepton_narrowband/DoubleLepton_narrow_validation/VRA4/full_prediction/dataTemplates/GammaData_EWKSub.root");
