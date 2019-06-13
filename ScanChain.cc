@@ -968,6 +968,7 @@ void ZMETLooper::readyVPTReweight_allSR(TString save_path)
   {
       TString rwt_hist_name = it + rwt_hist_name_suffix;
       g_vpt_reweight_pairs[std::string(it.Data())] = (TH1D*) reweight_file->Get(rwt_hist_name)->Clone(it+TString("_vpt_reweight_hist"));
+      g_vpt_reweight_pairs[std::string(it.Data())]->SetDirectory(rootdir);
   }
   reweight_file->Close();
 }
