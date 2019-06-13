@@ -3360,17 +3360,17 @@ void ZMETLooper::fillallHistograms(std::string prefix)
 // Signal Region Specific Histos
 //===========================================
 
-      if(conf->get("signal_region") == "TChiWZ" || conf->get("signal_region") == "all")
+      if(SR.find("SRVZ") != std::string::npos)
       {
           fillTChiWZHists(prefix);
       }
-      if(conf->get("signal_region") == "TChiHZ" || conf->get("signal_region") == "all")
+      if(SR == "SRHZ")
       {
           fillTChiHZHists(prefix);
       }
 
 
-      if(conf->get("signal_region").find("Boosted") != std::string::npos || conf->get("signal_region") == "all")
+      if(SR.find("Boosted") != std::string::npos)
       {
           fillBoostedHists(prefix);
       }
@@ -3616,7 +3616,7 @@ void ZMETLooper::fillBoostedHists(std::string prefix)
     //for(auto &prefix:prefixes)
     //{
       fill1DHistograms(prefix+"nFatJets",phys.nFatJets(),weight,allHistos,"",50,0,50,rootdir);
-      for(size_t iJet = 0; iJet < phys.ak8jets_tau2().size(); iJet++)
+      for(auto &iJet:g_fatjet_indices)
       {
           if(phys.ak8jets_tau2().at(iJet) != 0 && phys.ak8jets_tau1().at(iJet) != 0)
           {
@@ -3624,10 +3624,9 @@ void ZMETLooper::fillBoostedHists(std::string prefix)
 
             }
     }
-    for(auto &it:phys.ak8jets_softDropMass())
+    for(auto &iJet:g_fatjet_indices)
     {
-        if(it != 0)
-            fill1DHistograms(prefix+"softDropMass",it,weight,allHistos,"",6000,0,6000,rootdir);
+        fill1DHistograms(prefix+"softDropMass",phys.ak8jets_softDropMass().at(iJet),weight,allHistos,"",6000,0,6000,rootdir);
     }
 }
 
