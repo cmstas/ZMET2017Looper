@@ -255,7 +255,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
   TString xlabel=parseLatex(conf->get("xlabel"));
   TString ylabel=parseLatex(conf->get("ylabel"));
   TString save_dir=(conf->get("save_dir") != "") ? conf->get("save_dir") : getOutputDir(conf, "plot");
-  TString plot_title=parseLatex(conf->get("title"));
+  TString plot_title=parseLatex(conf->get("title")+SR);
 
 
   cout << "Making Plots for: "<<plot_name<<endl;
