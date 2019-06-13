@@ -160,7 +160,7 @@ void makePtReweightHisto_allSR(ConfigParser *conf)
   TFile *f_primary = TFile::Open(primary_path,"READ"); //path to zjets
   TFile *f_secondary = TFile::Open(secondary_path,"READ"); //path to WGammaJets
   cout<<"Found input files for reweighting"<<endl;
-  vector<TString> SRs = {"SRA","SRAb","SRB","SRBb","SRC","SRCb","SRVz","SRVZBoosted","SRHZ"};
+  vector<TString> SRs = {"SRA","SRAb","SRB","SRBb","SRC","SRCb","SRVZ","SRVZBoosted","SRHZ"};
 
   TH1D * h_primary;
   TH1D * h_secondary;
