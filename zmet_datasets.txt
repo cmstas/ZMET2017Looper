@@ -121,7 +121,7 @@ ds:ZMC-closure-200400
 /nfs-7/userdata/bsathian/ZMET_babies_new/DYJetsToLL_M-50_HT-200to400_TuneCP5_13TeV-madgraphMLM-pythia8_RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v2_MINIAODSIM_ZMET_babies/
 ds:ZMC-closure-12002500
 /nfs-7/userdata/bsathian/ZMET_babies_new/DYJetsToLL_M-50_HT-1200to2500_TuneCP5_13TeV-madgraphMLM-pythia8_RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1_MINIAODSIM_ZMET_babies/
-ds:2017VVV
+ds:VVV
 /nfs-7/userdata/bsathian/ZMET_babies_new/WWW_4F_TuneCP5_13TeV-amcatnlo-pythia8_RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1_MINIAODSIM_ZMET_babies/*
 /nfs-7/userdata/bsathian/ZMET_babies_new/WWZ_4F_TuneCP5_13TeV-amcatnlo-pythia8_RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1_MINIAODSIM_ZMET_babies/*
 /nfs-7/userdata/bsathian/ZMET_babies_new/WZZ_TuneCP5_13TeV-amcatnlo-pythia8_RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1_MINIAODSIM_ZMET_babies/*
