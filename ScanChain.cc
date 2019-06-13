@@ -3328,7 +3328,7 @@ void ZMETLooper::fillallHistograms(std::string prefix)
 {
   std::string SR;
   std::string commonHistPrefix = prefix;
-  double weight;
+//  double weight;
   if(conf->get("signal_region") == "all")
   {
     SR = prefix;
