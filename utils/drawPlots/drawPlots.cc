@@ -743,7 +743,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
       //cout<<__LINE__<<endl;
       
       cout<<"Template count in normalization bin="<<template_count[norm_bin]<<endl;
-      vector<double> temp_err = getMetTemplatesError(template_error, template_count, normalization, norm_bin, stats_bins, SR == "" ? conf->get("SR"): SR);
+      vector<double> temp_err = getMetTemplatesError(template_error, template_count, normalization, norm_bin, stats_bins, SR == "" ? conf->get("SR"): SR,SR != ""?true:false);
       //cout<<__LINE__<<endl;
       pair<vector<double>,vector<double>> FS_err = getFSError(FS_count, stod(conf->get("hist_5_scale")), SR == ""?conf->get("SR"):SR);
       //cout<<__LINE__<<endl;

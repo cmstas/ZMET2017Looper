@@ -38,7 +38,7 @@ vector<double> getMetTemplatesError(const vector<double> &stat_err, const vector
   cout<<"Data count="<<normalization<<" "<<"Template MC count"<<bin_count.at(norm_bin)<<endl;
   cout<<"Normalization Factor for templates from bin "<<norm_bin<<": "<<normalization/bin_count.at(norm_bin)<<endl;
 
-  vector<double> noSubStatErrs=getPercentStatErrorsForNoEWKSub(SR);
+  vector<double> noSubStatErrs=getPercentStatErrorsForNoEWKSub(SR,allSR);
 
   for (size_t i=0; i<=noSubStatErrs.size(); i++){
     noSubStatErrs[i] = noSubStatErrs[i]*bin_count[i];
@@ -136,7 +136,7 @@ vector<double> getMetTemplatesError(const vector<double> &stat_err, const vector
     throw std::invalid_argument(message.str());
   }
 
-  EWK_Data = getEWKNumsForSample(SR);
+  EWK_Data = getEWKNumsForSample(SR,allSR);
   EWK_LowBin = EWK_Data.first;
   No_EWK_BinCount = EWK_Data.second;
 
