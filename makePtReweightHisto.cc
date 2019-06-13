@@ -140,7 +140,7 @@ void makePtReweightHisto_allSR(ConfigParser *conf)
 
   TString hist_name_suffix = "vpt";
   TString output_dir = getOutputDir(conf,"hist");
-  TString output_location = output_dir + conf->get("Name") + "vpt_rwt.root";
+  TString output_location = output_dir + conf->get("Name") + "_vpt_rwt.root";
 
   TString primary_path = output_dir;
 
