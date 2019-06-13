@@ -3467,26 +3467,32 @@ bool ZMETLooper::passStrongSRCuts()
 {
     if(passSRACuts())
     {
-      commonHistPrefix = "SRA";
+       if(printFail) cout<<"Passed SRA"<<endl;
+       commonHistPrefix = "SRA";
     }
     else if(passSRAbCuts())
     {
+      if(printFail) cout<<"Passed SRAb"<<endl;
       commonHistPrefix = "SRAb";
     }
     else if(passSRBCuts())
     {
+      if(printFail) cout<<"Passed SRB"<<endl;
       commonHistPrefix = "SRB";
     }
     else if(passSRBbCuts())
     {
+      if(printFail) cout<<"Passed SRBb"<<endl;
       commonHistPrefix = "SRBb";
     }
     else if(passSRCCuts())
     {
+      if(printFail) cout<<"Passed SRC"<<endl;
       commonHistPrefix = "SRC";
     }
     else if(passSRCbCuts())
     {
+      if(printFail) cout<<"Passed SRCb"<<endl;
       commonHistPrefix = "SRCb";
     }
     else
@@ -3504,11 +3510,13 @@ bool ZMETLooper::passEWKSRCuts()
   if(passSRVZBoostedCuts())
   {
     commonHistPrefix = "SRVZBoosted";
+    if(printFail) cout<<"Passed SRVZ Boosted"<<endl;
     flag = true;
   }
   else if(passSRVZCuts())
   {
     commonHistPrefix = "SRVZ";
+    if(printFail) cout<<"Passed SRVZ Resolved"<<endl;
     flag = true;
   }
   if(flag == true)
@@ -3519,6 +3527,7 @@ bool ZMETLooper::passEWKSRCuts()
   if(passSRHZCuts())
   {
       commonHistPrefix = "SRHZ";
+      if(printFail) cout<<"Passed SRHZ"<<endl;
       flag = true;
       fillallHistograms(commonHistPrefix);
   }
