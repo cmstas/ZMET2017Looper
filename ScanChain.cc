@@ -693,6 +693,17 @@ int ZMETLooper::hasGoodZ(){
     dilmass_high = stod(conf->get("dilmass_high"));
   }
 
+  //If all SRs are done together, we want emu
+  //to use the wider dilmass window
+  if(conf->get("signal_region") == "all")
+  {
+    if(dil_flavor == 2)
+    {
+        dilmass_low = 20;
+        dilmass_high = -1;
+    }
+  }
+
   if( phys.dilmass() < dilmass_low ) {
     numEvents->Fill(22);
     if (printFail) cout<<phys.evt()<<" :Failed Z mass window Z cut"<<endl;
