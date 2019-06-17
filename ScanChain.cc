@@ -1331,6 +1331,29 @@ bool ZMETLooper::passSRAbCuts()
     return true;
 }
 
+bool ZMETLooper::passVRACuts()
+{
+    if(g_dphi_metj1 > 0.4 && g_dphi_metj2 > 0.4)
+    {
+        return false;
+    }
+    if(g_njets < 2 || g_njets > 3)
+    {
+        return false;
+    }
+    if(g_ht < 300)
+    {
+        return false;
+    }
+    if(g_mt2 < 80)
+    {
+        return false;
+    }
+    
+    return true;
+}
+
+
 bool ZMETLooper::passSRBCuts()
 {
 
@@ -1393,6 +1416,31 @@ bool ZMETLooper::passSRBbCuts()
     return true;
 }
 
+bool ZMETLooper::passVRBCuts()
+{
+    if(g_dphi_metj1 > 0.4 && g_dphi_metj2 > 0.4)
+    {
+        return false;
+    }
+    if(g_njets < 4 || g_njets > 5)
+    {
+        return false;
+    }
+    if(g_ht < 300)
+    {
+        return false;
+    }
+    if(g_mt2 < 80)
+    {
+        return false;
+    }
+    
+    return true;
+}
+
+
+
+
 bool ZMETLooper::passSRCCuts()
 {
 
@@ -1446,6 +1494,24 @@ bool ZMETLooper::passSRCbCuts()
     return true;
 }
 
+bool ZMETLooper::passVRCCuts()
+{
+    if(g_dphi_metj1 > 0.4 && g_dphi_metj2 > 0.4)
+    {
+        return false;
+    }
+    if(g_njets < 6)
+    {
+        return false;
+    }
+    if(g_mt2 < 80)
+    {
+        return false;
+    }
+    
+    return true;
+}
+
 bool ZMETLooper::passSRVZCuts()
 {
     if(g_dphi_metj1 < 0.4)
@@ -1473,6 +1539,32 @@ bool ZMETLooper::passSRVZCuts()
       return false;
     }
     return true;
+}
+
+bool ZMETLooper::passVRWZCuts()
+{
+   if(g_dphi_metj1 > 0.4 && g_dphi_metj2 > 0.4)
+   {
+       return false;
+   }
+   if(g_njets < 2)
+   {
+       return false;
+   }
+   if(g_nBJetMedium > 0)
+   {
+       return false;
+   }
+   if(g_mt2 < 80)
+   {
+       return false;
+   }
+   if(g_mjj_mindphi > 110)
+   {
+       return false;
+   }
+
+   return true;
 }
 
 bool ZMETLooper::passSRVZBoostedCuts()
@@ -1505,6 +1597,36 @@ bool ZMETLooper::passSRVZBoostedCuts()
     return true;
 }
 
+bool ZMETLooper::passVRWZBoostedCuts()
+{
+    if(g_dphi_met_fatjet > 0.4)
+    {
+        return false;
+    }
+    if(phys.nFatJets() < 1)
+    {
+        return false;
+    }
+    if(phys.nBJetMedium() > 0)
+    {
+        return false;
+    }
+    for(size_t iJet = 0; iJet < phys.ak8jets_p4().size(); iJet++)
+    {
+      if(phys.ak8jets_tau2().at(iJet)/phys.ak8jets_tau1().at(iJet) > 0.6)
+      {
+        continue;
+      }
+      if(phys.ak8jets_softDropMass().at(iJet) < 60 || phys.ak8jets_softDropMass().at(iJet) > 100)
+      {
+        continue;
+      }
+    //indices of fat jets that pass selection. Needed for filling histograms
+    g_fatjet_validation_indices.push_back(iJet);
+    }
+    return true;
+}
+
 bool ZMETLooper::passSRHZCuts()
 {
     if(g_dphi_metj1 < 0.4)
@@ -1532,6 +1654,32 @@ bool ZMETLooper::passSRHZCuts()
        return false;
      }
     return true;
+}
+
+bool ZMETLooper::passVRHZCuts()
+{
+    if(g_dphi_metj1 > 0.4 && g_dphi_metj2 > 0.4)
+    {
+        return false;
+    }
+    if(g_njets < 2)
+    {
+        return false;
+    }
+    if(g_nBJetMedium != 2)
+    {
+        return false;
+    }
+    if(g_mt2b < 200)
+    {
+        return false;
+    }
+    if(g_mbb > 150)
+    {
+        return false;
+    }
+    return true;
+
 }
 
 bool ZMETLooper::passSignalRegionCuts(){
@@ -2551,6 +2699,8 @@ void ZMETLooper::setupGlobals(){
   }
   //fat jet setup
   g_fatjet_indices.clear();
+  g_fatjet_validation_indices.clear();
+  g_fatjet_inclusive_indices.clear();
 }
 
 void ZMETLooper::updateSUSYBtagISRNorms(){
@@ -2908,7 +3058,6 @@ int ZMETLooper::ScanChain( TChain* chain, ConfigParser *configuration, bool fast
 //===========================================
 // Setup Stuff Pulled From External Files
 //===========================================
-  int eventsInFile;
 
   setupExternal(savePath);
 
@@ -2947,7 +3096,6 @@ int ZMETLooper::ScanChain( TChain* chain, ConfigParser *configuration, bool fast
     //cout<<__LINE__<<endl;
     phys.Init(tree); //Loads in all the branches
     //cout<<__LINE__<<endl;
-    eventsInFile = 0;
     //cout<<__LINE__<<endl;
     files_log<<"Running over new file: "<<currentFile->GetTitle()<<endl;
     cout<<"Running over new file: "<<currentFile->GetTitle()<<endl;
@@ -3080,6 +3228,8 @@ int ZMETLooper::ScanChain( TChain* chain, ConfigParser *configuration, bool fast
 
         flag = passStrongSRCuts();
         flag = passEWKSRCuts();
+        flag = passStrongVRCuts();
+        flag = passEWKVRCuts();
         flag = passInclusiveCuts();
 
         if(flag == false)
@@ -3412,8 +3562,20 @@ void ZMETLooper::fillallHistograms(std::string prefix)
 
       if(SR.find("Boosted") != std::string::npos)
       {
-          fillBoostedHists(prefix);
+          if(SR.find("SR") != std::string::npos)
+          {
+            fillBoostedHists(g_fatjet_indices,prefix);
+          }
+          else if(SR.find("VR") != std::string::npos)
+          {
+              fillBoostedHists(g_fatjet_validation_indices,prefix);
+          }
+          else
+          {
+              fillBoostedHists(g_fatjet_inclusive_indices,prefix);
+          }
       }
+      
 
       if (conf->get("GammaMuStudy") == "true")
       {
@@ -3543,6 +3705,31 @@ bool ZMETLooper::passStrongSRCuts()
     return true;
 }
 
+bool ZMETLooper::passStrongVRCuts()
+{
+    if(passVRACuts())
+    {
+        commonHistPrefix = "VRA";
+        if(printFail) cout<<"Passed VRA"<<endl;
+    }
+    else if(passVRBCuts())
+    {
+        commonHistPrefix = "VRB";
+        if(printFail) cout<<"Passed VRB"<<endl;
+    }
+    else if(passVRCCuts())
+    {
+        commonHistPrefix = "VRC";
+        if(printFail) cout<<"Passed VRC"<<endl;
+    }
+    else
+    {
+        return false;
+    }
+    fillallHistograms(commonHistPrefix);
+    return true;
+}
+
 bool ZMETLooper::passEWKSRCuts()
 {
   /*Implementing Strategy A for SRWZ - veto events with fat jet in resolved region*/
@@ -3555,7 +3742,7 @@ bool ZMETLooper::passEWKSRCuts()
   }
   else if(passSRVZCuts())
   {
-    commonHistPrefix = "SRVZ";
+    commonHistPrefix = "SRVZResolved";
     if(printFail) cout<<"Passed SRVZ Resolved"<<endl;
     flag = true;
   }
@@ -3573,8 +3760,39 @@ bool ZMETLooper::passEWKSRCuts()
   }
 
   return flag;
-
 }
+
+bool ZMETLooper::passEWKVRCuts()
+{
+    bool flag = false;
+    if(passVRWZBoostedCuts())
+    {
+        commonHistPrefix = "VRWZBoosted";
+        if(printFail) cout<<"Passed VRWZ Boosted"<<endl;
+        flag = true;
+    }
+    else if(passVRWZCuts())
+    {
+        commonHistPrefix = "VRWZResolved";
+        if(printFail) cout<<"Passed VRWZ Resolved"<<endl;
+        flag = true;
+    }
+    if(flag == true)
+    {
+        fillallHistograms(commonHistPrefix);
+    }
+
+    if(passVRHZCuts())
+    {
+        commonHistPrefix = "VRHZ";
+        if(printFail) cout<<"Passed VRHZ"<<endl;
+        flag = true;
+        fillallHistograms(commonHistPrefix);
+    }
+    return flag;
+}
+
+
 bool ZMETLooper::passInclusiveCuts()
 {
   return true; //Temporary
@@ -3651,7 +3869,7 @@ void ZMETLooper::fillCommonHists(std::string prefix)
 
 }
 
-void ZMETLooper::fillBoostedHists(std::string prefix)
+void ZMETLooper::fillBoostedHists(std::vector<size_t> g_fatjet_indices,std::string prefix)
 {
     //for(auto &prefix:prefixes)
     //{

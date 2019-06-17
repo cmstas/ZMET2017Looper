@@ -117,7 +117,11 @@ class ZMETLooper
     vector<float> g_jets_csv;
     vector<LorentzVector> g_jets_p4;
     vector<LorentzVector> g_jets_medb_p4;
-    vector<size_t> g_fatjet_indices;
+    //Need only for inclusive fat jet regions, but we fill this for everyone because Balaji is not a very smart dude
+    //and makes mistakes, and so we need to help him debug SRs and VRs for tau21 and softdrop mass
+    vector<size_t> g_fatjet_indices; //for the signal
+    vector<size_t> g_fatjet_inclusive_indices;
+    vector<size_t> g_fatjet_validation_indices;
 
     const int Z_PDG_ID = 23;
     const int W_PDG_ID = 24;
@@ -260,21 +264,30 @@ class ZMETLooper
     bool passSRACuts();
     bool passSRAbCuts();
     bool passVRACuts();
+
     bool passSRBCuts();
     bool passSRBbCuts();
     bool passVRBCuts();
+
     bool passSRCCuts();
     bool passSRCbCuts();
     bool passVRCCuts();
+
     bool passSRVZCuts();
-    bool passVRVZCuts();
+    bool passVRWZCuts();
+
     bool passSRVZBoostedCuts();
-    bool passVRVZBoostedCuts();
+    bool passVRWZBoostedCuts();
+
     bool passSRHZCuts();
     bool passVRHZCuts();
 
     bool passStrongSRCuts();
     bool passEWKSRCuts();
+    
+    bool passStrongVRCuts();
+    bool passEWKVRCuts();
+
     bool passInclusiveCuts();
 
     /*Checks for a gen Neutrino (Real MET) and a gen Z (Real Z), only should be run when running
@@ -353,7 +366,7 @@ class ZMETLooper
     void fillEcalHists(std::string prefix = "");
     void fillTChiWZHists(std::string prefix = "");
     void fillTChiHZHists(std::string prefix = "");
-    void fillBoostedHists(std::string prefix = "");
+    void fillBoostedHists(std::vector<size_t> fatjet_indices,std::string prefix = "");
     LorentzVector computeMht();
     //SR Hists comin' soon...
     //
