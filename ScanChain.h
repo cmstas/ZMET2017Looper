@@ -100,6 +100,7 @@ class ZMETLooper
     //=======================================================
     double g_dphi_metj1;
     double g_dphi_metj2;
+    double g_dphi_met_fatjet;
     int g_njets;
     double g_mbb;
     double g_mjj_mindphi;

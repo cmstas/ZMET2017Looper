@@ -1485,6 +1485,10 @@ bool ZMETLooper::passSRVZBoostedCuts()
     {
       return false;
     }
+    if(g_dphi_met_fatjet < 0.4)
+    {
+        return false;
+    }
     for(size_t iJet = 0; iJet < phys.ak8jets_p4().size(); iJet++)
     {
       if(phys.ak8jets_tau2().at(iJet)/phys.ak8jets_tau1().at(iJet) > 0.6)
@@ -1529,6 +1533,7 @@ bool ZMETLooper::passSRHZCuts()
      }
     return true;
 }
+
 bool ZMETLooper::passSignalRegionCuts(){
 
   //Njets Min Cut
@@ -1663,6 +1668,25 @@ bool ZMETLooper::passSignalRegionCuts(){
     }
   }
 
+  if(conf->get("dPhi_MET_FatJet") != "" && conf->get("signal_region").find("Boosted") != std::string::npos)
+  {
+   if(g_dphi_met_fatjet < stod(conf->get("dPhi_MET_FatJet")))
+   {
+       numEvents->Fill(78);
+       if(printFail) cout<<phys.evt()<<" :Failed dPhi_MET_FatJet cut"<<endl;
+       return false;
+   }
+  }
+
+  if(conf->get("dPhi_MET_FatJet_max") != "" && conf->get("signal_region").find("Boosted") != std::string::npos)
+  {
+   if(g_dphi_met_fatjet > stod(conf->get("dPhi_MET_FatJet_max")))
+   {
+       numEvents->Fill(78);
+       if(printFail) cout<<phys.evt()<<" :Failed dPhi_MET_FatJet_max cut"<<endl;
+       return false;
+   }
+  }
 
   //cout<<__LINE__<<endl;
   //if (printStats) { cout<<"mt2b: "<<g_mt2b<<" "; }
@@ -2520,7 +2544,11 @@ void ZMETLooper::setupGlobals(){
     g_jets_medb_p4 = phys.jets_medb_p4();
     g_jets_csv = phys.jets_csv();
   }
-
+  //fat jet dphi
+  if(phys.nFatJets() > 0)
+  {
+    g_dphi_met_fatjet = acos(cos(phys.ak8jets_p4.at(0).phi() - phys.met_T1CHS_miniAOD_CORE_phi));
+  }
   //fat jet setup
   g_fatjet_indices.clear();
 }
