@@ -2547,7 +2547,7 @@ void ZMETLooper::setupGlobals(){
   //fat jet dphi
   if(phys.nFatJets() > 0)
   {
-    g_dphi_met_fatjet = acos(cos(phys.ak8jets_p4.at(0).phi() - phys.met_T1CHS_miniAOD_CORE_phi));
+    g_dphi_met_fatjet = acos(cos(phys.ak8jets_p4().at(0).phi() - phys.met_T1CHS_miniAOD_CORE_phi()));
   }
   //fat jet setup
   g_fatjet_indices.clear();
