@@ -1,0 +1,8 @@
+DEFAULT::signal_region=TChiWZBoosted
+
+#================================
+# TChiWZ Region
+#================================
+DEFAULT::NFatJets_min=1
+DEFAULT::NBjets_max=0
+DEFAULT::dPhi_MET_FatJet_max=0.4
