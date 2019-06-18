@@ -2936,9 +2936,9 @@ int ZMETLooper::ScanChain( TChain* chain, ConfigParser *configuration, bool fast
  {
      ee_numEvents = new TH1I("ee_numEvents","ee_numEvents",80,0,80);
      ee_numEvents->SetDirectory(rootdir);
-     mumu_numEvents = new TH1I("mumu_numEvents","ee_numEvents",80,0,80);
+     mumu_numEvents = new TH1I("mumu_numEvents","mumu_numEvents",80,0,80);
      mumu_numEvents->SetDirectory(rootdir);
-     emu_numEvents = new TH1I("emu_numEvents","ee_numEvents",80,0,80);
+     emu_numEvents = new TH1I("emu_numEvents","emu_numEvents",80,0,80);
      emu_numEvents->SetDirectory(rootdir);
  }
 
