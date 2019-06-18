@@ -91,8 +91,8 @@ static const int n_ptbins_std = 20;
     static const int n_met_bins_tchizz = 5;
     const double met_bins_tchizz[n_met_bins_tchizz+1] = {50, 100, 150, 250, 350, 6000};
 
-    static const int n_SR = 9;
-    const TString SRs[n_SR] = {"SRA","SRB","SRC","SRAb","SRBb","SRCb","SRVZ","SRVZBoosted","SRHZ"};
+    static const int n_SR = 15;
+    const TString SRs[n_SR] = {"SRA","SRB","SRC","SRAb","SRBb","SRCb","SRVZResolved","SRVZBoosted","SRHZ","VRA","VRB","VRC","VRWZBoosted","VRWZ","VRHZ"};
 
 
 ZMETLooper::ZMETLooper()
