@@ -3339,7 +3339,17 @@ int ZMETLooper::ScanChain( TChain* chain, ConfigParser *configuration, bool fast
 //=======================================
   output->cd();
 
-  numEvents->Write();
+  if(conf->get("dilep_control_region") == "true" and conf->get("data") == "true")
+  {
+      ee_numEvents->Write();
+      mumu_numEvents->Write();
+      emu_numEvents->Write();
+  }
+  else
+  {
+    numEvents->Write();
+  }
+
   /*
   //Write out histograms to file
   //cout<<__LINE__<<endl;
