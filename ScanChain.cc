@@ -1670,7 +1670,7 @@ bool ZMETLooper::passVRHZCuts()
     {
         return false;
     }
-    if(g_mt2b < 200)
+    if(g_mt2b < 200 && conf->get("event_type") != "photon")
     {
         return false;
     }
