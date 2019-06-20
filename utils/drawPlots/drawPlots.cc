@@ -780,7 +780,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
 
       //Blinding works by first zeroing out all bins past the number given
       //Then we recompute the numbers for the signal counts
-      if (conf->get("blindAfter") != ""){
+      if (conf->get("blindAfter") != "" and !(SR.Contains("VR"))){
         blindAfter(hists[0], stod(conf->get("blindAfter")));
         signal_count.clear();
         for (size_t i = 0; i < stats_bins.size(); i++){
@@ -891,7 +891,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
   }
   stack->Draw("HIST SAME");
   cout<<"Stack Drawn"<<endl;
-  if (conf->get("blindAfter") != ""){
+  if (conf->get("blindAfter") != "" and !(SR.Contains("VR"))){
     blindAfter(hists[0], stod(conf->get("blindAfter")));
   }
   TGraphAsymmErrors *bg_err = new TGraphAsymmErrors(bg_sum);
