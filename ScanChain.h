@@ -284,7 +284,7 @@ class ZMETLooper
 
     bool passStrongSRCuts();
     bool passEWKSRCuts();
-    
+
     bool passStrongVRCuts();
     bool passEWKVRCuts();
 
@@ -357,6 +357,7 @@ class ZMETLooper
     std::string commonHistPrefix;
 
     void fillallHistograms(std::string prefix = "");
+    void fillMassWindowHistograms(std::string prefix = "");
     void fillCommonHists(std::string prefix = "");
     void fillPhotonCRHists(std::string prefix = "");
     void fillGammaMuCRHists(std::string prefix = "");

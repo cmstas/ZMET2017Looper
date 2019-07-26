@@ -1349,7 +1349,7 @@ bool ZMETLooper::passVRACuts()
     {
         return false;
     }
-    
+
     return true;
 }
 
@@ -1434,7 +1434,7 @@ bool ZMETLooper::passVRBCuts()
     {
         return false;
     }
-    
+
     return true;
 }
 
@@ -1508,7 +1508,7 @@ bool ZMETLooper::passVRCCuts()
     {
         return false;
     }
-    
+
     return true;
 }
 
@@ -3526,87 +3526,95 @@ int ZMETLooper::ScanChain( TChain* chain, ConfigParser *configuration, bool fast
 
 void ZMETLooper::fillallHistograms(std::string prefix)
 {
-  std::string SR;
-  std::string commonHistPrefix = prefix;
-//  double weight;
-  if(conf->get("signal_region") == "all")
-  {
-    SR = prefix;
-    weight = getWeight(TString(SR.c_str()));
-  }
-  else
-  {
-    weight = getWeight();
-  }
+    std::string SR;
+    std::string commonHistPrefix = prefix;
+    //  double weight;
+    if(conf->get("signal_region") == "all")
+    {
+      SR = prefix;
+      weight = getWeight(TString(SR.c_str()));
+    }
+    else
+    {
+      weight = getWeight();
+    }
     if(conf->get("dil_flavor") == "all")
-      {
+    {
             if(dil_flavor == 0)
                 commonHistPrefix += "ee_";
             else if(dil_flavor == 1)
                 commonHistPrefix += "mumu_";
             else if(dil_flavor == 2)
                 commonHistPrefix += "emu_";
-      }
-      fillCommonHists(commonHistPrefix);
+    }
+    //VERY POORLY WRITTEN CODE COMIN' UP
+    if(conf->get("FS_mass_window_study") == "true")
+    {
+      if(dil_flavor == 2)
+      fillMassWindowHistograms(prefix);
+    }
+    else
+    {
+        fillCommonHists(commonHistPrefix);
 
-      sumMETFilters = phys.Flag_HBHENoiseFilter()+phys.Flag_HBHEIsoNoiseFilter()+phys.Flag_CSCTightHaloFilter()+phys.Flag_EcalDeadCellTriggerPrimitiveFilter()+phys.Flag_goodVertices()+phys.Flag_eeBadScFilter();
+        sumMETFilters = phys.Flag_HBHENoiseFilter()+phys.Flag_HBHEIsoNoiseFilter()+phys.Flag_CSCTightHaloFilter()+phys.Flag_EcalDeadCellTriggerPrimitiveFilter()+phys.Flag_goodVertices()+phys.Flag_eeBadScFilter();
 
-      if(conf->get("event_type") == "photon")
-          fillPhotonCRHists(prefix);
-      if(conf->get("TemplatesClosure") == "true")
+        if(conf->get("event_type") == "photon")
+            fillPhotonCRHists(prefix);
+        if(conf->get("TemplatesClosure") == "true")
           fillClosureHists(prefix);
 
-//===========================================
-// Signal Region Specific Histos
-//===========================================
+          //===========================================
+          // Signal Region Specific Histos
+          //===========================================
 
-      if(SR.find("SRVZ") != std::string::npos)
-      {
-          fillTChiWZHists(prefix);
-      }
-      if(SR == "SRHZ")
-      {
-          fillTChiHZHists(prefix);
-      }
-
-
-      if(SR.find("Boosted") != std::string::npos)
-      {
-          if(SR.find("SR") != std::string::npos)
+          if(SR.find("SRVZ") != std::string::npos)
           {
-            fillBoostedHists(g_fatjet_indices,prefix);
+            fillTChiWZHists(prefix);
           }
-          else if(SR.find("VR") != std::string::npos)
+          if(SR == "SRHZ")
           {
-              fillBoostedHists(g_fatjet_validation_indices,prefix);
+            fillTChiHZHists(prefix);
           }
-          else
+
+
+          if(SR.find("Boosted") != std::string::npos)
           {
-              fillBoostedHists(g_fatjet_inclusive_indices,prefix);
+            if(SR.find("SR") != std::string::npos)
+            {
+              fillBoostedHists(g_fatjet_indices,prefix);
+            }
+            else if(SR.find("VR") != std::string::npos)
+            {
+                fillBoostedHists(g_fatjet_validation_indices,prefix);
+            }
+            else
+            {
+                fillBoostedHists(g_fatjet_inclusive_indices,prefix);
+            }
           }
-      }
-      
 
-      if (conf->get("GammaMuStudy") == "true")
-      {
-          fillGammaMuCRHists(prefix);
-      }
-      if(conf->get("dilep_control_region") == "true")
-      {
-          std::string dilepPrefix = prefix;
-          if(dil_flavor == 0)
-              dilepPrefix += "ee_";
-          else if(dil_flavor == 1)
-              dilepPrefix += "mumu_";
-          else if(dil_flavor == 2)
-              dilepPrefix += "emu_";
 
-          fillDileptonCRHists(dilepPrefix);
-      }
+          if (conf->get("GammaMuStudy") == "true")
+          {
+            fillGammaMuCRHists(prefix);
+          }
+          if(conf->get("dilep_control_region") == "true")
+          {
+            std::string dilepPrefix = prefix;
+            if(dil_flavor == 0)
+                dilepPrefix += "ee_";
+            else if(dil_flavor == 1)
+                dilepPrefix += "mumu_";
+            else if(dil_flavor == 2)
+                dilepPrefix += "emu_";
+
+            fillDileptonCRHists(dilepPrefix);
+          }
 
       //cout<<__LINE__<<endl;
 
-      if(conf->get("SUSY_Glu_LSP_scan") == "true"){
+        if(conf->get("SUSY_Glu_LSP_scan") == "true"){
           //cout<<"mglu: "<<phys.mass_gluino()<<endl;
           //cout<<"mlsp: "<<phys.mass_LSP()<<endl;
           //cout<<"met: "<<g_met<<endl;
@@ -3640,8 +3648,8 @@ void ZMETLooper::fillallHistograms(std::string prefix)
             //isr_unc is just deviation from not using the scale factor
             susy_type1MET_isr_up->Fill(g_met, phys.mass_gluino(), phys.mass_LSP(), (1/ISR_norm)*(weight)*(1/phys.isr_weight()));
           }
-      }
-      else if(conf->get("SUSY_chi_scan") == "true"){
+        }
+        else if(conf->get("SUSY_chi_scan") == "true"){
           //cout<<"mglu: "<<phys.mass_gluino()<<endl;
           //cout<<"mlsp: "<<phys.mass_LSP()<<endl;
           //cout<<"met: "<<g_met<<endl;
@@ -3668,11 +3676,13 @@ void ZMETLooper::fillallHistograms(std::string prefix)
           //cout<<__LINE__<<endl;
           //isr_unc is just deviation from not using the scale factor
           susy_type1MET_isr_up_2d->Fill(g_met, phys.mass_chi(),(1/ISR_norm)*(weight)*(1/phys.isr_weight()));
-      }
+        }
 
-      if(conf->get("ECalTest") != ""){
-          fillEcalHists();
-              }
+        if(conf->get("ECalTest") != "")
+        {
+            fillEcalHists();
+        }
+    }
 }
 
 bool ZMETLooper::passStrongSRCuts()
@@ -3877,6 +3887,19 @@ void ZMETLooper::fillCommonHists(std::string prefix)
         //}
 
 
+}
+
+void ZMETLooper::fillMassWindowHistograms(std::string prefix)
+{
+    //Fill counts (Mll > 20) and counts (86 < Mll < 96) here
+    if(phys.dilmass() > 20)
+    {
+      fill1DHistograms(prefix+"count_wideband",1,weight,allHistos,"",2,0,2,rootdir);
+    }
+    if(phys.dilmass() > 86 && phys.dilmass() < 96)
+    {
+      fill1DHistograms(prefix+"count_narrowband",1,weight,allHistos,2,0,2,rootdir);
+    }
 }
 
 void ZMETLooper::fillBoostedHists(std::vector<size_t> g_fatjet_indices,std::string prefix)
