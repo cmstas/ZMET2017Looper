@@ -3551,7 +3551,7 @@ void ZMETLooper::fillallHistograms(std::string prefix)
     if(conf->get("FS_mass_window_study") == "true")
     {
       if(dil_flavor == 2)
-      fillMassWindowHistograms(prefix);
+        fillMassWindowHistograms(prefix);
     }
     else
     {
