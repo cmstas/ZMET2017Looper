@@ -3898,7 +3898,7 @@ void ZMETLooper::fillMassWindowHistograms(std::string prefix)
     }
     if(phys.dilmass() > 86 && phys.dilmass() < 96)
     {
-      fill1DHistograms(prefix+"count_narrowband",1,weight,allHistos,2,0,2,rootdir);
+      fill1DHistograms(prefix+"count_narrowband",1,weight,allHistos,"",2,0,2,rootdir);
     }
 }
 
