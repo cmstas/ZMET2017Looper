@@ -12,7 +12,7 @@ std::unordered_map <std::string,std::vector<std::string>> readFromTextFile(std::
 
 void addToChain(std::unordered_map<std::string, std::vector<std::string>> datasets,TChain *ch, TString set);
 
-void addToChain(TChain *ch, TString set, bool hadoop, bool skimmed); 
+void addToChain(TChain *ch, TString set, bool hadoop, bool skimmed);
 
-TChain * getTChain(TString data_set); 
+TChain * getTChain(TString data_set,std::string file_name); 
 #endif

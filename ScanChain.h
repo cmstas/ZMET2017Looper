@@ -57,6 +57,7 @@ class ZMETLooper
     private:
     ConfigParser *conf;
     int nDuplicates;
+    int year_fromCommandLine;
     int num_events_veto_ttbar;
     int num_events_veto_ttgamma;
     bool MCTriggerEmulation;
@@ -384,7 +385,7 @@ class ZMETLooper
   TH2D *susy_type1MET_counts_2d,*susy_type1MET_nowt_2d;
 
     public:
-    ZMETLooper();
+    ZMETLooper(int year=-1);
     int ScanChain( TChain* chain, ConfigParser *configuration, bool fast = true, int nEvents = -1);
 };
 

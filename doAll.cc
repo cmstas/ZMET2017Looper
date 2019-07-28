@@ -1,6 +1,6 @@
 # include "doAll.h"
 
-void runScanChain(ZMETLooper l,ConfigParser* conf){
+void runScanChain(ZMETLooper l,ConfigParser* conf,std::string file_name){
   cout<<"Using config:"<<endl;
   conf->print();
 
@@ -16,22 +16,22 @@ void runScanChain(ZMETLooper l,ConfigParser* conf){
     }
   }
 
-  l.ScanChain(getTChain(conf->get("data_set")), conf);
+  l.ScanChain(getTChain(conf->get("data_set"),file_name), conf);
 }
 
-void doAll (ZMETLooper l,TString config_name, TString config_file) {
+void doAll (ZMETLooper l,TString config_name, TString config_file,std::string file_name) {
 
   ConfigParser *conf = new ConfigParser(config_file.Data());
 
   if (config_name == "all") {
     while ( conf->loadNextConfig() )
     {
-      runScanChain(l,conf);
+      runScanChain(l,conf,file_name);
     }
   }
 
   else if ( conf->loadConfig(config_name.Data()) ){
-    runScanChain(l,conf);
+    runScanChain(l,conf,file_name);
   }
 
   else{
@@ -41,11 +41,15 @@ void doAll (ZMETLooper l,TString config_name, TString config_file) {
 }
 
 int main(int argc, char* argv[]) {
-  TString config_name= argv[1];
-  TString config_file=argv[2];
 
-  class ZMETLooper l;
-  doAll(l,config_name, config_file);
+  TString config_name,config_file;
+  int year = -1;
+  config_name = argv[1];
+  config_file = argv[2];
+  year = stoi(argv[3]);
+  std::string dataset_list_file_name(argv[4]);
+  class ZMETLooper l(year);
+  doAll(l,config_name, config_file,dataset_list_file_name);
 
   return 0;
 }

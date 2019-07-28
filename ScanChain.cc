@@ -95,9 +95,10 @@ static const int n_ptbins_std = 20;
     const TString SRs[n_SR] = {"SRA","SRB","SRC","SRAb","SRBb","SRCb","SRVZResolved","SRVZBoosted","SRHZ","VRA","VRB","VRC","VRWZBoosted","VRWZResolved","VRHZ"};
 
 
-ZMETLooper::ZMETLooper()
+ZMETLooper::ZMETLooper(int year)
 {
     nDuplicates = 0;
+    year_fromCommandLine = year;
     num_events_veto_ttbar = 0;
     num_events_veto_ttgamma = 0;
     MCTriggerEmulation = true;
@@ -1083,6 +1084,16 @@ double ZMETLooper::getWeight(TString SR){
     //Weight to some other lumi
     if ( conf->get("scaleTofb") != "" ){
       weight *= stod(conf->get("scaleTofb"));
+    }
+    else if(conf->get("auto_scale") == "true")
+    {
+      //scale up MCs automatically
+      if(g_year == 2016)
+        weight *= 36.5;
+      else if(g_year == 2017)
+        weight *= 41.5;
+      else if(g_year == 2018)
+        weight *= 62;
     }
 
     //cout<<__LINE__<<endl;
@@ -2775,7 +2786,16 @@ void ZMETLooper::setupExternal(TString savePath){
 
  //set up year
 
-  g_year = conf->get("year")!="" ? stoi(conf->get("year")) : 2017;
+//  g_year = conf->get("year")!="" ? stoi(conf->get("year")) : 2017;
+   if(year_fromCommandLine > 0)
+   {
+     g_year = year_fromCommandLine;
+   }
+   else
+   {
+     g_year = 2017;
+   }
+
   if( conf->get("reweight") == "true" ){
     readyReweightHists();
   }
@@ -3562,7 +3582,9 @@ void ZMETLooper::fillallHistograms(std::string prefix)
         if(conf->get("event_type") == "photon")
             fillPhotonCRHists(prefix);
         if(conf->get("TemplatesClosure") == "true")
+        {
           fillClosureHists(prefix);
+        }
 
           //===========================================
           // Signal Region Specific Histos
