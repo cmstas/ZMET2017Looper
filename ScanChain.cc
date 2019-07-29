@@ -705,6 +705,16 @@ int ZMETLooper::hasGoodZ(){
     }
   }
 
+  if(conf->get("FS_mass_window_study") == "true")
+  {
+      if(dil_flavor == 2)
+      {
+        dilmass_low = 20;
+        dilmass_high = -1;
+      
+      }
+  }
+
   if( phys.dilmass() < dilmass_low ) {
     numEvents->Fill(22);
     if (printFail) cout<<phys.evt()<<" :Failed Z mass window Z cut"<<endl;
