@@ -20,6 +20,10 @@ std::unordered_map <std::string,std::vector<std::string>> readFromTextFile(std::
         {
             if(line.back() == '/')
                 line += "*";
+            else if(line.back() != "*")
+            {
+                line += "/*";
+            }
             datasets[currentDS].push_back(line);
         }
     }
