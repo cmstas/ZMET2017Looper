@@ -47,6 +47,7 @@ int main(int argc, char* argv[]) {
   if(argc < 4)
   {
       cout<<"USAGE : ./ZMETLooper config_name config_file year dataset_list_file"<<endl;
+      exit(1);
   }
   config_name = argv[1];
   config_file = argv[2];
