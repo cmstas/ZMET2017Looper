@@ -8,7 +8,7 @@ extern TString PLOT_OUTPUT_LOCATION;
 extern TString HIST_OUTPUT_LOCATION;
 
 TString parseConfDir(TString conf_path);
-TString getOutputDir(ConfigParser *conf, TString type);
+TString getOutputDir(ConfigParser *conf, TString type,int year = -1);
 TString getDefaultHistDir(ConfigParser *conf);
 TString parseLatex(TString opt);
 std::vector<double> parseVector(TString opt);

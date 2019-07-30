@@ -2936,8 +2936,13 @@ int ZMETLooper::ScanChain( TChain* chain, ConfigParser *configuration, bool fast
       MCTriggerEmulation=false;
     }
   }
-
- TString savePath = getOutputDir(conf, "hist");
+  
+  TString savePath; 
+  if(conf->get("auto_scale") == "true")
+  {
+      savePath = getOutputDir(conf,"allhist",year_fromCommandLine);
+  }
+  else savePath = getOutputDir(conf, "hist");
   ofstream files_log;
   files_log.open((savePath+TString(g_sample_name+"_files.log")).Data());
   //cout<<__LINE__<<endl;

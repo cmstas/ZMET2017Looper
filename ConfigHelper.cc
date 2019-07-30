@@ -14,7 +14,7 @@ TString parseConfDir(TString conf_path){
   return conf_path;
 }
 
-TString getOutputDir(ConfigParser *conf, TString type){
+TString getOutputDir(ConfigParser *conf, TString type,int year){
   /*Determines the proper output locations of files by parsing the option conf_path to get the directory structure above the level 'configs/'*/
 	//cout<<__LINE__<<endl;
   if (type == "hist"){
@@ -30,6 +30,23 @@ TString getOutputDir(ConfigParser *conf, TString type){
 		}
     //cout<<__LINE__<<endl;
 	}
+    else if(type == "allhist")
+    {
+        if (conf->get("histo_output_dir") != ""){
+      //cout<<__LINE__<<endl;
+			return TString(conf->get("histo_output_dir"));
+		}
+		else{
+			TString output_dir = parseConfDir(conf->get("conf_path"));
+      //cout<<__LINE__<<endl;
+			output_dir = output_dir.Prepend(HIST_OUTPUT_LOCATION);
+            output_dir = output_dir.Append(TString(std::to_string(year).c_str())+TString("/"));
+
+            return output_dir;
+		}
+
+
+    }
 	else if (type == "plot" )
 	{
 		if (conf->get("save_dir") != ""){
