@@ -386,6 +386,7 @@ class ZMETLooper
 
     public:
     ZMETLooper(int year=-1);
+    int getYear(); //Get the year out to create output directories inside non-member functions
     int ScanChain( TChain* chain, ConfigParser *configuration, bool fast = true, int nEvents = -1);
 };
 

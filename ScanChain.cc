@@ -112,6 +112,11 @@ ZMETLooper::ZMETLooper(int year)
     dil_flavor = -1;
 }
 
+int ZMETLooper::getYear()
+{
+    return year_fromCommandLine;
+}
+
 LorentzVector ZMETLooper::computeMht()
 {
     LorentzVector sumMht_p4 = LorentzVector(0,0,0,0);

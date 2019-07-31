@@ -3,10 +3,16 @@
 
 using namespace std;
 
-void makePtReweightHisto(ConfigParser * conf)
+void makePtReweightHisto(ConfigParser * conf,int year)
 {
   TString hist_name = "vpt";
-  TString output_dir = getOutputDir(conf, "hist"); //get output dir location for this histogram something like /nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction/PhotonData_VPTRWT/TChiHZ/
+  TString output_dir;
+  if(conf->get("auto_scale") == "true")
+  {
+      output_dir = getOutputDir(conf,"allhist",year);
+  }
+      
+  else output_dir = getOutputDir(conf, "hist"); //get output dir location for this histogram something like /nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction/PhotonData_VPTRWT/TChiHZ/
   TString output_location = output_dir+conf->get("Name")+"_vpt_rwt.root";
 
   //-----------------------------------
@@ -134,12 +140,19 @@ void makePtReweightHisto(ConfigParser * conf)
 }
 
 
-void makePtReweightHisto_allSR(ConfigParser *conf)
+void makePtReweightHisto_allSR(ConfigParser *conf,int year)
 {
   //make reweight histograms for all SRs and VRs
 
   TString hist_name_suffix = "vpt";
-  TString output_dir = getOutputDir(conf,"hist");
+  TString output_dir;
+  if(conf->get("auto_scale") == "true")
+  {
+      output_dir = getOutputDir(conf,"allhist",year);
+  }
+      
+  else output_dir = getOutputDir(conf, "hist"); //get output dir location for this histogram something like /nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction/PhotonData_VPTRWT/TChiHZ/
+ 
   TString output_location = output_dir + conf->get("Name") + "_vpt_rwt.root";
 
   TString primary_path = output_dir;

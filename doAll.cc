@@ -8,11 +8,11 @@ void runScanChain(ZMETLooper l,ConfigParser* conf,std::string file_name){
     cout<<"Making Reweight Histogram"<<endl;
     if(conf->get("signal_region") == "all")
     {
-      makePtReweightHisto_allSR(conf);
+      makePtReweightHisto_allSR(conf,l.getYear());
     }
     else
     {
-        makePtReweightHisto(conf);
+        makePtReweightHisto(conf,l.getYear());
     }
   }
 

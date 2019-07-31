@@ -9,6 +9,6 @@
 
 using namespace std;
 
-void makePtReweightHisto(ConfigParser *conf);
-void makePtReweightHisto_allSR(ConfigParser *conf);
+void makePtReweightHisto(ConfigParser *conf,int year);
+void makePtReweightHisto_allSR(ConfigParser *conf,int year);
 #endif
