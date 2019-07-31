@@ -23,14 +23,19 @@ echo "Deriving vpt_rwt and making closure histograms"
 mkdir -p $prefix/MCTemplates/combined
 
 #hadd the copied stuff. HARDCODING THIS MOFO
+echo "hadd -f -k $prefix/MCTemplates/combined/GammaJets.root $prefix/MCTemplates/2016/GammaJets.root $prefix/MCTemplates/2017/GammaJets.root $prefix/MCTemplates/2018/GammaJets.root"
+
 hadd -f -k $prefix/MCTemplates/combined/GammaJets.root $prefix/MCTemplates/2016/GammaJets.root $prefix/MCTemplates/2017/GammaJets.root $prefix/MCTemplates/2018/GammaJets.root
+
+echo "hadd -f -k $prefix/MCTemplates/combined/ZJets.root $prefix/MCTemplates/2016/ZJets.root $prefix/MCTemplates/2017/ZJets.root $prefix/MCTemplates/2018/ZJets.root"
+
 hadd -f -k $prefix/MCTemplates/combined/ZJets.root $prefix/MCTemplates/2016/ZJets.root $prefix/MCTemplates/2017/ZJets.root $prefix/MCTemplates/2018/ZJets.root
 
 for year in "${years[@]}"
 do
     for sampleName in ZJets GammaJets
     do
-        cp $prefix/MCTemplates/combined/$sample.root $prefix/MCTemplates/$year/$sampleName-combined.root
+        cp $prefix/MCTemplates/combined/$sampleName.root $prefix/MCTemplates/$year/$sampleName-combined.root
     done
 done
 
@@ -42,6 +47,9 @@ do
     echo "nohup ./ZMETLooper $sampleName configs/threeyears/MCTemplates/run_modes.conf $year zmet_datasets_$year.txt > MCTemplates-$sampleName-$year.out &"
     nohup ./ZMETLooper $sampleName configs/threeyears/MCTemplates/run_modes.conf $year zmet_datasets_$year.txt > MCTemplates-$sampleName-$year.out &
 done
-
+wait
 #hadd the reweighted GammaJets and put them in combined folder
+
+echo "hadd -f -k $prefix/MCTemplates/combined/$sampleName.root $prefix/MCTemplates/2016/$sampleName.root $prefix/MCTemplates/2017/$sampleName.root $prefix/MCTemplates/2018/$sampleName.root"
+
 hadd -f -k $prefix/MCTemplates/combined/$sampleName.root $prefix/MCTemplates/2016/$sampleName.root $prefix/MCTemplates/2017/$sampleName.root $prefix/MCTemplates/2018/$sampleName.root
