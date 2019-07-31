@@ -6,8 +6,8 @@ echo "Running over GammaData and EWKSub"
 for year in "${years[@]}"
 do
     mkdir -p $prefix/dataTemplates/$year
-    cp $prefix/MCTemplates/ZJets.root $prefix/dataTemplates/year/ZJets_MC.root
-        cp $prefix/MCTemplates/GammaJets.root $prefix/dataTemplates/year/GammaJets_MC.root
+    cp $prefix/MCTemplates/combined/ZJets.root $prefix/dataTemplates/$year/ZJets_MC.root
+        cp $prefix/MCTemplates/combined/GammaJets.root $prefix/dataTemplates/$year/GammaJets_MC.root
 done
 
 for year in "${years[@]}"
