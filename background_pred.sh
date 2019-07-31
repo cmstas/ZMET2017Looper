@@ -35,7 +35,7 @@ do
 done
 
 #Now with the full histograms in the respective folders, do the vpt_rwt
-sampleName = GammaJets_reweight
+sampleName="GammaJets_reweight"
 
 for year in "${years[@]}"
 do
@@ -43,3 +43,5 @@ do
     nohup ./ZMETLooper $sampleName configs/threeyears/MCTemplates/run_modes.conf $year zmet_datasets_$year.txt > MCTemplates-$sampleName-$year.out &
 done
 
+#hadd the reweighted GammaJets and put them in combined folder
+hadd -f -k $prefix/MCTemplates/combined/$sampleName.root $prefix/MCTemplates/2016/$sampleName.root $prefix/MCTemplates/2017/$sampleName.root $prefix/MCTemplates/2018/$sampleName.root
