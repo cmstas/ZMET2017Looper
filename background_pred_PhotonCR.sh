@@ -11,7 +11,7 @@ do
         nohup ./ZMETLooper $sampleName configs/threeyears/PhotonCR/run_modes.conf $year zmet_datasets_$year.txt > PhotonCR-$sampleName-$year.out &
     done
 done
-
+wait
 echo "Adding up three years worth of histograms"
 mkdir -p $prefix/PhotonCR/combined
 
