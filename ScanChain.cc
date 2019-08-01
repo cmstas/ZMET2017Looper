@@ -1104,11 +1104,11 @@ double ZMETLooper::getWeight(TString SR){
     {
       //scale up MCs automatically
       if(g_year == 2016)
-        weight *= 36.5;
+        weight *= 35.9;
       else if(g_year == 2017)
         weight *= 41.5;
       else if(g_year == 2018)
-        weight *= 62;
+        weight *= 59.76;
     }
 
     //cout<<__LINE__<<endl;
