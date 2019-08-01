@@ -2322,6 +2322,10 @@ void drawPlots(TString config_file, TString SR,bool draw_debugs){
 
 int main(int argc, char* argv[])
 {
+  if(argc != 3)
+  {
+      cout<<"./drawPlots config_file SR"<<endl;
+  }
   drawPlots(argv[1],argv[2],false);
   return 0;
 }
