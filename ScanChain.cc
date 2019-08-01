@@ -3142,7 +3142,7 @@ int ZMETLooper::ScanChain( TChain* chain, ConfigParser *configuration, bool fast
 
     if(conf->get("dilep_control_region") == "true" and phys.isData())
     {
-        if(TString(currentFile->GetTitle()).Contains("DoubleEG"))
+        if(TString(currentFile->GetTitle()).Contains("DoubleEG") || currentFile->GetTitle().Contains("EGamma"))
             numEvents = ee_numEvents;
         else if(TString(currentFile->GetTitle()).Contains("DoubleMuon"))
             numEvents = mumu_numEvents;
