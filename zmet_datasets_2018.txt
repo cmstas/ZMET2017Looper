@@ -2,7 +2,7 @@ ds:GammaData-SinglePhoton-Skimmed
 /nfs-7/userdata/bsathian/ZMET_babies/EGamma_Run2018A-17Sep2018-v2_MINIAOD_ZMET_babies
 /nfs-7/userdata/bsathian/ZMET_babies/EGamma_Run2018B-17Sep2018-v1_MINIAOD_ZMET_babies
 /nfs-7/userdata/bsathian/ZMET_babies/EGamma_Run2018C-17Sep2018-v1_MINIAOD_ZMET_babies
-/nfs-7/userdata/bsathian/ZMET_babies/EGamma_Run2018D-PromptReco-v2_MINIAOD_ZMET_babies
+/nfs-7/userdata/bsathian/ZMET_babies/EGamma_Run2018D-22Jan2019-v2_MINIAOD_ZMET_babies
 ds:GammaMC-40100-Skimmed
 /nfs-7/userdata/bsathian/ZMET_babies/GJets_HT-40To100_TuneCP5_13TeV-madgraphMLM-pythia8_RunIIAutumn18MiniAOD-102X_upgrade2018_realistic_v15-v1_MINIAODSIM_ZMET_babies
 ds:GammaMC-100200-Skimmed
@@ -55,7 +55,7 @@ ds:DoubleEG
 /nfs-7/userdata/bsathian/ZMET_babies/EGamma_Run2018A-17Sep2018-v2_MINIAOD_ZMET_babies
 /nfs-7/userdata/bsathian/ZMET_babies/EGamma_Run2018B-17Sep2018-v1_MINIAOD_ZMET_babies
 /nfs-7/userdata/bsathian/ZMET_babies/EGamma_Run2018C-17Sep2018-v1_MINIAOD_ZMET_babies
-/nfs-7/userdata/bsathian/ZMET_babies/EGamma_Run2018D-PromptReco-v2_MINIAOD_ZMET_babies
+/nfs-7/userdata/bsathian/ZMET_babies/EGamma_Run2018D-22Jan2019-v2_MINIAOD_ZMET_babies
 ds:MuonEG
 /nfs-7/userdata/bsathian/ZMET_babies/MuonEG_Run2018A-17Sep2018-v1_MINIAOD_ZMET_babies
 /nfs-7/userdata/bsathian/ZMET_babies/MuonEG_Run2018B-17Sep2018-v1_MINIAOD_ZMET_babies
