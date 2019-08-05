@@ -3126,9 +3126,9 @@ int ZMETLooper::ScanChain( TChain* chain, ConfigParser *configuration, bool fast
     while ( (currentFile = (TFile*)fileIter.Next()) ) {
 
     // Get File Content
-    TFile file( currentFile->GetTitle() );
+    TFile *file = TFile::Open( currentFile->GetTitle() );
     //cout<<__LINE__<<endl;
-    TTree *tree = (TTree*)file.Get("t");
+    TTree *tree = (TTree*)file->Get("t");
     //cout<<__LINE__<<endl;
     if(fast) TTreeCache::SetLearnEntries(10); //What does this do?
     //cout<<__LINE__<<endl;
@@ -3349,7 +3349,7 @@ int ZMETLooper::ScanChain( TChain* chain, ConfigParser *configuration, bool fast
     //cout<<__LINE__<<endl;
     delete tree;
     //cout<<__LINE__<<endl;
-    file.Close();
+    file->Close();
 
  }
 
