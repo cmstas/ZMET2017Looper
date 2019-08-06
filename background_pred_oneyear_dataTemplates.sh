@@ -1,4 +1,4 @@
-year=()
+year=$1
 prefix="/home/users/bsathian/ZMet/histsoneyear/"
 echo "Running over GammaData and EWKSub"
 
