@@ -1124,7 +1124,6 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
   //cout<<__LINE__<<endl;
 
   cout<<"Saving..."<<endl;
-  system("mkdir -p "+save_dir);
   c->SaveAs(save_dir+plot_name+TString(".pdf"));
   c->SaveAs(save_dir+plot_name+TString(".png"));
   //c->SaveAs(save_dir+plot_name+TString(".root"));
