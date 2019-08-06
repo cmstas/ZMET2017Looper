@@ -4,7 +4,7 @@ sample=("Data" "DYJets" "TTJets" "SingleTop" "TTZ" "TTW" "WW" "WZTo2L2Q" "WZTo3L
 
 #Do a hadd for the EWK Sample to get the total Templates prediction
 mkdir -p $prefix/DoubleLepton/combined
-hadd -f -k $prefix/DoubleLepton/combined/Templates.root $prefix/dataTemplates/combined/GammaData.root $prefix/dataTemplates/combined/WGamma-EWKSub.root $prefix/dataTemplates/combined/WJets-EWKSub.root $prefix/dataTemplates/combined/TTJets-1lep-EWKSub.root $prefix/dataTemplates/combined/TTJets-2lep-EWKSub.root $prefix/dataTemplates/SingleTop-EWKSub.root
+hadd -f -k $prefix/DoubleLepton/combined/Templates.root $prefix/dataTemplates/combined/GammaData.root $prefix/dataTemplates/combined/WGamma-EWKSub.root $prefix/dataTemplates/combined/WJets-EWKSub.root $prefix/dataTemplates/combined/TTJets-1lep-EWKSub.root $prefix/dataTemplates/combined/TTJets-2lep-EWKSub.root $prefix/dataTemplates/combined/SingleTop-EWKSub.root
 
 for year in "${years[@]}"
 do
