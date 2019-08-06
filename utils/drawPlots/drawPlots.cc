@@ -46,7 +46,7 @@ void assignColor(std::vector<TH1D*> hists)
 TH1D *combine_histograms(vector<TFile*> hist_files, std::vector<TString> hist_names,int count,TString plot_name,TString SR)
 {
   //Start final hist with the first histogram in the stack.
-  TH1D *final_hist;
+  TH1D *final_hist = nullptr;
   if(hist_files[0]->Get(SR+hist_names[0]))
       final_hist =(TH1D*) ((TH1D*)(hist_files[0]->Get(SR+hist_names[0])))->Clone("hist_"+to_string(count)+"_"+plot_name);
   for(size_t i = 0; i < hist_files.size(); i++)
@@ -1124,6 +1124,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
   //cout<<__LINE__<<endl;
 
   cout<<"Saving..."<<endl;
+  system("mkdir -p "+save_dir);
   c->SaveAs(save_dir+plot_name+TString(".pdf"));
   c->SaveAs(save_dir+plot_name+TString(".png"));
   //c->SaveAs(save_dir+plot_name+TString(".root"));
