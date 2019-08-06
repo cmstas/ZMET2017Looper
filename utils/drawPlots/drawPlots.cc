@@ -45,6 +45,7 @@ void assignColor(std::vector<TH1D*> hists)
 
 TH1D *combine_histograms(vector<TFile*> hist_files, std::vector<TString> hist_names,int count,TString plot_name,TString SR)
 {
+  //Start final hist with the first histogram in the stack.
   TH1D *final_hist =(TH1D*) ((TH1D*)(hist_files[0]->Get(SR+hist_names[0])))->Clone("hist_"+to_string(count)+"_"+plot_name);
   for(size_t i = 0; i < hist_files.size(); i++)
   {
@@ -52,7 +53,15 @@ TH1D *combine_histograms(vector<TFile*> hist_files, std::vector<TString> hist_na
     {
       if(i == 0 && j == 0)
         continue;
-      final_hist->Add((TH1D*)hist_files.at(i)->Get(SR+hist_names.at(j)));
+      //Add only if histogram found. 
+      if(hist_files.at(i)->Get(SR+hist_names.at(j)) != nullptr)
+      {
+          //Additional check to ensure a non-null histogram is not added to a null histogram pointer
+          if(final_hist != nullptr)
+              final_hist->Add((TH1D*)hist_files.at(i)->Get(SR+hist_names.at(j))); 
+          else
+              final_hist = (TH1D*)hist_files.at(i)->Get(SR+hist_names.at(j));
+      }
     }
   }
   return final_hist;
@@ -265,6 +274,9 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
   cout << "Making Plots for: "<<plot_name<<endl;
 
   std::vector<TH1D*> hists (num_hists);
+  std::vector<int> null_hist_indices;
+  int non_null_hist_index = -1;
+
   for (int i = 0; i<num_hists; i++){
     hists[i] = (TH1D*) (combine_histograms(hist_files[i],hist_names[i],i,plot_name,SR));
     //hists[i] = (TH1D*) combine_histograms((TH1D*) hist_files[i]->Get(hist_names[i]))->Clone("hist_"+to_string(i)+"_"+plot_name);
@@ -275,9 +287,45 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
       cout<<it<<" found in "<<it2->GetName()<<endl;
       }
     }
-    cout<<hist_labels[i]<<" Integral bin 0 to bin 100 Content: "<<hists[i]->Integral(0,100)<<endl;
+
+    if(hists[i] == nullptr)
+    {
+        cout<<hist_labels[i]<<" NOT FOUND. Don't worry I won't crash this code. I'll create a histogram with a bunch of zeros"<<endl;
+        null_hist_indices.push_back(i);
+    }
+    else
+    {
+        cout<<hist_labels[i]<<" Integral bin 0 to bin 100 Content: "<<hists[i]->Integral(0,100)<<endl;
+        non_null_hist_index = i;
+
+    }
   }
   cout << "Histograms pulled from files, adding draw options"<<endl;
+
+  //Fixing null histograms
+  //
+  //Exit if all histograms are null
+  if(non_null_hist_index == -1)
+  {
+      cout<<"What on earth! None of the histograms exist!"<<endl;
+      exit(1);
+  }
+   
+  else //create histograms which match their neighbours, and have zero counts
+  {
+      for(auto &it:null_hist_indices)
+      {
+
+        hists[it] = (TH1D*)hists[non_null_hist_index]->Clone(hist_names[i]);
+        for(int nbin = 0; nbin < hists[it].GetNbinsX(); nbin++)
+        {
+            hists[it]->SetBinContent(nbin,0.0);
+        }
+        cout<<"Created dummy histogram for "<<hist_names[i]<<endl;
+      }
+  }
+
+
 
   //cout<<__LINE__<<endl;
 
