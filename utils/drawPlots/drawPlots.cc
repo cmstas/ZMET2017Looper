@@ -316,12 +316,12 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
       for(auto &it:null_hist_indices)
       {
 
-        hists[it] = (TH1D*)hists[non_null_hist_index]->Clone(hist_names[i]);
-        for(int nbin = 0; nbin < hists[it].GetNbinsX(); nbin++)
+        hists[it] = (TH1D*)hists[non_null_hist_index]->Clone(hist_labels.at(it));
+        for(int nbin = 0; nbin < hists[it]->GetNbinsX(); nbin++)
         {
             hists[it]->SetBinContent(nbin,0.0);
         }
-        cout<<"Created dummy histogram for "<<hist_names[i]<<endl;
+        cout<<"Created dummy histogram for "<<hist_labels.at(it)<<endl;
       }
   }
 
