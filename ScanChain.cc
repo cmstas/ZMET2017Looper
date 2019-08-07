@@ -423,18 +423,17 @@ bool ZMETLooper::passPhotonTriggers(){
   else{
       //year based shit goes here
 
-
-    if(phys.HLT_Photon200() > 0 && phys.gamma_pt().at(0) > 210) return true; //need to do trigger efficiency tests
-    if (!phys.HLT_Photon165_R9Id90_HE10_IsoM_matchedtophoton() && phys.HLT_Photon165_R9Id90_HE10_IsoM() > 0 && phys.gamma_pt().at(0) > 180 && phys.gamma_pt().at(0) < 210 ) return true;
-    else if( !phys.HLT_Photon120_R9Id90_HE10_IsoM_matchedtophoton() && phys.HLT_Photon120_R9Id90_HE10_IsoM() > 0 && phys.gamma_pt().at(0) > 135 && phys.gamma_pt().at(0) < 180) return true;
-    else if( !phys.HLT_Photon90_R9Id90_HE10_IsoM_matchedtophoton() && phys.HLT_Photon90_R9Id90_HE10_IsoM()  > 0 && phys.gamma_pt().at(0) > 105 && phys.gamma_pt().at(0) < 135  ) return true;
-    else if( !phys.HLT_Photon75_R9Id90_HE10_IsoM_matchedtophoton() && phys.HLT_Photon75_R9Id90_HE10_IsoM()  > 0 && phys.gamma_pt().at(0) > 85 && phys.gamma_pt().at(0) < 105   ) return true;
-    else if( !phys.HLT_Photon50_R9Id90_HE10_IsoM_matchedtophoton() && phys.HLT_Photon50_R9Id90_HE10_IsoM()  > 0 && phys.gamma_pt().at(0) > 55 && phys.gamma_pt().at(0) < 85    ) return true;
+            if(phys.HLT_Photon200() > 0 && phys.gamma_pt().at(0) > 210) return true; //need to do trigger efficiency tests
+            if (!phys.HLT_Photon165_R9Id90_HE10_IsoM_matchedtophoton() && phys.HLT_Photon165_R9Id90_HE10_IsoM() > 0 && phys.gamma_pt().at(0) > 180 && phys.gamma_pt().at(0) < 210 ) return true;
+            else if( !phys.HLT_Photon120_R9Id90_HE10_IsoM_matchedtophoton() && phys.HLT_Photon120_R9Id90_HE10_IsoM() > 0 && phys.gamma_pt().at(0) > 135 && phys.gamma_pt().at(0) < 180) return true;
+            else if( !phys.HLT_Photon90_R9Id90_HE10_IsoM_matchedtophoton() && phys.HLT_Photon90_R9Id90_HE10_IsoM()  > 0 && phys.gamma_pt().at(0) > 105 && phys.gamma_pt().at(0) < 135  ) return true;
+            else if( !phys.HLT_Photon75_R9Id90_HE10_IsoM_matchedtophoton() && phys.HLT_Photon75_R9Id90_HE10_IsoM()  > 0 && phys.gamma_pt().at(0) > 85 && phys.gamma_pt().at(0) < 105   ) return true;
+            else if( !phys.HLT_Photon50_R9Id90_HE10_IsoM_matchedtophoton() && phys.HLT_Photon50_R9Id90_HE10_IsoM()  > 0 && phys.gamma_pt().at(0) > 55 && phys.gamma_pt().at(0) < 85    ) return true;
 //    else if( !phys.HLT_Photon36_R9Id90_HE10_IsoM_matchedtophoton() && phys.HLT_Photon36_R9Id90_HE10_IsoM()  > 0 && phys.gamma_pt().at(0) > 40 && phys.gamma_pt().at(0) < 55    ) return true;
 //    else if( !phys.HLT_Photon30_R9Id90_HE10_IsoM_matchedtophoton() && phys.HLT_Photon30_R9Id90_HE10_IsoM()  > 0 && phys.gamma_pt().at(0) > 33 && phys.gamma_pt().at(0) < 40    ) return true;
 //    else if( !phys.HLT_Photon22_R9Id90_HE10_IsoM_matchedtophoton() && phys.HLT_Photon22_R9Id90_HE10_IsoM()  > 0 && phys.gamma_pt().at(0) < 33 ) return true;
-    return false;
-  }
+            return false;
+    }
 }
 
 bool ZMETLooper::passMuonTriggers(){
@@ -458,7 +457,22 @@ bool ZMETLooper::passMuonTriggers(){
       }
       else{
 
-        bool triggers = phys.HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8() || phys.HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ() || phys.HLT_Mu37_TkMu27();
+          bool triggers = false;
+          if(g_year == 2017)
+          {
+
+            triggers = phys.HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8() || phys.HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ() || phys.HLT_Mu37_TkMu27();
+          }
+
+          else if(g_year == 2016)
+          {
+            triggers = phys.HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL() || phys.HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL() || phys.HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ() || phys.HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ() || phys.HLT_TkMu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ() || phys.HLT_Mu27_TkMu8() || phys.HLT_Mu30_TkMu11();
+          }
+          
+          else if(g_year == 2018)
+          {
+              triggers = phys.HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8() || phys.HLT_Mu37_TkMu27();
+          }
         return triggers;
       }
     }
@@ -472,7 +486,20 @@ bool ZMETLooper::passElectronTriggers(){
   else{
     //cout<<__LINE__<<endl;
     //if (printStats) { cout<<"HLT_DoubleEl_DZ_2: "<<phys.HLT_DoubleEl_DZ_2()<<" HLT_DoubleEl_noiso: "<<phys.HLT_DoubleEl_noiso()<<" HLT_DoubleEl_DZ(): "<<phys.HLT_DoubleEl_DZ()<<endl; }
-    bool eleTriggers = phys.HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL() || phys.HLT_DoubleEle33_CaloIdL_MW() || phys.HLT_DoubleEle25_CaloIdL_MW() || phys.HLT_DoubleEle27_CaloIdL_MW_Edge();
+    bool eleTriggers = false;
+    if(g_year == 2017)
+    {
+        eleTriggers = phys.HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL() || phys.HLT_DoubleEle33_CaloIdL_MW() || phys.HLT_DoubleEle25_CaloIdL_MW() || phys.HLT_DoubleEle27_CaloIdL_MW_Edge();
+    }
+    else if(g_year == 2016)
+    {
+        eleTriggers = phys.HLT_Ele17_Ele12_CaloIdL_TrackIdL_IsoVL_DZ() || phys.HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ() || phys.HLT_DoubleEle33_CaloIdL_GsfTrkIdVL() || phys.HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_MW();
+    }
+
+    else if(g_year == 2018)
+    {
+        eleTriggers = phys.HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL() || phys.HLT_DoubleEle25_CaloIdL_MW();
+    }
     return eleTriggers;
   }
 }
@@ -481,9 +508,23 @@ bool ZMETLooper::passEMuTriggers(){
   if ( (! MCTriggerEmulation) && (! phys.isData()) ){
     return true;
   }
-  else{
-      bool trigger = phys.HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ() || phys.HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL() || phys.HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ() || phys.HLT_Mu27_Ele37_CaloIdL_MW() || phys.HLT_Mu37_Ele27_CaloIdL_MW();
 
+  else{
+      bool trigger = false;
+      if(g_year == 2017)
+      {
+      trigger = phys.HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ() || phys.HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL() || phys.HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ() || phys.HLT_Mu27_Ele37_CaloIdL_MW() || phys.HLT_Mu37_Ele27_CaloIdL_MW();
+      }
+
+      else if(g_year == 2016)
+      {
+          trigger = phys.HLT_Mu17_TrkIsoVVL_Ele1_CaloIdL_TrackIdL_IsoVL() || phys.HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL() || phys.HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL_DZ() || phys.HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL() || phys.HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ() || phys.HLT_Mu8_TrkIsoVVL_Ele17_CaloIdL_TrackIdL_IsoVL() || phys.HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL() || phys.HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ() || phys.HLT_Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL() || phys.HLT_Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ() || phys.HLT_Mu30_Ele30_CaloIdL_GsfTrkIdVL() || phys.HLT_Mu33_Ele33_CaloIdL_GsfTrkIdVL();
+      }
+
+      else if(g_year == 2018)
+      {
+          trigger = phys.HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ() || phys.HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ() || phys.HLT_Mu27_Ele37_CaloIdL_MW() || phys.HLT_Mu37_Ele27_CaloIdL_MW();
+      }
       return trigger;
   }
 }
