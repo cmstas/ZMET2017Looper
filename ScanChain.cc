@@ -442,21 +442,9 @@ bool ZMETLooper::passMuonTriggers(){
   }
   else{
     //cout<<__LINE__<<endl;
-    if ( conf->get("use_muon_DZ_triggers") == "true" ){
-      //cout<<"Using DZ triggers"<<endl;
-      //cout<<__LINE__<<endl;
-      //if (printStats) { cout<<"HLT_DoubleMu: "<<phys.HLT_DoubleMu()<<" HLT_DoubleMu_tk: "<<phys.HLT_DoubleMu_tk()<<" "<<" HLT_DoubleMu_noiso: "<<phys.HLT_DoubleMu_noiso()<<" "; }
-      return (phys.HLT_DoubleMu() || phys.HLT_DoubleMu_tk() || phys.HLT_DoubleMu_noiso());
-    }
-    else{
       //cout<<"Using Non DZ triggers"<<endl;
       //cout<<__LINE__<<endl;
       //if (printStats) { cout<<"HLT_DoubleMu_nonDZ: "<<phys.HLT_DoubleMu_nonDZ()<<" HLT_DoubleMu_tk_nonDZ: "<<phys.HLT_DoubleMu_tk_nonDZ()<<" "<<" HLT_DoubleMu_noiso: "<<phys.HLT_DoubleMu_noiso()<<" "; }
-      if(conf->get("signal_region") == "LeonoraEvtLists"){
-        return (phys.HLT_DoubleMu() || phys.HLT_DoubleMu_tk() /*|| phys.HLT_DoubleMu_dbltk()*/ || phys.HLT_DoubleMu_nonDZ() || phys.HLT_DoubleMu_tk_nonDZ() || phys.HLT_DoubleMu_noiso());
-      }
-      else{
-
           bool triggers = false;
           if(g_year == 2017)
           {
@@ -466,7 +454,7 @@ bool ZMETLooper::passMuonTriggers(){
 
           else if(g_year == 2016)
           {
-            triggers = phys.HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL() || phys.HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL() || phys.HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ() || phys.HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ() || phys.HLT_TkMu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ() || phys.HLT_Mu27_TkMu8() || phys.HLT_Mu30_TkMu11();
+            triggers = phys.HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL() || /*phys.HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL() ||*/ phys.HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ() || phys.HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ() || phys.HLT_TkMu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ() || phys.HLT_Mu27_TkMu8() || phys.HLT_Mu30_TkMu11();
           }
           
           else if(g_year == 2018)
@@ -474,8 +462,6 @@ bool ZMETLooper::passMuonTriggers(){
               triggers = phys.HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8() || phys.HLT_Mu37_TkMu27();
           }
         return triggers;
-      }
-    }
   }
 }
 
@@ -518,7 +504,7 @@ bool ZMETLooper::passEMuTriggers(){
 
       else if(g_year == 2016)
       {
-          trigger = phys.HLT_Mu17_TrkIsoVVL_Ele1_CaloIdL_TrackIdL_IsoVL() || phys.HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL() || phys.HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL_DZ() || phys.HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL() || phys.HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ() || phys.HLT_Mu8_TrkIsoVVL_Ele17_CaloIdL_TrackIdL_IsoVL() || phys.HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL() || phys.HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ() || phys.HLT_Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL() || phys.HLT_Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ() || phys.HLT_Mu30_Ele30_CaloIdL_GsfTrkIdVL() || phys.HLT_Mu33_Ele33_CaloIdL_GsfTrkIdVL();
+          trigger = phys.HLT_Mu17_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL() || phys.HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL() /*|| phys.HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL_DZ()*/ || phys.HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL() || phys.HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ() || phys.HLT_Mu8_TrkIsoVVL_Ele17_CaloIdL_TrackIdL_IsoVL() || phys.HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL() || phys.HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ() || phys.HLT_Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL() || phys.HLT_Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ() || phys.HLT_Mu30_Ele30_CaloIdL_GsfTrkIdVL() || phys.HLT_Mu33_Ele33_CaloIdL_GsfTrkIdVL();
       }
 
       else if(g_year == 2018)
