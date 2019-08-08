@@ -3940,6 +3940,10 @@ void ZMETLooper::fillCommonHists(std::string prefix)
             {
               fill1DHistograms(prefix+"genht",phys.gen_ht(),weight,allHistos,"",6000,0,6000,rootdir);
             }
+            if(!phys.isData() && phys.gamma_genPt().at(0) >= 0)
+            {
+                fill1DHistograms(prefix+"gamma_genpt",phys.gamma_genPt().at(0),weight,allHistos,"",6000,0,6000,rootdir);
+            }
               if (bosonPt() != 0){
                 fill1DHistograms(prefix+"vpt",bosonPt(),weight,allHistos,"",n_ptbins_std,ptbins_std,rootdir);
                 fill1DHistograms(prefix+"vpt_fine",bosonPt(),weight,allHistos,"",n_ptbins_fine,ptbins_fine,rootdir);
