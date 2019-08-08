@@ -429,7 +429,7 @@ bool ZMETLooper::passPhotonTriggers(){
                 if(g_year == 2016) return true;
                 else if(phys.gamma_pt().at(0) < 210) return true; 
             }
-            else if(phys.HLT_Photon165_HE10() > 0 && phys.gamma_pt.at(0) > 180 && g_year == 2016)
+            else if(phys.HLT_Photon165_HE10() > 0 && phys.gamma_pt().at(0) > 180 && g_year == 2016)
             {
                 return true;
             }
