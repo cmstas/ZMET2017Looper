@@ -3905,8 +3905,6 @@ bool ZMETLooper::passInclusiveCuts()
 void ZMETLooper::fillCommonHists(std::string prefix)
 {
         //create histograms
-        //for(auto &prefix:prefixes)
-        //{
           fill1DHistograms(prefix+"weight_log",log10(abs(weight)),1,allHistos,"",n_weight_log_bins,weight_log_bins,rootdir);
           fill1DHistograms(prefix+"weight_log_flat",abs(weight),1,allHistos,"",101,0,1.01,rootdir);
           fill1DHistograms(prefix+"numMETFilters",sumMETFilters,1,allHistos,"",50,0,50,rootdir);
@@ -3972,9 +3970,14 @@ void ZMETLooper::fillCommonHists(std::string prefix)
             fill1DHistograms(prefix+"dphi_jet2_met",acos(cos(g_met_phi - g_jets_p4.at(1).phi())),weight,allHistos,"",100,0,3.15,rootdir);
           if(g_njets > 2)
             fill1DHistograms(prefix+"dphi_jet3_met",acos(cos(g_met_phi - g_jets_p4.at(2).phi())),weight,allHistos,"",100,0,3.15,rootdir);
-        //}
 
 
+       if(conf->get("photon_pt_test") == "true")
+       {
+           fill2DHistograms(prefix+"PtvEta",phys.gamma_p4().at(0).pt(),phys.gamma_p4().at(0).eta(),weight,all2DHistos,"",1000,0,1000,100,-2.4,2.4,rootdir);
+           fill2DHistograms(prefix+"PtvPhi",phys.gamma_p4().at(0).pt(),phys.gamma_p4().at(0).phi(),weight,all2DHistos,"",1000,0,1000,200,-6.28,6.28,rootdir);
+
+       }
 }
 
 void ZMETLooper::fillMassWindowHistograms(std::string prefix)
