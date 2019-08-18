@@ -851,11 +851,11 @@ bool ZMETLooper::hasGoodPhoton(){
     }
   }
 
-  if (/*(! phys.isData()) &&*/ (! passPhotonEmulatedTrigger()) ){
+  /*if ((! phys.isData()) && (! passPhotonEmulatedTrigger()) ){
     numEvents->Fill(53);
     if (printFail) cout<<phys.evt()<<" :Failed emulated photon trigger"<<endl;
     return false;
-  }
+  }*/
 
   dphi_gm = acos(cos(g_met_phi - phys.gamma_p4().at(0).phi()));
   if(conf->get("dPhi_Gamma_MET_max") != "")
@@ -973,7 +973,7 @@ bool ZMETLooper::hasGoodGammaMu(){
 }
 
 bool ZMETLooper::hasGoodEvent() {
-  if ( conf->get("event_type") == "photon") {
+  if ( conf->get("event_type") == "photon"){
     return hasGoodPhoton();
   }
   else if (conf->get("event_type") == "photon_muon" ){
@@ -1717,7 +1717,7 @@ bool ZMETLooper::passSRHZCuts()
      {
        return false;
      }
-     if(g_mbb > 150)
+     if(g_mbb < 0 or g_mbb > 150)
      {
        return false;
      }
@@ -3938,7 +3938,7 @@ void ZMETLooper::fillCommonHists(std::string prefix)
             {
               fill1DHistograms(prefix+"genht",phys.gen_ht(),weight,allHistos,"",6000,0,6000,rootdir);
             }
-            if(!phys.isData() && phys.gamma_genPt().at(0) >= 0)
+            if(!phys.isData() && phys.gamma_genPt().at(0) >= 0 && conf->get("event_type") == "photon")
             {
                 fill1DHistograms(prefix+"gamma_genpt",phys.gamma_genPt().at(0),weight,allHistos,"",6000,0,6000,rootdir);
             }
