@@ -3938,7 +3938,7 @@ void ZMETLooper::fillCommonHists(std::string prefix)
             {
               fill1DHistograms(prefix+"genht",phys.gen_ht(),weight,allHistos,"",6000,0,6000,rootdir);
             }
-            if(!phys.isData() && phys.gamma_genPt().at(0) >= 0 && conf->get("event_type") == "photon")
+            if(!phys.isData() && conf->get("event_type") == "photon" && phys.gamma_genPt().at(0) >= 0)
             {
                 fill1DHistograms(prefix+"gamma_genpt",phys.gamma_genPt().at(0),weight,allHistos,"",6000,0,6000,rootdir);
             }
