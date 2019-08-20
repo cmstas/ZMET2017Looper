@@ -2419,9 +2419,9 @@ bool ZMETLooper::passBaseCut(){
         return false; //third lepton veto
     }
 
-    if(phys.nisoTrack_PFHad10_woverlaps > 0)
+    if(phys.nisoTrack_PFHad10_woverlaps() > 0)
     {
-        numEvents->Fill(79)
+        numEvents->Fill(79);
             if(printFail) cout<<phys.evt()<<" :has hadron isotracks"<<endl;
         return false;
 
