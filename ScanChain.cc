@@ -2418,6 +2418,14 @@ bool ZMETLooper::passBaseCut(){
         if (printFail) cout<<phys.evt()<<" :Failed isotrack veto"<<endl;
         return false; //third lepton veto
     }
+
+    if(phys.nisoTrack_PFHad10_woverlaps > 0)
+    {
+        numEvents->Fill(79)
+            if(printFail) cout<<phys.evt()<<" :has hadron isotracks"<<endl;
+        return false;
+
+    }
     if (phys.nveto_leptons() >= 1){
       numEvents->Fill(66);
       if (printFail) cout<<phys.evt()<<" :Failed multi-lepton analysis lepton veto"<<endl;
