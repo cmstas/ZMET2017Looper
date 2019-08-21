@@ -127,7 +127,7 @@ void ZMETLooper::initSyncFile(TString savePath)
 
 void ZMETLooper::writeSyncFile()
 {
-    *syncFile<<phys.run()<<","<<phys.lumi()<<","<<phys.evt()<<","<<endl;
+    *syncFile<<phys.run()<<","<<phys.lumi()<<","<<phys.evt()<<endl;
 }
 
 
