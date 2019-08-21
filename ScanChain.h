@@ -359,7 +359,7 @@ class ZMETLooper
 
     std::string commonHistPrefix;
 
-    void initSyncFile();
+    void initSyncFile(TString savePath);
     void writeSyncFile();
     void fillallHistograms(std::string prefix = "");
     void fillMassWindowHistograms(std::string prefix = "");
