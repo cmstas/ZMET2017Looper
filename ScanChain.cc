@@ -117,6 +117,19 @@ int ZMETLooper::getYear()
     return year_fromCommandLine;
 }
 
+
+void ZMETLooper::initSyncfile(TString savePath)
+{
+    syncFile.open(savePath.Data()+conf->get("name")+"_sync.txt",std::ios::out);
+    syncFile<<"Run,Lumi,Event"<<endl;
+}
+
+void ZMETLooper::writeSyncFile()
+{
+    syncFile<<phys.run()<<","<<phys.lumi()<<","<<phys.evt()<<","<<endl;
+}
+
+
 LorentzVector ZMETLooper::computeMht()
 {
     LorentzVector sumMht_p4 = LorentzVector(0,0,0,0);
@@ -3172,7 +3185,7 @@ int ZMETLooper::ScanChain( TChain* chain, ConfigParser *configuration, bool fast
 //===========================================
 // File Loop
 //===========================================
-
+    initSyncFile(savePath);    
     while ( (currentFile = (TFile*)fileIter.Next()) ) {
 
     // Get File Content
@@ -3309,7 +3322,14 @@ int ZMETLooper::ScanChain( TChain* chain, ConfigParser *configuration, bool fast
         //cout<<"Failed SR"<<endl;
           continue; // Signal Region Cuts
         }
-        fillallHistograms();
+        if(conf->get("sync") != "true")
+        {
+            fillallHistograms();
+        }
+        else
+        {
+            writeSyncFile();
+        }
       }
       else
       {

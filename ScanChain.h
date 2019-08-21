@@ -331,7 +331,9 @@ class ZMETLooper
     //Photon HLT Test Histograms
     //void PhotonHLTTest();
     //void FillTriggerHistograms();
-
+    
+    //File writing stuff
+    fstream syncFile;
 
     //Histogram stuff
 
@@ -357,6 +359,8 @@ class ZMETLooper
 
     std::string commonHistPrefix;
 
+    void initSyncFile();
+    void writeSyncFile();
     void fillallHistograms(std::string prefix = "");
     void fillMassWindowHistograms(std::string prefix = "");
     void fillCommonHists(std::string prefix = "");
