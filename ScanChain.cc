@@ -121,7 +121,7 @@ int ZMETLooper::getYear()
 void ZMETLooper::initSyncFile(TString savePath)
 {
     syncFile = new fstream;
-    syncFile->open(savePath.Data()+conf->get("name")+"_sync.txt",std::ios::out);
+    syncFile->open(savePath.Data()+conf->get("Name")+"_sync.txt",std::ios::out);
     *syncFile<<"Run,Lumi,Event"<<endl;
 }
 
