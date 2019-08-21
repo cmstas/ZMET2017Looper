@@ -333,7 +333,7 @@ class ZMETLooper
     //void FillTriggerHistograms();
     
     //File writing stuff
-    fstream syncFile;
+    fstream* syncFile;
 
     //Histogram stuff
 

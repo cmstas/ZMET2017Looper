@@ -120,13 +120,14 @@ int ZMETLooper::getYear()
 
 void ZMETLooper::initSyncFile(TString savePath)
 {
-    syncFile.open(savePath.Data()+conf->get("name")+"_sync.txt",std::ios::out);
-    syncFile<<"Run,Lumi,Event"<<endl;
+    syncFile = new fstream;
+    syncFile->open(savePath.Data()+conf->get("name")+"_sync.txt",std::ios::out);
+    *syncFile<<"Run,Lumi,Event"<<endl;
 }
 
 void ZMETLooper::writeSyncFile()
 {
-    syncFile<<phys.run()<<","<<phys.lumi()<<","<<phys.evt()<<","<<endl;
+    *syncFile<<phys.run()<<","<<phys.lumi()<<","<<phys.evt()<<","<<endl;
 }
 
 
@@ -3573,7 +3574,7 @@ int ZMETLooper::ScanChain( TChain* chain, ConfigParser *configuration, bool fast
   output->Close();
   if(conf->get("sync") == "true")
   {
-      syncFile.close();
+      syncFile->close();
   }
   g_reweight_pairs.clear();
   files_log.close();
