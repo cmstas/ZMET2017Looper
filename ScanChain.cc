@@ -619,10 +619,16 @@ int ZMETLooper::hasGoodZ(){
   }
     //if (printStats) { cout<<"hyp_type: "<<phys.hyp_type()<<" "; }
 
-  if( phys.lep_pt().at(0) < 25        ) {
+  if( phys.lep_pt().at(0) < 25  and conf->get("dilepton_sync") != "true") {
     numEvents->Fill(11);
     if (printFail) cout<<phys.evt()<<" :Failed lep1 pt < 25 Z cut"<<endl;
     return -1; // leading lep pT > 25 GeV
+  }
+
+  if(conf->get("dilepton_sync") == "true" and phys.lep_pt().at(0) < 20)
+  {
+      numEvents->Fill(11);
+      return -1;
   }
   //if (printStats) { cout<<"lep1 pt: "<<phys.lep_pt().at(0)<<" "; }
 
@@ -705,7 +711,7 @@ int ZMETLooper::hasGoodZ(){
 
     //cout<<__LINE__<<endl;
 
-    if( phys.dRll() < 0.1 ) {
+    if( phys.dRll() < 0.1  and conf->get("dilepton_sync") != "true") {
       numEvents->Fill(19);
       if (printFail) cout<<phys.evt()<<" :Failed deltaR Z cut"<<endl;
       return -1;
@@ -769,12 +775,12 @@ int ZMETLooper::hasGoodZ(){
       }
   }
 
-  if( phys.dilmass() < dilmass_low ) {
+  if( phys.dilmass() < dilmass_low  and conf->get("dilepton_sync") != "true") {
     numEvents->Fill(22);
     if (printFail) cout<<phys.evt()<<" :Failed Z mass window Z cut"<<endl;
     return -1; // on-Z
   }
-  if( phys.dilmass() > dilmass_high && dilmass_high != -1 ) {
+  if( phys.dilmass() > dilmass_high && dilmass_high != -1  and conf->get("dilepton_sync") != "true") {
     numEvents->Fill(22);
     if (printFail) cout<<phys.evt()<<" :Failed Z mass window Z cut"<<endl;
     return -1; // on-Z
@@ -3187,7 +3193,7 @@ int ZMETLooper::ScanChain( TChain* chain, ConfigParser *configuration, bool fast
 // File Loop
 //===========================================
     
-    if(conf->get("sync") == "true")
+    if(conf->get("dilepton_sync") == "true")
     {
         initSyncFile(savePath);    
     }
@@ -3572,7 +3578,7 @@ int ZMETLooper::ScanChain( TChain* chain, ConfigParser *configuration, bool fast
   //close output file
   output->Write();
   output->Close();
-  if(conf->get("sync") == "true")
+  if(conf->get("dilepton_sync") == "true")
   {
       syncFile->close();
   }
