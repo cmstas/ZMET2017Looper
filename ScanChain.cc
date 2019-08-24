@@ -3304,7 +3304,6 @@ int ZMETLooper::ScanChain( TChain* chain, ConfigParser *configuration, bool fast
         continue; // Event Type Specific Cuts
       }
       //cout<<__LINE__<<endl;
-
       if (conf->get("rare_real_MET_Z") == "true"){
         if ( ! passRareCuts() ){
           //cout<<"Failed Rare Cuts"<<endl;
@@ -3326,37 +3325,39 @@ int ZMETLooper::ScanChain( TChain* chain, ConfigParser *configuration, bool fast
       }
       commonHistPrefix.clear();
 
-      if(conf->get("signal_region") != "all")
-      {
-        if (! passSignalRegionCuts()){
 
-        //cout<<"Failed SR"<<endl;
-          continue; // Signal Region Cuts
-        }
-        if(conf->get("sync") != "true")
+
+      if(conf->get("dilepton_sync") != "true")
+      {
+        if(conf->get("signal_region") != "all")
         {
+            if (! passSignalRegionCuts()){
+
+            //cout<<"Failed SR"<<endl;
+            continue; // Signal Region Cuts
+            }
             fillallHistograms();
         }
         else
         {
-            writeSyncFile();
+        //hack to ensure event gets checked for all regions
+            bool flag = false;
+
+            flag = passStrongSRCuts();
+            flag = passEWKSRCuts();
+            flag = passStrongVRCuts();
+            flag = passEWKVRCuts();
+            flag = passInclusiveCuts();
+
+            if(flag == false)
+            {
+            continue;
+            }
         }
       }
       else
       {
-        //hack to ensure event gets checked for all regions
-        bool flag = false;
-
-        flag = passStrongSRCuts();
-        flag = passEWKSRCuts();
-        flag = passStrongVRCuts();
-        flag = passEWKVRCuts();
-        flag = passInclusiveCuts();
-
-        if(flag == false)
-        {
-          continue;
-        }
+          writeSyncFile();
       }
       //cout<<__LINE__<<endl;
 
