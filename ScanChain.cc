@@ -696,7 +696,7 @@ int ZMETLooper::hasGoodZ(){
   }
   else{
       z_pt = (conf->get("z_pt") != "") ? stoi(conf->get("z_pt")) : 55;
-    if( phys.dilpt() < z_pt){
+    if( phys.dilpt() < z_pt and conf->get("dilepton_sync") != "true"){
       numEvents->Fill(26);
       if (printFail) cout<<phys.evt()<<" :Failed Z pt cut"<<endl;
       return -1;
@@ -2437,14 +2437,15 @@ bool ZMETLooper::passBaseCut(){
         numEvents->Fill(54);
         if (printFail) cout<<phys.evt()<<" :Failed isotrack veto"<<endl;
         return false; //third lepton veto
-    }
+    
 
-    if(phys.nisoTrack_PFHad10_woverlaps() > 0)
-    {
-        numEvents->Fill(79);
-            if(printFail) cout<<phys.evt()<<" :has hadron isotracks"<<endl;
-        return false;
+        if(phys.nisoTrack_PFHad10_woverlaps() > 0)
+        {
+            numEvents->Fill(79);
+                if(printFail) cout<<phys.evt()<<" :has hadron isotracks"<<endl;
+            return false;
 
+        }
     }
     if (phys.nveto_leptons() >= 1){
       numEvents->Fill(66);
