@@ -729,7 +729,7 @@ int ZMETLooper::hasGoodZ(){
 
   //cout<<__LINE__<<endl;
 
-  if( !(phys.evt_type() == 0 ) ) {
+  if( !(phys.evt_type() == 0 ) and conf->get("dilepton_sync") == "true") {
     numEvents->Fill(21);
     if (printFail) cout<<phys.evt()<<" :Failed evt_type=0 Z cut"<<endl;
     return -1; // require opposite sign
@@ -2431,22 +2431,23 @@ bool ZMETLooper::passBaseCut(){
     }
   }*/
 
-
-  if(conf->get("n_lep_veto") != ""){
-    if( (phys.nisoTrack_mt2() + phys.nlep()) >= stod(conf->get("n_lep_veto"))){
-        numEvents->Fill(54);
-        if (printFail) cout<<phys.evt()<<" :Failed isotrack veto"<<endl;
-        return false; //third lepton veto
+  if(conf->get("dilepton_sync") != "true")
+  {
+    if(conf->get("n_lep_veto") != ""){
+        if( (phys.nisoTrack_mt2() + phys.nlep()) >= stod(conf->get("n_lep_veto"))){
+            numEvents->Fill(54);
+            if (printFail) cout<<phys.evt()<<" :Failed isotrack veto"<<endl;
+            return false; //third lepton veto
     
-
-        if(phys.nisoTrack_PFHad10_woverlaps() > 0)
-        {
-            numEvents->Fill(79);
+            if(phys.nisoTrack_PFHad10_woverlaps() > 0)
+            {
+                numEvents->Fill(79);
                 if(printFail) cout<<phys.evt()<<" :has hadron isotracks"<<endl;
-            return false;
-
+                return false;
+            }
         }
     }
+  }
     if (phys.nveto_leptons() >= 1){
       numEvents->Fill(66);
       if (printFail) cout<<phys.evt()<<" :Failed multi-lepton analysis lepton veto"<<endl;
@@ -2457,7 +2458,7 @@ bool ZMETLooper::passBaseCut(){
       if (printFail) cout<<phys.evt()<<" :Failed Tau veto"<<endl;
       return false;
     }*/
-  }
+  
 
   if(conf->get("multi_lep_veto") != ""){
     if (phys.nveto_leptons() >= 1){
