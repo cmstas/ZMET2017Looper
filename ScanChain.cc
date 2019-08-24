@@ -619,13 +619,13 @@ int ZMETLooper::hasGoodZ(){
   }
     //if (printStats) { cout<<"hyp_type: "<<phys.hyp_type()<<" "; }
 
-  if( phys.lep_pt().at(0) < 25  and conf->get("dilepton_sync") != "true") {
+  if( phys.lep_pt().at(0) < 25)  {
     numEvents->Fill(11);
     if (printFail) cout<<phys.evt()<<" :Failed lep1 pt < 25 Z cut"<<endl;
     return -1; // leading lep pT > 25 GeV
   }
 
-  if(conf->get("dilepton_sync") == "true" and phys.lep_pt().at(0) < 20)
+  if(phys.lep_pt().at(0) < 20)
   {
       numEvents->Fill(11);
       return -1;
@@ -696,7 +696,7 @@ int ZMETLooper::hasGoodZ(){
   }
   else{
       z_pt = (conf->get("z_pt") != "") ? stoi(conf->get("z_pt")) : 55;
-    if( phys.dilpt() < z_pt and conf->get("dilepton_sync") != "true"){
+    if( phys.dilpt() < z_pt ){
       numEvents->Fill(26);
       if (printFail) cout<<phys.evt()<<" :Failed Z pt cut"<<endl;
       return -1;
@@ -711,7 +711,7 @@ int ZMETLooper::hasGoodZ(){
 
     //cout<<__LINE__<<endl;
 
-    if( phys.dRll() < 0.1  and conf->get("dilepton_sync") != "true") {
+    if( phys.dRll() < 0.1)   {
       numEvents->Fill(19);
       if (printFail) cout<<phys.evt()<<" :Failed deltaR Z cut"<<endl;
       return -1;
@@ -775,12 +775,12 @@ int ZMETLooper::hasGoodZ(){
       }
   }
 
-  if( phys.dilmass() < dilmass_low  and conf->get("dilepton_sync") != "true") {
+  if( phys.dilmass() < dilmass_low) {
     numEvents->Fill(22);
     if (printFail) cout<<phys.evt()<<" :Failed Z mass window Z cut"<<endl;
     return -1; // on-Z
   }
-  if( phys.dilmass() > dilmass_high && dilmass_high != -1  and conf->get("dilepton_sync") != "true") {
+  if( phys.dilmass() > dilmass_high && dilmass_high != -1) {
     numEvents->Fill(22);
     if (printFail) cout<<phys.evt()<<" :Failed Z mass window Z cut"<<endl;
     return -1; // on-Z
@@ -3194,10 +3194,6 @@ int ZMETLooper::ScanChain( TChain* chain, ConfigParser *configuration, bool fast
 // File Loop
 //===========================================
     
-    if(conf->get("dilepton_sync") == "true")
-    {
-        initSyncFile(savePath);    
-    }
     while ( (currentFile = (TFile*)fileIter.Next()) ) {
 
     // Get File Content
@@ -3328,8 +3324,8 @@ int ZMETLooper::ScanChain( TChain* chain, ConfigParser *configuration, bool fast
 
 
 
-      if(conf->get("dilepton_sync") != "true")
-      {
+      
+      
         if(conf->get("signal_region") != "all")
         {
             if (! passSignalRegionCuts()){
@@ -3355,12 +3351,8 @@ int ZMETLooper::ScanChain( TChain* chain, ConfigParser *configuration, bool fast
             continue;
             }
         }
-      }
-      else
-      {
-          writeSyncFile();
-      }
-      //cout<<__LINE__<<endl;
+      
+            //cout<<__LINE__<<endl;
 
       if(conf->get("printEvtList") == "true"){
         // ----------------
@@ -3580,10 +3572,6 @@ int ZMETLooper::ScanChain( TChain* chain, ConfigParser *configuration, bool fast
   //close output file
   output->Write();
   output->Close();
-  if(conf->get("dilepton_sync") == "true")
-  {
-      syncFile->close();
-  }
   g_reweight_pairs.clear();
   files_log.close();
   //cout<<__LINE__<<endl;
