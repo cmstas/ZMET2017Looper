@@ -2497,13 +2497,18 @@ bool ZMETLooper::passBaseCut(){
 
 bool ZMETLooper::passETHDileptonDataCleanse(){
   /*Ensures events from the ee/mumu/emu dataset pass the trigger for that type of event and for ee and emu ensures they don't pass other triggers.*/
+    /* Scheme
+     * DoubleMuon - pass MuMu
+     * DoubleEG - pass EE and not pass MuMu
+     * MuonEG - pass EMu and not pass EE and MuMu
+     */
   //Dilepton Data samples
-  if ( (phys.isData()) && TString(conf->get("data_set")).Contains("DileptonData")){
+  if ( (phys.isData()) && (TString(conf->get("data_set")).Contains("DoubleMuon") && TString(conf->get("data_set")).Contains("DoubleEG") && TString(conf->get("data_set")).Contains("MuonEG"))){
     //cout<<"Dilepton Data Event"<<endl;
 
     //ETH Trigger Cleansing
-    if( TString(currentFile->GetTitle()).Contains("data_Run2016")){
-      if (TString(currentFile->GetTitle()).Contains("_mm_") ){
+    if(phys.evt_dataset().at(0).Contains("MINIAOD") and !(phys.evt_dataset().at(0).Contains("MINIAODSIM"))){
+      if (phy.evt_dataset().at(0).Contains("DoubleMuon") ){
         if( ! passMuonTriggers() ) {
           //cout<<"skipped"<<endl;
           if (printFail) cout<<"ETH Trigger Cleansing: double muon dataset didn't pass double muon trigger"<<endl;
@@ -2511,7 +2516,7 @@ bool ZMETLooper::passETHDileptonDataCleanse(){
           return false;
         }
       }
-      else if (TString(currentFile->GetTitle()).Contains("_ee_") ){
+      else if (phys.evt_dataset().at(0).Contains("DoubleEG")){
         if(! passElectronTriggers() ) {
           //cout<<"skipped"<<endl;
           if (printFail) cout<<"ETH Trigger Cleansing: double electron dataset didn't pass double electron trigger"<<endl;
@@ -2525,7 +2530,7 @@ bool ZMETLooper::passETHDileptonDataCleanse(){
           return false;
         }
       }
-      else if (TString(currentFile->GetTitle()).Contains("_em_") ){
+      else if (phys.evt_dataset().at(0).Contains("MuonEG")){
         if(! passEMuTriggers() ) {
           //cout<<"skipped"<<endl;
           if (printFail) cout<<"ETH Trigger Cleansing: EMu dataset didn't pass EMu trigger"<<endl;
