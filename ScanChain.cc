@@ -122,12 +122,12 @@ void ZMETLooper::initSyncFile(TString savePath)
 {
     syncFile = new fstream;
     syncFile->open(savePath.Data()+conf->get("Name")+"_sync.txt",std::ios::out);
-    *syncFile<<"Run,Lumi,Event"<<endl;
+    *syncFile<<"Run,Lumi,Event,PD"<<endl;
 }
 
 void ZMETLooper::writeSyncFile()
 {
-    *syncFile<<phys.run()<<","<<phys.lumi()<<","<<phys.evt()<<endl;
+    *syncFile<<phys.run()<<","<<phys.lumi()<<","<<phys.evt()<<","<<phys.evt_dataset().at(0)<<endl;
 }
 
 
@@ -729,7 +729,7 @@ int ZMETLooper::hasGoodZ(){
 
   //cout<<__LINE__<<endl;
 
-  if( !(phys.evt_type() == 0 ) and conf->get("dilepton_sync") == "true") {
+  if( !(phys.evt_type() == 0 ) and conf->get("dilepton_sync") != "true") {
     numEvents->Fill(21);
     if (printFail) cout<<phys.evt()<<" :Failed evt_type=0 Z cut"<<endl;
     return -1; // require opposite sign
@@ -2447,12 +2447,13 @@ bool ZMETLooper::passBaseCut(){
             }
         }
     }
-  }
+  
     if (phys.nveto_leptons() >= 1){
       numEvents->Fill(66);
       if (printFail) cout<<phys.evt()<<" :Failed multi-lepton analysis lepton veto"<<endl;
       return false;
     }
+  }
 /*    if (phys.nTaus20() >= 1){
       numEvents->Fill(75);
       if (printFail) cout<<phys.evt()<<" :Failed Tau veto"<<endl;
