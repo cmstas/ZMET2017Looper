@@ -2509,7 +2509,7 @@ bool ZMETLooper::passETHDileptonDataCleanse(){
 
     //ETH Trigger Cleansing
     if(phys.evt_dataset().at(0).Contains("MINIAOD") and !(phys.evt_dataset().at(0).Contains("MINIAODSIM"))){
-      if (phy.evt_dataset().at(0).Contains("DoubleMuon") ){
+      if (phys.evt_dataset().at(0).Contains("DoubleMuon") ){
         if( ! passMuonTriggers() ) {
           //cout<<"skipped"<<endl;
           if (printFail) cout<<"ETH Trigger Cleansing: double muon dataset didn't pass double muon trigger"<<endl;
