@@ -53,6 +53,7 @@ TH1D *combine_histograms(vector<TFile*> hist_files, std::vector<TString> hist_na
   if(scale_factors.size() > 0)
   {
       final_hist->Scale(scale_factors[0]);
+      cout<<"Scaling "<hist_files[0]->GetTitle()<<":"<<SR+hist_names[0]<<" with factor="<<scale_factors[0]<<endl;
   }
   for(size_t i = 0; i < hist_files.size(); i++)
   {
@@ -65,9 +66,10 @@ TH1D *combine_histograms(vector<TFile*> hist_files, std::vector<TString> hist_na
       {
           //Additional check to ensure a non-null histogram is not added to a null histogram pointer
           TH1D * temp_hist = (TH1D*)hist_files.at(i)->Get(SR+hist_names.at(j)); 
-          if(scale_factors.size() > (i*hist_files.size() + j))
+          if(scale_factors.size() > (i*hist_names.size() + j))
           {
-            temp_hist->Scale(scale_factors[i*hist_files.size()+j]);
+            temp_hist->Scale(scale_factors[i*hist_names.size()+j]);
+            cout<<"Scaling "<<hist_files[i]->GetTitle()<<":"<<SR+hist_names[j]<<" with factor="<<scale_factors[i*hist_names.size()+j]<<endl;
           }
           if(final_hist != nullptr)
               final_hist->Add(temp_hist); 
