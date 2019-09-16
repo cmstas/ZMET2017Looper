@@ -625,11 +625,6 @@ int ZMETLooper::hasGoodZ(){
     return -1; // leading lep pT > 25 GeV
   }
 
-  if(phys.lep_pt().at(0) < 20)
-  {
-      numEvents->Fill(11);
-      return -1;
-  }
   //if (printStats) { cout<<"lep1 pt: "<<phys.lep_pt().at(0)<<" "; }
 
   //cout<<__LINE__<<endl;
@@ -1682,7 +1677,9 @@ bool ZMETLooper::passSRVZBoostedCuts()
     //indices of fat jets that pass selection. Needed for filling histograms
     g_fatjet_indices.push_back(iJet);
     }
-    return true;
+    if(g_fatjet_indices.size() > 0)
+        return true;
+    return false;
 }
 
 bool ZMETLooper::passVRWZBoostedCuts()
@@ -1712,7 +1709,10 @@ bool ZMETLooper::passVRWZBoostedCuts()
     //indices of fat jets that pass selection. Needed for filling histograms
     g_fatjet_validation_indices.push_back(iJet);
     }
-    return true;
+    if(g_fatjet_validation_indices.size() > 0)
+        return true;
+    else
+        return false;
 }
 
 bool ZMETLooper::passSRHZCuts()
