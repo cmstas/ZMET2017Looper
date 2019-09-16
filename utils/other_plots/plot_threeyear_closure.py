@@ -70,6 +70,11 @@ for SR in SRs:
             )
 
 
+    #Closure error computing
+    TH1F ratio_hist = Z_hist.Clone("gamma_hist_for_ratio")
+    ratio_hist.Divide(gamma_hist)
+    for i in range(1,len(binning)):
+        print("Bin {}-{} Ratio = {} Error = {}".format(binning[i],binning[i+1],ratio_hist.GetBinContent(i),ratio_hist.GetBinError(i)))
 #Plot directory stuff
 os.system("chmod -R 755 "+output_prefix)
 os.system("sh ~/niceplots/niceplots.sh "+output_prefix)
