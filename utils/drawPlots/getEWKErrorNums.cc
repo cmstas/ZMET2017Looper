@@ -5,8 +5,8 @@ vector<TString> getFileLocation(TString sample_name){
 
   if(sample_name == "all")
   {
-        fnames.push_back("/home/users/bsathian/ZMet/hists2017/DoubleLepton_narrow/DoubleLepton_narrow_signal/all/dataTemplates/GammaData_EWKSub.root");
-        fnames.push_back("/home/users/bsathian/ZMet/hists2017/DoubleLepton_narrow/DoubleLepton_narrow_signal/all/dataTemplates/GammaData.root"); 
+        fnames.push_back("/home/users/bsathian/ZMet/histsthreeyears/dataTemplates/GammaData_EWKSub.root");
+        fnames.push_back("/home/users/bsathian/ZMet/histsthreeyears/DoubleLepton/dataTemplates/GammaData.root"); 
 
   }
   if(sample_name == "VRA")
