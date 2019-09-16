@@ -53,7 +53,7 @@ TH1D *combine_histograms(vector<TFile*> hist_files, std::vector<TString> hist_na
   if(scale_factors.size() > 0)
   {
       final_hist->Scale(scale_factors[0]);
-      cout<<"Scaling "<hist_files[0]->GetTitle()<<":"<<SR+hist_names[0]<<" with factor="<<scale_factors[0]<<endl;
+      cout<<"Scaling "<<hist_files[0]->GetTitle()<<":"<<SR+hist_names[0]<<" with factor="<<scale_factors[0]<<endl;
   }
   for(size_t i = 0; i < hist_files.size(); i++)
   {
