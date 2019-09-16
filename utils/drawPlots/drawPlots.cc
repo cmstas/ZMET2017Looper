@@ -44,12 +44,16 @@ void assignColor(std::vector<TH1D*> hists)
   }
 }
 
-TH1D *combine_histograms(vector<TFile*> hist_files, std::vector<TString> hist_names,int count,TString plot_name,TString SR)
+TH1D *combine_histograms(vector<TFile*> hist_files, std::vector<TString> hist_names,int count,TString plot_name,TString SR,std::vector<float> scale_factors)
 {
   //Start final hist with the first histogram in the stack.
   TH1D *final_hist = nullptr;
   if(hist_files[0]->Get(SR+hist_names[0]))
       final_hist =(TH1D*) ((TH1D*)(hist_files[0]->Get(SR+hist_names[0])))->Clone("hist_"+to_string(count)+"_"+plot_name);
+  if(scale_factors.size() > 0)
+  {
+      final_hist->Scale(scale_factors[0]);
+  }
   for(size_t i = 0; i < hist_files.size(); i++)
   {
     for(size_t j = 0; j<hist_names.size(); j++)
@@ -60,8 +64,13 @@ TH1D *combine_histograms(vector<TFile*> hist_files, std::vector<TString> hist_na
       if(hist_files.at(i)->Get(SR+hist_names.at(j)) != nullptr)
       {
           //Additional check to ensure a non-null histogram is not added to a null histogram pointer
+          TH1D * temp_hist = (TH1D*)hist_files.at(i)->Get(SR+hist_names.at(j)); 
+          if(scale_factors.size() > (i*hist_files.size() + j))
+          {
+            temp_hist->Scale(scale_factors[i*hist_files.size()+j]);
+          }
           if(final_hist != nullptr)
-              final_hist->Add((TH1D*)hist_files.at(i)->Get(SR+hist_names.at(j))); 
+              final_hist->Add(temp_hist); 
           else
               final_hist = (TH1D*)hist_files.at(i)->Get(SR+hist_names.at(j));
       }
@@ -279,9 +288,18 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
   std::vector<TH1D*> hists (num_hists);
   std::vector<int> null_hist_indices;
   int non_null_hist_index = -1;
-
+  //scale factor vectors - hardcoded for the time being
+  std::vector<float> RSFOF_factors = {1.093357,1.123671,1.090517};
   for (int i = 0; i<num_hists; i++){
-    hists[i] = (TH1D*) (combine_histograms(hist_files[i],hist_names[i],i,plot_name,SR));
+    if(i == 5) //Flavour symmetric
+    {
+        hists[i] = (TH1D*) (combine_histograms(hist_files[i],hist_names[i],i,plot_name,SR,RSFOF_factors));
+    
+    }
+    else
+    {
+        hists[i] = (TH1D*) (combine_histograms(hist_files[i],hist_names[i],i,plot_name,SR));
+    }
     //hists[i] = (TH1D*) combine_histograms((TH1D*) hist_files[i]->Get(hist_names[i]))->Clone("hist_"+to_string(i)+"_"+plot_name);
     for(auto &it:hist_names[i])
     {
