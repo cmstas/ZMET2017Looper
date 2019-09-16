@@ -3,7 +3,7 @@
 using namespace std;
 
 //std::array<int, 14> ROOT_COLOR_PALATE = {46,8,9,38,17,2,30,6,28,42,3,5,7,41};
-std::array<int, 11> ROOT_COLOR_PALATE={kSpring-6, kAzure+7, kRed-7, kOrange-2, kCyan-7, kMagenta-7, kTeal+6, kGray+2, kGray, kBlue-2, kRed-2};
+std::array<int, 11> ROOT_COLOR_PALATE={kRed-7,kOrange-2,kCyan-7,kMagenta-7,kAzure+7,kSpring-6,kTeal+6,kGray+2, kGray, kBlue-2, kRed-2};
 /*std::pair<double,double> getLegendLocation(TH1D* bg_sum){
   // Returns the best (xmin, ymin) pair for the location of the legend
 
@@ -31,11 +31,12 @@ void assignColor(std::vector<TH1D*> hists)
   //Balaji was jobless and hence he wrote this function
 
   std::vector<TH1D*> histOrdered;
+
   for(size_t i=1;i<hists.size();i++)
   {
     histOrdered.push_back(hists[i]);
   }
-  std::sort(histOrdered.rbegin(),histOrdered.rend(),TH1DIntegralSort);
+  //std::sort(histOrdered.rbegin(),histOrdered.rend(),TH1DIntegralSort);
   for(size_t i=0;i<histOrdered.size();i++)
   {
     histOrdered[i]->SetFillColor(ROOT_COLOR_PALATE[i%ROOT_COLOR_PALATE.size()]);
@@ -1316,7 +1317,7 @@ TString drawArbitraryNumber(ConfigParser *conf){
   //cout<<__LINE__<<endl;
   for (int i = 0; i<num_hists; i++){
     //cout<<__LINE__<<endl;
-    hists[i]->SetFillColor(ROOT_COLOR_PALATE[(i+5) % ROOT_COLOR_PALATE.size()]);
+    hists[i]->SetFillColor(ROOT_COLOR_PALATE[(i) % ROOT_COLOR_PALATE.size()]);
     //cout<<__LINE__<<endl;
     hists[i]->SetFillStyle(1001);
   }
