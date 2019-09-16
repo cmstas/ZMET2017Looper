@@ -1652,10 +1652,6 @@ bool ZMETLooper::passVRWZCuts()
 
 bool ZMETLooper::passSRVZBoostedCuts()
 {
-    if(g_mt2 < 80)
-    {
-        return false;
-    }
     if(phys.nFatJets() < 1)
     {
       return false;
@@ -1688,10 +1684,6 @@ bool ZMETLooper::passSRVZBoostedCuts()
 
 bool ZMETLooper::passVRWZBoostedCuts()
 {
-    if(g_mt2 < 80)
-    {
-        return false;
-    }
     if(g_dphi_met_fatjet > 0.4)
     {
         return false;
