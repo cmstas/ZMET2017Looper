@@ -19,11 +19,11 @@ void makePtReweightHisto(ConfigParser * conf,int year)
   // Get Path to Histograms From Config
   //-----------------------------------
   TString primary_path = output_dir;
-  primary_path.ReplaceAll("/PhotonData_VPTRWT/", "/DileptonData/");
+  primary_path.ReplaceAll("/reweightGamma/", "/cleanZ/");
   primary_path += (conf->get("vpt_rwt_primary_samplename") != "") ? conf->get("vpt_rwt_primary_samplename")+".root" : "DileptonData.root";
 
   TString secondary_path = output_dir;
-  secondary_path.ReplaceAll("/PhotonData_VPTRWT/", "/PhotonData/");
+  secondary_path.ReplaceAll("/reweightGamma/", "/cleanGamma/");
   secondary_path += (conf->get("vpt_rwt_secondary_samplename") != "") ? conf->get("vpt_rwt_secondary_samplename")+".root" : conf->get("Name")+".root";
 
   cout<<"primary_histos: "<<primary_path<<endl;
@@ -36,14 +36,19 @@ void makePtReweightHisto(ConfigParser * conf,int year)
   //Subtraction Hists
   //...................
   vector<TString> subtractor_paths;
+  vector<vector<TString>> subtractor_histograms;
   vector<double> subtractor_scales;
+  vector<TString> emu_hist = {TString("emu_")+hist_name};
+  vector<TString> sf_hist = {TString("ee_")+hist_name,TString("mumu_")+hist_name};
   TString s_path;
 
   //FS----------------------------
   s_path = primary_path;
-  s_path.ReplaceAll("/DileptonData/", "/FS/");
-  s_path.ReplaceAll("DileptonData.root", "FS.root");
+//  s_path.ReplaceAll("/cleanZ/", "/FS/");
+//  s_path.ReplaceAll("DileptonData.root", "FS.root");
   subtractor_paths.push_back(s_path);
+
+  subtractor_histograms.push_back(emu_hist);
   if (conf->get("old_FS") == "true"){
     subtractor_scales.push_back(1); //RSFOF*kappa
   }
@@ -54,23 +59,39 @@ void makePtReweightHisto(ConfigParser * conf,int year)
   if (conf->get("signal_region") != "ICHEP"){
     //ZNu---------------------------
     s_path = primary_path;
-    s_path.ReplaceAll("/DileptonData/", "/ZNu/");
+//    s_path.ReplaceAll("/DileptonData/", "/ZNu/");
     //ZNu-VVV
-    s_path.ReplaceAll("DileptonData.root", "VVV.root");
+    s_path.ReplaceAll("ata.root", "VVV.root");
     subtractor_paths.push_back(s_path);
+    subtractor_histograms.push_back(sf_hist);
     subtractor_scales.push_back(1);
     //ZNu-ttz
-    s_path.ReplaceAll("VVV.root", "ttz.root");
+    s_path.ReplaceAll("VVV.root", "TTZ.root");
+    subtractor_histograms.push_back(sf_hist);
     subtractor_paths.push_back(s_path);
     subtractor_scales.push_back(1.09);
     //ZNu-zz
-    s_path.ReplaceAll("ttz.root", "zz.root");
+    s_path.ReplaceAll("TTZ.root", "ZZ4L.root");
+    subtractor_histograms.push_back(sf_hist);
     subtractor_paths.push_back(s_path);
     subtractor_scales.push_back(1.8);
+    
+    s_path.ReplaceAll("ZZ4L.root","ZZ2L.root");
+    subtractor_histograms.push_back(sf_hist);
+    subtractor_paths.push_back(s_path);
+    subtractor_scales.push_back(1.8);
+
     //ZNu-wz
-    s_path.ReplaceAll("zz.root", "wz.root");
+    s_path.ReplaceAll("ZZ2L.root", "WZTo3LNu.root");
+    subtractor_histograms.push_back(sf_hist);
     subtractor_paths.push_back(s_path);
     subtractor_scales.push_back(0.94);
+
+    s_path.ReplaceAll("WZTo3LNu.root","WZTo2L2Q.root");
+    subtractor_histograms.push_back(sf_hist);
+    subtractor_paths.push_back(s_path);
+    subtractor_scales.push_back(0.94);
+
   }
   cout<<"subtractor_paths: "<<endl;
   for (int i=0; i < (int) subtractor_paths.size(); i++){
@@ -98,10 +119,15 @@ void makePtReweightHisto(ConfigParser * conf,int year)
   h_secondary = (TH1D*)f_secondary->Get(hist_name)->Clone(secondary_name);
 
   if (conf->get("no_subtraction_vpt_rwt") != "true"){
-    h_subtractor = (TH1D*)(f_subtractors.at(0))->Get(hist_name)->Clone("subtractor_"+primary_name);
+    h_subtractor = (TH1D*)(f_subtractors.at(0))->Get(subtractor_histograms.at(0).at(0))->Clone("subtractor_"+primary_name);
+    for(size_t iter = 1; iter < subtractor_histograms.at(0).size(); iter++)
+    {
+        h_subtractor->Add((TH1D*)(f_subtractors.at(0)->Get(subtractor_histograms.at(0).at(iter))));
+    }
     h_subtractor->Scale(subtractor_scales.at(0));
     for (int i=1; i < (int) subtractor_paths.size(); i++){
-      h_subtractor->Add((TH1D*)(f_subtractors.at(i))->Get(hist_name), subtractor_scales.at(i));
+      for(auto &histName:subtractor_histograms.at(i))
+        h_subtractor->Add((TH1D*)(f_subtractors.at(i))->Get(histName), subtractor_scales.at(i));
     }
     cout<<"Retrived Histograms, subtracting other backgrounds"<<endl;
     h_primary->Add(h_subtractor, -1);
