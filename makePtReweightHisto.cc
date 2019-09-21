@@ -14,6 +14,7 @@ void makePtReweightHisto(ConfigParser * conf,int year)
       
   else output_dir = getOutputDir(conf, "hist"); //get output dir location for this histogram something like /nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction/PhotonData_VPTRWT/TChiHZ/
   TString output_location = output_dir+conf->get("Name")+"_vpt_rwt.root";
+  system("mkdir -p "+output_dir); 
 
   //-----------------------------------
   // Get Path to Histograms From Config
@@ -61,7 +62,7 @@ void makePtReweightHisto(ConfigParser * conf,int year)
     s_path = primary_path;
 //    s_path.ReplaceAll("/DileptonData/", "/ZNu/");
     //ZNu-VVV
-    s_path.ReplaceAll("ata.root", "VVV.root");
+    s_path.ReplaceAll("Data.root", "VVV.root");
     subtractor_paths.push_back(s_path);
     subtractor_histograms.push_back(sf_hist);
     subtractor_scales.push_back(1);
@@ -115,19 +116,25 @@ void makePtReweightHisto(ConfigParser * conf,int year)
   TString primary_name = "DileptonData";
   TString secondary_name = "PhotonData";
 
-  h_primary = (TH1D*)f_primary->Get(hist_name)->Clone(primary_name);
+  h_primary = (TH1D*)f_primary->Get("ee_"+hist_name)->Clone(primary_name);
+  h_primary->Add((TH1D*)f_primary->Get("mumu_"+hist_name)->Clone(primary_name+"mumu"));
   h_secondary = (TH1D*)f_secondary->Get(hist_name)->Clone(secondary_name);
 
   if (conf->get("no_subtraction_vpt_rwt") != "true"){
+    cout<<subtractor_histograms.at(0).at(0)<<endl;
     h_subtractor = (TH1D*)(f_subtractors.at(0))->Get(subtractor_histograms.at(0).at(0))->Clone("subtractor_"+primary_name);
     for(size_t iter = 1; iter < subtractor_histograms.at(0).size(); iter++)
     {
-        h_subtractor->Add((TH1D*)(f_subtractors.at(0)->Get(subtractor_histograms.at(0).at(iter))));
+        cout<<subtractor_histograms.at(0).at(iter)<<endl;
+	h_subtractor->Add((TH1D*)(f_subtractors.at(0)->Get(subtractor_histograms.at(0).at(iter))));
     }
     h_subtractor->Scale(subtractor_scales.at(0));
     for (int i=1; i < (int) subtractor_paths.size(); i++){
       for(auto &histName:subtractor_histograms.at(i))
-        h_subtractor->Add((TH1D*)(f_subtractors.at(i))->Get(histName), subtractor_scales.at(i));
+      {
+         cout<<"retrieving "<<histName<<" from "<<subtractor_paths.at(i)<<endl;
+	 h_subtractor->Add((TH1D*)(f_subtractors.at(i))->Get(histName), subtractor_scales.at(i));
+      }
     }
     cout<<"Retrived Histograms, subtracting other backgrounds"<<endl;
     h_primary->Add(h_subtractor, -1);
