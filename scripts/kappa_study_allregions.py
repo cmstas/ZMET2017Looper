@@ -99,8 +99,7 @@ def plot_values(kappa_data,kappa_mc,keys,filename,era):
                 "yaxis_label":"#kappa estimate",
                 "cms_label":"Preliminary",
                 "lumi_value":lumi[era],
-                "extra_lines":[(kappa_mc_hist.GetXaxis().GetBinLowEdge(1),0.065,kappa_mc_hist.GetXaxis().GetBinUpEdge(kappa_mc_hist.GetNbinsX()),0.065)],
-                "extra_dashed_lines":[(kappa_mc_hist.GetXaxis().GetBinLowEdge(1),0.065+0.021,kappa_mc_hist.GetXaxis().GetBinUpEdge(kappa_mc_hist.GetNbinsX()),0.065+0.021),(kappa_mc_hist.GetXaxis().GetBinLowEdge(1),0.065-0.021,kappa_mc_hist.GetXaxis().GetBinUpEdge(kappa_mc_hist.GetNbinsX()),0.065-0.021)],
+                "extra_lines":[(kappa_mc_hist.GetXaxis().GetBinLowEdge(1),0.065,kappa_mc_hist.GetXaxis().GetBinUpEdge(kappa_mc_hist.GetNbinsX()),0.065,1,2,r.kBlack),(kappa_mc_hist.GetXaxis().GetBinLowEdge(1),0.065+0.021,kappa_mc_hist.GetXaxis().GetBinUpEdge(kappa_mc_hist.GetNbinsX()),0.065+0.021,2,1,r.kBlack),(kappa_mc_hist.GetXaxis().GetBinLowEdge(1),0.065-0.021,kappa_mc_hist.GetXaxis().GetBinUpEdge(kappa_mc_hist.GetNbinsX()),0.065-0.021,2,1,r.kBlack)],
                 }
             )
 
