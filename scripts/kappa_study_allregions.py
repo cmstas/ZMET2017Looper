@@ -84,6 +84,8 @@ def plot_values(kappa_data,kappa_mc,keys,filename,era):
             bgs = [kappa_mc_hist,kappa_data_hist],
             colors = [r.kGreen-2,r.kBlack],
             options = {
+                "canvas_width":int(500 * 4/3),
+                "canvas_height":500,
                 "canvas_main_rightmargin":0.1,
                 "draw_points":True,
                 "show_bkg_errors":True,
@@ -97,6 +99,8 @@ def plot_values(kappa_data,kappa_mc,keys,filename,era):
                 "yaxis_label":"#kappa estimate",
                 "cms_label":"Preliminary",
                 "lumi_value":lumi[era],
+                "extra_lines":[(kappa_mc_hist.GetXaxis().GetBinLowEdge(1),0.065,kappa_mc_hist.GetXaxis().GetBinUpEdge(kappa_mc_hist.GetNbinsX()),0.065)],
+                "extra_dashed_lines":[(kappa_mc_hist.GetXaxis().GetBinLowEdge(1),0.065+0.021,kappa_mc_hist.GetXaxis().GetBinUpEdge(kappa_mc_hist.GetNbinsX()),0.065+0.021),(kappa_mc_hist.GetXaxis().GetBinLowEdge(1),0.065-0.021,kappa_mc_hist.GetXaxis().GetBinUpEdge(kappa_mc_hist.GetNbinsX()),0.065-0.021)],
                 }
             )
 
@@ -120,4 +124,4 @@ for filetype in ["Data","MC"]:
 
 printLatex(kappa_data,kappa_mc)
 plot_values(kappa_data,kappa_mc,keys[:9],"kappa_signal_SRs",era)
-plot_values(kappa_data,kappa_mc,keys[9:][::-1],"kappa_inclusive_regions",era)
+plot_values(kappa_data,kappa_mc,keys[6:][::-1],"kappa_inclusive_regions",era)
