@@ -127,8 +127,8 @@ ds:VVV
 /nfs-7/userdata/bsathian/ZMET_babies_new/WZZ_TuneCP5_13TeV-amcatnlo-pythia8_RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1_MINIAODSIM_ZMET_babies/*
 /nfs-7/userdata/bsathian/ZMET_babies_new/ZZZ_TuneCP5_13TeV-amcatnlo-pythia8_RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1_MINIAODSIM_ZMET_babies/*
 ds:DoubleMuon-eraD
-/nfs-7/userdata/bsathian/ZMET_babies_new/DoubleMuon_Run2017D-31Mar2018-v1_MINIAOD_ZMET_babies/*
+/nfs-7/userdata/bsathian/ZMET_babies/DoubleMuon_Run2017D-31Mar2018-v1_MINIAOD_ZMET_babies/*
 ds:DoubleEG-eraD
-/nfs-7/userdata/bsathian/ZMET_babies_new/DoubleEG_Run2017D-31Mar2018-v1_MINIAOD_ZMET_babies/*
+/nfs-7/userdata/bsathian/ZMET_babies/DoubleEG_Run2017D-31Mar2018-v1_MINIAOD_ZMET_babies/*
 ds:MuonEG-eraD
-/nfs-7/userdata/bsathian/ZMET_babies_new/MuonEG_Run2017D-31Mar2018-v1_MINIAOD_ZMET_babies/*
+/nfs-7/userdata/bsathian/ZMET_babies/MuonEG_Run2017D-31Mar2018-v1_MINIAOD_ZMET_babies/*
