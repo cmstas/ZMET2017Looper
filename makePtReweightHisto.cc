@@ -115,9 +115,18 @@ void makePtReweightHisto(ConfigParser * conf,int year)
 
   TString primary_name = "DileptonData";
   TString secondary_name = "PhotonData";
+  if(conf->get("no_subtraction_vpt_rwt") == "true")
+  {
+    //Did not use DileptonData directly - so will not have ee and mumu seprate
+    h_primary = (TH1D*)f_primary->Get(hist_name)->Clone(primary_name);
 
-  h_primary = (TH1D*)f_primary->Get("ee_"+hist_name)->Clone(primary_name);
-  h_primary->Add((TH1D*)f_primary->Get("mumu_"+hist_name)->Clone(primary_name+"mumu"));
+  }
+  else
+  {
+  	h_primary = (TH1D*)f_primary->Get("ee_"+hist_name)->Clone(primary_name);
+ 	 h_primary->Add((TH1D*)f_primary->Get("mumu_"+hist_name)->Clone(primary_name+"mumu"));
+  }
+
   h_secondary = (TH1D*)f_secondary->Get(hist_name)->Clone(secondary_name);
 
   if (conf->get("no_subtraction_vpt_rwt") != "true"){
