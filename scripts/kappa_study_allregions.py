@@ -3,11 +3,11 @@ import ROOT as r
 import numpy as np
 import sys,os
 import plottery.plottery as ply
-
+import pandas as pd
 
 prefix_list = ["allSRs","inclusive_btag","inclusive_bveto","inclusive_SRA","inclusive_SRB","inclusive_SRC","strong_btag","strong_bveto","inclusive_MET100150","inclusive_MET150250","inclusive_MET250inf"]
-#parent_directory = "/home/users/bsathian/ZMet/histsthreeyears/kappa_studies/"
-parent_directory = "/home/bsathian/ZMet/kappa_study/threeyears/kappa_studies"
+parent_directory = "/home/users/bsathian/ZMet/histsthreeyears/kappa_studies/"
+#parent_directory = "/home/bsathian/ZMet/histsthreeyears/kappa_studies/"
 kappa_data = {}
 kappa_mc = {}
 kappa = None
@@ -58,16 +58,27 @@ def plot_values(kappa_data,kappa_mc,keys,filename,era):
     #kappa_values need to be indexed properly!
     kappa_mc_hist = r.TH1D("kappa_mc","MC",len(keys),1,len(keys)-1)
     kappa_data_hist = r.TH1D("kappa_data","data",len(keys),1,len(keys)-1)
-
+    kappa_mc_output_array = []
+    kappa_data_output_array = []
     for key,value in kappa_mc.items():
         if key in keys:
+            #Write into an array
+            kappa_mc_output_array.append([key,value[0],value[1]])
             kappa_mc_hist.SetBinContent(keys.index(key)+1,value[0])
             kappa_mc_hist.SetBinError(keys.index(key)+1,value[1])
 
     for key,value in kappa_data.items():
         if key in keys:
+            kappa_data_output_array.append([key,value[0],value[1]])
             kappa_data_hist.SetBinContent(keys.index(key)+1,value[0])
             kappa_data_hist.SetBinError(keys.index(key)+1,value[1])
+
+    kappa_mc_output_array = np.array(kappa_mc_output_array)
+    kappa_data_output_array = np.array(kappa_data_output_array)
+
+    pd.DataFrame(kappa_mc_output_array).to_csv("kappa_mc_"+era+".csv",index = False)
+    pd.DataFrame(kappa_data_output_array).to_csv("kappa_data_"+era+".csv",index = False)
+
 
     ply.plot_hist(
             bgs = [kappa_mc_hist,kappa_data_hist],
