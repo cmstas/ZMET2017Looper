@@ -41,7 +41,7 @@ h_avg_weight_isr = {}
 h_avg_weight_isr_DN = {}
 h_avg_weight_isr_UP = {}
 
-if fastsim_sample == "tchihz" or fastsim_sample == "tchizz":
+if fastsim_sample == "t5zz" or fastsim_sample == "tchiwz":
     var = "mass_LSP:mass_gluino"
 else:
     var = "mass_LSP:mass_chi"
@@ -51,9 +51,9 @@ for year in [2016,2017,2018]:
         full_path = os.path.join(directory_prefix,directory+"_ZMET_babies","baby_1.root")
         ch[year].Add(full_path)
     if fastsim_sample == "t5zz" or fastsim_sample == "tchiwz":
-        h_nsig[year] = r.TH2D("h_nsig_"+str(year),";mass1 [GeV];mass2 [GeV]",60,0,300,60,0,300)
-    elif fastsim_sample == "tchiwz" or fastsim_sample == "tchizz":
-        h_nsig[year] = r.TH2D("h_nsig_"+str(year),";mass1 [GeV];mass2 [GeV]",60,0,300,1,-1000,1000)
+        h_nsig[year] = r.TH2D("h_nsig_"+str(year),";mass1 [GeV];mass2 [GeV]",60,0,3000,60,0,3000)
+    elif fastsim_sample == "tchihz" or fastsim_sample == "tchizz":
+        h_nsig[year] = r.TH2D("h_nsig_"+str(year),";mass1 [GeV];mass2 [GeV]",60,0,3000,1,-1000,1000)
 
     h_avg_weight_btagsf[year] = h_nsig[year].Clone("h_avg_weight_btagsf_"+str(year))
     h_avg_weight_btagsf_heavy_UP[year] = h_nsig[year].Clone("h_avg_weight_btagsf_heavy_UP_"+str(year));
@@ -65,16 +65,16 @@ for year in [2016,2017,2018]:
     h_avg_weight_isr_DN[year] = h_nsig[year].Clone("h_avg_weight_isr_DN_"+str(year))
 
     if dobtagsfs:
-        ch[year].Project(var+">>h_nsig_"+str(year))
-        ch[year].Project(var+">>h_avg_weight_btagsf_"+str(year),"(met_pt > -1)*weight_btagsf")
-        ch[year].Project(var+">>h_avg_weight_btagsf_heavy_UP_"+str(year),"(met_pt > -1.)*weight_btagsf_heavy_UP")
-	ch[year].Project(var+">>h_avg_weight_btagsf_light_UP_"+str(year),"(met_pt > -1.)*weight_btagsf_light_UP")
-	ch[year].Projectvar+">>h_avg_weight_btagsf_heavy_DN_"+str(year),"(met_pt > -1.)*weight_btagsf_heavy_DN")
-	ch[year].Project(var+">>h_avg_weight_btagsf_light_DN_"+str(year),"(met_pt > -1.)*weight_btagsf_light_DN")
+        ch[year].Project("h_nsig_"+str(year),var)
+        ch[year].Project("h_avg_weight_btagsf_"+str(year),var,"(met_pt > -1)*weight_btagsf")
+        ch[year].Project("h_avg_weight_btagsf_heavy_UP_"+str(year),var,"(met_pt > -1.)*weight_btagsf_heavy_UP")
+	ch[year].Project("h_avg_weight_btagsf_light_UP_"+str(year),var,"(met_pt > -1.)*weight_btagsf_light_UP")
+	ch[year].Project("h_avg_weight_btagsf_heavy_DN_"+str(year),var,"(met_pt > -1.)*weight_btagsf_heavy_DN")
+	ch[year].Project("h_avg_weight_btagsf_light_DN_"+str(year),var,"(met_pt > -1.)*weight_btagsf_light_DN")
 
-	ch[year].Project(var+">>h_avg_weight_isr_"+str(year)   ,"(met_pt > -1.)*isr_weight")
-	ch[year].Project(var+">>h_avg_weight_isr_DN_"+str(year),"(met_pt > -1.)*(isr_weight-isr_unc)")
-	ch[year].Project(var+">>h_avg_weight_isr_UP_"+str(year),"(met_pt > -1.)*(isr_weight+isr_unc)")
+	ch[year].Project("h_avg_weight_isr_"+str(year),var,"(met_pt > -1.)*isr_weight")
+	ch[year].Project("h_avg_weight_isr_DN_"+str(year),var,"(met_pt > -1.)*(isr_weight-isr_unc)")
+	ch[year].Project("h_avg_weight_isr_UP_"+str(year),var,"(met_pt > -1.)*(isr_weight+isr_unc)")
 
     h_avg_weight_btagsf[year].Divide(h_nsig[year])
     h_avg_weight_btagsf_heavy_UP[year].Divide(h_nsig[year])
