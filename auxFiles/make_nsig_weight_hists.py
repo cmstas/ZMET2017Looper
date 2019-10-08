@@ -50,7 +50,10 @@ for year in [2016,2017,2018]:
     for directory in dataset_directory_mapping[fastsim_sample][year]:
         full_path = os.path.join(directory_prefix,directory+"_ZMET_babies","baby_1.root")
         ch[year].Add(full_path)
-    h_nsig[year] = r.TH2D("h_nsig_"+str(year),";mass1 [GeV];mass2[GeV]",60,0,300,60,0,300)
+    if fastsim_sample == "t5zz" or fastsim_sample == "tchiwz":
+        h_nsig[year] = r.TH2D("h_nsig_"+str(year),";mass1 [GeV];mass2 [GeV]",60,0,300,60,0,300)
+    elif fastsim_sample == "tchiwz" or fastsim_sample == "tchizz":
+        h_nsig[year] = r.TH2D("h_nsig_"+str(year),";mass1 [GeV];mass2 [GeV]",60,0,300,1,-1000,1000)
 
     h_avg_weight_btagsf[year] = h_nsig[year].Clone("h_avg_weight_btagsf_"+str(year))
     h_avg_weight_btagsf_heavy_UP[year] = h_nsig[year].Clone("h_avg_weight_btagsf_heavy_UP_"+str(year));
