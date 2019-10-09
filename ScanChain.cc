@@ -23,24 +23,25 @@ static const int n_ptbins_std = 20;
     const double ptbins_fine[n_ptbins_fine+1] = {0, 22, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100, 105, 110, 115, 120, 125, 130, 135, 140, 145, 150, 155, 160, 165, 170, 175, 180, 185, 190, 195, 200, 205, 210, 215, 220, 225, 230, 235, 240, 245, 250, 300, 350, 400, 6001};
 
 
-    static const int n_gluino_bins_t5zznat = 24;
-    const double gluino_bins_t5zznat[n_gluino_bins_t5zznat+1]={800.000000,900.000000,1000.000000,1050.000000,1100.000000,1150.000000,1200.000000,1250.000000,1300.000000,1350.000000,1400.000000,1450.000000,1500.000000,1550.000000,1600.000000,1650.000000,1700.000000,1750.000000,1800.000000,1850.000000,1900.000000,1950.000000,2000.000000,2050.000000,2100.000000};
+    static const int n_gluino_bins_t5zznat = 32;
+    const double gluino_bins_t5zznat[n_gluino_bins_t5zznat+1]={800.000000,900.000000,1000.000000,1050.000000,1100.000000,1150.000000,1200.000000,1250.000000,1300.000000,1350.000000,1400.000000,1450.000000,1500.000000,1550.000000,1600.000000,1650.000000,1700.000000,1750.000000,1800.000000,1850.000000,1900.000000,1950.000000,2000.000000,2050.000000,2100.000000,2150.000000,2200.000000,2250.000000,2300.000000,2350.000000,2400.000000};
 
-    static const int n_lsp_bins_t5zznat = 66;
-    const double lsp_bins_t5zznat[n_lsp_bins_t5zznat+1] ={25.000000,50.000000,100.000000,150.000000,200.000000,250.000000,300.000000,350.000000,400.000000,450.000000,500.000000,550.000000,600.000000,650.000000,700.000000,750.000000,790.000000,800.000000,850.000000,890.000000,900.000000,950.000000,990.000000,1000.000000,1040.000000,1050.000000,1090.000000,1100.000000,1140.000000,1150.000000,1190.000000,1200.000000,1240.000000,1250.000000,1290.000000,1300.000000,1340.000000,1350.000000,1390.000000,1400.000000,1440.000000,1450.000000,1490.000000,1500.000000,1540.000000,1550.000000,1590.000000,1600.000000,1640.000000,1650.000000,1690.000000,1700.000000,1740.000000,1750.000000,1790.000000,1800.000000,1840.000000,1850.000000,1890.000000,1900.000000,1940.000000,1950.000000,1990.000000,2000.000000,2040.000000,2050.000000,2090.000000};
+    static const int n_lsp_bins_t5zznat = 72;
+    const double lsp_bins_t5zznat[n_lsp_bins_t5zznat+1] ={25.000000,50.000000,100.000000,150.000000,200.000000,250.000000,300.000000,350.000000,400.000000,450.000000,500.000000,550.000000,600.000000,650.000000,700.000000,750.000000,790.000000,800.000000,850.000000,890.000000,900.000000,950.000000,990.000000,1000.000000,1040.000000,1050.000000,1090.000000,1100.000000,1140.000000,1150.000000,1190.000000,1200.000000,1240.000000,1250.000000,1290.000000,1300.000000,1340.000000,1350.000000,1390.000000,1400.000000,1440.000000,1450.000000,1490.000000,1500.000000,1540.000000,1550.000000,1590.000000,1600.000000,1640.000000,1650.000000,1690.000000,1700.000000,1740.000000,1750.000000,1790.000000,1800.000000,1840.000000,1850.000000,1890.000000,1900.000000,1940.000000,1950.000000,1990.000000,2000.000000,2040.000000,2050.000000,2100.000000,2150.000000,2200.000000,2250.000000,2300.000000,2350.000000,2400.000000};
 
     static const int n_met_bins_t5zznat = 5;
-    const double met_bins_t5zznat[n_met_bins_t5zznat+1] = {50, 100, 150, 250, 350, 6000};
+//    const double met_bins_t5zznat[n_met_bins_t5zznat+1] = {50, 100, 150, 250, 350, 6000};
+    const double met_bins_t5zznat[n_met_bins_t5zznat+1] = {50,100,150,230,300,6000};
 
     //==============================
     //T5ZZ contrived binning
     //==============================
 
-    static const int n_gluino_bins_t5zzcontrived = 24;
-    const double gluino_bins_t5zzcontrived[n_gluino_bins_t5zzcontrived+1]={800.000000,900.000000,1000.000000,1050.000000,1100.000000,1150.000000,1200.000000,1250.000000,1300.000000,1350.000000,1400.000000,1450.000000,1500.000000,1550.000000,1600.000000,1650.000000,1700.000000,1750.000000,1800.000000,1850.000000,1900.000000,1950.000000,2000.000000,2050.000000,2100.000000};
+    static const int n_gluino_bins_t5zzcontrived = 32;
+    const double gluino_bins_t5zzcontrived[n_gluino_bins_t5zzcontrived+1]={800.000000,900.000000,1000.000000,1050.000000,1100.000000,1150.000000,1200.000000,1250.000000,1300.000000,1350.000000,1400.000000,1450.000000,1500.000000,1550.000000,1600.000000,1650.000000,1700.000000,1750.000000,1800.000000,1850.000000,1900.000000,1950.000000,2000.000000,2050.000000,2100.000000,2150.000000,2200.000000,2250.000000,2300.000000,2350.000000,2400.000000};
 
-    static const int n_lsp_bins_t5zzcontrived = 39;
-    const double lsp_bins_t5zzcontrived[n_lsp_bins_t5zzcontrived+1]={100.000000,150.000000,200.000000,250.000000,300.000000,350.000000,400.000000,450.000000,500.000000,550.000000,600.000000,650.000000,700.000000,750.000000,800.000000,850.000000,900.000000,950.000000,1000.000000,1050.000000,1100.000000,1150.000000,1200.000000,1250.000000,1300.000000,1350.000000,1400.000000,1450.000000,1500.000000,1550.000000,1600.000000,1650.000000,1700.000000,1750.000000,1800.000000,1850.000000,1900.000000,1950.000000,2000.000000,2050.000000};
+    static const int n_lsp_bins_t5zzcontrived = 54;
+    const double lsp_bins_t5zzcontrived[n_lsp_bins_t5zzcontrived+1]={100.000000,150.000000,200.000000,250.000000,300.000000,350.000000,400.000000,450.000000,500.000000,550.000000,600.000000,650.000000,700.000000,750.000000,800.000000,850.000000,900.000000,950.000000,1000.000000,1050.000000,1100.000000,1150.000000,1200.000000,1250.000000,1300.000000,1350.000000,1400.000000,1450.000000,1500.000000,1550.000000,1600.000000,1650.000000,1700.000000,1750.000000,1800.000000,1850.000000,1900.000000,1950.000000,2000.000000,2050.000000,2100.000000,2150.000000,2200.000000,2250.000000,2300.000000,2350.000000,2400.000000};
 
     static const int n_met_bins_t5zzcontrived = 5;
     const double met_bins_t5zzcontrived[n_met_bins_t5zzcontrived+1] = {50, 100, 150, 250, 350, 6000};
@@ -48,11 +49,11 @@ static const int n_ptbins_std = 20;
     //==============================
     //TChiWZ model natural binning
     //==============================
-    static const int n_gluino_bins_tchiwz = 24;
-    const double gluino_bins_tchiwz[n_gluino_bins_tchiwz+1]={100.000000,125.000000,150.000000,175.000000,200.000000,225.000000,250.000000,275.000000,300.000000,325.000000,350.000000,375.000000,400.000000,425.000000,450.000000,475.000000,500.000000,525.000000,550.000000,575.000000,600.000000,625.000000,650.000000,675.000000,700.000000};
+    static const int n_gluino_bins_tchiwz = 38;
+    const double gluino_bins_tchiwz[n_gluino_bins_tchiwz+1]={100.000000,125.000000,150.000000,175.000000,200.000000,225.000000,250.000000,275.000000,300.000000,325.000000,350.000000,375.000000,400.000000,425.000000,450.000000,475.000000,500.000000,525.000000,550.000000,575.000000,600.000000,625.000000,650.000000,675.000000,700.000000,725.000000,750.000000,775.000000,800.000000,825.000000,850.000000,875.000000,900.00000,925.000000,950.000000,975.000000,1000.000000,1025.000000,1050.000000};
 
-    static const int n_lsp_bins_tchiwz = 69;
-    const double lsp_bins_tchiwz[n_lsp_bins_tchiwz+1]={1.000000,5.000000,10.000000,15.000000,20.000000,25.000000,30.000000,35.000000,40.000000,45.000000,50.000000,55.000000,60.000000,65.000000,70.000000,75.000000,80.000000,85.000000,90.000000,93.000000,95.000000,100.000000,105.000000,110.000000,115.000000,118.000000,120.000000,125.000000,130.000000,135.000000,140.000000,143.000000,145.000000,150.000000,155.000000,160.000000,165.000000,168.000000,170.000000,175.000000,180.000000,185.000000,190.000000,193.000000,195.000000,200.000000,205.000000,210.000000,215.000000,218.000000,220.000000,225.000000,230.000000,235.000000,240.000000,243.000000,245.000000,250.000000,255.000000,260.000000,265.000000,268.000000,270.000000,275.000000,280.000000,285.000000,290.000000,293.000000,295.000000,300.000000};
+    static const int n_lsp_bins_tchiwz = 79;
+    const double lsp_bins_tchiwz[n_lsp_bins_tchiwz+1]={1.000000,5.000000,10.000000,15.000000,20.000000,25.000000,30.000000,35.000000,40.000000,45.000000,50.000000,55.000000,60.000000,65.000000,70.000000,75.000000,80.000000,85.000000,90.000000,93.000000,95.000000,100.000000,105.000000,110.000000,115.000000,118.000000,120.000000,125.000000,130.000000,135.000000,140.000000,143.000000,145.000000,150.000000,155.000000,160.000000,165.000000,168.000000,170.000000,175.000000,180.000000,185.000000,190.000000,193.000000,195.000000,200.000000,205.000000,210.000000,215.000000,218.000000,220.000000,225.000000,230.000000,235.000000,240.000000,243.000000,245.000000,250.000000,255.000000,260.000000,265.000000,268.000000,270.000000,275.000000,280.000000,285.000000,290.000000,293.000000,295.000000,300.000000,305.000000,310.000000,350.0000000,400.000000,450.000000,500.000000,550.000000,600.000000,650.000000,700.00000};
 
     static const int n_met_bins_tchiwz = 5;
     const double met_bins_tchiwz[n_met_bins_tchiwz+1] = {50, 100, 150, 250, 350, 6000};
@@ -60,11 +61,11 @@ static const int n_ptbins_std = 20;
     //==============================
     //TChiWZ EXT model natural binning
     //==============================
-    static const int n_gluino_bins_tchiwz_ext = 15;
-    const double gluino_bins_tchiwz_ext[n_gluino_bins_tchiwz_ext+1]={325.000000,350.000000,375.000000,400.000000,425.000000,450.000000,475.000000,500.000000,525.000000,550.000000,575.000000,600.000000,625.000000,650.000000,675.000000,700.000000};
+    static const int n_gluino_bins_tchiwz_ext = 22;
+    const double gluino_bins_tchiwz_ext[n_gluino_bins_tchiwz_ext+1]={325.000000,350.000000,375.000000,400.000000,425.000000,450.000000,475.000000,500.000000,525.000000,550.000000,575.000000,600.000000,625.000000,650.000000,675.000000,700.000000,750.000000,800.000000,850.000000,900.000000,950.000000,1000.000000,1050.000000};
 
-    static const int n_lsp_bins_tchiwz_ext = 12;
-    const double lsp_bins_tchiwz_ext[n_lsp_bins_tchiwz_ext+1]={300.000000,305.000000,310.000000,315.000000,318.000000,320.000000,325.000000,330.000000,335.000000,340.000000,343.000000,345.000000,350.000000};
+    static const int n_lsp_bins_tchiwz_ext = 20 ;
+    const double lsp_bins_tchiwz_ext[n_lsp_bins_tchiwz_ext+1]={300.000000,305.000000,310.000000,315.000000,318.000000,320.000000,325.000000,330.000000,335.000000,340.000000,343.000000,345.000000,350.000000,400.000000,450.000000,500.000000,550.000000,600.000000,650.000000,700.000000};
 
     static const int n_met_bins_tchiwz_ext = 5;
     const double met_bins_tchiwz_ext[n_met_bins_tchiwz_ext+1] = {50, 100, 150, 250, 350, 6000};
@@ -75,8 +76,8 @@ static const int n_ptbins_std = 20;
     //!!!!!!!!!!!!!!!!!!
     // Be sure to change the lowest bin to 125 to match the tchizz model.
     //!!!!!!!!!!!!!!!!!!
-    static const int n_chi_bins_tchihz = 35;
-    const double chi_bins_tchihz[n_chi_bins_tchihz+1] = {125,150,175,200,225,250,275,300,325,350,375,400,425,450,475,500,525,550,575,600,625,650,675,700,725,750,775,800,825,850,875,900,925,950,975,1000};
+    static const int n_chi_bins_tchihz = 51;
+    const double chi_bins_tchihz[n_chi_bins_tchihz+1] = {125,150,175,200,225,250,275,300,325,350,375,400,425,450,475,500,525,550,575,600,625,650,675,700,725,750,775,800,825,850,875,900,925,950,975,1000,1025,1050,1075,1100,1125,1150,1175,1200,1225,1250,1275,1300,1325,1350,1375,1400};
 
     static const int n_met_bins_tchihz = 5;
     const double met_bins_tchihz[n_met_bins_tchihz+1] = {50, 100, 150, 250, 350, 6000};
@@ -85,8 +86,8 @@ static const int n_ptbins_std = 20;
     //==============================
     //TChiZZ model natural binning
     //==============================
-    static const int n_chi_bins_tchizz = 36;
-    const double chi_bins_tchizz[n_chi_bins_tchizz+1] = {100,125,150,175,200,225,250,275,300,325,350,375,400,425,450,475,500,525,550,575,600,625,650,675,700,725,750,775,800,825,850,875,900,925,950,975,1000};
+    static const int n_chi_bins_tchizz = 52;
+    const double chi_bins_tchizz[n_chi_bins_tchizz+1] = {100,125,150,175,200,225,250,275,300,325,350,375,400,425,450,475,500,525,550,575,600,625,650,675,700,725,750,775,800,825,850,875,900,925,950,975,1000,1025,1050,1075,1100,1125,1150,1175,1200,1225,1250,1275,1300,1325,1350,1375,1400};
 
     static const int n_met_bins_tchizz = 5;
     const double met_bins_tchizz[n_met_bins_tchizz+1] = {50, 100, 150, 250, 350, 6000};
@@ -716,7 +717,7 @@ int ZMETLooper::hasGoodZ(){
     //cout<<__LINE__<<endl;
   }
 
-  if (! passLeptonHLTs()){
+  if (conf->get("susy_mc") != "true" && !passLeptonHLTs()){
     numEvents->Fill(20);
     if (printFail) cout<<phys.evt()<<" :Failed HLT Z cut"<<endl;
     return -1;
@@ -2282,7 +2283,83 @@ bool ZMETLooper::passRareCuts(){
   return true;
 }
 
-bool ZMETLooper::passSUSYSingalCuts(){
+
+/* The actual rare real MET cuts code - Replace the other one with this after producing new babies with new branch
+ 
+bool ZMETLooper::passRareCuts()
+{
+    bool hasrealmet = true;
+    bool realzpair = true;
+    float drThreshold = 0.1;
+
+    std::vector<size_t> signal_lep_genMatch_indices;
+
+    if(TString(conf->get("data_set").Contains("VVV")) || TString(conf->get("data_set").Contains("TTZ")) || TString(conf->get("data_set").Contains("WZ")) || TString(conf->get("data_set").Contains("ZZ")) || TString(conf->get("data_set").Contains("GluGluToZZ")))
+    {
+        hasrealmet = false;
+        hasrealzpair = false;
+
+        for(size_t genind=0;genind < phys.genPart_motherId().size();genind++)
+        {
+            if((abs(phys.genPart_pdgId().at(genind)) == 12 || abs(phys.genPart_pdgId().at(genind)) == 14 || abs(phys.genPart_pdgId().at(genind)) == 16) && (abs(phys.genPart_motherId().at(genind)) == 24 || phys.genPart_motherId().at(genind) == 23) && (phys.genPart_status().at(genind) == 23 || phys.genPart_status().at(genind) == 1))
+            {
+                hasrealmet = true;
+                if(printFail) cout<<"Found event containing real MET from neutrinos"<<endl;
+            }
+
+        }
+
+        //Gen match the two signal leptons, and check their mother indices
+
+        for(size_t lepidx = 0; lepidx < phys.lep_p4.size(); lepidx++)
+        {
+            float dr = drThreshold;
+            size_t matchIdx = -1;
+            for(size_t genidx = 0; genidx < phys.genLep_eta().size(); genidx++)
+            {
+                float temp_dr = sqrt(pow(phys.lep_p4().at(lepidx).eta() - phys.genLep_eta().at(genidx),2) + pow(phys.lep_p4().at(lepidx).phi() - phys.genLep_phi().at(genidx),2));
+                if(temp_dr < dr)
+                {
+                    temp_dr = dr;
+                    matchIdx = genidx;
+                }
+            }
+            if(matchIdx >= 0 && abs(phys.genLep_motherId().at(matchIdx)) == 24)
+            {
+                signal_lep_genMatch_indices.push_back(matchIdx);
+            }   
+            else
+            {
+                if(printFail) cout<<phys.evt()<<" Signal lepton has no gen match!"<<endl;
+                return false;
+            }
+        }
+
+        if(phys.genLep_motherIdx().at(signal_lep_genMatch_indices[0]) == phys.genLep_motherIdx().at(signal_lep_genMatch_indices[1]))
+        {
+            if(printFail) cout<<phys.evt()<<" Found 2 signal leptons matched to the same gen Z"<<endl;
+        }
+        
+    }
+
+    if(!hasrealmet)
+    {
+        numEvents->Fill(47);
+        if (printFail) cout<<phys.evt()<<" :Failed Has Real MET Rare Cut"<<endl;
+        return false;
+
+    }
+    else if(!hasrealzpair)
+    {
+        numEvents->Fill(48);
+        if (printFail) cout<<phys.evt()<<" :Failed Has Real Z Rare Cut"<<endl;
+        return false;
+    }
+
+    return true;
+}*/
+  
+bool ZMETLooper::passSUSYSignalCuts(){
   //cout<<__LINE__<<endl;
   if (conf->get("mass_chi") != ""){
     if (phys.mass_chi() != stod(conf->get("mass_chi"))){
@@ -2835,16 +2912,16 @@ void ZMETLooper::updateSUSYBtagISRNorms(){
       throw std::invalid_argument(message.str());
     }
     //cout<<__LINE__<<endl;
-
-    g_isr_norm = (TH2D*)g_SUSYsf_norm_file->Get("h_avg_weight_isr")->Clone("h_isr_norm");
+    int year = getYear();
+    g_isr_norm = (TH2D*)g_SUSYsf_norm_file->Get(TString::Format("h_avg_weight_isr_%d",year))->Clone("h_isr_norm");
     //cout<<__LINE__<<endl;
-    g_isr_norm_up = (TH2D*)g_SUSYsf_norm_file->Get("h_avg_weight_isr_UP")->Clone("h_isr_norm_up");
+    g_isr_norm_up = (TH2D*)g_SUSYsf_norm_file->Get(TString::Format("h_avg_weight_isr_UP_%d",year))->Clone("h_isr_norm_up");
     //cout<<__LINE__<<endl;
-    g_btagsf_norm = (TH2D*)g_SUSYsf_norm_file->Get("h_avg_weight_btagsf")->Clone("g_btagsf_norm");
+    g_btagsf_norm = (TH2D*)g_SUSYsf_norm_file->Get(TString::Format("h_avg_weight_btagsf_%d",year))->Clone("g_btagsf_norm");
     //cout<<__LINE__<<endl;
-    g_btagsf_light_norm_up = (TH2D*)g_SUSYsf_norm_file->Get("h_avg_weight_btagsf_light_UP")->Clone("g_btagsf_light_norm_up");
+    g_btagsf_light_norm_up = (TH2D*)g_SUSYsf_norm_file->Get(TString::Format("h_avg_weight_btagsf_light_UP_%d",year))->Clone("g_btagsf_light_norm_up");
     //cout<<__LINE__<<endl;
-    g_btagsf_heavy_norm_up = (TH2D*)g_SUSYsf_norm_file->Get("h_avg_weight_btagsf_heavy_UP")->Clone("g_btagsf_heavy_norm_up");
+    g_btagsf_heavy_norm_up = (TH2D*)g_SUSYsf_norm_file->Get(TString::Format("h_avg_weight_btagsf_heavy_UP_%d",year))->Clone("g_btagsf_heavy_norm_up");
     //cout<<__LINE__<<endl;
 
 
@@ -3309,7 +3386,7 @@ int ZMETLooper::ScanChain( TChain* chain, ConfigParser *configuration, bool fast
       }
 
       if (conf->get("susy_mc") == "true"){
-        if (! passSUSYSingalCuts()){
+        if (! passSUSYSignalCuts()){
           //cout<<"Failed SUSY Signal"<<endl;
           continue;
         }
@@ -3569,6 +3646,14 @@ int ZMETLooper::ScanChain( TChain* chain, ConfigParser *configuration, bool fast
   {
       it.second->Write();
   }
+  for(auto &it:allSignal2DHistos)
+  {
+      it.second->Write();
+  }
+  for(auto &it:allSignal3DHistos)
+  {
+      it.second->Write();
+  }
   //close output file
   output->Write();
   output->Close();
@@ -3638,6 +3723,91 @@ int ZMETLooper::ScanChain( TChain* chain, ConfigParser *configuration, bool fast
   return 0;
 }
 
+
+void ZMETLooper::fillGluLSPHists(std::string prefix)
+{
+    if(conf->get("data_set") == "TChiWZ")
+    {
+        n_gluino_bins = &n_gluino_bins_tchiwz;
+        n_lsp_bins = &n_lsp_bins_tchiwz;
+        n_met_bins = &n_met_bins_tchiwz;
+
+        gluino_bins = gluino_bins_tchiwz;
+        lsp_bins = lsp_bins_tchiwz;
+        met_bins = met_bins_tchiwz;
+    }
+    else if(conf->get("data_set") == "T5ZZ")
+    {
+        n_gluino_bins = &n_gluino_bins_t5zznat;
+        n_lsp_bins = &n_lsp_bins_t5zznat;
+        n_met_bins = &n_met_bins_t5zznat;
+
+        gluino_bins = gluino_bins_t5zznat;
+        lsp_bins = lsp_bins_t5zznat;
+        met_bins = met_bins_t5zznat;
+    }
+
+    fill3DHistograms(prefix+"susy_type1MET_counts",g_met,phys.mass_gluino(),phys.mass_LSP(),weight,allSignal3DHistos,"(x,y,z) = (met, m_glu, m_lsp). Type1MET for"+g_sample_name, *n_met_bins, met_bins, *n_gluino_bins, gluino_bins, *n_lsp_bins, lsp_bins,rootdir);
+    fill3DHistograms(prefix+"susy_type1MET_nowt",g_met,phys.mass_gluino(),phys.mass_LSP(),1,allSignal3DHistos,"(x,y,z) = (met, m_glu, m_lsp). Type1MET with no event weights for"+g_sample_name,*n_met_bins,met_bins,*n_gluino_bins,gluino_bins,*n_lsp_bins,lsp_bins,rootdir);
+
+    ISR_norm=1./g_isr_norm->GetBinContent(g_isr_norm->GetXaxis()->FindBin(phys.mass_gluino()), g_isr_norm->GetYaxis()->FindBin(phys.mass_LSP()));
+    ISR_norm_up=1./g_isr_norm_up->GetBinContent(g_isr_norm_up->GetXaxis()->FindBin(phys.mass_gluino()), g_isr_norm_up->GetYaxis()->FindBin(phys.mass_LSP()));
+
+    if (conf->get("data_set") == "t5zz")
+    {
+            //isr_unc filled properly
+        fill3DHistograms(prefix+"susy_type1MET_isr_up",g_met,phys.mass_gluino(),phys.mass_LSP(),(ISR_norm_up/ISR_norm)*(weight)*(1+(phys.isr_unc()/phys.isr_weight())),allSignal3DHistos, "(x,y,z) = (met, m_glu, m_lsp). Type 1 MET with ISR SF fluctuated up for"+g_sample_name,*n_met_bins,met_bins,*n_gluino_bins,gluino_bins,*n_lsp_bins,lsp_bins,rootdir);
+    }
+    else
+    {
+        //isr_unc is just deviation from not using the scale factor
+        fill3DHistograms(prefix+"susy_type1MET_isr_up",g_met,phys.mass_gluino(),phys.mass_LSP(),(1/ISR_norm)*(weight)*(1/phys.isr_weight()),allSignal3DHistos,"(x,y,z) = (met, m_glu, m_lsp). Type 1 MET with ISR SF fluctuated up for"+g_sample_name,*n_met_bins,met_bins,*n_gluino_bins,gluino_bins,*n_lsp_bins,lsp_bins,rootdir);
+    }
+    
+    btag_norm=1./g_btagsf_norm->GetBinContent(g_btagsf_norm->GetXaxis()->FindBin(phys.mass_gluino()), g_btagsf_norm->GetYaxis()->FindBin(phys.mass_LSP()));
+    btag_heavy_norm_up=1./g_btagsf_heavy_norm_up->GetBinContent(g_btagsf_heavy_norm_up->GetXaxis()->FindBin(phys.mass_gluino()), g_btagsf_heavy_norm_up->GetYaxis()->FindBin(phys.mass_LSP()));
+    btag_light_norm_up=1./g_btagsf_light_norm_up->GetBinContent(g_btagsf_light_norm_up->GetXaxis()->FindBin(phys.mass_gluino()), g_btagsf_light_norm_up->GetYaxis()->FindBin(phys.mass_LSP()));
+
+    fill3DHistograms(prefix+"susy_type1MET_btaglight_up",g_met,phys.mass_gluino(),phys.mass_LSP(),(btag_light_norm_up/btag_norm)*weight*(phys.weight_btagsf_light_UP()/phys.weight_btagsf()),allSignal3DHistos,"(x,y,z) = (met, m_glu, m_lsp). Type 1 MET with Light Btag SF fluctuated up for"+g_sample_name,*n_met_bins,met_bins,*n_gluino_bins,gluino_bins,*n_lsp_bins,lsp_bins,rootdir);
+
+    fill3DHistograms(prefix+"susy_type1MET_btagheavy_up",g_met,phys.mass_gluino(),phys.mass_LSP(),(btag_heavy_norm_up/btag_norm)*weight*(phys.weight_btagsf_heavy_UP()/phys.weight_btagsf()),allSignal3DHistos,"(x,y,z) = (met, m_glu, m_lsp). Type 1 MET with Heavy Btag SF fluctuated up for"+g_sample_name,*n_met_bins,met_bins,*n_gluino_bins,gluino_bins,*n_lsp_bins,lsp_bins,rootdir);
+}
+
+void ZMETLooper::fillChiHists(std::string prefix)
+{
+    if (conf->get("data_set") == "TChiHZ_TChiZZ" || conf->get("data_set") == "TChiHZ"){
+      n_chi_bins = &n_chi_bins_tchihz;
+      n_met_bins = &n_met_bins_tchihz;
+
+      chi_bins = chi_bins_tchihz;
+      met_bins = met_bins_tchihz;
+    }
+    else if (conf->get("data_set") == "TChiZZ"){
+      n_chi_bins = &n_chi_bins_tchizz;
+      n_met_bins = &n_met_bins_tchizz;
+
+      chi_bins = chi_bins_tchizz;
+      met_bins = met_bins_tchizz;
+    }
+
+    fill2DHistograms(prefix+"susy_type1MET_counts",g_met,phys.mass_chi(),weight,allSignal2DHistos,"(x,y) = (met, m_chi). Type1MET for"+g_sample_name,*n_met_bins,met_bins,*n_chi_bins,chi_bins,rootdir);
+
+    fill2DHistograms(prefix+"susy_type1MET_nowt",g_met,phys.mass_chi(),1.0,allSignal2DHistos,"(x,y) = (met, m_chi). Type1MET with no event weights for"+g_sample_name,*n_met_bins,met_bins,*n_chi_bins,chi_bins,rootdir);
+
+    ISR_norm=1./g_isr_norm->GetBinContent(g_isr_norm->GetXaxis()->FindBin(phys.mass_chi()), 1);
+    btag_norm=1./g_btagsf_norm->GetBinContent(g_btagsf_norm->GetXaxis()->FindBin(phys.mass_chi()), 1);
+
+    ISR_norm_up=1./g_isr_norm_up->GetBinContent(g_isr_norm_up->GetXaxis()->FindBin(phys.mass_chi()), 1);
+
+    btag_heavy_norm_up=1./g_btagsf_heavy_norm_up->GetBinContent(g_btagsf_heavy_norm_up->GetXaxis()->FindBin(phys.mass_chi()), 1);
+    btag_light_norm_up=1./g_btagsf_light_norm_up->GetBinContent(g_btagsf_light_norm_up->GetXaxis()->FindBin(phys.mass_chi()), 1);
+
+    fill2DHistograms(prefix+"susy_type1MET_btagheavy_up",g_met,phys.mass_chi(),(btag_heavy_norm_up/btag_norm)*weight*(phys.weight_btagsf_heavy_UP()/phys.weight_btagsf()),allSignal2DHistos,"(x,y) = (met, m_chi). Type 1 MET with Heavy Btag SF fluctuated up for"+g_sample_name,*n_met_bins,met_bins,*n_chi_bins,chi_bins,rootdir);
+
+    fill2DHistograms(prefix+"susy_type1MET_btaglight_up",g_met,phys.mass_chi(),(btag_light_norm_up/btag_norm)*weight*(phys.weight_btagsf_light_UP()/phys.weight_btagsf()),allSignal2DHistos,"(x,y) = (met, m_chi). Type 1 MET with Light Btag SF fluctuated up for"+g_sample_name,*n_met_bins,met_bins,*n_chi_bins,chi_bins,rootdir);
+
+    fill2DHistograms(prefix+"susy_type1MET_isr_up",g_met,phys.mass_chi(),(1/ISR_norm)*(weight)*(1/phys.isr_weight()),allSignal2DHistos,"(x,y) = (met, m_chi). Type 1 MET with ISR SF fluctuated up for"+g_sample_name,*n_met_bins,met_bins,*n_chi_bins,chi_bins,rootdir);
+}
 
 void ZMETLooper::fillallHistograms(std::string prefix)
 {
@@ -3730,70 +3900,17 @@ void ZMETLooper::fillallHistograms(std::string prefix)
           }
 
       //cout<<__LINE__<<endl;
+      //
+      if(conf->get("SUSY_Glu_LSP_scan") == "true")
+      {
+          fillGluLSPHists(commonHistPrefix);
+      }
+      else if(conf->get("SUSY_chi_scan") == "true")
+      {
+          fillChiHists(commonHistPrefix);
+      }
 
-        if(conf->get("SUSY_Glu_LSP_scan") == "true"){
-          //cout<<"mglu: "<<phys.mass_gluino()<<endl;
-          //cout<<"mlsp: "<<phys.mass_LSP()<<endl;
-          //cout<<"met: "<<g_met<<endl;
-          //cout<<"weight: "<<weight<<endl;
 
-          //cout<<__LINE__<<endl;
-
-          susy_type1MET_counts->Fill(g_met, phys.mass_gluino(), phys.mass_LSP(), weight);
-          susy_type1MET_nowt->Fill(g_met, phys.mass_gluino(), phys.mass_LSP(), 1);
-
-          //cout<<__LINE__<<endl;
-
-          ISR_norm=1./g_isr_norm->GetBinContent(g_isr_norm->GetXaxis()->FindBin(phys.mass_gluino()), g_isr_norm->GetYaxis()->FindBin(phys.mass_LSP()));
-          btag_norm=1./g_btagsf_norm->GetBinContent(g_btagsf_norm->GetXaxis()->FindBin(phys.mass_gluino()), g_btagsf_norm->GetYaxis()->FindBin(phys.mass_LSP()));
-
-          ISR_norm_up=1./g_isr_norm_up->GetBinContent(g_isr_norm_up->GetXaxis()->FindBin(phys.mass_gluino()), g_isr_norm_up->GetYaxis()->FindBin(phys.mass_LSP()));
-
-          btag_heavy_norm_up=1./g_btagsf_heavy_norm_up->GetBinContent(g_btagsf_heavy_norm_up->GetXaxis()->FindBin(phys.mass_gluino()), g_btagsf_heavy_norm_up->GetYaxis()->FindBin(phys.mass_LSP()));
-          btag_light_norm_up=1./g_btagsf_light_norm_up->GetBinContent(g_btagsf_light_norm_up->GetXaxis()->FindBin(phys.mass_gluino()), g_btagsf_light_norm_up->GetYaxis()->FindBin(phys.mass_LSP()));
-
-          susy_type1MET_btagheavy_up->Fill(g_met, phys.mass_gluino(), phys.mass_LSP(), (btag_heavy_norm_up/btag_norm)*weight*(phys.weight_btagsf_heavy_UP()/phys.weight_btagsf()));
-          susy_type1MET_btaglight_up->Fill(g_met, phys.mass_gluino(), phys.mass_LSP(), (btag_light_norm_up/btag_norm)*weight*(phys.weight_btagsf_light_UP()/phys.weight_btagsf()));
-
-          //cout<<__LINE__<<endl;
-
-          if (conf->get("data_set") == "t5zz"){
-            //isr_unc filled properly
-            susy_type1MET_isr_up->Fill(g_met, phys.mass_gluino(), phys.mass_LSP(), (ISR_norm_up/ISR_norm)*(weight)*(1+(phys.isr_unc()/phys.isr_weight())) );
-          }
-          else{
-            //isr_unc is just deviation from not using the scale factor
-            susy_type1MET_isr_up->Fill(g_met, phys.mass_gluino(), phys.mass_LSP(), (1/ISR_norm)*(weight)*(1/phys.isr_weight()));
-          }
-        }
-        else if(conf->get("SUSY_chi_scan") == "true"){
-          //cout<<"mglu: "<<phys.mass_gluino()<<endl;
-          //cout<<"mlsp: "<<phys.mass_LSP()<<endl;
-          //cout<<"met: "<<g_met<<endl;
-          //cout<<"weight: "<<weight<<endl;
-
-          //cout<<__LINE__<<endl;
-
-          susy_type1MET_counts_2d->Fill(g_met, phys.mass_chi(), weight);
-          susy_type1MET_nowt_2d->Fill(g_met, phys.mass_chi(), 1);
-
-          //cout<<__LINE__<<endl;
-
-          ISR_norm=1./g_isr_norm->GetBinContent(g_isr_norm->GetXaxis()->FindBin(phys.mass_chi()), 1);
-          btag_norm=1./g_btagsf_norm->GetBinContent(g_btagsf_norm->GetXaxis()->FindBin(phys.mass_chi()), 1);
-
-          ISR_norm_up=1./g_isr_norm_up->GetBinContent(g_isr_norm_up->GetXaxis()->FindBin(phys.mass_chi()), 1);
-
-          btag_heavy_norm_up=1./g_btagsf_heavy_norm_up->GetBinContent(g_btagsf_heavy_norm_up->GetXaxis()->FindBin(phys.mass_chi()), 1);
-          btag_light_norm_up=1./g_btagsf_light_norm_up->GetBinContent(g_btagsf_light_norm_up->GetXaxis()->FindBin(phys.mass_chi()), 1);
-
-          susy_type1MET_btagheavy_up_2d->Fill(g_met, phys.mass_chi(), (btag_heavy_norm_up/btag_norm)*weight*(phys.weight_btagsf_heavy_UP()/phys.weight_btagsf()));
-          susy_type1MET_btaglight_up_2d->Fill(g_met, phys.mass_chi(), (btag_light_norm_up/btag_norm)*weight*(phys.weight_btagsf_light_UP()/phys.weight_btagsf()));
-
-          //cout<<__LINE__<<endl;
-          //isr_unc is just deviation from not using the scale factor
-          susy_type1MET_isr_up_2d->Fill(g_met, phys.mass_chi(),(1/ISR_norm)*(weight)*(1/phys.isr_weight()));
-        }
 
         if(conf->get("ECalTest") != "")
         {
@@ -3801,6 +3918,7 @@ void ZMETLooper::fillallHistograms(std::string prefix)
         }
     }
 }
+
 
 bool ZMETLooper::passStrongSRCuts()
 {
@@ -4200,3 +4318,72 @@ void ZMETLooper::fillTChiHZHists(std::string prefix)
             fill1DHistograms(prefix+"sum_pt_z_bb",bb_pt+phys.dilpt(),weight,allHistos,"",6000,0,6000,rootdir);
         }
 }
+
+
+
+/*
+         if(conf->get("SUSY_Glu_LSP_scan") == "true"){
+          //cout<<"mglu: "<<phys.mass_gluino()<<endl;
+          //cout<<"mlsp: "<<phys.mass_LSP()<<endl;
+          //cout<<"met: "<<g_met<<endl;
+          //cout<<"weight: "<<weight<<endl;
+
+          //cout<<__LINE__<<endl;
+
+          susy_type1MET_counts->Fill(g_met, phys.mass_gluino(), phys.mass_LSP(), weight);
+          susy_type1MET_nowt->Fill(g_met, phys.mass_gluino(), phys.mass_LSP(), 1);
+
+          //cout<<__LINE__<<endl;
+
+          ISR_norm=1./g_isr_norm->GetBinContent(g_isr_norm->GetXaxis()->FindBin(phys.mass_gluino()), g_isr_norm->GetYaxis()->FindBin(phys.mass_LSP()));
+          btag_norm=1./g_btagsf_norm->GetBinContent(g_btagsf_norm->GetXaxis()->FindBin(phys.mass_gluino()), g_btagsf_norm->GetYaxis()->FindBin(phys.mass_LSP()));
+
+          ISR_norm_up=1./g_isr_norm_up->GetBinContent(g_isr_norm_up->GetXaxis()->FindBin(phys.mass_gluino()), g_isr_norm_up->GetYaxis()->FindBin(phys.mass_LSP()));
+
+          btag_heavy_norm_up=1./g_btagsf_heavy_norm_up->GetBinContent(g_btagsf_heavy_norm_up->GetXaxis()->FindBin(phys.mass_gluino()), g_btagsf_heavy_norm_up->GetYaxis()->FindBin(phys.mass_LSP()));
+          btag_light_norm_up=1./g_btagsf_light_norm_up->GetBinContent(g_btagsf_light_norm_up->GetXaxis()->FindBin(phys.mass_gluino()), g_btagsf_light_norm_up->GetYaxis()->FindBin(phys.mass_LSP()));
+
+          susy_type1MET_btagheavy_up->Fill(g_met, phys.mass_gluino(), phys.mass_LSP(), (btag_heavy_norm_up/btag_norm)*weight*(phys.weight_btagsf_heavy_UP()/phys.weight_btagsf()));
+          susy_type1MET_btaglight_up->Fill(g_met, phys.mass_gluino(), phys.mass_LSP(), (btag_light_norm_up/btag_norm)*weight*(phys.weight_btagsf_light_UP()/phys.weight_btagsf()));
+
+          //cout<<__LINE__<<endl;
+    
+
+          if (conf->get("data_set") == "t5zz"){
+            //isr_unc filled properly
+            susy_type1MET_isr_up->Fill(g_met, phys.mass_gluino(), phys.mass_LSP(), (ISR_norm_up/ISR_norm)*(weight)*(1+(phys.isr_unc()/phys.isr_weight())) );
+          }
+          else{
+            //isr_unc is just deviation from not using the scale factor
+            susy_type1MET_isr_up->Fill(g_met, phys.mass_gluino(), phys.mass_LSP(), (1/ISR_norm)*(weight)*(1/phys.isr_weight()));
+          }
+        }
+        else if(conf->get("SUSY_chi_scan") == "true"){
+          //cout<<"mglu: "<<phys.mass_gluino()<<endl;
+          //cout<<"mlsp: "<<phys.mass_LSP()<<endl;
+          //cout<<"met: "<<g_met<<endl;
+          //cout<<"weight: "<<weight<<endl;
+
+          //cout<<__LINE__<<endl;
+
+          susy_type1MET_counts_2d->Fill(g_met, phys.mass_chi(), weight);
+          susy_type1MET_nowt_2d->Fill(g_met, phys.mass_chi(), 1);
+
+          //cout<<__LINE__<<endl;
+
+          ISR_norm=1./g_isr_norm->GetBinContent(g_isr_norm->GetXaxis()->FindBin(phys.mass_chi()), 1);
+          btag_norm=1./g_btagsf_norm->GetBinContent(g_btagsf_norm->GetXaxis()->FindBin(phys.mass_chi()), 1);
+
+          ISR_norm_up=1./g_isr_norm_up->GetBinContent(g_isr_norm_up->GetXaxis()->FindBin(phys.mass_chi()), 1);
+
+          btag_heavy_norm_up=1./g_btagsf_heavy_norm_up->GetBinContent(g_btagsf_heavy_norm_up->GetXaxis()->FindBin(phys.mass_chi()), 1);
+          btag_light_norm_up=1./g_btagsf_light_norm_up->GetBinContent(g_btagsf_light_norm_up->GetXaxis()->FindBin(phys.mass_chi()), 1);
+
+          susy_type1MET_btagheavy_up_2d->Fill(g_met, phys.mass_chi(), (btag_heavy_norm_up/btag_norm)*weight*(phys.weight_btagsf_heavy_UP()/phys.weight_btagsf()));
+          susy_type1MET_btaglight_up_2d->Fill(g_met, phys.mass_chi(), (btag_light_norm_up/btag_norm)*weight*(phys.weight_btagsf_light_UP()/phys.weight_btagsf()));
+
+          //cout<<__LINE__<<endl;
+          //isr_unc is just deviation from not using the scale factor
+          susy_type1MET_isr_up_2d->Fill(g_met, phys.mass_chi(),(1/ISR_norm)*(weight)*(1/phys.isr_weight()));
+        }
+*/
