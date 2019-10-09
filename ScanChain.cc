@@ -717,7 +717,7 @@ int ZMETLooper::hasGoodZ(){
     //cout<<__LINE__<<endl;
   }
 
-  if (! passLeptonHLTs()){
+  if (conf->get("susy_mc") != "true" && !passLeptonHLTs()){
     numEvents->Fill(20);
     if (printFail) cout<<phys.evt()<<" :Failed HLT Z cut"<<endl;
     return -1;
