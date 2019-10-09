@@ -23,7 +23,7 @@ static const int n_ptbins_std = 20;
     const double ptbins_fine[n_ptbins_fine+1] = {0, 22, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100, 105, 110, 115, 120, 125, 130, 135, 140, 145, 150, 155, 160, 165, 170, 175, 180, 185, 190, 195, 200, 205, 210, 215, 220, 225, 230, 235, 240, 245, 250, 300, 350, 400, 6001};
 
 
-    static const int n_gluino_bins_t5zznat = 32;
+    static const int n_gluino_bins_t5zznat = 30;
     const double gluino_bins_t5zznat[n_gluino_bins_t5zznat+1]={800.000000,900.000000,1000.000000,1050.000000,1100.000000,1150.000000,1200.000000,1250.000000,1300.000000,1350.000000,1400.000000,1450.000000,1500.000000,1550.000000,1600.000000,1650.000000,1700.000000,1750.000000,1800.000000,1850.000000,1900.000000,1950.000000,2000.000000,2050.000000,2100.000000,2150.000000,2200.000000,2250.000000,2300.000000,2350.000000,2400.000000};
 
     static const int n_lsp_bins_t5zznat = 72;
@@ -2885,23 +2885,23 @@ void ZMETLooper::updateSUSYBtagISRNorms(){
   if(conf->get("susy_mc") == "true"){
     cout<<"Updating normalization weights for ISR and Btag Scale Factors."<<endl;
     //cout<<__LINE__<<endl;
-    if (TString(currentFile->GetTitle()).Contains("t5zz_")){
+    if (phys.evt_dataset().at(0).Contains("T5ZZ")){
       cout<<"Using auxFiles/nsig_weights_t5zz.root for ISR/Btag avg weights"<<endl;
       g_SUSYsf_norm_file = TFile::Open("auxFiles/nsig_weights_t5zz.root", "READ");
     }
-    else if (TString(currentFile->GetTitle()).Contains("wz_constantin")){
+    else if (phys.evt_dataset().at(0).Contains("TChiWZ-Ext")){
       cout<<"Using auxFiles/nsig_weights_tchiwz_ext.root for ISR/Btag avg weights"<<endl;
       g_SUSYsf_norm_file = TFile::Open("auxFiles/nsig_weights_tchiwz_ext.root", "READ");
     }
-    else if (TString(currentFile->GetTitle()).Contains("wz")){
+    else if (phys.evt_dataset().at(0).Contains("TChiWZ")){
       cout<<"Using auxFiles/nsig_weights_tchiwz.root for ISR/Btag avg weights"<<endl;
       g_SUSYsf_norm_file = TFile::Open("auxFiles/nsig_weights_tchiwz.root", "READ");
     }
-    else if (TString(currentFile->GetTitle()).Contains("hz")){
+    else if (phys.evt_dataset().at(0).Contains("TChiHZ")){
       cout<<"Using auxFiles/nsig_weights_tchihz.root for ISR/Btag avg weights"<<endl;
       g_SUSYsf_norm_file = TFile::Open("auxFiles/nsig_weights_tchihz.root", "READ");
     }
-    else if (TString(currentFile->GetTitle()).Contains("zz")){
+    else if (phys.evt_dataset().at(0).Contains("TChiZZ")){
       cout<<"Using auxFiles/nsig_weights_tchizz.root for ISR/Btag avg weights"<<endl;
       g_SUSYsf_norm_file = TFile::Open("auxFiles/nsig_weights_tchizz.root", "READ");
     }
