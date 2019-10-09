@@ -69,6 +69,10 @@ class ZMETLooper
     std::unordered_map<std::string,TH1*> allHistos;
     std::unordered_map<std::string,TH2*> all2DHistos;
 
+    //Signal histograms
+    std::unordered_map<std::string,TH2*> allSignal2DHistos;
+    std::unordered_map<std::string,TH3*> allSignal3DHistos;
+
     vector<pair <TH1D*, TString> > g_reweight_pairs;
     //This is used only for multiple SR vpt reweighting
     std::unordered_map<std::string,TH1D*> g_vpt_reweight_pairs;
@@ -296,7 +300,7 @@ class ZMETLooper
     bool passRareCuts();
 
     /*Checks for cuts that are spcific to SUSY samples like choosing a particular mass point*/
-    bool passSUSYSingalCuts();
+    bool passSUSYSignalCuts();
 
     /*Front end method to "Dorky" duplicate removal*/
     bool isDuplicate();
@@ -378,6 +382,8 @@ class ZMETLooper
     //
 
     //SUSY signal Histograms
+    void fillChiHists(std::string prefix = "");
+    void fillGluLSPHists(std::string prefix = "");
 
 
     TH3D *susy_type1MET_btaglight_up, *susy_type1MET_btagheavy_up, *susy_type1MET_isr_up;

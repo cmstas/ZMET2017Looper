@@ -85,6 +85,18 @@ void fill2DHistograms(std::string name,float xval, float yval, double weight, st
     all2DHistos[name]->Fill(xval,yval,weight);
 }
 
+void fill3DHistograms(std::string name, float xval, float yval, float zval, double weight, std::unordered_map<std::string,TH3*> &all3DHistos, const char *title, int nbinsx, const double *xbins, int nbinsy, const double *ybins, int nbinsz, const double *zbins, TDirectory *rootdir)
+{
+    if(strcmp(title,"") == 0)
+        title = name.c_str();
+    if(all3DHistos[name] == nullptr)
+    {
+        all3DHistos[name] =  new TH3D(name.c_str(), title,nbinsx,xbins,nbinsy,ybins,nbinsz,zbins);
+        all3DHistos[name]->SetDirectory(rootdir);
+        all3DHistos[name]->Sumw2();
+    }
+    all3DHistos[name]->Fill(xval,yval,zval,weight);
+}
 
 
 void updateOverUnderflow( TH1D * &hist, double xmax, double xmin){
