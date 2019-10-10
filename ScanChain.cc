@@ -3752,12 +3752,17 @@ void ZMETLooper::fillGluLSPHists(std::string prefix)
 
     ISR_norm=1./g_isr_norm->GetBinContent(g_isr_norm->GetXaxis()->FindBin(phys.mass_gluino()), g_isr_norm->GetYaxis()->FindBin(phys.mass_LSP()));
     ISR_norm_up=1./g_isr_norm_up->GetBinContent(g_isr_norm_up->GetXaxis()->FindBin(phys.mass_gluino()), g_isr_norm_up->GetYaxis()->FindBin(phys.mass_LSP()));
+    //verification histogram
+    if(conf->get("data_set") == "T5ZZ")
+    {
+        //cout<<"weight="<<weight<<", glu mass="<<phys.mass_gluino()<<endl;
+	fill1DHistograms("susy_gluino_mass",phys.mass_gluino(),weight,allHistos,"",*n_gluino_bins,gluino_bins,rootdir);
+    }
 
     if (conf->get("data_set") == "T5ZZ")
     {
             //isr_unc filled properly
         fill3DHistograms(prefix+"susy_type1MET_isr_up",g_met,phys.mass_gluino(),phys.mass_LSP(),(ISR_norm_up/ISR_norm)*(weight)*(1+(phys.isr_unc()/phys.isr_weight())),allSignal3DHistos, "(x,y,z) = (met, m_glu, m_lsp). Type 1 MET with ISR SF fluctuated up for"+g_sample_name,*n_met_bins,met_bins,*n_gluino_bins,gluino_bins,*n_lsp_bins,lsp_bins,rootdir);
-        fill1DHistograms(prefix+"susy_glu_mass",phys.mass_gluino(),weight,allHistos,"gluino mass for verification",*n_gluino_bins,gluino_bins,rootdir);
     }
     else
     {

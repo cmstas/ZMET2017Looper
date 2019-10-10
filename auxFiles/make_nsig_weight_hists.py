@@ -48,7 +48,7 @@ else:
 
 for year in [2016,2017,2018]:
     for directory in dataset_directory_mapping[fastsim_sample][year]:
-        full_path = os.path.join(directory_prefix,directory+"_ZMET_babies","baby_1.root")
+        full_path = os.path.join(directory_prefix,directory+"_ZMET_babies","baby_*.root")
         ch[year].Add(full_path)
     if fastsim_sample == "t5zz" or fastsim_sample == "tchiwz":
         h_nsig[year] = r.TH2D("h_nsig_"+str(year),";mass1 [GeV];mass2 [GeV]",60,0,3000,60,0,3000)
