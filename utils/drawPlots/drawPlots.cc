@@ -790,6 +790,8 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
       double WZ_scale = (conf->get("hist_2_scale") == "") ? 1 : stod(conf->get("hist_2_scale"));
       double VVV_scale = (conf->get("hist_3_scale") == "") ? 1 : stod(conf->get("hist_3_scale"));
       double TTV_scale = (conf->get("hist_4_scale") == "") ? 1 : stod(conf->get("hist_4_scale"));
+      
+      //Rare MC systematic uncertainty
 
       double ZZ_scale_unc = (conf->get("hist_1_scale_unc") == "") ? .5 : stod(conf->get("hist_1_scale_unc"));
       double WZ_scale_unc = (conf->get("hist_2_scale_unc") == "") ? .3 : stod(conf->get("hist_2_scale_unc"));

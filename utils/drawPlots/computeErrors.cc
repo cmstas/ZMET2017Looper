@@ -204,8 +204,8 @@ vector<double> getMetTemplatesError(const vector<double> &stat_err, const vector
 
     cout<<"{BGbin"<<i<<"_zjets} "<<bin_count[i]<<endl;
     cout<<"{zjets_clos_bin"<<i<<"} "<<1.+MC_Closure_Error[i]<<endl;
-    //cout<<"{zjets_stat_bin"<<i<<"} "<<1.+(stat_err[i]/bin_count_safe)<<endl;
-    cout<<"{zjets_stat_bin"<<i<<"} "<<1.+(noSubStatErrs[i]/bin_count_safe)<<endl;
+    cout<<"{zjets_stat_bin"<<i<<"} "<<1.+(stat_err[i]/bin_count_safe)<<endl;
+//    cout<<"{zjets_stat_bin"<<i<<"} "<<1.+(noSubStatErrs[i]/bin_count_safe)<<endl;
     cout<<"{zjets_ewk_bin"<<i<<"} "<<1.+(ewk_err[i]/bin_count_safe)<<endl;
   }
   cout<<setprecision(2);
@@ -259,7 +259,7 @@ vector<double> getRareSamplesError(const vector<double> &stat_err, const vector<
   for(size_t i=0; i<stat_err.size(); i++){
     err_bin = 0;
     err_bin += scale*scale*scale_unc*scale_unc*bin_count[i]*bin_count[i];
-    err_bin += stat_err[i]*stat_err[i];
+    err_bin += scale * scale * stat_err[i]*stat_err[i];
 
     error.push_back(sqrt(err_bin));
   }
