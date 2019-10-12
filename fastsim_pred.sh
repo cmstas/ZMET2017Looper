@@ -3,7 +3,7 @@ prefix="/home/users/bsathian/ZMet/histsthreeyears/"
 modes=("CV" "JES_up" "JES_dn" "GenMET")
 sample=("T5ZZ" "TChiZZ" "TChiWZ" "TChiHZ")
 
-for mode in modes
+for mode in "${modes[@]}"
 do
     mkdir -p $prefix/fastsim/$mode/combined/
     for year in "${years[@]}"
