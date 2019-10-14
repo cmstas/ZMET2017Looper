@@ -26,7 +26,7 @@ def getSignalYields(SR, mass_gluino, mass_lsp, file_path="t5zz.root"):
   file_path_GenMET=file_path.replace("/CV/", "/GenMET/")
 
 
-  if SR in ["SRA","SRAb","SRB","SRBb","SRC","SRCb"]
+  if SR in ["SRA","SRAb","SRB","SRBb","SRC","SRCb"]:
     bins = [(50,100),(100,150),(150,230),(300,6001)]
 
  # if (SR=="SRC" or SR=="SRCb"):
