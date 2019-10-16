@@ -1935,6 +1935,20 @@ bool ZMETLooper::passSignalRegionCuts(){
    }
   }
 
+  //fill g_fatjet_indices if boosted region = true
+  if(conf->get("boosted_histograms") == "true")
+  {
+        for(size_t iJet = 0; iJet < phys.ak8jets_p4().size(); iJet++)
+        {
+            if((conf->get("ak8_tau21_max") != "") && (phys.ak8jets_tau2().at(iJet)/phys.ak8jets_tau1().at(iJet) > stod(conf->get("ak8_tau21_max"))))
+            {
+                continue;
+            }
+            //indices of fat jets that pass selection. Needed for filling histograms
+            g_fatjet_indices.push_back(iJet);
+        }
+  }
+
   //cout<<__LINE__<<endl;
   //if (printStats) { cout<<"mt2b: "<<g_mt2b<<" "; }
   //MT2b min
@@ -3921,6 +3935,11 @@ void ZMETLooper::fillallHistograms(std::string prefix)
             }
           }
 
+          else if(conf->get("boosted_histograms") == "true")
+          {
+            fillBoostedHists(g_fatjet_indices,prefix); 
+          }
+
 
           if (conf->get("GammaMuStudy") == "true")
           {
@@ -4195,11 +4214,14 @@ void ZMETLooper::fillBoostedHists(std::vector<size_t> g_fatjet_indices,std::stri
           {
               fill1DHistograms(prefix+"tau21",phys.ak8jets_tau2().at(iJet)/phys.ak8jets_tau1().at(iJet),weight,allHistos,"",1000,0,10,rootdir);
 
-            }
+          }
     }
     for(auto &iJet:g_fatjet_indices)
     {
         fill1DHistograms(prefix+"softDropMass",phys.ak8jets_softDropMass().at(iJet),weight,allHistos,"",6000,0,6000,rootdir);
+        fill1DHistograms(prefix+"fat_jet_pt",phys.ak8jets_p4().at(iJet).pt(),weight,allHistos,"",6000,0,6000,rootdir);
+        fill1DHistograms(prefix+"fat_jet_eta",phys.ak8jets_p4().at(iJet).eta(),weight,allHistos,"",200,-3,3,rootdir);
+        fill1DHistograms(prefix+"fat_jet_phi",phys.ak8jets_p4().at(iJet).phi(),weight,allHistos,"",200,-6.28,6.28,rootdir);
     }
 }
 
