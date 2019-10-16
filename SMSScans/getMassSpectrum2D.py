@@ -13,7 +13,7 @@ def checkInputs():
 
   print("Getting mass spectrum for %d files" % len(sys.argv[2:]))
 
-def fillMassSpectrumFromTChain():
+def fillMassSpectrumFromTChain(samplename):
 
   print "mass spectrum from TTrees"
 

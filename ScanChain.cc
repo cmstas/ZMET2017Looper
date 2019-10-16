@@ -32,6 +32,16 @@ static const int n_ptbins_std = 20;
     static const int n_met_bins_t5zznat = 5;
 //    const double met_bins_t5zznat[n_met_bins_t5zznat+1] = {50, 100, 150, 250, 350, 6000};
     const double met_bins_t5zznat[n_met_bins_t5zznat+1] = {50,100,150,230,300,6000};
+    
+    static const int n_met_bins_t5zznat_SRC = 4;
+    const double met_bins_t5zznat_SRC[n_met_bins_t5zznat_SRC+1] = {50,100,150,250,6000};
+
+     //MET bins from the old analysis
+
+    static const int n_met_bins_t5zznat_2016 = 4;
+    const double met_bins_t5zznat_2016[n_met_bins_t5zznat_2016+1] = {50,100,150,250,6000};
+    static const int n_met_bins_t5zznat_2016_SRC = 3;
+    const double met_bins_t5zznat_2016_SRC[n_met_bins_t5zznat_2016_SRC+1] = {50,100,150,6000};
 
     //==============================
     //T5ZZ contrived binning
@@ -3730,21 +3740,45 @@ void ZMETLooper::fillGluLSPHists(std::string prefix)
     {
         n_gluino_bins = &n_gluino_bins_tchiwz;
         n_lsp_bins = &n_lsp_bins_tchiwz;
-        n_met_bins = &n_met_bins_tchiwz;
-
         gluino_bins = gluino_bins_tchiwz;
         lsp_bins = lsp_bins_tchiwz;
+
+        n_met_bins = &n_met_bins_tchiwz;
         met_bins = met_bins_tchiwz;
     }
     else if(conf->get("data_set") == "T5ZZ")
     {
         n_gluino_bins = &n_gluino_bins_t5zznat;
         n_lsp_bins = &n_lsp_bins_t5zznat;
-        n_met_bins = &n_met_bins_t5zznat;
-
         gluino_bins = gluino_bins_t5zznat;
         lsp_bins = lsp_bins_t5zznat;
-        met_bins = met_bins_t5zznat;
+
+        if(conf->get("fastsim_2016_binning") != "true")
+        {
+            if(prefix.Contains("SRC"))
+            {
+                n_met_bins = &n_met_bins_t5zznat_SRC;
+                met_bins = met_bins_t5zznat_SRC;
+            }
+            else
+            { 
+                n_met_bins = &n_met_bins_t5zznat;
+                met_bins = met_bins_t5zznat;
+            }
+        }
+        else
+        {
+            if(prefix.Contains("SRC"))
+            {
+                n_met_bins = &n_met_bins_t5zznat_2016_SRC;
+                met_bins = met_bins_t5zznat_2016_SRC;
+            }
+            else
+            { 
+                n_met_bins = &n_met_bins_t5zznat_2016;
+                met_bins = met_bins_t5zznat_2016;
+            }
+        }
     }
 
     fill3DHistograms(prefix+"susy_type1MET_counts",g_met,phys.mass_gluino(),phys.mass_LSP(),weight,allSignal3DHistos,"(x,y,z) = (met, m_glu, m_lsp). Type1MET for"+g_sample_name, *n_met_bins, met_bins, *n_gluino_bins, gluino_bins, *n_lsp_bins, lsp_bins,rootdir);
