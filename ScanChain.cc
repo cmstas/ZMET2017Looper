@@ -727,7 +727,7 @@ int ZMETLooper::hasGoodZ(){
     //cout<<__LINE__<<endl;
   }
 
-  if (conf->get("susy_mc") != "true" && !passLeptonHLTs()){
+  if (conf->get("fastsim") != "true" && !passLeptonHLTs()){
     numEvents->Fill(20);
     if (printFail) cout<<phys.evt()<<" :Failed HLT Z cut"<<endl;
     return -1;
@@ -1259,7 +1259,7 @@ double ZMETLooper::getWeight(TString SR){
       weight *= phys.weight_btagsf();
     }
 
-    if (conf->get("susy_mc") == "true"){
+    if (conf->get("susy_mc") == "true" && conf->get("fastsim") == "true"){
       //double ISR_norm, btag_norm;
       if(conf->get("SUSY_Glu_LSP_scan") == "true"){
         ISR_norm=1./g_isr_norm->GetBinContent(g_isr_norm->GetXaxis()->FindBin(phys.mass_gluino()), g_isr_norm->GetYaxis()->FindBin(phys.mass_LSP()));
@@ -2454,7 +2454,7 @@ bool ZMETLooper::passMETFilters(){
       return false;
     }
   }
-  if (conf->get("susy_mc") != "true"){
+  if (conf->get("fastsim") != "true"){
     if (!phys.Flag_globalSuperTightHalo2016()){
       numEvents->Fill(4);
       if (printFail) cout<<phys.evt()<<" :Failed globalSuperTightHalo2016 cut"<<endl;
@@ -2892,7 +2892,7 @@ void ZMETLooper::updateSUSYBtagISRNorms(){
   //--------------------------------------------------------
   // 2D SUSY Scan ISR and BTag SF normalization Histograms
   //--------------------------------------------------------
-  if(conf->get("susy_mc") == "true"){
+  if(conf->get("susy_mc") == "true" && conf->get("fastsim") == "true"){
     cout<<"Updating normalization weights for ISR and Btag Scale Factors."<<endl;
     //cout<<__LINE__<<endl;
     if (phys.evt_dataset().at(0).Contains("T5ZZ")){
@@ -3308,7 +3308,7 @@ int ZMETLooper::ScanChain( TChain* chain, ConfigParser *configuration, bool fast
             numEvents = emu_numEvents;
     }
 
-    if (conf->get("susy_mc") == "true") updateSUSYBtagISRNorms();
+    if (conf->get("susy_mc") == "true" && conf->get("fastsim") == "true") updateSUSYBtagISRNorms();
 //===========================================
 // Loop over Events in current file
 //===========================================
