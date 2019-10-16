@@ -3755,7 +3755,7 @@ void ZMETLooper::fillGluLSPHists(std::string prefix)
 
         if(conf->get("fastsim_2016_binning") != "true")
         {
-            if(prefix.Contains("SRC"))
+            if(prefix.find("SRC") != std::string::npos)
             {
                 n_met_bins = &n_met_bins_t5zznat_SRC;
                 met_bins = met_bins_t5zznat_SRC;
@@ -3768,7 +3768,7 @@ void ZMETLooper::fillGluLSPHists(std::string prefix)
         }
         else
         {
-            if(prefix.Contains("SRC"))
+            if(prefix.find("SRC") != std::string::npos)
             {
                 n_met_bins = &n_met_bins_t5zznat_2016_SRC;
                 met_bins = met_bins_t5zznat_2016_SRC;
