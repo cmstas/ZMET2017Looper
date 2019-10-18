@@ -87,7 +87,7 @@ def fillMassSpectrumFromTChain(samplename):
 def fillMassSpectrumFromCache(samplename):
   """parse the mass binning file with output_filename as it's filename and fill the mass points set"""
 
-  output_filename = "SMSSCans/Spectra/mass_spectrum_{}.txt".format(samplename)
+  output_filename = "SMSScans/Spectra/mass_spectrum_{}.txt".format(samplename)
   mass_file = open(output_filename, 'r')
   for line in mass_file:
     a=line.split()
