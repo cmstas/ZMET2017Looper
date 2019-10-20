@@ -57,25 +57,28 @@ vector<double> getMetTemplatesError(const vector<double> &stat_err, const vector
   double EWK_LowBin;
   vector<double> MC_Closure_Error;
 
-  if (SR == "Strong_Btag_2j" || SR == "SRAb"){
+  if (SR == "SRA" || SR == "SRAb"){
     //MC_Closure_Error.push_back(.00); //0-50
     MC_Closure_Error.push_back(.00); //50-100
     MC_Closure_Error.push_back(.2);  //100-150
-    MC_Closure_Error.push_back(.26);  //150-250
-    MC_Closure_Error.push_back(.26);  //250+
+    MC_Closure_Error.push_back(.26);  //150-230
+    MC_Closure_Error.push_back(.26); //230-300
+    MC_Closure_Error.push_back(.26);  //300+
   }
-  else if(SR == "Strong_Btag_4j" || SR == "SRBb"){
+  else if(SR == "SRB" || SR == "SRBb"){
     //MC_Closure_Error.push_back(.00); //0-50
     MC_Closure_Error.push_back(.00); //50-100
     MC_Closure_Error.push_back(.12); //100-150
-    MC_Closure_Error.push_back(.18); //150-250
-    MC_Closure_Error.push_back(.18); //250+
+    MC_Closure_Error.push_back(.18); //150-230
+    MC_Closure_Error.push_back(.18); //230-300
+    MC_Closure_Error.push_back(.18); //300+
   }
-  else if (SR == "Strong_Btag_6j" || SR == "SRCb"){
+  else if (SR == "SRC" || SR == "SRCb"){
     //MC_Closure_Error.push_back(.00); //0-50
     MC_Closure_Error.push_back(.00); //50-100
     MC_Closure_Error.push_back(.2);  //100-150
-    MC_Closure_Error.push_back(.31);  //150+
+    MC_Closure_Error.push_back(.2); //150-250
+    MC_Closure_Error.push_back(.31);  //250+
   }
   else if(SR == "Strong_Bveto_2j" || SR == "VRA" || SR == "SRA"){
     //MC_Closure_Error.push_back(.00); //0-50

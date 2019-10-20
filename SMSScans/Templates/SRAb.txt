@@ -4,7 +4,7 @@ kmax * number of nuisance parameters
 
 -----
 bin	SRAb_bin1	SRAb_bin2	SRAb_bin3	SRAb_bin4	
-observation	bin1_yield	bin2_yield	bin3_yield	bin4_yield	
+observation	{bin1_yield}	{bin2_yield}	{bin3_yield}	{bin4_yield}	
 -----
 bin	SRAb_bin1	SRAb_bin1	SRAb_bin1	SRAb_bin1	SRAb_bin2	SRAb_bin2	SRAb_bin2	SRAb_bin2	SRAb_bin3	SRAb_bin3	SRAb_bin3	SRAb_bin3	SRAb_bin4	SRAb_bin4	SRAb_bin4	SRAb_bin4	
 process	sig	zjets	fsbkg	mcbkg	sig	zjets	fsbkg	mcbkg	sig	zjets	fsbkg	mcbkg	sig	zjets	fsbkg	mcbkg	
