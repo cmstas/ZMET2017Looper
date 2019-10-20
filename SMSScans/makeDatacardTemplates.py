@@ -1,3 +1,4 @@
+from __future__ import print_function
 import numpy as np
 
 SRs = ["SRA","SRAb","SRB", "SRBb", "SRC", "SRCb", "SRVZBoosted","SRVZResolved","SRHZ"]
@@ -23,14 +24,16 @@ class Nuisance:
 
         nuisance_name_to_return = self.nuisance_name
         placeholder_name_to_return = self.placeholder_name
+        additional_options_to_return = self.additional_options
         if SR:
             nuisance_name_to_return = nuisance_name_to_return.replace("_SR_","_{}_".format(SR))
         if bin_number > 0:
             nuisance_name_to_return = nuisance_name_to_return.replace("_bin","_bin{}".format(bin_number))
             placeholder_name_to_return = placeholder_name_to_return.replace("_bin","_bin{}".format(bin_number))
+            additional_options_to_return = additional_options_to_return.replace("_bin","_bin{}".format(bin_number))
 
         if self.additional_options:
-            return nuisance_name_to_return,self.error_type,placeholder_name_to_return,self.additional_options
+            return nuisance_name_to_return,self.error_type,placeholder_name_to_return,additional_options_to_return
         else:
             return nuisance_name_to_return,self.error_type,placeholder_name_to_return
 
@@ -40,7 +43,7 @@ class Nuisance:
 
 
 nuisances = {
-        "sig":[Nuisance("PUreweighting","sig_pileup_hist"),Nuisance("scale","sig_refacAndNorm_syst"),Nuisance("MET","sig_metfromFS_syst_bin"),Nuisance("lepton_FSsfs","sig_leptonFS_syst"),Nuisance("lepton_idiso","sig_leptonidiso_syst"),Nuisance("btag_HF","sig_btagheavy_syst_bin"),Nuisance("btag_LF","sig_btaglight_syst_bin"),Nuisance("lumi","sig_lumi_syst"),Nuisance("ISR","sig_isr_syst_bin"),Nuisance("sig_trig_syst_OS","sig_trig_syst"),Nuisance("sig_JES_syst_SR_bin_OS","sig_JES_syst_bin"),Nuisance("sig_stat_syst_SR_bin_OS","sig_stat_syst_bin")],
+        "sig":[Nuisance("PUreweighting","sig_pileup_syst"),Nuisance("scale","sig_refacAndNorm_syst"),Nuisance("MET","sig_metfromFS_syst_bin"),Nuisance("lepton_FSsfs","sig_leptonFS_syst"),Nuisance("lepton_idiso","sig_leptonidiso_syst"),Nuisance("btag_HF","sig_btagheavy_syst_bin"),Nuisance("btag_LF","sig_btaglight_syst_bin"),Nuisance("lumi","sig_lumi_syst"),Nuisance("ISR","sig_isr_syst_bin"),Nuisance("sig_trig_syst_OS","sig_trig_syst"),Nuisance("sig_JES_syst_SR_bin_OS","sig_JES_syst_bin"),Nuisance("sig_stat_syst_SR_bin_OS","sig_stat_syst_bin")],
 
         "fsbkg":[Nuisance("fsbkg_rsfof_syst_OS","rsof_unc"),Nuisance("fsbkg_kappa_syst_OS","kappa_unc"),Nuisance("fsbkg_stat_syst_SR_bin_OS","rsfof*kappa",additional_options = "count_bin_fsbkg",error_type = "gmN")],
 
@@ -61,7 +64,6 @@ def create_bin_dictionaries(SR):
     mcbkg_nuisance_params = []
 
     for bin_number in range(1,bins[SR]+1):
-        print("current bin_number",bin_number)
         signal_nuisance_params.append({bin_number:[i.get_params_for_template(SR,bin_number) for i in nuisances["sig"]]})
         zjets_nuisance_params.append({bin_number:[i.get_params_for_template(SR,bin_number) for i in nuisances["zjets"]]})
         fsbkg_nuisance_params.append({bin_number:[i.get_params_for_template(SR,bin_number) for i in nuisances["fsbkg"]]})
@@ -99,7 +101,6 @@ def makeNuisanceParameterTable(SR):
             for i in collection:
                 for bin_number,nuisance_list in i.items():
                     for nuisance in nuisance_list:
-                        print(str(nuisance_name),nuisance[0])
                         if str(nuisance_name) in nuisance:
                             #Fill the error type
                             if len(nuisance) == 4:
@@ -107,7 +108,6 @@ def makeNuisanceParameterTable(SR):
                             else:
                                 nuisance_matrix[row,1] = nuisance[1]
                             #Fill the other stuff
-                            print(nuisance[2])
                             nuisance_matrix[row,2+(bin_number-1) * 4 + bkg_number] = "{%s}"%(nuisance[2])
 
     return nuisance_matrix
@@ -173,4 +173,5 @@ def makeDatacardTemplateFile(SR):
 
 if __name__ == "__main__":
     for SR in ["SRA","SRAb","SRB","SRBb","SRC","SRCb"]:
+        print("Making template for {}".format(SR))
         makeDatacardTemplateFile(SR)
