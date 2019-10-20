@@ -130,7 +130,7 @@ def makeDatacardTemplateFile(SR):
 
     f.write("observation\t")
     for bin_number in range(1,bins[SR]+1):
-        f.write("bin{}_yield\t".format(bin_number))
+        f.write("{bin%d_yield}\t"%(bin_number)))
     f.write("\n")
     f.write("-----\n")
 
