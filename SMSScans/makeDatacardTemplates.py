@@ -44,7 +44,7 @@ nuisances = {
 
         "fsbkg":[Nuisance("fsbkg_rsfof_syst_OS","rsof_unc"),Nuisance("fsbkg_kappa_syst_OS","kappa_unc"),Nuisance("fsbkg_stat_syst_SR_bin_OS","rsfof*kappa",additional_options = "count_bin_fsbkg",error_type = "gmN")],
 
-        "zjets":[Nuisance("zjets_norm_syst_SR_OS","zjets_norm"),Nuisance("zjets_clos_syst_SR_bin_OS","zjets_close_bin"),Nuisance("zjets_stat_syst_SR_bin_OS","zjets_stat_bin"),Nuisance("zjets_ewk_syst_SR_bin_OS","zjets_ewk_bin")],
+        "zjets":[Nuisance("zjets_norm_syst_SR_OS","zjets_norm"),Nuisance("zjets_clos_syst_SR_bin_OS","zjets_clos_bin"),Nuisance("zjets_stat_syst_SR_bin_OS","zjets_stat_bin"),Nuisance("zjets_ewk_syst_SR_bin_OS","zjets_ewk_bin")],
 
         "mcbkg":[Nuisance("mcbkg_scale_unc_OS","mcbkg_scale_unc_bin"),Nuisance("mcbkg_stat_SR_bin_OS","mc_stat_bin")]
         }
