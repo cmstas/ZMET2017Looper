@@ -3,7 +3,7 @@
 import argparse, sys, re, getSignalNumbers
 from getMassSpectrum2D import getMassSpectrum
 import sys,os
-templates_path="SMSScans/Templates/"
+templates_path="Templates/"
 signal_name = None
 mass_spectrum = None
 histogram_Path = None
@@ -74,9 +74,6 @@ def addConstantVals(d):
 
 def getNuisenceParameters(SR):
   """Reads in the output of the plot maker for the signal region and collects all the key value pairs of nuisance parameters."""
-#  f = open("outputs/configs_prediction_Final_%s.plots_out" % SR, "r")
-#  f = open("/home/users/bsathian/ZMet/hists2017/DoubleLepton_narrow/DoubleLepton_narrow_signal/%s/DoubleLepton/statsplots.out"%SR,"r")
-#  f = open("/home/users/bsathian/ZMet/histsthreeyears/DoubleLepton/combined/statsplots_%s.out"%SR,"r")
   f = open("/home/users/bsathian/ZMet/histsthreeyears/DoubleLepton/combined/statsplots_{}.out".format(SR),"r")
   n_dict = {}
   for line in f:
@@ -178,7 +175,7 @@ def setupVars():
   global output_path
   n_parms = {}
 
-  output_path="SMSScans/DataCards/%s/" % signal_name
+  output_path="DataCards/%s/" % signal_name
 
   if signal_name == "T5ZZ":
     #histogram_Path="/nfs-7/userdata/bobak/ZMET2017_Hists/T5ZZScan/CV/"
