@@ -179,7 +179,7 @@ def setupVars():
   global output_path
   n_parms = {}
 
-  output_path="SMSScans/DataCards/%s/" % signal_name
+  output_path="DataCards/%s/" % signal_name
 
   if signal_name == "T5ZZ":
     #histogram_Path="/nfs-7/userdata/bobak/ZMET2017_Hists/T5ZZScan/CV/"
