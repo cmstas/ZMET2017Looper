@@ -2261,7 +2261,7 @@ if (conf->get("MT2_max") != ""){
   return true;
 }
 
-bool ZMETLooper::passRareCuts(){
+/*bool ZMETLooper::passRareCuts(){
 
   bool hasrealmet = true;
   bool realzpair  = true;
@@ -2305,20 +2305,20 @@ bool ZMETLooper::passRareCuts(){
   //if (printPass) cout<<phys.evt()<<": Passes Has Real MET Rare Cut"<<endl;
   //if (printPass) cout<<phys.evt()<<": Passes Has Real Z Pair Rare Cut"<<endl;
   return true;
-}
+}*/
 
 
-/* The actual rare real MET cuts code - Replace the other one with this after producing new babies with new branch
+/* The actual rare real MET cuts code - Replace the other one with this after producing new babies with new branch*/
  
 bool ZMETLooper::passRareCuts()
 {
     bool hasrealmet = true;
-    bool realzpair = true;
+    bool hasrealzpair = true;
     float drThreshold = 0.1;
 
     std::vector<size_t> signal_lep_genMatch_indices;
 
-    if(TString(conf->get("data_set").Contains("VVV")) || TString(conf->get("data_set").Contains("TTZ")) || TString(conf->get("data_set").Contains("WZ")) || TString(conf->get("data_set").Contains("ZZ")) || TString(conf->get("data_set").Contains("GluGluToZZ")))
+    if(TString(conf->get("data_set")).Contains("VVV") || TString(conf->get("data_set")).Contains("TTZ") || TString(conf->get("data_set")).Contains("WZ") || TString(conf->get("data_set")).Contains("ZZ") || TString(conf->get("data_set")).Contains("GluGluToZZ"))
     {
         hasrealmet = false;
         hasrealzpair = false;
@@ -2335,7 +2335,7 @@ bool ZMETLooper::passRareCuts()
 
         //Gen match the two signal leptons, and check their mother indices
 
-        for(size_t lepidx = 0; lepidx < phys.lep_p4.size(); lepidx++)
+        for(size_t lepidx = 0; lepidx < phys.lep_p4().size(); lepidx++)
         {
             float dr = drThreshold;
             size_t matchIdx = -1;
@@ -2359,7 +2359,7 @@ bool ZMETLooper::passRareCuts()
             }
         }
 
-        if(phys.genLep_motherIdx().at(signal_lep_genMatch_indices[0]) == phys.genLep_motherIdx().at(signal_lep_genMatch_indices[1]))
+        if(phys.genLep_motherIndex().at(signal_lep_genMatch_indices[0]) == phys.genLep_motherIndex().at(signal_lep_genMatch_indices[1]))
         {
             if(printFail) cout<<phys.evt()<<" Found 2 signal leptons matched to the same gen Z"<<endl;
         }
@@ -2381,7 +2381,7 @@ bool ZMETLooper::passRareCuts()
     }
 
     return true;
-}*/
+}
   
 bool ZMETLooper::passSUSYSignalCuts(){
   //cout<<__LINE__<<endl;

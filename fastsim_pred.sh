@@ -15,11 +15,11 @@ do
             nohup ./ZMETLooper $sampleName configs/threeyears/fastsim/$mode/run_modes.conf $year zmet_datasets_$year.txt > fastsim-$sampleName-$mode-$year.out &
         done
     done
+  wait
 done
-wait
 
 #hadd the fastsim histograms
-for mode in modes
+for mode in "${modes[@]}"
 do
     for sampleName in "${sample[@]}"
     do

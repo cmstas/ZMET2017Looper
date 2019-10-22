@@ -13,7 +13,7 @@
 #include <unistd.h>
 typedef ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > LorentzVector;
 
-// Generated with file: /nfs-7/userdata/bsathian/ZMET_babies/DYJetsToLL_M-50_TuneCP5_13TeV-amcatnloFXFX-pythia8_RunIIAutumn18MiniAOD-102X_upgrade2018_realistic_v15-v1_MINIAODSIM_ZMET_babies/baby_1.root
+// Generated with file: /nfs-7/userdata/bsathian/ZMET_babies_20191021/GluGluToContinToZZTo2e2mu_13TeV_MCFM701_pythia8_RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v2_MINIAODSIM_ZMET_babies/baby_1.root
 
 using namespace std;
 class ZMET2016 {
@@ -32,9 +32,9 @@ protected:
   vector<float> *ak8jets_tau2_;
   TBranch *ak8jets_tau2_branch;
   bool ak8jets_tau2_isLoaded;
-  vector<int> *genLepFromTau_status_;
-  TBranch *genLepFromTau_status_branch;
-  bool genLepFromTau_status_isLoaded;
+  int HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL_DZ_;
+  TBranch *HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL_DZ_branch;
+  bool HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL_DZ_isLoaded;
   int HLT_Mu27_TkMu8_;
   TBranch *HLT_Mu27_TkMu8_branch;
   bool HLT_Mu27_TkMu8_isLoaded;
@@ -44,6 +44,9 @@ protected:
   int HLT_Mu50_;
   TBranch *HLT_Mu50_branch;
   bool HLT_Mu50_isLoaded;
+  int HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_;
+  TBranch *HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_branch;
+  bool HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_isLoaded;
   int HLT_Mu17_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_;
   TBranch *HLT_Mu17_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_branch;
   bool HLT_Mu17_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_isLoaded;
@@ -98,9 +101,9 @@ protected:
   vector<int> *gamma_idCutBased_;
   TBranch *gamma_idCutBased_branch;
   bool gamma_idCutBased_isLoaded;
-  float dphi_metj3_dn_;
-  TBranch *dphi_metj3_dn_branch;
-  bool dphi_metj3_dn_isLoaded;
+  vector<int> *genLepFromTau_status_;
+  TBranch *genLepFromTau_status_branch;
+  bool genLepFromTau_status_isLoaded;
   float dphi_genmetj1_;
   TBranch *dphi_genmetj1_branch;
   bool dphi_genmetj1_isLoaded;
@@ -143,6 +146,9 @@ protected:
   float dR_jj_dn_;
   TBranch *dR_jj_dn_branch;
   bool dR_jj_dn_isLoaded;
+  vector<int> *genLep_motherIndex_;
+  TBranch *genLep_motherIndex_branch;
+  bool genLep_motherIndex_isLoaded;
   vector<float> *gamma_phIso_;
   TBranch *gamma_phIso_branch;
   bool gamma_phIso_isLoaded;
@@ -473,9 +479,9 @@ protected:
   float dphi_genmetj3_;
   TBranch *dphi_genmetj3_branch;
   bool dphi_genmetj3_isLoaded;
-  float dphi_genmetj2_;
-  TBranch *dphi_genmetj2_branch;
-  bool dphi_genmetj2_isLoaded;
+  float dphi_metj3_dn_;
+  TBranch *dphi_metj3_dn_branch;
+  bool dphi_metj3_dn_isLoaded;
   int HLT_Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_;
   TBranch *HLT_Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_branch;
   bool HLT_Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_isLoaded;
@@ -623,6 +629,9 @@ protected:
   vector<float> *lep_sta_x2ondof_;
   TBranch *lep_sta_x2ondof_branch;
   bool lep_sta_x2ondof_isLoaded;
+  float dphi_genmetj2_;
+  TBranch *dphi_genmetj2_branch;
+  bool dphi_genmetj2_isLoaded;
   int nMuons10_;
   TBranch *nMuons10_branch;
   bool nMuons10_isLoaded;
@@ -734,6 +743,9 @@ protected:
   float mt2b_up_;
   TBranch *mt2b_up_branch;
   bool mt2b_up_isLoaded;
+  vector<int> *genLep_motherId_;
+  TBranch *genLep_motherId_branch;
+  bool genLep_motherId_isLoaded;
   float ht_up_;
   TBranch *ht_up_branch;
   bool ht_up_isLoaded;
@@ -1216,10 +1228,11 @@ public:
   const vector<float> &ak8jets_tau1();
   const vector<float> &ak8jets_tau3();
   const vector<float> &ak8jets_tau2();
-  const vector<int> &genLepFromTau_status();
+  const int &HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL_DZ();
   const int &HLT_Mu27_TkMu8();
   const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genPart_p4();
   const int &HLT_Mu50();
+  const int &HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL();
   const int &HLT_Mu17_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL();
   const int &nisoTrack_5gev();
   const float &nupfcands_2430_phi();
@@ -1238,7 +1251,7 @@ public:
   const vector<int> &lep_lostHits();
   const unsigned long long &evt();
   const vector<int> &gamma_idCutBased();
-  const float &dphi_metj3_dn();
+  const vector<int> &genLepFromTau_status();
   const float &dphi_genmetj1();
   const int &njets();
   const int &mass_LSP();
@@ -1253,6 +1266,7 @@ public:
   const vector<float> &jets_up_csv();
   const ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > &decayedphoton_bosn_p4();
   const float &dR_jj_dn();
+  const vector<int> &genLep_motherIndex();
   const vector<float> &gamma_phIso();
   const vector<float> &lep_etaSC();
   const vector<float> &lep_MVA();
@@ -1363,7 +1377,7 @@ public:
   const vector<float> &lep_relIso03MRDB();
   const int &ngenLepFromTau();
   const float &dphi_genmetj3();
-  const float &dphi_genmetj2();
+  const float &dphi_metj3_dn();
   const int &HLT_Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL();
   const int &HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass8();
   const int &HLT_singleEl();
@@ -1413,6 +1427,7 @@ public:
   const int &Flag_badChargedCandidateFilter();
   const int &Flag_badChargedCandidateFilterv2();
   const vector<float> &lep_sta_x2ondof();
+  const float &dphi_genmetj2();
   const int &nMuons10();
   const int &evt_type();
   const int &HLT_Photon36_R9Id90_HE10_IsoM();
@@ -1450,6 +1465,7 @@ public:
   const int &HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ();
   const int &HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ();
   const float &mt2b_up();
+  const vector<int> &genLep_motherId();
   const float &ht_up();
   const vector<float> &weightsf_lepreco();
   const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &jets_p4();
@@ -1621,10 +1637,11 @@ namespace zmet2016 {
   const vector<float> &ak8jets_tau1();
   const vector<float> &ak8jets_tau3();
   const vector<float> &ak8jets_tau2();
-  const vector<int> &genLepFromTau_status();
+  const int &HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL_DZ();
   const int &HLT_Mu27_TkMu8();
   const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genPart_p4();
   const int &HLT_Mu50();
+  const int &HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL();
   const int &HLT_Mu17_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL();
   const int &nisoTrack_5gev();
   const float &nupfcands_2430_phi();
@@ -1643,7 +1660,7 @@ namespace zmet2016 {
   const vector<int> &lep_lostHits();
   const unsigned long long &evt();
   const vector<int> &gamma_idCutBased();
-  const float &dphi_metj3_dn();
+  const vector<int> &genLepFromTau_status();
   const float &dphi_genmetj1();
   const int &njets();
   const int &mass_LSP();
@@ -1658,6 +1675,7 @@ namespace zmet2016 {
   const vector<float> &jets_up_csv();
   const ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > &decayedphoton_bosn_p4();
   const float &dR_jj_dn();
+  const vector<int> &genLep_motherIndex();
   const vector<float> &gamma_phIso();
   const vector<float> &lep_etaSC();
   const vector<float> &lep_MVA();
@@ -1768,7 +1786,7 @@ namespace zmet2016 {
   const vector<float> &lep_relIso03MRDB();
   const int &ngenLepFromTau();
   const float &dphi_genmetj3();
-  const float &dphi_genmetj2();
+  const float &dphi_metj3_dn();
   const int &HLT_Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL();
   const int &HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass8();
   const int &HLT_singleEl();
@@ -1818,6 +1836,7 @@ namespace zmet2016 {
   const int &Flag_badChargedCandidateFilter();
   const int &Flag_badChargedCandidateFilterv2();
   const vector<float> &lep_sta_x2ondof();
+  const float &dphi_genmetj2();
   const int &nMuons10();
   const int &evt_type();
   const int &HLT_Photon36_R9Id90_HE10_IsoM();
@@ -1855,6 +1874,7 @@ namespace zmet2016 {
   const int &HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ();
   const int &HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ();
   const float &mt2b_up();
+  const vector<int> &genLep_motherId();
   const float &ht_up();
   const vector<float> &weightsf_lepreco();
   const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &jets_p4();
