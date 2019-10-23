@@ -2328,7 +2328,7 @@ bool ZMETLooper::passRareCuts()
             if((abs(phys.genPart_pdgId().at(genind)) == 12 || abs(phys.genPart_pdgId().at(genind)) == 14 || abs(phys.genPart_pdgId().at(genind)) == 16) && (abs(phys.genPart_motherId().at(genind)) == 24 || phys.genPart_motherId().at(genind) == 23) && (phys.genPart_status().at(genind) == 23 || phys.genPart_status().at(genind) == 1))
             {
                 hasrealmet = true;
-                if(printFail) cout<<"Found event containing real MET from neutrinos"<<endl;
+               if(printFail) cout<<phys.evt()<<" Found event containing real MET from neutrinos"<<endl;
             }
 
         }
@@ -2338,7 +2338,7 @@ bool ZMETLooper::passRareCuts()
         for(size_t lepidx = 0; lepidx < phys.lep_p4().size(); lepidx++)
         {
             float dr = drThreshold;
-            size_t matchIdx = -1;
+            int matchIdx = -1;
             for(size_t genidx = 0; genidx < phys.genLep_eta().size(); genidx++)
             {
                 float temp_dr = sqrt(pow(phys.lep_p4().at(lepidx).eta() - phys.genLep_eta().at(genidx),2) + pow(phys.lep_p4().at(lepidx).phi() - phys.genLep_phi().at(genidx),2));
@@ -2348,7 +2348,7 @@ bool ZMETLooper::passRareCuts()
                     matchIdx = genidx;
                 }
             }
-            if(matchIdx >= 0 && abs(phys.genLep_motherId().at(matchIdx)) == 24)
+            if(matchIdx >= 0 && abs(phys.genLep_motherId().at(matchIdx)) == 23)
             {
                 signal_lep_genMatch_indices.push_back(matchIdx);
             }   
@@ -2359,9 +2359,10 @@ bool ZMETLooper::passRareCuts()
             }
         }
 
-        if(phys.genLep_motherIndex().at(signal_lep_genMatch_indices[0]) == phys.genLep_motherIndex().at(signal_lep_genMatch_indices[1]))
+        if(signal_lep_genMatch_indices.size() >= 2 && phys.genLep_motherIndex().at(signal_lep_genMatch_indices[0]) == phys.genLep_motherIndex().at(signal_lep_genMatch_indices[1]))
         {
             if(printFail) cout<<phys.evt()<<" Found 2 signal leptons matched to the same gen Z"<<endl;
+	   hasrealzpair = true;
         }
         
     }
