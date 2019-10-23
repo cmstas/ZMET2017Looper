@@ -3673,6 +3673,8 @@ void ZMETLooper::fillGluLSPHists(std::string prefix)
         }
     }
 
+    fill2DHistograms(prefix+"mass_counts",phys.mass_gluino(),phys.mass_LSP(),weight,all2DHistos,"(x,y) = (mass_gluino,mass_LSP)",*n_gluino_bins,gluino_bins,*n_lsp_bins,lsp_bins,rootdir);
+
     fill3DHistograms(prefix+"susy_type1MET_counts",g_met,phys.mass_gluino(),phys.mass_LSP(),weight,allSignal3DHistos,"(x,y,z) = (met, m_glu, m_lsp). Type1MET for"+g_sample_name, *n_met_bins, met_bins, *n_gluino_bins, gluino_bins, *n_lsp_bins, lsp_bins,rootdir);
     fill3DHistograms(prefix+"susy_type1MET_nowt",g_met,phys.mass_gluino(),phys.mass_LSP(),1,allSignal3DHistos,"(x,y,z) = (met, m_glu, m_lsp). Type1MET with no event weights for"+g_sample_name,*n_met_bins,met_bins,*n_gluino_bins,gluino_bins,*n_lsp_bins,lsp_bins,rootdir);
 
