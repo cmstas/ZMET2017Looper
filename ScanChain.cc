@@ -3629,7 +3629,7 @@ int ZMETLooper::ScanChain( TChain* chain, ConfigParser *configuration, bool fast
 
 void ZMETLooper::fillGluLSPHists(std::string prefix)
 {
-    if(conf->get("data_set") == "TChiWZ")
+    if(conf->get("data_set") == "TChiWZ" || conf->get("data_set") == "TChiWZfullsim")
     {
         n_gluino_bins = &n_gluino_bins_tchiwz;
         n_lsp_bins = &n_lsp_bins_tchiwz;
