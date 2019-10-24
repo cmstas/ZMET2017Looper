@@ -3,7 +3,7 @@
 import argparse, sys, re, getSignalNumbers
 from getMassSpectrum2D import getMassSpectrum
 import sys,os
-templates_path="SMSScans/Templates_2016/"
+templates_path="Templates_2016/"
 signal_name = None
 mass_spectrum = None
 histogram_Path = None
@@ -78,7 +78,7 @@ def getNuisenceParameters(SR):
 #  f = open("/home/users/bsathian/ZMet/hists2017/DoubleLepton_narrow/DoubleLepton_narrow_signal/%s/DoubleLepton/statsplots.out"%SR,"r")
 #  f = open("/home/users/bsathian/ZMet/histsthreeyears/DoubleLepton/combined/statsplots_%s.out"%SR,"r")
 #  f = open("/home/users/bsathian/ZMet/histsthreeyears/DoubleLepton/combined/statsplots_{}.out".format(SR),"r")
-  f = open("/home/users/bsathian/ZMet/histsoneyear/DoubleLepton/2016/statsplots_{}.out".format(SR),"r")
+  f = open("/home/users/bsathian/ZMet/histsoneyear/DoubleLepton/2016/2016_binning_new_mc/statsplots_{}.out".format(SR),"r")
   n_dict = {}
   for line in f:
     if re.match("{.*} [0-9]*\.[0-9]*\s$", line):

@@ -87,7 +87,7 @@ def fillMassSpectrumFromTChain(samplename):
 def fillMassSpectrumFromCache(samplename):
   """parse the mass binning file with output_filename as it's filename and fill the mass points set"""
 
-  output_filename = "SMSScans/Spectra/mass_spectrum_{}.txt".format(samplename)
+  output_filename = "Spectra/mass_spectrum_{}.txt".format(samplename)
   mass_file = open(output_filename, 'r')
   for line in mass_file:
     a=line.split()
@@ -97,7 +97,7 @@ def fillMassSpectrumFromCache(samplename):
 
 def fillMassSpectrum(samplename):
   """checks if the sample name already has a mass binning file made, if it does, parse it and fill the mass spectrum, otherwise read the files in a build the mass spectrum on the fly."""
-  output_filename = "SMSScans/Spectra/mass_spectrum_{}.txt".format(samplename)
+  output_filename = "Spectra/mass_spectrum_{}.txt".format(samplename)
   if not os.path.isfile(output_filename):
     print "Cache file not present! Recomputing from TChain"
     mass_points = fillMassSpectrumFromTChain(samplename)
@@ -111,7 +111,7 @@ def getMassSpectrum(name):
   """returns a list of pairs (mass_gluino, mass_LSP)"""
 
   print "Getting mass spectrum..."
-  output_filename = "SMSScans/Spectra/mass_spectrum_%s.txt" % name
+  output_filename = "Spectra/mass_spectrum_%s.txt" % name
 
   mass_points = fillMassSpectrum(name)
 
@@ -125,7 +125,7 @@ if __name__ == "__main__":
   checkInputs()
   name=sys.argv[1]
   files_in=sys.argv[2:]
-  output_filename = "SMSScans/Spectra/mass_spectrum_%s.txt" % name
+  output_filename = "Spectra/mass_spectrum_%s.txt" % name
   fillMassSpectrum()
 
   for i in mass_points:
