@@ -3338,11 +3338,27 @@ int ZMETLooper::ScanChain( TChain* chain, ConfigParser *configuration, bool fast
         //hack to ensure event gets checked for all regions
             bool flag = false;
 
-            flag = passStrongSRCuts();
-            flag = passEWKSRCuts();
-            flag = passStrongVRCuts();
-            flag = passEWKVRCuts();
-            flag = passInclusiveCuts();
+            //SUSY MC special stuff
+            if(conf->get("susy_mc") == "true")
+            {
+                if(conf->get("name").find("T5ZZ") != std::string::npos)
+                {
+                    flag = passStrongSRCuts();
+                }
+                else if(conf->get("name").find("TChi") != std::string::npos)
+                {
+                    flag = passEWKSRCuts();
+                }
+            }
+
+            else
+            {
+                flag = passStrongSRCuts();
+                flag = passEWKSRCuts();
+                flag = passStrongVRCuts();
+                flag = passEWKVRCuts();
+                flag = passInclusiveCuts();
+            }
 
             if(flag == false)
             {
