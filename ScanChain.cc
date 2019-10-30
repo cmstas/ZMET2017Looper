@@ -1291,6 +1291,7 @@ double ZMETLooper::getWeight(TString SR){
         weight *= phys.weightsf_lepid_FS().at(i); //Fast Sim Lepton ID
         weight *= phys.weightsf_lepiso_FS().at(i); //Fast Sim Lepton isolation
         weight *= phys.weightsf_lepip_FS().at(i); //Fast Sim Lepton impact parameter
+        weight *= phys.weightsf_lepconv_FS().at(i); //Fast sim lepton conversion parameter
       }
       //cout<<__LINE__<<endl;
     }
