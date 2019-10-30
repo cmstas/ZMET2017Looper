@@ -233,6 +233,11 @@ void ZMET2016::Init(TTree *tree) {
     weightsf_lepip_FS_branch = tree->GetBranch("weightsf_lepip_FS");
     if (weightsf_lepip_FS_branch) { weightsf_lepip_FS_branch->SetAddress(&weightsf_lepip_FS_); }
   }
+  weightsf_lepconv_FS_branch = 0;
+  if (tree->GetBranch("weightsf_lepconv_FS") !=0){
+      weightsf_lepconv_FS_branch = tree->GetBranch("weightsf_lepconv_FS");
+      if (weightsf_lepconv_FS_branch) { weightsf_lepconv_FS_branch->SetAddress(&weightsf_lepconv_FS_); }
+  }
   genTau_phi_branch = 0;
   if (tree->GetBranch("genTau_phi") != 0) {
     genTau_phi_branch = tree->GetBranch("genTau_phi");
@@ -2039,6 +2044,7 @@ void ZMET2016::GetEntry(unsigned int idx) {
   njets_isLoaded = false;
   mass_LSP_isLoaded = false;
   weightsf_lepip_FS_isLoaded = false;
+  weightsf_lepconv_FS_isLoaded = false;
   genTau_phi_isLoaded = false;
   ak8jets_parton_flavor_isLoaded = false;
   HLT_Mu8_TrkIsoVVL_Ele17_CaloIdL_TrackIdL_IsoVL_isLoaded = false;
@@ -2441,6 +2447,7 @@ void ZMET2016::LoadAllBranches() {
   if (njets_branch != 0) njets();
   if (mass_LSP_branch != 0) mass_LSP();
   if (weightsf_lepip_FS_branch != 0) weightsf_lepip_FS();
+  if (weightsf_lepconv_FS_branch != 0) weightsf_lepconv_FS();
   if (genTau_phi_branch != 0) genTau_phi();
   if (ak8jets_parton_flavor_branch != 0) ak8jets_parton_flavor();
   if (HLT_Mu8_TrkIsoVVL_Ele17_CaloIdL_TrackIdL_IsoVL_branch != 0) HLT_Mu8_TrkIsoVVL_Ele17_CaloIdL_TrackIdL_IsoVL();
@@ -2531,6 +2538,7 @@ void ZMET2016::LoadAllBranches() {
   if (gamma_pt_branch != 0) gamma_pt();
   if (highPtPFcands_dz_branch != 0) highPtPFcands_dz();
   if (weightsf_lepid_FS_branch != 0) weightsf_lepid_FS();
+  if (weightsf_lepconv_FS_branch != 0) weightsf_lepconv_FS();
   if (genTau_sourceId_branch != 0) genTau_sourceId();
   if (chpfcands_0013_phi_branch != 0) chpfcands_0013_phi();
   if (Flag_hcalLaserEventFilter_branch != 0) Flag_hcalLaserEventFilter();
@@ -3193,6 +3201,18 @@ const vector<float> &ZMET2016::weightsf_lepip_FS() {
     weightsf_lepip_FS_isLoaded = true;
   }
   return *weightsf_lepip_FS_;
+}
+const vector<float> &ZMET2016::weightsf_lepconv_FS() {
+    if (not weightsf_lepconv_FS_isLoaded) {
+      if (weightsf_lepconv_FS_branch != 0) {
+        weightsf_lepconv_FS_branch->GetEntry(index);
+    } else {
+        printf("branch weightsf_lepconv_FS_branch does not exist!\n");
+        exit(1);
+    }
+    weightsf_lepconv_FS_isLoaded = true;
+  }
+  return *weightsf_lepconv_FS_;
 }
 const vector<float> &ZMET2016::genTau_phi() {
   if (not genTau_phi_isLoaded) {
@@ -7751,6 +7771,7 @@ namespace zmet2016 {
   const vector<float> &gamma_pt() { return phys.gamma_pt(); }
   const vector<float> &highPtPFcands_dz() { return phys.highPtPFcands_dz(); }
   const vector<float> &weightsf_lepid_FS() { return phys.weightsf_lepid_FS(); }
+  const vector<float> &weightsf_lepconv_FS() { return phys.weightsf_lepconv_FS(); }
   const vector<int> &genTau_sourceId() { return phys.genTau_sourceId(); }
   const float &chpfcands_0013_phi() { return phys.chpfcands_0013_phi(); }
   const int &Flag_hcalLaserEventFilter() { return phys.Flag_hcalLaserEventFilter(); }

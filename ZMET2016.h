@@ -116,6 +116,9 @@ protected:
   vector<float> *weightsf_lepip_FS_;
   TBranch *weightsf_lepip_FS_branch;
   bool weightsf_lepip_FS_isLoaded;
+  vector<float> *weightsf_lepconv_FS_;
+  TBranch *weightsf_lepconv_FS_branch;
+  bool weightsf_lepconv_FS_isLoaded;
   vector<float> *genTau_phi_;
   TBranch *genTau_phi_branch;
   bool genTau_phi_isLoaded;
@@ -1256,6 +1259,7 @@ public:
   const int &njets();
   const int &mass_LSP();
   const vector<float> &weightsf_lepip_FS();
+  const vector<float> &weightsf_lepconv_FS();
   const vector<float> &genTau_phi();
   const vector<int> &ak8jets_parton_flavor();
   const int &HLT_Mu8_TrkIsoVVL_Ele17_CaloIdL_TrackIdL_IsoVL();
@@ -1665,6 +1669,7 @@ namespace zmet2016 {
   const int &njets();
   const int &mass_LSP();
   const vector<float> &weightsf_lepip_FS();
+  const vector<float> &weightsf_lepconv_FS();
   const vector<float> &genTau_phi();
   const vector<int> &ak8jets_parton_flavor();
   const int &HLT_Mu8_TrkIsoVVL_Ele17_CaloIdL_TrackIdL_IsoVL();
