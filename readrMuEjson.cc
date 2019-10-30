@@ -6,7 +6,7 @@ std::unordered_map<std::string,float> extractrMuEParamsFromJSON(std::fstream jso
     std::unordered_map<std::string,float> json_params;
     int counter;
     //First split by comma, then split by colon
-    while(std::getline(f,line))
+    while(std::getline(json_file,line))
     {
         line = line.substr(1,line.size()-1); //To remove the starting and trailing curly braces
         std::stringstream temp(line);
