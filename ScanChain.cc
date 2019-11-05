@@ -26,7 +26,7 @@ void ZMETLooper::initSyncFiles(TString savePath)
     syncFile_baseline = new fstream;
     syncFile_emu = new fstream;
     syncFile_njets = new fstream;
-    syncFile_nBJets = new fstream;
+    syncFile_metFilter = new fstream;
     syncFile_met = new fstream;
     syncFile_isotracks = new fstream;
     std::string file_prefix = std::string(savePath.Data()) + conf->get("Name");
@@ -34,14 +34,14 @@ void ZMETLooper::initSyncFiles(TString savePath)
     syncFile_baseline->open(file_prefix + "_baseline.txt",std::ios::out);
     syncFile_emu->open(file_prefix +"_emu.txt",std::ios::out);
     syncFile_njets->open(file_prefix+"_njets.txt",std::ios::out);
-    syncFile_nBJets->open(file_prefix+"_nBJets.txt",std::ios::out);
+    syncFile_metFilter->open(file_prefix+"_metFilter.txt",std::ios::out);
     syncFile_met->open(file_prefix+"_met.txt",std::ios::out);
     syncFile_isotracks->open(file_prefix+"_isotracks.txt",std::ios::out);
 
     *syncFile_baseline<<"Run,Lumi,Event,PD"<<std::endl;
     *syncFile_emu<<"Run,Lumi,Event,PD"<<std::endl;
     *syncFile_njets<<"Run,Lumi,Event,PD"<<std::endl;
-    *syncFile_nBJets<<"Run,Lumi,Event,PD"<<std::endl;
+    *syncFile_metFilter<<"Run,Lumi,Event,PD"<<std::endl;
     *syncFile_met<<"Run,Lumi,Event,PD"<<std::endl;
     *syncFile_isotracks<<"Run,Lumi,Event,PD"<<std::endl;
 }
@@ -265,34 +265,33 @@ bool ZMETLooper::isDuplicate(){
   return false;
 }
 
+
 bool ZMETLooper::passMETFilters(){
-  //updated for Moriond 2017
-  if (!phys.Flag_EcalDeadCellTriggerPrimitiveFilter()      ) {
+  //For everyone
+  
+  if (!phys.Flag_EcalDeadCellTriggerPrimitiveFilter()) {
     if (printFail) cout<<phys.evt()<<" :Failed EcalDeadCellTriggerPrimativeFilter cut"<<endl;
     return false;
   }
-  if (!phys.Flag_HBHENoiseFilter                   ()      ){
+  if (!phys.Flag_HBHENoiseFilter()){
     if (printFail) cout<<phys.evt()<<" :Failed HBHENoiseFilter cut"<<endl;
     return false;
   }
-  if (!phys.Flag_HBHEIsoNoiseFilter                ()      ){
+  if (!phys.Flag_HBHEIsoNoiseFilter()){
     if (printFail) cout<<phys.evt()<<" :Failed HBHEIsoNoiseFilter cut"<<endl;
     return false;
   }
-  if (!phys.Flag_goodVertices                      ()      ) {
+  if(!phys.Flag_badMuonFilter())
+  {
+      if(printFail) cout<<phys.evt()<<" :Failed BadMuonFilter"<<endl;
+      return false;
+  }
+
+  if (!phys.Flag_goodVertices()) {
       if (printFail) cout<<phys.evt()<<" :Failed goodVerticies cut"<<endl;
     return false;
   }
-  if(conf->get("signal_region") != "LeonoraEvtLists"){
-    if (phys.nJet200MuFrac50DphiMet() > 0){
-      if (printFail) cout<<phys.evt()<<" :Failed nJet200MuFrac50DphiMet cut"<<endl;
-      return false;
-    }
-    if (g_year == 2016 && (g_met / phys.met_calo_pt()) > 5){
-      if (printFail) cout<<phys.evt()<<" :Failed T1MET/CaloMET cut"<<endl;
-      return false;
-    }
-  }
+  
   if (conf->get("susy_mc") != "true"){
     if (!phys.Flag_globalSuperTightHalo2016()){
       if (printFail) cout<<phys.evt()<<" :Failed globalSuperTightHalo2016 cut"<<endl;
@@ -306,14 +305,9 @@ bool ZMETLooper::passMETFilters(){
       return false;
   }
 
-  if(!phys.Flag_badMuonFilter())
-  {
-      if(printFail) cout<<phys.evt()<<" :Failed BadMuonFilter"<<endl;
-      return false;
-  }
-
+  
   if ( phys.isData() ) {
-    if (!phys.Flag_eeBadScFilter                     ()      ) {
+    if (!phys.Flag_eeBadScFilter()) {
       if (printFail) cout<<phys.evt()<<" :Failed eeBadScFilter cut"<<endl;
       return false;
     }
@@ -658,19 +652,21 @@ int ZMETLooper::ScanChain( TChain* chain, ConfigParser *configuration, bool fast
       }
       writeSyncFile(syncFile_baseline);
 
+      if(!passMETFilters())
+      {
+          continue;
+      }
+      writeSyncFile(syncFile_metFilter);
+
+ 
+
       if(!passNJetsCut())
       {
           continue;
       }
       writeSyncFile(syncFile_njets);
 
-      if(!passNBJetsCut())
-      {
-          continue;
-      }
-      writeSyncFile(syncFile_nBJets);
-
-      if(!passMETCut())
+     if(!passMETCut())
       {
           continue;
       }
@@ -713,7 +709,7 @@ void ZMETLooper::closeSyncFiles()
     syncFile_baseline->close();
     syncFile_emu->close();
     syncFile_njets->close();
-    syncFile_nBJets->close();
+    syncFile_metFilter->close();
     syncFile_met->close();
     syncFile_isotracks->close();
 }

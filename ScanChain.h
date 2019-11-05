@@ -249,7 +249,7 @@ class ZMETLooper
     fstream* syncFile_baseline;
     fstream* syncFile_emu;
     fstream* syncFile_njets;
-    fstream* syncFile_nBJets;
+    fstream* syncFile_metFilter;
     fstream* syncFile_met;
     fstream* syncFile_isotracks;
 
