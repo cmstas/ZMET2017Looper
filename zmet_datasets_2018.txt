@@ -110,3 +110,9 @@ ds:VVV
 /nfs-7/userdata/bsathian/ZMET_babies/WWZ_TuneCP5_13TeV-amcatnlo-pythia8_RunIIAutumn18MiniAOD-102X_upgrade2018_realistic_v15_ext1-v2_MINIAODSIM_ZMET_babies
 /nfs-7/userdata/bsathian/ZMET_babies/WZZ_TuneCP5_13TeV-amcatnlo-pythia8_RunIIAutumn18MiniAOD-102X_upgrade2018_realistic_v15_ext1-v2_MINIAODSIM_ZMET_babies
 /nfs-7/userdata/bsathian/ZMET_babies/ZZZ_TuneCP5_13TeV-amcatnlo-pythia8_RunIIAutumn18MiniAOD-102X_upgrade2018_realistic_v15_ext1-v2_MINIAODSIM_ZMET_babies
+ds:MuonEG-eraB
+/nfs-7/userdata/bsathian/ZMET_babies/MuonEG_Run2018B-17Sep2018-v1_MINIAOD_ZMET_babies
+ds:DoubleEG-eraB
+/nfs-7/userdata/bsathian/ZMET_babies/EGamma_Run2018B-17Sep2018-v1_MINIAOD_ZMET_babies
+ds:DoubleMuon-eraB
+/nfs-7/userdata/bsathian/ZMET_babies/DoubleMuon_Run2018B-17Sep2018-v1_MINIAOD_ZMET_babies
