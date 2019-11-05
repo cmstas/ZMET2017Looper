@@ -65,33 +65,14 @@ class ZMETLooper
     int ee_eventCount = 0, mumu_eventCount = 0, emu_eventCount = 0;
 
 
-    //master histogram map
-    std::unordered_map<std::string,TH1*> allHistos;
-    std::unordered_map<std::string,TH2*> all2DHistos;
 
-    vector<pair <TH1D*, TString> > g_reweight_pairs;
-    //This is used only for multiple SR vpt reweighting
-    std::unordered_map<std::string,TH1D*> g_vpt_reweight_pairs;
 
-    TDirectory *rootdir;
-    TH1D *g_pileup_hist, *g_l1prescale_hist22, *g_l1prescale_hist30, *g_l1prescale_hist36;
 
-    //Btag and ISR Scale Factor overall normalization
-    TH2D *g_btagsf_norm, *g_btagsf_light_norm_up, *g_btagsf_heavy_norm_up;
-    TH2D *g_isr_norm, *g_isr_norm_up;
-    TFile *g_SUSYsf_norm_file;
-
-    //2D Photon veto histogram based on ECAL bad spots
-
-    TEfficiency *g_pt_eff_barrel, *g_pt_eff_endcap;
-    TFile *g_weight_hist_file, *g_pileup_hist_file, *g_l1prescale_file;
     TString g_sample_name;
     TFile* currentFile;
     double g_scale_factor; //Holds scale factors for sample.
     int g_year;
 
-    TH1I *numEvents; //Holds the number of events in the whole script and the number that pass various cuts
-    TH1I *ee_numEvents,*mumu_numEvents,*emu_numEvents;
 
     bool printStats;
     bool printFail;
@@ -136,20 +117,15 @@ class ZMETLooper
 
 
     /* returns two most B-like jet indicies */
-    pair<int, int> getMostBlike();
 
     /*Finds the pair of B tagged jets (csv medium) with dijet mass closest to the mass of the higgs*/
-    pair<int,int> getClosestBPairToHiggsMass();
 
     /*Builds MT2b from two highest CSV jets*/
-    double getMT2B();
 
     /*Builds Mbb from two highest CSV jets*/
-    double getMbb();
 
     /*This function gets the MT2 built out of the two Bjets in an event, no guarentee
     is made about selecting the highest csv jets*/
-    double getMT2ForBjets(bool select_highest_csv=false);
 
     /*Builds MT2 for the two leading Bjets unless select_closest_higgs_mass is set, in which case it
     builds it out of the two bjets with dijet mass nearest the mass of the higgs.*/
@@ -159,10 +135,8 @@ class ZMETLooper
     double bosonPt();
 
     /* Builds the MT from the lepton at index id and the MET vector (assumes massless particles)*/
-    double getMTLepMET(short id=0);
 
     /* Builds the delta R (sqrt(dPhi^2 + dEta^2)) between the lepton at index id and the leading photon*/
-    double getdRGammaLep(short id=0);
 
     /*Returns position in the gen particles for the ewk boson and first quark pair prodcued from the EWK Boson mother and SUSY grandmother.
 
@@ -175,7 +149,6 @@ class ZMETLooper
 
   If no boson can be found, -1 is returned as the first position.
   If no quarks can be found, -1 is returned as the second positon.*/
-    pair<int,int> getSUSYHadDecayBoson();
 
     /*Returns the DeltaR between objects p1 and p2.*/
     double DeltaR(const LorentzVector p1, const LorentzVector p2);
@@ -210,19 +183,6 @@ class ZMETLooper
     //=============================
     /*Lepton quality and Z mass cuts*/
 
-    int hasGoodZ(); //0 for ee, 1 for emu, 2 for mumu, -1 for no lepton
-    int dil_flavor;
-
-    /*Photon quality cuts*/
-    bool hasGoodPhoton();
-
-    /*Method for testing whether the event has a good gamma mu pair trigger requirements are on the photon.
-    It just checks muon quality stuff and then calls hasGoodPhoton()*/
-    bool hasGoodGammaMu();
-
-    /*Just a helper method that chooses which hasGood method to call based on the config event_type*/
-    bool hasGoodEvent();
-
     //=============================
     // Event Weight Assignment
     //=============================
@@ -231,29 +191,6 @@ class ZMETLooper
     then adds a pair (config_name, hist_file) to the vector g_reweight_pairs.
 
     For now this is depricated: NEEDS TO BE UPDATED WITH NEW CODE FIXES*/
-    void readyReweightHists();
-
-    /* Adds the vpt reweighting histogram to the g_reweight_pairs vector */
-    void readyVPTReweight(TString save_path);
-    void readyVPTReweight_allSR(TString save_path);
-
-    /* Returns the trigger efficiency from g_pt_eff */
-    double getEff(const double &pt, const double &eta);
-
-    /*Loads the reweight hists from g_reweight_pairs and multiplies returns the weight associated with the proper
-    bin in the histogram*/
-    double getReweight();
-    double getReweight_allSR(TString SR);
-    /*This method stores fixes to the evt_scale1fb in the event of file corruptions.
-    It's basically just a lookup table*/
-    double scale1fbFix();
-
-    /*Main function for determining the weights for each event*/
-    double getWeight(TString SR = "");
-
-    /*Returns the weight associated with the photon prescales*/
-    double getPrescaleWeight();
-
     //=============================
     // Cuts
     //=============================
@@ -262,41 +199,12 @@ class ZMETLooper
     bool passSignalRegionCuts();
 
     //New SR and VR cuts
-    bool passSRACuts();
-    bool passSRAbCuts();
-    bool passVRACuts();
-
-    bool passSRBCuts();
-    bool passSRBbCuts();
-    bool passVRBCuts();
-
-    bool passSRCCuts();
-    bool passSRCbCuts();
-    bool passVRCCuts();
-
-    bool passSRVZCuts();
-    bool passVRWZCuts();
-
-    bool passSRVZBoostedCuts();
-    bool passVRWZBoostedCuts();
-
-    bool passSRHZCuts();
-    bool passVRHZCuts();
-
-    bool passStrongSRCuts();
-    bool passEWKSRCuts();
-
-    bool passStrongVRCuts();
-    bool passEWKVRCuts();
-
-    bool passInclusiveCuts();
+     bool passInclusiveCuts();
 
     /*Checks for a gen Neutrino (Real MET) and a gen Z (Real Z), only should be run when running
     over samples tagged as "rares". This is only neccesary for the full prediction.*/
-    bool passRareCuts();
 
     /*Checks for cuts that are spcific to SUSY samples like choosing a particular mass point*/
-    bool passSUSYSingalCuts();
 
     /*Front end method to "Dorky" duplicate removal*/
     bool isDuplicate();
@@ -307,12 +215,17 @@ class ZMETLooper
     /*Holds baseline cuts*/
     bool passBaseCut();
 
+    bool passNJetsCut();
+    bool passNBJetsCut();
+    bool passMETCut();
+    bool passIsotrackCut();
+
     /*Ensures events from the ee/mumu/emu dataset pass the trigger for that type of event and for ee and emu ensures they don't pass other triggers.*/
     bool passETHDileptonDataCleanse();
 
     /*Method which holds all the file specific selections, for instance cutting out the
   events with genht > 100 in the DY inclusive samples*/
-    bool passFileSelections();
+    bool passEMuSelections();
 
     //=============================
     // Setup
@@ -333,60 +246,27 @@ class ZMETLooper
     //void FillTriggerHistograms();
     
     //File writing stuff
-    fstream* syncFile;
+    fstream* syncFile_baseline;
+    fstream* syncFile_emu;
+    fstream* syncFile_njets;
+    fstream* syncFile_nBJets;
+    fstream* syncFile_met;
+    fstream* syncFile_isotracks;
 
     //Histogram stuff
 
 
-    const int *n_gluino_bins, *n_lsp_bins, *n_met_bins;
-    const double *gluino_bins, *lsp_bins, *met_bins;
-
-    const int *n_chi_bins;  //CHECK THIS DUDE IF YOU ENCOUNTER A met_bins RELATED ISSUE!!!
-    const double *chi_bins;
-
-    double weight=1;
     double sumMETFilters;
 
     //misc stuff
-    double bb_pt;
-    double mt2_val_fromb;
-    double mt2_val_hz = 0;
 
     //SUSY variables
 
-    double ISR_norm,btag_norm,ISR_norm_up,btag_heavy_norm_up,btag_light_norm_up;
-    double dphi_gm;
-
-    std::string commonHistPrefix;
-
-    void initSyncFile(TString savePath);
-    void writeSyncFile();
-    void fillallHistograms(std::string prefix = "");
-    void fillMassWindowHistograms(std::string prefix = "");
-    void fillCommonHists(std::string prefix = "");
-    void fillPhotonCRHists(std::string prefix = "");
-    void fillGammaMuCRHists(std::string prefix = "");
-    void fillDileptonCRHists(std::string prefix = "");
-    void fillClosureHists(std::string prefix = "");
-    void fillSignalRegionHists(std::string prefix = "");
-    void fillEcalHists(std::string prefix = "");
-    void fillTChiWZHists(std::string prefix = "");
-    void fillTChiHZHists(std::string prefix = "");
-    void fillBoostedHists(std::vector<size_t> fatjet_indices,std::string prefix = "");
-    LorentzVector computeMht();
-    //SR Hists comin' soon...
-    //
-
-    //SUSY signal Histograms
+    void initSyncFiles(TString savePath);
+    void writeSyncFile(fstream *syncFile);
+    void closeSyncFiles();
 
 
-    TH3D *susy_type1MET_btaglight_up, *susy_type1MET_btagheavy_up, *susy_type1MET_isr_up;
-
-  TH3D *susy_type1MET_counts,*susy_type1MET_nowt;
-
-  TH2D *susy_type1MET_btaglight_up_2d, *susy_type1MET_btagheavy_up_2d, *susy_type1MET_isr_up_2d;
-
-  TH2D *susy_type1MET_counts_2d,*susy_type1MET_nowt_2d;
 
     public:
     ZMETLooper(int year=-1);
