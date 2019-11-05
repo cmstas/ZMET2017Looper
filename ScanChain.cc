@@ -329,8 +329,8 @@ bool ZMETLooper::passBaseCut(){
       return false;
   if(phys.lep_pt().at(1) < 20)
       return false;
-//  if(phys.evt_type() != 0)
-//      return false;
+  if(phys.evt_type() != 0)
+      return false;
   if(phys.dRll() < 0.1)
       return false;
   if(phys.dilpt() < 25)
@@ -551,6 +551,8 @@ int ZMETLooper::ScanChain( TChain* chain, ConfigParser *configuration, bool fast
       savePath = getOutputDir(conf,"allhist",year_fromCommandLine);
   }
   else savePath = getOutputDir(conf, "hist");
+  std::string folderCreation = "mkdir -p "+std::string(savePath.Data());
+  system(folderCreation.c_str());
   ofstream files_log;
   files_log.open((savePath+TString(g_sample_name+"_files.log")).Data());
   //cout<<__LINE__<<endl;
