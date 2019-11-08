@@ -1173,31 +1173,40 @@ double ZMETLooper::getWeight(TString SR){
 
  //new Rsfof prescription
  float Rsfof = 1.0;
+ float rMuE_muon = 0.0;
+ float rMuE_electron = 0.0;
+ float *rMuE = nullptr;
+ float Rt = 0.0;
  if(conf->get("R_sfof_from_json") == "true" && phys.hyp_type() == 2 && conf->get("signal_region") == "all")
  {
-     float rMuE_muon = 0.0;
-     float rMuE_electron = 0.0;
-     float *rMuE;
      for(int i = 0; i < phys.nlep(); i++)
      {
         if(abs(phys.lep_pdgId().at(i)) == 11)
             rMuE = &rMuE_electron;
         else if(abs(phys.lep_pdgId().at(i)) == 13)
             rMuE = &rMuE_muon;
-
-        *rMuE = rMuEParameters["norm"] * rMuEParameters["ptOffset"] + (rMuEParameters["ptFalling"]/phys.lep_pt().at(i)) *rMuEParameters["etaParabolaBase"]; 
-
-        if(phys.lep_eta().at(i) < -1.6)
+        else
         {
-            *rMuE += rMuEParameters["etaParabolaMinus"]*pow(phys.lep_eta().at(i)+1.6,2); 
+            cout<<"EMu event without electron and muon!, skipping calculation"<<endl;
         }
-        else if(phys.lep_eta().at(i) > 1.6)
+
+        if(rMuE != nullptr)
         {
-            *rMuE += rMuEParameters["etaParabolaPlus"]*pow(phys.lep_eta().at(i)-1.6,2);
-        }
+
+            (*rMuE) = rMuEParameters["norm"] * rMuEParameters["ptOffset"] + (rMuEParameters["ptFalling"]/phys.lep_pt().at(i)) *rMuEParameters["etaParabolaBase"]; 
+
+            if(phys.lep_eta().at(i) < -1.6)
+            {
+                (*rMuE) += rMuEParameters["etaParabolaMinus"]*pow(phys.lep_eta().at(i)+1.6,2); 
+            }
+            if(phys.lep_eta().at(i) > 1.6)
+            {
+                (*rMuE) += rMuEParameters["etaParabolaPlus"]*pow(phys.lep_eta().at(i)-1.6,2);
+            }
+
  
-   }
-   float Rt;
+        }
+    }
    //Errors will come later
    if(g_year == 2016)
         Rt = 1.049; 
@@ -1206,7 +1215,10 @@ double ZMETLooper::getWeight(TString SR){
     else if(g_year == 2018)
         Rt = 1.037;
 
-    Rsfof = (rMuE_muon + 1.0/rMuE_electron) * Rt;
+    if(rMuE_muon != 0 && rMuE_electron != 0)
+        Rsfof = (rMuE_muon + 1.0/rMuE_electron) * Rt;
+    else
+        Rsfof = 1.0;
  }
 
  weight *= Rsfof;
@@ -2408,6 +2420,8 @@ bool ZMETLooper::passFileSelections(){
         return false;
       }
   }
+}
+
 
   //Photon MC samples
   if ( (! phys.isData()) && TString(conf->get("data_set")).Contains("GammaMC")){
@@ -2886,8 +2900,7 @@ int ZMETLooper::ScanChain( TChain* chain, ConfigParser *configuration, bool fast
         param_file_name = "rMuE_correctionParameters_ZPeakControl_Run2018_60fb.json";
     }
     
-    param_file.open(param_file_name,std::ios::in);
-    rMuEParameters = readrMuEjson(param_file); 
+    rMuEParameters = extractrMuEParamsFromJSON(param_file_name); 
   }
 //===========================================
 // File Loop
