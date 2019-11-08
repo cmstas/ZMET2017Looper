@@ -1,12 +1,15 @@
 # include "readrMuEjson.h"
 
-std::unordered_map<std::string,float> extractrMuEParamsFromJSON(std::fstream json_file)
+
+//Reads JSON files provided by Marius for r_Mu/e computation
+std::unordered_map<std::string,float> extractrMuEParamsFromJSON(std::string json_filename)
 {
     std::string line;
     std::unordered_map<std::string,float> json_params;
     int counter;
-    //First split by comma, then split by colon
-    while(std::getline(f,line))
+    //First split items by comma, then split every item into kay and value by colon
+    std::fstream json_file = std::fstream(json_filename,std::ios::in);
+    while(std::getline(json_file,line))
     {
         line = line.substr(1,line.size()-1); //To remove the starting and trailing curly braces
         std::stringstream temp(line);
@@ -24,7 +27,7 @@ std::unordered_map<std::string,float> extractrMuEParamsFromJSON(std::fstream jso
             counter = 0; //to redirect split string into key/value
             while(std::getline(itemtemp,json_temp,':')) //split dict item by colon
             {
-                if(counter == 0)
+                if(counter == 0)  //key
                 {
                     json_key = json_temp.substr(1,json_temp.size()-1);
                     
@@ -32,10 +35,10 @@ std::unordered_map<std::string,float> extractrMuEParamsFromJSON(std::fstream jso
                     json_key.erase(std::remove(json_key.begin(),json_key.end(),' '),json_key.end());
                     json_key.erase(std::remove(json_key.begin(),json_key.end(),'\"'),json_key.end());
                 }
-                else
+                else  //value
                 {
                      json_value.erase(std::remove(json_value.begin(),json_value.end(),' '),json_value.end()); 
-                    json_value = json_temp;
+                     json_value = json_temp;
                 }
                 counter ++;
             }

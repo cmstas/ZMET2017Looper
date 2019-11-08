@@ -9,6 +9,6 @@
 # include <string>
 # include <algorithm>
 
-std::unordered_map<std::string,float> extractrMuEParamsFromJSON(std::fstream json_file);
+std::unordered_map<std::string,float> extractrMuEParamsFromJSON(std::string json_filename);
 
 #endif
