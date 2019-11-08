@@ -338,12 +338,13 @@ class ZMETLooper
     //Photon HLT Test Histograms
     //void PhotonHLTTest();
     //void FillTriggerHistograms();
-    
-    //File writing stuff
-    fstream* syncFile;
+    //
+
+
+    //R_sfof parameter variables
+    std::unordered_map<std::string,float> rMuEParameters; 
 
     //Histogram stuff
-
 
     const int *n_gluino_bins, *n_lsp_bins, *n_met_bins;
     const double *gluino_bins, *lsp_bins, *met_bins;
@@ -389,13 +390,6 @@ class ZMETLooper
     void fillGluLSPHists(std::string prefix = "");
 
 
-    TH3D *susy_type1MET_btaglight_up, *susy_type1MET_btagheavy_up, *susy_type1MET_isr_up;
-
-  TH3D *susy_type1MET_counts,*susy_type1MET_nowt;
-
-  TH2D *susy_type1MET_btaglight_up_2d, *susy_type1MET_btagheavy_up_2d, *susy_type1MET_isr_up_2d;
-
-  TH2D *susy_type1MET_counts_2d,*susy_type1MET_nowt_2d;
 
     public:
     ZMETLooper(int year=-1);
