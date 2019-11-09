@@ -73,7 +73,7 @@ TGraph* getGraph(TH2* hobs, bool useLongest) {
   return static_cast<TGraph*>(graph);
 }
 
-int makeLimitHist_T5ZZ()
+int makeLimitHist_T5ZZ(bool mc_only=true)
 {
 
   setTDRStyle();           
@@ -82,7 +82,7 @@ int makeLimitHist_T5ZZ()
   TH1F * h_susyxsecs  = NULL;
   TFile * f_susyxsecs = NULL;
 
-  f_susyxsecs = TFile::Open("../../dilepbabymaker/data/xsec_susy_13tev.root","READ");
+  f_susyxsecs = TFile::Open("xsec_susy_13tev_run2.root","READ");
   h_susyxsecs = (TH1F*)f_susyxsecs->Get("h_xsec_gluino")->Clone("h_susyxsecs");
 
   
@@ -108,9 +108,7 @@ int makeLimitHist_T5ZZ()
   TH2F * massplane_exp_dn = (TH2F*) f_rvalues->Get("hExp1m") -> Clone("massplane_exp_dn");
   TH2F * massplane_exp_up2 = (TH2F*) f_rvalues->Get("hExp2p") -> Clone("massplane_exp_up2");
   TH2F * massplane_exp_dn2 = (TH2F*) f_rvalues->Get("hExp2m") -> Clone("massplane_exp_dn2");
-  // TH2F * massplane_xsec   = new TH2F("massplane_xsec","", 27,25,1375,25,75.0,1325.0);
 
-//  TH2F * massplane_xsec   = (TH2F*) massplane_obs-> Clone("massplane_obs_xsec");
   TH2F * massplane_xsec = (TH2F*) massplane->Clone("massplane_xsec");
   TH2F * efficiency       = (TH2F*) massplane    -> Clone("efficiency"    );
 
@@ -265,8 +263,11 @@ int makeLimitHist_T5ZZ()
 
   vector<double> vlim(vxsec.size());
   for(int i = 0; i < vxsec.size(); ++i){
-    vlim.at(i) = vxsec.at(i) * vexp.at(i);
-//    vlim.at(i) = vxsec.at(i) * vobs.at(i);
+
+    if(mc_only)
+        vlim.at(i) = vxsec.at(i) * vexp.at(i);
+    else
+        vlim.at(i) = vxsec.at(i) * vobs.at(i);
     // vlim.at(i) = vxsec.at(i) * vobs.at(i)*(7.65)*(0.19175);
   }
   

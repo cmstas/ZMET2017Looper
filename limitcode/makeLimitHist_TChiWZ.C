@@ -64,7 +64,7 @@ TGraph* getGraph(TH2* hobs, bool useLongest) {
   return static_cast<TGraph*>(graph);
 }
 
-int makeLimitHist_TChiWZ()
+int makeLimitHist_TChiWZ(bool mc_only=false)
 {
 
   setTDRStyle();
@@ -73,7 +73,7 @@ int makeLimitHist_TChiWZ()
   TH1F * h_susyxsecs  = NULL;
   TFile * f_susyxsecs = NULL;
 
-  f_susyxsecs = TFile::Open("../../dilepbabymaker/xsec_susy_13tev.root","READ");
+  f_susyxsecs = TFile::Open("xsec_susy_13tev_run2.root","READ");
   h_susyxsecs = (TH1F*)f_susyxsecs->Get("h_xsec_c1n2")->Clone("h_susyxsecs");
 
   
@@ -254,7 +254,10 @@ int makeLimitHist_TChiWZ()
 
   vector<double> vlim(vxsec.size());
   for(size_t i = 0; i < vxsec.size(); ++i){
-    vlim.at(i) = vxsec.at(i) * vobs.at(i);
+    if(mc_only)
+        vlim.at(i) = vxsec.at(i) * vexp.at(i);
+    else
+        vlim.at(i) = vxsec.at(i) * vobs.at(i); 
     // vlim.at(i) = vxsec.at(i) * vobs.at(i)*(7.65)*(0.19175);
   }
   
@@ -441,7 +444,8 @@ int makeLimitHist_TChiWZ()
   cmstexbold->Draw();
 
   //c_massplane->SaveAs("TChiWZ_Exclusion_13TeV.pdf");
-  c_massplane->SaveAs("/home/users/olivito/public_html/TChiWZ_Exclusion_13TeV.pdf");
+//  c_massplane->SaveAs("/home/users/olivito/public_html/TChiWZ_Exclusion_13TeV.pdf");
+    c_massplane->SaveAs("/home/users/bsathian/public_html/TChiWZ_Exclusion_13TeV.pdf");
   //c_massplane->SaveAs("/home/users/olivito/public_html/TChiWZ_Exclusion_13TeV_x3lumi.pdf");
 
   return 0;
