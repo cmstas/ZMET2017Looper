@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 
-import argparse, sys, re, getSignalNumbers
+import argparse, sys, re, getSignalNumbers_2016
 from getMassSpectrum2D import getMassSpectrum
 import sys,os
-templates_path="Templates/"
+templates_path="Templates_2016/"
 signal_name = None
 mass_spectrum = None
 histogram_Path = None
