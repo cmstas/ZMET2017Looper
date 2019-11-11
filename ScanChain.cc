@@ -3450,7 +3450,7 @@ bool ZMETLooper::passEWKSRCuts()
 {
   /*Implementing Strategy A for SRWZ - veto events with fat jet in resolved region*/
   bool flag=false;
-  if(passSRVZBoostedCuts())
+  if(passSRVZBoostedCuts() && conf->get("2016_reproduce") != "true" )
   {
     commonHistPrefix = "SRVZBoosted";
     if(printFail) cout<<"Passed SRVZ Boosted"<<endl;

@@ -134,10 +134,10 @@ def launch():
       makeDataCard(sp, "SRC")
       makeDataCard(sp, "SRCb")
     elif signal_name == "TChiWZ":
-      makeDataCard(sp, "TChiHZ")
-      makeDataCard(sp, "TChiWZ")
-      makeDataCard(sp, "TChiHZ", "halfweight")
-      makeDataCard(sp, "TChiWZ", "halfweight")
+      makeDataCard(sp, "SRHZ")
+      makeDataCard(sp, "SRVZResolved")
+#      makeDataCard(sp, "TChiHZ", "halfweight")
+#      makeDataCard(sp, "TChiWZ", "halfweight")
     elif signal_name == "tchiwz_ext":
       makeDataCard(sp, "TChiHZ")
       makeDataCard(sp, "TChiWZ")
