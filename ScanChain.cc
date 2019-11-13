@@ -58,10 +58,10 @@ static const int n_ptbins_std = 20;
     static const int n_met_bins_tchiwz_resolved = 5;
     const double met_bins_tchiwz_resolved[n_met_bins_tchiwz_resolved+1] = {50, 100, 150, 250, 350, 6000};
 
-    static const n_met_bins_tchiwz_SRHZ = 4;
+    static const int n_met_bins_tchiwz_SRHZ = 4;
     const double met_bins_tchiwz_SRHZ[n_met_bins_tchiwz_SRHZ+1] = {50,100,150,250,6001};
     
-    static const n_met_bins_tchiwz_boosted = 6;
+    static const int n_met_bins_tchiwz_boosted = 6;
     const double met_bins_tchiwz_boosted[n_met_bins_tchiwz_boosted+1] = {50,100,200,300,400,500,6001};
 
 
