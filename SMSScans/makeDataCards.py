@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
-import argparse, sys, re, getSignalNumbers
+import argparse, sys, re
+from getSignalNumbers import getSignalYields
 from getMassSpectrum2D import getMassSpectrum
 import sys,os
 templates_path="Templates/"
@@ -31,7 +32,7 @@ def addSignalYields(d, SR, mass_1, mass_2, BR_key=None):
   else:
     file_name=signal_name
 
-  avg_yields, RecoMET_yields, stat_uncs, bl_yields, bh_yields, isr_yields, JES = getSignalNumbers.getSignalYields(SR, mass_1, mass_2, "%s/%s.root" % (histogram_Path, file_name))
+  avg_yields, RecoMET_yields, stat_uncs, bl_yields, bh_yields, isr_yields, JES = getSignalYields(SR, mass_1, mass_2, "%s/%s.root" % (histogram_Path, file_name))
 
   for i,y in enumerate(RecoMET_yields):
     stat_nuisence = 0
@@ -134,10 +135,11 @@ def launch():
       makeDataCard(sp, "SRC")
       makeDataCard(sp, "SRCb")
     elif signal_name == "TChiWZ":
-      makeDataCard(sp, "TChiHZ")
-      makeDataCard(sp, "TChiWZ")
-      makeDataCard(sp, "TChiHZ", "halfweight")
-      makeDataCard(sp, "TChiWZ", "halfweight")
+      makeDataCard(sp, "SRHZ")
+      makeDataCard(sp, "SRVZResolved")
+      makeDataCard(sp, "SRVZBoosted")
+#      makeDataCard(sp, "TChiHZ", "halfweight")
+#      makeDataCard(sp, "TChiWZ", "halfweight")
     elif signal_name == "tchiwz_ext":
       makeDataCard(sp, "TChiHZ")
       makeDataCard(sp, "TChiWZ")
@@ -182,14 +184,13 @@ def setupVars():
   output_path="DataCards/%s/" % signal_name
 
   if signal_name == "T5ZZ":
-    #histogram_Path="/nfs-7/userdata/bobak/ZMET2017_Hists/T5ZZScan/CV/"
-#    histogram_Path = "/home/users/bsathian/ZMet/histsthreeyears/fastsim/CV/combined/"
-#    histogram_Path = "/home/users/bsathian/ZMet/histsthreeyears/fastsim/CV/combined/"
-    histogram_Path = "/home/users/bsathian/ZMet/histsthreeyears/fastsim/2016_binning/CV/2016/"
+    histogram_Path = "/home/users/bsathian/ZMet/histsthreeyears/fastsim/new_binning/CV/combined/"
     mass_spectrum = getMassSpectrum(signal_name)
 
-  elif signal_name == "tchiwz":
-    histogram_Path="/nfs-7/userdata/bobak/ZMET2017_Hists/TChiWZScan/CV/"
+  elif signal_name == "TChiWZ":
+    mass_spectrum = getMassSpectrum(signal_name)
+    histogram_Path="/home/users/bsathian/ZMet/histsthreeyears/fastsim/new_binning/CV/combined/"
+
   elif signal_name == "tchiwz_ext":
     histogram_Path="/nfs-7/userdata/bobak/ZMET2017_Hists/TChiWZ_EXTScan/CV/"
     mass_spectrum=[(700.000000,325.000000),(600.000000,350.000000),(475.000000,345.000000),(650.000000,350.000000),(475.000000,325.000000),(425.000000,335.000000),(475.000000,335.000000),(600.000000,300.000000),(625.000000,350.000000),(400.000000,310.000000),(400.000000,320.000000),(325.000000,315.000000),(525.000000,350.000000),(550.000000,300.000000),(550.000000,350.000000),(700.000000,350.000000),(350.000000,300.000000),(650.000000,325.000000),(675.000000,300.000000),(350.000000,320.000000),(400.000000,300.000000),(450.000000,350.000000),(350.000000,343.000000),(525.000000,325.000000),(675.000000,350.000000),(350.000000,310.000000),(450.000000,310.000000),(375.000000,325.000000),(425.000000,305.000000),(400.000000,350.000000),(375.000000,315.000000),(650.000000,300.000000),(550.000000,325.000000),(450.000000,300.000000),(325.000000,318.000000),(525.000000,300.000000),(575.000000,325.000000),(350.000000,340.000000),(400.000000,340.000000),(500.000000,350.000000),(450.000000,330.000000),(450.000000,340.000000),(350.000000,330.000000),(375.000000,335.000000),(325.000000,310.000000),(425.000000,325.000000),(700.000000,300.000000),(375.000000,345.000000),(625.000000,325.000000),(500.000000,300.000000),(350.000000,335.000000),(400.000000,330.000000),(375.000000,305.000000),(325.000000,305.000000),(475.000000,300.000000),(425.000000,315.000000),(575.000000,300.000000),(450.000000,320.000000),(600.000000,325.000000),(625.000000,300.000000),(500.000000,325.000000),(575.000000,350.000000),(675.000000,325.000000),(425.000000,345.000000)]
@@ -219,7 +220,7 @@ def main():
   if (args.t5zz):
     signal_name = "T5ZZ"
   elif (args.tchiwz):
-    signal_name = "tchiwz"
+    signal_name = "TChiWZ"
   elif (args.tchiwz_ext):
     signal_name = "tchiwz_ext"
   elif (args.tchizz):

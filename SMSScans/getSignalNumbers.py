@@ -27,14 +27,16 @@ def getSignalYields(SR, mass_gluino, mass_lsp, file_path="t5zz.root"):
 
 
   if SR in ["SRA","SRAb","SRB","SRBb"]:
-#     bins = [(50,100),(100,150),(150,250),(250,6001)]
     bins = [(50,100),(100,150),(150,230),(230,300),(300,6001)]
 
-  elif (SR=="SRC" or SR=="SRCb"):
+  elif SR=="SRC" or SR=="SRCb":
     bins = [(50,100),(100,150),(150,250),(250,6001)]
-#    bins = [(50,100), (100,150), (150,6001)]
-  elif (SR=="TChiWZ"):
+
+  elif SR=="SRVZResolved":
     bins = [(50,100), (100,150), (150,250), (250, 350), (350, 6001)]
+
+  elif SR == "SRVZBoosted":
+    bins = [(50,100),(100,200),(200,300),(300,400),(400,500),(500,6001)]
   else:
     bins = [(50,100), (100,150), (150,250), (250, 6001)]
 
