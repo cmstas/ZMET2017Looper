@@ -30,7 +30,8 @@ class Nuisance:
         if bin_number > 0:
             nuisance_name_to_return = nuisance_name_to_return.replace("_bin","_bin{}".format(bin_number))
             placeholder_name_to_return = placeholder_name_to_return.replace("_bin","_bin{}".format(bin_number))
-            additional_options_to_return = additional_options_to_return.replace("_bin","_bin{}".format(bin_number))
+            if self.additional_options:
+                additional_options_to_return = additional_options_to_return.replace("_bin","_bin{}".format(bin_number))
 
         if self.additional_options:
             return nuisance_name_to_return,self.error_type,placeholder_name_to_return,additional_options_to_return
@@ -130,7 +131,7 @@ def makeDatacardTemplateFile(SR):
 
     f.write("observation\t")
     for bin_number in range(1,bins[SR]+1):
-        f.write("{bin%d_yield}\t"%(bin_number)))
+        f.write("{bin%d_yield}\t"%(bin_number))
     f.write("\n")
     f.write("-----\n")
 
@@ -172,6 +173,6 @@ def makeDatacardTemplateFile(SR):
 
 
 if __name__ == "__main__":
-    for SR in ["SRA","SRAb","SRB","SRBb","SRC","SRCb"]:
+    for SR in ["SRA","SRAb","SRB","SRBb","SRC","SRCb","SRVZBoosted","SRVZResolved","SRHZ"]:
         print("Making template for {}".format(SR))
         makeDatacardTemplateFile(SR)
