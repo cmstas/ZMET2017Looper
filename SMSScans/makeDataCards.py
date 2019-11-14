@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
-import argparse, sys, re, getSignalNumbers
+import argparse, sys, re
+from getSignalNumbers import getSignalYields
 from getMassSpectrum2D import getMassSpectrum
 import sys,os
 templates_path="Templates/"
@@ -31,7 +32,7 @@ def addSignalYields(d, SR, mass_1, mass_2, BR_key=None):
   else:
     file_name=signal_name
 
-  avg_yields, RecoMET_yields, stat_uncs, bl_yields, bh_yields, isr_yields, JES = getSignalNumbers.getSignalYields(SR, mass_1, mass_2, "%s/%s.root" % (histogram_Path, file_name))
+  avg_yields, RecoMET_yields, stat_uncs, bl_yields, bh_yields, isr_yields, JES = getSignalYields(SR, mass_1, mass_2, "%s/%s.root" % (histogram_Path, file_name))
 
   for i,y in enumerate(RecoMET_yields):
     stat_nuisence = 0
@@ -134,10 +135,11 @@ def launch():
       makeDataCard(sp, "SRC")
       makeDataCard(sp, "SRCb")
     elif signal_name == "TChiWZ":
-      makeDataCard(sp, "TChiHZ")
-      makeDataCard(sp, "TChiWZ")
-      makeDataCard(sp, "TChiHZ", "halfweight")
-      makeDataCard(sp, "TChiWZ", "halfweight")
+      makeDataCard(sp, "SRHZ")
+      makeDataCard(sp, "SRVZResolved")
+      makeDataCard(sp, "SRVZBoosted")
+#      makeDataCard(sp, "TChiHZ", "halfweight")
+#      makeDataCard(sp, "TChiWZ", "halfweight")
     elif signal_name == "tchiwz_ext":
       makeDataCard(sp, "TChiHZ")
       makeDataCard(sp, "TChiWZ")
