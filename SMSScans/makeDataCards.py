@@ -79,7 +79,7 @@ def getNuisenceParameters(SR):
 #  f = open("/home/users/bsathian/ZMet/hists2017/DoubleLepton_narrow/DoubleLepton_narrow_signal/%s/DoubleLepton/statsplots.out"%SR,"r")
 #  f = open("/home/users/bsathian/ZMet/histsthreeyears/DoubleLepton/combined/statsplots_%s.out"%SR,"r")
 #  f = open("/home/users/bsathian/ZMet/histsthreeyears/DoubleLepton/combined/statsplots_{}.out".format(SR),"r")
-  f = open("/home/users/bsathian/ZMet/histsoneyear/DoubleLepton/2016/2016_binning_new_mc/statsplots_{}.out".format(SR),"r")
+  f = open("/home/users/bsathian/ZMet/histsthreeyears/DoubleLepton/combined/statsplots_{}.out".format(SR),"r")
   n_dict = {}
   for line in f:
     if re.match("{.*} [0-9]*\.[0-9]*\s$", line):
