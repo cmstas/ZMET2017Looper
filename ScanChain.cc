@@ -953,6 +953,9 @@ void ZMETLooper::readyVPTReweight_allSR(TString save_path)
   TFile *reweight_file = TFile::Open(vpt_reweight_path,"READ");
   for(auto &it:SRs)
   {
+      if(conf->get("2016_reproduce") == "true" and it.Contains("Boosted"))
+           continue;
+
       TString rwt_hist_name = it + rwt_hist_name_suffix;
       g_vpt_reweight_pairs[std::string(it.Data())] = (TH1D*) reweight_file->Get(rwt_hist_name)->Clone(it+TString("_vpt_reweight_hist"));
       g_vpt_reweight_pairs[std::string(it.Data())]->SetDirectory(rootdir);
@@ -3472,7 +3475,7 @@ bool ZMETLooper::passEWKSRCuts()
 {
   /*Implementing Strategy A for SRWZ - veto events with fat jet in resolved region*/
   bool flag=false;
-  if(passSRVZBoostedCuts() && conf->get("2016_reproduce") != "true" )
+  if(conf->get("2016_reproduce") != "true"  && passSRVZBoostedCuts())
   {
     commonHistPrefix = "SRVZBoosted";
     if(printFail) cout<<"Passed SRVZ Boosted"<<endl;
@@ -3503,7 +3506,7 @@ bool ZMETLooper::passEWKSRCuts()
 bool ZMETLooper::passEWKVRCuts()
 {
     bool flag = false;
-    if(passVRWZBoostedCuts())
+    if(conf->get("2016_reproduce") != "true" && passVRWZBoostedCuts())
     {
         commonHistPrefix = "VRWZBoosted";
         if(printFail) cout<<"Passed VRWZ Boosted"<<endl;
