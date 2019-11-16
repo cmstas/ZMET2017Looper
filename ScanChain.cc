@@ -1512,6 +1512,10 @@ bool ZMETLooper::passVRCCuts()
 
 bool ZMETLooper::passSRVZCuts()
 {
+    if(phys.nFatJets() > 0)
+    {
+        return false;
+    }
     if(g_dphi_metj1 < 0.4)
     {
       return false;
@@ -1541,6 +1545,10 @@ bool ZMETLooper::passSRVZCuts()
 
 bool ZMETLooper::passVRWZCuts()
 {
+   if(phys.nFatJets() > 0)
+   {
+       return false;
+   }
    if(g_dphi_metj1 > 0.4 && g_dphi_metj2 > 0.4)
    {
        return false;
