@@ -1515,7 +1515,7 @@ bool ZMETLooper::passVRCCuts()
 
 bool ZMETLooper::passSRVZCuts()
 {
-    if(phys.nFatJets() > 0)
+    if(phys.nFatJets() > 0 and conf->get("2016_reproduce") != "true")
     {
         return false;
     }
@@ -1548,7 +1548,7 @@ bool ZMETLooper::passSRVZCuts()
 
 bool ZMETLooper::passVRWZCuts()
 {
-   if(phys.nFatJets() > 0)
+   if(phys.nFatJets() > 0 and conf->get("2016_reproduce") != "true")
    {
        return false;
    }
