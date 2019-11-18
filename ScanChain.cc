@@ -1515,10 +1515,10 @@ bool ZMETLooper::passVRCCuts()
 
 bool ZMETLooper::passSRVZCuts()
 {
-    if(phys.nFatJets() > 0 and conf->get("2016_reproduce") != "true")
+    /*if(phys.nFatJets() > 0 and conf->get("2016_reproduce") != "true")
     {
         return false;
-    }
+    }*/
     if(g_dphi_metj1 < 0.4)
     {
       return false;
@@ -1548,10 +1548,10 @@ bool ZMETLooper::passSRVZCuts()
 
 bool ZMETLooper::passVRWZCuts()
 {
-   if(phys.nFatJets() > 0 and conf->get("2016_reproduce") != "true")
+   /*if(phys.nFatJets() > 0 and conf->get("2016_reproduce") != "true")
    {
        return false;
-   }
+   }*/
    if(g_dphi_metj1 > 0.4 && g_dphi_metj2 > 0.4)
    {
        return false;
@@ -3483,18 +3483,19 @@ bool ZMETLooper::passEWKSRCuts()
 {
   /*Implementing Strategy A for SRWZ - veto events with fat jet in resolved region*/
   bool flag=false;
-  if(conf->get("2016_reproduce") != "true"  && passSRVZBoostedCuts())
-  {
-    commonHistPrefix = "SRVZBoosted";
-    if(printFail) cout<<"Passed SRVZ Boosted"<<endl;
-    flag = true;
-  }
-  else if(passSRVZCuts())
+  if(passSRVZCuts())
   {
     commonHistPrefix = "SRVZResolved";
     if(printFail) cout<<"Passed SRVZ Resolved"<<endl;
     flag = true;
   }
+  else if(conf->get("2016_reproduce") != "true"  && passSRVZBoostedCuts())
+  {
+    commonHistPrefix = "SRVZBoosted";
+    if(printFail) cout<<"Passed SRVZ Boosted"<<endl;
+    flag = true;
+  }
+
   if(flag == true)
   {
     fillallHistograms(commonHistPrefix);
@@ -3514,16 +3515,18 @@ bool ZMETLooper::passEWKSRCuts()
 bool ZMETLooper::passEWKVRCuts()
 {
     bool flag = false;
-    if(conf->get("2016_reproduce") != "true" && passVRWZBoostedCuts())
-    {
-        commonHistPrefix = "VRWZBoosted";
-        if(printFail) cout<<"Passed VRWZ Boosted"<<endl;
-        flag = true;
-    }
-    else if(passVRWZCuts())
+
+    if(passVRWZCuts())
     {
         commonHistPrefix = "VRWZResolved";
         if(printFail) cout<<"Passed VRWZ Resolved"<<endl;
+        flag = true;
+    }
+
+    else if(conf->get("2016_reproduce") != "true" && passVRWZBoostedCuts())
+    {
+        commonHistPrefix = "VRWZBoosted";
+        if(printFail) cout<<"Passed VRWZ Boosted"<<endl;
         flag = true;
     }
     if(flag == true)
