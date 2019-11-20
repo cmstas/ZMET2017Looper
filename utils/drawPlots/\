@@ -1,34 +1,26 @@
 # include "getEWKErrorNums.h"
 using namespace std;
-vector<TString> getFileLocation(std::string basePath,TString sample_name){
+vector<TString> getFileLocation(TString sample_name){
   vector<TString> fnames;
 
   if(sample_name == "all")
   {
         cout<<"all SR"<<endl;
-        if(basePath == "")
-        {
-            cout<<"EWK histograms base path not given!"<<endl; 
-            fnames.push_back("/home/users/bsathian/histsthreeyears/dataTemplates/combined/GammaData_EWKSub.root");
-            fnames.push_back("/home/users/bsathian/histsthreeyears/dataTemplates/combined/GammaData.root");
-        }
-        else
-        {
-	        fnames.push_back(basePath+"/GammaData_EWKSub.root");
-            fnames.push_back(basePath+"/GammaData.root");
-        }
+	fnames.push_back("/home/users/bsathian/ZMet/histsthreeyears/dataTemplates/combined/GammaData_EWKSub.root");
+        fnames.push_back("/home/users/bsathian/ZMet/histsthreeyears/dataTemplates/combined/GammaData.root"); 
+
   }
 
   return fnames;
 }
 
-pair<double, vector<double>> getEWKNumsForSample(TString sample_name,bool allSR,std::string basePath){
+pair<double, vector<double>> getEWKNumsForSample(TString sample_name,bool allSR){
   cout<<setprecision(15);
   vector<TString> fnames;
   if(!allSR)
-      fnames = getFileLocation(basePath,sample_name);
+      fnames = getFileLocation(sample_name);
   else
-      fnames = getFileLocation(basePath,"all");
+      fnames = getFileLocation("all");
 
 
   //cout<<__LINE__<<endl;
@@ -106,13 +98,13 @@ pair<double, vector<double>> getEWKNumsForSample(TString sample_name,bool allSR,
   return make_pair(lowbin_withEwkSub, noSubNums);
 }
 
-vector<double> getPercentStatErrorsForNoEWKSub(TString sample_name,bool allSR,std::string basePath){
+vector<double> getPercentStatErrorsForNoEWKSub(TString sample_name,bool allSR){
   cout<<setprecision(15);
   vector<TString> fnames;
   if(!allSR)
-      fnames = getFileLocation(basePath,sample_name);
+      fnames = getFileLocation(sample_name);
   else
-      fnames = getFileLocation(basePath,"all");
+      fnames = getFileLocation("all");
 
   //cout<<__LINE__<<endl;
 
@@ -155,14 +147,6 @@ vector<double> getPercentStatErrorsForNoEWKSub(TString sample_name,bool allSR,st
       bins.push_back(300);
       bins.push_back(400);
       bins.push_back(500);
-      bins.push_back(6001);
-  }
-  else if(sample_name == "SRHZ")
-  {
-      bins.push_back(50);
-      bins.push_back(100);
-      bins.push_back(150);
-      bins.push_back(250);
       bins.push_back(6001);
   }
   else{

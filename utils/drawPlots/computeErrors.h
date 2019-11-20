@@ -13,7 +13,7 @@ double err_divide(double A, double B, double errA, double errB);
 
 void printTemplatesDebug(const std::vector<double> &prediction, const std::vector<double> &prediction_err, const std::vector<double> &stat_err, const std::vector<double> &closure_err, const std::vector<double> &norm_err, const std::vector<double> &ewk_err, const std::vector<std::pair<double, double>> &bin_edge);
 
-std::vector<double> getMetTemplatesError(const std::vector<double> &stat_err, const std::vector<double> &bin_count, double normalization, int norm_bin, const std::vector<std::pair<double, double>> &bin_edge, TString SR,bool allSR=false);
+std::vector<double> getMetTemplatesError(const std::vector<double> &stat_err, const std::vector<double> &bin_count, double normalization, int norm_bin, const std::vector<std::pair<double, double>> &bin_edge, TString SR,bool allSR=false,std::string EWK_base_path="");
 
 std::pair<std::vector<double>,std::vector<double>> getFSError(const std::vector<double> &bin_count, double RSFOFxKappa, TString SR);
 
