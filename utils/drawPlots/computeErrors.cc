@@ -114,6 +114,7 @@ vector<double> getMetTemplatesError(const vector<double> &stat_err, const vector
     MC_Closure_Error.push_back(.24); //150-250
     MC_Closure_Error.push_back(.24); //250-350
     MC_Closure_Error.push_back(.24); //350+
+    MC_Closure_Error.push_back(.24);
   }
   else if(SR == "2j"){
     MC_Closure_Error.push_back(.00); //0-50
