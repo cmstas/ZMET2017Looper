@@ -9,8 +9,8 @@ vector<TString> getFileLocation(std::string basePath,TString sample_name){
         if(basePath == "")
         {
             cout<<"EWK histograms base path not given!"<<endl; 
-            fnames.push_back("/home/users/bsathian/histsthreeyears/dataTemplates/combined/GammaData_EWKSub.root");
-            fnames.push_back("/home/users/bsathian/histsthreeyears/dataTemplates/combined/GammaData.root");
+            fnames.push_back("/home/users/bsathian/ZMet/histsthreeyears/dataTemplates/combined/GammaData_EWKSub.root");
+            fnames.push_back("/home/users/bsathian/ZMet/histsthreeyears/dataTemplates/combined/GammaData.root");
         }
         else
         {
