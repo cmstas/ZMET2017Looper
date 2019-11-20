@@ -140,7 +140,7 @@ vector<double> getMetTemplatesError(const vector<double> &stat_err, const vector
     throw std::invalid_argument(message.str());
   }
 
-  EWK_Data = getEWKNumsForSample(SR,allSR);
+  EWK_Data = getEWKNumsForSample(SR,allSR,EWK_base_path);
   EWK_LowBin = EWK_Data.first;
   No_EWK_BinCount = EWK_Data.second;
 
