@@ -240,6 +240,10 @@ int makeLimitHist_TChiWZ(bool mc_only=false)
   for( int binx = 3; binx < 29; binx++ ){
   	for( int biny = -1; biny < 31; biny++ ){
 	  int truebin = massplane_xsec->FindBin(binx*25,biny*10);
+      if(massplane->GetBinContent(truebin) == 0)
+          continue;
+      if(massplane_obs->GetBinContent(truebin) == 0)
+          continue;
 	  vmx.push_back(binx*25); vmy.push_back(biny*10);
 	  vxsec    . push_back(h_susyxsecs      -> GetBinContent(h_susyxsecs->FindBin(binx*25)));
 	  vobs     . push_back(massplane_obs    -> GetBinContent(truebin));
@@ -404,7 +408,7 @@ int makeLimitHist_TChiWZ(bool mc_only=false)
   // diag->Draw("same");
 
   TLatex *prctex = NULL;
-  prctex = new TLatex(0.215,0.88, "pp #rightarrow #tilde{#chi}^{#pm}_{1} #tilde{#chi}^{0}_{2}; #tilde{#chi}^{0}_{2}#rightarrow Z + #tilde{#chi}_{1}^{0}, #tilde{#chi}^{#pm}_{1}#rightarrow W^{#pm} + #tilde{#chi}_{1}^{0}" );    
+  prctex = new TLatex(0.215,0.88, "pp #rightarrow #tilde{#chi}^{#pm}_{1} #tilde{#chi}^{0}_{2}; #tilde{#chi}^{0}_{2}#rightarrow z + #tilde{#chi}_{1}^{0}, #tilde{#chi}^{#pm}_{1}#rightarrow w^{#pm} + #tilde{#chi}_{1}^{0}" );    
   prctex->SetNDC();    
   prctex->SetTextSize(0.032);    
   prctex->SetLineWidth(2);
