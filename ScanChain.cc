@@ -1515,10 +1515,10 @@ bool ZMETLooper::passVRCCuts()
 
 bool ZMETLooper::passSRVZCuts()
 {
-    if(phys.nFatJets() > 0 and conf->get("2016_reproduce") != "true")
+/*    if(phys.nFatJets() > 0 and conf->get("2016_reproduce") != "true")
     {
         return false;
-    }
+    }*/
     if(g_dphi_metj1 < 0.4)
     {
       return false;
@@ -1548,10 +1548,10 @@ bool ZMETLooper::passSRVZCuts()
 
 bool ZMETLooper::passVRWZCuts()
 {
-   if(phys.nFatJets() > 0 and conf->get("2016_reproduce") != "true")
+/*   if(phys.nFatJets() > 0 and conf->get("2016_reproduce") != "true")
    {
        return false;
-   }
+   }*/
    if(g_dphi_metj1 > 0.4 && g_dphi_metj2 > 0.4)
    {
        return false;
@@ -1578,6 +1578,10 @@ bool ZMETLooper::passVRWZCuts()
 
 bool ZMETLooper::passSRVZBoostedCuts()
 {
+    if(phys.njets() >= 2)
+    {
+        return false;
+    }
     if(phys.nFatJets() < 1)
     {
       return false;
@@ -1610,6 +1614,10 @@ bool ZMETLooper::passSRVZBoostedCuts()
 
 bool ZMETLooper::passVRWZBoostedCuts()
 {
+    if(phys.njets() >= 2)
+    {
+        return false;
+    }
     if(g_dphi_met_fatjet > 0.4)
     {
         return false;
