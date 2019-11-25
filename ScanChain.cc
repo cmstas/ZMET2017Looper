@@ -96,8 +96,15 @@ static const int n_ptbins_std = 20;
     static const int n_chi_bins_tchizz = 52;
     const double chi_bins_tchizz[n_chi_bins_tchizz+1] = {100,125,150,175,200,225,250,275,300,325,350,375,400,425,450,475,500,525,550,575,600,625,650,675,700,725,750,775,800,825,850,875,900,925,950,975,1000,1025,1050,1075,1100,1125,1150,1175,1200,1225,1250,1275,1300,1325,1350,1375,1400};
 
-    static const int n_met_bins_tchizz = 5;
-    const double met_bins_tchizz[n_met_bins_tchizz+1] = {50, 100, 150, 250, 350, 6000};
+    static const int n_met_bins_tchizz_resolved = 5;
+    const double met_bins_tchizz_resolved[n_met_bins_tchizz_resolved+1] = {50, 100, 150, 250, 350, 6000};
+
+    static const int n_met_bins_tchizz_SRHZ = 4;
+    const double met_bins_tchizz_SRHZ[n_met_bins_tchiwz_SRHZ+1] = {50,100,150,250,6001};
+    
+    static const int n_met_bins_tchizz_boosted = 6;
+    const double met_bins_tchizz_boosted[n_met_bins_tchiwz_boosted+1] = {50,100,200,300,400,500,6001};
+
 
     static const int n_SR = 15;
     const TString SRs[n_SR] = {"SRA","SRB","SRC","SRAb","SRBb","SRCb","SRVZResolved","SRVZBoosted","SRHZ","VRA","VRB","VRC","VRWZBoosted","VRWZResolved","VRHZ"};
@@ -3283,10 +3290,24 @@ void ZMETLooper::fillChiHists(std::string prefix)
     }
     else if (conf->get("data_set") == "TChiZZ"){
       n_chi_bins = &n_chi_bins_tchizz;
-      n_met_bins = &n_met_bins_tchizz;
-
       chi_bins = chi_bins_tchizz;
-      met_bins = met_bins_tchizz;
+
+      if(prefix.find("SRHZ") != std::string::npos)
+      {
+        n_met_bins = &n_met_bins_tchizz_SRHZ;
+        met_bins = met_bins_tchizz_SRHZ;
+      }
+      else if(prefix.find("SRVZResolved") != std::string::npos)
+      {
+        n_met_bins = &n_met_bins_tchizz_resolved;
+        met_bins = met_bins_tchizz_resolved;
+      }
+      else if(prefix.find("SRVZBoosted") != std::string::npos)
+      {
+          n_met_bins = &n_met_bins_tchizz_boosted;
+          met_bins = met_bins_tchizz_boosted;
+      }
+
     }
 
     fill2DHistograms(prefix+"susy_type1MET_counts",g_met,phys.mass_chi(),weight,allSignal2DHistos,"(x,y) = (met, m_chi). Type1MET for"+g_sample_name,*n_met_bins,met_bins,*n_chi_bins,chi_bins,rootdir);
