@@ -148,28 +148,31 @@ def launch():
       makeDataCard((sp,-1),"SRVZResolved")
       makeDataCard((sp,-1),"SRHZ")
     elif signal_name == "TChiHZ":
-      makeDataCard((sp,-1), "TChiHZ", "H100")
-      makeDataCard((sp,-1), "TChiWZ", "H100")
-      makeDataCard((sp,-1), "TChiHZ", "H90")
-      makeDataCard((sp,-1), "TChiWZ", "H90")
-      makeDataCard((sp,-1), "TChiHZ", "H80")
-      makeDataCard((sp,-1), "TChiWZ", "H80")
-      makeDataCard((sp,-1), "TChiHZ", "H70")
-      makeDataCard((sp,-1), "TChiWZ", "H70")
-      makeDataCard((sp,-1), "TChiHZ", "H60")
-      makeDataCard((sp,-1), "TChiWZ", "H60")
-      makeDataCard((sp,-1), "TChiHZ", "H50")
-      makeDataCard((sp,-1), "TChiWZ", "H50")
-      makeDataCard((sp,-1), "TChiHZ", "H40")
-      makeDataCard((sp,-1), "TChiWZ", "H40")
-      makeDataCard((sp,-1), "TChiHZ", "H30")
-      makeDataCard((sp,-1), "TChiWZ", "H30")
-      makeDataCard((sp,-1), "TChiHZ", "H20")
-      makeDataCard((sp,-1), "TChiWZ", "H20")
-      makeDataCard((sp,-1), "TChiHZ", "H10")
-      makeDataCard((sp,-1), "TChiWZ", "H10")
-      makeDataCard((sp,-1), "TChiHZ", "H0")
-      makeDataCard((sp,-1), "TChiWZ", "H0")
+        makeDataCard((sp,-1),"SRVZBoosted")
+        makeDataCard((sp,-1),"SRVZResolved")
+        makeDataCard((sp,-1),"SRHZ")
+#      makeDataCard((sp,-1), "TChiHZ", "H100")
+#      makeDataCard((sp,-1), "TChiWZ", "H100")
+#      makeDataCard((sp,-1), "TChiHZ", "H90")
+#      makeDataCard((sp,-1), "TChiWZ", "H90")
+#      makeDataCard((sp,-1), "TChiHZ", "H80")
+#      makeDataCard((sp,-1), "TChiWZ", "H80")
+#      makeDataCard((sp,-1), "TChiHZ", "H70")
+#      makeDataCard((sp,-1), "TChiWZ", "H70")
+#      makeDataCard((sp,-1), "TChiHZ", "H60")
+#      makeDataCard((sp,-1), "TChiWZ", "H60")
+#      makeDataCard((sp,-1), "TChiHZ", "H50")
+#      makeDataCard((sp,-1), "TChiWZ", "H50")
+#      makeDataCard((sp,-1), "TChiHZ", "H40")
+#      makeDataCard((sp,-1), "TChiWZ", "H40")
+#      makeDataCard((sp,-1), "TChiHZ", "H30")
+#      makeDataCard((sp,-1), "TChiWZ", "H30")
+#      makeDataCard((sp,-1), "TChiHZ", "H20")
+#      makeDataCard((sp,-1), "TChiWZ", "H20")
+#      makeDataCard((sp,-1), "TChiHZ", "H10")
+#      makeDataCard((sp,-1), "TChiWZ", "H10")
+#      makeDataCard((sp,-1), "TChiHZ", "H0")
+#      makeDataCard((sp,-1), "TChiWZ", "H0")
     else:
       print("Do not know how to run on signal model %s. Please use t5zz or tchiwz." % signal_name)
       exit(1)
@@ -201,9 +204,10 @@ def setupVars():
 
     mass_spectrum = np.arange(100,1301,25,dtype = np.float64)
    # mass_spectrum = [100,125,150,175,200,225,250,275,300,325,350,375,400,425,450,475,500,525,550,575,600,625,650,675,700,725,750,775,800,825,850,875,900,925,950,975,1000]
-  elif (signal_name == "tchihz"):
-    histogram_Path="/nfs-7/userdata/bobak/ZMET2017_Hists/TChiHZScan/CV/"
-    mass_spectrum = [127,150,175,200,225,250,275,300,325,350,375,400,425,450,475,500,525,550,575,600,625,650,675,700,725,750,775,800,825,850,875,900,925,950,975,1000]
+  elif signal_name == "TChiHZ":
+    histogram_Path = "/home/users/bsathian/ZMet/histsthreeyears/fastsim/new_binning/CV/"
+#    histogram_Path="/nfs-7/userdata/bobak/ZMET2017_Hists/TChiHZScan/CV/"
+    mass_spectrum = [127,150,175,200,225,250,275,300,325,350,375,400,425,450,475,500,525,550,575,600,625,650,675,700,725,750,775,800,825,850,875,900,925,950,975,1000,1025,1050,1075,1100,1125,1150,1175,1200,1225,1250,1275,1300]
   else:
     print("Do not know how to run on signal model %s. Please use t5zz or tchiwz." % signal_name)
     exit(1)
@@ -228,9 +232,9 @@ def main():
   elif (args.tchiwz_ext):
     signal_name = "tchiwz_ext"
   elif (args.tchizz):
-    signal_name = "tchizz"
+    signal_name = "TChiZZ"
   elif (args.tchihz):
-    signal_name = "tchihz"
+    signal_name = "TChiHZ"
   else:
     parser.print_help()
     exit()
