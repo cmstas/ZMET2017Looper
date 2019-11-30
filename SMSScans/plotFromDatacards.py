@@ -11,24 +11,27 @@ plt.rcParams["axes.linewidth"] = 0.5
 
 def makeSignalHistsFromDatacards(f,title,mG,mLSP):
 #Get number of bins
-    line = f.readline()
-
-    if "imax" in line:
-        nBins = int(line.rstrip("\n").split(" ")[1])
-    elif "jmax" in line:
-        nBgs =  int(line.rstrip("\n").split(" ")[1])
+    line = ""
+    while "kmax" not in line:
+        line = f.readline()
+        if "imax" in line:
+            nBins = int(line.rstrip("\n").split(" ")[1])
+        elif "jmax" in line:
+            nBgs =  int(line.rstrip("\n").split(" ")[1])
 
     #Skip the next two lines because we don't want to see data
     f.readline()
     f.readline()
     f.readline()
     f.readline()
-
-    for line in f:
-        if "process" in line:
-            break
+    f.readline()
+    line = ""
+    while "process" not in line:
+        line = f.readline()
+#        if "process" in line:
+#            break
     #line in consideration has the signal names
-    processes = line.rstrip("\n").split(" ")[1:]
+    processes = line.rstrip("\n").split("\t")[1:]
     signal_values = {}
     #Easier way to remove whitespaces between process names
     processes = np.array(processes)
@@ -47,10 +50,14 @@ def makeSignalHistsFromDatacards(f,title,mG,mLSP):
     for index,count in enumerate(counts):
         signal_values[processes[index]].append(float(count))
 
-    if "SRC" not in sys.argv[1]:
+    if "SRA"in sys.argv[1] or "SRB" in sys.argv[1]:
         bins = np.array([100,150,250,601],dtype = np.float64)
-    else:
+    elif "SRC" in sys.argv[1]:
         bins = np.array([100,150,601],dtype = np.float64)
+    elif "Boosted" in sys.argv[1]:
+        bins = np.array([100,200,300,400,500,601],dtype = np.float64)
+    elif "Resolved" in sys.argv[1]:
+        bins = np.array([100,150,250,350,601],dtype = np.float64)
 
     print("{} signal yield".format(title))
     print(signal_values["sig"])
@@ -78,28 +85,27 @@ def makeSignalHistsFromDatacards(f,title,mG,mLSP):
 
 
 if __name__ == "__main__":
-    mG = sys.argv[1]
-    mLSP = sys.argv[2]
-    #f_bobak = open("DataCards_2016/DataCards/t5zz/datacard_SRA_mGluino_{}_mLSP_{}_.txt".format(mG,mLSP),"r")
-    f_new = open("../../DataCards/T5ZZ_2016_2016_binning_20191031/datacard_SRA_mGluino_{}_mLSP_{}_.txt".format(mG,mLSP),"r")
-    f_old = open ("../../DataCards/T5ZZ_2016_2016_binning/datacard_SRA_mGluino_{}_mLSP_{}_.txt".format(mG,mLSP),"r")
-#    f_new = open("../../DataCards/T5ZZ_2016_2016_binning_old_signal/datacard_SRA_mGluino_{}_mLSP_{}_.txt".format(mG,mLSP),"r")
+    signal_region = sys.argv[1]
+    mG = sys.argv[2]
+    mLSP = sys.argv[3]
+    if "Resolved" in signal_region:
+	    f = open ("DataCards/TChiWZ_threeyears_new_binning_strategy_B_20191126/datacard_SRVZResolved_mGluino_{}_mLSP_{}_.txt".format(mG,mLSP),"r")
+            yaxis_range = [1e-3,5000]
+    elif "Boosted" in signal_region:
+	    f = open("DataCards/TChiWZ_threeyears_new_binning_strategy_B_20191126/datacard_SRVZBoosted_mGluino_{}_mLSP_{}_.txt".format(mG,mLSP),"r")
+            yaxis_range = [1e-3,200]
 
-#    bobak_hist = makeSignalHistsFromDatacards(f_bobak,"Signal histogram from Bobak's trees",mG,mLSP)
-    old_hist = makeSignalHistsFromDatacards(f_old,"Signal histogram from last week",mG,mLSP)
-    new_hist = makeSignalHistsFromDatacards(f_new,"Signal histgoram from last week",mG,mLSP)
+    hist = makeSignalHistsFromDatacards(f,signal_region,mG,mLSP)
     ply.plot_hist(
-            data = old_hist,
-            bgs = [new_hist],
+            bgs = [hist],
 #            legend_labels = ["new datacards from Bobak's babies"],
-            legend_labels = ["New datacards from recent histograms"],
+            legend_labels = [signal_region],
             options ={
-                "output_name":"signal_plots/yields_20191031_v_yields_20191026/comparison_hist_mGluino_{}_mLSP_{}.pdf".format(mG,mLSP),
+                "output_name":"/home/users/bsathian/public_html/ZMET_plots/threeyears/DoubleLepton/strategy_B/signal_plots/TChiWZ_{}_mG_{}_mLSP_{}.pdf".format(signal_region,mG,mLSP),
                 "yaxis_log":True,
-                "yaxis_range":[1e-3,500],
+                "yaxis_range":yaxis_range,
                 "legend_percentageinbox":False,
-                "legend_datalabel":"Last week's histograms",
-                "title":"Comparison plot, Gluino mass={},LSP mass={}".format(mG,mLSP),
+                "title":"{}, Gluino mass={},LSP mass={}".format(signal_region,mG,mLSP),
                 "ratio_range":[0.8,1.2]
             }
         )

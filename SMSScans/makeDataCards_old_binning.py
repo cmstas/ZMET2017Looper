@@ -142,31 +142,35 @@ def launch():
       makeDataCard(sp, "TChiHZ")
       makeDataCard(sp, "TChiWZ")
     elif signal_name == "TChiZZ":
-      makeDataCard((sp,-1), "TChiHZ")
-      makeDataCard((sp,-1), "TChiWZ")
+        makeDataCard((sp,-1),"SRHZ")
+        makeDataCard((sp,-1),"SRVZResolved")
+#      makeDataCard((sp,-1), "TChiHZ")
+#      makeDataCard((sp,-1), "TChiWZ")
     elif signal_name == "TChiHZ":
-      makeDataCard((sp,-1), "TChiHZ", "H100")
-      makeDataCard((sp,-1), "TChiWZ", "H100")
-      makeDataCard((sp,-1), "TChiHZ", "H90")
-      makeDataCard((sp,-1), "TChiWZ", "H90")
-      makeDataCard((sp,-1), "TChiHZ", "H80")
-      makeDataCard((sp,-1), "TChiWZ", "H80")
-      makeDataCard((sp,-1), "TChiHZ", "H70")
-      makeDataCard((sp,-1), "TChiWZ", "H70")
-      makeDataCard((sp,-1), "TChiHZ", "H60")
-      makeDataCard((sp,-1), "TChiWZ", "H60")
-      makeDataCard((sp,-1), "TChiHZ", "H50")
-      makeDataCard((sp,-1), "TChiWZ", "H50")
-      makeDataCard((sp,-1), "TChiHZ", "H40")
-      makeDataCard((sp,-1), "TChiWZ", "H40")
-      makeDataCard((sp,-1), "TChiHZ", "H30")
-      makeDataCard((sp,-1), "TChiWZ", "H30")
-      makeDataCard((sp,-1), "TChiHZ", "H20")
-      makeDataCard((sp,-1), "TChiWZ", "H20")
-      makeDataCard((sp,-1), "TChiHZ", "H10")
-      makeDataCard((sp,-1), "TChiWZ", "H10")
-      makeDataCard((sp,-1), "TChiHZ", "H0")
-      makeDataCard((sp,-1), "TChiWZ", "H0")
+        makeDataCard((sp,-1),"SRHZ")
+        makeDataCard((sp,-1),"SRVZResolved")
+#      makeDataCard((sp,-1), "TChiHZ", "H100")
+#      makeDataCard((sp,-1), "TChiWZ", "H100")
+#      makeDataCard((sp,-1), "TChiHZ", "H90")
+#      makeDataCard((sp,-1), "TChiWZ", "H90")
+#      makeDataCard((sp,-1), "TChiHZ", "H80")
+#      makeDataCard((sp,-1), "TChiWZ", "H80")
+#      makeDataCard((sp,-1), "TChiHZ", "H70")
+#      makeDataCard((sp,-1), "TChiWZ", "H70")
+#      makeDataCard((sp,-1), "TChiHZ", "H60")
+#      makeDataCard((sp,-1), "TChiWZ", "H60")
+#      makeDataCard((sp,-1), "TChiHZ", "H50")
+#      makeDataCard((sp,-1), "TChiWZ", "H50")
+#      makeDataCard((sp,-1), "TChiHZ", "H40")
+#      makeDataCard((sp,-1), "TChiWZ", "H40")
+#      makeDataCard((sp,-1), "TChiHZ", "H30")
+#      makeDataCard((sp,-1), "TChiWZ", "H30")
+#      makeDataCard((sp,-1), "TChiHZ", "H20")
+#      makeDataCard((sp,-1), "TChiWZ", "H20")
+#      makeDataCard((sp,-1), "TChiHZ", "H10")
+#      makeDataCard((sp,-1), "TChiWZ", "H10")
+#      makeDataCard((sp,-1), "TChiHZ", "H0")
+#      makeDataCard((sp,-1), "TChiWZ", "H0")
     else:
       print("Do not know how to run on signal model %s. Please use t5zz or tchiwz." % signal_name)
       exit(1)
@@ -193,12 +197,12 @@ def setupVars():
   elif signal_name == "tchiwz_ext":
     histogram_Path="/nfs-7/userdata/bobak/ZMET2017_Hists/TChiWZ_EXTScan/CV/"
     mass_spectrum=[(700.000000,325.000000),(600.000000,350.000000),(475.000000,345.000000),(650.000000,350.000000),(475.000000,325.000000),(425.000000,335.000000),(475.000000,335.000000),(600.000000,300.000000),(625.000000,350.000000),(400.000000,310.000000),(400.000000,320.000000),(325.000000,315.000000),(525.000000,350.000000),(550.000000,300.000000),(550.000000,350.000000),(700.000000,350.000000),(350.000000,300.000000),(650.000000,325.000000),(675.000000,300.000000),(350.000000,320.000000),(400.000000,300.000000),(450.000000,350.000000),(350.000000,343.000000),(525.000000,325.000000),(675.000000,350.000000),(350.000000,310.000000),(450.000000,310.000000),(375.000000,325.000000),(425.000000,305.000000),(400.000000,350.000000),(375.000000,315.000000),(650.000000,300.000000),(550.000000,325.000000),(450.000000,300.000000),(325.000000,318.000000),(525.000000,300.000000),(575.000000,325.000000),(350.000000,340.000000),(400.000000,340.000000),(500.000000,350.000000),(450.000000,330.000000),(450.000000,340.000000),(350.000000,330.000000),(375.000000,335.000000),(325.000000,310.000000),(425.000000,325.000000),(700.000000,300.000000),(375.000000,345.000000),(625.000000,325.000000),(500.000000,300.000000),(350.000000,335.000000),(400.000000,330.000000),(375.000000,305.000000),(325.000000,305.000000),(475.000000,300.000000),(425.000000,315.000000),(575.000000,300.000000),(450.000000,320.000000),(600.000000,325.000000),(625.000000,300.000000),(500.000000,325.000000),(575.000000,350.000000),(675.000000,325.000000),(425.000000,345.000000)]
-  elif (signal_name == "tchizz"):
-    histogram_Path="/nfs-7/userdata/bobak/ZMET2017_Hists/TChiZZScan/CV/"
-    mass_spectrum = [100,125,150,175,200,225,250,275,300,325,350,375,400,425,450,475,500,525,550,575,600,625,650,675,700,725,750,775,800,825,850,875,900,925,950,975,1000]
-  elif (signal_name == "tchihz"):
-    histogram_Path="/nfs-7/userdata/bobak/ZMET2017_Hists/TChiHZScan/CV/"
-    mass_spectrum = [127,150,175,200,225,250,275,300,325,350,375,400,425,450,475,500,525,550,575,600,625,650,675,700,725,750,775,800,825,850,875,900,925,950,975,1000]
+  elif signal_name == "TChiZZ":
+      mass_spectrum = np.arange(100,1301,25,dtype = np.float64)
+      histogram_Path = "/home/users/bsathian/ZMet/histsthreeyears/fastsim/2016_binning/CV/2016/"
+  elif signal_name == "TChiHZ":
+    histogram_Path = "/home/usrs/bsathian/ZMet/histsthreeyears/fastsim/2016_binning/CV/"
+    mass_spectrum = [127,150,175,200,225,250,275,300,325,350,375,400,425,450,475,500,525,550,575,600,625,650,675,700,725,750,775,800,825,850,875,900,925,950,975,1000,1025,1050,1075,1100,1125,1150,1175,1200,1225,1250,1275,1300]
   else:
     print("Do not know how to run on signal model %s. Please use t5zz or tchiwz." % signal_name)
     exit(1)

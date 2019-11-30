@@ -5,19 +5,14 @@ mass_points = sets.Set()
 files_in = []
 output_filename = ""
 
-def checkInputs():
-  if (len(sys.argv) < 2) or (".root" in sys.argv[1]):
-    print("Usage: ")
-    print("./getMassSpectrum2D.py <sample_name> <path_to_baby_1> <path_to_baby_2> ... <path_to_baby_n>")
-    exit(1)
-
-  print("Getting mass spectrum for %d files" % len(sys.argv[2:]))
 
 def fillMassSpectrumFromTChain(samplename):
 
-  print "mass spectrum from TTrees"
+  print "mass spectrum from TTrees for sample",samplename
+  global output_filename
 
-  directory_prefix = "/nfs-7/userdata/bsathian/ZMET_babies/"
+  directory_prefix = "/nfs-7/userdata/bsathian/ZMET_babies_20191106/"
+  print "Mass points will be saved to ",output_filename
 
   dataset_directory_mapping ={
 
@@ -44,6 +39,7 @@ def fillMassSpectrumFromTChain(samplename):
   for year in [2016,2017,2018]:
     for directory in dataset_directory_mapping[samplename][year]:
       full_path = os.path.join(directory_prefix,directory+"_ZMET_babies","baby_*.root")
+      print "Adding path",full_path
       ch.Add(full_path)
 
 
@@ -71,7 +67,6 @@ def fillMassSpectrumFromTChain(samplename):
     if ((ch.mass_gluino,ch.mass_LSP) not in mass_points):
       mass_points.add((ch.mass_gluino,ch.mass_LSP))
 
-
   outfile = open(output_filename, 'w')
 
   print len(mass_points), "mass points present"
@@ -86,7 +81,7 @@ def fillMassSpectrumFromTChain(samplename):
 
 def fillMassSpectrumFromCache(samplename):
   """parse the mass binning file with output_filename as it's filename and fill the mass points set"""
-
+  global output_filename
   output_filename = "Spectra/mass_spectrum_{}.txt".format(samplename)
   mass_file = open(output_filename, 'r')
   for line in mass_file:
@@ -97,6 +92,7 @@ def fillMassSpectrumFromCache(samplename):
 
 def fillMassSpectrum(samplename):
   """checks if the sample name already has a mass binning file made, if it does, parse it and fill the mass spectrum, otherwise read the files in a build the mass spectrum on the fly."""
+  global output_filename
   output_filename = "Spectra/mass_spectrum_{}.txt".format(samplename)
   if not os.path.isfile(output_filename):
     print "Cache file not present! Recomputing from TChain"
@@ -122,11 +118,9 @@ def getMassSpectrum(name):
 
 
 if __name__ == "__main__":
-  checkInputs()
   name=sys.argv[1]
-  files_in=sys.argv[2:]
   output_filename = "Spectra/mass_spectrum_%s.txt" % name
-  fillMassSpectrum()
+  fillMassSpectrum(name)
 
   for i in mass_points:
       print("mass_gluino: %f \t mass_LSP: %f" % (i[0], i[1]))

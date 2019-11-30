@@ -1247,10 +1247,10 @@ double ZMETLooper::getWeight(TString SR){
   if (conf->get("tchihz_tchizz_weightfix") == "true"){
     double H_BR = (conf->get("tchihz_H_BR") == "" ) ? 0.5 : stod(conf->get("tchihz_H_BR"));
     double Z_BR = 1-H_BR;
-    if (TString(currentFile->GetTitle()).Contains("tchihz_80x_v2")){
+    if(phys.evt_dataset().at(0).Contains("SMS-TChiHZ")){
       weight *= 2*H_BR*Z_BR; //twice the BR to HZ since we have both HZ and ZH.
     }
-    else if (TString(currentFile->GetTitle()).Contains("tchizz_80x_v2")){
+    else if (phys.evt_dataset().at(0).Contains("SMS-TChiZZ")){
       weight *= Z_BR*Z_BR;
     }
   }
@@ -3281,34 +3281,35 @@ void ZMETLooper::fillGluLSPHists(std::string prefix)
 
 void ZMETLooper::fillChiHists(std::string prefix)
 {
-    if (conf->get("data_set") == "TChiHZ_TChiZZ" || conf->get("data_set") == "TChiHZ"){
+    //Split the model from the signal region
+    if (conf->get("data_set") == "TChiHZ_TChiZZ" || conf->get("data_set") == "TChiHZ")
+    {
       n_chi_bins = &n_chi_bins_tchihz;
-      n_met_bins = &n_met_bins_tchihz;
-
       chi_bins = chi_bins_tchihz;
-      met_bins = met_bins_tchihz;
     }
-    else if (conf->get("data_set") == "TChiZZ"){
+
+    else if (conf->get("data_set") == "TChiZZ")
+    {
       n_chi_bins = &n_chi_bins_tchizz;
       chi_bins = chi_bins_tchizz;
+    }
 
-      if(prefix.find("SRHZ") != std::string::npos)
-      {
+    if(prefix.find("SRHZ") != std::string::npos)
+    {
         n_met_bins = &n_met_bins_tchizz_SRHZ;
         met_bins = met_bins_tchizz_SRHZ;
-      }
-      else if(prefix.find("SRVZResolved") != std::string::npos)
-      {
+    }
+    else if(prefix.find("SRVZResolved") != std::string::npos)
+    {
         n_met_bins = &n_met_bins_tchizz_resolved;
         met_bins = met_bins_tchizz_resolved;
-      }
-      else if(prefix.find("SRVZBoosted") != std::string::npos)
-      {
+    }
+    else if(prefix.find("SRVZBoosted") != std::string::npos)
+    {
           n_met_bins = &n_met_bins_tchizz_boosted;
           met_bins = met_bins_tchizz_boosted;
-      }
-
     }
+
 
     fill2DHistograms(prefix+"susy_type1MET_counts",g_met,phys.mass_chi(),weight,allSignal2DHistos,"(x,y) = (met, m_chi). Type1MET for"+g_sample_name,*n_met_bins,met_bins,*n_chi_bins,chi_bins,rootdir);
 
