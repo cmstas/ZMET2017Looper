@@ -416,7 +416,7 @@ bool ZMETLooper::passPhotonTriggers(){
   else{
       //year based shit goes here
             //165 is the highest trigger in 2016, while in 2017 and 2018 triggers go all the way up to 200
-            if(phys.HLT_Photon200() > 0 && phys.gamma_pt().at(0) > 210 && g_year != 2016) return true; //need to do trigger efficiency tests
+            if(g_year != 2016 && phys.HLT_Photon200() > 0 && phys.gamma_pt().at(0) > 210) return true; //need to do trigger efficiency tests
             if (!phys.HLT_Photon165_R9Id90_HE10_IsoM_matchedtophoton() && phys.HLT_Photon165_R9Id90_HE10_IsoM() > 0 && phys.gamma_pt().at(0) > 180)
             {
                 if(g_year == 2016) return true;
@@ -1260,7 +1260,7 @@ double ZMETLooper::getWeight(TString SR){
 }
 
 double ZMETLooper::getPrescaleWeight(){
-  if(phys.HLT_Photon200() > 0 && phys.gamma_pt().at(0) > 210 && g_year != 2016) return phys.HLT_Photon200();
+  if(g_year != 2016 && phys.HLT_Photon200() > 0 && phys.gamma_pt().at(0) > 210) return phys.HLT_Photon200();
   else if(!phys.HLT_Photon165_R9Id90_HE10_IsoM_matchedtophoton() && phys.HLT_Photon165_R9Id90_HE10_IsoM() > 0  && phys.gamma_pt().at(0) > 180)
   {
       if(g_year == 2016)
@@ -1522,10 +1522,10 @@ bool ZMETLooper::passVRCCuts()
 
 bool ZMETLooper::passSRVZCuts()
 {
-/*    if(phys.nFatJets() > 0 and conf->get("2016_reproduce") != "true")
+    if(phys.nFatJets() > 0 and conf->get("2016_reproduce") != "true")
     {
         return false;
-    }*/
+    }
     if(g_dphi_metj1 < 0.4)
     {
       return false;
@@ -1585,10 +1585,10 @@ bool ZMETLooper::passVRWZCuts()
 
 bool ZMETLooper::passSRVZBoostedCuts()
 {
-    if(phys.njets() >= 2)
+/*    if(phys.njets() >= 2)
     {
         return false;
-    }
+    }*/
     if(phys.nFatJets() < 1)
     {
       return false;
@@ -2258,43 +2258,35 @@ bool ZMETLooper::isDuplicate(){
   return false;
 }
 
+
 bool ZMETLooper::passMETFilters(){
-  //updated for Moriond 2017
-  if (!phys.Flag_EcalDeadCellTriggerPrimitiveFilter()      ) {
-    numEvents->Fill(5);
+  //For everyone
+  
+  if (!phys.Flag_EcalDeadCellTriggerPrimitiveFilter()) {
     if (printFail) cout<<phys.evt()<<" :Failed EcalDeadCellTriggerPrimativeFilter cut"<<endl;
     return false;
   }
-  if (!phys.Flag_HBHENoiseFilter                   ()      ){
-    numEvents->Fill(2);
+  if (!phys.Flag_HBHENoiseFilter()){
     if (printFail) cout<<phys.evt()<<" :Failed HBHENoiseFilter cut"<<endl;
     return false;
   }
-  if (!phys.Flag_HBHEIsoNoiseFilter                ()      ){
-    numEvents->Fill(3);
+  if (!phys.Flag_HBHEIsoNoiseFilter()){
     if (printFail) cout<<phys.evt()<<" :Failed HBHEIsoNoiseFilter cut"<<endl;
     return false;
   }
-  if (!phys.Flag_goodVertices                      ()      ) {
-    numEvents->Fill(6);
+  if(!phys.Flag_badMuonFilter())
+  {
+      if(printFail) cout<<phys.evt()<<" :Failed BadMuonFilter"<<endl;
+      return false;
+  }
+
+  if (!phys.Flag_goodVertices()) {
       if (printFail) cout<<phys.evt()<<" :Failed goodVerticies cut"<<endl;
     return false;
   }
-  if(conf->get("signal_region") != "LeonoraEvtLists"){
-    if (phys.nJet200MuFrac50DphiMet() > 0){
-      numEvents->Fill(70);
-      if (printFail) cout<<phys.evt()<<" :Failed nJet200MuFrac50DphiMet cut"<<endl;
-      return false;
-    }
-    if (g_year == 2016 && (g_met / phys.met_calo_pt()) > 5){
-      numEvents->Fill(71);
-      if (printFail) cout<<phys.evt()<<" :Failed T1MET/CaloMET cut"<<endl;
-      return false;
-    }
-  }
-  if (conf->get("fastsim") != "true"){
+  
+  if (conf->get("susy_mc") != "true"){
     if (!phys.Flag_globalSuperTightHalo2016()){
-      numEvents->Fill(4);
       if (printFail) cout<<phys.evt()<<" :Failed globalSuperTightHalo2016 cut"<<endl;
       return false;
     }
@@ -2302,21 +2294,13 @@ bool ZMETLooper::passMETFilters(){
 
   if(!phys.Flag_badChargedCandidateFilter())
   {
-      numEvents->Fill(51);
       if(printFail) cout<<phys.evt()<<" :Failed BadChargedCandidate filter"<<endl;
       return false;
   }
 
-  if(!phys.Flag_badMuonFilter())
-  {
-      numEvents->Fill(50);
-      if(printFail) cout<<phys.evt()<<" :Failed BadMuonFilter"<<endl;
-      return false;
-  }
-
+  
   if ( phys.isData() ) {
-    if (!phys.Flag_eeBadScFilter                     ()      ) {
-      numEvents->Fill(7);
+    if (!phys.Flag_eeBadScFilter()) {
       if (printFail) cout<<phys.evt()<<" :Failed eeBadScFilter cut"<<endl;
       return false;
     }
@@ -2343,7 +2327,7 @@ bool ZMETLooper::passBaseCut(){
         return false; //third lepton veto
         
     
-
+        //Don't worry, this check never happens :)
         if(phys.nisoTrack_PFHad10_woverlaps() > 0)
         {
             numEvents->Fill(79);
@@ -2381,53 +2365,54 @@ bool ZMETLooper::passBaseCut(){
   return true;
 }
 
+
+
 bool ZMETLooper::passETHDileptonDataCleanse(){
   /*Ensures events from the ee/mumu/emu dataset pass the trigger for that type of event and for ee and emu ensures they don't pass other triggers.*/
+    /* Scheme
+     * DoubleMuon - pass MuMu
+     * DoubleEG - pass EE and not pass MuMu
+     * MuonEG - pass EMu and not pass EE and MuMu
+     */
   //Dilepton Data samples
-  if ( (phys.isData()) && TString(conf->get("data_set")).Contains("DileptonData")){
+  if ( (phys.isData()) && (TString(conf->get("data_set")).Contains("DoubleMuon") && TString(conf->get("data_set")).Contains("DoubleEG") && TString(conf->get("data_set")).Contains("MuonEG"))){
     //cout<<"Dilepton Data Event"<<endl;
 
     //ETH Trigger Cleansing
-    if( TString(currentFile->GetTitle()).Contains("data_Run2016")){
-      if (TString(currentFile->GetTitle()).Contains("_mm_") ){
+    if(phys.evt_dataset().at(0).Contains("MINIAOD") and !(phys.evt_dataset().at(0).Contains("MINIAODSIM"))){
+      if (phys.evt_dataset().at(0).Contains("DoubleMuon") ){
         if( ! passMuonTriggers() ) {
           //cout<<"skipped"<<endl;
           if (printFail) cout<<"ETH Trigger Cleansing: double muon dataset didn't pass double muon trigger"<<endl;
-          numEvents->Fill(74);
           return false;
         }
       }
-      else if (TString(currentFile->GetTitle()).Contains("_ee_") ){
+      else if (phys.evt_dataset().at(0).Contains("DoubleEG")){
         if(! passElectronTriggers() ) {
           //cout<<"skipped"<<endl;
           if (printFail) cout<<"ETH Trigger Cleansing: double electron dataset didn't pass double electron trigger"<<endl;
-          numEvents->Fill(74);
           return false;
         }
         if(passMuonTriggers()) {
           //cout<<"skipped"<<endl;
           if (printFail) cout<<"ETH Trigger Cleansing: double electron dataset passed double muon trigger"<<endl;
-          numEvents->Fill(74);
           return false;
         }
       }
-      else if (TString(currentFile->GetTitle()).Contains("_em_") ){
+      else if (phys.evt_dataset().at(0).Contains("MuonEG")){
         if(! passEMuTriggers() ) {
           //cout<<"skipped"<<endl;
           if (printFail) cout<<"ETH Trigger Cleansing: EMu dataset didn't pass EMu trigger"<<endl;
-          numEvents->Fill(74);
           return false;
         }
         if( passElectronTriggers() ) {
           //cout<<"skipped"<<endl;
           if (printFail) cout<<"ETH Trigger Cleansing: EMu dataset dataset passed double electron trigger"<<endl;
-          numEvents->Fill(74);
           return false;
         }
         if(passMuonTriggers()) {
           //cout<<"skipped"<<endl;
           if (printFail) cout<<"ETH Trigger Cleansing: double electron dataset passed double muon trigger"<<endl;
-          numEvents->Fill(74);
           return false;
         }
       }
@@ -2472,7 +2457,6 @@ bool ZMETLooper::passFileSelections(){
   if ( (TString(conf->get("data_set")).Contains("WGamma") ||TString(conf->get("data_set")).Contains("WJets") || TString(conf->get("data_set")).Contains("EWKSub")) && !TString(conf->get("Name")).Contains("no-overlap")){
 
     //Inclusive GenHT Cut
-    //if( TString(currentFile->GetTitle()).Contains("wjets_incl_mgmlm") ){
     if(phys.evt_dataset().at(0).Contains("WJets") and not phys.evt_dataset().at(0).Contains("HT")){
      // cout<<"File: "<<currentFile->GetTitle()<<" with gen_ht: "<<phys.gen_ht()<<endl;
       if( phys.gen_ht() > 100 ) {
