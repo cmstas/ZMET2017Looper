@@ -227,6 +227,10 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
   //Add files from which to obtain histos
   TString default_hist_dir = getDefaultHistDir(conf);
   vector<vector<TFile*>> hist_files (num_hists);
+  TFile* signal_hist_file;
+  TH3D* signal_hist_3d; //for 2D mass scans
+  TH2D* signal_hist_2d; //for 1D mass scans
+  TH1D* signal_hist_plot;
   vector<TString> file_list;
   for (int i = 0; i<num_hists; i++){
     TString sample_loc = "";
@@ -348,6 +352,57 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
       }
   }
 
+  //signal histogram
+  if(conf->get("signal_hist_location") != "")
+  {
+    double mass_point_1 = -1;
+    double mass_point_2 = -1;
+    signal_hist_file = new TFile(conf->get("signal_hist_location").c_str());
+    mass_point_1 = stoi(conf->get("signal_mass_point_1"));
+    if(conf->get("signal_mass_point_2") != "") //2D scan
+    {
+        signal_hist_3d = (TH3D*)signal_hist_file->Get(SR+"susy_type1MET_counts"); 
+        mass_point_2 = stoi(conf->get("signal_mass_point_2"));
+    }
+    else
+    {
+        signal_hist_2d = (TH2D*)signal_hist_file->Get(SR+"susy_type1MET_counts");
+    }
+    if(conf->get("binning") != "")
+    {
+        vector<double> binning = parseVector(conf->get("binning"));
+        signal_hist_plot = new TH1D("signal_hist","signal_hist",binning.size()-1,&binning[0]);
+    }
+    else
+    {
+        signal_hist_plot = (TH1D*)hists[0]->Clone("signal_hist");
+    }
+    double temp_integral = 0;
+    for(int bin = 1; bin <= signal_hist_plot->GetNbinsX(); bin++)
+    {   
+        //Use Integral to get the bin content from the signal histogram
+        double low_bin_edge = signal_hist_plot->GetBinLowEdge(bin);
+        double high_bin_edge = signal_hist_plot->GetBinLowEdge(bin+1);
+        if(mass_point_2 >= 0) //2D scan
+        {
+            cout<<"low bin edge="<<low_bin_edge<<" high bin edge="<<high_bin_edge<<endl;
+            temp_integral = signal_hist_3d->Integral((signal_hist_3d->GetXaxis())->FindBin(low_bin_edge),(signal_hist_3d->GetYaxis())->FindBin(high_bin_edge) - 0.001,(signal_hist_3d->GetYaxis())->FindBin(mass_point_1),(signal_hist_3d->GetYaxis())->FindBin(mass_point_1),(signal_hist_3d->GetZaxis())->FindBin(mass_point_2),(signal_hist_3d->GetZaxis())->FindBin(mass_point_2));
+
+            signal_hist_plot->SetBinContent(bin,temp_integral);
+        }
+        else
+        {
+            temp_integral = signal_hist_2d->Integral(low_bin_edge,high_bin_edge-0.001,(signal_hist_2d->GetYaxis())->FindBin(mass_point_1),(signal_hist_2d->GetYaxis())->FindBin(mass_point_1));
+
+            signal_hist_plot->SetBinContent(bin,temp_integral);
+        }
+    }
+    signal_hist_plot->SetMarkerStyle(1);
+    signal_hist_plot->SetMarkerColor(kBlue);
+    signal_hist_plot->SetLineWidth(3);
+    signal_hist_plot->SetMarkerSize(0.8);
+    signal_hist_plot->SetLineColor(kBlue);
+  }
 
 
   //cout<<__LINE__<<endl;
@@ -962,6 +1017,12 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
   {
     stack->Add(hists_labeled[i].first);
   }
+
+  if(conf->get("signal_hist_location") != "")
+  {
+      stack->Add(signal_hist_plot);
+  }
+
   stack->Draw("HIST SAME");
   cout<<"Stack Drawn"<<endl;
   if (conf->get("blindAfter") != "" and !(SR.Contains("VR"))){
@@ -1042,7 +1103,20 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
       l1->AddEntry(hists[i], hist_labels[i], "f");
     }
   }
+  if(conf->get("signal_hist_location") != "")
+  {
+      std::string signal_legend_label = "Signal ";
+      if(conf->get("signal_mass_point_2") != "")
+      {
+        signal_legend_label += std::string("(") + conf->get("signal_mass_point_1") + std::string(",") + conf->get("signal_mass_point_2") + std::string(")");
+      }
+      else
+      {
+        signal_legend_label += std::string("(") + conf->get("signal_mass_point_1") +  std::string(")");
+      }
 
+      l1->AddEntry(signal_hist_plot,signal_legend_label.c_str(),"f");
+  }
   l1->Draw("same");
 
   //--------------------------
