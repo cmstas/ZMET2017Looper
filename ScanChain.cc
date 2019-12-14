@@ -541,7 +541,7 @@ int ZMETLooper::hasGoodZ(){
     return -1; // require at least 2 good leptons
   }
 
-  dil_flavor = phys.hyp_type();
+  int dil_flavor = phys.hyp_type();
   if(conf->get("dil_flavor") == "all")
   {
     if(!(dil_flavor == 1 || dil_flavor == 0 || dil_flavor == 2))
@@ -1538,7 +1538,8 @@ bool ZMETLooper::passSRVZCuts()
     {
       return false;
     }
-    if(g_nBJetMedium > 0)
+//    if(g_nBJetMedium > 0)
+    if(g_nBJetLoose > 0)
     {
       return false;
     }
@@ -1555,10 +1556,10 @@ bool ZMETLooper::passSRVZCuts()
 
 bool ZMETLooper::passVRWZCuts()
 {
-/*   if(phys.nFatJets() > 0 and conf->get("2016_reproduce") != "true")
+   if(phys.nFatJets() > 0 and conf->get("2016_reproduce") != "true")
    {
        return false;
-   }*/
+   }
    if(g_dphi_metj1 > 0.4 && g_dphi_metj2 > 0.4)
    {
        return false;
@@ -1567,7 +1568,8 @@ bool ZMETLooper::passVRWZCuts()
    {
        return false;
    }
-   if(g_nBJetMedium > 0)
+//   if(g_nBJetMedium > 0)
+   if(g_nBJetLoose > 0)
    {
        return false;
    }
@@ -1593,7 +1595,8 @@ bool ZMETLooper::passSRVZBoostedCuts()
     {
       return false;
     }
-    if(g_nBJetMedium > 0)
+//    if(g_nBJetMedium > 0)
+    if(g_nBJetLoose > 0)
     {
       return false;
     }
@@ -1621,10 +1624,10 @@ bool ZMETLooper::passSRVZBoostedCuts()
 
 bool ZMETLooper::passVRWZBoostedCuts()
 {
-    if(phys.njets() >= 2)
+    /*if(phys.njets() >= 2)
     {
         return false;
-    }
+    }*/
     if(g_dphi_met_fatjet > 0.4)
     {
         return false;
@@ -1633,7 +1636,8 @@ bool ZMETLooper::passVRWZBoostedCuts()
     {
         return false;
     }
-    if(phys.nBJetMedium() > 0)
+//    if(phys.nBJetMedium() > 0)
+    if(g_nBJetLoose > 0)
     {
         return false;
     }
@@ -2325,16 +2329,14 @@ bool ZMETLooper::passBaseCut(){
         numEvents->Fill(54);
         if (printFail) cout<<phys.evt()<<" :Failed isotrack veto"<<endl;
         return false; //third lepton veto
-        
+    } 
     
-        //Don't worry, this check never happens :)
         if(phys.nisoTrack_PFHad10_woverlaps() > 0)
         {
             numEvents->Fill(79);
                 if(printFail) cout<<phys.evt()<<" :has hadron isotracks"<<endl;
             return false;
         }
-    }
     
     if (phys.nveto_leptons() >= 1){
       numEvents->Fill(66);
@@ -2578,6 +2580,7 @@ void ZMETLooper::setupGlobals(){
     g_mbb = phys.mbb_csv_up();
     g_mjj_mindphi = phys.mjj_mindphi_up();
     g_nBJetMedium = phys.nBJetMedium_up();
+    g_nBJetLoose = phys.nBJetLoose_up();
     g_met = phys.met_T1CHS_miniAOD_CORE_up_pt();
     g_met_phi = phys.met_T1CHS_miniAOD_CORE_up_phi();
     g_mt2 = phys.mt2_up();
@@ -2594,6 +2597,7 @@ void ZMETLooper::setupGlobals(){
     g_mbb = phys.mbb_csv_dn();
     g_mjj_mindphi = phys.mjj_mindphi_dn();
     g_nBJetMedium = phys.nBJetMedium_dn();
+    g_nBJetLoose = phys.nBJetLoose_dn();
     g_met = phys.met_T1CHS_miniAOD_CORE_dn_pt();
     g_met_phi = phys.met_T1CHS_miniAOD_CORE_dn_phi();
     g_mt2 = phys.mt2_dn();
@@ -2615,6 +2619,7 @@ void ZMETLooper::setupGlobals(){
     g_mjj_mindphi = phys.mjj_mindphi();
     g_mbb = phys.mbb_csv();
     g_nBJetMedium = phys.nBJetMedium();
+    g_nBJetLoose = phys.nBJetLoose();
     g_njets = phys.njets();
     g_ht = phys.ht();
     g_jets_p4 = phys.jets_p4();
@@ -2628,6 +2633,7 @@ void ZMETLooper::setupGlobals(){
     g_mbb = phys.mbb_csv();
     g_mjj_mindphi = phys.mjj_mindphi();
     g_nBJetMedium = phys.nBJetMedium();
+    g_nBJetLoose = phys.nBJetLoose();
     g_met = phys.met_T1CHS_miniAOD_CORE_pt();
     g_met_phi = phys.met_T1CHS_miniAOD_CORE_phi();
     g_mt2 = phys.mt2();
@@ -3613,7 +3619,7 @@ void ZMETLooper::fillCommonHists(std::string prefix)
 //        fill1DHistograms(prefix+"nJetFailId",phys.nJetFailId(),weight,allHistos,"",50,0,50,rootdir);
 
         fill1DHistograms(prefix+"nbtags_m",g_nBJetMedium,weight,allHistos,"",50,0,50,rootdir);
-        fill1DHistograms(prefix+"nbtags_l",phys.nBJetLoose(),weight,allHistos,"",50,0,50,rootdir);
+        fill1DHistograms(prefix+"nbtags_l",g_nBJetLoose(),weight,allHistos,"",50,0,50,rootdir);
 
         fill1DHistograms(prefix+"nbtags_t",phys.nBJetTight(),weight,allHistos,"",50,0,50,rootdir);
 

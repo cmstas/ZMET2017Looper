@@ -113,6 +113,7 @@ class ZMETLooper
     double g_mbb;
     double g_mjj_mindphi;
     int g_nBJetMedium;
+    int g_nBJetLoose;
     double g_met;
     double g_met_phi;
     double g_mt2;
