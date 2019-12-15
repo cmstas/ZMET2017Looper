@@ -541,7 +541,7 @@ int ZMETLooper::hasGoodZ(){
     return -1; // require at least 2 good leptons
   }
 
-  int dil_flavor = phys.hyp_type();
+  dil_flavor = phys.hyp_type();
   if(conf->get("dil_flavor") == "all")
   {
     if(!(dil_flavor == 1 || dil_flavor == 0 || dil_flavor == 2))
