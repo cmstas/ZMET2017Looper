@@ -1522,7 +1522,7 @@ bool ZMETLooper::passVRCCuts()
 
 bool ZMETLooper::passSRVZCuts()
 {
-    if(phys.nFatJets() > 0 and conf->get("2016_reproduce") != "true")
+    if(phys.nFatJets() > 0 and (conf->get("2016_reproduce") != "true" || conf->get("SRVZ_strategy") == "A"))
     {
         return false;
     }
@@ -1556,7 +1556,7 @@ bool ZMETLooper::passSRVZCuts()
 
 bool ZMETLooper::passVRWZCuts()
 {
-   if(phys.nFatJets() > 0 and conf->get("2016_reproduce") != "true")
+   if(phys.nFatJets() > 0 and (conf->get("2016_reproduce") != "true" || conf->get("SRVZ_strategy") == "A"))
    {
        return false;
    }
@@ -1587,10 +1587,10 @@ bool ZMETLooper::passVRWZCuts()
 
 bool ZMETLooper::passSRVZBoostedCuts()
 {
-/*    if(phys.njets() >= 2)
+    if(phys.njets() >= 2 && conf->get("SRVZ_strategy") == "B")
     {
         return false;
-    }*/
+    }
     if(phys.nFatJets() < 1)
     {
       return false;
@@ -1624,10 +1624,10 @@ bool ZMETLooper::passSRVZBoostedCuts()
 
 bool ZMETLooper::passVRWZBoostedCuts()
 {
-    /*if(phys.njets() >= 2)
+    if(phys.njets() >= 2 && conf->get("SRVZ_strategy") == "B")
     {
         return false;
-    }*/
+    }
     if(g_dphi_met_fatjet > 0.4)
     {
         return false;
@@ -1748,7 +1748,7 @@ bool ZMETLooper::passSignalRegionCuts(){
 
   //Num Bottom jets Min Cut
   if (conf->get("NBjets_loose_min") != ""){
-    if (phys.nBJetLoose() < stod(conf->get("NBjets_loose_min"))){
+    if (g_nBJetLoose < stod(conf->get("NBjets_loose_min"))){
       numEvents->Fill(36);
       if (printFail) cout<<phys.evt()<<" :Failed min bjet cut"<<endl;
       return false;
@@ -3619,7 +3619,7 @@ void ZMETLooper::fillCommonHists(std::string prefix)
 //        fill1DHistograms(prefix+"nJetFailId",phys.nJetFailId(),weight,allHistos,"",50,0,50,rootdir);
 
         fill1DHistograms(prefix+"nbtags_m",g_nBJetMedium,weight,allHistos,"",50,0,50,rootdir);
-        fill1DHistograms(prefix+"nbtags_l",g_nBJetLoose(),weight,allHistos,"",50,0,50,rootdir);
+        fill1DHistograms(prefix+"nbtags_l",g_nBJetLoose,weight,allHistos,"",50,0,50,rootdir);
 
         fill1DHistograms(prefix+"nbtags_t",phys.nBJetTight(),weight,allHistos,"",50,0,50,rootdir);
 
