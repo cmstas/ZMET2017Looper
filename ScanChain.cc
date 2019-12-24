@@ -3574,49 +3574,69 @@ bool ZMETLooper::passInclusiveCuts()
 void ZMETLooper::fillCommonHists(std::string prefix)
 {
         //create histograms
-          fill1DHistograms(prefix+"weight_log",log10(abs(weight)),1,allHistos,"",n_weight_log_bins,weight_log_bins,rootdir);
-          fill1DHistograms(prefix+"weight_log_flat",abs(weight),1,allHistos,"",101,0,1.01,rootdir);
-          fill1DHistograms(prefix+"numMETFilters",sumMETFilters,1,allHistos,"",50,0,50,rootdir);
+        fill1DHistograms(prefix+"weight_log",log10(abs(weight)),1,allHistos,"",n_weight_log_bins,weight_log_bins,rootdir);
+        fill1DHistograms(prefix+"weight_log_flat",abs(weight),1,allHistos,"",101,0,1.01,rootdir);
+        fill1DHistograms(prefix+"numMETFilters",sumMETFilters,1,allHistos,"",50,0,50,rootdir);
 
-          if(g_met != 0)
-          {
-              fill1DHistograms(prefix+"type1MET",g_met,weight,allHistos,"",6000,0,6000,rootdir);
-          fill1DHistograms(prefix+"type1MET_widebin",g_met,weight,allHistos,"",n_metbins_wide_std,metbins_wide_std,rootdir);
+        if(g_met != 0)
+        {
+            fill1DHistograms(prefix+"type1MET",g_met,weight,allHistos,"",6000,0,6000,rootdir);
+            if(prefix.find("SRC") != std::string::npos)
+            {
+                fill1DHistograms(prefix+"type1MET_widebin",g_met,weight,allHistos,"",n_met_bins_t5zznat_SRC,met_bins_t5zznat_SRC,rootdir);
+            }
+            else if(prefix.find("SRHZ") != std::string::npos)
+            {
+                fill1DHistograms(prefix+"type1MET_widebin",g_met,weight,allHistos,"",n_met_bins_tchihz,met_bins_tchihz,rootdir);
+            }
+            else if(prefix.find("Resolved") != std::string::npos)
+            {
+                fill1DHistograms(prefix+"type1MET_widebin",g_met,weight,allHistos,"",n_met_bins_tchiwz_resolved,met_bins_tchiwz_resolved,rootdir);
+            }
+            else if(prefix.find("Boosted") != std::string::npos)
+            {
+                fill1DHistograms(prefix+"type1MET_widebin",g_met,weight,allHistos,"",n_met_bins_tchiwz_boosted,met_bins_tchiwz_boosted,rootdir);
+            }
+            else
+            {
+                fill1DHistograms(prefix+"type1MET_widebin",g_met,weight,allHistos,"",n_met_bins_t5zznat,met_bins_t5zznat,rootdir); 
+            }
+        }
 
-          }
-
-          if (phys.met_rawPt() != 0) //rawmet->Fill(phys.met_rawPt(), weight);
-          {
+        if (phys.met_rawPt() != 0) //rawmet->Fill(phys.met_rawPt(), weight);
+        {
             fill1DHistograms(prefix+"rawMET",phys.met_rawPt(),weight,allHistos,"",6000,0,6000,rootdir);
-          }
-          if (g_ht != 0) {
+        }
+        if (g_ht != 0) 
+        {
             fill1DHistograms(prefix+"ht",g_ht,weight,allHistos,"",6000,0,6000,rootdir);
             fill1DHistograms(prefix+"ht_wide",g_ht,weight,allHistos,"",60,0,6000,rootdir);
-          }
+        }
 
-          if(g_mht != 0)
-          {
+        if(g_mht != 0)
+        {
+        
             fill1DHistograms(prefix+"mht",g_mht,weight,allHistos,"",6000,0,6000,rootdir);
             TVector2 mhtVector = TVector2(g_mht * cos(g_mht_phi),g_mht * sin(g_mht_phi));
             TVector2 metVector = TVector2(g_met * cos(g_met_phi),g_met*sin(g_met_phi));
             mhtMETDifference = (mhtVector - metVector).Mod();
             fill1DHistograms(prefix+"mhtDiffBymet",mhtMETDifference/g_met,weight,allHistos,"",1000,0,100,rootdir);
-          }
-            if (phys.gen_ht() != 0)
-            {
-              fill1DHistograms(prefix+"genht",phys.gen_ht(),weight,allHistos,"",6000,0,6000,rootdir);
-            }
-            if(!phys.isData() && conf->get("event_type") == "photon" && phys.gamma_genPt().at(0) >= 0)
-            {
-                fill1DHistograms(prefix+"gamma_genpt",phys.gamma_genPt().at(0),weight,allHistos,"",6000,0,6000,rootdir);
-            }
-              if (bosonPt() != 0){
-                fill1DHistograms(prefix+"vpt",bosonPt(),weight,allHistos,"",n_ptbins_std,ptbins_std,rootdir);
-                fill1DHistograms(prefix+"vpt_fine",bosonPt(),weight,allHistos,"",n_ptbins_fine,ptbins_fine,rootdir);
-                fill1DHistograms(prefix+"vpt_flat",bosonPt(),weight,allHistos,"",6000,0,6000,rootdir);
-            }
-            fill1DHistograms(prefix+"njets",g_njets,weight,allHistos,"",50,0,50,rootdir);
-//        fill1DHistograms(prefix+"nJetFailId",phys.nJetFailId(),weight,allHistos,"",50,0,50,rootdir);
+        }
+        if (phys.gen_ht() != 0)
+        {
+            fill1DHistograms(prefix+"genht",phys.gen_ht(),weight,allHistos,"",6000,0,6000,rootdir);
+        }
+        if(!phys.isData() && conf->get("event_type") == "photon" && phys.gamma_genPt().at(0) >= 0)
+        {
+            fill1DHistograms(prefix+"gamma_genpt",phys.gamma_genPt().at(0),weight,allHistos,"",6000,0,6000,rootdir);
+        }
+        if (bosonPt() != 0)
+        {
+            fill1DHistograms(prefix+"vpt",bosonPt(),weight,allHistos,"",n_ptbins_std,ptbins_std,rootdir);
+            fill1DHistograms(prefix+"vpt_fine",bosonPt(),weight,allHistos,"",n_ptbins_fine,ptbins_fine,rootdir);
+            fill1DHistograms(prefix+"vpt_flat",bosonPt(),weight,allHistos,"",6000,0,6000,rootdir);
+        }
+        fill1DHistograms(prefix+"njets",g_njets,weight,allHistos,"",50,0,50,rootdir);
 
         fill1DHistograms(prefix+"nbtags_m",g_nBJetMedium,weight,allHistos,"",50,0,50,rootdir);
         fill1DHistograms(prefix+"nbtags_l",g_nBJetLoose,weight,allHistos,"",50,0,50,rootdir);
@@ -3627,18 +3647,27 @@ void ZMETLooper::fillCommonHists(std::string prefix)
         fill1DHistograms(prefix+"nlep",phys.nlep(),weight,allHistos,"",20,0,20,rootdir);
         fill1DHistograms(prefix+"nisotrack",phys.nisoTrack_mt2(),weight,allHistos,"",20,0,20,rootdir);
         if (g_mt2 != 0 )
+        {
             fill1DHistograms(prefix+"mt2",g_mt2,weight,allHistos,"",1000,0,1000,rootdir);
-          if (g_mt2b != 0 )
+        }
+        if (g_mt2b != 0 )
+        {
             fill1DHistograms(prefix+"mt2b",g_mt2b,weight,allHistos,"",6000,0,6000,rootdir);
+        }
       //cout<<__LINE__<<endl;
         if (g_njets > 0)
+        {
             fill1DHistograms(prefix+"dphi_jet1_met",acos(cos(g_met_phi - g_jets_p4.at(0).phi())),weight,allHistos,"",100,0,3.15,rootdir);
+        }
       //cout<<__LINE__<<endl;
         if (g_njets > 1)
+        {
             fill1DHistograms(prefix+"dphi_jet2_met",acos(cos(g_met_phi - g_jets_p4.at(1).phi())),weight,allHistos,"",100,0,3.15,rootdir);
-          if(g_njets > 2)
+        }
+        if(g_njets > 2)
+        {
             fill1DHistograms(prefix+"dphi_jet3_met",acos(cos(g_met_phi - g_jets_p4.at(2).phi())),weight,allHistos,"",100,0,3.15,rootdir);
-
+        }
 
        if(conf->get("photon_pt_test") == "true")
        {
