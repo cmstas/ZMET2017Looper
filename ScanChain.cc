@@ -732,8 +732,8 @@ bool ZMETLooper::hasGoodPhoton(){
 
   if( phys.gamma_pt().at(0) < 55 ) {
     numEvents->Fill(26);
-    if (printFail) cout<<phys.evt()<<" :Failed pt < 25 photon cut"<<endl;
-    return false; // photon pt > 22 GeV
+    if (printFail) cout<<phys.evt()<<" :Failed pt < 55 photon cut"<<endl;
+    return false; // photon pt > 55 GeV
   }
 
   if( abs(phys.gamma_p4().at(0).eta()) > 1.4 && abs(phys.gamma_p4().at(0).eta()) < 1.6 ) {
@@ -2538,6 +2538,8 @@ bool ZMETLooper::passFileSelections(){
     }
 
  }*/
+
+//old overlap removal stuff here
 
   if ( TString(conf->get("data_set")).Contains("FSMC-TTBar-NoPromptGamma") ){
 
