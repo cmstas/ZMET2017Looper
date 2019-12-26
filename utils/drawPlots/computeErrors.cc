@@ -57,57 +57,98 @@ vector<double> getMetTemplatesError(const vector<double> &stat_err, const vector
   double EWK_LowBin;
   vector<double> MC_Closure_Error;
 
-  if (SR == "SRA" || SR == "SRAb"){
+  if (SR == "SRA")
+  {
+    //MC_Closure_Error.push_back(.00); //0-50
+    MC_Closure_Error.push_back(.000); //50-100
+    MC_Closure_Error.push_back(.005);  //100-150
+    MC_Closure_Error.push_back(.091);  //150-230
+    MC_Closure_Error.push_back(.051); //230-300
+    MC_Closure_Error.push_back(.454);  //300+
+  }
+  else if(SR == "SRAb")
+  {
+    MC_Closure_Error.push_back(0.00); //0-50
+    MC_Closure_Error.push_back(0.022); //50-100
+    MC_Closure_Error.push_back(0.067); //100-150
+    MC_Closure_Error.push_back(0.120); //150-230
+    MC_Closure_Error.push_back(0.462); //300+
+  }
+  else if(SR == "SRB")
+  {
     //MC_Closure_Error.push_back(.00); //0-50
     MC_Closure_Error.push_back(.00); //50-100
-    MC_Closure_Error.push_back(.2);  //100-150
-    MC_Closure_Error.push_back(.26);  //150-230
-    MC_Closure_Error.push_back(.26); //230-300
-    MC_Closure_Error.push_back(.26);  //300+
+    MC_Closure_Error.push_back(.007); //100-150
+    MC_Closure_Error.push_back(.021); //150-230
+    MC_Closure_Error.push_back(.0.057); //230-300
+    MC_Closure_Error.push_back(.213); //300+
   }
-  else if(SR == "SRB" || SR == "SRBb"){
+  else if(SR == "SRBb")
+  {
+    //MC_Closure_Error.push_back(0.00); //0-50
+    MC_Closure_Error.push_back(0.024); //50-100
+    MC_Closure_Error.push_back(0.308); //100-150
+    MC_Closure_Error.push_back(0.302); //150-230
+    MC_Closure_Error.push_back(0.302); //230-300
+    MC_Closure_Error.push_back(0.302); //300+
+  }
+  else if (SR == "SRC")
+  {
     //MC_Closure_Error.push_back(.00); //0-50
     MC_Closure_Error.push_back(.00); //50-100
-    MC_Closure_Error.push_back(.12); //100-150
-    MC_Closure_Error.push_back(.18); //150-230
-    MC_Closure_Error.push_back(.18); //230-300
-    MC_Closure_Error.push_back(.18); //300+
+    MC_Closure_Error.push_back(.027);  //100-150
+    MC_Closure_Error.push_back(.097); //150-250
+    MC_Closure_Error.push_back(.158);  //250+
   }
-  else if (SR == "SRC" || SR == "SRCb"){
-    //MC_Closure_Error.push_back(.00); //0-50
-    MC_Closure_Error.push_back(.00); //50-100
-    MC_Closure_Error.push_back(.2);  //100-150
-    MC_Closure_Error.push_back(.2); //150-250
-    MC_Closure_Error.push_back(.31);  //250+
+  else if(SR == "SRCb")
+  {
+  //MC_Closure_Error.push_back(0.00); //0-50
+    MC_Closure_Error.push_back(0.00); //50-100
+    MC_Closure_Error.push_back(0.048); //100-150
+    MC_Closure_Error.push_back(0.095); //150-250
+    MC_Closure_Error.push_back(0.166); //250+
   }
-  else if(SR == "Strong_Bveto_2j" || SR == "VRA" || SR == "SRA"){
+  else if(SR == "SRHZ")
+  {
+      MC_Closure_Error.push_back(0.00); //50-100
+      MC_Closure_Error.push_back(0.067); //100-150
+      MC_Closure_Error.push_back(0.338); //150-250
+      MC_Closure_Error.push_back(0.338); //250+ //using previous bin
+      
+  }
+  else if(SR == "VRA")
+  {
     //MC_Closure_Error.push_back(.00); //0-50
     MC_Closure_Error.push_back(.00); //50-100
     MC_Closure_Error.push_back(.2); //100-150
     MC_Closure_Error.push_back(.26); //150-250
     MC_Closure_Error.push_back(.26); //250+
   }
-  else if(SR == "Strong_Bveto_4j" || SR == "VRB" || SR == "SRB"){
+  else if(SR == "VRB")
+  {
     //MC_Closure_Error.push_back(.00); //0-50
     MC_Closure_Error.push_back(.00); //50-100
     MC_Closure_Error.push_back(.12); //100-150
     MC_Closure_Error.push_back(.15); //150-250
     MC_Closure_Error.push_back(.15); //250+
   }
-  else if(SR == "Strong_Bveto_6j" || SR == "VRC" || SR == "SRC"){
+  else if(SR == "VRC")
+  {
     //MC_Closure_Error.push_back(.00); //0-50
     MC_Closure_Error.push_back(.00); //50-100
     MC_Closure_Error.push_back(.15); //100-150
     MC_Closure_Error.push_back(.29); //150+
   }
-  else if(SR == "TChiHZ" || SR == "VRHZ" || SR == "SRHZ"){
+  else if(SR == "VRHZ")
+  {
     //MC_Closure_Error.push_back(.00); //0-50
     MC_Closure_Error.push_back(.00); //50-100
     MC_Closure_Error.push_back(.8); //100-150
     MC_Closure_Error.push_back(.34); //150-250
     MC_Closure_Error.push_back(.34); //250+
   }
-  else if(SR == "TChiWZ" || SR == "VRWZBoosted" || SR == "VRWZResolved" || SR == "SRVZResolved" || SR == "SRVZBoosted"){
+  else if(SR == "TChiWZ" || SR == "VRWZBoosted" || SR == "VRWZResolved" || SR == "SRVZBoosted" || SR == "SRVZResolved")
+  {
     //MC_Closure_Error.push_back(.00); //0-50
     MC_Closure_Error.push_back(.00); //50-100
     MC_Closure_Error.push_back(.11); //100-150
