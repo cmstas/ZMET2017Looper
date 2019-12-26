@@ -80,7 +80,7 @@ vector<double> getMetTemplatesError(const vector<double> &stat_err, const vector
     MC_Closure_Error.push_back(.00); //50-100
     MC_Closure_Error.push_back(.007); //100-150
     MC_Closure_Error.push_back(.021); //150-230
-    MC_Closure_Error.push_back(.0.057); //230-300
+    MC_Closure_Error.push_back(0.057); //230-300
     MC_Closure_Error.push_back(.213); //300+
   }
   else if(SR == "SRBb")
