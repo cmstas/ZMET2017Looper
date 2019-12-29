@@ -1539,7 +1539,7 @@ bool ZMETLooper::passSRVZCuts()
       return false;
     }
 //    if(g_nBJetMedium > 0)
-    if(g_nBJetLoose > 0)
+    if((conf->get("resolved_jet_veto") == "loose" && g_nBJetLoose > 0) || (conf->get("resolved_jet_veto") == "medium" && g_nBJetMedium > 0))
     {
       return false;
     }
@@ -1568,8 +1568,7 @@ bool ZMETLooper::passVRWZCuts()
    {
        return false;
    }
-//   if(g_nBJetMedium > 0)
-   if(g_nBJetLoose > 0)
+   if((conf->get("resolved_jet_veto") == "loose" && g_nBJetLoose > 0) || (conf->get("resolved_jet_veto") == "medium" && g_nBJetMedium > 0))
    {
        return false;
    }
@@ -1596,7 +1595,7 @@ bool ZMETLooper::passSRVZBoostedCuts()
       return false;
     }
 //    if(g_nBJetMedium > 0)
-    if(g_nBJetLoose > 0)
+    if((conf->get("boosted_jet_veto") == "loose" && g_nBJetLoose > 0) || (conf->get("boosted_jet_veto") == "medium" && g_nBJetMedium > 0))
     {
       return false;
     }
@@ -1637,7 +1636,7 @@ bool ZMETLooper::passVRWZBoostedCuts()
         return false;
     }
 //    if(phys.nBJetMedium() > 0)
-    if(g_nBJetLoose > 0)
+    if((conf->get("boosted_jet_veto") == "loose" && g_nBJetLoose > 0) || (conf->get("boosted_jet_veto") == "medium" && g_nBJetMedium > 0))
     {
         return false;
     }
