@@ -262,6 +262,9 @@ class ZMETLooper
     /*Returns the weight associated with the photon prescales*/
     double getPrescaleWeight();
 
+    /*Computes Rsfof from the event-by-event description*/
+    double computeRsfof(int unc_mode = 0); 
+
     //=============================
     // Cuts
     //=============================
@@ -372,6 +375,7 @@ class ZMETLooper
     void writeSyncFile();
     void fillallHistograms(std::string prefix = "");
     void fillMassWindowHistograms(std::string prefix = "");
+    void fillFSMETHists(std::string prefix = "");
     void fillCommonHists(std::string prefix = "");
     void fillPhotonCRHists(std::string prefix = "");
     void fillGammaMuCRHists(std::string prefix = "");

@@ -1188,57 +1188,6 @@ double ZMETLooper::getWeight(TString SR){
     }
   }
 
- //new Rsfof prescription
- float Rsfof = 1.0;
- float rMuE_muon = 0.0;
- float rMuE_electron = 0.0;
- float *rMuE = nullptr;
- float Rt = 0.0;
- if(conf->get("R_sfof_from_json") == "true" && phys.hyp_type() == 2 && conf->get("signal_region") == "all")
- {
-     for(int i = 0; i < phys.nlep(); i++)
-     {
-        if(abs(phys.lep_pdgId().at(i)) == 11)
-            rMuE = &rMuE_electron;
-        else if(abs(phys.lep_pdgId().at(i)) == 13)
-            rMuE = &rMuE_muon;
-        else
-        {
-            cout<<"EMu event without electron and muon!, skipping calculation"<<endl;
-        }
-
-        if(rMuE != nullptr)
-        {
-
-            (*rMuE) = rMuEParameters["norm"] * rMuEParameters["ptOffset"] + (rMuEParameters["ptFalling"]/phys.lep_pt().at(i)) *rMuEParameters["etaParabolaBase"]; 
-
-            if(phys.lep_eta().at(i) < -1.6)
-            {
-                (*rMuE) += rMuEParameters["etaParabolaMinus"]*pow(phys.lep_eta().at(i)+1.6,2); 
-            }
-            if(phys.lep_eta().at(i) > 1.6)
-            {
-                (*rMuE) += rMuEParameters["etaParabolaPlus"]*pow(phys.lep_eta().at(i)-1.6,2);
-            }
-
- 
-        }
-    }
-   //Errors will come later
-   if(g_year == 2016)
-        Rt = 1.049; 
-    else if(g_year == 2017)
-        Rt = 1.030;
-    else if(g_year == 2018)
-        Rt = 1.037;
-
-    if(rMuE_muon != 0 && rMuE_electron != 0)
-        Rsfof = (rMuE_muon + 1.0/rMuE_electron) * Rt;
-    else
-        Rsfof = 1.0;
- }
-
- weight *= Rsfof;
 
   if (phys.isData() && phys.ngamma() > 0 && conf->get("event_type") == "photon"){
     weight *= getPrescaleWeight();
@@ -1257,6 +1206,81 @@ double ZMETLooper::getWeight(TString SR){
 
 
   return weight;
+}
+
+double ZMETLooper::computeRsfof(int unc_mode)
+{
+    float Rsfof = 1.0;
+    float rMuE_muon = 0.0;
+    float rMuE_electron = 0.0;
+    float *rMuE = nullptr;
+    float Rt = 0.0;
+
+     for(int i = 0; i < phys.nlep(); i++)
+     {
+        if(abs(phys.lep_pdgId().at(i)) == 11)
+            rMuE = &rMuE_electron;
+        else if(abs(phys.lep_pdgId().at(i)) == 13)
+            rMuE = &rMuE_muon;
+        else
+        {
+            cout<<"EMu event without electron and muon!, skipping calculation"<<endl;
+        }
+
+        if(rMuE != nullptr)
+        {
+            (*rMuE) = rMuEParameters["norm"] * rMuEParameters["ptOffset"] + (rMuEParameters["ptFalling"]/phys.lep_pt().at(i)) *rMuEParameters["etaParabolaBase"]; 
+
+            if(phys.lep_eta().at(i) < -1.6)
+            {
+                (*rMuE) += rMuEParameters["etaParabolaMinus"]*pow(phys.lep_eta().at(i)+1.6,2); 
+            }
+            if(phys.lep_eta().at(i) > 1.6)
+            {
+                (*rMuE) += rMuEParameters["etaParabolaPlus"]*pow(phys.lep_eta().at(i)-1.6,2);
+            } 
+        }
+
+        //Systematic errors
+        if(unc_mode == 1)
+        {
+            (*rMuE) *= 1.05;
+        }
+        else if(unc_mode == -1)
+        {
+            (*rMuE) /= 1.05;
+        }
+        else if(unc_mode == 2)
+        {
+            (*rMuE) *= 1.05 * (phys.lep_pt().at(i) - 65)/90;
+        }
+        else if(unc_mode == -2)
+        {
+            (*rMuE) /= 1.05 * (phys.lep_pt().at(i) - 110)/90;
+        }
+        else if(unc_mode == 3)
+        {
+            (*rMuE) *= 1.05 * phys.lep_eta().at(i)/90;
+        }
+        else if(unc_mode == -3)
+        {
+            (*rMuE) /= 1.05 * phys.lep_eta().at(i)/90;
+        }
+    }
+   //Errors will come later
+   if(g_year == 2016)
+        Rt = 1.049; 
+    else if(g_year == 2017)
+        Rt = 1.037;
+    else if(g_year == 2018)
+        Rt = 1.066;
+
+    if(rMuE_muon != 0 && rMuE_electron != 0)
+        Rsfof = (rMuE_muon + 1.0/rMuE_electron) * Rt * 0.5;
+    else
+        Rsfof = 1.0;
+
+     return Rsfof;
 }
 
 double ZMETLooper::getPrescaleWeight(){
@@ -3321,6 +3345,36 @@ void ZMETLooper::fillChiHists(std::string prefix)
     fill2DHistograms(prefix+"susy_type1MET_isr_up",g_met,phys.mass_chi(),(1/ISR_norm)*(weight)*(1/phys.isr_weight()),allSignal2DHistos,"(x,y) = (met, m_chi). Type 1 MET with ISR SF fluctuated up for"+g_sample_name,*n_met_bins,met_bins,*n_chi_bins,chi_bins,rootdir);
 }
 
+void ZMETLooper::fillFSMETHists(std::string prefix)
+{
+    /*Special function to fill Rsfof multiplied flavour symmetric histograms
+     * Fills 7 histograms, one for central value, and one for each systematic
+     * uncertainty. Calls the Rsfof computing function and multiplies the weight
+     * with the already calculated weight from other contributions, to do this
+     * properly*/
+
+    double weight_FS = weight * computeRsfof();
+    double weight_FS_norm_up = weight * computeRsfof(1);
+    double weight_FS_norm_down = weight * computeRsfof(-1);
+    double weight_FS_pt_up = weight * computeRsfof(2);
+    double weight_FS_pt_down = weight * computeRsfof(-2);
+    double weight_FS_eta_up = weight * computeRsfof(3);
+    double weight_FS_eta_down = weight * computeRsfof(-3);
+
+    //Fill the FS histograms
+    fill1DHistograms(prefix+"FS_type1MET",g_met,weight_FS,allHistos,"",6000,0,6000,rootdir);
+
+    fill1DHistograms(prefix+"FS_type1MET_norm_up",g_met,weight_FS_norm_up,allHistos,"",6000,0,6000,rootdir);
+    fill1DHistograms(prefix+"FS_type1MET_norm_down",g_met,weight_FS_norm_down,allHistos,"",6000,0,6000,rootdir);
+
+    fill1DHistograms(prefix+"FS_type1MET_pt_up",g_met,weight_FS_pt_up,allHistos,"",6000,0,6000,rootdir);
+    fill1DHistograms(prefix+"FS_type1MET_pt_down",g_met,weight_FS_pt_down,allHistos,"",6000,0,6000,rootdir);
+
+    fill1DHistograms(prefix+"FS_type1MET_eta_up",g_met,weight_FS_eta_up,allHistos,"",6000,0,6000,rootdir);
+    fill1DHistograms(prefix+"FS_type1MET_eta_down",g_met,weight_FS_eta_down,allHistos,"",6000,0,6000,rootdir);
+
+}
+
 void ZMETLooper::fillallHistograms(std::string prefix)
 {
     std::string SR;
@@ -3354,6 +3408,14 @@ void ZMETLooper::fillallHistograms(std::string prefix)
     {
         fillCommonHists(commonHistPrefix);
 
+        //Rsfof new stuff
+        if(dil_flavor == 2 && conf->get("R_sfof_from_json") == "true" && conf->get("signal_region") == "all")
+
+        {
+            //Rsfof multiplied emu histograms, and appropriate error histograms
+            fillFSMETHists(commonHistPrefix);
+        }
+
         sumMETFilters = phys.Flag_HBHENoiseFilter()+phys.Flag_HBHEIsoNoiseFilter()+phys.Flag_CSCTightHaloFilter()+phys.Flag_EcalDeadCellTriggerPrimitiveFilter()+phys.Flag_goodVertices()+phys.Flag_eeBadScFilter();
 
         if(conf->get("event_type") == "photon")
@@ -3363,25 +3425,24 @@ void ZMETLooper::fillallHistograms(std::string prefix)
           fillClosureHists(prefix);
         }
 
-          //===========================================
-          // Signal Region Specific Histos
-          //===========================================
+        //===========================================
+        // Signal Region Specific Histos
+        //===========================================
 
-          if(SR.find("SRVZ") != std::string::npos)
-          {
+        if(SR.find("SRVZ") != std::string::npos)
+        {
             fillTChiWZHists(prefix);
-          }
-          if(SR == "SRHZ")
-          {
+        }
+        if(SR == "SRHZ")
+        {
             fillTChiHZHists(prefix);
-          }
+        }
 
-
-          if(SR.find("Boosted") != std::string::npos)
-          {
+        if(SR.find("Boosted") != std::string::npos)
+        {
             if(SR.find("SR") != std::string::npos)
             {
-              fillBoostedHists(g_fatjet_indices,prefix);
+                fillBoostedHists(g_fatjet_indices,prefix);
             }
             else if(SR.find("VR") != std::string::npos)
             {
@@ -3391,20 +3452,19 @@ void ZMETLooper::fillallHistograms(std::string prefix)
             {
                 fillBoostedHists(g_fatjet_inclusive_indices,prefix);
             }
-          }
+        }
 
-          else if(conf->get("boosted_histograms") == "true")
-          {
+        else if(conf->get("boosted_histograms") == "true")
+        {
             fillBoostedHists(g_fatjet_indices,prefix); 
-          }
+        }
 
-
-          if (conf->get("GammaMuStudy") == "true")
-          {
+        if (conf->get("GammaMuStudy") == "true")
+        {
             fillGammaMuCRHists(prefix);
-          }
-          if(conf->get("dilep_control_region") == "true")
-          {
+        }
+        if(conf->get("dilep_control_region") == "true")
+        {
             std::string dilepPrefix = prefix;
             if(dil_flavor == 0)
                 dilepPrefix += "ee_";
@@ -3414,18 +3474,16 @@ void ZMETLooper::fillallHistograms(std::string prefix)
                 dilepPrefix += "emu_";
 
             fillDileptonCRHists(dilepPrefix);
-          }
+        }
 
-      if(conf->get("SUSY_Glu_LSP_scan") == "true")
-      {
-          fillGluLSPHists(commonHistPrefix);
-      }
-      else if(conf->get("SUSY_chi_scan") == "true")
-      {
-          fillChiHists(commonHistPrefix);
-      }
-
-
+        if(conf->get("SUSY_Glu_LSP_scan") == "true")
+        {
+            fillGluLSPHists(commonHistPrefix);
+        }
+        else if(conf->get("SUSY_chi_scan") == "true")
+        {
+            fillChiHists(commonHistPrefix);
+        }
 
         if(conf->get("ECalTest") != "")
         {
@@ -3574,108 +3632,109 @@ bool ZMETLooper::passInclusiveCuts()
 
 void ZMETLooper::fillCommonHists(std::string prefix)
 {
-        //create histograms
-        fill1DHistograms(prefix+"weight_log",log10(abs(weight)),1,allHistos,"",n_weight_log_bins,weight_log_bins,rootdir);
-        fill1DHistograms(prefix+"weight_log_flat",abs(weight),1,allHistos,"",101,0,1.01,rootdir);
-        fill1DHistograms(prefix+"numMETFilters",sumMETFilters,1,allHistos,"",50,0,50,rootdir);
+    //create histograms
+    fill1DHistograms(prefix+"weight_log",log10(abs(weight)),1,allHistos,"",n_weight_log_bins,weight_log_bins,rootdir);
+    fill1DHistograms(prefix+"weight_log_flat",abs(weight),1,allHistos,"",101,0,1.01,rootdir);
+    fill1DHistograms(prefix+"numMETFilters",sumMETFilters,1,allHistos,"",50,0,50,rootdir);
 
-        if(g_met != 0)
+    if(g_met != 0)
+    {
+        fill1DHistograms(prefix+"type1MET",g_met,weight,allHistos,"",6000,0,6000,rootdir);
+        if(prefix.find("SRC") != std::string::npos)
         {
-            fill1DHistograms(prefix+"type1MET",g_met,weight,allHistos,"",6000,0,6000,rootdir);
-            if(prefix.find("SRC") != std::string::npos)
-            {
-                fill1DHistograms(prefix+"type1MET_widebin",g_met,weight,allHistos,"",n_met_bins_t5zznat_SRC,met_bins_t5zznat_SRC,rootdir);
-            }
-            else if(prefix.find("SRHZ") != std::string::npos)
-            {
-                fill1DHistograms(prefix+"type1MET_widebin",g_met,weight,allHistos,"",n_met_bins_tchihz,met_bins_tchihz,rootdir);
-            }
-            else if(prefix.find("Resolved") != std::string::npos)
-            {
-                fill1DHistograms(prefix+"type1MET_widebin",g_met,weight,allHistos,"",n_met_bins_tchiwz_resolved,met_bins_tchiwz_resolved,rootdir);
-            }
-            else if(prefix.find("Boosted") != std::string::npos)
-            {
-                fill1DHistograms(prefix+"type1MET_widebin",g_met,weight,allHistos,"",n_met_bins_tchiwz_boosted,met_bins_tchiwz_boosted,rootdir);
-            }
-            else
-            {
-                fill1DHistograms(prefix+"type1MET_widebin",g_met,weight,allHistos,"",n_met_bins_t5zznat,met_bins_t5zznat,rootdir); 
-            }
+            fill1DHistograms(prefix+"type1MET_widebin",g_met,weight,allHistos,"",n_met_bins_t5zznat_SRC,met_bins_t5zznat_SRC,rootdir);
         }
+        else if(prefix.find("SRHZ") != std::string::npos)
+        {
+            fill1DHistograms(prefix+"type1MET_widebin",g_met,weight,allHistos,"",n_met_bins_tchihz,met_bins_tchihz,rootdir);
+        }
+        else if(prefix.find("Resolved") != std::string::npos)
+        {
+            fill1DHistograms(prefix+"type1MET_widebin",g_met,weight,allHistos,"",n_met_bins_tchiwz_resolved,met_bins_tchiwz_resolved,rootdir);
+        }
+        else if(prefix.find("Boosted") != std::string::npos)
+        {
+            fill1DHistograms(prefix+"type1MET_widebin",g_met,weight,allHistos,"",n_met_bins_tchiwz_boosted,met_bins_tchiwz_boosted,rootdir);
+        }
+        else
+        {
+            fill1DHistograms(prefix+"type1MET_widebin",g_met,weight,allHistos,"",n_met_bins_t5zznat,met_bins_t5zznat,rootdir); 
+        }
+    }
 
-        if (phys.met_rawPt() != 0) //rawmet->Fill(phys.met_rawPt(), weight);
-        {
-            fill1DHistograms(prefix+"rawMET",phys.met_rawPt(),weight,allHistos,"",6000,0,6000,rootdir);
-        }
-        if (g_ht != 0) 
-        {
-            fill1DHistograms(prefix+"ht",g_ht,weight,allHistos,"",6000,0,6000,rootdir);
-            fill1DHistograms(prefix+"ht_wide",g_ht,weight,allHistos,"",60,0,6000,rootdir);
-        }
+    if (phys.met_rawPt() != 0) //rawmet->Fill(phys.met_rawPt(), weight);
+    {
+        fill1DHistograms(prefix+"rawMET",phys.met_rawPt(),weight,allHistos,"",6000,0,6000,rootdir);
+    }
+    if (g_ht != 0) 
+    {
+        fill1DHistograms(prefix+"ht",g_ht,weight,allHistos,"",6000,0,6000,rootdir);
+        fill1DHistograms(prefix+"ht_wide",g_ht,weight,allHistos,"",60,0,6000,rootdir);
+    }
 
-        if(g_mht != 0)
-        {
+    if(g_mht != 0)
+    {
         
-            fill1DHistograms(prefix+"mht",g_mht,weight,allHistos,"",6000,0,6000,rootdir);
-            TVector2 mhtVector = TVector2(g_mht * cos(g_mht_phi),g_mht * sin(g_mht_phi));
-            TVector2 metVector = TVector2(g_met * cos(g_met_phi),g_met*sin(g_met_phi));
-            mhtMETDifference = (mhtVector - metVector).Mod();
-            fill1DHistograms(prefix+"mhtDiffBymet",mhtMETDifference/g_met,weight,allHistos,"",1000,0,100,rootdir);
-        }
-        if (phys.gen_ht() != 0)
-        {
-            fill1DHistograms(prefix+"genht",phys.gen_ht(),weight,allHistos,"",6000,0,6000,rootdir);
-        }
-        if(!phys.isData() && conf->get("event_type") == "photon" && phys.gamma_genPt().at(0) >= 0)
-        {
-            fill1DHistograms(prefix+"gamma_genpt",phys.gamma_genPt().at(0),weight,allHistos,"",6000,0,6000,rootdir);
-        }
-        if (bosonPt() != 0)
-        {
-            fill1DHistograms(prefix+"vpt",bosonPt(),weight,allHistos,"",n_ptbins_std,ptbins_std,rootdir);
-            fill1DHistograms(prefix+"vpt_fine",bosonPt(),weight,allHistos,"",n_ptbins_fine,ptbins_fine,rootdir);
-            fill1DHistograms(prefix+"vpt_flat",bosonPt(),weight,allHistos,"",6000,0,6000,rootdir);
-        }
-        fill1DHistograms(prefix+"njets",g_njets,weight,allHistos,"",50,0,50,rootdir);
+        fill1DHistograms(prefix+"mht",g_mht,weight,allHistos,"",6000,0,6000,rootdir);
+        TVector2 mhtVector = TVector2(g_mht * cos(g_mht_phi),g_mht * sin(g_mht_phi));
+        TVector2 metVector = TVector2(g_met * cos(g_met_phi),g_met*sin(g_met_phi));
+        mhtMETDifference = (mhtVector - metVector).Mod();
+        fill1DHistograms(prefix+"mhtDiffBymet",mhtMETDifference/g_met,weight,allHistos,"",1000,0,100,rootdir);
+    }
+    if (phys.gen_ht() != 0)
+    {
+        fill1DHistograms(prefix+"genht",phys.gen_ht(),weight,allHistos,"",6000,0,6000,rootdir);
+    }
+    if(!phys.isData() && conf->get("event_type") == "photon" && phys.gamma_genPt().at(0) >= 0)
+    {
+        fill1DHistograms(prefix+"gamma_genpt",phys.gamma_genPt().at(0),weight,allHistos,"",6000,0,6000,rootdir);
+    }
+    if (bosonPt() != 0)
+    {
+        fill1DHistograms(prefix+"vpt",bosonPt(),weight,allHistos,"",n_ptbins_std,ptbins_std,rootdir);
+        fill1DHistograms(prefix+"vpt_fine",bosonPt(),weight,allHistos,"",n_ptbins_fine,ptbins_fine,rootdir);
+        fill1DHistograms(prefix+"vpt_flat",bosonPt(),weight,allHistos,"",6000,0,6000,rootdir);
+    }
 
-        fill1DHistograms(prefix+"nbtags_m",g_nBJetMedium,weight,allHistos,"",50,0,50,rootdir);
-        fill1DHistograms(prefix+"nbtags_l",g_nBJetLoose,weight,allHistos,"",50,0,50,rootdir);
+    fill1DHistograms(prefix+"njets",g_njets,weight,allHistos,"",50,0,50,rootdir);
+    fill1DHistograms(prefix+"nbtags_m",g_nBJetMedium,weight,allHistos,"",50,0,50,rootdir);
+    fill1DHistograms(prefix+"nbtags_l",g_nBJetLoose,weight,allHistos,"",50,0,50,rootdir);
 
-        fill1DHistograms(prefix+"nbtags_t",phys.nBJetTight(),weight,allHistos,"",50,0,50,rootdir);
+    fill1DHistograms(prefix+"nbtags_t",phys.nBJetTight(),weight,allHistos,"",50,0,50,rootdir);
 
-        fill1DHistograms(prefix+"nVert",phys.nVert(),weight,allHistos,"",150,0,150,rootdir);
-        fill1DHistograms(prefix+"nlep",phys.nlep(),weight,allHistos,"",20,0,20,rootdir);
-        fill1DHistograms(prefix+"nisotrack",phys.nisoTrack_mt2(),weight,allHistos,"",20,0,20,rootdir);
-        if (g_mt2 != 0 )
-        {
-            fill1DHistograms(prefix+"mt2",g_mt2,weight,allHistos,"",1000,0,1000,rootdir);
-        }
-        if (g_mt2b != 0 )
-        {
-            fill1DHistograms(prefix+"mt2b",g_mt2b,weight,allHistos,"",6000,0,6000,rootdir);
-        }
-      //cout<<__LINE__<<endl;
-        if (g_njets > 0)
-        {
-            fill1DHistograms(prefix+"dphi_jet1_met",acos(cos(g_met_phi - g_jets_p4.at(0).phi())),weight,allHistos,"",100,0,3.15,rootdir);
-        }
-      //cout<<__LINE__<<endl;
-        if (g_njets > 1)
-        {
-            fill1DHistograms(prefix+"dphi_jet2_met",acos(cos(g_met_phi - g_jets_p4.at(1).phi())),weight,allHistos,"",100,0,3.15,rootdir);
-        }
-        if(g_njets > 2)
-        {
-            fill1DHistograms(prefix+"dphi_jet3_met",acos(cos(g_met_phi - g_jets_p4.at(2).phi())),weight,allHistos,"",100,0,3.15,rootdir);
-        }
+    fill1DHistograms(prefix+"nVert",phys.nVert(),weight,allHistos,"",150,0,150,rootdir);
+    fill1DHistograms(prefix+"nlep",phys.nlep(),weight,allHistos,"",20,0,20,rootdir);
+    fill1DHistograms(prefix+"nisotrack",phys.nisoTrack_mt2(),weight,allHistos,"",20,0,20,rootdir);
 
-       if(conf->get("photon_pt_test") == "true")
-       {
-           fill2DHistograms(prefix+"PtvEta",phys.gamma_p4().at(0).pt(),phys.gamma_p4().at(0).eta(),weight,all2DHistos,"",1000,0,1000,100,-2.4,2.4,rootdir);
-           fill2DHistograms(prefix+"PtvPhi",phys.gamma_p4().at(0).pt(),phys.gamma_p4().at(0).phi(),weight,all2DHistos,"",1000,0,1000,200,-6.28,6.28,rootdir);
+    if (g_mt2 != 0 )
+    {
+        fill1DHistograms(prefix+"mt2",g_mt2,weight,allHistos,"",1000,0,1000,rootdir);
+    }
+    if (g_mt2b != 0 )
+    {
+        fill1DHistograms(prefix+"mt2b",g_mt2b,weight,allHistos,"",6000,0,6000,rootdir);
+    }
+    //cout<<__LINE__<<endl;
+    if (g_njets > 0)
+    {
+        fill1DHistograms(prefix+"dphi_jet1_met",acos(cos(g_met_phi - g_jets_p4.at(0).phi())),weight,allHistos,"",100,0,3.15,rootdir);
+    }
+    //cout<<__LINE__<<endl;
+    if (g_njets > 1)
+    {
+        fill1DHistograms(prefix+"dphi_jet2_met",acos(cos(g_met_phi - g_jets_p4.at(1).phi())),weight,allHistos,"",100,0,3.15,rootdir);
+    }
+    if(g_njets > 2)
+    {
+        fill1DHistograms(prefix+"dphi_jet3_met",acos(cos(g_met_phi - g_jets_p4.at(2).phi())),weight,allHistos,"",100,0,3.15,rootdir);
+    }
 
-       }
+   if(conf->get("photon_pt_test") == "true")
+    {
+        fill2DHistograms(prefix+"PtvEta",phys.gamma_p4().at(0).pt(),phys.gamma_p4().at(0).eta(),weight,all2DHistos,"",1000,0,1000,100,-2.4,2.4,rootdir);
+        fill2DHistograms(prefix+"PtvPhi",phys.gamma_p4().at(0).pt(),phys.gamma_p4().at(0).phi(),weight,all2DHistos,"",1000,0,1000,200,-6.28,6.28,rootdir);
+
+    }
 }
 
 void ZMETLooper::fillMassWindowHistograms(std::string prefix)
@@ -3714,16 +3773,16 @@ void ZMETLooper::fillBoostedHists(std::vector<size_t> g_fatjet_indices,std::stri
 void ZMETLooper::fillPhotonCRHists(std::string prefix)
 {
 
-      fill1DHistograms(prefix+"photonPt",phys.gamma_p4().at(0).pt(),weight,allHistos,"",1000,0,1000,rootdir);
-      fill1DHistograms(prefix+"photonEta",phys.gamma_p4().at(0).eta(),weight,allHistos,"",200,-2.4,2.4,rootdir);
-      fill1DHistograms(prefix+"photonPhi",phys.gamma_p4().at(0).phi(),weight,allHistos,"",400,-6.30,6.30,rootdir);
+    fill1DHistograms(prefix+"photonPt",phys.gamma_p4().at(0).pt(),weight,allHistos,"",1000,0,1000,rootdir);
+    fill1DHistograms(prefix+"photonEta",phys.gamma_p4().at(0).eta(),weight,allHistos,"",200,-2.4,2.4,rootdir);
+    fill1DHistograms(prefix+"photonPhi",phys.gamma_p4().at(0).phi(),weight,allHistos,"",400,-6.30,6.30,rootdir);
 }
 
 void ZMETLooper::fillGammaMuCRHists(std::string prefix)
 {
-      fill1DHistograms(prefix+"MT_MuMET",getMTLepMET(),weight,allHistos,"",6000,0,6000,rootdir);
-      fill1DHistograms(prefix+"dR_GammaMu",getdRGammaLep(),weight,allHistos,"",200,0,5.8,rootdir);
-      fill1DHistograms(prefix+"mu_pt",phys.lep_pt().at(0),weight,allHistos,"",6000,0,6000,rootdir);
+    fill1DHistograms(prefix+"MT_MuMET",getMTLepMET(),weight,allHistos,"",6000,0,6000,rootdir);
+    fill1DHistograms(prefix+"dR_GammaMu",getdRGammaLep(),weight,allHistos,"",200,0,5.8,rootdir);
+    fill1DHistograms(prefix+"mu_pt",phys.lep_pt().at(0),weight,allHistos,"",6000,0,6000,rootdir);
 }
 
 void ZMETLooper::fillDileptonCRHists(std::string prefix)
