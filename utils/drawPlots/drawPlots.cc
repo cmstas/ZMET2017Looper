@@ -292,6 +292,14 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
   cout << "Making Plots for: "<<plot_name<<endl;
 
   std::vector<TH1D*> hists (num_hists);
+  TH1D* FS_hist_norm_up;
+  TH1D* FS_hist_norm_down;
+  TH1D* FS_hist_pt_up;
+  TH1D* FS_hist_pt_down;
+  TH1D* FS_hist_eta_up;
+  TH1D* FS_hist_eta_down;
+  bool do_rsfof_syst = false;
+
   std::vector<int> null_hist_indices;
   int non_null_hist_index = -1;
   //scale factor vectors - hardcoded for the time being
@@ -300,7 +308,16 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
     if(i == 5) //Flavour symmetric
     {
         hists[i] = (TH1D*) (combine_histograms(hist_files[i],hist_names[i],i,plot_name,SR,RSFOF_factors));
-    
+        /*Under the assumption that hist_names[5] contains only one name, and hist_files[5] is just one file, because that is what we will evolve into*/
+        if(do_rsfof_syst)
+        {
+            FS_hist_norm_up = (TH1D*) (hist_files[i][0]->Get(SR+hist_names[i][0]+"_norm_up"));
+            FS_hist_norm_down = (TH1D*) (hist_files[i][0]->Get(SR+hist_names[i][0]+"_norm_down"));
+            FS_hist_pt_up = (TH1D*)(hist_files[i][0]->Get(SR+hist_names[i][0]+"_pt_up"));
+            FS_hist_pt_down = (TH1D*)(hist_files[i][0]->Get(SR+hist_names[i][0]+"_pt_down"));
+            FS_hist_eta_up = (TH1D*)(hist_files[i][0]->Get(SR+hist_names[i][0]+"_eta_up"));
+            FS_hist_eta_down = (TH1D*)(hist_files[i][0]->Get(SR+hist_names[i][0]+"_eta_down"));
+        }
     }
     else
     {
@@ -783,6 +800,13 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
       vector<double> rare_err, TTV_err, VVV_err, WZ_err, ZZ_err;
 
       vector<double> FS_count;
+      vector<double> FS_norm_up;
+      vector<double> FS_norm_down;
+      vector<double> FS_pt_up;
+      vector<double> FS_pt_down;
+      vector<double> FS_eta_up;
+      vector<double> FS_eta_down;
+      vector<double> signal_count;
 
       for (int i=0; i < num_hists; i++){
         if (conf->get("hist_"+to_string(i)+"_scale") != ""){
@@ -790,8 +814,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
         }
       }
 
-      vector<double> signal_count;
-      //cout<<__LINE__<<endl;
+            //cout<<__LINE__<<endl;
 
       //Fill in all the counts and statstical errors for each stat bin in this loop.
       //Then we run the full error computations after.
@@ -801,6 +824,18 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
       for (size_t i = 0; i < stats_bins.size(); i++){
         signal_count.push_back(hists[0]->Integral(hists[0]->FindBin(stats_bins[i].first), hists[0]->FindBin(stats_bins[i].second - 0.001)));
         FS_count.push_back(hists[5]->Integral(hists[5]->FindBin(stats_bins[i].first), hists[5]->FindBin(stats_bins[i].second - 0.001)));
+
+        if(do_rsfof_syst)
+        {
+            FS_norm_up.push_back(FS_hist_norm_up->Integral(FS_hist_norm_up->FindBin(stats_bins[i].first), hists[5]->FindBin(stats_bins[i].second - 0.001)));
+            FS_norm_down.push_back(FS_hist_norm_down->Integral(FS_hist_norm_down->FindBin(stats_bins[i].first), hists[5]->FindBin(stats_bins[i].second - 0.001)));
+
+            FS_pt_up.push_back(FS_hist_pt_up->Integral(FS_hist_pt_up->FindBin(stats_bins[i].first), hists[5]->FindBin(stats_bins[i].second - 0.001)));
+            FS_pt_down.push_back(FS_hist_pt_down->Integral(FS_hist_pt_down->FindBin(stats_bins[i].first), hists[5]->FindBin(stats_bins[i].second - 0.001)));
+
+            FS_eta_up.push_back(FS_hist_eta_down->Integral(FS_hist_eta_up->FindBin(stats_bins[i].first), hists[5]->FindBin(stats_bins[i].second - 0.001)));
+            FS_eta_down.push_back(FS_hist_eta_down->Integral(FS_hist_eta_down->FindBin(stats_bins[i].first), hists[5]->FindBin(stats_bins[i].second - 0.001))); 
+       }
 
         //cout<<__LINE__<<endl;
         template_count.push_back(hists[6]->IntegralAndError(hists[6]->FindBin(stats_bins[i].first), hists[6]->FindBin(stats_bins[i].second - 0.001), t_err));
@@ -834,6 +869,8 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
         TTV_count.push_back(hists[4]->IntegralAndError(hists[4]->FindBin(stats_bins[i].first), hists[4]->FindBin(stats_bins[i].second - 0.001), TTV_err[i]));
         //cout<<__LINE__<<endl;
       }
+
+      
       //=========================
       // Compute Full Errors
       //=========================
@@ -873,7 +910,17 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
       cout<<"Template count in normalization bin="<<template_count[norm_bin]<<endl;
       vector<double> temp_err = getMetTemplatesError(template_error, template_count, normalization, norm_bin, stats_bins, SR == "" ? conf->get("SR"): SR,SR != ""?true:false,conf->get("EWK_hist_location"));
       //cout<<__LINE__<<endl;
-      pair<vector<double>,vector<double>> FS_err = getFSError(FS_count, stod(conf->get("hist_5_scale")), SR == ""?conf->get("SR"):SR);
+      
+      pair<vector<double>,vector<double>> FS_err; 
+      if(do_rsfof_syst)
+      {
+          FS_err = getFSError(FS_count,FS_norm_up,FS_norm_down,FS_pt_up,FS_pt_down,FS_eta_up,FS_eta_down,stod(conf->get("hist_5_scale")),SR == ""?conf->get("SR"):SR);
+      }
+      else
+      {
+          FS_err = getFSError(FS_count, stod(conf->get("hist_5_scale")), SR == ""?conf->get("SR"):SR);
+      }
+
       //cout<<__LINE__<<endl;
 
       //Add all rare samples together with scale factors applied
@@ -1320,6 +1367,9 @@ TString drawArbitraryNumber(ConfigParser *conf){
   cout << "Making Plots for: "<<plot_name<<endl;
 
   vector<TH1D*> hists (num_hists);
+
+  //histograms for RSFOF systematics
+  
   for (int i = 0; i<num_hists; i++){
     hists[i] = (TH1D*) ((TH1D*) hist_files[i]->Get(hist_names[i]))->Clone("hist_"+to_string(i)+"_"+plot_name);
     cout<<hist_names[i]<<" found in "<<hist_files[i]->GetName()<<endl;

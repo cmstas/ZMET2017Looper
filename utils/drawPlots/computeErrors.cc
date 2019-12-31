@@ -258,6 +258,58 @@ vector<double> getMetTemplatesError(const vector<double> &stat_err, const vector
   return output_errors;
 }
 
+pair<vector<double>,vector<double>> getFSError(const vector<double> &bin_count, const vector<double> &norm_up, const vector<double> &norm_down, const vector<double> &pt_up, const vector<double> &pt_down, const vector<double> &eta_up, const vector<double> &eta_down,double Kappa, TString SR){
+  //double RSFOF_unc = 0.043/1.119; //Moriond 2017
+  double kappa_unc = 0.02/0.065;  //Moriond 2017
+
+  vector<double> error_up;
+  vector<double> error_dn;
+
+  double bin_up, bin_dn;
+  double rsfof_norm_unc, rsfof_pt_unc, rsfof_eta_unc;
+  for (size_t i = 0; i<bin_count.size(); i++){
+    RooHistError::instance().getPoissonInterval(bin_count[i], bin_dn, bin_up);
+
+    //For RSFOF systematics, we follow the SUSY JEC method - max of (up-central) and (central-down)
+    rsfof_norm_unc = std::max(norm_up[i] - bin_count[i],bin_count[i] - norm_down[i]);
+    rsfof_pt_unc = std::max(pt_up[i] - bin_count[i],bin_count[i] - pt_down[i]);
+     rsfof_eta_unc = std::max(eta_up[i] - bin_count[i],bin_count[i] - eta_down[i]);
+   
+    cout<<"bin count "<<bin_count[i]<<" Stat_Error_up "<<bin_up<<" Stat_Error_dn "<<bin_dn<<endl;
+
+    bin_up = Kappa*Kappa*((bin_up - bin_count[i])*(bin_up - bin_count[i]) + kappa_unc*kappa_unc*bin_count[i]*bin_count[i] + rsfof_norm_unc * rsfof_norm_unc + rsfof_pt_unc * rsfof_pt_unc + rsfof_eta_unc * rsfof_eta_unc);
+
+    bin_dn = Kappa*Kappa*((bin_count[i] - bin_dn)*(bin_count[i] - bin_dn)  + kappa_unc*kappa_unc*bin_count[i]*bin_count[i] + rsfof_norm_unc * rsfof_norm_unc + rsfof_pt_unc * rsfof_pt_unc + rsfof_eta_unc * rsfof_eta_unc);
+
+    error_up.push_back(sqrt(bin_up));
+    error_dn.push_back(sqrt(bin_dn));
+
+    //For the cardmaker
+    cout<<"{rsfof_norm_unc_bin"<<i+1<<"}"<<1.+rsfof_norm_unc/bin_count[i]<<endl;
+    cout<<"{rsfof_pt_unc_bin"<<i+1<<"}"<<1.+rsfof_pt_unc/bin_count[i]<<endl;
+    cout<<"{rsfof_eta_unc_bin"<<i+1<<"}"<<1.+rsfof_eta_unc/bin_count[i]<<endl;
+  }
+
+  cout<<setprecision(10);
+  //--------------------------------
+  // To be parsed by datacard maker
+  //--------------------------------
+    cout<<"{kappa_unc} "<<1.+kappa_unc<<endl;
+  cout<<"{rsfof*kappa} "<<Kappa<<endl; //only kappa these days
+
+  for (int i = 0; i<(int)bin_count.size(); i++){
+    cout<<"{BGbin"<<i<<"_fsbkg} "<<bin_count[i]*Kappa<<endl;
+    cout<<"{count_bin"<<i<<"_fsbkg} "<<bin_count[i]<<endl;
+  }
+  cout<<setprecision(2);
+
+
+  return make_pair(error_up, error_dn);
+}
+
+
+
+
 pair<vector<double>,vector<double>> getFSError(const vector<double> &bin_count, double RSFOFxKappa, TString SR){
   double RSFOF_unc = 0.043/1.119; //Moriond 2017
   double kappa_unc = 0.02/0.065;  //Moriond 2017
@@ -294,6 +346,8 @@ pair<vector<double>,vector<double>> getFSError(const vector<double> &bin_count, 
 
   return make_pair(error_up, error_dn);
 }
+
+
 
 vector<double> getRareSamplesError(const vector<double> &stat_err, const vector<double> &bin_count, double scale, double scale_unc, TString SR){
   double err_bin;

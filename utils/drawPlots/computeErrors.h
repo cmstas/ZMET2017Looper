@@ -17,6 +17,8 @@ std::vector<double> getMetTemplatesError(const std::vector<double> &stat_err, co
 
 std::pair<std::vector<double>,std::vector<double>> getFSError(const std::vector<double> &bin_count, double RSFOFxKappa, TString SR);
 
+std::pair<std::vector<double>,std::vector<double>> getFSError(const std::vector<double> &bin_count, const std::vector<double> &norm_up, const std::vector<double> &norm_down, const std::vector<double> &pt_up, const std::vector<double> &pt_down, const std::vector<double> &eta_up, const std::vector<double> &eta_down,double Kappa, TString SR);
+
 std::vector<double> getRareSamplesError(const std::vector<double> &stat_err, const std::vector<double> &bin_count, double scale, double scale_unc, TString SR);
 
 void printErrors(const std::vector<double> &temp_err, const std::vector<double> &rare_err, const std::pair<std::vector<double>, std::vector<double>> &fs_err, const std::vector<double> &bin_low);
