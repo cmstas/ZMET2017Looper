@@ -11,7 +11,7 @@ std::unordered_map<std::string,float> extractrMuEParamsFromJSON(std::string json
     std::fstream json_file = std::fstream(json_filename,std::ios::in);
     if(!json_file.is_open())
     {
-        std::cout<<"File not open!"<<std::endl;
+        std::cout<<"JSON File not open!"<<std::endl;
         exit(1);        
     }
     while(std::getline(json_file,line))

@@ -2937,15 +2937,15 @@ int ZMETLooper::ScanChain( TChain* chain, ConfigParser *configuration, bool fast
   {
     if(g_year == 2016)
     {
-        param_file_name = "rMuE_correctionParameters_ZPeakControl_Run2016_36fb.json";
+        param_file_name = "auxFiles/rMuE_correctionParameters_ZPeakControl_Run2016_36fb.json";
     }
     else if(g_year == 2017)
     {
-        param_file_name = "rMuE_correctionParameters_ZPeakControl_Run2017_42fb.json";
+        param_file_name = "auxFiles/rMuE_correctionParameters_ZPeakControl_Run2017_42fb.json";
     }
     else if(g_year == 2018)
     {
-        param_file_name = "rMuE_correctionParameters_ZPeakControl_Run2018_60fb.json";
+        param_file_name = "auxFiles/rMuE_correctionParameters_ZPeakControl_Run2018_60fb.json";
     }
     
     rMuEParameters = extractrMuEParamsFromJSON(param_file_name); 
