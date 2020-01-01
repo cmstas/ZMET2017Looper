@@ -9,6 +9,11 @@ std::unordered_map<std::string,float> extractrMuEParamsFromJSON(std::string json
     int counter;
     //First split items by comma, then split every item into kay and value by colon
     std::fstream json_file = std::fstream(json_filename,std::ios::in);
+    if(!json_file.is_open())
+    {
+        std::cout<<"File not open!"<<std::endl;
+        exit(1);        
+    }
     while(std::getline(json_file,line))
     {
         line = line.substr(1,line.size()-1); //To remove the starting and trailing curly braces

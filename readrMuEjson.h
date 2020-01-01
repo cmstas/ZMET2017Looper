@@ -8,6 +8,7 @@
 # include <sstream>
 # include <string>
 # include <algorithm>
+# include <cstdlib>
 
 std::unordered_map<std::string,float> extractrMuEParamsFromJSON(std::string json_filename);
 
