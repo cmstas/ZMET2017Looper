@@ -1229,7 +1229,7 @@ double ZMETLooper::computeRsfof(int unc_mode)
 
         if(rMuE != nullptr)
         {
-            (*rMuE) = rMuEParameters["norm"] * rMuEParameters["ptOffset"] + (rMuEParameters["ptFalling"]/phys.lep_pt().at(i)) *rMuEParameters["etaParabolaBase"]; 
+            (*rMuE) = rMuEParameters["norm"] * (rMuEParameters["ptOffset"] + rMuEParameters["ptFalling"]/phys.lep_pt().at(i)) *rMuEParameters["etaParabolaBase"]; 
 
             if(phys.lep_eta().at(i) < -1.6)
             {
