@@ -15,8 +15,13 @@ void printTemplatesDebug(const std::vector<double> &prediction, const std::vecto
 
 std::vector<double> getMetTemplatesError(const std::vector<double> &stat_err, const std::vector<double> &bin_count, double normalization, int norm_bin, const std::vector<std::pair<double, double>> &bin_edge, TString SR,bool allSR=false,std::string EWK_base_path="");
 
+//single overall Rsfof
 std::pair<std::vector<double>,std::vector<double>> getFSError(const std::vector<double> &bin_count, double RSFOFxKappa, TString SR);
 
+//year by year Rsfof
+std::pair<std::vector<double>,std::vector<double>> getFSError(const std::vector<double> &bin_count,const std::vector <double> &bin_count_2016, const std::vector<double> &bin_count_2017, const std::vector<double> &bin_count_2018, double Kappa, TString SR);
+
+//event by event Rsfof - factorization method
 std::pair<std::vector<double>,std::vector<double>> getFSError(const std::vector<double> &bin_count, const std::vector<double> &norm_up, const std::vector<double> &norm_down, const std::vector<double> &pt_up, const std::vector<double> &pt_down, const std::vector<double> &eta_up, const std::vector<double> &eta_down,double Kappa, TString SR);
 
 std::vector<double> getRareSamplesError(const std::vector<double> &stat_err, const std::vector<double> &bin_count, double scale, double scale_unc, TString SR);

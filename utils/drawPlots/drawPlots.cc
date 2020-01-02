@@ -808,6 +808,11 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
       vector<double> FS_eta_down;
       vector<double> signal_count;
 
+      //temporary measure
+      vector<double> FS_count_2016;
+      vector<double> FS_count_2017;
+      vector<double> FS _count_2018;
+
       for (int i=0; i < num_hists; i++){
         if (conf->get("hist_"+to_string(i)+"_scale") != ""){
           hists[i]->Scale(1/stod(conf->get("hist_"+to_string(i)+"_scale")));
