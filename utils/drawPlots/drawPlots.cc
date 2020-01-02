@@ -298,7 +298,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
   TH1D* FS_hist_pt_down;
   TH1D* FS_hist_eta_up;
   TH1D* FS_hist_eta_down;
-  bool do_rsfof_syst = false;
+  bool do_rsfof_syst = true;
 
   std::vector<int> null_hist_indices;
   int non_null_hist_index = -1;
@@ -307,10 +307,10 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
   for (int i = 0; i<num_hists; i++){
     if(i == 5) //Flavour symmetric
     {
-        hists[i] = (TH1D*) (combine_histograms(hist_files[i],hist_names[i],i,plot_name,SR,RSFOF_factors));
-        /*Under the assumption that hist_names[5] contains only one name, and hist_files[5] is just one file, because that is what we will evolve into*/
+                /*Under the assumption that hist_names[5] contains only one name, and hist_files[5] is just one file, because that is what we will evolve into*/
         if(do_rsfof_syst)
         {
+            hists[i] = (TH1D*) (combine_histograms(hist_files[i],hist_names[i],i,plot_name,SR)); 
             FS_hist_norm_up = (TH1D*) (hist_files[i][0]->Get(SR+hist_names[i][0]+"_norm_up"));
             FS_hist_norm_down = (TH1D*) (hist_files[i][0]->Get(SR+hist_names[i][0]+"_norm_down"));
             FS_hist_pt_up = (TH1D*)(hist_files[i][0]->Get(SR+hist_names[i][0]+"_pt_up"));
@@ -318,6 +318,11 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
             FS_hist_eta_up = (TH1D*)(hist_files[i][0]->Get(SR+hist_names[i][0]+"_eta_up"));
             FS_hist_eta_down = (TH1D*)(hist_files[i][0]->Get(SR+hist_names[i][0]+"_eta_down"));
         }
+        else
+        {
+            hists[i] = (TH1D*) (combine_histograms(hist_files[i],hist_names[i],i,plot_name,SR,RSFOF_factors));
+        }
+
     }
     else
     {
