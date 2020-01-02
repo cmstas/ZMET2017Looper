@@ -298,7 +298,11 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
   TH1D* FS_hist_pt_down;
   TH1D* FS_hist_eta_up;
   TH1D* FS_hist_eta_down;
-  bool do_rsfof_syst = true;
+  bool do_rsfof_syst = false; 
+  
+  TH1D* FS_hist_2016 = nullptr;
+  TH1D* FS_hist_2017 = nullptr;
+  TH1D* FS_hist_2018 = nullptr;
 
   std::vector<int> null_hist_indices;
   int non_null_hist_index = -1;
@@ -321,8 +325,14 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
         else
         {
             hists[i] = (TH1D*) (combine_histograms(hist_files[i],hist_names[i],i,plot_name,SR,RSFOF_factors));
-        }
 
+            if(hist_files[i].size() == 3)
+            {
+                FS_hist_2016 = (TH1D*) (hist_files[i][0]->Get(SR+hist_names[i][0]));
+                FS_hist_2017 = (TH1D*) (hist_files[i][1]->Get(SR+hist_names[i][1]));
+                FS_hist_2018 = (TH1D*) (hist_files[i][2]->Get(SR+hist_names[i][2]));
+            }
+        }
     }
     else
     {
@@ -816,7 +826,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
       //temporary measure
       vector<double> FS_count_2016;
       vector<double> FS_count_2017;
-      vector<double> FS _count_2018;
+      vector<double> FS_count_2018;
 
       for (int i=0; i < num_hists; i++){
         if (conf->get("hist_"+to_string(i)+"_scale") != ""){
@@ -834,6 +844,13 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
       for (size_t i = 0; i < stats_bins.size(); i++){
         signal_count.push_back(hists[0]->Integral(hists[0]->FindBin(stats_bins[i].first), hists[0]->FindBin(stats_bins[i].second - 0.001)));
         FS_count.push_back(hists[5]->Integral(hists[5]->FindBin(stats_bins[i].first), hists[5]->FindBin(stats_bins[i].second - 0.001)));
+
+        if(FS_hist_2016 != nullptr && FS_hist_2017 != nullptr && FS_hist_2018 != nullptr)
+        {
+            FS_count_2016.push_back(FS_hist_2016->Integral(FS_hist_2016->FindBin(stats_bins[i].first), FS_hist_2016->FindBin(stats_bins[i].second - 0.001)));
+            FS_count_2017.push_back(FS_hist_2017->Integral(FS_hist_2017->FindBin(stats_bins[i].first), FS_hist_2017->FindBin(stats_bins[i].second - 0.001)));
+            FS_count_2018.push_back(FS_hist_2018->Integral(FS_hist_2018->FindBin(stats_bins[i].first), FS_hist_2018->FindBin(stats_bins[i].second - 0.001)));
+        }
 
         if(do_rsfof_syst)
         {
@@ -928,7 +945,14 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
       }
       else
       {
-          FS_err = getFSError(FS_count, stod(conf->get("hist_5_scale")), SR == ""?conf->get("SR"):SR);
+          if(FS_count_2016.size() > 0 && FS_count_2017.size() > 0 && FS_count_2018.size() > 0)
+          {
+            FS_err = getFSError(FS_count, FS_count_2016, FS_count_2017,FS_count_2018,stod(conf->get("hist_5_scale")), SR == ""?conf->get("SR"):SR);
+          }
+          else
+          {
+            FS_err = getFSError(FS_count, stod(conf->get("hist_5_scale")), SR == ""?conf->get("SR"):SR);
+          }
       }
 
       //cout<<__LINE__<<endl;

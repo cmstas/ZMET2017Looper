@@ -285,9 +285,9 @@ pair<vector<double>,vector<double>> getFSError(const vector<double> &bin_count, 
     error_dn.push_back(sqrt(bin_dn));
 
     //For the cardmaker
-    cout<<"{rsfof_norm_unc_bin"<<i+1<<"}"<<1.+rsfof_norm_unc/bin_count[i]<<endl;
-    cout<<"{rsfof_pt_unc_bin"<<i+1<<"}"<<1.+rsfof_pt_unc/bin_count[i]<<endl;
-    cout<<"{rsfof_eta_unc_bin"<<i+1<<"}"<<1.+rsfof_eta_unc/bin_count[i]<<endl;
+    cout<<"{rsfof_norm_unc_bin"<<i+1<<"} "<<1.+rsfof_norm_unc/bin_count[i]<<endl;
+    cout<<"{rsfof_pt_unc_bin"<<i+1<<"} "<<1.+rsfof_pt_unc/bin_count[i]<<endl;
+    cout<<"{rsfof_eta_unc_bin"<<i+1<<"} "<<1.+rsfof_eta_unc/bin_count[i]<<endl;
   }
 
   cout<<setprecision(10);
@@ -315,7 +315,8 @@ pair<vector<double>,vector<double>> getFSError(const vector<double> &bin_count,c
     double RSFOF_unc_2016 = 0.0456/1.0934;
     double RSFOF_unc_2017 = 0.0465/1.1237;
     double RSFOF_unc_2018 = 0.0447/1.0905;
-    double Kappa_unc = 0.022/0.065; //new value
+    double kappa_unc = 0.022/0.065; //new value
+    double RSFOF_unc = 0;
 
     vector<double> error_up;
     vector<double> error_down;
@@ -328,22 +329,28 @@ pair<vector<double>,vector<double>> getFSError(const vector<double> &bin_count,c
         cout<<"bin count "<<bin_count[i]<<" Error_up "<<bin_up<<" Error_dn "<<bin_dn<<endl;
         bin_up = Kappa*Kappa*((bin_up - bin_count[i])*(bin_up - bin_count[i]) + RSFOF_unc_2016*RSFOF_unc_2016*bin_count_2016[i]*bin_count_2016[i] + RSFOF_unc_2017 * RSFOF_unc_2017 * bin_count_2017[i] * bin_count_2017[i] + RSFOF_unc_2018 * RSFOF_unc_2018 * bin_count_2018[i] * bin_count_2018[i] + kappa_unc*kappa_unc*bin_count[i]*bin_count[i]);
         
-         bin_dn = Kappa*Kappa*((bin_dn - bin_count[i])*(bin_dn - bin_count[i]) + RSFOF_unc_2016*RSFOF_unc_2016*bin_count_2016[i]*bin_count_2016[i] + RSFOF_unc_2017 * RSFOF_unc_2017 * bin_count_2017[i] * bin_count_2017[i] + RSFOF_unc_2018 * RSFOF_unc_2018 * bin_count_2018[i] * bin_count_2018[i] + kappa_unc*kappa_unc*bin_count[i]*bin_count[i]);   
+         bin_dn = Kappa*Kappa*((bin_dn - bin_count[i])*(bin_dn - bin_count[i]) + RSFOF_unc_2016*RSFOF_unc_2016*bin_count_2016[i]*bin_count_2016[i] + RSFOF_unc_2017 * RSFOF_unc_2017 * bin_count_2017[i] * bin_count_2017[i] + RSFOF_unc_2018 * RSFOF_unc_2018 * bin_count_2018[i] * bin_count_2018[i] + kappa_unc*kappa_unc*bin_count[i]*bin_count[i]);  
+        
+         //RSFOF is bin dependent now!
+         RSFOF_unc = sqrt(RSFOF_unc_2016*RSFOF_unc_2016*bin_count_2016[i]*bin_count_2016[i] + RSFOF_unc_2017*RSFOF_unc_2017*bin_count_2017[i]*bin_count_2017[i] + RSFOF_unc_2018 *RSFOF_unc_2018*bin_count_2018[i]*bin_count_2018[i])/bin_count[i];
+
+         cout<<"{rsfof_unc_bin"<<i+1<<"} "<<RSFOF_unc<<endl;
 
         error_up.push_back(sqrt(bin_up));
-        error_dn.push_back(sqrt(bin_dn));
+        error_down.push_back(sqrt(bin_dn));
     }
+    
     cout<<setprecision(10);
     //--------------------------------
     // To be parsed by datacard maker
     //--------------------------------
-    cout<<"{rsfof_unc} "<<1.+RSFOF_unc<<endl;
+    //cout<<"{rsfof_unc} "<<1.+RSFOF_unc<<endl;
     cout<<"{kappa_unc} "<<1.+kappa_unc<<endl;
-    cout<<"{rsfof*kappa} "<<RSFOFxKappa<<endl;
+    cout<<"{rsfof*kappa} "<<Kappa<<endl;
 
     for (int i = 0; i<(int)bin_count.size(); i++)
     {
-        cout<<"{BGbin"<<i<<"_fsbkg} "<<bin_count[i]*RSFOFxKappa<<endl;
+        cout<<"{BGbin"<<i<<"_fsbkg} "<<bin_count[i]*Kappa<<endl;
         cout<<"{count_bin"<<i<<"_fsbkg} "<<bin_count[i]<<endl;
     }
     cout<<setprecision(2);
