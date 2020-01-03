@@ -46,7 +46,7 @@ class Nuisance:
 nuisances = {
         "sig":[Nuisance("PUreweighting","sig_pileup_syst"),Nuisance("scale","sig_refacAndNorm_syst"),Nuisance("MET","sig_metfromFS_syst_bin"),Nuisance("lepton_FSsfs","sig_leptonFS_syst"),Nuisance("lepton_idiso","sig_leptonidiso_syst"),Nuisance("btag_HF","sig_btagheavy_syst_bin"),Nuisance("btag_LF","sig_btaglight_syst_bin"),Nuisance("lumi","sig_lumi_syst"),Nuisance("ISR","sig_isr_syst_bin"),Nuisance("sig_trig_syst_OS","sig_trig_syst"),Nuisance("sig_JES_syst_SR_bin_OS","sig_JES_syst_bin"),Nuisance("sig_stat_syst_SR_bin_OS","sig_stat_syst_bin")],
 
-        "fsbkg":[Nuisance("fsbkg_rsfof_syst_OS","rsfof_unc"),Nuisance("fsbkg_kappa_syst_OS","kappa_unc"),Nuisance("fsbkg_stat_syst_SR_bin_OS","rsfof*kappa",additional_options = "count_bin_fsbkg",error_type = "gmN")],
+        "fsbkg":[Nuisance("fsbkg_rsfof_syst_OS","rsfof_unc_bin"),Nuisance("fsbkg_kappa_syst_OS","kappa_unc"),Nuisance("fsbkg_stat_syst_SR_bin_OS","rsfof*kappa",additional_options = "count_bin_fsbkg",error_type = "gmN")],
 
         "zjets":[Nuisance("zjets_norm_syst_SR_OS","zjets_norm"),Nuisance("zjets_clos_syst_SR_bin_OS","zjets_clos_bin"),Nuisance("zjets_stat_syst_SR_bin_OS","zjets_stat_bin"),Nuisance("zjets_ewk_syst_SR_bin_OS","zjets_ewk_bin")],
 
