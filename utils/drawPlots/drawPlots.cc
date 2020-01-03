@@ -431,10 +431,9 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
         }
     }
     signal_hist_plot->SetMarkerStyle(1);
-    signal_hist_plot->SetMarkerColor(kBlue);
     signal_hist_plot->SetLineWidth(3);
     signal_hist_plot->SetMarkerSize(0.8);
-    signal_hist_plot->SetLineColor(kBlue);
+    signal_hist_plot->SetLineColor(kRed);
   }
 
 
@@ -1102,10 +1101,11 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
 
   if(conf->get("signal_hist_location") != "")
   {
-      stack->Add(signal_hist_plot);
+      //stack->Add(signal_hist_plot);
   }
 
   stack->Draw("HIST SAME");
+  signal_hist_plot->Draw("HIST SAME");
   cout<<"Stack Drawn"<<endl;
   if (conf->get("blindAfter") != "" and !(SR.Contains("VR"))){
     blindAfter(hists[0], stod(conf->get("blindAfter")));
