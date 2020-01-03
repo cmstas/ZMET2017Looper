@@ -329,8 +329,9 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
             if(hist_files[i].size() == 3)
             {
                 FS_hist_2016 = (TH1D*) (hist_files[i][0]->Get(SR+hist_names[i][0]));
-                FS_hist_2017 = (TH1D*) (hist_files[i][1]->Get(SR+hist_names[i][1]));
-                FS_hist_2018 = (TH1D*) (hist_files[i][2]->Get(SR+hist_names[i][2]));
+                FS_hist_2017 = (TH1D*) (hist_files[i][1]->Get(SR+hist_names[i][0]));
+                FS_hist_2018 = (TH1D*) (hist_files[i][2]->Get(SR+hist_names[i][0]));
+                cout<<FS_hist_2016->GetTitle()<<" "<<FS_hist_2017->GetTitle()<<" "<<FS_hist_2018->GetTitle()<<endl;
             }
         }
     }
