@@ -1245,19 +1245,19 @@ double ZMETLooper::computeRsfof(int unc_mode)
         }
         else if(unc_mode == 2)
         {
-            (*rMuE) *= 1.05 * (phys.lep_pt().at(i) - 65)/90;
+            (*rMuE) *= 1 + (0.05 * max((double)(110 - phys.lep_pt().at(i))/90 ,0.0)) ; 
         }
         else if(unc_mode == -2)
         {
-            (*rMuE) /= 1.05 * (phys.lep_pt().at(i) - 110)/90;
+            (*rMuE) /= 1 + (0.05 * max((double)(110 - phys.lep_pt().at(i))/90 , 0.0)) ; ;
         }
         else if(unc_mode == 3)
         {
-            (*rMuE) *= 1.05 * phys.lep_eta().at(i)/90;
+            (*rMuE) *= 1 + 0.05* abs(phys.lep_eta().at(i))/2.4;
         }
         else if(unc_mode == -3)
         {
-            (*rMuE) /= 1.05 * phys.lep_eta().at(i)/90;
+            (*rMuE) /= 1 + 0.05 * abs(phys.lep_eta().at(i))/2.4;
         }
     }
    //Errors will come later
