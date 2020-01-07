@@ -291,6 +291,7 @@ vector<double> getMetTemplatesError(const vector<double> &stat_err, const vector
   return output_errors;
 }
 
+//event by event using variation method
 pair<vector<double>,vector<double>> getFSError(const vector<double> &bin_count, const vector<double> &norm_up, const vector<double> &norm_down, const vector<double> &pt_up, const vector<double> &pt_down, const vector<double> &eta_up, const vector<double> &eta_down,double Kappa, TString SR){
   //double RSFOF_unc = 0.043/1.119; //Moriond 2017
   double kappa_unc = 0.02/0.065;  //Moriond 2017
@@ -316,6 +317,8 @@ pair<vector<double>,vector<double>> getFSError(const vector<double> &bin_count, 
 
     error_up.push_back(sqrt(bin_up));
     error_dn.push_back(sqrt(bin_dn));
+   
+    cout<<setprecision(10);
 
     //For the cardmaker
     cout<<"{rsfof_norm_unc_bin"<<i<<"} "<<1.+rsfof_norm_unc/bin_count[i]<<endl;
