@@ -321,9 +321,19 @@ pair<vector<double>,vector<double>> getFSError(const vector<double> &bin_count, 
     cout<<setprecision(10);
 
     //For the cardmaker
-    cout<<"{rsfof_norm_unc_bin"<<i<<"} "<<1.+rsfof_norm_unc/bin_count[i]<<endl;
-    cout<<"{rsfof_pt_unc_bin"<<i<<"} "<<1.+rsfof_pt_unc/bin_count[i]<<endl;
-    cout<<"{rsfof_eta_unc_bin"<<i<<"} "<<1.+rsfof_eta_unc/bin_count[i]<<endl;
+    if(bin_count[i] != 0)
+    {
+        cout<<"{rsfof_norm_unc_bin"<<i<<"} "<<1.+rsfof_norm_unc/bin_count[i]<<endl;
+        cout<<"{rsfof_pt_unc_bin"<<i<<"} "<<1.+rsfof_pt_unc/bin_count[i]<<endl;
+        cout<<"{rsfof_eta_unc_bin"<<i<<"} "<<1.+rsfof_eta_unc/bin_count[i]<<endl;
+
+    }
+    else
+    {
+        cout<<"{rsfof_norm_unc_bin"<<i<<"} "<<1.00<<endl;
+        cout<<"{rsfof_pt_unc_bin"<<i<<"} "<<1.00<<endl;
+        cout<<"{rsfof_eta_unc_bin"<<i<<"} "<<1.00<<endl;
+    }
   }
 
   cout<<setprecision(10);
