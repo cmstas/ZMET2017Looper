@@ -205,8 +205,9 @@ vector<double> getMetTemplatesError(const vector<double> &stat_err, const vector
   }
   else if(SR == "Edge"){
     MC_Closure_Error.push_back(.00);
-    MC_Closure_Error.push_back(.25);
-    MC_Closure_Error.push_back(.25);
+    MC_Closure_Error.push_back(.128); //100-150
+    MC_Closure_Error.push_back(.368); //150-350
+    MC_Closure_Error.push_back(0.641); //350-600
   }
   else{
     std::stringstream message;
