@@ -45,3 +45,5 @@ ZMETLooper
 
 utils/drawPlots/drawPlots
 utils/makeWeightHisto/makeReweightHist_noconf
+SMSScans/template_json/
+SMSScans/template_json.tar.gz
