@@ -236,7 +236,8 @@ vector<double> getMetTemplatesError(const vector<double> &stat_err, const vector
 
   for (size_t i=0; i<stat_err.size(); i++){
 
-    ewk_err.push_back(0.3*abs(bin_count[i] - EWK_Norm*No_EWK_BinCount[i]));
+    //ewk_err.push_back(0.3*abs(bin_count[i] - EWK_Norm*No_EWK_BinCount[i]));
+    ewk_err.push_back(0.4 * abs(bin_count[i] - EWK_Norm * No_EWK_BinCount[i]));
     norm_err.push_back(normalization*bin_count[i]);
     closure_err.push_back(bin_count[i]*MC_Closure_Error[i]);
 
