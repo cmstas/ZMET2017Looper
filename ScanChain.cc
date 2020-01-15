@@ -1323,6 +1323,10 @@ bool ZMETLooper::passSRACuts()
     {
       return false;
     }
+    if(g_met < 50)
+    {
+        return false;
+    }
     return true;
 }
 
@@ -1353,6 +1357,11 @@ bool ZMETLooper::passSRAbCuts()
     {
       return false;
     }
+    if(g_met < 50)
+    {
+        return false;
+    }
+
     return true;
 }
 
@@ -1374,7 +1383,10 @@ bool ZMETLooper::passVRACuts()
     {
         return false;
     }
-
+    if(g_met < 50)
+    {
+        return false;
+    }
     return true;
 }
 
@@ -1405,6 +1417,10 @@ bool ZMETLooper::passSRBCuts()
     if(g_nBJetMedium > 0)
     {
       return false;
+    }
+    if(g_met < 50)
+    {
+        return false;
     }
 
     return true;
@@ -1437,6 +1453,10 @@ bool ZMETLooper::passSRBbCuts()
     {
       return false;
     }
+    if(g_met < 50)
+    {
+        return false;
+    }
 
     return true;
 }
@@ -1456,6 +1476,10 @@ bool ZMETLooper::passVRBCuts()
         return false;
     }
     if(g_mt2 < 80)
+    {
+        return false;
+    }
+    if(g_met < 50)
     {
         return false;
     }
@@ -1489,6 +1513,10 @@ bool ZMETLooper::passSRCCuts()
     {
       return false;
     }
+    if(g_met < 50)
+    {
+        return false;
+    }
 
     return true;
 }
@@ -1516,6 +1544,11 @@ bool ZMETLooper::passSRCbCuts()
     {
       return false;
     }
+    if(g_met < 50)
+    {
+        return false;
+    }
+
     return true;
 }
 
@@ -1530,6 +1563,10 @@ bool ZMETLooper::passVRCCuts()
         return false;
     }
     if(g_mt2 < 80)
+    {
+        return false;
+    }
+    if(g_met < 50)
     {
         return false;
     }
@@ -1568,6 +1605,11 @@ bool ZMETLooper::passSRVZCuts()
     {
       return false;
     }
+    if(g_met < 50)
+    {
+        return false;
+    }
+
     return true;
 }
 
@@ -1597,7 +1639,10 @@ bool ZMETLooper::passVRWZCuts()
    {
        return false;
    }
-
+   if(g_met < 50)
+   {
+        return false;
+   }
    return true;
 }
 
@@ -1620,6 +1665,11 @@ bool ZMETLooper::passSRVZBoostedCuts()
     {
         return false;
     }
+    if(g_met < 50)
+    {
+        return false;
+    }
+
     for(size_t iJet = 0; iJet < phys.ak8jets_p4().size(); iJet++)
     {
       if(phys.ak8jets_tau2().at(iJet)/phys.ak8jets_tau1().at(iJet) > 0.6)
@@ -1652,6 +1702,11 @@ bool ZMETLooper::passVRWZBoostedCuts()
     {
         return false;
     }
+    if(g_met < 50)
+    {
+        return false;
+    }
+ 
 //    if(phys.nBJetMedium() > 0)
     if((conf->get("boosted_jet_veto") == "loose" && g_nBJetLoose > 0) || (conf->get("boosted_jet_veto") == "medium" && g_nBJetMedium > 0))
     {
@@ -1702,6 +1757,11 @@ bool ZMETLooper::passSRHZCuts()
      {
        return false;
      }
+     if(g_met < 50)
+     {
+        return false;
+     }
+
     return true;
 }
 
@@ -1723,10 +1783,15 @@ bool ZMETLooper::passVRHZCuts()
     {
         return false;
     }
-    if(g_mbb > 150)
+    if(g_mbb < 0 or g_mbb > 150)
     {
         return false;
     }
+    if(g_met < 50)
+    {
+        return false;
+    }
+
     return true;
 
 }
@@ -3741,6 +3806,11 @@ void ZMETLooper::fillMassWindowHistograms(std::string prefix)
     {
       fill1DHistograms(prefix+"count_narrowband",1,weight,allHistos,"",2,0,2,rootdir);
     }
+
+    //temp stuff
+    fill1DHistograms(prefix+"dilmass",phys.dilmass(),weight,allHistos,"",6000,0,6000,rootdir);
+
+
 }
 
 void ZMETLooper::fillBoostedHists(std::vector<size_t> g_fatjet_indices,std::string prefix)
