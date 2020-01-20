@@ -26,7 +26,14 @@ class Nuisance:
         placeholder_name_to_return = self.placeholder_name
         additional_options_to_return = self.additional_options
         if SR:
-            nuisance_name_to_return = nuisance_name_to_return.replace("_SR_","_{}_".format(SR))
+            if "SRV" in nuisance_name_to_return:
+                #SRV for kappa unc where we need to link up SRA and SRAb, SRB and SRBb, and so on
+                if SR[-1] == "b":
+                    nuisance_name_to_return = nuisance_name_to_return.replace("_SRV_","_{}_".format(SR[:-1]))
+                else:
+                    nuisance_name_to_return = nuisance_name_to_return.replace("_SRV_","_{}_".format(SR))
+            else:
+                nuisance_name_to_return = nuisance_name_to_return.replace("_SR_","_{}_".format(SR))
         if bin_number > 0:
             nuisance_name_to_return = nuisance_name_to_return.replace("_bin","_bin{}".format(bin_number))
             placeholder_name_to_return = placeholder_name_to_return.replace("_bin","_bin{}".format(bin_number))
@@ -46,7 +53,7 @@ class Nuisance:
 nuisances = {
         "sig":[Nuisance("PUreweighting","sig_pileup_syst"),Nuisance("scale","sig_refacAndNorm_syst"),Nuisance("MET","sig_metfromFS_syst_bin"),Nuisance("lepton_FSsfs","sig_leptonFS_syst"),Nuisance("lepton_idiso","sig_leptonidiso_syst"),Nuisance("btag_HF","sig_btagheavy_syst_bin"),Nuisance("btag_LF","sig_btaglight_syst_bin"),Nuisance("lumi","sig_lumi_syst"),Nuisance("ISR","sig_isr_syst_bin"),Nuisance("sig_trig_syst_OS","sig_trig_syst"),Nuisance("sig_JES_syst_SR_bin_OS","sig_JES_syst_bin"),Nuisance("sig_stat_syst_SR_bin_OS","sig_stat_syst_bin")],
 
-        "fsbkg":[Nuisance("fsbkg_rsfof_syst_norm_OS","rsfof_norm_unc_bin"), Nuisance("fsbkg_rsfof_syst_pt_OS","rsfof_pt_unc_bin"), Nuisance("fsbkg_rsfof_syst_eta_OS","rsfof_eta_unc_bin"),Nuisance("fsbkg_kappa_syst_OS","kappa_unc"),Nuisance("fsbkg_stat_syst_SR_bin_OS","rsfof*kappa",additional_options = "count_bin_fsbkg",error_type = "gmN")],
+        "fsbkg":[Nuisance("fsbkg_rsfof_syst_norm_OS","rsfof_norm_unc_bin"), Nuisance("fsbkg_rsfof_syst_pt_OS","rsfof_pt_unc_bin"), Nuisance("fsbkg_rsfof_syst_eta_OS","rsfof_eta_unc_bin"),Nuisance("fsbkg_kappa_stat_syst_SRV_OS","kappa_stat_unc"),Nuisance("fsbkg_kappa_met_syst_OS","kappa_MET_unc"),Nuisance("fsbkg_stat_syst_SR_bin_OS","rsfof*kappa",additional_options = "count_bin_fsbkg",error_type = "gmN")],
 
         "zjets":[Nuisance("zjets_norm_syst_SR_OS","zjets_norm"),Nuisance("zjets_clos_syst_SR_bin_OS","zjets_clos_bin"),Nuisance("zjets_stat_syst_SR_bin_OS","zjets_stat_bin"),Nuisance("zjets_ewk_syst_SR_bin_OS","zjets_ewk_bin")],
 

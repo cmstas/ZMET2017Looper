@@ -294,10 +294,9 @@ vector<double> getMetTemplatesError(const vector<double> &stat_err, const vector
 }
 
 //event by event using variation method
-pair<vector<double>,vector<double>> getFSError(const vector<double> &bin_count, const vector<double> &norm_up, const vector<double> &norm_down, const vector<double> &pt_up, const vector<double> &pt_down, const vector<double> &eta_up, const vector<double> &eta_down,double Kappa, TString SR){
-  //double RSFOF_unc = 0.043/1.119; //Moriond 2017
-  double kappa_unc = 0.02/0.065;  //Moriond 2017
-
+pair<vector<double>,vector<double>> getFSError(const vector<double> &bin_count, const vector<double> &norm_up, const vector<double> &norm_down, const vector<double> &pt_up, const vector<double> &pt_down, const vector<double> &eta_up, const vector<double> &eta_down,double Kappa, double Kappa_stat_error,TString SR){
+  double kappa_MET_unc = 0.0134/0.0643 ;  //Full run 2
+  double kappa_stat_unc = Kappa_stat_error/Kappa; //Crappy variable name
   vector<double> error_up;
   vector<double> error_dn;
 
@@ -313,9 +312,9 @@ pair<vector<double>,vector<double>> getFSError(const vector<double> &bin_count, 
    
     cout<<"bin count "<<bin_count[i]<<" Stat_Error_up "<<bin_up<<" Stat_Error_dn "<<bin_dn<<endl;
 
-    bin_up = Kappa*Kappa*((bin_up - bin_count[i])*(bin_up - bin_count[i]) + kappa_unc*kappa_unc*bin_count[i]*bin_count[i] + rsfof_norm_unc * rsfof_norm_unc + rsfof_pt_unc * rsfof_pt_unc + rsfof_eta_unc * rsfof_eta_unc);
+    bin_up = Kappa*Kappa*((bin_up - bin_count[i])*(bin_up - bin_count[i]) + kappa_stat_unc*kappa_stat_unc*bin_count[i]*bin_count[i] + kappa_MET_unc * kappa_MET_unc*bin_count[i]*bin_count[i] + rsfof_norm_unc * rsfof_norm_unc + rsfof_pt_unc * rsfof_pt_unc + rsfof_eta_unc * rsfof_eta_unc);
 
-    bin_dn = Kappa*Kappa*((bin_count[i] - bin_dn)*(bin_count[i] - bin_dn)  + kappa_unc*kappa_unc*bin_count[i]*bin_count[i] + rsfof_norm_unc * rsfof_norm_unc + rsfof_pt_unc * rsfof_pt_unc + rsfof_eta_unc * rsfof_eta_unc);
+    bin_dn = Kappa*Kappa*((bin_count[i] - bin_dn)*(bin_count[i] - bin_dn)  +  kappa_stat_unc*kappa_stat_unc*bin_count[i]*bin_count[i] + kappa_MET_unc * kappa_MET_unc*bin_count[i]*bin_count[i] + rsfof_norm_unc * rsfof_norm_unc + rsfof_pt_unc * rsfof_pt_unc + rsfof_eta_unc * rsfof_eta_unc);
 
     error_up.push_back(sqrt(bin_up));
     error_dn.push_back(sqrt(bin_dn));
@@ -342,7 +341,9 @@ pair<vector<double>,vector<double>> getFSError(const vector<double> &bin_count, 
   //--------------------------------
   // To be parsed by datacard maker
   //--------------------------------
-    cout<<"{kappa_unc} "<<1.+kappa_unc<<endl;
+    cout<<"{kappa_MET_unc} "<<1.+kappa_MET_unc<<endl;
+    cout<<"{kappa_stat_unc}"<<1.+kappa_stat_unc<<endl;
+
   cout<<"{rsfof*kappa} "<<Kappa<<endl; //only kappa these days
 
   for (size_t i = 0; i<bin_count.size(); i++){
@@ -358,12 +359,14 @@ pair<vector<double>,vector<double>> getFSError(const vector<double> &bin_count, 
 
 
 //Three years separate Rsfof and separate error
-pair<vector<double>,vector<double>> getFSError(const vector<double> &bin_count,const vector <double> &bin_count_2016, const vector<double> &bin_count_2017, const vector<double> &bin_count_2018,double Kappa, TString SR)
+pair<vector<double>,vector<double>> getFSError(const vector<double> &bin_count,const vector <double> &bin_count_2016, const vector<double> &bin_count_2017, const vector<double> &bin_count_2018,double Kappa, double Kappa_stat_error, TString SR)
 {
     double RSFOF_unc_2016 = 0.0456/1.0934;
     double RSFOF_unc_2017 = 0.0465/1.1237;
     double RSFOF_unc_2018 = 0.0447/1.0905;
-    double kappa_unc = 0.022/0.065; //new value
+    double kappa_MET_unc = 0.0134/0.0643 ;  //Full run 2
+    double kappa_stat_unc = Kappa_stat_error/Kappa; //Crappy variable name
+
     double RSFOF_unc = 0;
 
     vector<double> error_up;
@@ -376,9 +379,9 @@ pair<vector<double>,vector<double>> getFSError(const vector<double> &bin_count,c
     {
         RooHistError::instance().getPoissonInterval(bin_count[i], bin_dn, bin_up);
         cout<<"bin count "<<bin_count[i]<<" Error_up "<<bin_up<<" Error_dn "<<bin_dn<<endl;
-        bin_up = Kappa*Kappa*((bin_up - bin_count[i])*(bin_up - bin_count[i]) + RSFOF_unc_2016*RSFOF_unc_2016*bin_count_2016[i]*bin_count_2016[i] + RSFOF_unc_2017 * RSFOF_unc_2017 * bin_count_2017[i] * bin_count_2017[i] + RSFOF_unc_2018 * RSFOF_unc_2018 * bin_count_2018[i] * bin_count_2018[i] + kappa_unc*kappa_unc*bin_count[i]*bin_count[i]);
+        bin_up = Kappa*Kappa*((bin_up - bin_count[i])*(bin_up - bin_count[i]) + RSFOF_unc_2016*RSFOF_unc_2016*bin_count_2016[i]*bin_count_2016[i] + RSFOF_unc_2017 * RSFOF_unc_2017 * bin_count_2017[i] * bin_count_2017[i] + RSFOF_unc_2018 * RSFOF_unc_2018 * bin_count_2018[i] * bin_count_2018[i] + kappa_stat_unc*kappa_stat_unc*bin_count[i]*bin_count[i] + kappa_MET_unc * kappa_MET_unc*bin_count[i]*bin_count[i] );
         
-         bin_dn = Kappa*Kappa*((bin_dn - bin_count[i])*(bin_dn - bin_count[i]) + RSFOF_unc_2016*RSFOF_unc_2016*bin_count_2016[i]*bin_count_2016[i] + RSFOF_unc_2017 * RSFOF_unc_2017 * bin_count_2017[i] * bin_count_2017[i] + RSFOF_unc_2018 * RSFOF_unc_2018 * bin_count_2018[i] * bin_count_2018[i] + kappa_unc*kappa_unc*bin_count[i]*bin_count[i]);  
+         bin_dn = Kappa*Kappa*((bin_dn - bin_count[i])*(bin_dn - bin_count[i]) + RSFOF_unc_2016*RSFOF_unc_2016*bin_count_2016[i]*bin_count_2016[i] + RSFOF_unc_2017 * RSFOF_unc_2017 * bin_count_2017[i] * bin_count_2017[i] + RSFOF_unc_2018 * RSFOF_unc_2018 * bin_count_2018[i] * bin_count_2018[i] + kappa_stat_unc*kappa_stat_unc*bin_count[i]*bin_count[i] + kappa_MET_unc * kappa_MET_unc*bin_count[i]*bin_count[i] );  
         
          //RSFOF is bin dependent now!
          RSFOF_unc = sqrt(RSFOF_unc_2016*RSFOF_unc_2016*bin_count_2016[i]*bin_count_2016[i] + RSFOF_unc_2017*RSFOF_unc_2017*bin_count_2017[i]*bin_count_2017[i] + RSFOF_unc_2018 *RSFOF_unc_2018*bin_count_2018[i]*bin_count_2018[i])/bin_count[i];
@@ -397,8 +400,9 @@ pair<vector<double>,vector<double>> getFSError(const vector<double> &bin_count,c
     // To be parsed by datacard maker
     //--------------------------------
     //cout<<"{rsfof_unc} "<<1.+RSFOF_unc<<endl;
-    cout<<"{kappa_unc} "<<1.+kappa_unc<<endl;
     cout<<"{rsfof*kappa} "<<Kappa<<endl;
+    cout<<"{kappa_MET_unc} "<<1.+kappa_MET_unc<<endl;
+    cout<<"{kappa_stat_unc}"<<1.+kappa_stat_unc<<endl;
 
     for (int i = 0; i<(int)bin_count.size(); i++)
     {
@@ -412,9 +416,11 @@ pair<vector<double>,vector<double>> getFSError(const vector<double> &bin_count,c
 
 
 //Overall single error and single Rsfof
-pair<vector<double>,vector<double>> getFSError(const vector<double> &bin_count, double RSFOFxKappa, TString SR){
+pair<vector<double>,vector<double>> getFSError(const vector<double> &bin_count, double RSFOFxKappa, double Kappa_stat_error, TString SR){
   double RSFOF_unc = 0.043/1.119; //Moriond 2017
-  double kappa_unc = 0.022/0.065;  //Moriond 2017
+  double kappa_MET_unc = 0.0134/0.0643 ;  //Full run 2
+  double kappa_stat_unc = Kappa_stat_error/RSFOFxKappa; //Crappy variable name
+
 
   vector<double> error_up;
   vector<double> error_dn;
@@ -424,8 +430,8 @@ pair<vector<double>,vector<double>> getFSError(const vector<double> &bin_count, 
     RooHistError::instance().getPoissonInterval(bin_count[i], bin_dn, bin_up);
 
     cout<<"bin count "<<bin_count[i]<<" Error_up "<<bin_up<<" Error_dn "<<bin_dn<<endl;
-    bin_up = RSFOFxKappa*RSFOFxKappa*((bin_up - bin_count[i])*(bin_up - bin_count[i]) + RSFOF_unc*RSFOF_unc*bin_count[i]*bin_count[i] + kappa_unc*kappa_unc*bin_count[i]*bin_count[i]);
-    bin_dn = RSFOFxKappa*RSFOFxKappa*((bin_count[i] - bin_dn)*(bin_count[i] - bin_dn) + RSFOF_unc*RSFOF_unc*bin_count[i]*bin_count[i] + kappa_unc*kappa_unc*bin_count[i]*bin_count[i]);
+    bin_up = RSFOFxKappa*RSFOFxKappa*((bin_up - bin_count[i])*(bin_up - bin_count[i]) + RSFOF_unc*RSFOF_unc*bin_count[i]*bin_count[i] + kappa_MET_unc*kappa_MET_unc*bin_count[i]*bin_count[i] + kappa_stat_unc * kappa_stat_unc * bin_count[i] * bin_count[i]);
+    bin_dn = RSFOFxKappa*RSFOFxKappa*((bin_count[i] - bin_dn)*(bin_count[i] - bin_dn) + RSFOF_unc*RSFOF_unc*bin_count[i]*bin_count[i] +kappa_MET_unc*kappa_MET_unc*bin_count[i]*bin_count[i] + kappa_stat_unc * kappa_stat_unc * bin_count[i] * bin_count[i] );
 
     error_up.push_back(sqrt(bin_up));
     error_dn.push_back(sqrt(bin_dn));
@@ -436,8 +442,9 @@ pair<vector<double>,vector<double>> getFSError(const vector<double> &bin_count, 
   // To be parsed by datacard maker
   //--------------------------------
   cout<<"{rsfof_unc} "<<1.+RSFOF_unc<<endl;
-  cout<<"{kappa_unc} "<<1.+kappa_unc<<endl;
   cout<<"{rsfof*kappa} "<<RSFOFxKappa<<endl;
+  cout<<"{kappa_stat_unc}"<<1.+kappa_stat_unc<<endl;
+  cout<<"{kappa_MET_unc}"<<1.+kappa_MET_unc<<endl;
 
   for (int i = 0; i<(int)bin_count.size(); i++){
     cout<<"{BGbin"<<i<<"_fsbkg} "<<bin_count[i]*RSFOFxKappa<<endl;
@@ -643,7 +650,7 @@ void computeErrors(){
   vector<double> rare_bin_count = {12.2,18.3,9,7.9,8.9};
 
   vector<double> temp_err = getMetTemplatesError(temp_stat_err, temp_bin_count, sqrt(6995), 1, bin_edge, "2j");
-  pair<vector<double>,vector<double>> FS_err = getFSError(FS_bin_count, 1.087, "2j");
+  pair<vector<double>,vector<double>> FS_err = getFSError(FS_bin_count, 1.087,0, "2j");
   vector<double> rare_err = getRareSamplesError(rare_stat_err, rare_bin_count, 1.5, .5, "2j");
   cout<<"====================================\n\n\n";
   printErrors(temp_err, rare_err, FS_err, bin_low);

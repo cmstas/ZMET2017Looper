@@ -939,20 +939,21 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
       vector<double> temp_err = getMetTemplatesError(template_error, template_count, normalization, norm_bin, stats_bins, SR == "" ? conf->get("SR"): SR,SR != ""?true:false,conf->get("EWK_hist_location"));
       //cout<<__LINE__<<endl;
       
-      pair<vector<double>,vector<double>> FS_err; 
+      pair<vector<double>,vector<double>> FS_err;
+      double kappa_stat_error = conf->get("hist_5_error") != ""  ? stod(conf->get("hist_5_error")) : 0;
       if(do_rsfof_syst)
       {
-          FS_err = getFSError(FS_count,FS_norm_up,FS_norm_down,FS_pt_up,FS_pt_down,FS_eta_up,FS_eta_down,stod(conf->get("hist_5_scale")),SR == ""?conf->get("SR"):SR);
+          FS_err = getFSError(FS_count,FS_norm_up,FS_norm_down,FS_pt_up,FS_pt_down,FS_eta_up,FS_eta_down,stod(conf->get("hist_5_scale")),kappa_stat_error,SR == ""?conf->get("SR"):SR);
       }
       else
       {
           if(FS_count_2016.size() > 0 && FS_count_2017.size() > 0 && FS_count_2018.size() > 0)
           {
-            FS_err = getFSError(FS_count, FS_count_2016, FS_count_2017,FS_count_2018,stod(conf->get("hist_5_scale")), SR == ""?conf->get("SR"):SR);
+            FS_err = getFSError(FS_count, FS_count_2016, FS_count_2017,FS_count_2018,stod(conf->get("hist_5_scale")), kappa_stat_error,SR == ""?conf->get("SR"):SR);
           }
           else
           {
-            FS_err = getFSError(FS_count, stod(conf->get("hist_5_scale")), SR == ""?conf->get("SR"):SR);
+            FS_err = getFSError(FS_count, stod(conf->get("hist_5_scale")), kappa_stat_error,SR == ""?conf->get("SR"):SR);
           }
       }
 
