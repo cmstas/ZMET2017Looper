@@ -3,7 +3,7 @@ using namespace std;
 vector<TString> getFileLocation(std::string basePath,TString sample_name){
   vector<TString> fnames;
 
-  if(sample_name == "all")
+//  if(sample_name == "all")
   {
         cout<<"all SR"<<endl;
         if(basePath == "")

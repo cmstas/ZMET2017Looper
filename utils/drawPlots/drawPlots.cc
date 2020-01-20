@@ -416,7 +416,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
         //Use Integral to get the bin content from the signal histogram
         double low_bin_edge = signal_hist_plot->GetBinLowEdge(bin);
         double high_bin_edge = signal_hist_plot->GetBinLowEdge(bin+1);
-        if(mass_point_2 >= 0) //2D scan
+        if(mass_point_2 > 0) //2D scan
         {
             cout<<"low bin edge="<<low_bin_edge<<" high bin edge="<<high_bin_edge<<endl;
             temp_integral = signal_hist_3d->Integral((signal_hist_3d->GetXaxis())->FindBin(low_bin_edge),(signal_hist_3d->GetYaxis())->FindBin(high_bin_edge) - 0.001,(signal_hist_3d->GetYaxis())->FindBin(mass_point_1),(signal_hist_3d->GetYaxis())->FindBin(mass_point_1),(signal_hist_3d->GetZaxis())->FindBin(mass_point_2),(signal_hist_3d->GetZaxis())->FindBin(mass_point_2));
@@ -433,7 +433,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
     signal_hist_plot->SetMarkerStyle(1);
     signal_hist_plot->SetLineWidth(3);
     signal_hist_plot->SetMarkerSize(0.8);
-    signal_hist_plot->SetLineColor(kRed);
+    signal_hist_plot->SetLineColor(kBlack);
   }
 
 
@@ -657,6 +657,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
   }
   //cout<<__LINE__<<endl;
   cout<<"Primary Max: "<< clonedPrimary->GetMaximum() << " Secondary Max: "<< clonedBG->GetMaximum() <<endl;
+  cout<<"minimum="<<ymin<<endl;
   cout<<"Proper plot maximum set to "<<ymax<<endl;
 
   delete clonedBG;
@@ -1105,7 +1106,10 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
   }
 
   stack->Draw("HIST SAME");
-  signal_hist_plot->Draw("HIST SAME");
+  if(conf->get("signal_hist_location") != "")
+  {
+      signal_hist_plot->Draw("HIST SAME");
+  }
   cout<<"Stack Drawn"<<endl;
   if (conf->get("blindAfter") != "" and !(SR.Contains("VR"))){
     blindAfter(hists[0], stod(conf->get("blindAfter")));
