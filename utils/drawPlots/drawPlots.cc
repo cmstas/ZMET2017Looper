@@ -227,9 +227,13 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
   //Add files from which to obtain histos
   TString default_hist_dir = getDefaultHistDir(conf);
   vector<vector<TFile*>> hist_files (num_hists);
-  TFile* signal_hist_file;
-  TH3D* signal_hist_3d; //for 2D mass scans
-  TH2D* signal_hist_2d; //for 1D mass scans
+  TFile* signal_hist_file_CV;
+  TFile* signal_hist_file_GenMet;
+  TH3D* signal_hist_CV_3d; //for 2D mass scans
+  TH3D* signal_hist_GenMet_3d;
+
+  TH2D* signal_hist_CV_2d; //for 1D mass scans
+  TH2D* signal_hist_GenMet_2d;
   TH1D* signal_hist_plot;
   vector<TString> file_list;
   for (int i = 0; i<num_hists; i++){
@@ -390,16 +394,21 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
   {
     double mass_point_1 = -1;
     double mass_point_2 = -1;
-    signal_hist_file = new TFile(conf->get("signal_hist_location").c_str());
+    TString signal_hist_location = conf->get("signal_hist_location");
+    signal_hist_file_CV = new TFile(signal_hist_location);
+    signal_hist_location.ReplaceAll("/CV/","/GenMet/");
+    signal_hist_file_GenMet = new TFile(signal_hist_location);
     mass_point_1 = stoi(conf->get("signal_mass_point_1"));
     if(conf->get("signal_mass_point_2") != "") //2D scan
     {
-        signal_hist_3d = (TH3D*)signal_hist_file->Get(SR+"susy_type1MET_counts"); 
+        signal_hist_CV_3d = (TH3D*)signal_hist_file_CV->Get(SR+"susy_type1MET_counts"); 
+        signal_hist_GenMet_3d = (TH3D*)signal_hist_file_GenMet->Get(SR+"susy_type1MET_counts");
         mass_point_2 = stoi(conf->get("signal_mass_point_2"));
     }
     else
     {
-        signal_hist_2d = (TH2D*)signal_hist_file->Get(SR+"susy_type1MET_counts");
+        signal_hist_CV_2d = (TH2D*)signal_hist_file_CV->Get(SR+"susy_type1MET_counts");
+        signal_hist_GenMet_2d = (TH2D*)signal_hist_file_GenMet->Get(SR+"susy_type1MET_counts");
     }
     if(conf->get("binning") != "")
     {
@@ -410,24 +419,48 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
     {
         signal_hist_plot = (TH1D*)hists[0]->Clone("signal_hist");
     }
-    double temp_integral = 0;
+    double temp_integral_CV = 0;
+    double temp_integral_GenMet = 0;
+    cout<<"mass point 1 ="<<mass_point_1<<" mass point 2 = "<<mass_point_2<<endl;
+    if(mass_point_2  >= 0)
+    {
+        cout<<"signal histogram="<<signal_hist_CV_3d->GetName()<<endl;
+    }
+    else
+    {
+        cout<<"signal histogram="<<signal_hist_CV_2d->GetName()<<endl;
+    }
     for(int bin = 1; bin <= signal_hist_plot->GetNbinsX(); bin++)
     {   
         //Use Integral to get the bin content from the signal histogram
+        //
         double low_bin_edge = signal_hist_plot->GetBinLowEdge(bin);
         double high_bin_edge = signal_hist_plot->GetBinLowEdge(bin+1);
-        if(mass_point_2 > 0) //2D scan
+        if((mass_point_2 >= 0 && low_bin_edge < signal_hist_CV_3d->GetXaxis()->GetBinLowEdge(1)) || (mass_point_2 < 0 && low_bin_edge < signal_hist_CV_2d->GetXaxis()->GetBinLowEdge(1)))
         {
-            cout<<"low bin edge="<<low_bin_edge<<" high bin edge="<<high_bin_edge<<endl;
-            temp_integral = signal_hist_3d->Integral((signal_hist_3d->GetXaxis())->FindBin(low_bin_edge),(signal_hist_3d->GetYaxis())->FindBin(high_bin_edge) - 0.001,(signal_hist_3d->GetYaxis())->FindBin(mass_point_1),(signal_hist_3d->GetYaxis())->FindBin(mass_point_1),(signal_hist_3d->GetZaxis())->FindBin(mass_point_2),(signal_hist_3d->GetZaxis())->FindBin(mass_point_2));
+            continue;
+        }
 
-            signal_hist_plot->SetBinContent(bin,temp_integral);
+        if(mass_point_2 >= 0) //2D scan
+        {
+
+            temp_integral_CV = signal_hist_CV_3d->Integral(signal_hist_CV_3d->GetXaxis()->FindBin(low_bin_edge),signal_hist_CV_3d->GetXaxis()->FindBin(high_bin_edge-0.01),signal_hist_CV_3d->GetYaxis()->FindBin(mass_point_1),signal_hist_CV_3d->GetYaxis()->FindBin(mass_point_1),signal_hist_CV_3d->GetZaxis()->FindBin(mass_point_2),signal_hist_CV_3d->GetZaxis()->FindBin(mass_point_2));
+
+            temp_integral_GenMet = signal_hist_GenMet_3d->Integral(signal_hist_GenMet_3d->GetXaxis()->FindBin(low_bin_edge),signal_hist_GenMet_3d->GetXaxis()->FindBin(high_bin_edge-0.01),signal_hist_GenMet_3d->GetYaxis()->FindBin(mass_point_1),signal_hist_GenMet_3d->GetYaxis()->FindBin(mass_point_1),signal_hist_GenMet_3d->GetZaxis()->FindBin(mass_point_2),signal_hist_GenMet_3d->GetZaxis()->FindBin(mass_point_2));
+
+            cout<<"low bin edge="<<low_bin_edge<<" high bin edge="<<high_bin_edge<<"bin count CV="<<temp_integral_CV<<"bin count GenMet"<<temp_integral_GenMet<<endl;
+
+            signal_hist_plot->SetBinContent(bin,0.5 * (temp_integral_CV + temp_integral_GenMet));
         }
         else
         {
-            temp_integral = signal_hist_2d->Integral(low_bin_edge,high_bin_edge-0.001,(signal_hist_2d->GetYaxis())->FindBin(mass_point_1),(signal_hist_2d->GetYaxis())->FindBin(mass_point_1));
+            temp_integral_CV = signal_hist_CV_2d->Integral(signal_hist_CV_2d->GetXaxis()->FindBin(low_bin_edge),signal_hist_CV_2d->GetXaxis()->FindBin(high_bin_edge-0.001),signal_hist_CV_2d->GetYaxis()->FindBin(mass_point_1),signal_hist_CV_2d->GetYaxis()->FindBin(mass_point_1));
 
-            signal_hist_plot->SetBinContent(bin,temp_integral);
+            temp_integral_GenMet =  signal_hist_GenMet_2d->Integral(signal_hist_GenMet_2d->GetXaxis()->FindBin(low_bin_edge),signal_hist_GenMet_2d->GetXaxis()->FindBin(high_bin_edge-0.001),signal_hist_GenMet_2d->GetYaxis()->FindBin(mass_point_1),signal_hist_GenMet_2d->GetYaxis()->FindBin(mass_point_1));
+
+            cout<<"low bin edge="<<low_bin_edge<<" high bin edge="<<high_bin_edge<<"bin count CV="<<temp_integral_CV<<"bin count GenMet="<<temp_integral_GenMet<<endl;
+
+            signal_hist_plot->SetBinContent(bin,0.5 * (temp_integral_CV + temp_integral_GenMet));
         }
     }
     signal_hist_plot->SetMarkerStyle(1);
