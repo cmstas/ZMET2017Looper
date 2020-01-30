@@ -411,21 +411,40 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
         signal_hist_plot = (TH1D*)hists[0]->Clone("signal_hist");
     }
     double temp_integral = 0;
+    cout<<"mass point 1 ="<<mass_point_1<<" mass point 2 = "<<mass_point_2<<endl;
+    if(mass_point_2  >= 0)
+    {
+        cout<<"signal histogram="<<signal_hist_3d->GetName()<<endl;
+    }
+    else
+    {
+        cout<<"signal histogram="<<signal_hist_2d->GetName()<<endl;
+    }
     for(int bin = 1; bin <= signal_hist_plot->GetNbinsX(); bin++)
     {   
         //Use Integral to get the bin content from the signal histogram
+        //
         double low_bin_edge = signal_hist_plot->GetBinLowEdge(bin);
         double high_bin_edge = signal_hist_plot->GetBinLowEdge(bin+1);
-        if(mass_point_2 > 0) //2D scan
+        if((mass_point_2 >= 0 && low_bin_edge < signal_hist_3d->GetXaxis()->GetBinLowEdge(1)) || (mass_point_2 < 0 && low_bin_edge < signal_hist_2d->GetXaxis()->GetBinLowEdge(1)))
         {
-            cout<<"low bin edge="<<low_bin_edge<<" high bin edge="<<high_bin_edge<<endl;
-            temp_integral = signal_hist_3d->Integral((signal_hist_3d->GetXaxis())->FindBin(low_bin_edge),(signal_hist_3d->GetYaxis())->FindBin(high_bin_edge) - 0.001,(signal_hist_3d->GetYaxis())->FindBin(mass_point_1),(signal_hist_3d->GetYaxis())->FindBin(mass_point_1),(signal_hist_3d->GetZaxis())->FindBin(mass_point_2),(signal_hist_3d->GetZaxis())->FindBin(mass_point_2));
+            continue;
+        }
+
+        if(mass_point_2 >= 0) //2D scan
+        {
+
+            temp_integral = signal_hist_3d->Integral(signal_hist_3d->GetXaxis()->FindBin(low_bin_edge),signal_hist_3d->GetXaxis()->FindBin(high_bin_edge-0.01),signal_hist_3d->GetYaxis()->FindBin(mass_point_1),signal_hist_3d->GetYaxis()->FindBin(mass_point_1),signal_hist_3d->GetZaxis()->FindBin(mass_point_2),signal_hist_3d->GetZaxis()->FindBin(mass_point_2));
+            cout<<"low bin edge="<<low_bin_edge<<" high bin edge="<<high_bin_edge<<"bin count="<<temp_integral<<endl;
 
             signal_hist_plot->SetBinContent(bin,temp_integral);
         }
         else
         {
-            temp_integral = signal_hist_2d->Integral(low_bin_edge,high_bin_edge-0.001,(signal_hist_2d->GetYaxis())->FindBin(mass_point_1),(signal_hist_2d->GetYaxis())->FindBin(mass_point_1));
+	    temp_integral = signal_hist_2d->Integral(signal_hist_2d->GetXaxis()->FindBin(low_bin_edge),signal_hist_2d->GetXaxis()->FindBin(high_bin_edge-0.01),signal_hist_2d->GetYaxis()->FindBin(mass_point_1),signal_hist_2d->GetYaxis()->FindBin(mass_point_1));
+ 
+            cout<<"low bin edge="<<low_bin_edge<<" high bin edge="<<high_bin_edge<<"bin count="<<temp_integral<<endl;
+
 
             signal_hist_plot->SetBinContent(bin,temp_integral);
         }
@@ -649,7 +668,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
 
   if (conf->get("logy") == "true"){
     ymax *= 10;
-    ymin = 0.1;
+    ymin = 0.005;
   }
 
   if (conf->get("ymin") != ""){
