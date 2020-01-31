@@ -101,6 +101,7 @@ for SR in SRs:
             legend_labels = ["#gamma + Jets"],
             options = {
                 "yaxis_log":True,
+                "xaxis_log":True,
                 "output_name":output_prefix+SR+"_boson_pt.pdf",
                 "xaxis_label":"Boson P_{T}",
                 "legend_smart":False,
@@ -121,6 +122,7 @@ for SR in SRs:
             legend_labels = ["#gamma + Jets"],
             options = {
                 "yaxis_log":True,
+                "xaxis_log":True,
                 "output_name":output_prefix+SR+"_boson_pt_unweighted.pdf",
                 "xaxis_label":"Boson P_{T} (unweighted)",
                 "legend_smart":False,
