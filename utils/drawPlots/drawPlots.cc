@@ -339,6 +339,20 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
             }
         }
     }
+    else if(i == 6)
+    {
+        TH1D* template_hist = (TH1D*) (combine_histograms(hist_files[i],hist_names[i],i,plot_name,SR));
+        TFile *noEWKHistFile = new TFile((conf->get("EWK_hist_location")+"/GammaData_NoEWKSub.root").c_str());
+        TH1D* noEWKHist = (TH1D*)(noEWKHistFile->Get(hist_names[i][0]))->Clone("noEWKHist");
+
+        TH1D *EWK_component = (TH1D*)template_hist->Clone("EWK_component");
+        EWK_component->Scale(-1);
+        EWK_component->Add(noEWKHist);
+        
+        hists[i] = (TH1D*)template_hist->Clone("template_hist_Final");
+        EWK_component->Scale(0.3);
+        hists[i]->Add(EWK_component);
+    }
     else
     {
         hists[i] = (TH1D*) (combine_histograms(hist_files[i],hist_names[i],i,plot_name,SR));
@@ -901,6 +915,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
         //cout<<__LINE__<<endl;
         template_count.push_back(hists[6]->IntegralAndError(hists[6]->FindBin(stats_bins[i].first), hists[6]->FindBin(stats_bins[i].second - 0.001), t_err));
         template_error.push_back(t_err);
+
 
         //cout<<__LINE__<<endl;
 
