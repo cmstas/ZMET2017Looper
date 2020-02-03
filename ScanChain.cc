@@ -4022,4 +4022,5 @@ int ZMETLooper::compute_isotrack_mt2()
         if(!signalLeptonOverlapFlag)
             nisoTrack_mt2++;
     }
+    return nisoTrack_mt2;
 }
