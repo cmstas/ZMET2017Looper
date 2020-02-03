@@ -701,6 +701,8 @@ int ZMETLooper::hasGoodZ(){
         dilmass_high = -1;
       
       }
+      else
+         return -1;
   }
 
   if( phys.dilmass() < dilmass_low) {
@@ -2380,14 +2382,7 @@ bool ZMETLooper::passMETFilters(){
       return false;
     }
   }
-
-  if(!phys.Flag_badChargedCandidateFilter())
-  {
-      if(printFail) cout<<phys.evt()<<" :Failed BadChargedCandidate filter"<<endl;
-      return false;
-  }
-
-  
+ 
   if ( phys.isData() ) {
     if (!phys.Flag_eeBadScFilter()) {
       if (printFail) cout<<phys.evt()<<" :Failed eeBadScFilter cut"<<endl;
@@ -3046,7 +3041,7 @@ int ZMETLooper::ScanChain( TChain* chain, ConfigParser *configuration, bool fast
     //cout<<__LINE__<<endl;
     //cout<<__LINE__<<endl;
     files_log<<"Running over new file: "<<currentFile->GetTitle()<<endl;
-    cout<<"Running over new file: "<<currentFile->GetTitle()<<endl;
+    //cout<<"Running over new file: "<<currentFile->GetTitle()<<endl;
 
     if(conf->get("dilep_control_region") == "true" and phys.isData())
     {
@@ -3483,6 +3478,7 @@ void ZMETLooper::fillallHistograms(std::string prefix)
     }
     else
     {
+        //print out stuff
         fillCommonHists(commonHistPrefix);
 
         //Rsfof new stuff
@@ -3828,7 +3824,7 @@ void ZMETLooper::fillMassWindowHistograms(std::string prefix)
 
     //temp stuff
     fill1DHistograms(prefix+"dilmass",phys.dilmass(),weight,allHistos,"",6000,0,6000,rootdir);
-
+    fill1DHistograms(prefix+"mt2",g_mt2,weight,allHistos,"",6000,0,6000,rootdir);
 
 }
 
