@@ -1103,7 +1103,7 @@ double ZMETLooper::getWeight(TString SR){
     }
   }
   //L1 prefire weights
-  if(!isData && (g_year == 2016 || g_year == 2017))
+  if(!phys.isData() && (g_year == 2016 || g_year == 2017))
   {
       weight *= phys.weight_L1prefire(); 
   }
@@ -3966,7 +3966,7 @@ void ZMETLooper::fillTChiHZHists(std::string prefix)
         fill1DHistograms(prefix+"mt2j",phys.mt2j(),weight,allHistos,"",6000,0,6000,rootdir);
     }
 
-    if (phys.nlep() > 1 && g_nBJetMedium >= 2)
+    if (phys.nlep() > 1 && g_nBJetMedium35 >= 2)
     {
         mt2_val_hz = getMT2HiggsZ();
     }
@@ -3996,7 +3996,7 @@ void ZMETLooper::fillTChiHZHists(std::string prefix)
 
         //cout<<__LINE__<<endl;
 
-        if (g_nBJetMedium >= 2)
+        if (g_nBJetMedium35 >= 2)
         {
             pair<int,int> b_index = getMostBlike();
             bb_pt = (g_jets_p4.at(b_index.first) + g_jets_p4.at(b_index.second)).pt();

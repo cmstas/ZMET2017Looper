@@ -398,7 +398,7 @@ class ZMETLooper
     void fillChiHists(std::string prefix = "");
     void fillGluLSPHists(std::string prefix = "");
 
-
+    LorentzVector computeMht();
 
     public:
     ZMETLooper(int year=-1);
