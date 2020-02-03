@@ -1102,7 +1102,11 @@ double ZMETLooper::getWeight(TString SR){
       weight *= getReweight_allSR(SR);
     }
   }
-
+  //L1 prefire weights
+  if(!isData && (g_year == 2016 || g_year == 2017))
+  {
+      weight *= phys.weight_L1prefire(); 
+  }
 
   if (conf->get("rwt_photon_eff") == "true" ){
     weight *= getEff(phys.gamma_pt().at(0), phys.gamma_eta().at(0));
@@ -1321,7 +1325,7 @@ bool ZMETLooper::passSRACuts()
     {
       return false;
     }
-    if(g_nBJetMedium > 0)
+    if(g_nBJetMedium35 > 0)
     {
       return false;
     }
@@ -1355,7 +1359,7 @@ bool ZMETLooper::passSRAbCuts()
     {
       return false;
     }
-    if(g_nBJetMedium < 1)
+    if(g_nBJetMedium35 < 1)
     {
       return false;
     }
@@ -1416,7 +1420,7 @@ bool ZMETLooper::passSRBCuts()
     {
       return false;
     }
-    if(g_nBJetMedium > 0)
+    if(g_nBJetMedium35 > 0)
     {
       return false;
     }
@@ -1451,7 +1455,7 @@ bool ZMETLooper::passSRBbCuts()
     {
       return false;
     }
-    if(g_nBJetMedium < 1)
+    if(g_nBJetMedium35 < 1)
     {
       return false;
     }
@@ -1507,7 +1511,7 @@ bool ZMETLooper::passSRCCuts()
     {
       return false;
     }
-    if(g_nBJetMedium > 0)
+    if(g_nBJetMedium35 > 0)
     {
       return false;
     }
@@ -1538,7 +1542,7 @@ bool ZMETLooper::passSRCbCuts()
     {
       return false;
     }
-    if(g_nBJetMedium < 1)
+    if(g_nBJetMedium35 < 1)
     {
       return false;
     }
@@ -1595,7 +1599,7 @@ bool ZMETLooper::passSRVZCuts()
       return false;
     }
 //    if(g_nBJetMedium > 0)
-    if((conf->get("resolved_jet_veto") == "loose" && g_nBJetLoose > 0) || (conf->get("resolved_jet_veto") == "medium" && g_nBJetMedium > 0))
+    if((conf->get("resolved_jet_veto") == "loose" && g_nBJetLoose25 > 0) || (conf->get("resolved_jet_veto") == "medium" && g_nBJetMedium25 > 0))
     {
       return false;
     }
@@ -1629,7 +1633,7 @@ bool ZMETLooper::passVRWZCuts()
    {
        return false;
    }
-   if((conf->get("resolved_jet_veto") == "loose" && g_nBJetLoose > 0) || (conf->get("resolved_jet_veto") == "medium" && g_nBJetMedium > 0))
+   if((conf->get("resolved_jet_veto") == "loose" && g_nBJetLoose25 > 0) || (conf->get("resolved_jet_veto") == "medium" && g_nBJetMedium25 > 0))
    {
        return false;
    }
@@ -1659,7 +1663,7 @@ bool ZMETLooper::passSRVZBoostedCuts()
       return false;
     }
 //    if(g_nBJetMedium > 0)
-    if((conf->get("boosted_jet_veto") == "loose" && g_nBJetLoose > 0) || (conf->get("boosted_jet_veto") == "medium" && g_nBJetMedium > 0))
+    if((conf->get("boosted_jet_veto") == "loose" && g_nBJetLoose25 > 0) || (conf->get("boosted_jet_veto") == "medium" && g_nBJetMedium25 > 0))
     {
       return false;
     }
@@ -1710,7 +1714,7 @@ bool ZMETLooper::passVRWZBoostedCuts()
     }
  
 //    if(phys.nBJetMedium() > 0)
-    if((conf->get("boosted_jet_veto") == "loose" && g_nBJetLoose > 0) || (conf->get("boosted_jet_veto") == "medium" && g_nBJetMedium > 0))
+    if((conf->get("boosted_jet_veto") == "loose" && g_nBJetLoose25 > 0) || (conf->get("boosted_jet_veto") == "medium" && g_nBJetMedium25 > 0))
     {
         return false;
     }
@@ -1747,7 +1751,7 @@ bool ZMETLooper::passSRHZCuts()
     {
       return false;
     }
-    if(g_nBJetMedium != 2)
+    if(g_nBJetMedium35 != 2)
     {
       return false;
     }
@@ -1777,7 +1781,7 @@ bool ZMETLooper::passVRHZCuts()
     {
         return false;
     }
-    if(g_nBJetMedium != 2)
+    if(g_nBJetMedium35 != 2)
     {
         return false;
     }
@@ -1821,7 +1825,7 @@ bool ZMETLooper::passSignalRegionCuts(){
 
 //Num Bottom jets Max Cut
   if (conf->get("NBjets_loose_max") != ""){
-    if (phys.nBJetLoose() > stod(conf->get("NBjets_loose_max"))){
+    if (phys.nBJetLoose25() > stod(conf->get("NBjets_loose_max"))){
       numEvents->Fill(37);
       if (printFail) cout<<phys.evt()<<" :Failed max bjet cut"<<endl;
       return false;
@@ -1831,7 +1835,7 @@ bool ZMETLooper::passSignalRegionCuts(){
 
   //Num Bottom jets Min Cut
   if (conf->get("NBjets_loose_min") != ""){
-    if (g_nBJetLoose < stod(conf->get("NBjets_loose_min"))){
+    if (g_nBJetLoose25 < stod(conf->get("NBjets_loose_min"))){
       numEvents->Fill(36);
       if (printFail) cout<<phys.evt()<<" :Failed min bjet cut"<<endl;
       return false;
@@ -1840,7 +1844,7 @@ bool ZMETLooper::passSignalRegionCuts(){
 
   //Num Bottom jets Min Cut
   if (conf->get("NBjets_min") != ""){
-    if (g_nBJetMedium < stod(conf->get("NBjets_min"))){
+    if (g_nBJetMedium25 < stod(conf->get("NBjets_min"))){
       numEvents->Fill(36);
       if (printFail) cout<<phys.evt()<<" :Failed min bjet cut"<<endl;
       return false;
@@ -1850,7 +1854,7 @@ bool ZMETLooper::passSignalRegionCuts(){
 
   //Num Bottom jets Max Cut
   if (conf->get("NBjets_max") != ""){
-    if (g_nBJetMedium > stod(conf->get("NBjets_max"))){
+    if (g_nBJetMedium25 > stod(conf->get("NBjets_max"))){
       numEvents->Fill(37);
       if (printFail) cout<<phys.evt()<<" :Failed max bjet cut"<<endl;
       return false;
@@ -2399,9 +2403,16 @@ bool ZMETLooper::passBaseCut(){
     return false;
   }
 
-
   if(conf->get("n_lep_veto") != ""){
-    if( (phys.nisoTrack_mt2() + phys.nlep()) >= stod(conf->get("n_lep_veto"))){
+      if(recompute_isotrack_flag)
+      {
+          isotrack_mt2 = compute_isotrack_mt2();
+      }
+      else
+      {
+          isotrack_mt2 = phys.nisoTrack_mt2();
+      }
+    if( (isotrack_mt2 + phys.nlep()) >= stod(conf->get("n_lep_veto"))){
         numEvents->Fill(54);
         if (printFail) cout<<phys.evt()<<" :Failed isotrack veto"<<endl;
         return false; //third lepton veto
@@ -2657,8 +2668,10 @@ void ZMETLooper::setupGlobals(){
     g_njets = phys.njets_up();
     g_mbb = phys.mbb_csv_up();
     g_mjj_mindphi = phys.mjj_mindphi_up();
-    g_nBJetMedium = phys.nBJetMedium_up();
-    g_nBJetLoose = phys.nBJetLoose_up();
+    g_nBJetMedium35 = phys.nBJetMedium35_up();
+    g_nBJetMedium25 = phys.nBJetMedium25_up();
+    g_nBJetLoose35 = phys.nBJetLoose35_up();
+    g_nBJetLoose25 = phys.nBJetLoose25_up();
     g_met = phys.met_T1CHS_miniAOD_CORE_up_pt();
     g_met_phi = phys.met_T1CHS_miniAOD_CORE_up_phi();
     g_mt2 = phys.mt2_up();
@@ -2674,8 +2687,10 @@ void ZMETLooper::setupGlobals(){
     g_njets = phys.njets_dn();
     g_mbb = phys.mbb_csv_dn();
     g_mjj_mindphi = phys.mjj_mindphi_dn();
-    g_nBJetMedium = phys.nBJetMedium_dn();
-    g_nBJetLoose = phys.nBJetLoose_dn();
+    g_nBJetMedium35 = phys.nBJetMedium35_dn();
+    g_nBJetMedium25 = phys.nBJetMedium25_dn();
+    g_nBJetLoose35 = phys.nBJetLoose35_dn();
+    g_nBJetLoose25 = phys.nBJetLoose25_dn();
     g_met = phys.met_T1CHS_miniAOD_CORE_dn_pt();
     g_met_phi = phys.met_T1CHS_miniAOD_CORE_dn_phi();
     g_mt2 = phys.mt2_dn();
@@ -2696,8 +2711,10 @@ void ZMETLooper::setupGlobals(){
 
     g_mjj_mindphi = phys.mjj_mindphi();
     g_mbb = phys.mbb_csv();
-    g_nBJetMedium = phys.nBJetMedium();
-    g_nBJetLoose = phys.nBJetLoose();
+    g_nBJetMedium35 = phys.nBJetMedium35();
+    g_nBJetMedium25 = phys.nBJetMedium25();
+    g_nBJetLoose35 = phys.nBJetLoose35();
+    g_nBJetLoose25 = phys.nBJetLoose25();
     g_njets = phys.njets();
     g_ht = phys.ht();
     g_jets_p4 = phys.jets_p4();
@@ -2710,8 +2727,10 @@ void ZMETLooper::setupGlobals(){
     g_njets = phys.njets();
     g_mbb = phys.mbb_csv();
     g_mjj_mindphi = phys.mjj_mindphi();
-    g_nBJetMedium = phys.nBJetMedium();
-    g_nBJetLoose = phys.nBJetLoose();
+    g_nBJetMedium35 = phys.nBJetMedium35();
+    g_nBJetMedium25 = phys.nBJetMedium25();
+    g_nBJetLoose35 = phys.nBJetLoose35();
+    g_nBJetLoose25 = phys.nBJetLoose25();
     g_met = phys.met_T1CHS_miniAOD_CORE_pt();
     g_met_phi = phys.met_T1CHS_miniAOD_CORE_phi();
     g_mt2 = phys.mt2();
@@ -3751,10 +3770,10 @@ void ZMETLooper::fillCommonHists(std::string prefix)
     }
 
     fill1DHistograms(prefix+"njets",g_njets,weight,allHistos,"",50,0,50,rootdir);
-    fill1DHistograms(prefix+"nbtags_m",g_nBJetMedium,weight,allHistos,"",50,0,50,rootdir);
-    fill1DHistograms(prefix+"nbtags_l",g_nBJetLoose,weight,allHistos,"",50,0,50,rootdir);
+    fill1DHistograms(prefix+"nbtags_m",g_nBJetMedium25,weight,allHistos,"",50,0,50,rootdir);
+    fill1DHistograms(prefix+"nbtags_l",g_nBJetLoose25,weight,allHistos,"",50,0,50,rootdir);
 
-    fill1DHistograms(prefix+"nbtags_t",phys.nBJetTight(),weight,allHistos,"",50,0,50,rootdir);
+    fill1DHistograms(prefix+"nbtags_t",phys.nBJetTight25(),weight,allHistos,"",50,0,50,rootdir);
 
     fill1DHistograms(prefix+"nVert",phys.nVert(),weight,allHistos,"",150,0,150,rootdir);
     fill1DHistograms(prefix+"nlep",phys.nlep(),weight,allHistos,"",20,0,20,rootdir);
@@ -3985,3 +4004,22 @@ void ZMETLooper::fillTChiHZHists(std::string prefix)
         }
 }
 
+int ZMETLooper::compute_isotrack_mt2()
+{
+    bool signalLeptonOverlapFlag;
+    int nisoTrack_mt2 = 0;
+    for(auto &pit:phys.isotrack_p4())
+    {
+        signalLeptonOverlapFlag  = false;
+        for(auto &ilep:phys.lep_p4())
+        {
+            if(DeltaR(pit,ilep) < 0.01)
+            {
+                signalLeptonOverlapFlag = true;
+                break;
+            }
+        }
+        if(!signalLeptonOverlapFlag)
+            nisoTrack_mt2++;
+    }
+}

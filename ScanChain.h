@@ -264,7 +264,8 @@ class ZMETLooper
 
     /*Computes Rsfof from the event-by-event description*/
     double computeRsfof(int unc_mode = 0); 
-
+    
+    int compute_isotrack_mt2();
     //=============================
     // Cuts
     //=============================
@@ -363,6 +364,8 @@ class ZMETLooper
     double bb_pt;
     double mt2_val_fromb;
     double mt2_val_hz = 0;
+    int isotrack_mt2;
+    bool recompute_isotrack_flag=true;
 
     //SUSY variables
 
@@ -386,7 +389,6 @@ class ZMETLooper
     void fillTChiWZHists(std::string prefix = "");
     void fillTChiHZHists(std::string prefix = "");
     void fillBoostedHists(std::vector<size_t> fatjet_indices,std::string prefix = "");
-    LorentzVector computeMht();
     //SR Hists comin' soon...
     //
 
