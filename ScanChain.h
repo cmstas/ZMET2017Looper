@@ -391,6 +391,7 @@ class ZMETLooper
     void fillTChiWZHists(std::string prefix = "");
     void fillTChiHZHists(std::string prefix = "");
     void fillBoostedHists(std::vector<size_t> fatjet_indices,std::string prefix = "");
+    bool passHEM1516Veto(); 
     //SR Hists comin' soon...
     //
 

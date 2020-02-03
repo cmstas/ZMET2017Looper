@@ -3026,6 +3026,7 @@ int ZMETLooper::ScanChain( TChain* chain, ConfigParser *configuration, bool fast
 // File Loop
 //===========================================
     
+    unsigned int HEM_fracNum = 1286, HEM_fracDen = 1961;
     while ( (currentFile = (TFile*)fileIter.Next()) ) {
 
     // Get File Content
@@ -3100,6 +3101,16 @@ int ZMETLooper::ScanChain( TChain* chain, ConfigParser *configuration, bool fast
           continue;
         } //Rare Sample Selections
       }
+
+      //HEM1516 issue
+      if(g_year == 2018 && ((phys.isData() && phys.run() >= 319077) || (!phys.isData() && phys.evt() % HEM_fracDen < HEM_fracNum )))
+      {
+          if(!passHEM1516Veto())
+          {
+              continue;
+          }
+      }
+              
 
       if (conf->get("susy_mc") == "true"){
         if (! passSUSYSignalCuts()){
@@ -4024,3 +4035,55 @@ int ZMETLooper::compute_isotrack_mt2()
     }
     return nisoTrack_mt2;
 }
+
+bool ZMETLooper::passHEM1516Veto()
+{
+    //returns false if objects found in veto regions
+    float eta_low = -4.7;
+    float eta_high = -1.4;
+    float phi_low = -1.6;
+    float phi_high = -0.8;
+    //tight electrons
+    for(size_t i = 0; i < phys.lep_p4().size(); i++)
+    {
+        if(abs(phys.lep_pdgId().at(i)) == 11)
+        {
+            if((phys.lep_p4().at(i).eta() > eta_low && phys.lep_p4().at(i).eta() < eta_high) && (phys.lep_p4().at(i).phi() > phi_low && phys.lep_p4().at(i).phi() < phi_high))
+            {
+                return false;
+            }
+        }
+    }
+
+    //jets
+    for(size_t i = 0; i < phys.jets_p4().size(); i++)
+    {
+            if((phys.jets_p4().at(i).eta() > eta_low && phys.jets_p4().at(i).eta() < eta_high) && (phys.jets_p4().at(i).phi() > phi_low && phys.jets_p4().at(i).phi() < phi_high))
+            {
+                return false;
+            }
+
+    }
+
+    //fatjets
+    for(size_t i = 0; i < phys.ak8jets_p4().size(); i++)
+    {
+        if((phys.ak8jets_p4().at(i).eta() > eta_low && phys.ak8jets_p4().at(i).eta() < eta_high) && (phys.ak8jets_p4().at(i).phi() > phi_low && phys.ak8jets_p4().at(i).phi() < phi_high))
+            {
+                return false;
+            }
+    }
+
+    //isotracks
+    for(size_t i = 0; i<phys.isotrack_p4().size(); i++)
+    {
+            if((phys.isotrack_p4().at(i).eta() > eta_low && phys.isotrack_p4().at(i).eta() < eta_high) && (phys.isotrack_p4().at(i).phi() > phi_low && phys.isotrack_p4().at(i).phi() < phi_high))
+            {
+                return false;
+            }
+
+    }
+
+    return true;
+} 
+
