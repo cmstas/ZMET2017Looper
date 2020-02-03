@@ -112,8 +112,10 @@ class ZMETLooper
     int g_njets;
     double g_mbb;
     double g_mjj_mindphi;
-    int g_nBJetMedium;
-    int g_nBJetLoose;
+    int g_nBJetMedium35;
+    int g_nBJetMedium25;
+    int g_nBJetLoose35;
+    int g_nBJetLoose25;
     double g_met;
     double g_met_phi;
     double g_mt2;
