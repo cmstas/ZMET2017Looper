@@ -37,15 +37,15 @@ void ZMET2016::Init(TTree *tree) {
     jets_medb_p4_branch = tree->GetBranch("jets_medb_p4");
     if (jets_medb_p4_branch) { jets_medb_p4_branch->SetAddress(&jets_medb_p4_); }
   }
-  jets_p4_branch = 0;
-  if (tree->GetBranch("jets_p4") != 0) {
-    jets_p4_branch = tree->GetBranch("jets_p4");
-    if (jets_p4_branch) { jets_p4_branch->SetAddress(&jets_p4_); }
-  }
   ak8jets_p4_branch = 0;
   if (tree->GetBranch("ak8jets_p4") != 0) {
     ak8jets_p4_branch = tree->GetBranch("ak8jets_p4");
     if (ak8jets_p4_branch) { ak8jets_p4_branch->SetAddress(&ak8jets_p4_); }
+  }
+  jets_p4_branch = 0;
+  if (tree->GetBranch("jets_p4") != 0) {
+    jets_p4_branch = tree->GetBranch("jets_p4");
+    if (jets_p4_branch) { jets_p4_branch->SetAddress(&jets_p4_); }
   }
   lep_p4_branch = 0;
   if (tree->GetBranch("lep_p4") != 0) {
@@ -233,11 +233,6 @@ void ZMET2016::Init(TTree *tree) {
     weightsf_lepip_FS_branch = tree->GetBranch("weightsf_lepip_FS");
     if (weightsf_lepip_FS_branch) { weightsf_lepip_FS_branch->SetAddress(&weightsf_lepip_FS_); }
   }
-  weightsf_lepconv_FS_branch = 0;
-  if (tree->GetBranch("weightsf_lepconv_FS") !=0){
-      weightsf_lepconv_FS_branch = tree->GetBranch("weightsf_lepconv_FS");
-      if (weightsf_lepconv_FS_branch) { weightsf_lepconv_FS_branch->SetAddress(&weightsf_lepconv_FS_); }
-  }
   genTau_phi_branch = 0;
   if (tree->GetBranch("genTau_phi") != 0) {
     genTau_phi_branch = tree->GetBranch("genTau_phi");
@@ -303,6 +298,16 @@ void ZMET2016::Init(TTree *tree) {
     lep_MVA_branch = tree->GetBranch("lep_MVA");
     if (lep_MVA_branch) { lep_MVA_branch->SetAddress(&lep_MVA_); }
   }
+  nBJetTight25_branch = 0;
+  if (tree->GetBranch("nBJetTight25") != 0) {
+    nBJetTight25_branch = tree->GetBranch("nBJetTight25");
+    if (nBJetTight25_branch) { nBJetTight25_branch->SetAddress(&nBJetTight25_); }
+  }
+  nBJetMedium35_dn_branch = 0;
+  if (tree->GetBranch("nBJetMedium35_dn") != 0) {
+    nBJetMedium35_dn_branch = tree->GetBranch("nBJetMedium35_dn");
+    if (nBJetMedium35_dn_branch) { nBJetMedium35_dn_branch->SetAddress(&nBJetMedium35_dn_); }
+  }
   nTaus20_branch = 0;
   if (tree->GetBranch("nTaus20") != 0) {
     nTaus20_branch = tree->GetBranch("nTaus20");
@@ -343,10 +348,10 @@ void ZMET2016::Init(TTree *tree) {
     HLT_Photon120_R9Id90_HE10_IsoM_matchedtophoton_branch = tree->GetBranch("HLT_Photon120_R9Id90_HE10_IsoM_matchedtophoton");
     if (HLT_Photon120_R9Id90_HE10_IsoM_matchedtophoton_branch) { HLT_Photon120_R9Id90_HE10_IsoM_matchedtophoton_branch->SetAddress(&HLT_Photon120_R9Id90_HE10_IsoM_matchedtophoton_); }
   }
-  HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_branch = 0;
-  if (tree->GetBranch("HLT_DoubleEle33_CaloIdL_GsfTrkIdVL") != 0) {
-    HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_branch = tree->GetBranch("HLT_DoubleEle33_CaloIdL_GsfTrkIdVL");
-    if (HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_branch) { HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_branch->SetAddress(&HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_); }
+  genLepFromTau_charge_branch = 0;
+  if (tree->GetBranch("genLepFromTau_charge") != 0) {
+    genLepFromTau_charge_branch = tree->GetBranch("genLepFromTau_charge");
+    if (genLepFromTau_charge_branch) { genLepFromTau_charge_branch->SetAddress(&genLepFromTau_charge_); }
   }
   evt_nEvts_branch = 0;
   if (tree->GetBranch("evt_nEvts") != 0) {
@@ -377,6 +382,11 @@ void ZMET2016::Init(TTree *tree) {
   if (tree->GetBranch("deta_jj_dn") != 0) {
     deta_jj_dn_branch = tree->GetBranch("deta_jj_dn");
     if (deta_jj_dn_branch) { deta_jj_dn_branch->SetAddress(&deta_jj_dn_); }
+  }
+  nBJetLoose25_branch = 0;
+  if (tree->GetBranch("nBJetLoose25") != 0) {
+    nBJetLoose25_branch = tree->GetBranch("nBJetLoose25");
+    if (nBJetLoose25_branch) { nBJetLoose25_branch->SetAddress(&nBJetLoose25_); }
   }
   HLT_Photon50_R9Id90_HE10_IsoM_matchedtophoton_branch = 0;
   if (tree->GetBranch("HLT_Photon50_R9Id90_HE10_IsoM_matchedtophoton") != 0) {
@@ -432,11 +442,6 @@ void ZMET2016::Init(TTree *tree) {
   if (tree->GetBranch("chpfcands_2430_sumet") != 0) {
     chpfcands_2430_sumet_branch = tree->GetBranch("chpfcands_2430_sumet");
     if (chpfcands_2430_sumet_branch) { chpfcands_2430_sumet_branch->SetAddress(&chpfcands_2430_sumet_); }
-  }
-  nBJetLoose_branch = 0;
-  if (tree->GetBranch("nBJetLoose") != 0) {
-    nBJetLoose_branch = tree->GetBranch("nBJetLoose");
-    if (nBJetLoose_branch) { nBJetLoose_branch->SetAddress(&nBJetLoose_); }
   }
   genLep_pt_branch = 0;
   if (tree->GetBranch("genLep_pt") != 0) {
@@ -523,6 +528,11 @@ void ZMET2016::Init(TTree *tree) {
     lep_tightCharge_branch = tree->GetBranch("lep_tightCharge");
     if (lep_tightCharge_branch) { lep_tightCharge_branch->SetAddress(&lep_tightCharge_); }
   }
+  nBJetLoose35_branch = 0;
+  if (tree->GetBranch("nBJetLoose35") != 0) {
+    nBJetLoose35_branch = tree->GetBranch("nBJetLoose35");
+    if (nBJetLoose35_branch) { nBJetLoose35_branch->SetAddress(&nBJetLoose35_); }
+  }
   Flag_HBHEIsoNoiseFilter_branch = 0;
   if (tree->GetBranch("Flag_HBHEIsoNoiseFilter") != 0) {
     Flag_HBHEIsoNoiseFilter_branch = tree->GetBranch("Flag_HBHEIsoNoiseFilter");
@@ -573,11 +583,6 @@ void ZMET2016::Init(TTree *tree) {
     lumi_branch = tree->GetBranch("lumi");
     if (lumi_branch) { lumi_branch->SetAddress(&lumi_); }
   }
-  nBJetTight_branch = 0;
-  if (tree->GetBranch("nBJetTight") != 0) {
-    nBJetTight_branch = tree->GetBranch("nBJetTight");
-    if (nBJetTight_branch) { nBJetTight_branch->SetAddress(&nBJetTight_); }
-  }
   elveto_branch = 0;
   if (tree->GetBranch("elveto") != 0) {
     elveto_branch = tree->GetBranch("elveto");
@@ -623,11 +628,6 @@ void ZMET2016::Init(TTree *tree) {
     lep_relIso04_branch = tree->GetBranch("lep_relIso04");
     if (lep_relIso04_branch) { lep_relIso04_branch->SetAddress(&lep_relIso04_); }
   }
-  nBJetMedium_dn_branch = 0;
-  if (tree->GetBranch("nBJetMedium_dn") != 0) {
-    nBJetMedium_dn_branch = tree->GetBranch("nBJetMedium_dn");
-    if (nBJetMedium_dn_branch) { nBJetMedium_dn_branch->SetAddress(&nBJetMedium_dn_); }
-  }
   Flag_EcalDeadCellTriggerPrimitiveFilter_branch = 0;
   if (tree->GetBranch("Flag_EcalDeadCellTriggerPrimitiveFilter") != 0) {
     Flag_EcalDeadCellTriggerPrimitiveFilter_branch = tree->GetBranch("Flag_EcalDeadCellTriggerPrimitiveFilter");
@@ -638,15 +638,30 @@ void ZMET2016::Init(TTree *tree) {
     HLT_Photon22_R9Id90_HE10_IsoM_matchedtophoton_branch = tree->GetBranch("HLT_Photon22_R9Id90_HE10_IsoM_matchedtophoton");
     if (HLT_Photon22_R9Id90_HE10_IsoM_matchedtophoton_branch) { HLT_Photon22_R9Id90_HE10_IsoM_matchedtophoton_branch->SetAddress(&HLT_Photon22_R9Id90_HE10_IsoM_matchedtophoton_); }
   }
-  chpfcands_1624_phi_branch = 0;
-  if (tree->GetBranch("chpfcands_1624_phi") != 0) {
-    chpfcands_1624_phi_branch = tree->GetBranch("chpfcands_1624_phi");
-    if (chpfcands_1624_phi_branch) { chpfcands_1624_phi_branch->SetAddress(&chpfcands_1624_phi_); }
+  nBJetMedium25_branch = 0;
+  if (tree->GetBranch("nBJetMedium25") != 0) {
+    nBJetMedium25_branch = tree->GetBranch("nBJetMedium25");
+    if (nBJetMedium25_branch) { nBJetMedium25_branch->SetAddress(&nBJetMedium25_); }
+  }
+  nBJetLoose25_dn_branch = 0;
+  if (tree->GetBranch("nBJetLoose25_dn") != 0) {
+    nBJetLoose25_dn_branch = tree->GetBranch("nBJetLoose25_dn");
+    if (nBJetLoose25_dn_branch) { nBJetLoose25_dn_branch->SetAddress(&nBJetLoose25_dn_); }
   }
   lep_pt_branch = 0;
   if (tree->GetBranch("lep_pt") != 0) {
     lep_pt_branch = tree->GetBranch("lep_pt");
     if (lep_pt_branch) { lep_pt_branch->SetAddress(&lep_pt_); }
+  }
+  weight_L1prefire_down_branch = 0;
+  if (tree->GetBranch("weight_L1prefire_down") != 0) {
+    weight_L1prefire_down_branch = tree->GetBranch("weight_L1prefire_down");
+    if (weight_L1prefire_down_branch) { weight_L1prefire_down_branch->SetAddress(&weight_L1prefire_down_); }
+  }
+  nBJetTight25_dn_branch = 0;
+  if (tree->GetBranch("nBJetTight25_dn") != 0) {
+    nBJetTight25_dn_branch = tree->GetBranch("nBJetTight25_dn");
+    if (nBJetTight25_dn_branch) { nBJetTight25_dn_branch->SetAddress(&nBJetTight25_dn_); }
   }
   gamma_pt_branch = 0;
   if (tree->GetBranch("gamma_pt") != 0) {
@@ -692,6 +707,11 @@ void ZMET2016::Init(TTree *tree) {
   if (tree->GetBranch("dphi_jj") != 0) {
     dphi_jj_branch = tree->GetBranch("dphi_jj");
     if (dphi_jj_branch) { dphi_jj_branch->SetAddress(&dphi_jj_); }
+  }
+  nBJetLoose35_up_branch = 0;
+  if (tree->GetBranch("nBJetLoose35_up") != 0) {
+    nBJetLoose35_up_branch = tree->GetBranch("nBJetLoose35_up");
+    if (nBJetLoose35_up_branch) { nBJetLoose35_up_branch->SetAddress(&nBJetLoose35_up_); }
   }
   gamma_mcMatchId_branch = 0;
   if (tree->GetBranch("gamma_mcMatchId") != 0) {
@@ -793,6 +813,11 @@ void ZMET2016::Init(TTree *tree) {
     evt_kfactor_branch = tree->GetBranch("evt_kfactor");
     if (evt_kfactor_branch) { evt_kfactor_branch->SetAddress(&evt_kfactor_); }
   }
+  nBJetMedium35_up_branch = 0;
+  if (tree->GetBranch("nBJetMedium35_up") != 0) {
+    nBJetMedium35_up_branch = tree->GetBranch("nBJetMedium35_up");
+    if (nBJetMedium35_up_branch) { nBJetMedium35_up_branch->SetAddress(&nBJetMedium35_up_); }
+  }
   HLT_CaloJet500_NoJetID_branch = 0;
   if (tree->GetBranch("HLT_CaloJet500_NoJetID") != 0) {
     HLT_CaloJet500_NoJetID_branch = tree->GetBranch("HLT_CaloJet500_NoJetID");
@@ -857,6 +882,11 @@ void ZMET2016::Init(TTree *tree) {
   if (tree->GetBranch("gamma_ecpfclusiso") != 0) {
     gamma_ecpfclusiso_branch = tree->GetBranch("gamma_ecpfclusiso");
     if (gamma_ecpfclusiso_branch) { gamma_ecpfclusiso_branch->SetAddress(&gamma_ecpfclusiso_); }
+  }
+  weight_L1prefire_up_branch = 0;
+  if (tree->GetBranch("weight_L1prefire_up") != 0) {
+    weight_L1prefire_up_branch = tree->GetBranch("weight_L1prefire_up");
+    if (weight_L1prefire_up_branch) { weight_L1prefire_up_branch->SetAddress(&weight_L1prefire_up_); }
   }
   phpfcands_30in_pt_branch = 0;
   if (tree->GetBranch("phpfcands_30in_pt") != 0) {
@@ -923,6 +953,11 @@ void ZMET2016::Init(TTree *tree) {
     mjj_mindphi_up_branch = tree->GetBranch("mjj_mindphi_up");
     if (mjj_mindphi_up_branch) { mjj_mindphi_up_branch->SetAddress(&mjj_mindphi_up_); }
   }
+  nBJetLoose35_dn_branch = 0;
+  if (tree->GetBranch("nBJetLoose35_dn") != 0) {
+    nBJetLoose35_dn_branch = tree->GetBranch("nBJetLoose35_dn");
+    if (nBJetLoose35_dn_branch) { nBJetLoose35_dn_branch->SetAddress(&nBJetLoose35_dn_); }
+  }
   mbb_bpt_up_branch = 0;
   if (tree->GetBranch("mbb_bpt_up") != 0) {
     mbb_bpt_up_branch = tree->GetBranch("mbb_bpt_up");
@@ -963,6 +998,11 @@ void ZMET2016::Init(TTree *tree) {
     Flag_CSCTightHaloFilter_branch = tree->GetBranch("Flag_CSCTightHaloFilter");
     if (Flag_CSCTightHaloFilter_branch) { Flag_CSCTightHaloFilter_branch->SetAddress(&Flag_CSCTightHaloFilter_); }
   }
+  nBJetLoose25_up_branch = 0;
+  if (tree->GetBranch("nBJetLoose25_up") != 0) {
+    nBJetLoose25_up_branch = tree->GetBranch("nBJetLoose25_up");
+    if (nBJetLoose25_up_branch) { nBJetLoose25_up_branch->SetAddress(&nBJetLoose25_up_); }
+  }
   HLT_Mu33_Ele33_CaloIdL_GsfTrkIdVL_branch = 0;
   if (tree->GetBranch("HLT_Mu33_Ele33_CaloIdL_GsfTrkIdVL") != 0) {
     HLT_Mu33_Ele33_CaloIdL_GsfTrkIdVL_branch = tree->GetBranch("HLT_Mu33_Ele33_CaloIdL_GsfTrkIdVL");
@@ -972,6 +1012,11 @@ void ZMET2016::Init(TTree *tree) {
   if (tree->GetBranch("lep_tightId") != 0) {
     lep_tightId_branch = tree->GetBranch("lep_tightId");
     if (lep_tightId_branch) { lep_tightId_branch->SetAddress(&lep_tightId_); }
+  }
+  nBJetMedium25_up_branch = 0;
+  if (tree->GetBranch("nBJetMedium25_up") != 0) {
+    nBJetMedium25_up_branch = tree->GetBranch("nBJetMedium25_up");
+    if (nBJetMedium25_up_branch) { nBJetMedium25_up_branch->SetAddress(&nBJetMedium25_up_); }
   }
   met_T1CHS_miniAOD_CORE_up_phi_branch = 0;
   if (tree->GetBranch("met_T1CHS_miniAOD_CORE_up_phi") != 0) {
@@ -1133,15 +1178,20 @@ void ZMET2016::Init(TTree *tree) {
     isotrack_isLostTrack_branch = tree->GetBranch("isotrack_isLostTrack");
     if (isotrack_isLostTrack_branch) { isotrack_isLostTrack_branch->SetAddress(&isotrack_isLostTrack_); }
   }
+  nBJetMedium35_branch = 0;
+  if (tree->GetBranch("nBJetMedium35") != 0) {
+    nBJetMedium35_branch = tree->GetBranch("nBJetMedium35");
+    if (nBJetMedium35_branch) { nBJetMedium35_branch->SetAddress(&nBJetMedium35_); }
+  }
   nisoTrack_PFLep5_woverlaps_branch = 0;
   if (tree->GetBranch("nisoTrack_PFLep5_woverlaps") != 0) {
     nisoTrack_PFLep5_woverlaps_branch = tree->GetBranch("nisoTrack_PFLep5_woverlaps");
     if (nisoTrack_PFLep5_woverlaps_branch) { nisoTrack_PFLep5_woverlaps_branch->SetAddress(&nisoTrack_PFLep5_woverlaps_); }
   }
-  nBJetTight_up_branch = 0;
-  if (tree->GetBranch("nBJetTight_up") != 0) {
-    nBJetTight_up_branch = tree->GetBranch("nBJetTight_up");
-    if (nBJetTight_up_branch) { nBJetTight_up_branch->SetAddress(&nBJetTight_up_); }
+  nBJetTight25_up_branch = 0;
+  if (tree->GetBranch("nBJetTight25_up") != 0) {
+    nBJetTight25_up_branch = tree->GetBranch("nBJetTight25_up");
+    if (nBJetTight25_up_branch) { nBJetTight25_up_branch->SetAddress(&nBJetTight25_up_); }
   }
   gamma_neuHadIso_branch = 0;
   if (tree->GetBranch("gamma_neuHadIso") != 0) {
@@ -1152,11 +1202,6 @@ void ZMET2016::Init(TTree *tree) {
   if (tree->GetBranch("Flag_badMuonFilter") != 0) {
     Flag_badMuonFilter_branch = tree->GetBranch("Flag_badMuonFilter");
     if (Flag_badMuonFilter_branch) { Flag_badMuonFilter_branch->SetAddress(&Flag_badMuonFilter_); }
-  }
-  nBJetMedium_up_branch = 0;
-  if (tree->GetBranch("nBJetMedium_up") != 0) {
-    nBJetMedium_up_branch = tree->GetBranch("nBJetMedium_up");
-    if (nBJetMedium_up_branch) { nBJetMedium_up_branch->SetAddress(&nBJetMedium_up_); }
   }
   matched_emf_branch = 0;
   if (tree->GetBranch("matched_emf") != 0) {
@@ -1238,10 +1283,10 @@ void ZMET2016::Init(TTree *tree) {
     nisoTrack_PFMu5_woverlaps_branch = tree->GetBranch("nisoTrack_PFMu5_woverlaps");
     if (nisoTrack_PFMu5_woverlaps_branch) { nisoTrack_PFMu5_woverlaps_branch->SetAddress(&nisoTrack_PFMu5_woverlaps_); }
   }
-  HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_branch = 0;
-  if (tree->GetBranch("HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ") != 0) {
-    HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_branch = tree->GetBranch("HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ");
-    if (HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_branch) { HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_branch->SetAddress(&HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_); }
+  chpfcands_1624_phi_branch = 0;
+  if (tree->GetBranch("chpfcands_1624_phi") != 0) {
+    chpfcands_1624_phi_branch = tree->GetBranch("chpfcands_1624_phi");
+    if (chpfcands_1624_phi_branch) { chpfcands_1624_phi_branch->SetAddress(&chpfcands_1624_phi_); }
   }
   HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ_branch = 0;
   if (tree->GetBranch("HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ") != 0) {
@@ -1323,6 +1368,11 @@ void ZMET2016::Init(TTree *tree) {
     isrboost_branch = tree->GetBranch("isrboost");
     if (isrboost_branch) { isrboost_branch->SetAddress(&isrboost_); }
   }
+  nBJetTight35_up_branch = 0;
+  if (tree->GetBranch("nBJetTight35_up") != 0) {
+    nBJetTight35_up_branch = tree->GetBranch("nBJetTight35_up");
+    if (nBJetTight35_up_branch) { nBJetTight35_up_branch->SetAddress(&nBJetTight35_up_); }
+  }
   ngenTau_branch = 0;
   if (tree->GetBranch("ngenTau") != 0) {
     ngenTau_branch = tree->GetBranch("ngenTau");
@@ -1377,6 +1427,11 @@ void ZMET2016::Init(TTree *tree) {
   if (tree->GetBranch("HLT_DoubleEle25_CaloIdL_MW") != 0) {
     HLT_DoubleEle25_CaloIdL_MW_branch = tree->GetBranch("HLT_DoubleEle25_CaloIdL_MW");
     if (HLT_DoubleEle25_CaloIdL_MW_branch) { HLT_DoubleEle25_CaloIdL_MW_branch->SetAddress(&HLT_DoubleEle25_CaloIdL_MW_); }
+  }
+  HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_branch = 0;
+  if (tree->GetBranch("HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ") != 0) {
+    HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_branch = tree->GetBranch("HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ");
+    if (HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_branch) { HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_branch->SetAddress(&HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_); }
   }
   HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_branch = 0;
   if (tree->GetBranch("HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ") != 0) {
@@ -1443,10 +1498,15 @@ void ZMET2016::Init(TTree *tree) {
     genPart_status_branch = tree->GetBranch("genPart_status");
     if (genPart_status_branch) { genPart_status_branch->SetAddress(&genPart_status_); }
   }
-  nBJetLoose_up_branch = 0;
-  if (tree->GetBranch("nBJetLoose_up") != 0) {
-    nBJetLoose_up_branch = tree->GetBranch("nBJetLoose_up");
-    if (nBJetLoose_up_branch) { nBJetLoose_up_branch->SetAddress(&nBJetLoose_up_); }
+  weightsf_lepconv_FS_branch = 0;
+  if (tree->GetBranch("weightsf_lepconv_FS") != 0) {
+    weightsf_lepconv_FS_branch = tree->GetBranch("weightsf_lepconv_FS");
+    if (weightsf_lepconv_FS_branch) { weightsf_lepconv_FS_branch->SetAddress(&weightsf_lepconv_FS_); }
+  }
+  nBJetMedium25_dn_branch = 0;
+  if (tree->GetBranch("nBJetMedium25_dn") != 0) {
+    nBJetMedium25_dn_branch = tree->GetBranch("nBJetMedium25_dn");
+    if (nBJetMedium25_dn_branch) { nBJetMedium25_dn_branch->SetAddress(&nBJetMedium25_dn_); }
   }
   puWeight_branch = 0;
   if (tree->GetBranch("puWeight") != 0) {
@@ -1463,10 +1523,10 @@ void ZMET2016::Init(TTree *tree) {
     weight_btagsf_light_UP_branch = tree->GetBranch("weight_btagsf_light_UP");
     if (weight_btagsf_light_UP_branch) { weight_btagsf_light_UP_branch->SetAddress(&weight_btagsf_light_UP_); }
   }
-  genLepFromTau_charge_branch = 0;
-  if (tree->GetBranch("genLepFromTau_charge") != 0) {
-    genLepFromTau_charge_branch = tree->GetBranch("genLepFromTau_charge");
-    if (genLepFromTau_charge_branch) { genLepFromTau_charge_branch->SetAddress(&genLepFromTau_charge_); }
+  HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_branch = 0;
+  if (tree->GetBranch("HLT_DoubleEle33_CaloIdL_GsfTrkIdVL") != 0) {
+    HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_branch = tree->GetBranch("HLT_DoubleEle33_CaloIdL_GsfTrkIdVL");
+    if (HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_branch) { HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_branch->SetAddress(&HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_); }
   }
   nupfcands_0013_phi_branch = 0;
   if (tree->GetBranch("nupfcands_0013_phi") != 0) {
@@ -1502,6 +1562,11 @@ void ZMET2016::Init(TTree *tree) {
   if (tree->GetBranch("mbb_csv") != 0) {
     mbb_csv_branch = tree->GetBranch("mbb_csv");
     if (mbb_csv_branch) { mbb_csv_branch->SetAddress(&mbb_csv_); }
+  }
+  weight_L1prefire_branch = 0;
+  if (tree->GetBranch("weight_L1prefire") != 0) {
+    weight_L1prefire_branch = tree->GetBranch("weight_L1prefire");
+    if (weight_L1prefire_branch) { weight_L1prefire_branch->SetAddress(&weight_L1prefire_); }
   }
   mbb_csv_dn_branch = 0;
   if (tree->GetBranch("mbb_csv_dn") != 0) {
@@ -1578,11 +1643,6 @@ void ZMET2016::Init(TTree *tree) {
     jets_dn_csv_branch = tree->GetBranch("jets_dn_csv");
     if (jets_dn_csv_branch) { jets_dn_csv_branch->SetAddress(&jets_dn_csv_); }
   }
-  nBJetTight_dn_branch = 0;
-  if (tree->GetBranch("nBJetTight_dn") != 0) {
-    nBJetTight_dn_branch = tree->GetBranch("nBJetTight_dn");
-    if (nBJetTight_dn_branch) { nBJetTight_dn_branch->SetAddress(&nBJetTight_dn_); }
-  }
   mt2b_genmet_branch = 0;
   if (tree->GetBranch("mt2b_genmet") != 0) {
     mt2b_genmet_branch = tree->GetBranch("mt2b_genmet");
@@ -1658,10 +1718,10 @@ void ZMET2016::Init(TTree *tree) {
     genPart_motherId_branch = tree->GetBranch("genPart_motherId");
     if (genPart_motherId_branch) { genPart_motherId_branch->SetAddress(&genPart_motherId_); }
   }
-  HLT_Photon90_R9Id90_HE10_IsoM_matchedtophoton_branch = 0;
-  if (tree->GetBranch("HLT_Photon90_R9Id90_HE10_IsoM_matchedtophoton") != 0) {
-    HLT_Photon90_R9Id90_HE10_IsoM_matchedtophoton_branch = tree->GetBranch("HLT_Photon90_R9Id90_HE10_IsoM_matchedtophoton");
-    if (HLT_Photon90_R9Id90_HE10_IsoM_matchedtophoton_branch) { HLT_Photon90_R9Id90_HE10_IsoM_matchedtophoton_branch->SetAddress(&HLT_Photon90_R9Id90_HE10_IsoM_matchedtophoton_); }
+  nBJetTight35_branch = 0;
+  if (tree->GetBranch("nBJetTight35") != 0) {
+    nBJetTight35_branch = tree->GetBranch("nBJetTight35");
+    if (nBJetTight35_branch) { nBJetTight35_branch->SetAddress(&nBJetTight35_); }
   }
   HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_branch = 0;
   if (tree->GetBranch("HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL") != 0) {
@@ -1723,11 +1783,6 @@ void ZMET2016::Init(TTree *tree) {
     HLT_Photon50_R9Id90_HE10_IsoM_branch = tree->GetBranch("HLT_Photon50_R9Id90_HE10_IsoM");
     if (HLT_Photon50_R9Id90_HE10_IsoM_branch) { HLT_Photon50_R9Id90_HE10_IsoM_branch->SetAddress(&HLT_Photon50_R9Id90_HE10_IsoM_); }
   }
-  nBJetMedium_branch = 0;
-  if (tree->GetBranch("nBJetMedium") != 0) {
-    nBJetMedium_branch = tree->GetBranch("nBJetMedium");
-    if (nBJetMedium_branch) { nBJetMedium_branch->SetAddress(&nBJetMedium_); }
-  }
   dphi_jj_up_branch = 0;
   if (tree->GetBranch("dphi_jj_up") != 0) {
     dphi_jj_up_branch = tree->GetBranch("dphi_jj_up");
@@ -1783,10 +1838,10 @@ void ZMET2016::Init(TTree *tree) {
     HLT_Ele17_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_branch = tree->GetBranch("HLT_Ele17_Ele12_CaloIdL_TrackIdL_IsoVL_DZ");
     if (HLT_Ele17_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_branch) { HLT_Ele17_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_branch->SetAddress(&HLT_Ele17_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_); }
   }
-  evt_filter_branch = 0;
-  if (tree->GetBranch("evt_filter") != 0) {
-    evt_filter_branch = tree->GetBranch("evt_filter");
-    if (evt_filter_branch) { evt_filter_branch->SetAddress(&evt_filter_); }
+  HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_branch = 0;
+  if (tree->GetBranch("HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL") != 0) {
+    HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_branch = tree->GetBranch("HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL");
+    if (HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_branch) { HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_branch->SetAddress(&HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_); }
   }
   hyp_type_branch = 0;
   if (tree->GetBranch("hyp_type") != 0) {
@@ -1797,11 +1852,6 @@ void ZMET2016::Init(TTree *tree) {
   if (tree->GetBranch("genLep_sourceId") != 0) {
     genLep_sourceId_branch = tree->GetBranch("genLep_sourceId");
     if (genLep_sourceId_branch) { genLep_sourceId_branch->SetAddress(&genLep_sourceId_); }
-  }
-  nBJetLoose_dn_branch = 0;
-  if (tree->GetBranch("nBJetLoose_dn") != 0) {
-    nBJetLoose_dn_branch = tree->GetBranch("nBJetLoose_dn");
-    if (nBJetLoose_dn_branch) { nBJetLoose_dn_branch->SetAddress(&nBJetLoose_dn_); }
   }
   nElectrons10_branch = 0;
   if (tree->GetBranch("nElectrons10") != 0) {
@@ -1837,6 +1887,11 @@ void ZMET2016::Init(TTree *tree) {
   if (tree->GetBranch("met_T1CHS_fromCORE_phi") != 0) {
     met_T1CHS_fromCORE_phi_branch = tree->GetBranch("met_T1CHS_fromCORE_phi");
     if (met_T1CHS_fromCORE_phi_branch) { met_T1CHS_fromCORE_phi_branch->SetAddress(&met_T1CHS_fromCORE_phi_); }
+  }
+  nBJetTight35_dn_branch = 0;
+  if (tree->GetBranch("nBJetTight35_dn") != 0) {
+    nBJetTight35_dn_branch = tree->GetBranch("nBJetTight35_dn");
+    if (nBJetTight35_dn_branch) { nBJetTight35_dn_branch->SetAddress(&nBJetTight35_dn_); }
   }
   nupfcands_30in_pt_branch = 0;
   if (tree->GetBranch("nupfcands_30in_pt") != 0) {
@@ -1988,15 +2043,20 @@ void ZMET2016::Init(TTree *tree) {
     genPart_eta_branch = tree->GetBranch("genPart_eta");
     if (genPart_eta_branch) { genPart_eta_branch->SetAddress(&genPart_eta_); }
   }
-  HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_branch = 0;
-  if (tree->GetBranch("HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL") != 0) {
-    HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_branch = tree->GetBranch("HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL");
-    if (HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_branch) { HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_branch->SetAddress(&HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_); }
+  evt_filter_branch = 0;
+  if (tree->GetBranch("evt_filter") != 0) {
+    evt_filter_branch = tree->GetBranch("evt_filter");
+    if (evt_filter_branch) { evt_filter_branch->SetAddress(&evt_filter_); }
   }
   Flag_duplicateMuons_branch = 0;
   if (tree->GetBranch("Flag_duplicateMuons") != 0) {
     Flag_duplicateMuons_branch = tree->GetBranch("Flag_duplicateMuons");
     if (Flag_duplicateMuons_branch) { Flag_duplicateMuons_branch->SetAddress(&Flag_duplicateMuons_); }
+  }
+  HLT_Photon90_R9Id90_HE10_IsoM_matchedtophoton_branch = 0;
+  if (tree->GetBranch("HLT_Photon90_R9Id90_HE10_IsoM_matchedtophoton") != 0) {
+    HLT_Photon90_R9Id90_HE10_IsoM_matchedtophoton_branch = tree->GetBranch("HLT_Photon90_R9Id90_HE10_IsoM_matchedtophoton");
+    if (HLT_Photon90_R9Id90_HE10_IsoM_matchedtophoton_branch) { HLT_Photon90_R9Id90_HE10_IsoM_matchedtophoton_branch->SetAddress(&HLT_Photon90_R9Id90_HE10_IsoM_matchedtophoton_); }
   }
   sumet_raw_branch = 0;
   if (tree->GetBranch("sumet_raw") != 0) {
@@ -2044,7 +2104,6 @@ void ZMET2016::GetEntry(unsigned int idx) {
   njets_isLoaded = false;
   mass_LSP_isLoaded = false;
   weightsf_lepip_FS_isLoaded = false;
-  weightsf_lepconv_FS_isLoaded = false;
   genTau_phi_isLoaded = false;
   ak8jets_parton_flavor_isLoaded = false;
   HLT_Mu8_TrkIsoVVL_Ele17_CaloIdL_TrackIdL_IsoVL_isLoaded = false;
@@ -2059,6 +2118,8 @@ void ZMET2016::GetEntry(unsigned int idx) {
   gamma_phIso_isLoaded = false;
   lep_etaSC_isLoaded = false;
   lep_MVA_isLoaded = false;
+  nBJetTight25_isLoaded = false;
+  nBJetMedium35_dn_isLoaded = false;
   nTaus20_isLoaded = false;
   met_T1CHS_miniAOD_CORE_dn_phi_isLoaded = false;
   phpfcands_30in_sumet_isLoaded = false;
@@ -2067,13 +2128,14 @@ void ZMET2016::GetEntry(unsigned int idx) {
   sum_mlb_dn_isLoaded = false;
   genPart_mass_isLoaded = false;
   HLT_Photon120_R9Id90_HE10_IsoM_matchedtophoton_isLoaded = false;
-  HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_isLoaded = false;
+  genLepFromTau_charge_isLoaded = false;
   evt_nEvts_isLoaded = false;
   HLT_Photon165_HE10_matchedtophoton_isLoaded = false;
   met_calo_pt_isLoaded = false;
   gen_ht_isLoaded = false;
   HLT_Mu30_TkMu11_isLoaded = false;
   deta_jj_dn_isLoaded = false;
+  nBJetLoose25_isLoaded = false;
   HLT_Photon50_R9Id90_HE10_IsoM_matchedtophoton_isLoaded = false;
   gamma_mass_isLoaded = false;
   evt_scale1fb_isLoaded = false;
@@ -2086,7 +2148,6 @@ void ZMET2016::GetEntry(unsigned int idx) {
   genLepFromTau_phi_isLoaded = false;
   chpfcands_2430_sumet_isLoaded = false;
   decayedphoton_lep1_p4_isLoaded = false;
-  nBJetLoose_isLoaded = false;
   genLep_pt_isLoaded = false;
   gamma_hOverE_online_isLoaded = false;
   HLT_singleMu_noiso_isLoaded = false;
@@ -2105,6 +2166,7 @@ void ZMET2016::GetEntry(unsigned int idx) {
   nisoTrack_PFEle5_woverlaps_isLoaded = false;
   nupfcands_30in_phi_isLoaded = false;
   lep_tightCharge_isLoaded = false;
+  nBJetLoose35_isLoaded = false;
   Flag_HBHEIsoNoiseFilter_isLoaded = false;
   HLT_Photon30_R9Id90_HE10_IsoM_isLoaded = false;
   lep_glb_x2ondof_isLoaded = false;
@@ -2116,7 +2178,6 @@ void ZMET2016::GetEntry(unsigned int idx) {
   met_T1CHS_pt_isLoaded = false;
   dphi_metj1_up_isLoaded = false;
   lumi_isLoaded = false;
-  nBJetTight_isLoaded = false;
   elveto_isLoaded = false;
   HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_isLoaded = false;
   chpfcands_30in_phi_isLoaded = false;
@@ -2127,11 +2188,13 @@ void ZMET2016::GetEntry(unsigned int idx) {
   lep_relIso03_isLoaded = false;
   lep_relIso04_isLoaded = false;
   gamma_p4_isLoaded = false;
-  nBJetMedium_dn_isLoaded = false;
   Flag_EcalDeadCellTriggerPrimitiveFilter_isLoaded = false;
   HLT_Photon22_R9Id90_HE10_IsoM_matchedtophoton_isLoaded = false;
-  chpfcands_1624_phi_isLoaded = false;
+  nBJetMedium25_isLoaded = false;
+  nBJetLoose25_dn_isLoaded = false;
   lep_pt_isLoaded = false;
+  weight_L1prefire_down_isLoaded = false;
+  nBJetTight25_dn_isLoaded = false;
   gamma_pt_isLoaded = false;
   highPtPFcands_dz_isLoaded = false;
   weightsf_lepid_FS_isLoaded = false;
@@ -2141,6 +2204,7 @@ void ZMET2016::GetEntry(unsigned int idx) {
   HLT_Photon165_R9Id90_HE10_IsoM_isLoaded = false;
   chpfcands_2430_pt_isLoaded = false;
   dphi_jj_isLoaded = false;
+  nBJetLoose35_up_isLoaded = false;
   jets_medb_p4_isLoaded = false;
   gamma_mcMatchId_isLoaded = false;
   nupfcands_1316_phi_isLoaded = false;
@@ -2162,6 +2226,7 @@ void ZMET2016::GetEntry(unsigned int idx) {
   dphi_metj3_up_isLoaded = false;
   isotrack_pdgId_isLoaded = false;
   evt_kfactor_isLoaded = false;
+  nBJetMedium35_up_isLoaded = false;
   HLT_CaloJet500_NoJetID_isLoaded = false;
   lep_relIso03MRDB_isLoaded = false;
   ngenLepFromTau_isLoaded = false;
@@ -2175,6 +2240,7 @@ void ZMET2016::GetEntry(unsigned int idx) {
   njets_dn_isLoaded = false;
   isr_njets_isLoaded = false;
   gamma_ecpfclusiso_isLoaded = false;
+  weight_L1prefire_up_isLoaded = false;
   phpfcands_30in_pt_isLoaded = false;
   HLT_Photon165_HE10_isLoaded = false;
   nupfcands_0013_pt_isLoaded = false;
@@ -2188,6 +2254,7 @@ void ZMET2016::GetEntry(unsigned int idx) {
   HLT_Mu37_TkMu27_isLoaded = false;
   nupfcands_30in_sumet_isLoaded = false;
   mjj_mindphi_up_isLoaded = false;
+  nBJetLoose35_dn_isLoaded = false;
   mbb_bpt_up_isLoaded = false;
   genTau_pt_isLoaded = false;
   Flag_noBadMuons_isLoaded = false;
@@ -2196,8 +2263,10 @@ void ZMET2016::GetEntry(unsigned int idx) {
   genPart_phi_isLoaded = false;
   weightsf_lepiso_isLoaded = false;
   Flag_CSCTightHaloFilter_isLoaded = false;
+  nBJetLoose25_up_isLoaded = false;
   HLT_Mu33_Ele33_CaloIdL_GsfTrkIdVL_isLoaded = false;
   lep_tightId_isLoaded = false;
+  nBJetMedium25_up_isLoaded = false;
   met_T1CHS_miniAOD_CORE_up_phi_isLoaded = false;
   phpfcands_1624_sumet_isLoaded = false;
   HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL_isLoaded = false;
@@ -2230,11 +2299,11 @@ void ZMET2016::GetEntry(unsigned int idx) {
   Flag_globalTightHalo2016_isLoaded = false;
   mass_chi_isLoaded = false;
   isotrack_isLostTrack_isLoaded = false;
+  nBJetMedium35_isLoaded = false;
   nisoTrack_PFLep5_woverlaps_isLoaded = false;
-  nBJetTight_up_isLoaded = false;
+  nBJetTight25_up_isLoaded = false;
   gamma_neuHadIso_isLoaded = false;
   Flag_badMuonFilter_isLoaded = false;
-  nBJetMedium_up_isLoaded = false;
   matched_emf_isLoaded = false;
   lep_dxy_isLoaded = false;
   chpfcands_1316_pt_isLoaded = false;
@@ -2251,7 +2320,8 @@ void ZMET2016::GetEntry(unsigned int idx) {
   metsig_unofficial_up_isLoaded = false;
   rho25_isLoaded = false;
   nisoTrack_PFMu5_woverlaps_isLoaded = false;
-  HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_isLoaded = false;
+  chpfcands_1624_phi_isLoaded = false;
+  ak8jets_p4_isLoaded = false;
   HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ_isLoaded = false;
   mt2b_up_isLoaded = false;
   genLep_motherId_isLoaded = false;
@@ -2269,6 +2339,7 @@ void ZMET2016::GetEntry(unsigned int idx) {
   phpfcands_1316_pt_isLoaded = false;
   dilmass_isLoaded = false;
   isrboost_isLoaded = false;
+  nBJetTight35_up_isLoaded = false;
   ngenTau_isLoaded = false;
   dphi_ll_dn_isLoaded = false;
   njets_up_isLoaded = false;
@@ -2280,7 +2351,7 @@ void ZMET2016::GetEntry(unsigned int idx) {
   chpfcands_30in_sumet_isLoaded = false;
   nBadMuons20_isLoaded = false;
   HLT_DoubleEle25_CaloIdL_MW_isLoaded = false;
-  ak8jets_p4_isLoaded = false;
+  HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_isLoaded = false;
   HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_isLoaded = false;
   nupfcands_1624_phi_isLoaded = false;
   gamma_r9_isLoaded = false;
@@ -2294,11 +2365,12 @@ void ZMET2016::GetEntry(unsigned int idx) {
   ak8jets_softDropMass_isLoaded = false;
   lep_eta_isLoaded = false;
   genPart_status_isLoaded = false;
-  nBJetLoose_up_isLoaded = false;
+  weightsf_lepconv_FS_isLoaded = false;
+  nBJetMedium25_dn_isLoaded = false;
   puWeight_isLoaded = false;
   met_pt_isLoaded = false;
   weight_btagsf_light_UP_isLoaded = false;
-  genLepFromTau_charge_isLoaded = false;
+  HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_isLoaded = false;
   nupfcands_0013_phi_isLoaded = false;
   lep_p4_isLoaded = false;
   genLep_isp6status3_isLoaded = false;
@@ -2307,6 +2379,7 @@ void ZMET2016::GetEntry(unsigned int idx) {
   genLep_status_isLoaded = false;
   gamma_genIsPromptFinalState_isLoaded = false;
   mbb_csv_isLoaded = false;
+  weight_L1prefire_isLoaded = false;
   mbb_csv_dn_isLoaded = false;
   genLepFromTau_pt_isLoaded = false;
   nGammas20_isLoaded = false;
@@ -2323,7 +2396,6 @@ void ZMET2016::GetEntry(unsigned int idx) {
   genPart_charge_isLoaded = false;
   met_miniaod_phi_isLoaded = false;
   jets_dn_csv_isLoaded = false;
-  nBJetTight_dn_isLoaded = false;
   mt2b_genmet_isLoaded = false;
   lep_mass_isLoaded = false;
   nisoTrack_PFHad10_woverlaps_isLoaded = false;
@@ -2340,7 +2412,7 @@ void ZMET2016::GetEntry(unsigned int idx) {
   genTau_eta_isLoaded = false;
   nupfcands_2430_pt_isLoaded = false;
   genPart_motherId_isLoaded = false;
-  HLT_Photon90_R9Id90_HE10_IsoM_matchedtophoton_isLoaded = false;
+  nBJetTight35_isLoaded = false;
   HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_isLoaded = false;
   evt_xsec_isLoaded = false;
   lep_convVeto_isLoaded = false;
@@ -2355,7 +2427,6 @@ void ZMET2016::GetEntry(unsigned int idx) {
   HLT_Photon75_R9Id90_HE10_IsoM_matchedtophoton_isLoaded = false;
   met_T1CHS_miniAOD_CORE_pt_isLoaded = false;
   HLT_Photon50_R9Id90_HE10_IsoM_isLoaded = false;
-  nBJetMedium_isLoaded = false;
   dphi_jj_up_isLoaded = false;
   gamma_chHadIso_isLoaded = false;
   nTrueInt_isLoaded = false;
@@ -2367,10 +2438,9 @@ void ZMET2016::GetEntry(unsigned int idx) {
   chpfcands_1624_sumet_isLoaded = false;
   HLT_Photon200_isLoaded = false;
   HLT_Ele17_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_isLoaded = false;
-  evt_filter_isLoaded = false;
+  HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_isLoaded = false;
   hyp_type_isLoaded = false;
   genLep_sourceId_isLoaded = false;
-  nBJetLoose_dn_isLoaded = false;
   nElectrons10_isLoaded = false;
   mt2_isLoaded = false;
   dphi_ll_up_isLoaded = false;
@@ -2378,6 +2448,7 @@ void ZMET2016::GetEntry(unsigned int idx) {
   HLT_Photon90_R9Id90_HE10_IsoM_isLoaded = false;
   ht_isLoaded = false;
   met_T1CHS_fromCORE_phi_isLoaded = false;
+  nBJetTight35_dn_isLoaded = false;
   highPtPFcands_p4_isLoaded = false;
   nupfcands_30in_pt_isLoaded = false;
   isData_isLoaded = false;
@@ -2409,8 +2480,9 @@ void ZMET2016::GetEntry(unsigned int idx) {
   nVert_isLoaded = false;
   gamma_hOverE_isLoaded = false;
   genPart_eta_isLoaded = false;
-  HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_isLoaded = false;
+  evt_filter_isLoaded = false;
   Flag_duplicateMuons_isLoaded = false;
+  HLT_Photon90_R9Id90_HE10_IsoM_matchedtophoton_isLoaded = false;
   sumet_raw_isLoaded = false;
   Flag_CSCTightHalo2015Filter_isLoaded = false;
 }
@@ -2447,7 +2519,6 @@ void ZMET2016::LoadAllBranches() {
   if (njets_branch != 0) njets();
   if (mass_LSP_branch != 0) mass_LSP();
   if (weightsf_lepip_FS_branch != 0) weightsf_lepip_FS();
-  if (weightsf_lepconv_FS_branch != 0) weightsf_lepconv_FS();
   if (genTau_phi_branch != 0) genTau_phi();
   if (ak8jets_parton_flavor_branch != 0) ak8jets_parton_flavor();
   if (HLT_Mu8_TrkIsoVVL_Ele17_CaloIdL_TrackIdL_IsoVL_branch != 0) HLT_Mu8_TrkIsoVVL_Ele17_CaloIdL_TrackIdL_IsoVL();
@@ -2462,6 +2533,8 @@ void ZMET2016::LoadAllBranches() {
   if (gamma_phIso_branch != 0) gamma_phIso();
   if (lep_etaSC_branch != 0) lep_etaSC();
   if (lep_MVA_branch != 0) lep_MVA();
+  if (nBJetTight25_branch != 0) nBJetTight25();
+  if (nBJetMedium35_dn_branch != 0) nBJetMedium35_dn();
   if (nTaus20_branch != 0) nTaus20();
   if (met_T1CHS_miniAOD_CORE_dn_phi_branch != 0) met_T1CHS_miniAOD_CORE_dn_phi();
   if (phpfcands_30in_sumet_branch != 0) phpfcands_30in_sumet();
@@ -2470,13 +2543,14 @@ void ZMET2016::LoadAllBranches() {
   if (sum_mlb_dn_branch != 0) sum_mlb_dn();
   if (genPart_mass_branch != 0) genPart_mass();
   if (HLT_Photon120_R9Id90_HE10_IsoM_matchedtophoton_branch != 0) HLT_Photon120_R9Id90_HE10_IsoM_matchedtophoton();
-  if (HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_branch != 0) HLT_DoubleEle33_CaloIdL_GsfTrkIdVL();
+  if (genLepFromTau_charge_branch != 0) genLepFromTau_charge();
   if (evt_nEvts_branch != 0) evt_nEvts();
   if (HLT_Photon165_HE10_matchedtophoton_branch != 0) HLT_Photon165_HE10_matchedtophoton();
   if (met_calo_pt_branch != 0) met_calo_pt();
   if (gen_ht_branch != 0) gen_ht();
   if (HLT_Mu30_TkMu11_branch != 0) HLT_Mu30_TkMu11();
   if (deta_jj_dn_branch != 0) deta_jj_dn();
+  if (nBJetLoose25_branch != 0) nBJetLoose25();
   if (HLT_Photon50_R9Id90_HE10_IsoM_matchedtophoton_branch != 0) HLT_Photon50_R9Id90_HE10_IsoM_matchedtophoton();
   if (gamma_mass_branch != 0) gamma_mass();
   if (evt_scale1fb_branch != 0) evt_scale1fb();
@@ -2489,7 +2563,6 @@ void ZMET2016::LoadAllBranches() {
   if (genLepFromTau_phi_branch != 0) genLepFromTau_phi();
   if (chpfcands_2430_sumet_branch != 0) chpfcands_2430_sumet();
   if (decayedphoton_lep1_p4_branch != 0) decayedphoton_lep1_p4();
-  if (nBJetLoose_branch != 0) nBJetLoose();
   if (genLep_pt_branch != 0) genLep_pt();
   if (gamma_hOverE_online_branch != 0) gamma_hOverE_online();
   if (HLT_singleMu_noiso_branch != 0) HLT_singleMu_noiso();
@@ -2508,6 +2581,7 @@ void ZMET2016::LoadAllBranches() {
   if (nisoTrack_PFEle5_woverlaps_branch != 0) nisoTrack_PFEle5_woverlaps();
   if (nupfcands_30in_phi_branch != 0) nupfcands_30in_phi();
   if (lep_tightCharge_branch != 0) lep_tightCharge();
+  if (nBJetLoose35_branch != 0) nBJetLoose35();
   if (Flag_HBHEIsoNoiseFilter_branch != 0) Flag_HBHEIsoNoiseFilter();
   if (HLT_Photon30_R9Id90_HE10_IsoM_branch != 0) HLT_Photon30_R9Id90_HE10_IsoM();
   if (lep_glb_x2ondof_branch != 0) lep_glb_x2ondof();
@@ -2519,7 +2593,6 @@ void ZMET2016::LoadAllBranches() {
   if (met_T1CHS_pt_branch != 0) met_T1CHS_pt();
   if (dphi_metj1_up_branch != 0) dphi_metj1_up();
   if (lumi_branch != 0) lumi();
-  if (nBJetTight_branch != 0) nBJetTight();
   if (elveto_branch != 0) elveto();
   if (HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_branch != 0) HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ();
   if (chpfcands_30in_phi_branch != 0) chpfcands_30in_phi();
@@ -2530,21 +2603,23 @@ void ZMET2016::LoadAllBranches() {
   if (lep_relIso03_branch != 0) lep_relIso03();
   if (lep_relIso04_branch != 0) lep_relIso04();
   if (gamma_p4_branch != 0) gamma_p4();
-  if (nBJetMedium_dn_branch != 0) nBJetMedium_dn();
   if (Flag_EcalDeadCellTriggerPrimitiveFilter_branch != 0) Flag_EcalDeadCellTriggerPrimitiveFilter();
   if (HLT_Photon22_R9Id90_HE10_IsoM_matchedtophoton_branch != 0) HLT_Photon22_R9Id90_HE10_IsoM_matchedtophoton();
-  if (chpfcands_1624_phi_branch != 0) chpfcands_1624_phi();
+  if (nBJetMedium25_branch != 0) nBJetMedium25();
+  if (nBJetLoose25_dn_branch != 0) nBJetLoose25_dn();
   if (lep_pt_branch != 0) lep_pt();
+  if (weight_L1prefire_down_branch != 0) weight_L1prefire_down();
+  if (nBJetTight25_dn_branch != 0) nBJetTight25_dn();
   if (gamma_pt_branch != 0) gamma_pt();
   if (highPtPFcands_dz_branch != 0) highPtPFcands_dz();
   if (weightsf_lepid_FS_branch != 0) weightsf_lepid_FS();
-  if (weightsf_lepconv_FS_branch != 0) weightsf_lepconv_FS();
   if (genTau_sourceId_branch != 0) genTau_sourceId();
   if (chpfcands_0013_phi_branch != 0) chpfcands_0013_phi();
   if (Flag_hcalLaserEventFilter_branch != 0) Flag_hcalLaserEventFilter();
   if (HLT_Photon165_R9Id90_HE10_IsoM_branch != 0) HLT_Photon165_R9Id90_HE10_IsoM();
   if (chpfcands_2430_pt_branch != 0) chpfcands_2430_pt();
   if (dphi_jj_branch != 0) dphi_jj();
+  if (nBJetLoose35_up_branch != 0) nBJetLoose35_up();
   if (jets_medb_p4_branch != 0) jets_medb_p4();
   if (gamma_mcMatchId_branch != 0) gamma_mcMatchId();
   if (nupfcands_1316_phi_branch != 0) nupfcands_1316_phi();
@@ -2566,6 +2641,7 @@ void ZMET2016::LoadAllBranches() {
   if (dphi_metj3_up_branch != 0) dphi_metj3_up();
   if (isotrack_pdgId_branch != 0) isotrack_pdgId();
   if (evt_kfactor_branch != 0) evt_kfactor();
+  if (nBJetMedium35_up_branch != 0) nBJetMedium35_up();
   if (HLT_CaloJet500_NoJetID_branch != 0) HLT_CaloJet500_NoJetID();
   if (lep_relIso03MRDB_branch != 0) lep_relIso03MRDB();
   if (ngenLepFromTau_branch != 0) ngenLepFromTau();
@@ -2579,6 +2655,7 @@ void ZMET2016::LoadAllBranches() {
   if (njets_dn_branch != 0) njets_dn();
   if (isr_njets_branch != 0) isr_njets();
   if (gamma_ecpfclusiso_branch != 0) gamma_ecpfclusiso();
+  if (weight_L1prefire_up_branch != 0) weight_L1prefire_up();
   if (phpfcands_30in_pt_branch != 0) phpfcands_30in_pt();
   if (HLT_Photon165_HE10_branch != 0) HLT_Photon165_HE10();
   if (nupfcands_0013_pt_branch != 0) nupfcands_0013_pt();
@@ -2592,6 +2669,7 @@ void ZMET2016::LoadAllBranches() {
   if (HLT_Mu37_TkMu27_branch != 0) HLT_Mu37_TkMu27();
   if (nupfcands_30in_sumet_branch != 0) nupfcands_30in_sumet();
   if (mjj_mindphi_up_branch != 0) mjj_mindphi_up();
+  if (nBJetLoose35_dn_branch != 0) nBJetLoose35_dn();
   if (mbb_bpt_up_branch != 0) mbb_bpt_up();
   if (genTau_pt_branch != 0) genTau_pt();
   if (Flag_noBadMuons_branch != 0) Flag_noBadMuons();
@@ -2600,8 +2678,10 @@ void ZMET2016::LoadAllBranches() {
   if (genPart_phi_branch != 0) genPart_phi();
   if (weightsf_lepiso_branch != 0) weightsf_lepiso();
   if (Flag_CSCTightHaloFilter_branch != 0) Flag_CSCTightHaloFilter();
+  if (nBJetLoose25_up_branch != 0) nBJetLoose25_up();
   if (HLT_Mu33_Ele33_CaloIdL_GsfTrkIdVL_branch != 0) HLT_Mu33_Ele33_CaloIdL_GsfTrkIdVL();
   if (lep_tightId_branch != 0) lep_tightId();
+  if (nBJetMedium25_up_branch != 0) nBJetMedium25_up();
   if (met_T1CHS_miniAOD_CORE_up_phi_branch != 0) met_T1CHS_miniAOD_CORE_up_phi();
   if (phpfcands_1624_sumet_branch != 0) phpfcands_1624_sumet();
   if (HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL_branch != 0) HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL();
@@ -2634,11 +2714,11 @@ void ZMET2016::LoadAllBranches() {
   if (Flag_globalTightHalo2016_branch != 0) Flag_globalTightHalo2016();
   if (mass_chi_branch != 0) mass_chi();
   if (isotrack_isLostTrack_branch != 0) isotrack_isLostTrack();
+  if (nBJetMedium35_branch != 0) nBJetMedium35();
   if (nisoTrack_PFLep5_woverlaps_branch != 0) nisoTrack_PFLep5_woverlaps();
-  if (nBJetTight_up_branch != 0) nBJetTight_up();
+  if (nBJetTight25_up_branch != 0) nBJetTight25_up();
   if (gamma_neuHadIso_branch != 0) gamma_neuHadIso();
   if (Flag_badMuonFilter_branch != 0) Flag_badMuonFilter();
-  if (nBJetMedium_up_branch != 0) nBJetMedium_up();
   if (matched_emf_branch != 0) matched_emf();
   if (lep_dxy_branch != 0) lep_dxy();
   if (chpfcands_1316_pt_branch != 0) chpfcands_1316_pt();
@@ -2655,7 +2735,8 @@ void ZMET2016::LoadAllBranches() {
   if (metsig_unofficial_up_branch != 0) metsig_unofficial_up();
   if (rho25_branch != 0) rho25();
   if (nisoTrack_PFMu5_woverlaps_branch != 0) nisoTrack_PFMu5_woverlaps();
-  if (HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_branch != 0) HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ();
+  if (chpfcands_1624_phi_branch != 0) chpfcands_1624_phi();
+  if (ak8jets_p4_branch != 0) ak8jets_p4();
   if (HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ_branch != 0) HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ();
   if (mt2b_up_branch != 0) mt2b_up();
   if (genLep_motherId_branch != 0) genLep_motherId();
@@ -2673,6 +2754,7 @@ void ZMET2016::LoadAllBranches() {
   if (phpfcands_1316_pt_branch != 0) phpfcands_1316_pt();
   if (dilmass_branch != 0) dilmass();
   if (isrboost_branch != 0) isrboost();
+  if (nBJetTight35_up_branch != 0) nBJetTight35_up();
   if (ngenTau_branch != 0) ngenTau();
   if (dphi_ll_dn_branch != 0) dphi_ll_dn();
   if (njets_up_branch != 0) njets_up();
@@ -2684,7 +2766,7 @@ void ZMET2016::LoadAllBranches() {
   if (chpfcands_30in_sumet_branch != 0) chpfcands_30in_sumet();
   if (nBadMuons20_branch != 0) nBadMuons20();
   if (HLT_DoubleEle25_CaloIdL_MW_branch != 0) HLT_DoubleEle25_CaloIdL_MW();
-  if (ak8jets_p4_branch != 0) ak8jets_p4();
+  if (HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_branch != 0) HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ();
   if (HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_branch != 0) HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ();
   if (nupfcands_1624_phi_branch != 0) nupfcands_1624_phi();
   if (gamma_r9_branch != 0) gamma_r9();
@@ -2698,11 +2780,12 @@ void ZMET2016::LoadAllBranches() {
   if (ak8jets_softDropMass_branch != 0) ak8jets_softDropMass();
   if (lep_eta_branch != 0) lep_eta();
   if (genPart_status_branch != 0) genPart_status();
-  if (nBJetLoose_up_branch != 0) nBJetLoose_up();
+  if (weightsf_lepconv_FS_branch != 0) weightsf_lepconv_FS();
+  if (nBJetMedium25_dn_branch != 0) nBJetMedium25_dn();
   if (puWeight_branch != 0) puWeight();
   if (met_pt_branch != 0) met_pt();
   if (weight_btagsf_light_UP_branch != 0) weight_btagsf_light_UP();
-  if (genLepFromTau_charge_branch != 0) genLepFromTau_charge();
+  if (HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_branch != 0) HLT_DoubleEle33_CaloIdL_GsfTrkIdVL();
   if (nupfcands_0013_phi_branch != 0) nupfcands_0013_phi();
   if (lep_p4_branch != 0) lep_p4();
   if (genLep_isp6status3_branch != 0) genLep_isp6status3();
@@ -2711,6 +2794,7 @@ void ZMET2016::LoadAllBranches() {
   if (genLep_status_branch != 0) genLep_status();
   if (gamma_genIsPromptFinalState_branch != 0) gamma_genIsPromptFinalState();
   if (mbb_csv_branch != 0) mbb_csv();
+  if (weight_L1prefire_branch != 0) weight_L1prefire();
   if (mbb_csv_dn_branch != 0) mbb_csv_dn();
   if (genLepFromTau_pt_branch != 0) genLepFromTau_pt();
   if (nGammas20_branch != 0) nGammas20();
@@ -2727,7 +2811,6 @@ void ZMET2016::LoadAllBranches() {
   if (genPart_charge_branch != 0) genPart_charge();
   if (met_miniaod_phi_branch != 0) met_miniaod_phi();
   if (jets_dn_csv_branch != 0) jets_dn_csv();
-  if (nBJetTight_dn_branch != 0) nBJetTight_dn();
   if (mt2b_genmet_branch != 0) mt2b_genmet();
   if (lep_mass_branch != 0) lep_mass();
   if (nisoTrack_PFHad10_woverlaps_branch != 0) nisoTrack_PFHad10_woverlaps();
@@ -2744,7 +2827,7 @@ void ZMET2016::LoadAllBranches() {
   if (genTau_eta_branch != 0) genTau_eta();
   if (nupfcands_2430_pt_branch != 0) nupfcands_2430_pt();
   if (genPart_motherId_branch != 0) genPart_motherId();
-  if (HLT_Photon90_R9Id90_HE10_IsoM_matchedtophoton_branch != 0) HLT_Photon90_R9Id90_HE10_IsoM_matchedtophoton();
+  if (nBJetTight35_branch != 0) nBJetTight35();
   if (HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_branch != 0) HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL();
   if (evt_xsec_branch != 0) evt_xsec();
   if (lep_convVeto_branch != 0) lep_convVeto();
@@ -2759,7 +2842,6 @@ void ZMET2016::LoadAllBranches() {
   if (HLT_Photon75_R9Id90_HE10_IsoM_matchedtophoton_branch != 0) HLT_Photon75_R9Id90_HE10_IsoM_matchedtophoton();
   if (met_T1CHS_miniAOD_CORE_pt_branch != 0) met_T1CHS_miniAOD_CORE_pt();
   if (HLT_Photon50_R9Id90_HE10_IsoM_branch != 0) HLT_Photon50_R9Id90_HE10_IsoM();
-  if (nBJetMedium_branch != 0) nBJetMedium();
   if (dphi_jj_up_branch != 0) dphi_jj_up();
   if (gamma_chHadIso_branch != 0) gamma_chHadIso();
   if (nTrueInt_branch != 0) nTrueInt();
@@ -2771,10 +2853,9 @@ void ZMET2016::LoadAllBranches() {
   if (chpfcands_1624_sumet_branch != 0) chpfcands_1624_sumet();
   if (HLT_Photon200_branch != 0) HLT_Photon200();
   if (HLT_Ele17_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_branch != 0) HLT_Ele17_Ele12_CaloIdL_TrackIdL_IsoVL_DZ();
-  if (evt_filter_branch != 0) evt_filter();
+  if (HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_branch != 0) HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL();
   if (hyp_type_branch != 0) hyp_type();
   if (genLep_sourceId_branch != 0) genLep_sourceId();
-  if (nBJetLoose_dn_branch != 0) nBJetLoose_dn();
   if (nElectrons10_branch != 0) nElectrons10();
   if (mt2_branch != 0) mt2();
   if (dphi_ll_up_branch != 0) dphi_ll_up();
@@ -2782,6 +2863,7 @@ void ZMET2016::LoadAllBranches() {
   if (HLT_Photon90_R9Id90_HE10_IsoM_branch != 0) HLT_Photon90_R9Id90_HE10_IsoM();
   if (ht_branch != 0) ht();
   if (met_T1CHS_fromCORE_phi_branch != 0) met_T1CHS_fromCORE_phi();
+  if (nBJetTight35_dn_branch != 0) nBJetTight35_dn();
   if (highPtPFcands_p4_branch != 0) highPtPFcands_p4();
   if (nupfcands_30in_pt_branch != 0) nupfcands_30in_pt();
   if (isData_branch != 0) isData();
@@ -2813,8 +2895,9 @@ void ZMET2016::LoadAllBranches() {
   if (nVert_branch != 0) nVert();
   if (gamma_hOverE_branch != 0) gamma_hOverE();
   if (genPart_eta_branch != 0) genPart_eta();
-  if (HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_branch != 0) HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL();
+  if (evt_filter_branch != 0) evt_filter();
   if (Flag_duplicateMuons_branch != 0) Flag_duplicateMuons();
+  if (HLT_Photon90_R9Id90_HE10_IsoM_matchedtophoton_branch != 0) HLT_Photon90_R9Id90_HE10_IsoM_matchedtophoton();
   if (sumet_raw_branch != 0) sumet_raw();
   if (Flag_CSCTightHalo2015Filter_branch != 0) Flag_CSCTightHalo2015Filter();
 }
@@ -3202,18 +3285,6 @@ const vector<float> &ZMET2016::weightsf_lepip_FS() {
   }
   return *weightsf_lepip_FS_;
 }
-const vector<float> &ZMET2016::weightsf_lepconv_FS() {
-    if (not weightsf_lepconv_FS_isLoaded) {
-      if (weightsf_lepconv_FS_branch != 0) {
-        weightsf_lepconv_FS_branch->GetEntry(index);
-    } else {
-        printf("branch weightsf_lepconv_FS_branch does not exist!\n");
-        exit(1);
-    }
-    weightsf_lepconv_FS_isLoaded = true;
-  }
-  return *weightsf_lepconv_FS_;
-}
 const vector<float> &ZMET2016::genTau_phi() {
   if (not genTau_phi_isLoaded) {
     if (genTau_phi_branch != 0) {
@@ -3382,6 +3453,30 @@ const vector<float> &ZMET2016::lep_MVA() {
   }
   return *lep_MVA_;
 }
+const int &ZMET2016::nBJetTight25() {
+  if (not nBJetTight25_isLoaded) {
+    if (nBJetTight25_branch != 0) {
+      nBJetTight25_branch->GetEntry(index);
+    } else {
+      printf("branch nBJetTight25_branch does not exist!\n");
+      exit(1);
+    }
+    nBJetTight25_isLoaded = true;
+  }
+  return nBJetTight25_;
+}
+const int &ZMET2016::nBJetMedium35_dn() {
+  if (not nBJetMedium35_dn_isLoaded) {
+    if (nBJetMedium35_dn_branch != 0) {
+      nBJetMedium35_dn_branch->GetEntry(index);
+    } else {
+      printf("branch nBJetMedium35_dn_branch does not exist!\n");
+      exit(1);
+    }
+    nBJetMedium35_dn_isLoaded = true;
+  }
+  return nBJetMedium35_dn_;
+}
 const int &ZMET2016::nTaus20() {
   if (not nTaus20_isLoaded) {
     if (nTaus20_branch != 0) {
@@ -3478,17 +3573,17 @@ const bool &ZMET2016::HLT_Photon120_R9Id90_HE10_IsoM_matchedtophoton() {
   }
   return HLT_Photon120_R9Id90_HE10_IsoM_matchedtophoton_;
 }
-const int &ZMET2016::HLT_DoubleEle33_CaloIdL_GsfTrkIdVL() {
-  if (not HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_isLoaded) {
-    if (HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_branch != 0) {
-      HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_branch->GetEntry(index);
+const vector<float> &ZMET2016::genLepFromTau_charge() {
+  if (not genLepFromTau_charge_isLoaded) {
+    if (genLepFromTau_charge_branch != 0) {
+      genLepFromTau_charge_branch->GetEntry(index);
     } else {
-      printf("branch HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_branch does not exist!\n");
+      printf("branch genLepFromTau_charge_branch does not exist!\n");
       exit(1);
     }
-    HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_isLoaded = true;
+    genLepFromTau_charge_isLoaded = true;
   }
-  return HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_;
+  return *genLepFromTau_charge_;
 }
 const int &ZMET2016::evt_nEvts() {
   if (not evt_nEvts_isLoaded) {
@@ -3561,6 +3656,18 @@ const float &ZMET2016::deta_jj_dn() {
     deta_jj_dn_isLoaded = true;
   }
   return deta_jj_dn_;
+}
+const int &ZMET2016::nBJetLoose25() {
+  if (not nBJetLoose25_isLoaded) {
+    if (nBJetLoose25_branch != 0) {
+      nBJetLoose25_branch->GetEntry(index);
+    } else {
+      printf("branch nBJetLoose25_branch does not exist!\n");
+      exit(1);
+    }
+    nBJetLoose25_isLoaded = true;
+  }
+  return nBJetLoose25_;
 }
 const bool &ZMET2016::HLT_Photon50_R9Id90_HE10_IsoM_matchedtophoton() {
   if (not HLT_Photon50_R9Id90_HE10_IsoM_matchedtophoton_isLoaded) {
@@ -3705,18 +3812,6 @@ const ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > &ZMET2016::decaye
     decayedphoton_lep1_p4_isLoaded = true;
   }
   return *decayedphoton_lep1_p4_;
-}
-const int &ZMET2016::nBJetLoose() {
-  if (not nBJetLoose_isLoaded) {
-    if (nBJetLoose_branch != 0) {
-      nBJetLoose_branch->GetEntry(index);
-    } else {
-      printf("branch nBJetLoose_branch does not exist!\n");
-      exit(1);
-    }
-    nBJetLoose_isLoaded = true;
-  }
-  return nBJetLoose_;
 }
 const vector<float> &ZMET2016::genLep_pt() {
   if (not genLep_pt_isLoaded) {
@@ -3934,6 +4029,18 @@ const vector<int> &ZMET2016::lep_tightCharge() {
   }
   return *lep_tightCharge_;
 }
+const int &ZMET2016::nBJetLoose35() {
+  if (not nBJetLoose35_isLoaded) {
+    if (nBJetLoose35_branch != 0) {
+      nBJetLoose35_branch->GetEntry(index);
+    } else {
+      printf("branch nBJetLoose35_branch does not exist!\n");
+      exit(1);
+    }
+    nBJetLoose35_isLoaded = true;
+  }
+  return nBJetLoose35_;
+}
 const int &ZMET2016::Flag_HBHEIsoNoiseFilter() {
   if (not Flag_HBHEIsoNoiseFilter_isLoaded) {
     if (Flag_HBHEIsoNoiseFilter_branch != 0) {
@@ -4066,18 +4173,6 @@ const int &ZMET2016::lumi() {
   }
   return lumi_;
 }
-const int &ZMET2016::nBJetTight() {
-  if (not nBJetTight_isLoaded) {
-    if (nBJetTight_branch != 0) {
-      nBJetTight_branch->GetEntry(index);
-    } else {
-      printf("branch nBJetTight_branch does not exist!\n");
-      exit(1);
-    }
-    nBJetTight_isLoaded = true;
-  }
-  return nBJetTight_;
-}
 const bool &ZMET2016::elveto() {
   if (not elveto_isLoaded) {
     if (elveto_branch != 0) {
@@ -4198,18 +4293,6 @@ const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &ZMET201
   }
   return *gamma_p4_;
 }
-const int &ZMET2016::nBJetMedium_dn() {
-  if (not nBJetMedium_dn_isLoaded) {
-    if (nBJetMedium_dn_branch != 0) {
-      nBJetMedium_dn_branch->GetEntry(index);
-    } else {
-      printf("branch nBJetMedium_dn_branch does not exist!\n");
-      exit(1);
-    }
-    nBJetMedium_dn_isLoaded = true;
-  }
-  return nBJetMedium_dn_;
-}
 const int &ZMET2016::Flag_EcalDeadCellTriggerPrimitiveFilter() {
   if (not Flag_EcalDeadCellTriggerPrimitiveFilter_isLoaded) {
     if (Flag_EcalDeadCellTriggerPrimitiveFilter_branch != 0) {
@@ -4234,17 +4317,29 @@ const bool &ZMET2016::HLT_Photon22_R9Id90_HE10_IsoM_matchedtophoton() {
   }
   return HLT_Photon22_R9Id90_HE10_IsoM_matchedtophoton_;
 }
-const float &ZMET2016::chpfcands_1624_phi() {
-  if (not chpfcands_1624_phi_isLoaded) {
-    if (chpfcands_1624_phi_branch != 0) {
-      chpfcands_1624_phi_branch->GetEntry(index);
+const int &ZMET2016::nBJetMedium25() {
+  if (not nBJetMedium25_isLoaded) {
+    if (nBJetMedium25_branch != 0) {
+      nBJetMedium25_branch->GetEntry(index);
     } else {
-      printf("branch chpfcands_1624_phi_branch does not exist!\n");
+      printf("branch nBJetMedium25_branch does not exist!\n");
       exit(1);
     }
-    chpfcands_1624_phi_isLoaded = true;
+    nBJetMedium25_isLoaded = true;
   }
-  return chpfcands_1624_phi_;
+  return nBJetMedium25_;
+}
+const int &ZMET2016::nBJetLoose25_dn() {
+  if (not nBJetLoose25_dn_isLoaded) {
+    if (nBJetLoose25_dn_branch != 0) {
+      nBJetLoose25_dn_branch->GetEntry(index);
+    } else {
+      printf("branch nBJetLoose25_dn_branch does not exist!\n");
+      exit(1);
+    }
+    nBJetLoose25_dn_isLoaded = true;
+  }
+  return nBJetLoose25_dn_;
 }
 const vector<float> &ZMET2016::lep_pt() {
   if (not lep_pt_isLoaded) {
@@ -4257,6 +4352,30 @@ const vector<float> &ZMET2016::lep_pt() {
     lep_pt_isLoaded = true;
   }
   return *lep_pt_;
+}
+const float &ZMET2016::weight_L1prefire_down() {
+  if (not weight_L1prefire_down_isLoaded) {
+    if (weight_L1prefire_down_branch != 0) {
+      weight_L1prefire_down_branch->GetEntry(index);
+    } else {
+      printf("branch weight_L1prefire_down_branch does not exist!\n");
+      exit(1);
+    }
+    weight_L1prefire_down_isLoaded = true;
+  }
+  return weight_L1prefire_down_;
+}
+const int &ZMET2016::nBJetTight25_dn() {
+  if (not nBJetTight25_dn_isLoaded) {
+    if (nBJetTight25_dn_branch != 0) {
+      nBJetTight25_dn_branch->GetEntry(index);
+    } else {
+      printf("branch nBJetTight25_dn_branch does not exist!\n");
+      exit(1);
+    }
+    nBJetTight25_dn_isLoaded = true;
+  }
+  return nBJetTight25_dn_;
 }
 const vector<float> &ZMET2016::gamma_pt() {
   if (not gamma_pt_isLoaded) {
@@ -4365,6 +4484,18 @@ const float &ZMET2016::dphi_jj() {
     dphi_jj_isLoaded = true;
   }
   return dphi_jj_;
+}
+const int &ZMET2016::nBJetLoose35_up() {
+  if (not nBJetLoose35_up_isLoaded) {
+    if (nBJetLoose35_up_branch != 0) {
+      nBJetLoose35_up_branch->GetEntry(index);
+    } else {
+      printf("branch nBJetLoose35_up_branch does not exist!\n");
+      exit(1);
+    }
+    nBJetLoose35_up_isLoaded = true;
+  }
+  return nBJetLoose35_up_;
 }
 const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &ZMET2016::jets_medb_p4() {
   if (not jets_medb_p4_isLoaded) {
@@ -4618,6 +4749,18 @@ const float &ZMET2016::evt_kfactor() {
   }
   return evt_kfactor_;
 }
+const int &ZMET2016::nBJetMedium35_up() {
+  if (not nBJetMedium35_up_isLoaded) {
+    if (nBJetMedium35_up_branch != 0) {
+      nBJetMedium35_up_branch->GetEntry(index);
+    } else {
+      printf("branch nBJetMedium35_up_branch does not exist!\n");
+      exit(1);
+    }
+    nBJetMedium35_up_isLoaded = true;
+  }
+  return nBJetMedium35_up_;
+}
 const int &ZMET2016::HLT_CaloJet500_NoJetID() {
   if (not HLT_CaloJet500_NoJetID_isLoaded) {
     if (HLT_CaloJet500_NoJetID_branch != 0) {
@@ -4773,6 +4916,18 @@ const vector<float> &ZMET2016::gamma_ecpfclusiso() {
     gamma_ecpfclusiso_isLoaded = true;
   }
   return *gamma_ecpfclusiso_;
+}
+const float &ZMET2016::weight_L1prefire_up() {
+  if (not weight_L1prefire_up_isLoaded) {
+    if (weight_L1prefire_up_branch != 0) {
+      weight_L1prefire_up_branch->GetEntry(index);
+    } else {
+      printf("branch weight_L1prefire_up_branch does not exist!\n");
+      exit(1);
+    }
+    weight_L1prefire_up_isLoaded = true;
+  }
+  return weight_L1prefire_up_;
 }
 const float &ZMET2016::phpfcands_30in_pt() {
   if (not phpfcands_30in_pt_isLoaded) {
@@ -4930,6 +5085,18 @@ const float &ZMET2016::mjj_mindphi_up() {
   }
   return mjj_mindphi_up_;
 }
+const int &ZMET2016::nBJetLoose35_dn() {
+  if (not nBJetLoose35_dn_isLoaded) {
+    if (nBJetLoose35_dn_branch != 0) {
+      nBJetLoose35_dn_branch->GetEntry(index);
+    } else {
+      printf("branch nBJetLoose35_dn_branch does not exist!\n");
+      exit(1);
+    }
+    nBJetLoose35_dn_isLoaded = true;
+  }
+  return nBJetLoose35_dn_;
+}
 const float &ZMET2016::mbb_bpt_up() {
   if (not mbb_bpt_up_isLoaded) {
     if (mbb_bpt_up_branch != 0) {
@@ -5026,6 +5193,18 @@ const int &ZMET2016::Flag_CSCTightHaloFilter() {
   }
   return Flag_CSCTightHaloFilter_;
 }
+const int &ZMET2016::nBJetLoose25_up() {
+  if (not nBJetLoose25_up_isLoaded) {
+    if (nBJetLoose25_up_branch != 0) {
+      nBJetLoose25_up_branch->GetEntry(index);
+    } else {
+      printf("branch nBJetLoose25_up_branch does not exist!\n");
+      exit(1);
+    }
+    nBJetLoose25_up_isLoaded = true;
+  }
+  return nBJetLoose25_up_;
+}
 const int &ZMET2016::HLT_Mu33_Ele33_CaloIdL_GsfTrkIdVL() {
   if (not HLT_Mu33_Ele33_CaloIdL_GsfTrkIdVL_isLoaded) {
     if (HLT_Mu33_Ele33_CaloIdL_GsfTrkIdVL_branch != 0) {
@@ -5049,6 +5228,18 @@ const vector<int> &ZMET2016::lep_tightId() {
     lep_tightId_isLoaded = true;
   }
   return *lep_tightId_;
+}
+const int &ZMET2016::nBJetMedium25_up() {
+  if (not nBJetMedium25_up_isLoaded) {
+    if (nBJetMedium25_up_branch != 0) {
+      nBJetMedium25_up_branch->GetEntry(index);
+    } else {
+      printf("branch nBJetMedium25_up_branch does not exist!\n");
+      exit(1);
+    }
+    nBJetMedium25_up_isLoaded = true;
+  }
+  return nBJetMedium25_up_;
 }
 const float &ZMET2016::met_T1CHS_miniAOD_CORE_up_phi() {
   if (not met_T1CHS_miniAOD_CORE_up_phi_isLoaded) {
@@ -5434,6 +5625,18 @@ const vector<bool> &ZMET2016::isotrack_isLostTrack() {
   }
   return *isotrack_isLostTrack_;
 }
+const int &ZMET2016::nBJetMedium35() {
+  if (not nBJetMedium35_isLoaded) {
+    if (nBJetMedium35_branch != 0) {
+      nBJetMedium35_branch->GetEntry(index);
+    } else {
+      printf("branch nBJetMedium35_branch does not exist!\n");
+      exit(1);
+    }
+    nBJetMedium35_isLoaded = true;
+  }
+  return nBJetMedium35_;
+}
 const int &ZMET2016::nisoTrack_PFLep5_woverlaps() {
   if (not nisoTrack_PFLep5_woverlaps_isLoaded) {
     if (nisoTrack_PFLep5_woverlaps_branch != 0) {
@@ -5446,17 +5649,17 @@ const int &ZMET2016::nisoTrack_PFLep5_woverlaps() {
   }
   return nisoTrack_PFLep5_woverlaps_;
 }
-const int &ZMET2016::nBJetTight_up() {
-  if (not nBJetTight_up_isLoaded) {
-    if (nBJetTight_up_branch != 0) {
-      nBJetTight_up_branch->GetEntry(index);
+const int &ZMET2016::nBJetTight25_up() {
+  if (not nBJetTight25_up_isLoaded) {
+    if (nBJetTight25_up_branch != 0) {
+      nBJetTight25_up_branch->GetEntry(index);
     } else {
-      printf("branch nBJetTight_up_branch does not exist!\n");
+      printf("branch nBJetTight25_up_branch does not exist!\n");
       exit(1);
     }
-    nBJetTight_up_isLoaded = true;
+    nBJetTight25_up_isLoaded = true;
   }
-  return nBJetTight_up_;
+  return nBJetTight25_up_;
 }
 const vector<float> &ZMET2016::gamma_neuHadIso() {
   if (not gamma_neuHadIso_isLoaded) {
@@ -5481,18 +5684,6 @@ const int &ZMET2016::Flag_badMuonFilter() {
     Flag_badMuonFilter_isLoaded = true;
   }
   return Flag_badMuonFilter_;
-}
-const int &ZMET2016::nBJetMedium_up() {
-  if (not nBJetMedium_up_isLoaded) {
-    if (nBJetMedium_up_branch != 0) {
-      nBJetMedium_up_branch->GetEntry(index);
-    } else {
-      printf("branch nBJetMedium_up_branch does not exist!\n");
-      exit(1);
-    }
-    nBJetMedium_up_isLoaded = true;
-  }
-  return nBJetMedium_up_;
 }
 const float &ZMET2016::matched_emf() {
   if (not matched_emf_isLoaded) {
@@ -5686,17 +5877,29 @@ const int &ZMET2016::nisoTrack_PFMu5_woverlaps() {
   }
   return nisoTrack_PFMu5_woverlaps_;
 }
-const int &ZMET2016::HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ() {
-  if (not HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_isLoaded) {
-    if (HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_branch != 0) {
-      HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_branch->GetEntry(index);
+const float &ZMET2016::chpfcands_1624_phi() {
+  if (not chpfcands_1624_phi_isLoaded) {
+    if (chpfcands_1624_phi_branch != 0) {
+      chpfcands_1624_phi_branch->GetEntry(index);
     } else {
-      printf("branch HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_branch does not exist!\n");
+      printf("branch chpfcands_1624_phi_branch does not exist!\n");
       exit(1);
     }
-    HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_isLoaded = true;
+    chpfcands_1624_phi_isLoaded = true;
   }
-  return HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_;
+  return chpfcands_1624_phi_;
+}
+const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &ZMET2016::ak8jets_p4() {
+  if (not ak8jets_p4_isLoaded) {
+    if (ak8jets_p4_branch != 0) {
+      ak8jets_p4_branch->GetEntry(index);
+    } else {
+      printf("branch ak8jets_p4_branch does not exist!\n");
+      exit(1);
+    }
+    ak8jets_p4_isLoaded = true;
+  }
+  return *ak8jets_p4_;
 }
 const int &ZMET2016::HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ() {
   if (not HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ_isLoaded) {
@@ -5902,6 +6105,18 @@ const float &ZMET2016::isrboost() {
   }
   return isrboost_;
 }
+const int &ZMET2016::nBJetTight35_up() {
+  if (not nBJetTight35_up_isLoaded) {
+    if (nBJetTight35_up_branch != 0) {
+      nBJetTight35_up_branch->GetEntry(index);
+    } else {
+      printf("branch nBJetTight35_up_branch does not exist!\n");
+      exit(1);
+    }
+    nBJetTight35_up_isLoaded = true;
+  }
+  return nBJetTight35_up_;
+}
 const int &ZMET2016::ngenTau() {
   if (not ngenTau_isLoaded) {
     if (ngenTau_branch != 0) {
@@ -6034,17 +6249,17 @@ const int &ZMET2016::HLT_DoubleEle25_CaloIdL_MW() {
   }
   return HLT_DoubleEle25_CaloIdL_MW_;
 }
-const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &ZMET2016::ak8jets_p4() {
-  if (not ak8jets_p4_isLoaded) {
-    if (ak8jets_p4_branch != 0) {
-      ak8jets_p4_branch->GetEntry(index);
+const int &ZMET2016::HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ() {
+  if (not HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_isLoaded) {
+    if (HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_branch != 0) {
+      HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_branch->GetEntry(index);
     } else {
-      printf("branch ak8jets_p4_branch does not exist!\n");
+      printf("branch HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_branch does not exist!\n");
       exit(1);
     }
-    ak8jets_p4_isLoaded = true;
+    HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_isLoaded = true;
   }
-  return *ak8jets_p4_;
+  return HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_;
 }
 const int &ZMET2016::HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ() {
   if (not HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_isLoaded) {
@@ -6202,17 +6417,29 @@ const vector<int> &ZMET2016::genPart_status() {
   }
   return *genPart_status_;
 }
-const int &ZMET2016::nBJetLoose_up() {
-  if (not nBJetLoose_up_isLoaded) {
-    if (nBJetLoose_up_branch != 0) {
-      nBJetLoose_up_branch->GetEntry(index);
+const vector<float> &ZMET2016::weightsf_lepconv_FS() {
+  if (not weightsf_lepconv_FS_isLoaded) {
+    if (weightsf_lepconv_FS_branch != 0) {
+      weightsf_lepconv_FS_branch->GetEntry(index);
     } else {
-      printf("branch nBJetLoose_up_branch does not exist!\n");
+      printf("branch weightsf_lepconv_FS_branch does not exist!\n");
       exit(1);
     }
-    nBJetLoose_up_isLoaded = true;
+    weightsf_lepconv_FS_isLoaded = true;
   }
-  return nBJetLoose_up_;
+  return *weightsf_lepconv_FS_;
+}
+const int &ZMET2016::nBJetMedium25_dn() {
+  if (not nBJetMedium25_dn_isLoaded) {
+    if (nBJetMedium25_dn_branch != 0) {
+      nBJetMedium25_dn_branch->GetEntry(index);
+    } else {
+      printf("branch nBJetMedium25_dn_branch does not exist!\n");
+      exit(1);
+    }
+    nBJetMedium25_dn_isLoaded = true;
+  }
+  return nBJetMedium25_dn_;
 }
 const float &ZMET2016::puWeight() {
   if (not puWeight_isLoaded) {
@@ -6250,17 +6477,17 @@ const float &ZMET2016::weight_btagsf_light_UP() {
   }
   return weight_btagsf_light_UP_;
 }
-const vector<float> &ZMET2016::genLepFromTau_charge() {
-  if (not genLepFromTau_charge_isLoaded) {
-    if (genLepFromTau_charge_branch != 0) {
-      genLepFromTau_charge_branch->GetEntry(index);
+const int &ZMET2016::HLT_DoubleEle33_CaloIdL_GsfTrkIdVL() {
+  if (not HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_isLoaded) {
+    if (HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_branch != 0) {
+      HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_branch->GetEntry(index);
     } else {
-      printf("branch genLepFromTau_charge_branch does not exist!\n");
+      printf("branch HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_branch does not exist!\n");
       exit(1);
     }
-    genLepFromTau_charge_isLoaded = true;
+    HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_isLoaded = true;
   }
-  return *genLepFromTau_charge_;
+  return HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_;
 }
 const float &ZMET2016::nupfcands_0013_phi() {
   if (not nupfcands_0013_phi_isLoaded) {
@@ -6357,6 +6584,18 @@ const float &ZMET2016::mbb_csv() {
     mbb_csv_isLoaded = true;
   }
   return mbb_csv_;
+}
+const float &ZMET2016::weight_L1prefire() {
+  if (not weight_L1prefire_isLoaded) {
+    if (weight_L1prefire_branch != 0) {
+      weight_L1prefire_branch->GetEntry(index);
+    } else {
+      printf("branch weight_L1prefire_branch does not exist!\n");
+      exit(1);
+    }
+    weight_L1prefire_isLoaded = true;
+  }
+  return weight_L1prefire_;
 }
 const float &ZMET2016::mbb_csv_dn() {
   if (not mbb_csv_dn_isLoaded) {
@@ -6550,18 +6789,6 @@ const vector<float> &ZMET2016::jets_dn_csv() {
   }
   return *jets_dn_csv_;
 }
-const int &ZMET2016::nBJetTight_dn() {
-  if (not nBJetTight_dn_isLoaded) {
-    if (nBJetTight_dn_branch != 0) {
-      nBJetTight_dn_branch->GetEntry(index);
-    } else {
-      printf("branch nBJetTight_dn_branch does not exist!\n");
-      exit(1);
-    }
-    nBJetTight_dn_isLoaded = true;
-  }
-  return nBJetTight_dn_;
-}
 const float &ZMET2016::mt2b_genmet() {
   if (not mt2b_genmet_isLoaded) {
     if (mt2b_genmet_branch != 0) {
@@ -6754,17 +6981,17 @@ const vector<int> &ZMET2016::genPart_motherId() {
   }
   return *genPart_motherId_;
 }
-const bool &ZMET2016::HLT_Photon90_R9Id90_HE10_IsoM_matchedtophoton() {
-  if (not HLT_Photon90_R9Id90_HE10_IsoM_matchedtophoton_isLoaded) {
-    if (HLT_Photon90_R9Id90_HE10_IsoM_matchedtophoton_branch != 0) {
-      HLT_Photon90_R9Id90_HE10_IsoM_matchedtophoton_branch->GetEntry(index);
+const int &ZMET2016::nBJetTight35() {
+  if (not nBJetTight35_isLoaded) {
+    if (nBJetTight35_branch != 0) {
+      nBJetTight35_branch->GetEntry(index);
     } else {
-      printf("branch HLT_Photon90_R9Id90_HE10_IsoM_matchedtophoton_branch does not exist!\n");
+      printf("branch nBJetTight35_branch does not exist!\n");
       exit(1);
     }
-    HLT_Photon90_R9Id90_HE10_IsoM_matchedtophoton_isLoaded = true;
+    nBJetTight35_isLoaded = true;
   }
-  return HLT_Photon90_R9Id90_HE10_IsoM_matchedtophoton_;
+  return nBJetTight35_;
 }
 const int &ZMET2016::HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL() {
   if (not HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_isLoaded) {
@@ -6934,18 +7161,6 @@ const int &ZMET2016::HLT_Photon50_R9Id90_HE10_IsoM() {
   }
   return HLT_Photon50_R9Id90_HE10_IsoM_;
 }
-const int &ZMET2016::nBJetMedium() {
-  if (not nBJetMedium_isLoaded) {
-    if (nBJetMedium_branch != 0) {
-      nBJetMedium_branch->GetEntry(index);
-    } else {
-      printf("branch nBJetMedium_branch does not exist!\n");
-      exit(1);
-    }
-    nBJetMedium_isLoaded = true;
-  }
-  return nBJetMedium_;
-}
 const float &ZMET2016::dphi_jj_up() {
   if (not dphi_jj_up_isLoaded) {
     if (dphi_jj_up_branch != 0) {
@@ -7078,17 +7293,17 @@ const int &ZMET2016::HLT_Ele17_Ele12_CaloIdL_TrackIdL_IsoVL_DZ() {
   }
   return HLT_Ele17_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_;
 }
-const float &ZMET2016::evt_filter() {
-  if (not evt_filter_isLoaded) {
-    if (evt_filter_branch != 0) {
-      evt_filter_branch->GetEntry(index);
+const int &ZMET2016::HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL() {
+  if (not HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_isLoaded) {
+    if (HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_branch != 0) {
+      HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_branch->GetEntry(index);
     } else {
-      printf("branch evt_filter_branch does not exist!\n");
+      printf("branch HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_branch does not exist!\n");
       exit(1);
     }
-    evt_filter_isLoaded = true;
+    HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_isLoaded = true;
   }
-  return evt_filter_;
+  return HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_;
 }
 const int &ZMET2016::hyp_type() {
   if (not hyp_type_isLoaded) {
@@ -7113,18 +7328,6 @@ const vector<int> &ZMET2016::genLep_sourceId() {
     genLep_sourceId_isLoaded = true;
   }
   return *genLep_sourceId_;
-}
-const int &ZMET2016::nBJetLoose_dn() {
-  if (not nBJetLoose_dn_isLoaded) {
-    if (nBJetLoose_dn_branch != 0) {
-      nBJetLoose_dn_branch->GetEntry(index);
-    } else {
-      printf("branch nBJetLoose_dn_branch does not exist!\n");
-      exit(1);
-    }
-    nBJetLoose_dn_isLoaded = true;
-  }
-  return nBJetLoose_dn_;
 }
 const int &ZMET2016::nElectrons10() {
   if (not nElectrons10_isLoaded) {
@@ -7209,6 +7412,18 @@ const float &ZMET2016::met_T1CHS_fromCORE_phi() {
     met_T1CHS_fromCORE_phi_isLoaded = true;
   }
   return met_T1CHS_fromCORE_phi_;
+}
+const int &ZMET2016::nBJetTight35_dn() {
+  if (not nBJetTight35_dn_isLoaded) {
+    if (nBJetTight35_dn_branch != 0) {
+      nBJetTight35_dn_branch->GetEntry(index);
+    } else {
+      printf("branch nBJetTight35_dn_branch does not exist!\n");
+      exit(1);
+    }
+    nBJetTight35_dn_isLoaded = true;
+  }
+  return nBJetTight35_dn_;
 }
 const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &ZMET2016::highPtPFcands_p4() {
   if (not highPtPFcands_p4_isLoaded) {
@@ -7582,17 +7797,17 @@ const vector<float> &ZMET2016::genPart_eta() {
   }
   return *genPart_eta_;
 }
-const int &ZMET2016::HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL() {
-  if (not HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_isLoaded) {
-    if (HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_branch != 0) {
-      HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_branch->GetEntry(index);
+const float &ZMET2016::evt_filter() {
+  if (not evt_filter_isLoaded) {
+    if (evt_filter_branch != 0) {
+      evt_filter_branch->GetEntry(index);
     } else {
-      printf("branch HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_branch does not exist!\n");
+      printf("branch evt_filter_branch does not exist!\n");
       exit(1);
     }
-    HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_isLoaded = true;
+    evt_filter_isLoaded = true;
   }
-  return HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_;
+  return evt_filter_;
 }
 const int &ZMET2016::Flag_duplicateMuons() {
   if (not Flag_duplicateMuons_isLoaded) {
@@ -7605,6 +7820,18 @@ const int &ZMET2016::Flag_duplicateMuons() {
     Flag_duplicateMuons_isLoaded = true;
   }
   return Flag_duplicateMuons_;
+}
+const bool &ZMET2016::HLT_Photon90_R9Id90_HE10_IsoM_matchedtophoton() {
+  if (not HLT_Photon90_R9Id90_HE10_IsoM_matchedtophoton_isLoaded) {
+    if (HLT_Photon90_R9Id90_HE10_IsoM_matchedtophoton_branch != 0) {
+      HLT_Photon90_R9Id90_HE10_IsoM_matchedtophoton_branch->GetEntry(index);
+    } else {
+      printf("branch HLT_Photon90_R9Id90_HE10_IsoM_matchedtophoton_branch does not exist!\n");
+      exit(1);
+    }
+    HLT_Photon90_R9Id90_HE10_IsoM_matchedtophoton_isLoaded = true;
+  }
+  return HLT_Photon90_R9Id90_HE10_IsoM_matchedtophoton_;
 }
 const float &ZMET2016::sumet_raw() {
   if (not sumet_raw_isLoaded) {
@@ -7695,6 +7922,8 @@ namespace zmet2016 {
   const vector<float> &gamma_phIso() { return phys.gamma_phIso(); }
   const vector<float> &lep_etaSC() { return phys.lep_etaSC(); }
   const vector<float> &lep_MVA() { return phys.lep_MVA(); }
+  const int &nBJetTight25() { return phys.nBJetTight25(); }
+  const int &nBJetMedium35_dn() { return phys.nBJetMedium35_dn(); }
   const int &nTaus20() { return phys.nTaus20(); }
   const float &met_T1CHS_miniAOD_CORE_dn_phi() { return phys.met_T1CHS_miniAOD_CORE_dn_phi(); }
   const float &phpfcands_30in_sumet() { return phys.phpfcands_30in_sumet(); }
@@ -7703,13 +7932,14 @@ namespace zmet2016 {
   const float &sum_mlb_dn() { return phys.sum_mlb_dn(); }
   const vector<float> &genPart_mass() { return phys.genPart_mass(); }
   const bool &HLT_Photon120_R9Id90_HE10_IsoM_matchedtophoton() { return phys.HLT_Photon120_R9Id90_HE10_IsoM_matchedtophoton(); }
-  const int &HLT_DoubleEle33_CaloIdL_GsfTrkIdVL() { return phys.HLT_DoubleEle33_CaloIdL_GsfTrkIdVL(); }
+  const vector<float> &genLepFromTau_charge() { return phys.genLepFromTau_charge(); }
   const int &evt_nEvts() { return phys.evt_nEvts(); }
   const bool &HLT_Photon165_HE10_matchedtophoton() { return phys.HLT_Photon165_HE10_matchedtophoton(); }
   const float &met_calo_pt() { return phys.met_calo_pt(); }
   const float &gen_ht() { return phys.gen_ht(); }
   const int &HLT_Mu30_TkMu11() { return phys.HLT_Mu30_TkMu11(); }
   const float &deta_jj_dn() { return phys.deta_jj_dn(); }
+  const int &nBJetLoose25() { return phys.nBJetLoose25(); }
   const bool &HLT_Photon50_R9Id90_HE10_IsoM_matchedtophoton() { return phys.HLT_Photon50_R9Id90_HE10_IsoM_matchedtophoton(); }
   const vector<float> &gamma_mass() { return phys.gamma_mass(); }
   const float &evt_scale1fb() { return phys.evt_scale1fb(); }
@@ -7722,7 +7952,6 @@ namespace zmet2016 {
   const vector<float> &genLepFromTau_phi() { return phys.genLepFromTau_phi(); }
   const float &chpfcands_2430_sumet() { return phys.chpfcands_2430_sumet(); }
   const ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > &decayedphoton_lep1_p4() { return phys.decayedphoton_lep1_p4(); }
-  const int &nBJetLoose() { return phys.nBJetLoose(); }
   const vector<float> &genLep_pt() { return phys.genLep_pt(); }
   const vector<float> &gamma_hOverE_online() { return phys.gamma_hOverE_online(); }
   const int &HLT_singleMu_noiso() { return phys.HLT_singleMu_noiso(); }
@@ -7741,6 +7970,7 @@ namespace zmet2016 {
   const int &nisoTrack_PFEle5_woverlaps() { return phys.nisoTrack_PFEle5_woverlaps(); }
   const float &nupfcands_30in_phi() { return phys.nupfcands_30in_phi(); }
   const vector<int> &lep_tightCharge() { return phys.lep_tightCharge(); }
+  const int &nBJetLoose35() { return phys.nBJetLoose35(); }
   const int &Flag_HBHEIsoNoiseFilter() { return phys.Flag_HBHEIsoNoiseFilter(); }
   const int &HLT_Photon30_R9Id90_HE10_IsoM() { return phys.HLT_Photon30_R9Id90_HE10_IsoM(); }
   const vector<float> &lep_glb_x2ondof() { return phys.lep_glb_x2ondof(); }
@@ -7752,7 +7982,6 @@ namespace zmet2016 {
   const float &met_T1CHS_pt() { return phys.met_T1CHS_pt(); }
   const float &dphi_metj1_up() { return phys.dphi_metj1_up(); }
   const int &lumi() { return phys.lumi(); }
-  const int &nBJetTight() { return phys.nBJetTight(); }
   const bool &elveto() { return phys.elveto(); }
   const int &HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ() { return phys.HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ(); }
   const float &chpfcands_30in_phi() { return phys.chpfcands_30in_phi(); }
@@ -7763,21 +7992,23 @@ namespace zmet2016 {
   const vector<float> &lep_relIso03() { return phys.lep_relIso03(); }
   const vector<float> &lep_relIso04() { return phys.lep_relIso04(); }
   const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &gamma_p4() { return phys.gamma_p4(); }
-  const int &nBJetMedium_dn() { return phys.nBJetMedium_dn(); }
   const int &Flag_EcalDeadCellTriggerPrimitiveFilter() { return phys.Flag_EcalDeadCellTriggerPrimitiveFilter(); }
   const bool &HLT_Photon22_R9Id90_HE10_IsoM_matchedtophoton() { return phys.HLT_Photon22_R9Id90_HE10_IsoM_matchedtophoton(); }
-  const float &chpfcands_1624_phi() { return phys.chpfcands_1624_phi(); }
+  const int &nBJetMedium25() { return phys.nBJetMedium25(); }
+  const int &nBJetLoose25_dn() { return phys.nBJetLoose25_dn(); }
   const vector<float> &lep_pt() { return phys.lep_pt(); }
+  const float &weight_L1prefire_down() { return phys.weight_L1prefire_down(); }
+  const int &nBJetTight25_dn() { return phys.nBJetTight25_dn(); }
   const vector<float> &gamma_pt() { return phys.gamma_pt(); }
   const vector<float> &highPtPFcands_dz() { return phys.highPtPFcands_dz(); }
   const vector<float> &weightsf_lepid_FS() { return phys.weightsf_lepid_FS(); }
-  const vector<float> &weightsf_lepconv_FS() { return phys.weightsf_lepconv_FS(); }
   const vector<int> &genTau_sourceId() { return phys.genTau_sourceId(); }
   const float &chpfcands_0013_phi() { return phys.chpfcands_0013_phi(); }
   const int &Flag_hcalLaserEventFilter() { return phys.Flag_hcalLaserEventFilter(); }
   const int &HLT_Photon165_R9Id90_HE10_IsoM() { return phys.HLT_Photon165_R9Id90_HE10_IsoM(); }
   const float &chpfcands_2430_pt() { return phys.chpfcands_2430_pt(); }
   const float &dphi_jj() { return phys.dphi_jj(); }
+  const int &nBJetLoose35_up() { return phys.nBJetLoose35_up(); }
   const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &jets_medb_p4() { return phys.jets_medb_p4(); }
   const vector<int> &gamma_mcMatchId() { return phys.gamma_mcMatchId(); }
   const float &nupfcands_1316_phi() { return phys.nupfcands_1316_phi(); }
@@ -7799,6 +8030,7 @@ namespace zmet2016 {
   const float &dphi_metj3_up() { return phys.dphi_metj3_up(); }
   const vector<int> &isotrack_pdgId() { return phys.isotrack_pdgId(); }
   const float &evt_kfactor() { return phys.evt_kfactor(); }
+  const int &nBJetMedium35_up() { return phys.nBJetMedium35_up(); }
   const int &HLT_CaloJet500_NoJetID() { return phys.HLT_CaloJet500_NoJetID(); }
   const vector<float> &lep_relIso03MRDB() { return phys.lep_relIso03MRDB(); }
   const int &ngenLepFromTau() { return phys.ngenLepFromTau(); }
@@ -7812,6 +8044,7 @@ namespace zmet2016 {
   const int &njets_dn() { return phys.njets_dn(); }
   const int &isr_njets() { return phys.isr_njets(); }
   const vector<float> &gamma_ecpfclusiso() { return phys.gamma_ecpfclusiso(); }
+  const float &weight_L1prefire_up() { return phys.weight_L1prefire_up(); }
   const float &phpfcands_30in_pt() { return phys.phpfcands_30in_pt(); }
   const int &HLT_Photon165_HE10() { return phys.HLT_Photon165_HE10(); }
   const float &nupfcands_0013_pt() { return phys.nupfcands_0013_pt(); }
@@ -7825,6 +8058,7 @@ namespace zmet2016 {
   const int &HLT_Mu37_TkMu27() { return phys.HLT_Mu37_TkMu27(); }
   const float &nupfcands_30in_sumet() { return phys.nupfcands_30in_sumet(); }
   const float &mjj_mindphi_up() { return phys.mjj_mindphi_up(); }
+  const int &nBJetLoose35_dn() { return phys.nBJetLoose35_dn(); }
   const float &mbb_bpt_up() { return phys.mbb_bpt_up(); }
   const vector<float> &genTau_pt() { return phys.genTau_pt(); }
   const int &Flag_noBadMuons() { return phys.Flag_noBadMuons(); }
@@ -7833,8 +8067,10 @@ namespace zmet2016 {
   const vector<float> &genPart_phi() { return phys.genPart_phi(); }
   const vector<float> &weightsf_lepiso() { return phys.weightsf_lepiso(); }
   const int &Flag_CSCTightHaloFilter() { return phys.Flag_CSCTightHaloFilter(); }
+  const int &nBJetLoose25_up() { return phys.nBJetLoose25_up(); }
   const int &HLT_Mu33_Ele33_CaloIdL_GsfTrkIdVL() { return phys.HLT_Mu33_Ele33_CaloIdL_GsfTrkIdVL(); }
   const vector<int> &lep_tightId() { return phys.lep_tightId(); }
+  const int &nBJetMedium25_up() { return phys.nBJetMedium25_up(); }
   const float &met_T1CHS_miniAOD_CORE_up_phi() { return phys.met_T1CHS_miniAOD_CORE_up_phi(); }
   const float &phpfcands_1624_sumet() { return phys.phpfcands_1624_sumet(); }
   const int &HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL() { return phys.HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL(); }
@@ -7867,11 +8103,11 @@ namespace zmet2016 {
   const int &Flag_globalTightHalo2016() { return phys.Flag_globalTightHalo2016(); }
   const int &mass_chi() { return phys.mass_chi(); }
   const vector<bool> &isotrack_isLostTrack() { return phys.isotrack_isLostTrack(); }
+  const int &nBJetMedium35() { return phys.nBJetMedium35(); }
   const int &nisoTrack_PFLep5_woverlaps() { return phys.nisoTrack_PFLep5_woverlaps(); }
-  const int &nBJetTight_up() { return phys.nBJetTight_up(); }
+  const int &nBJetTight25_up() { return phys.nBJetTight25_up(); }
   const vector<float> &gamma_neuHadIso() { return phys.gamma_neuHadIso(); }
   const int &Flag_badMuonFilter() { return phys.Flag_badMuonFilter(); }
-  const int &nBJetMedium_up() { return phys.nBJetMedium_up(); }
   const float &matched_emf() { return phys.matched_emf(); }
   const vector<float> &lep_dxy() { return phys.lep_dxy(); }
   const float &chpfcands_1316_pt() { return phys.chpfcands_1316_pt(); }
@@ -7888,7 +8124,8 @@ namespace zmet2016 {
   const float &metsig_unofficial_up() { return phys.metsig_unofficial_up(); }
   const float &rho25() { return phys.rho25(); }
   const int &nisoTrack_PFMu5_woverlaps() { return phys.nisoTrack_PFMu5_woverlaps(); }
-  const int &HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ() { return phys.HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ(); }
+  const float &chpfcands_1624_phi() { return phys.chpfcands_1624_phi(); }
+  const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &ak8jets_p4() { return phys.ak8jets_p4(); }
   const int &HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ() { return phys.HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ(); }
   const float &mt2b_up() { return phys.mt2b_up(); }
   const vector<int> &genLep_motherId() { return phys.genLep_motherId(); }
@@ -7906,6 +8143,7 @@ namespace zmet2016 {
   const float &phpfcands_1316_pt() { return phys.phpfcands_1316_pt(); }
   const float &dilmass() { return phys.dilmass(); }
   const float &isrboost() { return phys.isrboost(); }
+  const int &nBJetTight35_up() { return phys.nBJetTight35_up(); }
   const int &ngenTau() { return phys.ngenTau(); }
   const float &dphi_ll_dn() { return phys.dphi_ll_dn(); }
   const int &njets_up() { return phys.njets_up(); }
@@ -7917,7 +8155,7 @@ namespace zmet2016 {
   const float &chpfcands_30in_sumet() { return phys.chpfcands_30in_sumet(); }
   const int &nBadMuons20() { return phys.nBadMuons20(); }
   const int &HLT_DoubleEle25_CaloIdL_MW() { return phys.HLT_DoubleEle25_CaloIdL_MW(); }
-  const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &ak8jets_p4() { return phys.ak8jets_p4(); }
+  const int &HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ() { return phys.HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ(); }
   const int &HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ() { return phys.HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ(); }
   const float &nupfcands_1624_phi() { return phys.nupfcands_1624_phi(); }
   const vector<float> &gamma_r9() { return phys.gamma_r9(); }
@@ -7931,11 +8169,12 @@ namespace zmet2016 {
   const vector<float> &ak8jets_softDropMass() { return phys.ak8jets_softDropMass(); }
   const vector<float> &lep_eta() { return phys.lep_eta(); }
   const vector<int> &genPart_status() { return phys.genPart_status(); }
-  const int &nBJetLoose_up() { return phys.nBJetLoose_up(); }
+  const vector<float> &weightsf_lepconv_FS() { return phys.weightsf_lepconv_FS(); }
+  const int &nBJetMedium25_dn() { return phys.nBJetMedium25_dn(); }
   const float &puWeight() { return phys.puWeight(); }
   const float &met_pt() { return phys.met_pt(); }
   const float &weight_btagsf_light_UP() { return phys.weight_btagsf_light_UP(); }
-  const vector<float> &genLepFromTau_charge() { return phys.genLepFromTau_charge(); }
+  const int &HLT_DoubleEle33_CaloIdL_GsfTrkIdVL() { return phys.HLT_DoubleEle33_CaloIdL_GsfTrkIdVL(); }
   const float &nupfcands_0013_phi() { return phys.nupfcands_0013_phi(); }
   const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &lep_p4() { return phys.lep_p4(); }
   const vector<bool> &genLep_isp6status3() { return phys.genLep_isp6status3(); }
@@ -7944,6 +8183,7 @@ namespace zmet2016 {
   const vector<int> &genLep_status() { return phys.genLep_status(); }
   const vector<int> &gamma_genIsPromptFinalState() { return phys.gamma_genIsPromptFinalState(); }
   const float &mbb_csv() { return phys.mbb_csv(); }
+  const float &weight_L1prefire() { return phys.weight_L1prefire(); }
   const float &mbb_csv_dn() { return phys.mbb_csv_dn(); }
   const vector<float> &genLepFromTau_pt() { return phys.genLepFromTau_pt(); }
   const int &nGammas20() { return phys.nGammas20(); }
@@ -7960,7 +8200,6 @@ namespace zmet2016 {
   const vector<float> &genPart_charge() { return phys.genPart_charge(); }
   const float &met_miniaod_phi() { return phys.met_miniaod_phi(); }
   const vector<float> &jets_dn_csv() { return phys.jets_dn_csv(); }
-  const int &nBJetTight_dn() { return phys.nBJetTight_dn(); }
   const float &mt2b_genmet() { return phys.mt2b_genmet(); }
   const vector<float> &lep_mass() { return phys.lep_mass(); }
   const int &nisoTrack_PFHad10_woverlaps() { return phys.nisoTrack_PFHad10_woverlaps(); }
@@ -7977,7 +8216,7 @@ namespace zmet2016 {
   const vector<float> &genTau_eta() { return phys.genTau_eta(); }
   const float &nupfcands_2430_pt() { return phys.nupfcands_2430_pt(); }
   const vector<int> &genPart_motherId() { return phys.genPart_motherId(); }
-  const bool &HLT_Photon90_R9Id90_HE10_IsoM_matchedtophoton() { return phys.HLT_Photon90_R9Id90_HE10_IsoM_matchedtophoton(); }
+  const int &nBJetTight35() { return phys.nBJetTight35(); }
   const int &HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL() { return phys.HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL(); }
   const float &evt_xsec() { return phys.evt_xsec(); }
   const vector<int> &lep_convVeto() { return phys.lep_convVeto(); }
@@ -7992,7 +8231,6 @@ namespace zmet2016 {
   const bool &HLT_Photon75_R9Id90_HE10_IsoM_matchedtophoton() { return phys.HLT_Photon75_R9Id90_HE10_IsoM_matchedtophoton(); }
   const float &met_T1CHS_miniAOD_CORE_pt() { return phys.met_T1CHS_miniAOD_CORE_pt(); }
   const int &HLT_Photon50_R9Id90_HE10_IsoM() { return phys.HLT_Photon50_R9Id90_HE10_IsoM(); }
-  const int &nBJetMedium() { return phys.nBJetMedium(); }
   const float &dphi_jj_up() { return phys.dphi_jj_up(); }
   const vector<float> &gamma_chHadIso() { return phys.gamma_chHadIso(); }
   const int &nTrueInt() { return phys.nTrueInt(); }
@@ -8004,10 +8242,9 @@ namespace zmet2016 {
   const float &chpfcands_1624_sumet() { return phys.chpfcands_1624_sumet(); }
   const int &HLT_Photon200() { return phys.HLT_Photon200(); }
   const int &HLT_Ele17_Ele12_CaloIdL_TrackIdL_IsoVL_DZ() { return phys.HLT_Ele17_Ele12_CaloIdL_TrackIdL_IsoVL_DZ(); }
-  const float &evt_filter() { return phys.evt_filter(); }
+  const int &HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL() { return phys.HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL(); }
   const int &hyp_type() { return phys.hyp_type(); }
   const vector<int> &genLep_sourceId() { return phys.genLep_sourceId(); }
-  const int &nBJetLoose_dn() { return phys.nBJetLoose_dn(); }
   const int &nElectrons10() { return phys.nElectrons10(); }
   const float &mt2() { return phys.mt2(); }
   const float &dphi_ll_up() { return phys.dphi_ll_up(); }
@@ -8015,6 +8252,7 @@ namespace zmet2016 {
   const int &HLT_Photon90_R9Id90_HE10_IsoM() { return phys.HLT_Photon90_R9Id90_HE10_IsoM(); }
   const float &ht() { return phys.ht(); }
   const float &met_T1CHS_fromCORE_phi() { return phys.met_T1CHS_fromCORE_phi(); }
+  const int &nBJetTight35_dn() { return phys.nBJetTight35_dn(); }
   const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &highPtPFcands_p4() { return phys.highPtPFcands_p4(); }
   const float &nupfcands_30in_pt() { return phys.nupfcands_30in_pt(); }
   const int &isData() { return phys.isData(); }
@@ -8046,8 +8284,9 @@ namespace zmet2016 {
   const int &nVert() { return phys.nVert(); }
   const vector<float> &gamma_hOverE() { return phys.gamma_hOverE(); }
   const vector<float> &genPart_eta() { return phys.genPart_eta(); }
-  const int &HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL() { return phys.HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL(); }
+  const float &evt_filter() { return phys.evt_filter(); }
   const int &Flag_duplicateMuons() { return phys.Flag_duplicateMuons(); }
+  const bool &HLT_Photon90_R9Id90_HE10_IsoM_matchedtophoton() { return phys.HLT_Photon90_R9Id90_HE10_IsoM_matchedtophoton(); }
   const float &sumet_raw() { return phys.sumet_raw(); }
   const int &Flag_CSCTightHalo2015Filter() { return phys.Flag_CSCTightHalo2015Filter(); }
 }
