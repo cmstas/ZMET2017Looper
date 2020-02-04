@@ -641,7 +641,7 @@ int ZMETLooper::hasGoodZ(){
 
     //cout<<__LINE__<<endl;
 
-    if( phys.dRll() < 0.1)   {
+    if( phys.dRll() < 0.4)   {
       numEvents->Fill(19);
       if (printFail) cout<<phys.evt()<<" :Failed deltaR Z cut"<<endl;
       return -1;
@@ -3789,7 +3789,8 @@ void ZMETLooper::fillCommonHists(std::string prefix)
     fill1DHistograms(prefix+"nVert",phys.nVert(),weight,allHistos,"",150,0,150,rootdir);
     fill1DHistograms(prefix+"nlep",phys.nlep(),weight,allHistos,"",20,0,20,rootdir);
     fill1DHistograms(prefix+"nisotrack",phys.nisoTrack_mt2(),weight,allHistos,"",20,0,20,rootdir);
-
+    
+    fill1DHistograms(prefix+"dRll",phys.dRll(),weight,allHistos,"",1000,0,10,rootdir);
     if (g_mt2 != 0 )
     {
         fill1DHistograms(prefix+"mt2",g_mt2,weight,allHistos,"",1000,0,1000,rootdir);
