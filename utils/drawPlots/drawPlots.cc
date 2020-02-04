@@ -343,8 +343,8 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
     else if(i == 6)
     {
         TH1D* template_hist = (TH1D*) (combine_histograms(hist_files[i],hist_names[i],i,plot_name,SR));
-        TFile *noEWKHistFile = new TFile((conf->get("EWK_hist_location")+"/GammaData_NoEWKSub.root").c_str());
-        TH1D* noEWKHist = (TH1D*)(noEWKHistFile->Get(hist_names[i][0]))->Clone("noEWKHist");
+        TFile *noEWKHistFile = new TFile((conf->get("EWK_hist_location")+"/GammaData.root").c_str());
+        TH1D* noEWKHist = (TH1D*)(noEWKHistFile->Get(SR+hist_names[i][0]))->Clone("noEWKHist");
 
         TH1D *EWK_component = (TH1D*)template_hist->Clone("EWK_component");
         EWK_component->Scale(-1);
