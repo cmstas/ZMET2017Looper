@@ -529,18 +529,25 @@ void printErrors(const vector<double> &temp_err, const vector<double> &rare_err,
   cout<<endl;
 }
 
-TGraphAsymmErrors* getErrorTGraph(const vector<double> &temp_count, const vector<double> &temp_err, const vector<double> &rare_count, const vector<double> &rare_err, const vector<double> &fs_count, const pair<vector<double>,vector<double>> &fs_err, const vector<pair<double,double>> &bin_low, const vector<double> &data_count, double RSFOF /*Really just the scale factor*/){
+TGraphAsymmErrors* getErrorTGraph(const vector<double> &temp_count, const vector<double> &temp_err, const vector<double> &rare_count, const vector<double> &rare_err, const vector<double> &fs_count, const pair<vector<double>,vector<double>> &fs_err, const vector<pair<double,double>> &bin_low, const vector<double> &data_count, double RSFOF /*Really just the scale factor*/, bool ratioError){
   Double_t bin_sum[temp_err.size()];
   Double_t bin_err_high[temp_err.size()];
   Double_t bin_err_low[temp_err.size()];
   Double_t bin_width[temp_err.size()];
   Double_t bin_left[temp_err.size()];
   Double_t zeros[temp_err.size()];
+  Double_t ratio[temp_err.size()]; //array of 1s
 
   for (size_t i = 0; i<temp_err.size(); i++){
     bin_sum[i] = temp_count[i]+RSFOF*fs_count[i]+rare_count[i];
     bin_err_high[i] = sqrt(temp_err[i]*temp_err[i]+rare_err[i]*rare_err[i]+fs_err.first[i]*fs_err.first[i]);
     bin_err_low[i] = sqrt(temp_err[i]*temp_err[i]+rare_err[i]*rare_err[i]+fs_err.second[i]*fs_err.second[i]);
+    if(ratioError)
+    {
+        bin_err_high[i] /= bin_sum[i];
+        bin_err_low[i] /= bin_sum[i];
+    }
+    ratio[i] = 1.0;
 
     bin_left[i] = bin_low[i].first; //left bin so that all centers are in plot for sure.
     bin_width[i] = bin_low[i].second - bin_low[i].first; //high bin edge - low bin edge
@@ -548,11 +555,22 @@ TGraphAsymmErrors* getErrorTGraph(const vector<double> &temp_count, const vector
   }
 
   //TGraphAsymmErrors(num bins, x centers, y centers, x low width, x high width, y low width, y high width);
-  TGraphAsymmErrors* errs = new TGraphAsymmErrors(temp_err.size(), bin_left, bin_sum, zeros, bin_width, bin_err_low, bin_err_high);
+  TGraphAsymmErrors* errs;
+  if(ratioError)
+  {
+      errs = new TGraphAsymmErrors(temp_err.size(), bin_left, bin_sum, zeros, bin_width, bin_err_low, bin_err_high);
+  }
+  else
+  {
+     errs = new TGraphAsymmErrors(temp_err.size(), bin_left, ratio, zeros, bin_width, bin_err_low, bin_err_high);
+ 
+  }
 
   return errs;
 
 }
+
+
 
 void printCounts(const vector<double> &temp_count, const vector<double> &temp_err, const vector<double> &rare_count, const vector<double> &rare_err, const vector<double> &fs_count, const pair<vector<double>,vector<double>> &fs_err, const vector<pair<double,double>> &bin_low, const vector<double> &data_count, double RSFOF /*Really just the scale factor*/){
   cout<<"STATTABLE: Sample ";

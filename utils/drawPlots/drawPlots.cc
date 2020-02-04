@@ -215,6 +215,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
   //num_hists should be the number of the number of histograms in the plot.
   TString errors="";
   TGraphAsymmErrors *prediction_errors;
+  TGraphAsymmErrors *ratio_errors;
 
   int num_hists=stoi(conf->get("num_hists"));
   int BG_sum_from=(conf->get("BG_sum_from") != "") ? stoi(conf->get("BG_sum_from")) : 1;
@@ -1051,6 +1052,8 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
         printLatexCounts(template_count, temp_err, rare_count, rare_err, FS_count, FS_err, stats_bins, signal_count, stod(conf->get("hist_5_scale")));
       }
       prediction_errors = getErrorTGraph(template_count, temp_err, rare_count, rare_err, FS_count, FS_err, stats_bins, signal_count, stod(conf->get("hist_5_scale")));
+      ratio_errors = getErrorTGraph(template_count, temp_err, rare_count, rare_err, FS_count, FS_err, stats_bins, signal_count, stod(conf->get("hist_5_scale")),true);
+  
       //cout<<__LINE__<<endl;
 
       for (int i=0; i < num_hists; i++){
@@ -1258,6 +1261,15 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
   // Fill in Residual Plot
   //--------------------------
 
+  TH1D* bg_sum_clone = (TH1D*)bg_sum->Clone("bg_sum_clone");
+
+
+  //set background errors to zero for the ratio. Background errors will be included
+  //in the systematic errors
+  for(int i = 1; i<= bg_sum_clone->GetNbinsX(); i++ )
+  {
+      bg_sum_clone->SetBinError(i,0);
+  }
   cout<<"Getting ready for residual plots"<<endl;
   fullpad->cd();
 //  TPad *ratiopad = new TPad("ratiopad", "ratiopad" ,0.,0.,1,0.21);
@@ -1269,17 +1281,15 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
   ratiopad->SetGridy();  // doesn't actually appear for some reason..
   ratiopad->Draw();
   ratiopad->cd();
-  //cout<<__LINE__<<endl;
+  ratio_errors->SetFillStyle(1001);
+  ratio_errors->SetFillColorAlpha(kGray+3,0.4);
 
   TH1D* residual = (TH1D*) hists[0]->Clone("residual");
-  residual->Divide(bg_sum);
+  //Set bg sum errors to zero
+  
+  residual->Divide(bg_sum_clone);
   //cout<<__LINE__<<endl;
-  //cout<<"Fixing error bars"<<endl;
-  //for (int count=1; count<=mc_sum->GetNbinsX(); count++){
-  //  double relative_error = (mc_sum->GetBinError(count))/ (mc_sum->GetBinContent(count));
-  //  residual->SetBinError(count, residual->GetBinContent(count)*relative_error);
-  //}
-
+  
   cout<<"Building axes"<<endl;
   TH1D* h_axis_ratio = new TH1D(Form("%s_residual_axes",plot_name.Data()),"",residual->GetNbinsX(),xmin,xmax);
   //cout<<__LINE__<<endl;
@@ -1335,6 +1345,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
   line1->Draw("same");
   //cout<<__LINE__<<endl;
   residual->Draw("same PE e0 x0 e1 p0");
+  ratio_errors->Draw("SAME 2");
   //cout<<__LINE__<<endl;
   c->Update();
   //cout<<__LINE__<<endl;

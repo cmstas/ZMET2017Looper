@@ -28,7 +28,7 @@ std::vector<double> getRareSamplesError(const std::vector<double> &stat_err, con
 
 void printErrors(const std::vector<double> &temp_err, const std::vector<double> &rare_err, const std::pair<std::vector<double>, std::vector<double>> &fs_err, const std::vector<double> &bin_low);
 
-TGraphAsymmErrors* getErrorTGraph(const std::vector<double> &temp_count, const std::vector<double> &temp_err, const std::vector<double> &rare_count, const std::vector<double> &rare_err, const std::vector<double> &fs_count, const std::pair<std::vector<double>,std::vector<double>> &fs_err, const std::vector<std::pair<double,double>> &bin_low, const std::vector<double> &data_count, double RSFOF /*Really just the scale factor*/);
+TGraphAsymmErrors* getErrorTGraph(const std::vector<double> &temp_count, const std::vector<double> &temp_err, const std::vector<double> &rare_count, const std::vector<double> &rare_err, const std::vector<double> &fs_count, const std::pair<std::vector<double>,std::vector<double>> &fs_err, const std::vector<std::pair<double,double>> &bin_low, const std::vector<double> &data_count, double RSFOF /*Really just the scale factor*/,bool ratioError=false);
 
 void printCounts(const std::vector<double> &temp_count, const std::vector<double> &temp_err, const std::vector<double> &rare_count, const std::vector<double> &rare_err, const std::vector<double> &fs_count, const std::pair<std::vector<double>,std::vector<double>> &fs_err, const std::vector<std::pair<double,double>> &bin_low, const std::vector<double> &data_count, double RSFOF /*Really just the scale factor*/);
 
