@@ -3118,7 +3118,7 @@ int ZMETLooper::ScanChain( TChain* chain, ConfigParser *configuration, bool fast
       }
 
       //HEM1516 issue
-      if(g_year == 2018 && ((phys.isData() && phys.run() >= 319077) || (!phys.isData() && phys.evt() % HEM_fracDen < HEM_fracNum )))
+      if(g_year == 2018 && ((phys.isData() && phys.run() >= 319077) || (!phys.isData() && event % HEM_fracDen < HEM_fracNum )))
       {
           if(!passHEM1516Veto())
           {
