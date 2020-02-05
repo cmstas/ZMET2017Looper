@@ -4127,7 +4127,7 @@ double ZMETLooper::tau21WP()
 {
     if(g_year == 2016)
     {
-        return 0.35;
+        return 0.55;
     }
     else if(g_year == 2017)
     {
@@ -4135,8 +4135,7 @@ double ZMETLooper::tau21WP()
     }
     else if(g_year == 2018)
     {
-        return 0.35; //suggestion 1
-        //return 0.45;
+        return 0.45;
     }
     else return 0.6;
 }
@@ -4147,8 +4146,8 @@ double ZMETLooper::fatJetScaleFactor(int mode)
 
     if(g_year == 2016)
     {
-        central_value = 0.99;
-        uncertainty = 0.11;
+        central_value = 1.03;
+        uncertainty = 0.14;
     }
     else if(g_year == 2017)
     {
@@ -4157,14 +4156,9 @@ double ZMETLooper::fatJetScaleFactor(int mode)
     }
     else if(g_year == 2018)
     {
-        //tau21 < 0.35
-        central_value = 0.964;
-        uncertainty = 0.032;
 
-        //tau21 < 0.45
-        //central_value = 0.980;
-        //uncertainty = 0.275;
-
+        central_value = 0.980;
+        uncertainty = 0.027;
     }
     else
     {
