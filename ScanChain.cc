@@ -1215,7 +1215,7 @@ double ZMETLooper::getWeight(TString SR){
 
   //
   //Fat jet stuff
-  double_fatjet_scale_factor = 1.0;
+  double fatjet_scale_factor = 1.0;
   int nGoodFatJets = 0;
   if(g_fatjet_indices.size() > 0 || g_fatjet_validation_indices.size() > 0)
   {
@@ -1693,7 +1693,7 @@ bool ZMETLooper::passSRVZBoostedCuts()
 
     for(size_t iJet = 0; iJet < phys.ak8jets_p4().size(); iJet++)
     {
-      if(phys.ak8jets_tau2().at(iJet)/phys.ak8jets_tau1().at(iJet) > gettau21WP())
+      if(phys.ak8jets_tau2().at(iJet)/phys.ak8jets_tau1().at(iJet) > tau21WP())
       {
         continue;
       }
@@ -4069,7 +4069,7 @@ bool ZMETLooper::passHEM1516Veto()
     //tight electrons
     for(size_t i = 0; i < phys.loose_lep_p4().size(); i++)
     {
-        if(abs(phys.loose_lep_pdgId().at(i)) == 11)
+        if(abs(phys.loose_lep_pdgid().at(i)) == 11)
         {
             if((phys.loose_lep_p4().at(i).eta() > eta_low && phys.loose_lep_p4().at(i).eta() < eta_high) && (phys.loose_lep_p4().at(i).phi() > phi_low && phys.loose_lep_p4().at(i).phi() < phi_high))
             {
@@ -4081,7 +4081,7 @@ bool ZMETLooper::passHEM1516Veto()
     //jets
     for(size_t i = 0; i < phys.jets_p4_wide_eta().size(); i++)
     {
-            if((phys.jets_p4_wide_eta().at(i).eta() > eta_low && phys.jets_p4_wide_eta().at(i).eta() < eta_high) && (phys.jets_p4()_wide_eta.at(i).phi() > phi_low && phys.jets_p4_wide_eta().at(i).phi() < phi_high))
+            if((phys.jets_p4_wide_eta().at(i).eta() > eta_low && phys.jets_p4_wide_eta().at(i).eta() < eta_high) && (phys.jets_p4_wide_eta().at(i).phi() > phi_low && phys.jets_p4_wide_eta().at(i).phi() < phi_high))
             {
                 return false;
             }
@@ -4129,6 +4129,7 @@ double ZMETLooper::tau21WP()
         return 0.35; //suggestion 1
         //return 0.45;
     }
+    else return 0.6;
 }
 
 double ZMETLooper::fatJetScaleFactor(int mode)
