@@ -13,7 +13,7 @@
 #include <unistd.h>
 typedef ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > LorentzVector;
 
-// Generated with file: /hadoop/cms/store/user/bsathian/ZMET_babies_20200203/TTZToLLNuNu_M-10_TuneCUETP8M1_13TeV-amcatnlo-pythia8_RunIISummer16MiniAODv3-PUMoriond17_94X_mcRun2_asymptotic_v3_ext2-v1_MINIAODSIM_ZMET_babies/baby_1.root
+// Generated with file: /nfs-7/userdata/bsathian/ZMET_babies_20200204/DYJetsToLL_M-50_TuneCP5_13TeV-amcatnloFXFX-pythia8_RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_mc2017_realistic_v14_ext1-v1_MINIAODSIM_ZMET_babies/baby_23.root
 
 using namespace std;
 class ZMET2016 {
@@ -179,9 +179,9 @@ protected:
   float met_T1CHS_fromCORE_pt_;
   TBranch *met_T1CHS_fromCORE_pt_branch;
   bool met_T1CHS_fromCORE_pt_isLoaded;
-  float sum_mlb_dn_;
-  TBranch *sum_mlb_dn_branch;
-  bool sum_mlb_dn_isLoaded;
+  float chpfcands_1624_pt_;
+  TBranch *chpfcands_1624_pt_branch;
+  bool chpfcands_1624_pt_isLoaded;
   vector<float> *genPart_mass_;
   TBranch *genPart_mass_branch;
   bool genPart_mass_isLoaded;
@@ -269,9 +269,15 @@ protected:
   float nupfcands_2430_sumet_;
   TBranch *nupfcands_2430_sumet_branch;
   bool nupfcands_2430_sumet_isLoaded;
+  vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > *loose_lep_p4_;
+  TBranch *loose_lep_p4_branch;
+  bool loose_lep_p4_isLoaded;
   int HLT_singleMu_;
   TBranch *HLT_singleMu_branch;
   bool HLT_singleMu_isLoaded;
+  vector<int> *loose_lep_pdgid_;
+  TBranch *loose_lep_pdgid_branch;
+  bool loose_lep_pdgid_isLoaded;
   float mt2_genmet_;
   TBranch *mt2_genmet_branch;
   bool mt2_genmet_isLoaded;
@@ -935,6 +941,9 @@ protected:
   vector<int> *genLep_status_;
   TBranch *genLep_status_branch;
   bool genLep_status_isLoaded;
+  float chpfcands_1316_sumet_;
+  TBranch *chpfcands_1316_sumet_branch;
+  bool chpfcands_1316_sumet_isLoaded;
   vector<int> *gamma_genIsPromptFinalState_;
   TBranch *gamma_genIsPromptFinalState_branch;
   bool gamma_genIsPromptFinalState_isLoaded;
@@ -992,6 +1001,9 @@ protected:
   vector<float> *jets_dn_csv_;
   TBranch *jets_dn_csv_branch;
   bool jets_dn_csv_isLoaded;
+  vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > *jets_p4_wide_eta_;
+  TBranch *jets_p4_wide_eta_branch;
+  bool jets_p4_wide_eta_isLoaded;
   float mt2b_genmet_;
   TBranch *mt2b_genmet_branch;
   bool mt2b_genmet_isLoaded;
@@ -1058,15 +1070,15 @@ protected:
   vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > *jets_up_p4_;
   TBranch *jets_up_p4_branch;
   bool jets_up_p4_isLoaded;
-  float chpfcands_1316_sumet_;
-  TBranch *chpfcands_1316_sumet_branch;
-  bool chpfcands_1316_sumet_isLoaded;
+  vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > *ak8jets_p4_wide_eta_;
+  TBranch *ak8jets_p4_wide_eta_branch;
+  bool ak8jets_p4_wide_eta_isLoaded;
   int run_;
   TBranch *run_branch;
   bool run_isLoaded;
-  float chpfcands_1624_pt_;
-  TBranch *chpfcands_1624_pt_branch;
-  bool chpfcands_1624_pt_isLoaded;
+  float sum_mlb_dn_;
+  TBranch *sum_mlb_dn_branch;
+  bool sum_mlb_dn_isLoaded;
   vector<int> *genLepFromTau_pdgId_;
   TBranch *genLepFromTau_pdgId_branch;
   bool genLepFromTau_pdgId_isLoaded;
@@ -1316,7 +1328,7 @@ public:
   const float &phpfcands_30in_sumet();
   const vector<float> &lep_phi();
   const float &met_T1CHS_fromCORE_pt();
-  const float &sum_mlb_dn();
+  const float &chpfcands_1624_pt();
   const vector<float> &genPart_mass();
   const bool &HLT_Photon120_R9Id90_HE10_IsoM_matchedtophoton();
   const vector<float> &genLepFromTau_charge();
@@ -1346,7 +1358,9 @@ public:
   const bool &HLT_Photon165_R9Id90_HE10_IsoM_matchedtophoton();
   const float &met_T1CHS_miniAOD_CORE_phi();
   const float &nupfcands_2430_sumet();
+  const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &loose_lep_p4();
   const int &HLT_singleMu();
+  const vector<int> &loose_lep_pdgid();
   const float &mt2_genmet();
   const float &phpfcands_30in_phi();
   const float &nupfcands_1624_sumet();
@@ -1568,6 +1582,7 @@ public:
   const vector<float> &weightsf_lepiso_FS();
   const float &mbb_bpt();
   const vector<int> &genLep_status();
+  const float &chpfcands_1316_sumet();
   const vector<int> &gamma_genIsPromptFinalState();
   const float &mbb_csv();
   const float &weight_L1prefire();
@@ -1587,6 +1602,7 @@ public:
   const vector<float> &genPart_charge();
   const float &met_miniaod_phi();
   const vector<float> &jets_dn_csv();
+  const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &jets_p4_wide_eta();
   const float &mt2b_genmet();
   const vector<float> &lep_mass();
   const int &nisoTrack_PFHad10_woverlaps();
@@ -1609,9 +1625,9 @@ public:
   const vector<int> &lep_convVeto();
   const vector<float> &lep_validfraction();
   const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &jets_up_p4();
-  const float &chpfcands_1316_sumet();
+  const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &ak8jets_p4_wide_eta();
   const int &run();
-  const float &chpfcands_1624_pt();
+  const float &sum_mlb_dn();
   const vector<int> &genLepFromTau_pdgId();
   const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &jets_medb_up_p4();
   const vector<float> &gamma_hcpfclusiso();
@@ -1738,7 +1754,7 @@ namespace zmet2016 {
   const float &phpfcands_30in_sumet();
   const vector<float> &lep_phi();
   const float &met_T1CHS_fromCORE_pt();
-  const float &sum_mlb_dn();
+  const float &chpfcands_1624_pt();
   const vector<float> &genPart_mass();
   const bool &HLT_Photon120_R9Id90_HE10_IsoM_matchedtophoton();
   const vector<float> &genLepFromTau_charge();
@@ -1768,7 +1784,9 @@ namespace zmet2016 {
   const bool &HLT_Photon165_R9Id90_HE10_IsoM_matchedtophoton();
   const float &met_T1CHS_miniAOD_CORE_phi();
   const float &nupfcands_2430_sumet();
+  const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &loose_lep_p4();
   const int &HLT_singleMu();
+  const vector<int> &loose_lep_pdgid();
   const float &mt2_genmet();
   const float &phpfcands_30in_phi();
   const float &nupfcands_1624_sumet();
@@ -1990,6 +2008,7 @@ namespace zmet2016 {
   const vector<float> &weightsf_lepiso_FS();
   const float &mbb_bpt();
   const vector<int> &genLep_status();
+  const float &chpfcands_1316_sumet();
   const vector<int> &gamma_genIsPromptFinalState();
   const float &mbb_csv();
   const float &weight_L1prefire();
@@ -2009,6 +2028,7 @@ namespace zmet2016 {
   const vector<float> &genPart_charge();
   const float &met_miniaod_phi();
   const vector<float> &jets_dn_csv();
+  const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &jets_p4_wide_eta();
   const float &mt2b_genmet();
   const vector<float> &lep_mass();
   const int &nisoTrack_PFHad10_woverlaps();
@@ -2031,9 +2051,9 @@ namespace zmet2016 {
   const vector<int> &lep_convVeto();
   const vector<float> &lep_validfraction();
   const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &jets_up_p4();
-  const float &chpfcands_1316_sumet();
+  const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &ak8jets_p4_wide_eta();
   const int &run();
-  const float &chpfcands_1624_pt();
+  const float &sum_mlb_dn();
   const vector<int> &genLepFromTau_pdgId();
   const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &jets_medb_up_p4();
   const vector<float> &gamma_hcpfclusiso();
