@@ -1213,8 +1213,23 @@ double ZMETLooper::getWeight(TString SR){
   }
 
 
+  //
+  //Fat jet stuff
+  double_fatjet_scale_factor = 1.0;
+  int nGoodFatJets = 0;
+  if(g_fatjet_indices.size() > 0 || g_fatjet_validation_indices.size() > 0)
+  {
+      nGoodFatJets = g_fatjet_indices.size() > 0 ? g_fatjet_indices.size() : g_fatjet_validation_indices.size();
+      fatjet_scale_factor *= fatJetScaleFactor() * nGoodFatJets;
+
+  }
+  
+  weight *= fatjet_scale_factor;
   return weight;
 }
+
+
+
 
 double ZMETLooper::computeRsfof(int unc_mode)
 {
@@ -1678,7 +1693,7 @@ bool ZMETLooper::passSRVZBoostedCuts()
 
     for(size_t iJet = 0; iJet < phys.ak8jets_p4().size(); iJet++)
     {
-      if(phys.ak8jets_tau2().at(iJet)/phys.ak8jets_tau1().at(iJet) > 0.6)
+      if(phys.ak8jets_tau2().at(iJet)/phys.ak8jets_tau1().at(iJet) > gettau21WP())
       {
         continue;
       }
@@ -1720,7 +1735,7 @@ bool ZMETLooper::passVRWZBoostedCuts()
     }
     for(size_t iJet = 0; iJet < phys.ak8jets_p4().size(); iJet++)
     {
-      if(phys.ak8jets_tau2().at(iJet)/phys.ak8jets_tau1().at(iJet) > 0.6)
+      if(phys.ak8jets_tau2().at(iJet)/phys.ak8jets_tau1().at(iJet) > tau21WP())
       {
         continue;
       }
@@ -3842,14 +3857,21 @@ void ZMETLooper::fillMassWindowHistograms(std::string prefix)
 
 void ZMETLooper::fillBoostedHists(std::vector<size_t> g_fatjet_indices,std::string prefix)
 {
-      fill1DHistograms(prefix+"nFatJets",phys.nFatJets(),weight,allHistos,"",50,0,50,rootdir);
-      for(auto &iJet:g_fatjet_indices)
-      {
-          if(phys.ak8jets_tau2().at(iJet) != 0 && phys.ak8jets_tau1().at(iJet) != 0)
-          {
-              fill1DHistograms(prefix+"tau21",phys.ak8jets_tau2().at(iJet)/phys.ak8jets_tau1().at(iJet),weight,allHistos,"",1000,0,10,rootdir);
 
-          }
+    //tau21 up and down variation MET histogram
+    double tau21_weight_up = weight * fatJetScaleFactor(1);
+    double tau21_weight_down = weight * fatJetScaleFactor(-1);
+    fill1DHistograms(prefix+"type1MET_tau21_up",g_met,tau21_weight_up,allHistos,"",6000,0,6000,rootdir);
+    fill1DHistograms(prefix+"type1MET_tau21_down",g_met,tau21_weight_down,allHistos,"",6000,0,6000,rootdir);
+
+    fill1DHistograms(prefix+"nFatJets",phys.nFatJets(),weight,allHistos,"",50,0,50,rootdir);
+    for(auto &iJet:g_fatjet_indices)
+    {
+        if(phys.ak8jets_tau2().at(iJet) != 0 && phys.ak8jets_tau1().at(iJet) != 0)
+        {
+            fill1DHistograms(prefix+"tau21",phys.ak8jets_tau2().at(iJet)/phys.ak8jets_tau1().at(iJet),weight,allHistos,"",1000,0,10,rootdir);
+
+        }
     }
     for(auto &iJet:g_fatjet_indices)
     {
@@ -4045,11 +4067,11 @@ bool ZMETLooper::passHEM1516Veto()
     float phi_low = -1.6;
     float phi_high = -0.8;
     //tight electrons
-    for(size_t i = 0; i < phys.lep_p4().size(); i++)
+    for(size_t i = 0; i < phys.loose_lep_p4().size(); i++)
     {
-        if(abs(phys.lep_pdgId().at(i)) == 11)
+        if(abs(phys.loose_lep_pdgId().at(i)) == 11)
         {
-            if((phys.lep_p4().at(i).eta() > eta_low && phys.lep_p4().at(i).eta() < eta_high) && (phys.lep_p4().at(i).phi() > phi_low && phys.lep_p4().at(i).phi() < phi_high))
+            if((phys.loose_lep_p4().at(i).eta() > eta_low && phys.loose_lep_p4().at(i).eta() < eta_high) && (phys.loose_lep_p4().at(i).phi() > phi_low && phys.loose_lep_p4().at(i).phi() < phi_high))
             {
                 return false;
             }
@@ -4057,9 +4079,9 @@ bool ZMETLooper::passHEM1516Veto()
     }
 
     //jets
-    for(size_t i = 0; i < phys.jets_p4().size(); i++)
+    for(size_t i = 0; i < phys.jets_p4_wide_eta().size(); i++)
     {
-            if((phys.jets_p4().at(i).eta() > eta_low && phys.jets_p4().at(i).eta() < eta_high) && (phys.jets_p4().at(i).phi() > phi_low && phys.jets_p4().at(i).phi() < phi_high))
+            if((phys.jets_p4_wide_eta().at(i).eta() > eta_low && phys.jets_p4_wide_eta().at(i).eta() < eta_high) && (phys.jets_p4()_wide_eta.at(i).phi() > phi_low && phys.jets_p4_wide_eta().at(i).phi() < phi_high))
             {
                 return false;
             }
@@ -4067,9 +4089,9 @@ bool ZMETLooper::passHEM1516Veto()
     }
 
     //fatjets
-    for(size_t i = 0; i < phys.ak8jets_p4().size(); i++)
+    for(size_t i = 0; i < phys.ak8jets_p4_wide_eta().size(); i++)
     {
-        if((phys.ak8jets_p4().at(i).eta() > eta_low && phys.ak8jets_p4().at(i).eta() < eta_high) && (phys.ak8jets_p4().at(i).phi() > phi_low && phys.ak8jets_p4().at(i).phi() < phi_high))
+        if((phys.ak8jets_p4_wide_eta().at(i).eta() > eta_low && phys.ak8jets_p4_wide_eta().at(i).eta() < eta_high) && (phys.ak8jets_p4_wide_eta().at(i).phi() > phi_low && phys.ak8jets_p4_wide_eta().at(i).phi() < phi_high))
             {
                 return false;
             }
@@ -4087,4 +4109,70 @@ bool ZMETLooper::passHEM1516Veto()
 
     return true;
 } 
+
+
+//Taken from here : https://twiki.cern.ch/twiki/bin/view/CMS/JetWtagging#Recommendations_for_13_TeV_data
+//
+//one for every fat jet found!
+double ZMETLooper::tau21WP()
+{
+    if(g_year == 2016)
+    {
+        return 0.35;
+    }
+    else if(g_year == 2017)
+    {
+        return 0.45;
+    }
+    else if(g_year == 2018)
+    {
+        return 0.35; //suggestion 1
+        //return 0.45;
+    }
+}
+
+double ZMETLooper::fatJetScaleFactor(int mode)
+{
+    double central_value, uncertainty;
+
+    if(g_year == 2016)
+    {
+        central_value = 0.99;
+        uncertainty = 0.11;
+    }
+    else if(g_year == 2017)
+    {
+        central_value = 0.97;
+        uncertainty = 0.06;
+    }
+    else if(g_year == 2018)
+    {
+        //tau21 < 0.35
+        central_value = 0.964;
+        uncertainty = 0.032;
+
+        //tau21 < 0.45
+        //central_value = 0.980;
+        //uncertainty = 0.275;
+
+    }
+    else
+    {
+        cout<<"Wrong year!"<<endl;
+        return 1.0;
+    }
+
+    //Fancy shit because I want to show off
+    //mode : 0->central, 1 -> vary up, -1 -> vary down
+    if(mode == 1)
+    {
+        return 1 + uncertainty/central_value;
+    }
+    else if(mode == -1)
+    {
+        return 1 - uncertainty/central_value;
+    }
+    else return central_value;
+
+}
 
