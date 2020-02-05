@@ -19,7 +19,7 @@ void fill2DHistograms(std::string name,float xval, float yval, double weight, st
 void fill2DHistograms(std::string name,float xval, float yval, double weight, std::unordered_map<std::string, TH2*> &all2DHistos, const char *title, int nbinsx, const double *xbins, int nbinsy, const double *ybins, TDirectory *rootdir);
 void fill2DHistograms(std::string name,float xval, float yval, double weight, std::unordered_map<std::string, TH2*> &all2DHistos, const char *title, int nbinsx, double xmin, double xmax, int nbinsy, const double *ybins, TDirectory *rootdir);
 void fill3DHistograms(std::string name, float xval, float yval, float zval, double weight, std::unordered_map<std::string,TH3*> &all3DHistos, const char *title, int nbinsx, const double *xbins, int nbinsy, const double *ybins, int nbinsz, const double *zbins, TDirectory *rootdir);
-
+void fill3DHistograms(std::string name, float xval, float yval, float zval, double weight, std::unordered_map<std::string,TH3*> &all3DHistos, const char *title, int nbinsx, double xbinlow, double xbinhigh, int nbinsy, const double *ybins, int nbinsz, const double *zbins, TDirectory *rootdir);
 
 
 #endif

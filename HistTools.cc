@@ -1,4 +1,4 @@
-# include "HistTools.h"
+#include "HistTools.h"
 
 void fill1DHistograms(std::string name, float xval, double weight, std::unordered_map<std::string,TH1*> &allHistos,const char *title, int nbins, double xmin, double xmax,TDirectory *rootdir)
 {
@@ -98,6 +98,23 @@ void fill3DHistograms(std::string name, float xval, float yval, float zval, doub
     all3DHistos[name]->Fill(xval,yval,zval,weight);
 }
 
+
+void fill3DHistograms(std::string name, float xval, float yval, float zval, double weight, std::unordered_map<std::string,TH3*> &all3DHistos, const char *title, int nbinsx, double xbinlow,double xbinhigh, int nbinsy, const double *ybins, int nbinsz, const double *zbins, TDirectory *rootdir)
+{
+
+    if(strcmp(title,"") == 0)
+        title = name.c_str();
+    std::vector<double> xbins;
+    for(int i = 1; i<= nbinsx+1; i++)
+        xbins.push_back(xbinlow + i * (xbinhigh - xbinlow)/nbinsx);
+    if(all3DHistos[name] == nullptr)
+    {
+        all3DHistos[name] =  new TH3D(name.c_str(), title,nbinsx,xbins.data(),nbinsy,ybins,nbinsz,zbins);
+        all3DHistos[name]->SetDirectory(rootdir);
+        all3DHistos[name]->Sumw2();
+    }
+    all3DHistos[name]->Fill(xval,yval,zval,weight);
+}
 
 void updateOverUnderflow( TH1D * &hist, double xmax, double xmin){
   /* updates bins at the edges of xmax (xmin) with everything above (below) including over(under)flow */
