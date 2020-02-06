@@ -641,7 +641,7 @@ int ZMETLooper::hasGoodZ(){
 
     //cout<<__LINE__<<endl;
 
-    if( phys.dRll() < 0.4)   {
+    if( phys.dRll() < 0.1)   {
       numEvents->Fill(19);
       if (printFail) cout<<phys.evt()<<" :Failed deltaR Z cut"<<endl;
       return -1;
