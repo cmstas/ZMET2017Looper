@@ -1677,12 +1677,11 @@ bool ZMETLooper::passSRVZBoostedCuts()
     {
       return false;
     }
-//    if(g_nBJetMedium > 0)
     if((conf->get("boosted_jet_veto") == "loose" && g_nBJetLoose25 > 0) || (conf->get("boosted_jet_veto") == "medium" && g_nBJetMedium25 > 0))
     {
       return false;
     }
-    if(g_dphi_met_fatjet < 0.4)
+    if(g_dphi_met_fatjet < 0.8)
     {
         return false;
     }
@@ -1697,7 +1696,7 @@ bool ZMETLooper::passSRVZBoostedCuts()
       {
         continue;
       }
-      if(phys.ak8jets_softDropMass().at(iJet) < 60 || phys.ak8jets_softDropMass().at(iJet) > 100)
+      if(phys.ak8jets_softDropMass().at(iJet) < 65 || phys.ak8jets_softDropMass().at(iJet) > 105)
       {
         continue;
       }
@@ -1715,7 +1714,7 @@ bool ZMETLooper::passVRWZBoostedCuts()
     {
         return false;
     }
-    if(g_dphi_met_fatjet > 0.4)
+    if(g_dphi_met_fatjet > 0.8)
     {
         return false;
     }
@@ -1739,7 +1738,7 @@ bool ZMETLooper::passVRWZBoostedCuts()
       {
         continue;
       }
-      if(phys.ak8jets_softDropMass().at(iJet) < 60 || phys.ak8jets_softDropMass().at(iJet) > 100)
+      if(phys.ak8jets_softDropMass().at(iJet) < 65 || phys.ak8jets_softDropMass().at(iJet) > 105)
       {
         continue;
       }
@@ -3345,9 +3344,17 @@ void ZMETLooper::fillGluLSPHists(std::string prefix)
 
     fill3DHistograms(prefix+"susy_type1MET_counts",g_met,phys.mass_gluino(),phys.mass_LSP(),weight,allSignal3DHistos,"(x,y,z) = (met, m_glu, m_lsp). Type1MET for"+g_sample_name, *n_met_bins, met_bins, *n_gluino_bins, gluino_bins, *n_lsp_bins, lsp_bins,rootdir);
     fill3DHistograms(prefix+"susy_type1MET_nowt",g_met,phys.mass_gluino(),phys.mass_LSP(),1,allSignal3DHistos,"(x,y,z) = (met, m_glu, m_lsp). Type1MET with no event weights for"+g_sample_name,*n_met_bins,met_bins,*n_gluino_bins,gluino_bins,*n_lsp_bins,lsp_bins,rootdir);
-
+    
+    double tau21_weight_up, tau21_weight_down;
     if(prefix.find("SRVZBoosted") != std::string::npos)
     {
+        tau21_weight_up = weight * fatJetScaleFactor(1);
+        tau21_weight_down = weight * fatJetScaleFactor(-1);
+
+        fill3DHistograms(prefix+"susy_type1MET_tau21_up",g_met,phys.mass_gluino(),phys.mass_LSP(),tau21_weight_up,allSignal3DHistos,"(x,y,z) = (met, m_glu, m_lsp). Type1MET with tau21 up weights for"+g_sample_name,*n_met_bins,met_bins,*n_gluino_bins,gluino_bins,*n_lsp_bins,lsp_bins,rootdir);
+
+        fill3DHistograms(prefix+"susy_type1MET_tau21_down",g_met,phys.mass_gluino(),phys.mass_LSP(),tau21_weight_down,allSignal3DHistos,"(x,y,z) = (met, m_glu, m_lsp). Type1MET with tau21 down weights for"+g_sample_name,*n_met_bins,met_bins,*n_gluino_bins,gluino_bins,*n_lsp_bins,lsp_bins,rootdir);
+
         for(auto &i:g_fatjet_indices)
         {
             fill3DHistograms(prefix+"susy_tau21",phys.ak8jets_tau2().at(i)/phys.ak8jets_tau1().at(i),phys.mass_gluino(),phys.mass_LSP(),weight,allSignal3DHistos,"",1000,0,1,*n_gluino_bins,gluino_bins,*n_lsp_bins,lsp_bins,rootdir);
@@ -3874,6 +3881,9 @@ void ZMETLooper::fillBoostedHists(std::vector<size_t> g_fatjet_indices,std::stri
     fill1DHistograms(prefix+"type1MET_tau21_down",g_met,tau21_weight_down,allHistos,"",6000,0,6000,rootdir);
 
     fill1DHistograms(prefix+"nFatJets",phys.nFatJets(),weight,allHistos,"",50,0,50,rootdir);
+
+    fill1DHistograms(prefix+"dphi_met_fatjet",g_dphi_met_fatjet,weight,allHistos,"",100,0,3.14,rootdir);
+
     for(auto &iJet:g_fatjet_indices)
     {
         if(phys.ak8jets_tau2().at(iJet) != 0 && phys.ak8jets_tau1().at(iJet) != 0)
@@ -3881,9 +3891,6 @@ void ZMETLooper::fillBoostedHists(std::vector<size_t> g_fatjet_indices,std::stri
             fill1DHistograms(prefix+"tau21",phys.ak8jets_tau2().at(iJet)/phys.ak8jets_tau1().at(iJet),weight,allHistos,"",1000,0,10,rootdir);
 
         }
-    }
-    for(auto &iJet:g_fatjet_indices)
-    {
         fill1DHistograms(prefix+"softDropMass",phys.ak8jets_softDropMass().at(iJet),weight,allHistos,"",6000,0,6000,rootdir);
         fill1DHistograms(prefix+"fat_jet_pt",phys.ak8jets_p4().at(iJet).pt(),weight,allHistos,"",6000,0,6000,rootdir);
         fill1DHistograms(prefix+"fat_jet_eta",phys.ak8jets_p4().at(iJet).eta(),weight,allHistos,"",200,-3,3,rootdir);
@@ -4127,7 +4134,7 @@ double ZMETLooper::tau21WP()
 {
     if(g_year == 2016)
     {
-        return 0.55;
+        return 0.4;
     }
     else if(g_year == 2017)
     {
@@ -4146,8 +4153,8 @@ double ZMETLooper::fatJetScaleFactor(int mode)
 
     if(g_year == 2016)
     {
-        central_value = 1.03;
-        uncertainty = 0.14;
+        central_value = 1.00;
+        uncertainty = 0.06;
     }
     else if(g_year == 2017)
     {
