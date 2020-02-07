@@ -934,7 +934,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
             }
             else
             {
-                FS_pt_up.push_back(0);
+                FS_pt_down.push_back(0);
             }
             if(FS_hist_eta_up != nullptr)
             {
