@@ -262,7 +262,7 @@ vector<double> getMetTemplatesError(const vector<double> &stat_err, const vector
     output_errors.push_back(sqrt(err_bin));
   }
 
-  printTemplatesDebug(bin_count, output_errors, noSubStatErrs, closure_err, norm_err, ewk_err, bin_edge);
+  printTemplatesDebug(bin_count, output_errors, stat_err, closure_err, norm_err, ewk_err, bin_edge);
 
   cout<<setprecision(10);
   //--------------------------------

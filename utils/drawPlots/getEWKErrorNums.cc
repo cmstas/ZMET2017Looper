@@ -154,6 +154,7 @@ vector<double> getPercentStatErrorsForNoEWKSub(TString sample_name,bool allSR,st
     bins.push_back(50);
     bins.push_back(100);
     bins.push_back(150);
+    bins.push_back(250);
     bins.push_back(6001);
   }
   else if(sample_name == "SRVZResolved" || sample_name == "VRWZResolved"){
