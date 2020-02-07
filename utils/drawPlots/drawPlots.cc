@@ -903,15 +903,56 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
 
         if(do_rsfof_syst)
         {
-            FS_norm_up.push_back(FS_hist_norm_up->Integral(FS_hist_norm_up->FindBin(stats_bins[i].first), FS_hist_norm_up->FindBin(stats_bins[i].second - 0.001)));
-            FS_norm_down.push_back(FS_hist_norm_down->Integral(FS_hist_norm_down->FindBin(stats_bins[i].first), FS_hist_norm_down->FindBin(stats_bins[i].second - 0.001)));
-
-            FS_pt_up.push_back(FS_hist_pt_up->Integral(FS_hist_pt_up->FindBin(stats_bins[i].first), FS_hist_pt_up->FindBin(stats_bins[i].second - 0.001)));
-            FS_pt_down.push_back(FS_hist_pt_down->Integral(FS_hist_pt_down->FindBin(stats_bins[i].first), FS_hist_pt_down->FindBin(stats_bins[i].second - 0.001)));
-
-            FS_eta_up.push_back(FS_hist_eta_down->Integral(FS_hist_eta_up->FindBin(stats_bins[i].first), FS_hist_eta_up->FindBin(stats_bins[i].second - 0.001)));
-            FS_eta_down.push_back(FS_hist_eta_down->Integral(FS_hist_eta_down->FindBin(stats_bins[i].first), FS_hist_eta_down->FindBin(stats_bins[i].second - 0.001))); 
-       }
+            if(FS_hist_norm_up != nullptr)
+            {
+                FS_norm_up.push_back(FS_hist_norm_up->Integral(FS_hist_norm_up->FindBin(stats_bins[i].first), FS_hist_norm_up->FindBin(stats_bins[i].second - 0.001)));
+            }
+            else
+            {
+                FS_norm_up.push_back(0);
+            }
+            if(FS_hist_norm_down != nullptr)
+            {
+                FS_norm_down.push_back(FS_hist_norm_down->Integral(FS_hist_norm_down->FindBin(stats_bins[i].first), FS_hist_norm_down->FindBin(stats_bins[i].second - 0.001)));
+            }
+            else
+            {
+                FS_norm_down.push_back(0);
+            }
+                
+            if(FS_hist_pt_up != nullptr)
+            {
+                FS_pt_up.push_back(FS_hist_pt_up->Integral(FS_hist_pt_up->FindBin(stats_bins[i].first), FS_hist_pt_up->FindBin(stats_bins[i].second - 0.001)));
+            }
+            else
+            {
+                FS_pt_up.push_back(0);
+            }
+            if(FS_hist_pt_down != nullptr)
+            {
+                FS_pt_down.push_back(FS_hist_pt_down->Integral(FS_hist_pt_down->FindBin(stats_bins[i].first), FS_hist_pt_down->FindBin(stats_bins[i].second - 0.001)));
+            }
+            else
+            {
+                FS_pt_up.push_back(0);
+            }
+            if(FS_hist_eta_up != nullptr)
+            {
+                FS_eta_up.push_back(FS_hist_eta_down->Integral(FS_hist_eta_up->FindBin(stats_bins[i].first), FS_hist_eta_up->FindBin(stats_bins[i].second - 0.001)));
+            } 
+            else
+            {
+                FS_eta_up.push_back(0);
+            }
+            if(FS_hist_eta_down != nullptr)
+            {
+                FS_eta_down.push_back(FS_hist_eta_down->Integral(FS_hist_eta_down->FindBin(stats_bins[i].first), FS_hist_eta_down->FindBin(stats_bins[i].second - 0.001))); 
+            }
+            else
+            {
+                FS_eta_down.push_back(0);
+            }
+        }
 
         //cout<<__LINE__<<endl;
         template_count.push_back(hists[6]->IntegralAndError(hists[6]->FindBin(stats_bins[i].first), hists[6]->FindBin(stats_bins[i].second - 0.001), t_err));
