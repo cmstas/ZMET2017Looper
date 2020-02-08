@@ -1223,9 +1223,11 @@ double ZMETLooper::getWeight(TString SR){
       fatjet_scale_factor *= fatJetScaleFactor() * nGoodFatJets;
 
   }
-  
-  weight *= fatjet_scale_factor;
-  return weight;
+  if(!phys.isData())
+  {
+    weight *= fatjet_scale_factor;
+  }
+    return weight;
 }
 
 
@@ -3557,21 +3559,21 @@ void ZMETLooper::fillallHistograms(std::string prefix)
         {
             if(SR.find("SR") != std::string::npos)
             {
-                fillBoostedHists(g_fatjet_indices,prefix);
+                fillBoostedHists(g_fatjet_indices,commonHistPrefix);
             }
             else if(SR.find("VR") != std::string::npos)
             {
-                fillBoostedHists(g_fatjet_validation_indices,prefix);
+                fillBoostedHists(g_fatjet_validation_indices,commonHistPrefix);
             }
             else
             {
-                fillBoostedHists(g_fatjet_inclusive_indices,prefix);
+                fillBoostedHists(g_fatjet_inclusive_indices,commonHistPrefix);
             }
         }
 
         else if(conf->get("boosted_histograms") == "true")
         {
-            fillBoostedHists(g_fatjet_indices,prefix); 
+            fillBoostedHists(g_fatjet_indices,commonHistPrefix); 
         }
 
         if (conf->get("GammaMuStudy") == "true")
