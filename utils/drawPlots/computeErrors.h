@@ -28,11 +28,12 @@ std::vector<double> getRareSamplesError(const std::vector<double> &stat_err, con
 
 void printErrors(const std::vector<double> &temp_err, const std::vector<double> &rare_err, const std::pair<std::vector<double>, std::vector<double>> &fs_err, const std::vector<double> &bin_low);
 
-TGraphAsymmErrors* getErrorTGraph(const std::vector<double> &temp_count, const std::vector<double> &temp_err, const std::vector<double> &rare_count, const std::vector<double> &rare_err, const std::vector<double> &fs_count, const std::pair<std::vector<double>,std::vector<double>> &fs_err, const std::vector<std::pair<double,double>> &bin_low, const std::vector<double> &data_count, double RSFOF /*Really just the scale factor*/,bool ratioError=false);
+TGraphAsymmErrors* getErrorTGraph(const std::vector<double> &temp_count, const std::vector<double> &temp_err, const std::vector<double> &rare_count, const std::vector<double> &rare_err, const std::vector<double> &fs_count, const std::pair<std::vector<double>,std::vector<double>> &fs_err, const std::vector<std::pair<double,double>> &bin_low, const std::vector<double> &data_count, double RSFOF /*Really just the scale factor*/,bool ratioError=false, const std::vector<double>& tau21_error_up={},const std::vector<double> &tau21_error_down={});
 
 void printCounts(const std::vector<double> &temp_count, const std::vector<double> &temp_err, const std::vector<double> &rare_count, const std::vector<double> &rare_err, const std::vector<double> &fs_count, const std::pair<std::vector<double>,std::vector<double>> &fs_err, const std::vector<std::pair<double,double>> &bin_low, const std::vector<double> &data_count, double RSFOF /*Really just the scale factor*/);
 
 void printLatexCounts(const std::vector<double> temp_count, const std::vector<double> &temp_err, const std::vector<double> &rare_count, const std::vector<double> &rare_err, const std::vector<double> &fs_count, const std::pair<std::vector<double>,std::vector<double>> &fs_err, const std::vector<std::pair<double,double>> &bin_low, const std::vector<double> &data_count, double RSFOF /*Really just the scale factor*/);
 
+std::pair<std::vector<double>,std::vector<double>> getTau21Error(const std::vector<double> count_central_2016,std::vector<double> count_central_2017,std::vector<double> count_central_2018,const std::vector<double> count_tau21_up_2016,std::vector<double> count_tau21_up_2017,const std::vector<double> count_tau21_up_2018,const std::vector<double> count_tau21_down_2016,const std::vector<double> count_tau21_down_2017,const std::vector<double> count_tau21_down_2018);
 void computeErrors();
 #endif

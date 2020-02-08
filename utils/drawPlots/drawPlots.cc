@@ -300,6 +300,8 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
 
   std::vector<TH1D*> hists (num_hists);
   std::vector<std::vector<TH1D*>> rare_hists;
+
+  //Only rare backgrounds are MC, so only they have tau21 up and down
   std::vector<std::vector<TH1D*>> rare_hists_tau21_up;
   std::vector<std::vector<TH1D*>> rare_hists_tau21_down;
   TH1D* FS_hist_norm_up;
@@ -309,7 +311,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
   TH1D* FS_hist_eta_up;
   TH1D* FS_hist_eta_down;
   bool do_rsfof_syst = (conf->get("rsfof_json") == "true") ? true : false; 
-  
+  bool boosted_SR = (SR.Contains("Boosted")) ? true : false;
   TH1D* FS_hist_2016 = nullptr;
   TH1D* FS_hist_2017 = nullptr;
   TH1D* FS_hist_2018 = nullptr;
@@ -326,6 +328,8 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
       rare_scale_factors.push_back(std::vector<float>());
       rare_scale_errors.push_back(std::vector<float>());
       rare_hists.push_back(std::vector<TH1D*>(3,nullptr));
+      rare_hists_tau21_up.push_back(std::vector<TH1D*>(3,nullptr));
+      rare_hists_tau21_down.push_back(std::vector<TH1D*>(3,nullptr));
   }
   //HARDCODING THEM SCALE FACTORS AND ERRORS!
   //map : 0->ZZ, 1->WZ, 2->VVV, 3->TTZ
@@ -404,10 +408,28 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
                 temp_hist_mm = (TH1D*)((TH1D*) (hist_files[i][j]->Get((SR+hist_names[i][1])))->Clone(("hist_"+to_string(j)+"_"+to_string(i)).c_str()));
                 temp_hist->Add(temp_hist_mm);
                 
+                if(boosted_SR)
+                {
+                    temp_hist_tau21_up = (TH1D*)(((TH1D*) (hist_files[i][j]->Get(SR+hist_names[i][0]+"_tau21_up")))->Clone(("hist_"+to_string(j)+"_"+to_string(i)+"tau21_up").c_str()));
+                    temp_hist_mm_tau21_up = (TH1D*)(((TH1D*) (hist_files[i][j]->Get(SR+hist_names[i][1]+"_tau21_up")))->Clone(("hist_"+to_string(j)+"_"+to_string(i)+"tau21_up").c_str()));
+                    temp_hist_tau21_up->Add(temp_hist_mm_tau21_up);
+
+                    temp_hist_tau21_down = (TH1D*)(((TH1D*) (hist_files[i][j]->Get(SR+hist_names[i][0]+"_tau21_down")))->Clone(("hist_"+to_string(j)+"_"+to_string(i)+"tau21_up").c_str()));
+                    temp_hist_mm_tau21_down =(TH1D*)(((TH1D*) (hist_files[i][j]->Get(SR+hist_names[i][1]+"_tau21_down")))->Clone(("hist_"+to_string(j)+"_"+to_string(i)+"tau21_down").c_str()));
+                    temp_hist_tau21_down->Add(temp_hist_mm_tau21_down); 
+                }
+
+                
                 //scale up stuff
                 cout<<"scaling with factor="<<rare_scale_factors[i-1][j]<<endl;
                 temp_hist->Scale(rare_scale_factors[i-1][j]);
-                cout<<temp_hist->GetName()<<endl;
+                if(boosted_SR)
+                {
+                    temp_hist_tau21_up->Scale(rare_scale_factors[i-1][j]);
+                    temp_hist_tau21_down->Scale(rare_scale_factors[i-1][j]);
+                    rare_hists_tau21_up[i-1][j] = temp_hist_tau21_up;
+                    rare_hists_tau21_down[i-1][j] = temp_hist_tau21_down;
+                }
                 //rare_hists split by year
                 rare_hists[i-1][j] = temp_hist;
             }
@@ -934,6 +956,27 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
       vector<double> rare_count_2018,TTV_count_2018,VVV_count_2018,WZ_count_2018,ZZ_count_2018;
       vector<double> rare_err_2018, TTV_err_2018, VVV_err_2018, WZ_err_2018, ZZ_err_2018; 
 
+    
+      vector<double> TTV_tau21_up_2016,TTV_tau21_up_2017,TTV_tau21_up_2018;
+      vector<double> TTV_tau21_down_2016,TTV_tau21_down_2017,TTV_tau21_down_2018;
+      vector<double> TTV_tau21_error_up,TTV_tau21_error_down;
+
+      
+      vector<double> WZ_tau21_up_2016,WZ_tau21_up_2017,WZ_tau21_up_2018;
+      vector<double> WZ_tau21_down_2016,WZ_tau21_down_2017,WZ_tau21_down_2018;
+      vector<double> WZ_tau21_error_up,WZ_tau21_error_down;
+
+
+      vector<double> ZZ_tau21_up_2016,ZZ_tau21_up_2017,ZZ_tau21_up_2018;
+      vector<double> ZZ_tau21_down_2016,ZZ_tau21_down_2017,ZZ_tau21_down_2018;
+      vector<double> ZZ_tau21_error_up,ZZ_tau21_error_down;
+
+      
+      vector<double> VVV_tau21_up_2016,VVV_tau21_up_2017,VVV_tau21_up_2018;
+      vector<double> VVV_tau21_down_2016,VVV_tau21_down_2017,VVV_tau21_down_2018;
+      vector<double> VVV_tau21_error_up,VVV_tau21_error_down;
+      vector<double> rare_tau21_error_up,rare_tau21_error_down;
+
 
       vector<double> FS_count;
       vector<double> FS_norm_up;
@@ -948,6 +991,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
       vector<double> FS_count_2016;
       vector<double> FS_count_2017;
       vector<double> FS_count_2018;
+
 
       for (int i=0; i < num_hists; i++){
         if (conf->get("hist_"+to_string(i)+"_scale") != ""){
@@ -1062,7 +1106,20 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
         ZZ_count_2017.push_back(rare_hists[0][1]->IntegralAndError(rare_hists[0][1]->FindBin(stats_bins[i].first),rare_hists[0][1]->FindBin(stats_bins[i].second),ZZ_err_2017[i]));
         ZZ_count_2018.push_back(rare_hists[0][2]->IntegralAndError(rare_hists[0][2]->FindBin(stats_bins[i].first),rare_hists[0][2]->FindBin(stats_bins[i].second),ZZ_err_2018[i]));
 
+        if(SR.Contains("Boosted"))
+        {
 
+            ZZ_tau21_up_2016.push_back(rare_hists_tau21_up[0][0]->Integral(rare_hists_tau21_up[0][0]->FindBin(stats_bins[i].first),rare_hists_tau21_up[0][0]->FindBin(stats_bins[i].second)));
+            ZZ_tau21_up_2017.push_back(rare_hists_tau21_up[0][1]->Integral(rare_hists_tau21_up[0][1]->FindBin(stats_bins[i].first),rare_hists_tau21_up[0][1]->FindBin(stats_bins[i].second)));        
+            ZZ_tau21_up_2018.push_back(rare_hists_tau21_up[0][2]->Integral(rare_hists_tau21_up[0][2]->FindBin(stats_bins[i].first),rare_hists_tau21_up[0][2]->FindBin(stats_bins[i].second)));
+
+            ZZ_tau21_down_2016.push_back(rare_hists_tau21_down[0][0]->Integral(rare_hists_tau21_down[0][0]->FindBin(stats_bins[i].first),rare_hists_tau21_down[0][0]->FindBin(stats_bins[i].second)));
+            ZZ_tau21_down_2017.push_back(rare_hists_tau21_down[0][1]->Integral(rare_hists_tau21_down[0][1]->FindBin(stats_bins[i].first),rare_hists_tau21_down[0][1]->FindBin(stats_bins[i].second)));
+            ZZ_tau21_down_2018.push_back(rare_hists_tau21_down[0][2]->Integral(rare_hists_tau21_down[0][2]->FindBin(stats_bins[i].first),rare_hists_tau21_down[0][2]->FindBin(stats_bins[i].second)));
+        }
+
+
+        
         //cout<<__LINE__<<endl;
 
         WZ_count.push_back(hists[2]->Integral(hists[2]->FindBin(stats_bins[i].first), hists[2]->FindBin(stats_bins[i].second - 0.001)));
@@ -1071,6 +1128,16 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
         WZ_count_2016.push_back(rare_hists[1][0]->IntegralAndError(rare_hists[1][0]->FindBin(stats_bins[i].first),rare_hists[1][0]->FindBin(stats_bins[i].second),WZ_err_2016[i]));
         WZ_count_2017.push_back(rare_hists[1][1]->IntegralAndError(rare_hists[1][1]->FindBin(stats_bins[i].first),rare_hists[1][1]->FindBin(stats_bins[i].second),WZ_err_2017[i]));
         WZ_count_2018.push_back(rare_hists[1][2]->IntegralAndError(rare_hists[1][2]->FindBin(stats_bins[i].first),rare_hists[1][2]->FindBin(stats_bins[i].second),WZ_err_2018[i]));
+
+
+        WZ_tau21_up_2016.push_back(rare_hists_tau21_up[1][0]->Integral(rare_hists_tau21_up[1][0]->FindBin(stats_bins[i].first),rare_hists_tau21_up[1][0]->FindBin(stats_bins[i].second)));
+        WZ_tau21_up_2017.push_back(rare_hists_tau21_up[1][1]->Integral(rare_hists_tau21_up[1][1]->FindBin(stats_bins[i].first),rare_hists_tau21_up[1][1]->FindBin(stats_bins[i].second)));        
+        WZ_tau21_up_2018.push_back(rare_hists_tau21_up[1][2]->Integral(rare_hists_tau21_up[1][2]->FindBin(stats_bins[i].first),rare_hists_tau21_up[1][2]->FindBin(stats_bins[i].second)));
+
+        WZ_tau21_down_2016.push_back(rare_hists_tau21_down[1][0]->Integral(rare_hists_tau21_down[1][0]->FindBin(stats_bins[i].first),rare_hists_tau21_down[1][0]->FindBin(stats_bins[i].second)));
+        WZ_tau21_down_2017.push_back(rare_hists_tau21_down[1][1]->Integral(rare_hists_tau21_down[1][1]->FindBin(stats_bins[i].first),rare_hists_tau21_down[1][1]->FindBin(stats_bins[i].second)));
+        WZ_tau21_down_2018.push_back(rare_hists_tau21_down[1][2]->Integral(rare_hists_tau21_down[1][2]->FindBin(stats_bins[i].first),rare_hists_tau21_down[1][2]->FindBin(stats_bins[i].second)));
+
 
 
         //From when Vince had WZ and ZZ together
@@ -1084,6 +1151,18 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
         VVV_count_2017.push_back(rare_hists[2][1]->IntegralAndError(rare_hists[2][1]->FindBin(stats_bins[i].first),rare_hists[2][1]->FindBin(stats_bins[i].second),VVV_err_2017[i]));
         VVV_count_2018.push_back(rare_hists[2][2]->IntegralAndError(rare_hists[2][2]->FindBin(stats_bins[i].first),rare_hists[2][2]->FindBin(stats_bins[i].second),VVV_err_2018[i]));
 
+        if(SR.Contains("Boosted"))
+        {
+            VVV_tau21_up_2016.push_back(rare_hists_tau21_up[2][0]->Integral(rare_hists_tau21_up[2][0]->FindBin(stats_bins[i].first),rare_hists_tau21_up[2][0]->FindBin(stats_bins[i].second)));
+            VVV_tau21_up_2017.push_back(rare_hists_tau21_up[2][1]->Integral(rare_hists_tau21_up[2][1]->FindBin(stats_bins[i].first),rare_hists_tau21_up[2][1]->FindBin(stats_bins[i].second)));        
+            VVV_tau21_up_2018.push_back(rare_hists_tau21_up[2][2]->Integral(rare_hists_tau21_up[2][2]->FindBin(stats_bins[i].first),rare_hists_tau21_up[2][2]->FindBin(stats_bins[i].second)));
+
+            VVV_tau21_down_2016.push_back(rare_hists_tau21_down[2][0]->Integral(rare_hists_tau21_down[2][0]->FindBin(stats_bins[i].first),rare_hists_tau21_down[2][0]->FindBin(stats_bins[i].second)));
+            VVV_tau21_down_2017.push_back(rare_hists_tau21_down[2][1]->Integral(rare_hists_tau21_down[2][1]->FindBin(stats_bins[i].first),rare_hists_tau21_down[2][1]->FindBin(stats_bins[i].second)));
+            VVV_tau21_down_2018.push_back(rare_hists_tau21_down[2][2]->Integral(rare_hists_tau21_down[2][2]->FindBin(stats_bins[i].first),rare_hists_tau21_down[2][2]->FindBin(stats_bins[i].second)));
+        }
+
+
         //cout<<__LINE__<<endl;
 
         TTV_count.push_back(hists[4]->IntegralAndError(hists[4]->FindBin(stats_bins[i].first), hists[4]->FindBin(stats_bins[i].second - 0.001), TTV_err[i]));
@@ -1092,6 +1171,17 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
         TTV_count_2017.push_back(rare_hists[3][1]->IntegralAndError(rare_hists[3][1]->FindBin(stats_bins[i].first),rare_hists[3][1]->FindBin(stats_bins[i].second),TTV_err_2017[i]));
         TTV_count_2018.push_back(rare_hists[3][2]->IntegralAndError(rare_hists[3][2]->FindBin(stats_bins[i].first),rare_hists[3][2]->FindBin(stats_bins[i].second),TTV_err_2018[i]));
 
+        if(SR.Contains("TTV"))
+        {
+            TTV_tau21_up_2016.push_back(rare_hists_tau21_up[3][0]->Integral(rare_hists_tau21_up[3][0]->FindBin(stats_bins[i].first),rare_hists_tau21_up[3][0]->FindBin(stats_bins[i].second)));
+            TTV_tau21_up_2017.push_back(rare_hists_tau21_up[3][1]->Integral(rare_hists_tau21_up[3][1]->FindBin(stats_bins[i].first),rare_hists_tau21_up[3][1]->FindBin(stats_bins[i].second)));        
+            TTV_tau21_up_2018.push_back(rare_hists_tau21_up[3][2]->Integral(rare_hists_tau21_up[3][2]->FindBin(stats_bins[i].first),rare_hists_tau21_up[3][2]->FindBin(stats_bins[i].second)));
+
+            TTV_tau21_down_2016.push_back(rare_hists_tau21_down[3][0]->Integral(rare_hists_tau21_down[3][0]->FindBin(stats_bins[i].first),rare_hists_tau21_down[3][0]->FindBin(stats_bins[i].second)));
+            TTV_tau21_down_2017.push_back(rare_hists_tau21_down[3][1]->Integral(rare_hists_tau21_down[3][1]->FindBin(stats_bins[i].first),rare_hists_tau21_down[3][1]->FindBin(stats_bins[i].second)));
+            TTV_tau21_down_2018.push_back(rare_hists_tau21_down[3][2]->Integral(rare_hists_tau21_down[3][2]->FindBin(stats_bins[i].first),rare_hists_tau21_down[3][2]->FindBin(stats_bins[i].second)));
+
+        }
       }
 
       
@@ -1125,21 +1215,36 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
       ZZ_err_2017 = getRareSamplesError(ZZ_err_2017, ZZ_count_2017, ZZ_scale[1], ZZ_scale_stat_unc[1],ZZ_scale_syst_unc, SR == "" ? conf->get("SR"):SR);
       ZZ_err_2018 = getRareSamplesError(ZZ_err_2018, ZZ_count_2018, ZZ_scale[2], ZZ_scale_stat_unc[2],ZZ_scale_syst_unc, SR == "" ? conf->get("SR"):SR);
 
+      if(SR.Contains("Boosted"))
+          std::tie(ZZ_tau21_error_up,ZZ_tau21_error_down) = getTau21Error(ZZ_count_2016,ZZ_count_2017,ZZ_count_2018,ZZ_tau21_up_2016,ZZ_tau21_up_2017,ZZ_tau21_up_2018,ZZ_tau21_down_2016,ZZ_tau21_down_2017,ZZ_tau21_down_2018);
+
+
       //cout<<__LINE__<<endl;
       WZ_err_2016 = getRareSamplesError(WZ_err_2016, WZ_count_2016, WZ_scale[0], WZ_scale_stat_unc[0],WZ_scale_syst_unc, SR == "" ? conf->get("SR"):SR);
       WZ_err_2017 = getRareSamplesError(WZ_err_2017, WZ_count_2017, WZ_scale[1], WZ_scale_stat_unc[1],WZ_scale_syst_unc, SR == "" ? conf->get("SR"):SR);
       WZ_err_2018 = getRareSamplesError(WZ_err_2018, WZ_count_2018, WZ_scale[2], WZ_scale_stat_unc[2], WZ_scale_syst_unc, SR == "" ? conf->get("SR"):SR);
+
+      if(SR.Contains("Boosted"))
+          std::tie(WZ_tau21_error_up,WZ_tau21_error_down) = getTau21Error(WZ_count_2016,WZ_count_2017,WZ_count_2018,WZ_tau21_up_2016,WZ_tau21_up_2017,WZ_tau21_up_2018,WZ_tau21_down_2016,WZ_tau21_down_2017,WZ_tau21_down_2018);
+
  
       //cout<<__LINE__<<endl;
       VVV_err_2016 = getRareSamplesError(VVV_err_2016, VVV_count_2016, VVV_scale[0], VVV_scale_stat_unc[0],VVV_scale_syst_unc, SR == "" ? conf->get("SR"):SR);
       VVV_err_2017 = getRareSamplesError(VVV_err_2017, VVV_count_2017, VVV_scale[1], VVV_scale_stat_unc[1], VVV_scale_syst_unc, SR == "" ? conf->get("SR"):SR);
       VVV_err_2018 = getRareSamplesError(VVV_err_2018, VVV_count_2018, VVV_scale[2], VVV_scale_stat_unc[2], VVV_scale_syst_unc, SR == "" ? conf->get("SR"):SR);
 
+      if(SR.Contains("Boosted"))
+          std::tie(VVV_tau21_error_up,VVV_tau21_error_down) = getTau21Error(VVV_count_2016,VVV_count_2017,VVV_count_2018,VVV_tau21_up_2016,VVV_tau21_up_2017,VVV_tau21_up_2018,VVV_tau21_down_2016,VVV_tau21_down_2017,VVV_tau21_down_2018);
+
+
       //cout<<__LINE__<<endl;
       //cout<<__LINE__<<endl;
       TTV_err_2016 = getRareSamplesError(TTV_err_2016, TTV_count_2016, TTV_scale[0], TTV_scale_stat_unc[0], TTV_scale_syst_unc, SR == "" ? conf->get("SR"):SR);
       TTV_err_2017 = getRareSamplesError(TTV_err_2017, TTV_count_2017, TTV_scale[1], TTV_scale_stat_unc[1], TTV_scale_syst_unc, SR == "" ? conf->get("SR"):SR);
       TTV_err_2018 = getRareSamplesError(TTV_err_2018, TTV_count_2018, TTV_scale[2], TTV_scale_stat_unc[2], TTV_scale_syst_unc, SR == "" ? conf->get("SR"):SR);
+
+      if(SR.Contains("Boosted"))
+          std::tie(TTV_tau21_error_up,TTV_tau21_error_down) = getTau21Error(TTV_count_2016,TTV_count_2017,TTV_count_2018,TTV_tau21_up_2016,TTV_tau21_up_2017,TTV_tau21_up_2018,TTV_tau21_down_2016,TTV_tau21_down_2017,TTV_tau21_down_2018);
 
       cout<<"Template count in normalization bin="<<template_count[norm_bin]<<endl;
       vector<double> temp_err = getMetTemplatesError(template_error, template_count, normalization, norm_bin, stats_bins, SR == "" ? conf->get("SR"): SR,SR != ""?true:false,conf->get("EWK_hist_location"));
@@ -1174,6 +1279,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
         VVV_err[i] = sqrt(VVV_err_2016[i] * VVV_err_2016[i] + VVV_err_2017[i] * VVV_err_2017[i] + VVV_err_2018[i] * VVV_err_2018[i]);
 
 
+
         cout<<"RAREDEBUG| bin "<<i<<": ZZ (scaled): "<<ZZ_count[i]<<endl;
         cout<<"RAREDEBUG| bin "<<i<<": WZ (scaled): "<<WZ_count[i]<< endl;
         cout<<"RAREDEBUG| bin "<<i<<": VVV (scaled): "<<VVV_count[i]<<endl;
@@ -1181,6 +1287,13 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
 
         rare_count.push_back(ZZ_count[i] + WZ_count[i] + TTV_count[i] + VVV_count[i]);
         rare_err.push_back(sqrt(ZZ_err[i]*ZZ_err[i] + WZ_err[i]*WZ_err[i] + VVV_err[i]*VVV_err[i] + TTV_err[i]*TTV_err[i]));
+
+        if(SR.Contains("Boosted"))
+        {
+            rare_tau21_error_up.push_back(ZZ_tau21_error_up[i] * ZZ_tau21_error_up[i] +WZ_tau21_error_up[i] * WZ_tau21_error_up[i] + TTV_tau21_error_up[i] * TTV_tau21_error_up[i] + VVV_tau21_error_up[i] * VVV_tau21_error_up[i]);
+            rare_tau21_error_down.push_back(ZZ_tau21_error_down[i] * ZZ_tau21_error_down[i] +WZ_tau21_error_down[i] * WZ_tau21_error_down[i] + TTV_tau21_error_down[i] * TTV_tau21_error_down[i] + VVV_tau21_error_down[i] * VVV_tau21_error_down[i]);
+
+        }
 
         //For cross checking with Vince
         //rare_count.push_back(ZZ_count[i]+VVV_count[i]+TTV_count[i]);
@@ -1196,6 +1309,8 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
 //        cout<<"{mcbkg_scale_syst_unc_bin"<<i<<"} "<<1. + s
         cout<<"{BGbin"<<i<<"_mcbkg} "<<rare_count[i]<<endl;
         cout<<"{mc_stat_bin"<<i<<"} "<<1.+rare_err[i]/rare_count[i]<<endl;
+
+
       }
 
 
@@ -1217,8 +1332,20 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
         printCounts(template_count, temp_err, rare_count, rare_err, FS_count, FS_err, stats_bins, signal_count, stod(conf->get("hist_5_scale")));
         printLatexCounts(template_count, temp_err, rare_count, rare_err, FS_count, FS_err, stats_bins, signal_count, stod(conf->get("hist_5_scale")));
       }
-      prediction_errors = getErrorTGraph(template_count, temp_err, rare_count, rare_err, FS_count, FS_err, stats_bins, signal_count, stod(conf->get("hist_5_scale")));
-      ratio_errors = getErrorTGraph(template_count, temp_err, rare_count, rare_err, FS_count, FS_err, stats_bins, signal_count, stod(conf->get("hist_5_scale")),true);
+
+
+      if(SR.Contains("Boosted"))
+      {
+        prediction_errors = getErrorTGraph(template_count, temp_err, rare_count, rare_err, FS_count, FS_err, stats_bins, signal_count, stod(conf->get("hist_5_scale")),false,rare_tau21_error_up,rare_tau21_error_down);
+        ratio_errors = getErrorTGraph(template_count, temp_err, rare_count, rare_err, FS_count, FS_err, stats_bins, signal_count, stod(conf->get("hist_5_scale")),true,rare_tau21_error_up,rare_tau21_error_down);
+ 
+      }
+      else
+      {
+        prediction_errors = getErrorTGraph(template_count, temp_err, rare_count, rare_err, FS_count, FS_err, stats_bins, signal_count, stod(conf->get("hist_5_scale")));
+        ratio_errors = getErrorTGraph(template_count, temp_err, rare_count, rare_err, FS_count, FS_err, stats_bins, signal_count, stod(conf->get("hist_5_scale")),true);
+
+      }
   
       //cout<<__LINE__<<endl;
 

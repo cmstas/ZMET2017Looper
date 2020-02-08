@@ -302,20 +302,24 @@ pair<vector<double>,vector<double>> getFSError(const vector<double> &bin_count, 
   vector<double> error_dn;
 
   double bin_up, bin_dn;
-  double rsfof_norm_unc, rsfof_pt_unc, rsfof_eta_unc;
+  double rsfof_norm_unc_up,rsfof_norm_unc_down, rsfof_pt_unc_up,rsfof_pt_unc_down, rsfof_eta_unc_up,rsfof_eta_unc_down;
   for (size_t i = 0; i<bin_count.size(); i++){
     RooHistError::instance().getPoissonInterval(bin_count[i], bin_dn, bin_up);
 
     //For RSFOF systematics, we follow the SUSY JEC method - max of (up-central) and (central-down)
-    rsfof_norm_unc = std::max(norm_up[i] - bin_count[i],bin_count[i] - norm_down[i]);
-    rsfof_pt_unc = std::max(pt_up[i] - bin_count[i],bin_count[i] - pt_down[i]);
-     rsfof_eta_unc = std::max(eta_up[i] - bin_count[i],bin_count[i] - eta_down[i]);
+    rsfof_norm_unc_up = norm_up[i] - bin_count[i];
+    rsfof_pt_unc_up = pt_up[i] - bin_count[i];
+    rsfof_eta_unc_up = eta_up[i] - bin_count[i];
+
+     rsfof_norm_unc_down = bin_count[i]-norm_down[i];
+     rsfof_pt_unc_down = bin_count[i]-pt_down[i];
+     rsfof_eta_unc_down = bin_count[i]-eta_down[i];
    
     cout<<"bin count "<<bin_count[i]<<" Stat_Error_up "<<bin_up<<" Stat_Error_dn "<<bin_dn<<endl;
 
-    bin_up = Kappa*Kappa*((bin_up - bin_count[i])*(bin_up - bin_count[i]) + kappa_stat_unc*kappa_stat_unc*bin_count[i]*bin_count[i] + kappa_MET_unc * kappa_MET_unc*bin_count[i]*bin_count[i] + rsfof_norm_unc * rsfof_norm_unc + rsfof_pt_unc * rsfof_pt_unc + rsfof_eta_unc * rsfof_eta_unc);
+    bin_up = Kappa*Kappa*((bin_up - bin_count[i])*(bin_up - bin_count[i]) + kappa_stat_unc*kappa_stat_unc*bin_count[i]*bin_count[i] + kappa_MET_unc * kappa_MET_unc*bin_count[i]*bin_count[i] + rsfof_norm_unc_up * rsfof_norm_unc_up + rsfof_pt_unc_up * rsfof_pt_unc_up + rsfof_eta_unc_up * rsfof_eta_unc_up);
 
-    bin_dn = Kappa*Kappa*((bin_count[i] - bin_dn)*(bin_count[i] - bin_dn)  +  kappa_stat_unc*kappa_stat_unc*bin_count[i]*bin_count[i] + kappa_MET_unc * kappa_MET_unc*bin_count[i]*bin_count[i] + rsfof_norm_unc * rsfof_norm_unc + rsfof_pt_unc * rsfof_pt_unc + rsfof_eta_unc * rsfof_eta_unc);
+    bin_dn = Kappa*Kappa*((bin_count[i] - bin_dn)*(bin_count[i] - bin_dn)  +  kappa_stat_unc*kappa_stat_unc*bin_count[i]*bin_count[i] + kappa_MET_unc * kappa_MET_unc*bin_count[i]*bin_count[i] + rsfof_norm_unc_down * rsfof_norm_unc_down + rsfof_pt_unc_down * rsfof_pt_unc_down + rsfof_eta_unc_down * rsfof_eta_unc_down);
 
     error_up.push_back(sqrt(bin_up));
     error_dn.push_back(sqrt(bin_dn));
@@ -325,9 +329,9 @@ pair<vector<double>,vector<double>> getFSError(const vector<double> &bin_count, 
     //For the cardmaker
     if(bin_count[i] != 0)
     {
-        cout<<"{rsfof_norm_unc_bin"<<i<<"} "<<1.+rsfof_norm_unc/bin_count[i]<<endl;
-        cout<<"{rsfof_pt_unc_bin"<<i<<"} "<<1.+rsfof_pt_unc/bin_count[i]<<endl;
-        cout<<"{rsfof_eta_unc_bin"<<i<<"} "<<1.+rsfof_eta_unc/bin_count[i]<<endl;
+        cout<<"{rsfof_norm_unc_bin"<<i<<"} "<<1.+rsfof_norm_unc_up/bin_count[i]<<"/"<<1-rsfof_norm_unc_down/bin_count[i]<<endl;
+        cout<<"{rsfof_pt_unc_bin"<<i<<"} "<<1.+rsfof_pt_unc_up/bin_count[i]<<"/"<<1-rsfof_pt_unc_down/bin_count[i]<<endl;
+        cout<<"{rsfof_eta_unc_bin"<<i<<"} "<<1.+rsfof_eta_unc_up/bin_count[i]<<"/"<<1-rsfof_eta_unc_down/bin_count[i] <<endl;
 
     }
     else
@@ -497,8 +501,6 @@ vector<double> getRareSamplesError(const vector<double> &stat_err, const vector<
     cout<<"{mc_stat_met250toInf} "<<stat_err[4]<<endl;
   }*/
 
-
-
   return error;
 }
 
@@ -530,7 +532,45 @@ void printErrors(const vector<double> &temp_err, const vector<double> &rare_err,
   cout<<endl;
 }
 
-TGraphAsymmErrors* getErrorTGraph(const vector<double> &temp_count, const vector<double> &temp_err, const vector<double> &rare_count, const vector<double> &rare_err, const vector<double> &fs_count, const pair<vector<double>,vector<double>> &fs_err, const vector<pair<double,double>> &bin_low, const vector<double> &data_count, double RSFOF /*Really just the scale factor*/, bool ratioError){
+
+std::pair<std::vector<double>,std::vector<double>> getTau21Error(const std::vector<double> count_central_2016,std::vector<double> count_central_2017,std::vector<double> count_central_2018,const std::vector<double> count_tau21_up_2016,std::vector<double> count_tau21_up_2017,const std::vector<double> count_tau21_up_2018,const std::vector<double> count_tau21_down_2016,const std::vector<double> count_tau21_down_2017,const std::vector<double> count_tau21_down_2018)
+{
+    //Also write datacard outputs here
+    
+    vector<double> error_2016_up,error_2016_down,error_2017_up,error_2017_down,error_2018_up,error_2018_down;
+
+    vector<double> error_up, error_down,count_central;
+
+    for(size_t i=0; i< count_central_2016.size(); i++)
+    {
+        error_2016_up.push_back(count_tau21_up_2016[i] - count_central_2016[i]);
+        error_2016_down.push_back(count_central_2016[i] - count_tau21_down_2016[i]);
+
+        error_2017_up.push_back(count_tau21_up_2017[i] - count_central_2017[i]);
+        error_2017_down.push_back(count_central_2017[i] - count_tau21_down_2017[i]);
+
+        error_2018_up.push_back(count_tau21_up_2018[i] - count_central_2018[i]);
+        error_2018_down.push_back(count_central_2018[i] - count_tau21_down_2018[i]);
+    }
+
+    for(size_t i = 0; i<count_central_2016.size();i++)
+    {
+        error_up.push_back(sqrt(error_2016_up[i] * error_2016_up[i] + error_2017_up[i] * error_2017_up[i] + error_2018_up[i] * error_2018_up[i]));
+        error_down.push_back(sqrt(error_2016_down[i] * error_2016_down[i] + error_2017_down[i] * error_2017_down[i] + error_2018_down[i] * error_2018_down[i]));
+        count_central.push_back(count_central_2016[i] + count_central_2017[i] + count_central_2018[i]);
+    }
+
+    for(size_t i = 0; i<error_up.size();i++)
+    {
+        cout<<"{mcbkg_tau21_tag_syst_bin} "<<1+error_up[i]/count_central[i]<<"/"<<1-error_down[i]/count_central[i]<<endl;
+    }
+
+    return std::make_pair(error_up,error_down);
+}
+
+
+TGraphAsymmErrors* getErrorTGraph(const vector<double> &temp_count, const vector<double> &temp_err, const vector<double> &rare_count, const vector<double> &rare_err, const vector<double> &fs_count, const pair<vector<double>,vector<double>> &fs_err, const vector<pair<double,double>> &bin_low, const vector<double> &data_count, double RSFOF /*Really just the scale factor*/, bool ratioError, const std::vector<double>& tau21_error_up, const std::vector<double>&tau21_error_down)
+{
   Double_t bin_sum[temp_err.size()];
   Double_t bin_err_high[temp_err.size()];
   Double_t bin_err_low[temp_err.size()];
@@ -538,11 +578,21 @@ TGraphAsymmErrors* getErrorTGraph(const vector<double> &temp_count, const vector
   Double_t bin_left[temp_err.size()];
   Double_t zeros[temp_err.size()];
   Double_t ratio[temp_err.size()]; //array of 1s
-
+  pair<vector<double>,vector<double>> tau21_error = std::make_pair(tau21_error_up,tau21_error_down);
   for (size_t i = 0; i<temp_err.size(); i++){
     bin_sum[i] = temp_count[i]+RSFOF*fs_count[i]+rare_count[i];
-    bin_err_high[i] = sqrt(temp_err[i]*temp_err[i]+rare_err[i]*rare_err[i]+fs_err.first[i]*fs_err.first[i]);
-    bin_err_low[i] = sqrt(temp_err[i]*temp_err[i]+rare_err[i]*rare_err[i]+fs_err.second[i]*fs_err.second[i]);
+    bin_err_high[i] = temp_err[i]*temp_err[i]+rare_err[i]*rare_err[i]+fs_err.first[i]*fs_err.first[i];
+    bin_err_low[i] = temp_err[i]*temp_err[i]+rare_err[i]*rare_err[i]+fs_err.second[i]*fs_err.second[i];
+
+    if(tau21_error.first.size() != 0 && tau21_error.second.size() != 0)
+    {
+       bin_err_high[i] += tau21_error.first[i] * tau21_error.first[i];
+       bin_err_low[i] += tau21_error.second[i] * tau21_error.second[i];
+    }
+
+    bin_err_high[i] = sqrt(bin_err_high[i]);
+    bin_err_low[i] = sqrt(bin_err_low[i]);
+
     if(ratioError)
     {
         bin_err_high[i] /= bin_sum[i];
