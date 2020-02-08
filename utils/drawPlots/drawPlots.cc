@@ -337,7 +337,8 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
 
   rare_scale_factors[3] = std::vector<float>({1.22,1.56,1.51});
   rare_scale_errors[3] = std::vector<float>({0.23,0.19,0.15});
-
+ 
+  bool rare_year_by_year = true;
 
 
   for (int i = 0; i<num_hists; i++){
@@ -381,14 +382,14 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
         EWK_component->Scale(0.3);
         hists[i]->Add(EWK_component);
     }
-    else
+    else if(i > 0)
     {
         //this is only for proper error computation
-        if(hist_files[i].size() == 3)
+        if(rare_year_by_year)
         {
             TH1D* temp_hist;
             TH1D* temp_hist_mm;
-            for(int j = 0; j < 3; j++)
+            for(int j = 1; j <=3; j++)
             {
                 temp_hist = (TH1D*)(((TH1D*) (hist_files[i][j]->Get(SR+hist_names[i][0])))->Clone(("hist_"+to_string(j)+"_"+to_string(i)).c_str()));
                 temp_hist_mm = (TH1D*)((TH1D*) (hist_files[i][j]->Get((SR+hist_names[i][1])))->Clone(("hist_"+to_string(j)+"_"+to_string(i)).c_str()));
@@ -402,6 +403,10 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
         }
         //Deliberate - so that the existing histogram computation doesn't get affected
         hists[i] = (TH1D*)(combine_histograms(hist_files[i],hist_names[i],i,plot_name,SR,rare_scale_factors[i-1]));
+    }
+    else
+    {
+        hists[i] = (TH1D*)(combine_histograms(hist_files[i],hist_names[i],i,plot_name,SR)); 
     }
     //hists[i] = (TH1D*) combine_histograms((TH1D*) hist_files[i]->Get(hist_names[i]))->Clone("hist_"+to_string(i)+"_"+plot_name);
     for(auto &it:hist_names[i])
