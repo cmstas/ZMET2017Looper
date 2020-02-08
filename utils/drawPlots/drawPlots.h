@@ -33,7 +33,7 @@ double errMult(double A, double B, double errA, double errB, double C);
 std::vector<TString> split_histogram_names(TString histNameString);
 bool histOrdering(TH1D *h1, TH1D *h2);
 void assignColor(std::vector<TH1D*> hists);
-TH1D *combine_histograms(std::vector<TFile*> hist_files, std::vector<TString> hist_names, int count, TString plot_name,TString SR="",std::vector<float> scale_factors = {});
+TH1D *combine_histograms(std::vector<TFile*> hist_files, std::vector<TString> hist_names, int count, TString plot_name,TString SR="",std::vector<float> scale_factors = {}, bool ee_mm_split = false);
 float err_binomial(float A, float B, float errA, float errB);
 void drawLatexFromTString(TString text, double x_low, double y_low);
 bool TH1DIntegralSort(TH1D *hist_1, TH1D *hist_2);
