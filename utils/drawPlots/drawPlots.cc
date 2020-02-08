@@ -395,13 +395,13 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
                 temp_hist->Add(temp_hist_mm);
                 
                 //scale up stuff
-                temp_hist->Scale(rare_scale_factors[i][j]);
+                temp_hist->Scale(rare_scale_factors[i-1][j]);
                 //rare_hists split by year
                 rare_hists[i][j] = temp_hist;
             }
         }
         //Deliberate - so that the existing histogram computation doesn't get affected
-        hists[i] = (TH1D*)(combine_histograms(hist_files[i],hist_names[i],i,plot_name,SR,rare_scale_factors[i]));
+        hists[i] = (TH1D*)(combine_histograms(hist_files[i],hist_names[i],i,plot_name,SR,rare_scale_factors[i-1]));
     }
     //hists[i] = (TH1D*) combine_histograms((TH1D*) hist_files[i]->Get(hist_names[i]))->Clone("hist_"+to_string(i)+"_"+plot_name);
     for(auto &it:hist_names[i])
