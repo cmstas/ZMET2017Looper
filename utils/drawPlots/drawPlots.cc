@@ -297,6 +297,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
   cout << "Making Plots for: "<<plot_name<<endl;
 
   std::vector<TH1D*> hists (num_hists);
+  std::vector<std::vector<TH1D*>> rare_hists;
   TH1D* FS_hist_norm_up;
   TH1D* FS_hist_norm_down;
   TH1D* FS_hist_pt_up;
@@ -313,6 +314,32 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
   int non_null_hist_index = -1;
   //scale factor vectors - hardcoded for the time being
   std::vector<float> RSFOF_factors = {1.093357,1.123671,1.090517};
+
+  std::vector<std::vector<float>> rare_scale_factors;
+  std::vector<std::vector<float>> rare_scale_errors;
+  for(int i = 0; i< 4; i++)
+  {
+      rare_scale_factors.push_back(std::vector<float>());
+      rare_scale_errors.push_back(std::vector<float>());
+      rare_hists.push_back(std::vector<TH1D*>(3,nullptr));
+  }
+  //HARDCODING THEM SCALE FACTORS AND ERRORS!
+  //map : 0->ZZ, 1->WZ, 2->VVV, 3->TTZ
+
+  rare_scale_factors[0] = std::vector<float>({0.91,1.14,1.34});
+  rare_scale_errors[0] = std::vector<float>({0.5,0.3,0.24});
+
+  rare_scale_factors[1] = std::vector<float>({1.04, 1.14,1.28});
+  rare_scale_errors[1] = std::vector<float>({0.17,0.17,0.13});
+
+  rare_scale_factors[2] = std::vector<float>({1.0,1.0,1.0});
+  rare_scale_errors[2] = std::vector<float>({0,0,0});
+
+  rare_scale_factors[3] = std::vector<float>({1.22,1.56,1.51});
+  rare_scale_errors[3] = std::vector<float>({0.23,0.19,0.15});
+
+
+
   for (int i = 0; i<num_hists; i++){
     if(i == 5) //Flavour symmetric
     {
@@ -356,7 +383,25 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
     }
     else
     {
-        hists[i] = (TH1D*) (combine_histograms(hist_files[i],hist_names[i],i,plot_name,SR));
+        //this is only for proper error computation
+        if(hist_files[i].size() == 3)
+        {
+            TH1D* temp_hist;
+            TH1D* temp_hist_mm;
+            for(int j = 0; j < 3; j++)
+            {
+                temp_hist = (TH1D*)(((TH1D*) (hist_files[i][j]->Get(SR+hist_names[i][0])))->Clone(("hist_"+to_string(j)+"_"+to_string(i)).c_str()));
+                temp_hist_mm = (TH1D*)((TH1D*) (hist_files[i][j]->Get((SR+hist_names[i][1])))->Clone(("hist_"+to_string(j)+"_"+to_string(i)).c_str()));
+                temp_hist->Add(temp_hist_mm);
+                
+                //scale up stuff
+                temp_hist->Scale(rare_scale_factors[i][j]);
+                //rare_hists split by year
+                rare_hists[i][j] = temp_hist;
+            }
+        }
+        //Deliberate - so that the existing histogram computation doesn't get affected
+        hists[i] = (TH1D*)(combine_histograms(hist_files[i],hist_names[i],i,plot_name,SR,rare_scale_factors[i]));
     }
     //hists[i] = (TH1D*) combine_histograms((TH1D*) hist_files[i]->Get(hist_names[i]))->Clone("hist_"+to_string(i)+"_"+plot_name);
     for(auto &it:hist_names[i])
@@ -863,6 +908,16 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
       vector<double> rare_count, TTV_count, VVV_count, WZ_count, ZZ_count;
       vector<double> rare_err, TTV_err, VVV_err, WZ_err, ZZ_err;
 
+      vector<double> rare_count_2016,TTV_count_2016,VVV_count_2016,WZ_count_2016,ZZ_count_2016;
+      vector<double> rare_err_2016, TTV_err_2016, VVV_err_2016, WZ_err_2016, ZZ_err_2016; 
+
+      vector<double> rare_count_2017,TTV_count_2017,VVV_count_2017,WZ_count_2017,ZZ_count_2017;
+      vector<double> rare_err_2017, TTV_err_2017, VVV_err_2017, WZ_err_2017, ZZ_err_2017; 
+
+      vector<double> rare_count_2018,TTV_count_2018,VVV_count_2018,WZ_count_2018,ZZ_count_2018;
+      vector<double> rare_err_2018, TTV_err_2018, VVV_err_2018, WZ_err_2018, ZZ_err_2018; 
+
+
       vector<double> FS_count;
       vector<double> FS_norm_up;
       vector<double> FS_norm_down;
@@ -967,25 +1022,59 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
         VVV_err.push_back(0);
         TTV_err.push_back(0);
 
-        ZZ_count.push_back(hists[1]->IntegralAndError(hists[1]->FindBin(stats_bins[i].first), hists[1]->FindBin(stats_bins[i].second - 0.001), ZZ_err[i]));
+        ZZ_err_2016.push_back(0);
+        ZZ_err_2017.push_back(0);
+        ZZ_err_2018.push_back(0);
+
+        WZ_err_2016.push_back(0);
+        WZ_err_2017.push_back(0);
+        WZ_err_2018.push_back(0);
+
+        VVV_err_2016.push_back(0);
+        VVV_err_2017.push_back(0);
+        VVV_err_2018.push_back(0);
+
+        TTV_err_2016.push_back(0);
+        TTV_err_2017.push_back(0);
+        TTV_err_2018.push_back(0);
+
+        ZZ_count.push_back(hists[1]->Integral(hists[1]->FindBin(stats_bins[i].first), hists[1]->FindBin(stats_bins[i].second - 0.001)));
         ZZ_err[i] = sqrt(ZZ_err[i]*ZZ_err[i]);
+        
+        ZZ_count_2016.push_back(rare_hists[0][0]->IntegralAndError(rare_hists[0][0]->FindBin(stats_bins[i].first),rare_hists[0][0]->FindBin(stats_bins[i].second),ZZ_err_2016[i]));
+        ZZ_count_2017.push_back(rare_hists[0][1]->IntegralAndError(rare_hists[0][1]->FindBin(stats_bins[i].first),rare_hists[0][1]->FindBin(stats_bins[i].second),ZZ_err_2017[i]));
+        ZZ_count_2018.push_back(rare_hists[0][2]->IntegralAndError(rare_hists[0][2]->FindBin(stats_bins[i].first),rare_hists[0][2]->FindBin(stats_bins[i].second),ZZ_err_2018[i]));
+
 
         //cout<<__LINE__<<endl;
 
-        WZ_count.push_back(hists[2]->IntegralAndError(hists[2]->FindBin(stats_bins[i].first), hists[2]->FindBin(stats_bins[i].second - 0.001), WZ_err[i]));
+        WZ_count.push_back(hists[2]->Integral(hists[2]->FindBin(stats_bins[i].first), hists[2]->FindBin(stats_bins[i].second - 0.001)));
         WZ_err[i] = sqrt(WZ_err[i]*WZ_err[i]);
+
+        WZ_count_2016.push_back(rare_hists[1][0]->IntegralAndError(rare_hists[1][0]->FindBin(stats_bins[i].first),rare_hists[1][0]->FindBin(stats_bins[i].second),WZ_err_2016[i]));
+        WZ_count_2017.push_back(rare_hists[1][1]->IntegralAndError(rare_hists[1][1]->FindBin(stats_bins[i].first),rare_hists[1][1]->FindBin(stats_bins[i].second),WZ_err_2017[i]));
+        WZ_count_2018.push_back(rare_hists[1][2]->IntegralAndError(rare_hists[1][2]->FindBin(stats_bins[i].first),rare_hists[1][2]->FindBin(stats_bins[i].second),WZ_err_2018[i]));
+
 
         //From when Vince had WZ and ZZ together
         //ZZ_count[i] += hists[2]->IntegralAndError(hists[2]->FindBin(stats_bins[i].first), hists[2]->FindBin(stats_bins[i].second - 0.001), r_err);
 
         //cout<<__LINE__<<endl;
 
-        VVV_count.push_back(hists[3]->IntegralAndError(hists[3]->FindBin(stats_bins[i].first), hists[3]->FindBin(stats_bins[i].second - 0.001), VVV_err[i]));
+        VVV_count.push_back(hists[3]->Integral(hists[3]->FindBin(stats_bins[i].first), hists[3]->FindBin(stats_bins[i].second - 0.001)));
+
+        VVV_count_2016.push_back(rare_hists[2][0]->IntegralAndError(rare_hists[2][0]->FindBin(stats_bins[i].first),rare_hists[2][0]->FindBin(stats_bins[i].second),VVV_err_2016[i]));
+        VVV_count_2017.push_back(rare_hists[2][1]->IntegralAndError(rare_hists[2][1]->FindBin(stats_bins[i].first),rare_hists[2][1]->FindBin(stats_bins[i].second),VVV_err_2017[i]));
+        VVV_count_2018.push_back(rare_hists[2][2]->IntegralAndError(rare_hists[2][2]->FindBin(stats_bins[i].first),rare_hists[2][2]->FindBin(stats_bins[i].second),VVV_err_2018[i]));
 
         //cout<<__LINE__<<endl;
 
         TTV_count.push_back(hists[4]->IntegralAndError(hists[4]->FindBin(stats_bins[i].first), hists[4]->FindBin(stats_bins[i].second - 0.001), TTV_err[i]));
         //cout<<__LINE__<<endl;
+        TTV_count_2016.push_back(rare_hists[3][0]->IntegralAndError(rare_hists[3][0]->FindBin(stats_bins[i].first),rare_hists[3][0]->FindBin(stats_bins[i].second),TTV_err_2016[i]));
+        TTV_count_2017.push_back(rare_hists[3][1]->IntegralAndError(rare_hists[3][1]->FindBin(stats_bins[i].first),rare_hists[3][1]->FindBin(stats_bins[i].second),TTV_err_2017[i]));
+        TTV_count_2018.push_back(rare_hists[3][2]->IntegralAndError(rare_hists[3][2]->FindBin(stats_bins[i].first),rare_hists[3][2]->FindBin(stats_bins[i].second),TTV_err_2018[i]));
+
       }
 
       
@@ -996,35 +1085,45 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
       cout<<"Computing full errors"<<endl;
 
       //Get Rare Scale factors
-      double ZZ_scale = (conf->get("hist_1_scale") == "") ? 1 : stod(conf->get("hist_1_scale"));
-      double WZ_scale = (conf->get("hist_2_scale") == "") ? 1 : stod(conf->get("hist_2_scale"));
-      double VVV_scale = (conf->get("hist_3_scale") == "") ? 1 : stod(conf->get("hist_3_scale"));
-      double TTV_scale = (conf->get("hist_4_scale") == "") ? 1 : stod(conf->get("hist_4_scale"));
+      vector<float> ZZ_scale = rare_scale_factors[0];
+      vector<float> WZ_scale = rare_scale_factors[1];
+      vector <float>VVV_scale = rare_scale_factors[2];
+      vector<float> TTV_scale = rare_scale_factors[3];
       
+
+      vector<float> ZZ_scale_stat_unc = rare_scale_errors[0];
+      vector<float> WZ_scale_stat_unc = rare_scale_errors[1];
+      vector<float> VVV_scale_stat_unc = rare_scale_errors[2];
+      vector<float> TTV_scale_stat_unc = rare_scale_errors[3];
       //Rare MC systematic uncertainty
 
-      double ZZ_scale_unc = (conf->get("hist_1_scale_unc") == "") ? .5 : stod(conf->get("hist_1_scale_unc"));
-      double WZ_scale_unc = (conf->get("hist_2_scale_unc") == "") ? .3 : stod(conf->get("hist_2_scale_unc"));
-      double VVV_scale_unc = (conf->get("hist_3_scale_unc") == "") ? .5 : stod(conf->get("hist_3_scale_unc"));
-      double TTV_scale_unc = (conf->get("hist_4_scale_unc") == "") ? .3 : stod(conf->get("hist_4_scale_unc"));
+      double ZZ_scale_syst_unc = (conf->get("hist_1_scale_unc") == "") ? .5 : stod(conf->get("hist_1_scale_unc"));
+      double WZ_scale_syst_unc = (conf->get("hist_2_scale_unc") == "") ? .3 : stod(conf->get("hist_2_scale_unc"));
+      double VVV_scale_syst_unc = (conf->get("hist_3_scale_unc") == "") ? .5 : stod(conf->get("hist_3_scale_unc"));
+      double TTV_scale_syst_unc = (conf->get("hist_4_scale_unc") == "") ? .3 : stod(conf->get("hist_4_scale_unc"));
 
-      for (size_t i = 0; i < ZZ_err.size(); i++){
-        cout<<"RAREDEBUG| bin "<<i<<": ZZ (scaled): "<<ZZ_count[i]<<" +/- "<<ZZ_err[i]<<" ("<<ZZ_count[i]*ZZ_scale<<")"<<endl;
-        cout<<"RAREDEBUG| bin "<<i<<": WZ (scaled): "<<WZ_count[i]<<" +/- "<<WZ_err[i]<<" ("<<WZ_count[i]*WZ_scale<<")"<<endl;
-        cout<<"RAREDEBUG| bin "<<i<<": VVV (scaled): "<<VVV_count[i]<<" +/- "<<VVV_err[i]<<" ("<<VVV_count[i]*VVV_scale<<")"<<endl;
-        cout<<"RAREDEBUG| bin "<<i<<": TTZ (scaled): "<<TTV_count[i]<<" +/- "<<TTV_err[i]<<" ("<<TTV_count[i]*TTV_scale<<")"<<endl;
-      }
 
       //Compute rare errors
-      ZZ_err = getRareSamplesError(ZZ_err, ZZ_count, ZZ_scale, ZZ_scale_unc, SR == "" ? conf->get("SR"):SR);
+      ZZ_err_2016 = getRareSamplesError(ZZ_err_2016, ZZ_count_2016, ZZ_scale[0], ZZ_scale_stat_unc[0],ZZ_scale_syst_unc, SR == "" ? conf->get("SR"):SR);
+      ZZ_err_2017 = getRareSamplesError(ZZ_err_2017, ZZ_count_2017, ZZ_scale[1], ZZ_scale_stat_unc[1],ZZ_scale_syst_unc, SR == "" ? conf->get("SR"):SR);
+      ZZ_err_2018 = getRareSamplesError(ZZ_err_2018, ZZ_count_2018, ZZ_scale[2], ZZ_scale_stat_unc[2],ZZ_scale_syst_unc, SR == "" ? conf->get("SR"):SR);
+
       //cout<<__LINE__<<endl;
-      WZ_err = getRareSamplesError(WZ_err, WZ_count, WZ_scale, WZ_scale_unc, SR == "" ? conf->get("SR"):SR);
+      WZ_err_2016 = getRareSamplesError(WZ_err_2016, WZ_count_2016, WZ_scale[0], WZ_scale_stat_unc[0],WZ_scale_syst_unc, SR == "" ? conf->get("SR"):SR);
+      WZ_err_2017 = getRareSamplesError(WZ_err_2017, WZ_count_2017, WZ_scale[1], WZ_scale_stat_unc[1],WZ_scale_syst_unc, SR == "" ? conf->get("SR"):SR);
+      WZ_err_2018 = getRareSamplesError(WZ_err_2018, WZ_count_2018, WZ_scale[2], WZ_scale_stat_unc[2], WZ_scale_syst_unc, SR == "" ? conf->get("SR"):SR);
+ 
       //cout<<__LINE__<<endl;
-      VVV_err = getRareSamplesError(VVV_err, VVV_count, VVV_scale, VVV_scale_unc, SR == "" ? conf->get("SR"):SR);
+      VVV_err_2016 = getRareSamplesError(VVV_err_2016, VVV_count_2016, VVV_scale[0], VVV_scale_stat_unc[0],VVV_scale_syst_unc, SR == "" ? conf->get("SR"):SR);
+      VVV_err_2017 = getRareSamplesError(VVV_err_2017, VVV_count_2017, VVV_scale[1], VVV_scale_stat_unc[1], VVV_scale_syst_unc, SR == "" ? conf->get("SR"):SR);
+      VVV_err_2018 = getRareSamplesError(VVV_err_2018, VVV_count_2018, VVV_scale[2], VVV_scale_stat_unc[2], VVV_scale_syst_unc, SR == "" ? conf->get("SR"):SR);
+
       //cout<<__LINE__<<endl;
-      TTV_err = getRareSamplesError(TTV_err, TTV_count, TTV_scale, TTV_scale_unc, SR == "" ? conf->get("SR"): SR);
       //cout<<__LINE__<<endl;
-      
+      TTV_err_2016 = getRareSamplesError(TTV_err_2016, TTV_count_2016, TTV_scale[0], TTV_scale_stat_unc[0], TTV_scale_syst_unc, SR == "" ? conf->get("SR"):SR);
+      TTV_err_2017 = getRareSamplesError(TTV_err_2017, TTV_count_2017, TTV_scale[1], TTV_scale_stat_unc[1], TTV_scale_syst_unc, SR == "" ? conf->get("SR"):SR);
+      TTV_err_2018 = getRareSamplesError(TTV_err_2018, TTV_count_2018, TTV_scale[2], TTV_scale_stat_unc[2], TTV_scale_syst_unc, SR == "" ? conf->get("SR"):SR);
+
       cout<<"Template count in normalization bin="<<template_count[norm_bin]<<endl;
       vector<double> temp_err = getMetTemplatesError(template_error, template_count, normalization, norm_bin, stats_bins, SR == "" ? conf->get("SR"): SR,SR != ""?true:false,conf->get("EWK_hist_location"));
       //cout<<__LINE__<<endl;
@@ -1052,12 +1151,18 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
       //Add all rare samples together with scale factors applied
       for (size_t i = 0; i < ZZ_err.size(); i++){
 
-        cout<<"RAREDEBUG| bin "<<i<<": ZZ (scaled): "<<ZZ_count[i]<<" ("<<ZZ_count[i]*ZZ_scale<<" +/- "<<ZZ_err[i]<<")"<<endl;
-        cout<<"RAREDEBUG| bin "<<i<<": WZ (scaled): "<<WZ_count[i]<<" ("<<WZ_count[i]*WZ_scale<<" +/- "<<WZ_err[i]<<")"<<endl;
-        cout<<"RAREDEBUG| bin "<<i<<": VVV (scaled): "<<VVV_count[i]<<" ("<<VVV_count[i]*VVV_scale<<" +/- "<<VVV_err[i]<<")"<<endl;
-        cout<<"RAREDEBUG| bin "<<i<<": TTZ (scaled): "<<TTV_count[i]<<" ("<<TTV_count[i]*TTV_scale<<" +/- "<<TTV_err[i]<<")"<<endl;
+        ZZ_err[i] = sqrt(ZZ_err_2016[i] * ZZ_err_2016[i] + ZZ_err_2017[i] * ZZ_err_2017[i] + ZZ_err_2018[i] * ZZ_err_2018[i]);
+        WZ_err[i] = sqrt(WZ_err_2016[i] * WZ_err_2016[i] + WZ_err_2017[i] * WZ_err_2017[i] + WZ_err_2018[i] * WZ_err_2018[i]);
+        TTV_err[i] = sqrt(TTV_err_2016[i] * TTV_err_2016[i] + TTV_err_2017[i] * TTV_err_2017[i] + TTV_err_2018[i] * TTV_err_2018[i]);
+        VVV_err[i] = sqrt(VVV_err_2016[i] * VVV_err_2016[i] + VVV_err_2017[i] * VVV_err_2017[i] + VVV_err_2018[i] * VVV_err_2018[i]);
 
-        rare_count.push_back(ZZ_scale*ZZ_count[i]+WZ_scale*WZ_count[i]+VVV_scale*VVV_count[i]+TTV_scale*TTV_count[i]);
+
+        cout<<"RAREDEBUG| bin "<<i<<": ZZ (scaled): "<<ZZ_count[i]<<endl;
+        cout<<"RAREDEBUG| bin "<<i<<": WZ (scaled): "<<WZ_count[i]<< endl;
+        cout<<"RAREDEBUG| bin "<<i<<": VVV (scaled): "<<VVV_count[i]<<endl;
+        cout<<"RAREDEBUG| bin "<<i<<": TTZ (scaled): "<<TTV_count[i]<<endl;
+
+        rare_count.push_back(ZZ_count[i] + WZ_count[i] + TTV_count[i] + VVV_count[i]);
         rare_err.push_back(sqrt(ZZ_err[i]*ZZ_err[i] + WZ_err[i]*WZ_err[i] + VVV_err[i]*VVV_err[i] + TTV_err[i]*TTV_err[i]));
 
         //For cross checking with Vince
@@ -1070,10 +1175,13 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
       cout<<setprecision(10);
       //cout<<"{mcbkg_scale_unc} "<<1. + (sqrt( pow(ZZ_count*ZZ_scale_unc,2) + pow(WZ_count*WZ_scale_unc,2) + pow(VVV_count*VVV_scale_unc,2) + pow(TTV_count*TTV_scale_unc,2))/)<<endl;
       for (int i = 0; i<(int)rare_count.size(); i++){
-        cout<<"{mcbkg_scale_unc_bin"<<i<<"} "<<1. + (sqrt( pow(ZZ_count[i]*ZZ_scale_unc,2) + pow(WZ_count[i]*WZ_scale_unc,2) + pow(VVV_count[i]*VVV_scale_unc,2) + pow(TTV_count[i]*TTV_scale_unc,2))/rare_count[i])<<endl;
+//        cout<<"{mcbkg_scale_stat_unc_bin"<<i<<"} "<<1. + (sqrt( pow(ZZ_count[i]*ZZ_scale_unc,2) + pow(WZ_count[i]*WZ_scale_unc,2) + pow(VVV_count[i]*VVV_scale_unc,2) + pow(TTV_count[i]*TTV_scale_unc,2))/rare_count[i])<<endl;
+//        cout<<"{mcbkg_scale_syst_unc_bin"<<i<<"} "<<1. + s
         cout<<"{BGbin"<<i<<"_mcbkg} "<<rare_count[i]<<endl;
         cout<<"{mc_stat_bin"<<i<<"} "<<1.+rare_err[i]/rare_count[i]<<endl;
       }
+
+
       for (int i = 0; i<(int)signal_count.size(); i++){
         cout<<"{bin"<<i<<"_yield} "<<signal_count[i]<<endl;
       }

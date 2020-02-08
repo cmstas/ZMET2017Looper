@@ -459,7 +459,7 @@ pair<vector<double>,vector<double>> getFSError(const vector<double> &bin_count, 
 
 
 
-vector<double> getRareSamplesError(const vector<double> &stat_err, const vector<double> &bin_count, double scale, double scale_unc, TString SR){
+vector<double> getRareSamplesError(const vector<double> &stat_err, const vector<double> &bin_count, float scale, float scale_stat_unc, double scale_syst_unc, TString SR){
   double err_bin;
 
   vector<double> error;
@@ -467,8 +467,9 @@ vector<double> getRareSamplesError(const vector<double> &stat_err, const vector<
   //σ^2 = stat_err^2 + (scale*bin_count*.5)^2
   for(size_t i=0; i<stat_err.size(); i++){
     err_bin = 0;
-    err_bin += scale*scale*scale_unc*scale_unc*bin_count[i]*bin_count[i];
-    err_bin += scale * scale * stat_err[i]*stat_err[i];
+    err_bin+= stat_err[i] * stat_err[i];
+    err_bin += scale_syst_unc*scale_syst_unc*bin_count[i]*bin_count[i];
+    err_bin += (scale_stat_unc/scale) * (scale_stat_unc/scale) * bin_count[i] * bin_count[i];
 
     error.push_back(sqrt(err_bin));
   }
@@ -670,7 +671,7 @@ void computeErrors(){
 
   vector<double> temp_err = getMetTemplatesError(temp_stat_err, temp_bin_count, sqrt(6995), 1, bin_edge, "2j");
   pair<vector<double>,vector<double>> FS_err = getFSError(FS_bin_count, 1.087,0, "2j");
-  vector<double> rare_err = getRareSamplesError(rare_stat_err, rare_bin_count, 1.5, .5, "2j");
+  vector<double> rare_err = getRareSamplesError(rare_stat_err, rare_bin_count, 1.5, 0.1, .5, "2j");
   cout<<"====================================\n\n\n";
   printErrors(temp_err, rare_err, FS_err, bin_low);
 }
