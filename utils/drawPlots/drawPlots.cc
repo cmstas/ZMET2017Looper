@@ -66,10 +66,12 @@ TH1D *combine_histograms(vector<TFile*> hist_files, std::vector<TString> hist_na
       {
           //Additional check to ensure a non-null histogram is not added to a null histogram pointer
           TH1D * temp_hist = (TH1D*)hist_files.at(i)->Get(SR+hist_names.at(j)); 
-          if(scale_factors.size() > (i*hist_names.size() +j))
+          if(scale_factors.size() > ((i * hist_names.size() + j))/(1+ee_mm_split))
           {
-            temp_hist->Scale(scale_factors[i*hist_names.size()+j]);
-            cout<<"Scaling "<<hist_files[i]->GetName()<<":"<<SR+hist_names[j]<<" with factor="<<scale_factors[i*hist_names.size()+j]<<endl;
+            cout<<(i*hist_names.size()+j)/(1+ee_mm_split)<<endl;
+            double scale_value = scale_factors[(i*hist_names.size()+j)/(1+ee_mm_split)]; 
+            temp_hist->Scale(scale_value);
+            cout<<"Scaling "<<hist_files[i]->GetName()<<":"<<SR+hist_names[j]<<" with factor="<<scale_value<<endl;
           }
           if(final_hist != nullptr)
               final_hist->Add(temp_hist); 
@@ -397,19 +399,22 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
             TH1D* temp_hist_mm_tau21_down;
             for(int j = 0; j < 3; j++)
             {
+                cout<<"j="<<j<<endl;
                 temp_hist = (TH1D*)(((TH1D*) (hist_files[i][j]->Get(SR+hist_names[i][0])))->Clone(("hist_"+to_string(j)+"_"+to_string(i)).c_str()));
                 temp_hist_mm = (TH1D*)((TH1D*) (hist_files[i][j]->Get((SR+hist_names[i][1])))->Clone(("hist_"+to_string(j)+"_"+to_string(i)).c_str()));
                 temp_hist->Add(temp_hist_mm);
                 
                 //scale up stuff
+                cout<<"scaling with factor="<<rare_scale_factors[i-1][j]<<endl;
                 temp_hist->Scale(rare_scale_factors[i-1][j]);
+                cout<<temp_hist->GetName()<<endl;
                 //rare_hists split by year
-                rare_hists[i][j] = temp_hist;
+                rare_hists[i-1][j] = temp_hist;
             }
 
         }
         //Deliberate - so that the existing histogram computation doesn't get affected
-        hists[i] = (TH1D*)(combine_histograms(hist_files[i],hist_names[i],i,plot_name,SR,rare_scale_factors[i-1]));
+        hists[i] = (TH1D*)(combine_histograms(hist_files[i],hist_names[i],i,plot_name,SR,rare_scale_factors[i-1],true));
     }
     else
     {
