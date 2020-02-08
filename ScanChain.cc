@@ -3879,8 +3879,11 @@ void ZMETLooper::fillBoostedHists(std::vector<size_t> g_fatjet_indices,std::stri
     //tau21 up and down variation MET histogram
     double tau21_weight_up = weight * fatJetScaleFactor(1);
     double tau21_weight_down = weight * fatJetScaleFactor(-1);
-    fill1DHistograms(prefix+"type1MET_tau21_up",g_met,tau21_weight_up,allHistos,"",6000,0,6000,rootdir);
-    fill1DHistograms(prefix+"type1MET_tau21_down",g_met,tau21_weight_down,allHistos,"",6000,0,6000,rootdir);
+    if(!phys.isData())
+    {
+        fill1DHistograms(prefix+"type1MET_tau21_up",g_met,tau21_weight_up,allHistos,"",6000,0,6000,rootdir);
+        fill1DHistograms(prefix+"type1MET_tau21_down",g_met,tau21_weight_down,allHistos,"",6000,0,6000,rootdir);
+    }
 
     fill1DHistograms(prefix+"nFatJets",phys.nFatJets(),weight,allHistos,"",50,0,50,rootdir);
 
