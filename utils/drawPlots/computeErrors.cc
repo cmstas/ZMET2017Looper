@@ -567,10 +567,6 @@ std::pair<std::vector<double>,std::vector<double>> getTau21Error(const std::vect
         count_central.push_back(count_central_2016[i] + count_central_2017[i] + count_central_2018[i]);
     }
 
-    for(size_t i = 0; i<error_up.size();i++)
-    {
-        cout<<"{mcbkg_tau21_tag_syst_bin} "<<1+error_up[i]/count_central[i]<<"/"<<1-error_down[i]/count_central[i]<<endl;
-    }
 
     return std::make_pair(error_up,error_down);
 }
