@@ -1380,10 +1380,6 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
             rare_tau21_error_up.push_back(ZZ_tau21_error_up[i] * ZZ_tau21_error_up[i] +WZ_tau21_error_up[i] * WZ_tau21_error_up[i] + TTV_tau21_error_up[i] * TTV_tau21_error_up[i] + VVV_tau21_error_up[i] * VVV_tau21_error_up[i]);
             rare_tau21_error_down.push_back(ZZ_tau21_error_down[i] * ZZ_tau21_error_down[i] +WZ_tau21_error_down[i] * WZ_tau21_error_down[i] + TTV_tau21_error_down[i] * TTV_tau21_error_down[i] + VVV_tau21_error_down[i] * VVV_tau21_error_down[i]);
 
-            double error_up = rare_count[i] != 0 ? rare_tau21_error_up[i]/rare_count[i] : 0;
-            double error_down = rare_count[i] != 0 ? rare_tau21_error_down[i]/rare_count[i] : 0;
-
-            cout<<"{mcbkg_tau21_tag_syst_bin"<<i<<"} "<<1+error_up<<"/"<<1-error_down<<endl;
 
         }
 
@@ -1403,7 +1399,13 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
         cout<<"{mc_stat_bin"<<i<<"} "<<1.+rare_stat_err[i]/rare_count[i]<<endl;
         cout<<"{mcbkg_scale_stat_unc_bin"<<i<<"}"<<1.+rare_scale_stat_err[i]/rare_count[i]<<endl;
         cout<<"{mcbkg_scale_syst_unc_bin"<<i<<"}"<<1.+rare_scale_syst_err[i]/rare_count[i]<<endl;
+        if(SR.Contains("Boosted"))
+        {
+            double error_up = rare_count[i] != 0 ? rare_tau21_error_up[i]/rare_count[i] : 0;
+            double error_down = rare_count[i] != 0 ? rare_tau21_error_down[i]/rare_count[i] : 0;
 
+            cout<<"{mcbkg_tau21_tag_syst_bin"<<i<<"} "<<1+error_up<<"/"<<1-error_down<<endl;
+        }
 
       }
 
