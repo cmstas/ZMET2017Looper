@@ -404,18 +404,69 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
             for(int j = 0; j < 3; j++)
             {
                 cout<<"j="<<j<<endl;
-                temp_hist = (TH1D*)(((TH1D*) (hist_files[i][j]->Get(SR+hist_names[i][0])))->Clone(("hist_"+to_string(j)+"_"+to_string(i)).c_str()));
-                temp_hist_mm = (TH1D*)((TH1D*) (hist_files[i][j]->Get((SR+hist_names[i][1])))->Clone(("hist_"+to_string(j)+"_"+to_string(i)).c_str()));
+                if(hist_files[i][j]->Get(SR+hist_names[i][0]) != nullptr)
+                {
+                    temp_hist = (TH1D*)(((TH1D*) (hist_files[i][j]->Get(SR+hist_names[i][0])))->Clone(("hist_"+to_string(j)+"_"+to_string(i)).c_str()));
+                }
+                else
+                {
+                    temp_hist = (TH1D*)(hists[0]->Clone(("hist_"+to_string(j)+"_"+to_string(i)).c_str()));
+                    temp_hist->Reset();
+                }
+                if(hist_files[i][j]->Get(SR+hist_names[i][1]) != nullptr)
+                {    
+                    temp_hist_mm = (TH1D*)((TH1D*) (hist_files[i][j]->Get((SR+hist_names[i][1])))->Clone(("hist_mm_"+to_string(j)+"_"+to_string(i)).c_str()));
+                }
+                else
+                {
+                    temp_hist_mm = (TH1D*)(hists[0]->Clone(("hist_mm_"+to_string(j)+"_"+to_string(i)).c_str()));
+                    temp_hist_mm->Reset();
+                }
                 temp_hist->Add(temp_hist_mm);
                 
                 if(boosted_SR)
                 {
-                    temp_hist_tau21_up = (TH1D*)(((TH1D*) (hist_files[i][j]->Get(SR+hist_names[i][0]+"_tau21_up")))->Clone(("hist_"+to_string(j)+"_"+to_string(i)+"tau21_up").c_str()));
-                    temp_hist_mm_tau21_up = (TH1D*)(((TH1D*) (hist_files[i][j]->Get(SR+hist_names[i][1]+"_tau21_up")))->Clone(("hist_"+to_string(j)+"_"+to_string(i)+"tau21_up").c_str()));
-                    temp_hist_tau21_up->Add(temp_hist_mm_tau21_up);
+                    if(hist_files[i][j]->Get(SR+hist_names[i][0]+"_tau21_up") != nullptr)
+                    {
+                        temp_hist_tau21_up = (TH1D*)(((TH1D*) (hist_files[i][j]->Get(SR+hist_names[i][0]+"_tau21_up")))->Clone(("hist_"+to_string(j)+"_"+to_string(i)+"tau21_up").c_str()));
+                    }
+                    else
+                    {
+                        temp_hist_tau21_up = (TH1D*)(hists[0]->Clone(("hist_"+to_string(j)+"_"+to_string(i)+"tau21_up").c_str()));
+                        temp_hist_tau21_up->Reset();
+                    }
 
-                    temp_hist_tau21_down = (TH1D*)(((TH1D*) (hist_files[i][j]->Get(SR+hist_names[i][0]+"_tau21_down")))->Clone(("hist_"+to_string(j)+"_"+to_string(i)+"tau21_up").c_str()));
-                    temp_hist_mm_tau21_down =(TH1D*)(((TH1D*) (hist_files[i][j]->Get(SR+hist_names[i][1]+"_tau21_down")))->Clone(("hist_"+to_string(j)+"_"+to_string(i)+"tau21_down").c_str()));
+                    if(hist_files[i][j]->Get(SR+hist_names[i][1]+"_tau21_up") != nullptr)
+                    {
+                        temp_hist_mm_tau21_up = (TH1D*)(((TH1D*) (hist_files[i][j]->Get(SR+hist_names[i][1]+"_tau21_up")))->Clone(("hist_mm_"+to_string(j)+"_"+to_string(i)+"tau21_up").c_str()));
+                    }
+                    else
+                    {
+                        temp_hist_mm_tau21_up = (TH1D*)(hists[0]->Clone(("hist_mm_"+to_string(j)+"_"+to_string(i)+"tau21_up").c_str()));
+                        temp_hist_mm_tau21_up->Reset();
+
+                    }
+                    temp_hist_tau21_up->Add(temp_hist_mm_tau21_up);
+                    
+                    if(hist_files[i][j]->Get(SR+hist_names[i][0]+"_tau21_down") != nullptr)
+                    {
+                        temp_hist_tau21_down = (TH1D*)(((TH1D*) (hist_files[i][j]->Get(SR+hist_names[i][0]+"_tau21_down")))->Clone(("hist_"+to_string(j)+"_"+to_string(i)+"tau21_down").c_str()));
+                    }
+                    else
+                    {
+                        temp_hist_tau21_down = (TH1D*)(hists[0]->Clone(("hist_"+to_string(j)+"_"+to_string(i)+"tau21_down").c_str()));
+                        temp_hist_tau21_down->Reset();
+                    }
+
+                    if(hist_files[i][j]->Get(SR+hist_names[i][1]+"_tau21_down") != nullptr)
+                    {
+                        temp_hist_mm_tau21_down =(TH1D*)(((TH1D*) (hist_files[i][j]->Get(SR+hist_names[i][1]+"_tau21_down")))->Clone(("hist_mm_"+to_string(j)+"_"+to_string(i)+"tau21_down").c_str()));
+                    }
+                    else
+                    {
+                        temp_hist_tau21_down = (TH1D*)(hists[0]->Clone(("hist_mm_"+to_string(j)+"_"+to_string(i)+"tau21_down").c_str()));
+                        temp_hist_mm_tau21_down->Reset(); 
+                    }
                     temp_hist_tau21_down->Add(temp_hist_mm_tau21_down); 
                 }
 
@@ -1143,13 +1194,16 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
         WZ_count_2018.push_back(rare_hists[1][2]->IntegralAndError(rare_hists[1][2]->FindBin(stats_bins[i].first),rare_hists[1][2]->FindBin(stats_bins[i].second),WZ_err_2018["stat"][i]));
 
 
-        WZ_tau21_up_2016.push_back(rare_hists_tau21_up[1][0]->Integral(rare_hists_tau21_up[1][0]->FindBin(stats_bins[i].first),rare_hists_tau21_up[1][0]->FindBin(stats_bins[i].second)));
-        WZ_tau21_up_2017.push_back(rare_hists_tau21_up[1][1]->Integral(rare_hists_tau21_up[1][1]->FindBin(stats_bins[i].first),rare_hists_tau21_up[1][1]->FindBin(stats_bins[i].second)));        
-        WZ_tau21_up_2018.push_back(rare_hists_tau21_up[1][2]->Integral(rare_hists_tau21_up[1][2]->FindBin(stats_bins[i].first),rare_hists_tau21_up[1][2]->FindBin(stats_bins[i].second)));
+        if(SR.Contains("Boosted"))
+        {
+            WZ_tau21_up_2016.push_back(rare_hists_tau21_up[1][0]->Integral(rare_hists_tau21_up[1][0]->FindBin(stats_bins[i].first),rare_hists_tau21_up[1][0]->FindBin(stats_bins[i].second)));
+            WZ_tau21_up_2017.push_back(rare_hists_tau21_up[1][1]->Integral(rare_hists_tau21_up[1][1]->FindBin(stats_bins[i].first),rare_hists_tau21_up[1][1]->FindBin(stats_bins[i].second)));        
+            WZ_tau21_up_2018.push_back(rare_hists_tau21_up[1][2]->Integral(rare_hists_tau21_up[1][2]->FindBin(stats_bins[i].first),rare_hists_tau21_up[1][2]->FindBin(stats_bins[i].second)));
 
-        WZ_tau21_down_2016.push_back(rare_hists_tau21_down[1][0]->Integral(rare_hists_tau21_down[1][0]->FindBin(stats_bins[i].first),rare_hists_tau21_down[1][0]->FindBin(stats_bins[i].second)));
-        WZ_tau21_down_2017.push_back(rare_hists_tau21_down[1][1]->Integral(rare_hists_tau21_down[1][1]->FindBin(stats_bins[i].first),rare_hists_tau21_down[1][1]->FindBin(stats_bins[i].second)));
-        WZ_tau21_down_2018.push_back(rare_hists_tau21_down[1][2]->Integral(rare_hists_tau21_down[1][2]->FindBin(stats_bins[i].first),rare_hists_tau21_down[1][2]->FindBin(stats_bins[i].second)));
+            WZ_tau21_down_2016.push_back(rare_hists_tau21_down[1][0]->Integral(rare_hists_tau21_down[1][0]->FindBin(stats_bins[i].first),rare_hists_tau21_down[1][0]->FindBin(stats_bins[i].second)));
+            WZ_tau21_down_2017.push_back(rare_hists_tau21_down[1][1]->Integral(rare_hists_tau21_down[1][1]->FindBin(stats_bins[i].first),rare_hists_tau21_down[1][1]->FindBin(stats_bins[i].second)));
+            WZ_tau21_down_2018.push_back(rare_hists_tau21_down[1][2]->Integral(rare_hists_tau21_down[1][2]->FindBin(stats_bins[i].first),rare_hists_tau21_down[1][2]->FindBin(stats_bins[i].second)));
+        }
 
 
 
