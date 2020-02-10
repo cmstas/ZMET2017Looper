@@ -3879,11 +3879,13 @@ void ZMETLooper::fillBoostedHists(std::vector<size_t> g_fatjet_indices,std::stri
     //tau21 up and down variation MET histogram
     double tau21_weight_up = weight * fatJetScaleFactor(1);
     double tau21_weight_down = weight * fatJetScaleFactor(-1);
-    if(!phys.isData())
-    {
+//    if(!phys.isData()) 
+//
+        //Deliberate filling of tau21_up and tau21 histograms with central value for data for templates 
+   
         fill1DHistograms(prefix+"type1MET_tau21_up",g_met,tau21_weight_up,allHistos,"",6000,0,6000,rootdir);
         fill1DHistograms(prefix+"type1MET_tau21_down",g_met,tau21_weight_down,allHistos,"",6000,0,6000,rootdir);
-    }
+   
 
     fill1DHistograms(prefix+"nFatJets",phys.nFatJets(),weight,allHistos,"",50,0,50,rootdir);
 
@@ -4180,15 +4182,22 @@ double ZMETLooper::fatJetScaleFactor(int mode)
 
     //Fancy shit because I want to show off
     //mode : 0->central, 1 -> vary up, -1 -> vary down
-    if(mode == 1)
+    //
+    if(!phys.isData())
     {
-        return 1 + uncertainty/central_value;
+        if(mode == 1)
+        {
+            return 1 + uncertainty/central_value;
+        }
+        else if(mode == -1)
+        {
+            return 1 - uncertainty/central_value;
+        }
+        else return central_value;
     }
-    else if(mode == -1)
+    else
     {
-        return 1 - uncertainty/central_value;
+        return 1.0;
     }
-    else return central_value;
-
 }
 
