@@ -24,7 +24,7 @@ std::pair<std::vector<double>,std::vector<double>> getFSError(const std::vector<
 //event by event Rsfof - factorization method
 std::pair<std::vector<double>,std::vector<double>> getFSError(const std::vector<double> &bin_count, const std::vector<double> &norm_up, const std::vector<double> &norm_down, const std::vector<double> &pt_up, const std::vector<double> &pt_down, const std::vector<double> &eta_up, const std::vector<double> &eta_down,double Kappa, double Kappa_stat_error, TString SR);
 
-std::vector<double> getRareSamplesError(const std::vector<double> &stat_err, const std::vector<double> &bin_count, float scale, float scale_stat_unc, double scale_syst_unc, TString SR);
+std::vector<double> getRareSamplesError(std::unordered_map<std::string,std::vector<double>>& all_errors, const std::vector<double> &bin_count, float scale, float scale_stat_unc, double scale_syst_unc, TString SR);
 
 void printErrors(const std::vector<double> &temp_err, const std::vector<double> &rare_err, const std::pair<std::vector<double>, std::vector<double>> &fs_err, const std::vector<double> &bin_low);
 

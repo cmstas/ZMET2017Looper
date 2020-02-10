@@ -946,15 +946,28 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
 
       vector<double> rare_count, TTV_count, VVV_count, WZ_count, ZZ_count;
       vector<double> rare_err, TTV_err, VVV_err, WZ_err, ZZ_err;
+      vector<double> rare_stat_err,TTV_stat_err,VVV_stat_err,WZ_stat_err,ZZ_stat_err;
+      vector<double> rare_scale_stat_err,TTV_scale_stat_err,VVV_scale_stat_err,WZ_scale_stat_err,ZZ_scale_stat_err;
+      vector<double> rare_scale_syst_err,VVV_scale_syst_err,TTV_scale_syst_err,WZ_scale_syst_err,ZZ_scale_syst_err;
 
       vector<double> rare_count_2016,TTV_count_2016,VVV_count_2016,WZ_count_2016,ZZ_count_2016;
-      vector<double> rare_err_2016, TTV_err_2016, VVV_err_2016, WZ_err_2016, ZZ_err_2016; 
 
+      unordered_map<std::string,std::vector<double>> rare_err_2016,TTV_err_2016,VVV_err_2016,WZ_err_2016,ZZ_err_2016;
+//      vector<double> rare_err_2016, TTV_err_2016, VVV_err_2016, WZ_err_2016, ZZ_stat_err_2016,ZZ_scale_syst_err_2016,ZZ_scale_stat_err_2016,ZZ_err_2016;
+
+      
       vector<double> rare_count_2017,TTV_count_2017,VVV_count_2017,WZ_count_2017,ZZ_count_2017;
-      vector<double> rare_err_2017, TTV_err_2017, VVV_err_2017, WZ_err_2017, ZZ_err_2017; 
+
+      unordered_map<std::string,vector<double>> rare_err_2017, TTV_err_2017, VVV_err_2017, WZ_err_2017, ZZ_err_2017; 
+
+//      vector<double> rare_err_2017, TTV_err_2017, VVV_err_2017, WZ_err_2017, ZZ_err_2017; 
 
       vector<double> rare_count_2018,TTV_count_2018,VVV_count_2018,WZ_count_2018,ZZ_count_2018;
-      vector<double> rare_err_2018, TTV_err_2018, VVV_err_2018, WZ_err_2018, ZZ_err_2018; 
+
+
+      //vector<double> rare_err_2018, TTV_err_2018, VVV_err_2018, WZ_err_2018, ZZ_err_2018; 
+
+      unordered_map<std::string,vector<double>> rare_err_2018, TTV_err_2018, VVV_err_2018, WZ_err_2018, ZZ_err_2018; 
 
     
       vector<double> TTV_tau21_up_2016,TTV_tau21_up_2017,TTV_tau21_up_2018;
@@ -1083,28 +1096,28 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
         VVV_err.push_back(0);
         TTV_err.push_back(0);
 
-        ZZ_err_2016.push_back(0);
-        ZZ_err_2017.push_back(0);
-        ZZ_err_2018.push_back(0);
+        ZZ_err_2016["stat"].push_back(0);
+        ZZ_err_2017["stat"].push_back(0);
+        ZZ_err_2018["stat"].push_back(0);
 
-        WZ_err_2016.push_back(0);
-        WZ_err_2017.push_back(0);
-        WZ_err_2018.push_back(0);
+        WZ_err_2016["stat"].push_back(0);
+        WZ_err_2017["stat"].push_back(0);
+        WZ_err_2018["stat"].push_back(0);
 
-        VVV_err_2016.push_back(0);
-        VVV_err_2017.push_back(0);
-        VVV_err_2018.push_back(0);
+        VVV_err_2016["stat"].push_back(0);
+        VVV_err_2017["stat"].push_back(0);
+        VVV_err_2018["stat"].push_back(0);
 
-        TTV_err_2016.push_back(0);
-        TTV_err_2017.push_back(0);
-        TTV_err_2018.push_back(0);
+        TTV_err_2016["stat"].push_back(0);
+        TTV_err_2017["stat"].push_back(0);
+        TTV_err_2018["stat"].push_back(0);
 
         ZZ_count.push_back(hists[1]->Integral(hists[1]->FindBin(stats_bins[i].first), hists[1]->FindBin(stats_bins[i].second - 0.001)));
         ZZ_err[i] = sqrt(ZZ_err[i]*ZZ_err[i]);
         
-        ZZ_count_2016.push_back(rare_hists[0][0]->IntegralAndError(rare_hists[0][0]->FindBin(stats_bins[i].first),rare_hists[0][0]->FindBin(stats_bins[i].second),ZZ_err_2016[i]));
-        ZZ_count_2017.push_back(rare_hists[0][1]->IntegralAndError(rare_hists[0][1]->FindBin(stats_bins[i].first),rare_hists[0][1]->FindBin(stats_bins[i].second),ZZ_err_2017[i]));
-        ZZ_count_2018.push_back(rare_hists[0][2]->IntegralAndError(rare_hists[0][2]->FindBin(stats_bins[i].first),rare_hists[0][2]->FindBin(stats_bins[i].second),ZZ_err_2018[i]));
+        ZZ_count_2016.push_back(rare_hists[0][0]->IntegralAndError(rare_hists[0][0]->FindBin(stats_bins[i].first),rare_hists[0][0]->FindBin(stats_bins[i].second),ZZ_err_2016["stat"][i]));
+        ZZ_count_2017.push_back(rare_hists[0][1]->IntegralAndError(rare_hists[0][1]->FindBin(stats_bins[i].first),rare_hists[0][1]->FindBin(stats_bins[i].second),ZZ_err_2017["stat"][i]));
+        ZZ_count_2018.push_back(rare_hists[0][2]->IntegralAndError(rare_hists[0][2]->FindBin(stats_bins[i].first),rare_hists[0][2]->FindBin(stats_bins[i].second),ZZ_err_2018["stat"][i]));
 
         if(SR.Contains("Boosted"))
         {
@@ -1125,9 +1138,9 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
         WZ_count.push_back(hists[2]->Integral(hists[2]->FindBin(stats_bins[i].first), hists[2]->FindBin(stats_bins[i].second - 0.001)));
         WZ_err[i] = sqrt(WZ_err[i]*WZ_err[i]);
 
-        WZ_count_2016.push_back(rare_hists[1][0]->IntegralAndError(rare_hists[1][0]->FindBin(stats_bins[i].first),rare_hists[1][0]->FindBin(stats_bins[i].second),WZ_err_2016[i]));
-        WZ_count_2017.push_back(rare_hists[1][1]->IntegralAndError(rare_hists[1][1]->FindBin(stats_bins[i].first),rare_hists[1][1]->FindBin(stats_bins[i].second),WZ_err_2017[i]));
-        WZ_count_2018.push_back(rare_hists[1][2]->IntegralAndError(rare_hists[1][2]->FindBin(stats_bins[i].first),rare_hists[1][2]->FindBin(stats_bins[i].second),WZ_err_2018[i]));
+        WZ_count_2016.push_back(rare_hists[1][0]->IntegralAndError(rare_hists[1][0]->FindBin(stats_bins[i].first),rare_hists[1][0]->FindBin(stats_bins[i].second),WZ_err_2016["stat"][i]));
+        WZ_count_2017.push_back(rare_hists[1][1]->IntegralAndError(rare_hists[1][1]->FindBin(stats_bins[i].first),rare_hists[1][1]->FindBin(stats_bins[i].second),WZ_err_2017["stat"][i]));
+        WZ_count_2018.push_back(rare_hists[1][2]->IntegralAndError(rare_hists[1][2]->FindBin(stats_bins[i].first),rare_hists[1][2]->FindBin(stats_bins[i].second),WZ_err_2018["stat"][i]));
 
 
         WZ_tau21_up_2016.push_back(rare_hists_tau21_up[1][0]->Integral(rare_hists_tau21_up[1][0]->FindBin(stats_bins[i].first),rare_hists_tau21_up[1][0]->FindBin(stats_bins[i].second)));
@@ -1147,9 +1160,9 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
 
         VVV_count.push_back(hists[3]->Integral(hists[3]->FindBin(stats_bins[i].first), hists[3]->FindBin(stats_bins[i].second - 0.001)));
 
-        VVV_count_2016.push_back(rare_hists[2][0]->IntegralAndError(rare_hists[2][0]->FindBin(stats_bins[i].first),rare_hists[2][0]->FindBin(stats_bins[i].second),VVV_err_2016[i]));
-        VVV_count_2017.push_back(rare_hists[2][1]->IntegralAndError(rare_hists[2][1]->FindBin(stats_bins[i].first),rare_hists[2][1]->FindBin(stats_bins[i].second),VVV_err_2017[i]));
-        VVV_count_2018.push_back(rare_hists[2][2]->IntegralAndError(rare_hists[2][2]->FindBin(stats_bins[i].first),rare_hists[2][2]->FindBin(stats_bins[i].second),VVV_err_2018[i]));
+        VVV_count_2016.push_back(rare_hists[2][0]->IntegralAndError(rare_hists[2][0]->FindBin(stats_bins[i].first),rare_hists[2][0]->FindBin(stats_bins[i].second),VVV_err_2016["stat"][i]));
+        VVV_count_2017.push_back(rare_hists[2][1]->IntegralAndError(rare_hists[2][1]->FindBin(stats_bins[i].first),rare_hists[2][1]->FindBin(stats_bins[i].second),VVV_err_2017["stat"][i]));
+        VVV_count_2018.push_back(rare_hists[2][2]->IntegralAndError(rare_hists[2][2]->FindBin(stats_bins[i].first),rare_hists[2][2]->FindBin(stats_bins[i].second),VVV_err_2018["stat"][i]));
 
         if(SR.Contains("Boosted"))
         {
@@ -1167,9 +1180,9 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
 
         TTV_count.push_back(hists[4]->IntegralAndError(hists[4]->FindBin(stats_bins[i].first), hists[4]->FindBin(stats_bins[i].second - 0.001), TTV_err[i]));
         //cout<<__LINE__<<endl;
-        TTV_count_2016.push_back(rare_hists[3][0]->IntegralAndError(rare_hists[3][0]->FindBin(stats_bins[i].first),rare_hists[3][0]->FindBin(stats_bins[i].second),TTV_err_2016[i]));
-        TTV_count_2017.push_back(rare_hists[3][1]->IntegralAndError(rare_hists[3][1]->FindBin(stats_bins[i].first),rare_hists[3][1]->FindBin(stats_bins[i].second),TTV_err_2017[i]));
-        TTV_count_2018.push_back(rare_hists[3][2]->IntegralAndError(rare_hists[3][2]->FindBin(stats_bins[i].first),rare_hists[3][2]->FindBin(stats_bins[i].second),TTV_err_2018[i]));
+        TTV_count_2016.push_back(rare_hists[3][0]->IntegralAndError(rare_hists[3][0]->FindBin(stats_bins[i].first),rare_hists[3][0]->FindBin(stats_bins[i].second),TTV_err_2016["stat"][i]));
+        TTV_count_2017.push_back(rare_hists[3][1]->IntegralAndError(rare_hists[3][1]->FindBin(stats_bins[i].first),rare_hists[3][1]->FindBin(stats_bins[i].second),TTV_err_2017["stat"][i]));
+        TTV_count_2018.push_back(rare_hists[3][2]->IntegralAndError(rare_hists[3][2]->FindBin(stats_bins[i].first),rare_hists[3][2]->FindBin(stats_bins[i].second),TTV_err_2018["stat"][i]));
 
         if(SR.Contains("TTV"))
         {
@@ -1211,27 +1224,27 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
 
 
       //Compute rare errors
-      ZZ_err_2016 = getRareSamplesError(ZZ_err_2016, ZZ_count_2016, ZZ_scale[0], ZZ_scale_stat_unc[0],ZZ_scale_syst_unc, SR == "" ? conf->get("SR"):SR);
-      ZZ_err_2017 = getRareSamplesError(ZZ_err_2017, ZZ_count_2017, ZZ_scale[1], ZZ_scale_stat_unc[1],ZZ_scale_syst_unc, SR == "" ? conf->get("SR"):SR);
-      ZZ_err_2018 = getRareSamplesError(ZZ_err_2018, ZZ_count_2018, ZZ_scale[2], ZZ_scale_stat_unc[2],ZZ_scale_syst_unc, SR == "" ? conf->get("SR"):SR);
+      ZZ_err_2016["total"] = getRareSamplesError(ZZ_err_2016, ZZ_count_2016, ZZ_scale[0], ZZ_scale_stat_unc[0],ZZ_scale_syst_unc, SR == "" ? conf->get("SR"):SR);
+      ZZ_err_2017["total"] = getRareSamplesError(ZZ_err_2017, ZZ_count_2017, ZZ_scale[1], ZZ_scale_stat_unc[1],ZZ_scale_syst_unc, SR == "" ? conf->get("SR"):SR);
+      ZZ_err_2018["total"] = getRareSamplesError(ZZ_err_2018, ZZ_count_2018, ZZ_scale[2], ZZ_scale_stat_unc[2],ZZ_scale_syst_unc, SR == "" ? conf->get("SR"):SR);
 
       if(SR.Contains("Boosted"))
           std::tie(ZZ_tau21_error_up,ZZ_tau21_error_down) = getTau21Error(ZZ_count_2016,ZZ_count_2017,ZZ_count_2018,ZZ_tau21_up_2016,ZZ_tau21_up_2017,ZZ_tau21_up_2018,ZZ_tau21_down_2016,ZZ_tau21_down_2017,ZZ_tau21_down_2018);
 
 
       //cout<<__LINE__<<endl;
-      WZ_err_2016 = getRareSamplesError(WZ_err_2016, WZ_count_2016, WZ_scale[0], WZ_scale_stat_unc[0],WZ_scale_syst_unc, SR == "" ? conf->get("SR"):SR);
-      WZ_err_2017 = getRareSamplesError(WZ_err_2017, WZ_count_2017, WZ_scale[1], WZ_scale_stat_unc[1],WZ_scale_syst_unc, SR == "" ? conf->get("SR"):SR);
-      WZ_err_2018 = getRareSamplesError(WZ_err_2018, WZ_count_2018, WZ_scale[2], WZ_scale_stat_unc[2], WZ_scale_syst_unc, SR == "" ? conf->get("SR"):SR);
+      WZ_err_2016["total"] = getRareSamplesError(WZ_err_2016, WZ_count_2016, WZ_scale[0], WZ_scale_stat_unc[0],WZ_scale_syst_unc, SR == "" ? conf->get("SR"):SR);
+      WZ_err_2017["total"] = getRareSamplesError(WZ_err_2017, WZ_count_2017, WZ_scale[1], WZ_scale_stat_unc[1],WZ_scale_syst_unc, SR == "" ? conf->get("SR"):SR);
+      WZ_err_2018["total"] = getRareSamplesError(WZ_err_2018, WZ_count_2018, WZ_scale[2], WZ_scale_stat_unc[2], WZ_scale_syst_unc, SR == "" ? conf->get("SR"):SR);
 
       if(SR.Contains("Boosted"))
           std::tie(WZ_tau21_error_up,WZ_tau21_error_down) = getTau21Error(WZ_count_2016,WZ_count_2017,WZ_count_2018,WZ_tau21_up_2016,WZ_tau21_up_2017,WZ_tau21_up_2018,WZ_tau21_down_2016,WZ_tau21_down_2017,WZ_tau21_down_2018);
 
  
       //cout<<__LINE__<<endl;
-      VVV_err_2016 = getRareSamplesError(VVV_err_2016, VVV_count_2016, VVV_scale[0], VVV_scale_stat_unc[0],VVV_scale_syst_unc, SR == "" ? conf->get("SR"):SR);
-      VVV_err_2017 = getRareSamplesError(VVV_err_2017, VVV_count_2017, VVV_scale[1], VVV_scale_stat_unc[1], VVV_scale_syst_unc, SR == "" ? conf->get("SR"):SR);
-      VVV_err_2018 = getRareSamplesError(VVV_err_2018, VVV_count_2018, VVV_scale[2], VVV_scale_stat_unc[2], VVV_scale_syst_unc, SR == "" ? conf->get("SR"):SR);
+      VVV_err_2016["total"] = getRareSamplesError(VVV_err_2016, VVV_count_2016, VVV_scale[0], VVV_scale_stat_unc[0],VVV_scale_syst_unc, SR == "" ? conf->get("SR"):SR);
+      VVV_err_2017["total"] = getRareSamplesError(VVV_err_2017, VVV_count_2017, VVV_scale[1], VVV_scale_stat_unc[1], VVV_scale_syst_unc, SR == "" ? conf->get("SR"):SR);
+      VVV_err_2018["total"] = getRareSamplesError(VVV_err_2018, VVV_count_2018, VVV_scale[2], VVV_scale_stat_unc[2], VVV_scale_syst_unc, SR == "" ? conf->get("SR"):SR);
 
       if(SR.Contains("Boosted"))
           std::tie(VVV_tau21_error_up,VVV_tau21_error_down) = getTau21Error(VVV_count_2016,VVV_count_2017,VVV_count_2018,VVV_tau21_up_2016,VVV_tau21_up_2017,VVV_tau21_up_2018,VVV_tau21_down_2016,VVV_tau21_down_2017,VVV_tau21_down_2018);
@@ -1239,9 +1252,9 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
 
       //cout<<__LINE__<<endl;
       //cout<<__LINE__<<endl;
-      TTV_err_2016 = getRareSamplesError(TTV_err_2016, TTV_count_2016, TTV_scale[0], TTV_scale_stat_unc[0], TTV_scale_syst_unc, SR == "" ? conf->get("SR"):SR);
-      TTV_err_2017 = getRareSamplesError(TTV_err_2017, TTV_count_2017, TTV_scale[1], TTV_scale_stat_unc[1], TTV_scale_syst_unc, SR == "" ? conf->get("SR"):SR);
-      TTV_err_2018 = getRareSamplesError(TTV_err_2018, TTV_count_2018, TTV_scale[2], TTV_scale_stat_unc[2], TTV_scale_syst_unc, SR == "" ? conf->get("SR"):SR);
+      TTV_err_2016["total"] = getRareSamplesError(TTV_err_2016, TTV_count_2016, TTV_scale[0], TTV_scale_stat_unc[0], TTV_scale_syst_unc, SR == "" ? conf->get("SR"):SR);
+      TTV_err_2017["total"] = getRareSamplesError(TTV_err_2017, TTV_count_2017, TTV_scale[1], TTV_scale_stat_unc[1], TTV_scale_syst_unc, SR == "" ? conf->get("SR"):SR);
+      TTV_err_2018["total"] = getRareSamplesError(TTV_err_2018, TTV_count_2018, TTV_scale[2], TTV_scale_stat_unc[2], TTV_scale_syst_unc, SR == "" ? conf->get("SR"):SR);
 
       if(SR.Contains("Boosted"))
           std::tie(TTV_tau21_error_up,TTV_tau21_error_down) = getTau21Error(TTV_count_2016,TTV_count_2017,TTV_count_2018,TTV_tau21_up_2016,TTV_tau21_up_2017,TTV_tau21_up_2018,TTV_tau21_down_2016,TTV_tau21_down_2017,TTV_tau21_down_2018);
@@ -1273,10 +1286,27 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
       //Add all rare samples together with scale factors applied
       for (size_t i = 0; i < ZZ_err.size(); i++){
 
-        ZZ_err[i] = sqrt(ZZ_err_2016[i] * ZZ_err_2016[i] + ZZ_err_2017[i] * ZZ_err_2017[i] + ZZ_err_2018[i] * ZZ_err_2018[i]);
-        WZ_err[i] = sqrt(WZ_err_2016[i] * WZ_err_2016[i] + WZ_err_2017[i] * WZ_err_2017[i] + WZ_err_2018[i] * WZ_err_2018[i]);
-        TTV_err[i] = sqrt(TTV_err_2016[i] * TTV_err_2016[i] + TTV_err_2017[i] * TTV_err_2017[i] + TTV_err_2018[i] * TTV_err_2018[i]);
-        VVV_err[i] = sqrt(VVV_err_2016[i] * VVV_err_2016[i] + VVV_err_2017[i] * VVV_err_2017[i] + VVV_err_2018[i] * VVV_err_2018[i]);
+        ZZ_err[i] = sqrt(ZZ_err_2016["total"][i] * ZZ_err_2016["total"][i] + ZZ_err_2017["total"][i] * ZZ_err_2017["total"][i] + ZZ_err_2018["total"][i] * ZZ_err_2018["total"][i]);
+        WZ_err[i] = sqrt(WZ_err_2016["total"][i] * WZ_err_2016["total"][i] + WZ_err_2017["total"][i] * WZ_err_2017["total"][i] + WZ_err_2018["total"][i] * WZ_err_2018["total"][i]);
+        TTV_err[i] = sqrt(TTV_err_2016["total"][i] * TTV_err_2016["total"][i] + TTV_err_2017["total"][i] * TTV_err_2017["total"][i] + TTV_err_2018["total"][i] * TTV_err_2018["total"][i]);
+        VVV_err[i] = sqrt(VVV_err_2016["total"][i] * VVV_err_2016["total"][i] + VVV_err_2017["total"][i] * VVV_err_2017["total"][i] + VVV_err_2018["total"][i] * VVV_err_2018["total"][i]);
+
+
+        ZZ_stat_err.push_back(sqrt(ZZ_err_2016["stat"][i] * ZZ_err_2016["stat"][i] + ZZ_err_2017["stat"][i] * ZZ_err_2017["stat"][i] + ZZ_err_2018["stat"][i] * ZZ_err_2018["stat"][i]));
+        WZ_stat_err.push_back(sqrt(WZ_err_2016["stat"][i] * WZ_err_2016["stat"][i] + WZ_err_2017["stat"][i] * WZ_err_2017["stat"][i] + WZ_err_2018["stat"][i] * WZ_err_2018["stat"][i]));
+        VVV_stat_err.push_back(sqrt(VVV_err_2016["stat"][i] * VVV_err_2016["stat"][i] + VVV_err_2017["stat"][i] * VVV_err_2017["stat"][i] + VVV_err_2018["stat"][i] * VVV_err_2018["stat"][i]));
+        TTV_stat_err.push_back(sqrt(TTV_err_2016["stat"][i] * TTV_err_2016["stat"][i] + TTV_err_2017["stat"][i] * TTV_err_2017["stat"][i] + TTV_err_2018["stat"][i] * TTV_err_2018["stat"][i]));
+        
+        ZZ_scale_syst_err.push_back(sqrt(ZZ_err_2016["scale_syst"][i] * ZZ_err_2016["scale_syst"][i] + ZZ_err_2017["scale_syst"][i] * ZZ_err_2017["scale_syst"][i] + ZZ_err_2018["scale_syst"][i] * ZZ_err_2018["scale_syst"][i]));
+        WZ_scale_syst_err.push_back(sqrt(WZ_err_2016["scale_syst"][i] * WZ_err_2016["scale_syst"][i] + WZ_err_2017["scale_syst"][i] * WZ_err_2017["scale_syst"][i] + WZ_err_2018["scale_syst"][i] * WZ_err_2018["scale_syst"][i]));
+        VVV_scale_syst_err.push_back(sqrt(VVV_err_2016["scale_syst"][i] * VVV_err_2016["scale_syst"][i] + VVV_err_2017["scale_syst"][i] * VVV_err_2017["scale_syst"][i] + VVV_err_2018["scale_syst"][i] * VVV_err_2018["scale_syst"][i]));
+        TTV_scale_syst_err.push_back(sqrt(TTV_err_2016["scale_syst"][i] * TTV_err_2016["scale_syst"][i] + TTV_err_2017["scale_syst"][i] * TTV_err_2017["scale_syst"][i] + TTV_err_2018["scale_syst"][i] * TTV_err_2018["scale_syst"][i]));
+
+
+        ZZ_scale_stat_err.push_back(sqrt(ZZ_err_2016["scale_stat"][i] * ZZ_err_2016["scale_stat"][i] + ZZ_err_2017["scale_stat"][i] * ZZ_err_2017["scale_stat"][i] + ZZ_err_2018["scale_stat"][i] * ZZ_err_2018["scale_stat"][i]));
+        WZ_scale_stat_err.push_back(sqrt(WZ_err_2016["scale_stat"][i] * WZ_err_2016["scale_stat"][i] + WZ_err_2017["scale_stat"][i] * WZ_err_2017["scale_stat"][i] + WZ_err_2018["scale_stat"][i] * WZ_err_2018["scale_stat"][i]));
+        VVV_scale_stat_err.push_back(sqrt(VVV_err_2016["scale_stat"][i] * VVV_err_2016["scale_stat"][i] + VVV_err_2017["scale_stat"][i] * VVV_err_2017["scale_stat"][i] + VVV_err_2018["scale_stat"][i] * VVV_err_2018["scale_stat"][i]));
+        TTV_scale_stat_err.push_back(sqrt(TTV_err_2016["scale_stat"][i] * TTV_err_2016["scale_stat"][i] + TTV_err_2017["scale_stat"][i] * TTV_err_2017["scale_stat"][i] + TTV_err_2018["scale_stat"][i] * TTV_err_2018["scale_stat"][i]));
 
 
 
@@ -1287,6 +1317,10 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
 
         rare_count.push_back(ZZ_count[i] + WZ_count[i] + TTV_count[i] + VVV_count[i]);
         rare_err.push_back(sqrt(ZZ_err[i]*ZZ_err[i] + WZ_err[i]*WZ_err[i] + VVV_err[i]*VVV_err[i] + TTV_err[i]*TTV_err[i]));
+
+        rare_stat_err.push_back(sqrt(ZZ_stat_err[i] * ZZ_stat_err[i] + WZ_stat_err[i] * WZ_stat_err[i] + TTV_stat_err[i] * TTV_stat_err[i] + VVV_stat_err[i] * VVV_stat_err[i]));
+        rare_scale_stat_err.push_back(sqrt(ZZ_scale_stat_err[i] * ZZ_scale_stat_err[i] + WZ_scale_stat_err[i] * WZ_scale_stat_err[i] + TTV_scale_stat_err[i] * TTV_scale_stat_err[i] + VVV_scale_stat_err[i] * VVV_scale_stat_err[i]));
+        rare_scale_syst_err.push_back(sqrt(ZZ_scale_syst_err[i] * ZZ_scale_syst_err[i] + WZ_scale_syst_err[i] * WZ_scale_syst_err[i] + TTV_scale_syst_err[i] * TTV_scale_syst_err[i] + VVV_scale_syst_err[i] * VVV_scale_syst_err[i]));
 
         if(SR.Contains("Boosted"))
         {
@@ -1308,7 +1342,9 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
 //        cout<<"{mcbkg_scale_stat_unc_bin"<<i<<"} "<<1. + (sqrt( pow(ZZ_count[i]*ZZ_scale_unc,2) + pow(WZ_count[i]*WZ_scale_unc,2) + pow(VVV_count[i]*VVV_scale_unc,2) + pow(TTV_count[i]*TTV_scale_unc,2))/rare_count[i])<<endl;
 //        cout<<"{mcbkg_scale_syst_unc_bin"<<i<<"} "<<1. + s
         cout<<"{BGbin"<<i<<"_mcbkg} "<<rare_count[i]<<endl;
-        cout<<"{mc_stat_bin"<<i<<"} "<<1.+rare_err[i]/rare_count[i]<<endl;
+        cout<<"{mc_stat_bin"<<i<<"} "<<1.+rare_stat_err[i]/rare_count[i]<<endl;
+        cout<<"{mcbkg_scale_stat_unc_bin"<<i<<"}"<<1.+rare_scale_stat_err[i]/rare_count[i]<<endl;
+        cout<<"{mcbkg_scale_syst_unc_bin"<<i<<"}"<<1.+rare_scale_syst_err[i]/rare_count[i]<<endl;
 
 
       }

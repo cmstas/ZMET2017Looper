@@ -463,18 +463,25 @@ pair<vector<double>,vector<double>> getFSError(const vector<double> &bin_count, 
 
 
 
-vector<double> getRareSamplesError(const vector<double> &stat_err, const vector<double> &bin_count, float scale, float scale_stat_unc, double scale_syst_unc, TString SR){
+vector<double> getRareSamplesError(unordered_map<string,vector<double>>& all_errors, const vector<double> &bin_count, float scale, float scale_stat_unc, double scale_syst_unc, TString SR)
+{
+  
+  //All errors map updates due to pass by reference  
   double err_bin;
 
   vector<double> error;
 
   //σ^2 = stat_err^2 + (scale*bin_count*.5)^2
-  for(size_t i=0; i<stat_err.size(); i++){
+  for(size_t i=0; i<bin_count.size(); i++){
     err_bin = 0;
-    err_bin+= stat_err[i] * stat_err[i];
+    err_bin+= all_errors["stat"][i] * all_errors["stat"][i];
     err_bin += scale_syst_unc*scale_syst_unc*bin_count[i]*bin_count[i];
-    err_bin += (scale_stat_unc/scale) * (scale_stat_unc/scale) * bin_count[i] * bin_count[i];
 
+    all_errors["scale_syst"].push_back(scale_syst_unc*scale_syst_unc*bin_count[i]*bin_count[i]);
+
+    err_bin += (scale_stat_unc/scale) * (scale_stat_unc/scale) * bin_count[i] * bin_count[i];
+    
+    all_errors["scale_stat"].push_back((scale_stat_unc/scale) * (scale_stat_unc/scale) * bin_count[i] * bin_count[i]);
     error.push_back(sqrt(err_bin));
   }
 
@@ -717,11 +724,13 @@ void computeErrors(){
   vector<double> FS_bin_count = {35.7,85.6,61.7,34.7,26};
 
   vector<double> rare_stat_err = {5,2,1,.2,.01};
+  unordered_map<string,vector<double>> all_errors;
+  all_errors["stat"] = rare_stat_err;
   vector<double> rare_bin_count = {12.2,18.3,9,7.9,8.9};
 
   vector<double> temp_err = getMetTemplatesError(temp_stat_err, temp_bin_count, sqrt(6995), 1, bin_edge, "2j");
   pair<vector<double>,vector<double>> FS_err = getFSError(FS_bin_count, 1.087,0, "2j");
-  vector<double> rare_err = getRareSamplesError(rare_stat_err, rare_bin_count, 1.5, 0.1, .5, "2j");
+  vector<double> rare_err = getRareSamplesError(all_errors, rare_bin_count, 1.5, 0.1, .5, "2j");
   cout<<"====================================\n\n\n";
   printErrors(temp_err, rare_err, FS_err, bin_low);
 }
