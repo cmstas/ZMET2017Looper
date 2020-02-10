@@ -1118,7 +1118,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
             }
             if(FS_hist_eta_up != nullptr)
             {
-                FS_eta_up.push_back(FS_hist_eta_down->Integral(FS_hist_eta_up->FindBin(stats_bins[i].first), FS_hist_eta_up->FindBin(stats_bins[i].second - 0.001)));
+                FS_eta_up.push_back(FS_hist_eta_up->Integral(FS_hist_eta_up->FindBin(stats_bins[i].first), FS_hist_eta_up->FindBin(stats_bins[i].second - 0.001)));
             } 
             else
             {
