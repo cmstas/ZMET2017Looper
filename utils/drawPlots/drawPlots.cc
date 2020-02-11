@@ -1478,7 +1478,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
       if(SR.Contains("Boosted"))
       {
           for(size_t i = 0;i<stats_bins.size();i++)
-            {
+          {
                 EWK_tau21_up_error.push_back(sqrt(WGamma_tau21_up_error[i]*WGamma_tau21_up_error[i] + WJets_tau21_up_error[i]*WJets_tau21_up_error[i] + TTJets2lep_tau21_up_error[i]*TTJets2lep_tau21_up_error[i] + TTJets1lep_tau21_up_error[i]*TTJets1lep_tau21_up_error[i] + SingleTop_tau21_up_error[i]*SingleTop_tau21_up_error[i]));
 
                 
@@ -1492,7 +1492,9 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
                 cout<<"{zjets_ewk_tau21_tagsyst_bin"<<i<<" }"<<1-error_up<<"/"<<1+error_down<<endl; //needs to go the other way for background
 
                 temp_err_up[i] = sqrt(temp_err_up[i]*temp_err_up[i] + EWK_tau21_up_error[i]*EWK_tau21_up_error[i]); 
-                temp_err_up[i] = sqrt(temp_err_down[i]*temp_err_down[i] + EWK_tau21_down_error[i]*EWK_tau21_down_error[i]); 
+                temp_err_down[i] = sqrt(temp_err_down[i]*temp_err_down[i] + EWK_tau21_down_error[i]*EWK_tau21_down_error[i]); 
+                temp_err[i] = sqrt(temp_err[i] * temp_err[i] + EWK_tau21_up_error[i] * EWK_tau21_up_error[i]);
+
 
             }
       }
