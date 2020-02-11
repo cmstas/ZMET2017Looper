@@ -550,6 +550,7 @@ std::pair<std::vector<double>,std::vector<double>> getTau21Error(const std::vect
 
     for(size_t i=0; i< count_central_2016.size(); i++)
     {
+        //cout<<"tau21_up_2016="<<count_tau21_up_2016[i]<<" "<<"central_2016="<<count_central_2016[i]<<" tau21_down_2016="<<count_tau21_down_2016[i]<<endl;
         error_2016_up.push_back(count_tau21_up_2016[i] - count_central_2016[i]);
         error_2016_down.push_back(count_central_2016[i] - count_tau21_down_2016[i]);
 
