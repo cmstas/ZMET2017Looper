@@ -308,6 +308,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
   //Only rare backgrounds are MC, so only they have tau21 up and down
   std::vector<std::vector<TH1D*>> rare_hists_tau21_up;
   std::vector<std::vector<TH1D*>> rare_hists_tau21_down;
+  std::vector<TH1D*> FS_hists;
   std::vector<TH1D*> FS_hists_norm_up;
   std::vector<TH1D*> FS_hists_norm_down;
   std::vector<TH1D*> FS_hists_pt_up;
@@ -390,13 +391,27 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
                 /*Under the assumption that hist_names[5] contains only one name, and hist_files[5] is just one file, because that is what we will evolve into*/
         if(do_rsfof_syst)
         {
+
             hists[i] = (TH1D*) (combine_histograms(hist_files[i],hist_names[i],i,plot_name,SR)); 
-            FS_hist_norm_up = (TH1D*) (hist_files[i][0]->Get(SR+hist_names[i][0]+"_norm_up"));
+/*            FS_hist_norm_up = (TH1D*) (hist_files[i][0]->Get(SR+hist_names[i][0]+"_norm_up"));
             FS_hist_norm_down = (TH1D*) (hist_files[i][0]->Get(SR+hist_names[i][0]+"_norm_down"));
             FS_hist_pt_up = (TH1D*)(hist_files[i][0]->Get(SR+hist_names[i][0]+"_pt_up"));
             FS_hist_pt_down = (TH1D*)(hist_files[i][0]->Get(SR+hist_names[i][0]+"_pt_down"));
             FS_hist_eta_up = (TH1D*)(hist_files[i][0]->Get(SR+hist_names[i][0]+"_eta_up"));
-            FS_hist_eta_down = (TH1D*)(hist_files[i][0]->Get(SR+hist_names[i][0]+"_eta_down"));
+            FS_hist_eta_down = (TH1D*)(hist_files[i][0]->Get(SR+hist_names[i][0]+"_eta_down"));*/
+
+            //year by year for accurate error computation
+            for(size_t j = 0; j<hist_files[i].size();j++)
+            {
+                FS_hists.push_back((TH1D*)(hist_files[i][j]->Get(SR+hist_names[i][0])));
+                FS_hists_norm_up.push_back((TH1D*) (hist_files[i][j]->Get(SR+hist_names[i][0]+"_norm_up")));
+                FS_hists_norm_down.push_back((TH1D*) (hist_files[i][j]->Get(SR+hist_names[i][0]+"_norm_down")));
+                FS_hists_pt_up.push_back((TH1D*)(hist_files[i][j]->Get(SR+hist_names[i][0]+"_pt_up")));
+                FS_hists_pt_down.push_back((TH1D*)(hist_files[i][j]->Get(SR+hist_names[i][0]+"_pt_down")));
+                FS_hists_eta_up.push_back((TH1D*)(hist_files[i][j]->Get(SR+hist_names[i][0]+"_eta_up")));
+                FS_hists_eta_down.push_back((TH1D*)(hist_files[i][j]->Get(SR+hist_names[i][0]+"_eta_down")));
+            }
+
         }
         else
         {
@@ -1126,12 +1141,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
 
 
       vector<double> FS_count;
-      vector<double> FS_norm_up;
-      vector<double> FS_norm_down;
-      vector<double> FS_pt_up;
-      vector<double> FS_pt_down;
-      vector<double> FS_eta_up;
-      vector<double> FS_eta_down;
+      unordered_map<int,vector<double>> FS_norm_up,FS_norm_down,FS_pt_up,FS_pt_down,FS_eta_up,FS_eta_down,FS_count_central;
       vector<double> signal_count;
 
       //temporary measure
@@ -1160,62 +1170,76 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
         if(FS_hist_2016 != nullptr && FS_hist_2017 != nullptr && FS_hist_2018 != nullptr)
         {
             FS_count_2016.push_back(FS_hist_2016->Integral(FS_hist_2016->FindBin(stats_bins[i].first), FS_hist_2016->FindBin(stats_bins[i].second - 0.001)));
+                if(FS_hists[i] != nullptr)
             FS_count_2017.push_back(FS_hist_2017->Integral(FS_hist_2017->FindBin(stats_bins[i].first), FS_hist_2017->FindBin(stats_bins[i].second - 0.001)));
             FS_count_2018.push_back(FS_hist_2018->Integral(FS_hist_2018->FindBin(stats_bins[i].first), FS_hist_2018->FindBin(stats_bins[i].second - 0.001)));
         }
 
         if(do_rsfof_syst)
         {
-            if(FS_hist_norm_up != nullptr)
+
+            for(int i = 0;i<3;i++)
             {
-                FS_norm_up.push_back(FS_hist_norm_up->Integral(FS_hist_norm_up->FindBin(stats_bins[i].first), FS_hist_norm_up->FindBin(stats_bins[i].second - 0.001)));
-            }
-            else
-            {
-                FS_norm_up.push_back(0);
-            }
-            if(FS_hist_norm_down != nullptr)
-            {
-                FS_norm_down.push_back(FS_hist_norm_down->Integral(FS_hist_norm_down->FindBin(stats_bins[i].first), FS_hist_norm_down->FindBin(stats_bins[i].second - 0.001)));
-            }
-            else
-            {
-                FS_norm_down.push_back(0);
-            }
+                if(FS_hists[i] != nullptr)
+                {
+                    FS_count_central[2016+i].push_back(FS_hists[i]->Integral(FS_hists[i]->FindBin(stats_bins[i].first),FS_hists[i]->FindBin(stats_bins[i].second-0.001)));
+                }
+                else
+                {
+                    FS_count_central[2016+i].push_back(0);
+                }
+                if(FS_hists_norm_up[i] != nullptr)
+                {
+                    FS_norm_up[2016+i].push_back(FS_hists_norm_up[i]->Integral(FS_hists_norm_up[i]->FindBin(stats_bins[i].first), FS_hists_norm_up[i]->FindBin(stats_bins[i].second - 0.001)));
+                }
+                else
+                {   
+                    FS_norm_up[2016+i].push_back(0);
+                }
+                if(FS_hists_norm_down[i] != nullptr)
+                {
+                    FS_norm_down[2016+i].push_back(FS_hists_norm_down[i]->Integral(FS_hists_norm_down[i]->FindBin(stats_bins[i].first), FS_hists_norm_down[i]->FindBin(stats_bins[i].second - 0.001)));
+                }
+                else
+                {
+                    FS_norm_down[2016+i].push_back(0);
+                }
                 
-            if(FS_hist_pt_up != nullptr)
-            {
-                FS_pt_up.push_back(FS_hist_pt_up->Integral(FS_hist_pt_up->FindBin(stats_bins[i].first), FS_hist_pt_up->FindBin(stats_bins[i].second - 0.001)));
-            }
-            else
-            {
-                FS_pt_up.push_back(0);
-            }
-            if(FS_hist_pt_down != nullptr)
-            {
-                FS_pt_down.push_back(FS_hist_pt_down->Integral(FS_hist_pt_down->FindBin(stats_bins[i].first), FS_hist_pt_down->FindBin(stats_bins[i].second - 0.001)));
-            }
-            else
-            {
-                FS_pt_down.push_back(0);
-            }
-            if(FS_hist_eta_up != nullptr)
-            {
-                FS_eta_up.push_back(FS_hist_eta_up->Integral(FS_hist_eta_up->FindBin(stats_bins[i].first), FS_hist_eta_up->FindBin(stats_bins[i].second - 0.001)));
-            } 
-            else
-            {
-                FS_eta_up.push_back(0);
-            }
-            if(FS_hist_eta_down != nullptr)
-            {
-                FS_eta_down.push_back(FS_hist_eta_down->Integral(FS_hist_eta_down->FindBin(stats_bins[i].first), FS_hist_eta_down->FindBin(stats_bins[i].second - 0.001))); 
-            }
-            else
-            {
-                FS_eta_down.push_back(0);
-            }
+                if(FS_hists_pt_up[i] != nullptr)
+                {
+                    FS_pt_up[2016+i].push_back(FS_hists_pt_up[i]->Integral(FS_hists_pt_up[i]->FindBin(stats_bins[i].first), FS_hists_pt_up[i]->FindBin(stats_bins[i].second - 0.001)));
+                }
+                else
+                {
+                    FS_pt_up[2016+i].push_back(0);
+                }
+                if(FS_hists_pt_down[i] != nullptr)
+                {
+                    FS_pt_down[2016+i].push_back(FS_hists_pt_down[i]->Integral(FS_hists_pt_down[i]->FindBin(stats_bins[i].first), FS_hists_pt_down[i]->FindBin(stats_bins[i].second - 0.001)));
+                }
+                else
+                {
+                    FS_pt_down[2016+i].push_back(0);
+                }
+                if(FS_hists_eta_up[i] != nullptr)
+                {
+                    FS_eta_up[2016+i].push_back(FS_hists_eta_up[i]->Integral(FS_hists_eta_up[i]->FindBin(stats_bins[i].first), FS_hists_eta_up[i]->FindBin(stats_bins[i].second - 0.001)));
+                } 
+                else
+                {
+                    FS_eta_up[2016+i].push_back(0);
+                }
+                if(FS_hists_eta_down[i] != nullptr)
+                {
+                    FS_eta_down[2016+i].push_back(FS_hists_eta_down[i]->Integral(FS_hists_eta_down[i]->FindBin(stats_bins[i].first), FS_hists_eta_down[i]->FindBin(stats_bins[i].second - 0.001))); 
+                }
+                else
+                {
+                    FS_eta_down[2016+i].push_back(0);
+                }
+
         }
+      }
 
         //cout<<__LINE__<<endl;
         double t_err;
@@ -1249,20 +1273,20 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
         ZZ_count.push_back(hists[1]->Integral(hists[1]->FindBin(stats_bins[i].first), hists[1]->FindBin(stats_bins[i].second - 0.001)));
         ZZ_err[i] = sqrt(ZZ_err[i]*ZZ_err[i]);
         
-        ZZ_count_2016.push_back(rare_hists[0][0]->IntegralAndError(rare_hists[0][0]->FindBin(stats_bins[i].first),rare_hists[0][0]->FindBin(stats_bins[i].second),ZZ_err_2016["stat"][i]));
-        ZZ_count_2017.push_back(rare_hists[0][1]->IntegralAndError(rare_hists[0][1]->FindBin(stats_bins[i].first),rare_hists[0][1]->FindBin(stats_bins[i].second),ZZ_err_2017["stat"][i]));
-        ZZ_count_2018.push_back(rare_hists[0][2]->IntegralAndError(rare_hists[0][2]->FindBin(stats_bins[i].first),rare_hists[0][2]->FindBin(stats_bins[i].second),ZZ_err_2018["stat"][i]));
+        ZZ_count_2016.push_back(rare_hists[0][0]->IntegralAndError(rare_hists[0][0]->FindBin(stats_bins[i].first),rare_hists[0][0]->FindBin(stats_bins[i].second-0.001),ZZ_err_2016["stat"][i]));
+        ZZ_count_2017.push_back(rare_hists[0][1]->IntegralAndError(rare_hists[0][1]->FindBin(stats_bins[i].first),rare_hists[0][1]->FindBin(stats_bins[i].second-0.001),ZZ_err_2017["stat"][i]));
+        ZZ_count_2018.push_back(rare_hists[0][2]->IntegralAndError(rare_hists[0][2]->FindBin(stats_bins[i].first),rare_hists[0][2]->FindBin(stats_bins[i].second-0.001),ZZ_err_2018["stat"][i]));
 
         if(SR.Contains("Boosted"))
         {
 
-            ZZ_tau21_up_2016.push_back(rare_hists_tau21_up[0][0]->Integral(rare_hists_tau21_up[0][0]->FindBin(stats_bins[i].first),rare_hists_tau21_up[0][0]->FindBin(stats_bins[i].second)));
-            ZZ_tau21_up_2017.push_back(rare_hists_tau21_up[0][1]->Integral(rare_hists_tau21_up[0][1]->FindBin(stats_bins[i].first),rare_hists_tau21_up[0][1]->FindBin(stats_bins[i].second)));        
-            ZZ_tau21_up_2018.push_back(rare_hists_tau21_up[0][2]->Integral(rare_hists_tau21_up[0][2]->FindBin(stats_bins[i].first),rare_hists_tau21_up[0][2]->FindBin(stats_bins[i].second)));
+            ZZ_tau21_up_2016.push_back(rare_hists_tau21_up[0][0]->Integral(rare_hists_tau21_up[0][0]->FindBin(stats_bins[i].first),rare_hists_tau21_up[0][0]->FindBin(stats_bins[i].second-0.001)));
+            ZZ_tau21_up_2017.push_back(rare_hists_tau21_up[0][1]->Integral(rare_hists_tau21_up[0][1]->FindBin(stats_bins[i].first),rare_hists_tau21_up[0][1]->FindBin(stats_bins[i].second-0.001)));        
+            ZZ_tau21_up_2018.push_back(rare_hists_tau21_up[0][2]->Integral(rare_hists_tau21_up[0][2]->FindBin(stats_bins[i].first),rare_hists_tau21_up[0][2]->FindBin(stats_bins[i].second-0.001)));
 
-            ZZ_tau21_down_2016.push_back(rare_hists_tau21_down[0][0]->Integral(rare_hists_tau21_down[0][0]->FindBin(stats_bins[i].first),rare_hists_tau21_down[0][0]->FindBin(stats_bins[i].second)));
-            ZZ_tau21_down_2017.push_back(rare_hists_tau21_down[0][1]->Integral(rare_hists_tau21_down[0][1]->FindBin(stats_bins[i].first),rare_hists_tau21_down[0][1]->FindBin(stats_bins[i].second)));
-            ZZ_tau21_down_2018.push_back(rare_hists_tau21_down[0][2]->Integral(rare_hists_tau21_down[0][2]->FindBin(stats_bins[i].first),rare_hists_tau21_down[0][2]->FindBin(stats_bins[i].second)));
+            ZZ_tau21_down_2016.push_back(rare_hists_tau21_down[0][0]->Integral(rare_hists_tau21_down[0][0]->FindBin(stats_bins[i].first),rare_hists_tau21_down[0][0]->FindBin(stats_bins[i].second-0.001)));
+            ZZ_tau21_down_2017.push_back(rare_hists_tau21_down[0][1]->Integral(rare_hists_tau21_down[0][1]->FindBin(stats_bins[i].first),rare_hists_tau21_down[0][1]->FindBin(stats_bins[i].second-0.001)));
+            ZZ_tau21_down_2018.push_back(rare_hists_tau21_down[0][2]->Integral(rare_hists_tau21_down[0][2]->FindBin(stats_bins[i].first),rare_hists_tau21_down[0][2]->FindBin(stats_bins[i].second-0.001)));
         }
 
 
@@ -1272,20 +1296,20 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
         WZ_count.push_back(hists[2]->Integral(hists[2]->FindBin(stats_bins[i].first), hists[2]->FindBin(stats_bins[i].second - 0.001)));
         WZ_err[i] = sqrt(WZ_err[i]*WZ_err[i]);
 
-        WZ_count_2016.push_back(rare_hists[1][0]->IntegralAndError(rare_hists[1][0]->FindBin(stats_bins[i].first),rare_hists[1][0]->FindBin(stats_bins[i].second),WZ_err_2016["stat"][i]));
-        WZ_count_2017.push_back(rare_hists[1][1]->IntegralAndError(rare_hists[1][1]->FindBin(stats_bins[i].first),rare_hists[1][1]->FindBin(stats_bins[i].second),WZ_err_2017["stat"][i]));
-        WZ_count_2018.push_back(rare_hists[1][2]->IntegralAndError(rare_hists[1][2]->FindBin(stats_bins[i].first),rare_hists[1][2]->FindBin(stats_bins[i].second),WZ_err_2018["stat"][i]));
+        WZ_count_2016.push_back(rare_hists[1][0]->IntegralAndError(rare_hists[1][0]->FindBin(stats_bins[i].first),rare_hists[1][0]->FindBin(stats_bins[i].second-0.001),WZ_err_2016["stat"][i]));
+        WZ_count_2017.push_back(rare_hists[1][1]->IntegralAndError(rare_hists[1][1]->FindBin(stats_bins[i].first),rare_hists[1][1]->FindBin(stats_bins[i].second-0.001),WZ_err_2017["stat"][i]));
+        WZ_count_2018.push_back(rare_hists[1][2]->IntegralAndError(rare_hists[1][2]->FindBin(stats_bins[i].first),rare_hists[1][2]->FindBin(stats_bins[i].second-0.001),WZ_err_2018["stat"][i]));
 
 
         if(SR.Contains("Boosted"))
         {
-            WZ_tau21_up_2016.push_back(rare_hists_tau21_up[1][0]->Integral(rare_hists_tau21_up[1][0]->FindBin(stats_bins[i].first),rare_hists_tau21_up[1][0]->FindBin(stats_bins[i].second)));
-            WZ_tau21_up_2017.push_back(rare_hists_tau21_up[1][1]->Integral(rare_hists_tau21_up[1][1]->FindBin(stats_bins[i].first),rare_hists_tau21_up[1][1]->FindBin(stats_bins[i].second)));        
-            WZ_tau21_up_2018.push_back(rare_hists_tau21_up[1][2]->Integral(rare_hists_tau21_up[1][2]->FindBin(stats_bins[i].first),rare_hists_tau21_up[1][2]->FindBin(stats_bins[i].second)));
+            WZ_tau21_up_2016.push_back(rare_hists_tau21_up[1][0]->Integral(rare_hists_tau21_up[1][0]->FindBin(stats_bins[i].first),rare_hists_tau21_up[1][0]->FindBin(stats_bins[i].second-0.001)));
+            WZ_tau21_up_2017.push_back(rare_hists_tau21_up[1][1]->Integral(rare_hists_tau21_up[1][1]->FindBin(stats_bins[i].first),rare_hists_tau21_up[1][1]->FindBin(stats_bins[i].second-0.001)));        
+            WZ_tau21_up_2018.push_back(rare_hists_tau21_up[1][2]->Integral(rare_hists_tau21_up[1][2]->FindBin(stats_bins[i].first),rare_hists_tau21_up[1][2]->FindBin(stats_bins[i].second-0.001)));
 
-            WZ_tau21_down_2016.push_back(rare_hists_tau21_down[1][0]->Integral(rare_hists_tau21_down[1][0]->FindBin(stats_bins[i].first),rare_hists_tau21_down[1][0]->FindBin(stats_bins[i].second)));
-            WZ_tau21_down_2017.push_back(rare_hists_tau21_down[1][1]->Integral(rare_hists_tau21_down[1][1]->FindBin(stats_bins[i].first),rare_hists_tau21_down[1][1]->FindBin(stats_bins[i].second)));
-            WZ_tau21_down_2018.push_back(rare_hists_tau21_down[1][2]->Integral(rare_hists_tau21_down[1][2]->FindBin(stats_bins[i].first),rare_hists_tau21_down[1][2]->FindBin(stats_bins[i].second)));
+            WZ_tau21_down_2016.push_back(rare_hists_tau21_down[1][0]->Integral(rare_hists_tau21_down[1][0]->FindBin(stats_bins[i].first),rare_hists_tau21_down[1][0]->FindBin(stats_bins[i].second-0.001)));
+            WZ_tau21_down_2017.push_back(rare_hists_tau21_down[1][1]->Integral(rare_hists_tau21_down[1][1]->FindBin(stats_bins[i].first),rare_hists_tau21_down[1][1]->FindBin(stats_bins[i].second-0.001)));
+            WZ_tau21_down_2018.push_back(rare_hists_tau21_down[1][2]->Integral(rare_hists_tau21_down[1][2]->FindBin(stats_bins[i].first),rare_hists_tau21_down[1][2]->FindBin(stats_bins[i].second-0.001)));
         }
 
 
@@ -1297,19 +1321,19 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
 
         VVV_count.push_back(hists[3]->Integral(hists[3]->FindBin(stats_bins[i].first), hists[3]->FindBin(stats_bins[i].second - 0.001)));
 
-        VVV_count_2016.push_back(rare_hists[2][0]->IntegralAndError(rare_hists[2][0]->FindBin(stats_bins[i].first),rare_hists[2][0]->FindBin(stats_bins[i].second),VVV_err_2016["stat"][i]));
-        VVV_count_2017.push_back(rare_hists[2][1]->IntegralAndError(rare_hists[2][1]->FindBin(stats_bins[i].first),rare_hists[2][1]->FindBin(stats_bins[i].second),VVV_err_2017["stat"][i]));
-        VVV_count_2018.push_back(rare_hists[2][2]->IntegralAndError(rare_hists[2][2]->FindBin(stats_bins[i].first),rare_hists[2][2]->FindBin(stats_bins[i].second),VVV_err_2018["stat"][i]));
+        VVV_count_2016.push_back(rare_hists[2][0]->IntegralAndError(rare_hists[2][0]->FindBin(stats_bins[i].first),rare_hists[2][0]->FindBin(stats_bins[i].second-0.001),VVV_err_2016["stat"][i]));
+        VVV_count_2017.push_back(rare_hists[2][1]->IntegralAndError(rare_hists[2][1]->FindBin(stats_bins[i].first),rare_hists[2][1]->FindBin(stats_bins[i].second-0.001),VVV_err_2017["stat"][i]));
+        VVV_count_2018.push_back(rare_hists[2][2]->IntegralAndError(rare_hists[2][2]->FindBin(stats_bins[i].first),rare_hists[2][2]->FindBin(stats_bins[i].second-0.001),VVV_err_2018["stat"][i]));
 
         if(SR.Contains("Boosted"))
         {
-            VVV_tau21_up_2016.push_back(rare_hists_tau21_up[2][0]->Integral(rare_hists_tau21_up[2][0]->FindBin(stats_bins[i].first),rare_hists_tau21_up[2][0]->FindBin(stats_bins[i].second)));
-            VVV_tau21_up_2017.push_back(rare_hists_tau21_up[2][1]->Integral(rare_hists_tau21_up[2][1]->FindBin(stats_bins[i].first),rare_hists_tau21_up[2][1]->FindBin(stats_bins[i].second)));        
-            VVV_tau21_up_2018.push_back(rare_hists_tau21_up[2][2]->Integral(rare_hists_tau21_up[2][2]->FindBin(stats_bins[i].first),rare_hists_tau21_up[2][2]->FindBin(stats_bins[i].second)));
+            VVV_tau21_up_2016.push_back(rare_hists_tau21_up[2][0]->Integral(rare_hists_tau21_up[2][0]->FindBin(stats_bins[i].first),rare_hists_tau21_up[2][0]->FindBin(stats_bins[i].second-0.001)));
+            VVV_tau21_up_2017.push_back(rare_hists_tau21_up[2][1]->Integral(rare_hists_tau21_up[2][1]->FindBin(stats_bins[i].first),rare_hists_tau21_up[2][1]->FindBin(stats_bins[i].second-0.001)));        
+            VVV_tau21_up_2018.push_back(rare_hists_tau21_up[2][2]->Integral(rare_hists_tau21_up[2][2]->FindBin(stats_bins[i].first),rare_hists_tau21_up[2][2]->FindBin(stats_bins[i].second-0.001)));
 
-            VVV_tau21_down_2016.push_back(rare_hists_tau21_down[2][0]->Integral(rare_hists_tau21_down[2][0]->FindBin(stats_bins[i].first),rare_hists_tau21_down[2][0]->FindBin(stats_bins[i].second)));
-            VVV_tau21_down_2017.push_back(rare_hists_tau21_down[2][1]->Integral(rare_hists_tau21_down[2][1]->FindBin(stats_bins[i].first),rare_hists_tau21_down[2][1]->FindBin(stats_bins[i].second)));
-            VVV_tau21_down_2018.push_back(rare_hists_tau21_down[2][2]->Integral(rare_hists_tau21_down[2][2]->FindBin(stats_bins[i].first),rare_hists_tau21_down[2][2]->FindBin(stats_bins[i].second)));
+            VVV_tau21_down_2016.push_back(rare_hists_tau21_down[2][0]->Integral(rare_hists_tau21_down[2][0]->FindBin(stats_bins[i].first),rare_hists_tau21_down[2][0]->FindBin(stats_bins[i].second-0.001)));
+            VVV_tau21_down_2017.push_back(rare_hists_tau21_down[2][1]->Integral(rare_hists_tau21_down[2][1]->FindBin(stats_bins[i].first),rare_hists_tau21_down[2][1]->FindBin(stats_bins[i].second-0.001)));
+            VVV_tau21_down_2018.push_back(rare_hists_tau21_down[2][2]->Integral(rare_hists_tau21_down[2][2]->FindBin(stats_bins[i].first),rare_hists_tau21_down[2][2]->FindBin(stats_bins[i].second-0.001)));
         }
 
 
@@ -1317,19 +1341,19 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
 
         TTV_count.push_back(hists[4]->IntegralAndError(hists[4]->FindBin(stats_bins[i].first), hists[4]->FindBin(stats_bins[i].second - 0.001), TTV_err[i]));
         //cout<<__LINE__<<endl;
-        TTV_count_2016.push_back(rare_hists[3][0]->IntegralAndError(rare_hists[3][0]->FindBin(stats_bins[i].first),rare_hists[3][0]->FindBin(stats_bins[i].second),TTV_err_2016["stat"][i]));
-        TTV_count_2017.push_back(rare_hists[3][1]->IntegralAndError(rare_hists[3][1]->FindBin(stats_bins[i].first),rare_hists[3][1]->FindBin(stats_bins[i].second),TTV_err_2017["stat"][i]));
-        TTV_count_2018.push_back(rare_hists[3][2]->IntegralAndError(rare_hists[3][2]->FindBin(stats_bins[i].first),rare_hists[3][2]->FindBin(stats_bins[i].second),TTV_err_2018["stat"][i]));
+        TTV_count_2016.push_back(rare_hists[3][0]->IntegralAndError(rare_hists[3][0]->FindBin(stats_bins[i].first),rare_hists[3][0]->FindBin(stats_bins[i].second-0.001),TTV_err_2016["stat"][i]));
+        TTV_count_2017.push_back(rare_hists[3][1]->IntegralAndError(rare_hists[3][1]->FindBin(stats_bins[i].first),rare_hists[3][1]->FindBin(stats_bins[i].second-0.001),TTV_err_2017["stat"][i]));
+        TTV_count_2018.push_back(rare_hists[3][2]->IntegralAndError(rare_hists[3][2]->FindBin(stats_bins[i].first),rare_hists[3][2]->FindBin(stats_bins[i].second-0.001),TTV_err_2018["stat"][i]));
 
         if(SR.Contains("Boosted"))
         {
-            TTV_tau21_up_2016.push_back(rare_hists_tau21_up[3][0]->Integral(rare_hists_tau21_up[3][0]->FindBin(stats_bins[i].first),rare_hists_tau21_up[3][0]->FindBin(stats_bins[i].second)));
-            TTV_tau21_up_2017.push_back(rare_hists_tau21_up[3][1]->Integral(rare_hists_tau21_up[3][1]->FindBin(stats_bins[i].first),rare_hists_tau21_up[3][1]->FindBin(stats_bins[i].second)));        
-            TTV_tau21_up_2018.push_back(rare_hists_tau21_up[3][2]->Integral(rare_hists_tau21_up[3][2]->FindBin(stats_bins[i].first),rare_hists_tau21_up[3][2]->FindBin(stats_bins[i].second)));
+            TTV_tau21_up_2016.push_back(rare_hists_tau21_up[3][0]->Integral(rare_hists_tau21_up[3][0]->FindBin(stats_bins[i].first),rare_hists_tau21_up[3][0]->FindBin(stats_bins[i].second-0.001)));
+            TTV_tau21_up_2017.push_back(rare_hists_tau21_up[3][1]->Integral(rare_hists_tau21_up[3][1]->FindBin(stats_bins[i].first),rare_hists_tau21_up[3][1]->FindBin(stats_bins[i].second-0.001)));        
+            TTV_tau21_up_2018.push_back(rare_hists_tau21_up[3][2]->Integral(rare_hists_tau21_up[3][2]->FindBin(stats_bins[i].first),rare_hists_tau21_up[3][2]->FindBin(stats_bins[i].second-0.001)));
 
-            TTV_tau21_down_2016.push_back(rare_hists_tau21_down[3][0]->Integral(rare_hists_tau21_down[3][0]->FindBin(stats_bins[i].first),rare_hists_tau21_down[3][0]->FindBin(stats_bins[i].second)));
-            TTV_tau21_down_2017.push_back(rare_hists_tau21_down[3][1]->Integral(rare_hists_tau21_down[3][1]->FindBin(stats_bins[i].first),rare_hists_tau21_down[3][1]->FindBin(stats_bins[i].second)));
-            TTV_tau21_down_2018.push_back(rare_hists_tau21_down[3][2]->Integral(rare_hists_tau21_down[3][2]->FindBin(stats_bins[i].first),rare_hists_tau21_down[3][2]->FindBin(stats_bins[i].second)));
+            TTV_tau21_down_2016.push_back(rare_hists_tau21_down[3][0]->Integral(rare_hists_tau21_down[3][0]->FindBin(stats_bins[i].first),rare_hists_tau21_down[3][0]->FindBin(stats_bins[i].second-0.001)));
+            TTV_tau21_down_2017.push_back(rare_hists_tau21_down[3][1]->Integral(rare_hists_tau21_down[3][1]->FindBin(stats_bins[i].first),rare_hists_tau21_down[3][1]->FindBin(stats_bins[i].second-0.001)));
+            TTV_tau21_down_2018.push_back(rare_hists_tau21_down[3][2]->Integral(rare_hists_tau21_down[3][2]->FindBin(stats_bins[i].first),rare_hists_tau21_down[3][2]->FindBin(stats_bins[i].second-0.001)));
 
         }
 
@@ -1337,66 +1361,66 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
         //EWK tau21
         if(SR.Contains("Boosted"))
         {
-            WGamma_count_2016.push_back(scaleFactor * 0.7 * EWK_hists[0][0]->Integral(EWK_hists[0][0]->FindBin(stats_bins[i].first),EWK_hists[0][0]->FindBin(stats_bins[i].second)));
-            WGamma_count_2017.push_back(scaleFactor * 0.7 * EWK_hists[0][1]->Integral(EWK_hists[0][1]->FindBin(stats_bins[i].first),EWK_hists[0][1]->FindBin(stats_bins[i].second)));
-            WGamma_count_2018.push_back(scaleFactor * 0.7 * EWK_hists[0][2]->Integral(EWK_hists[0][2]->FindBin(stats_bins[i].first),EWK_hists[0][2]->FindBin(stats_bins[i].second)));
+            WGamma_count_2016.push_back(scaleFactor * 0.7 * EWK_hists[0][0]->Integral(EWK_hists[0][0]->FindBin(stats_bins[i].first),EWK_hists[0][0]->FindBin(stats_bins[i].second-0.001)));
+            WGamma_count_2017.push_back(scaleFactor * 0.7 * EWK_hists[0][1]->Integral(EWK_hists[0][1]->FindBin(stats_bins[i].first),EWK_hists[0][1]->FindBin(stats_bins[i].second-0.001)));
+            WGamma_count_2018.push_back(scaleFactor * 0.7 * EWK_hists[0][2]->Integral(EWK_hists[0][2]->FindBin(stats_bins[i].first),EWK_hists[0][2]->FindBin(stats_bins[i].second-0.001)));
            
-            WGamma_tau21_up_2016.push_back(scaleFactor * 0.7 * EWK_hists_tau21_up[0][0]->Integral(EWK_hists_tau21_up[0][0]->FindBin(stats_bins[i].first),EWK_hists_tau21_up[0][1]->FindBin(stats_bins[i].second)));
-            WGamma_tau21_up_2017.push_back(scaleFactor * 0.7 * EWK_hists_tau21_up[0][1]->Integral(EWK_hists_tau21_up[0][1]->FindBin(stats_bins[i].first),EWK_hists_tau21_up[0][1]->FindBin(stats_bins[i].second)));
-            WGamma_tau21_up_2018.push_back(scaleFactor * 0.7 * EWK_hists_tau21_up[0][2]->Integral(EWK_hists_tau21_up[0][2]->FindBin(stats_bins[i].first),EWK_hists_tau21_up[0][2]->FindBin(stats_bins[i].second)));
+            WGamma_tau21_up_2016.push_back(scaleFactor * 0.7 * EWK_hists_tau21_up[0][0]->Integral(EWK_hists_tau21_up[0][0]->FindBin(stats_bins[i].first),EWK_hists_tau21_up[0][1]->FindBin(stats_bins[i].second-0.001)));
+            WGamma_tau21_up_2017.push_back(scaleFactor * 0.7 * EWK_hists_tau21_up[0][1]->Integral(EWK_hists_tau21_up[0][1]->FindBin(stats_bins[i].first),EWK_hists_tau21_up[0][1]->FindBin(stats_bins[i].second-0.001)));
+            WGamma_tau21_up_2018.push_back(scaleFactor * 0.7 * EWK_hists_tau21_up[0][2]->Integral(EWK_hists_tau21_up[0][2]->FindBin(stats_bins[i].first),EWK_hists_tau21_up[0][2]->FindBin(stats_bins[i].second-0.001)));
 
-            WGamma_tau21_down_2016.push_back(scaleFactor * 0.7 * EWK_hists_tau21_down[0][0]->Integral(EWK_hists_tau21_down[0][0]->FindBin(stats_bins[i].first),EWK_hists_tau21_down[0][0]->FindBin(stats_bins[i].second)));
-            WGamma_tau21_down_2017.push_back(scaleFactor * 0.7 *EWK_hists_tau21_down[0][1]->Integral(EWK_hists_tau21_down[0][1]->FindBin(stats_bins[i].first),EWK_hists_tau21_down[0][1]->FindBin(stats_bins[i].second)));
-            WGamma_tau21_down_2018.push_back(scaleFactor * 0.7 *EWK_hists_tau21_down[0][2]->Integral(EWK_hists_tau21_down[0][2]->FindBin(stats_bins[i].first),EWK_hists_tau21_down[0][2]->FindBin(stats_bins[i].second)));
+            WGamma_tau21_down_2016.push_back(scaleFactor * 0.7 * EWK_hists_tau21_down[0][0]->Integral(EWK_hists_tau21_down[0][0]->FindBin(stats_bins[i].first),EWK_hists_tau21_down[0][0]->FindBin(stats_bins[i].second-0.001)));
+            WGamma_tau21_down_2017.push_back(scaleFactor * 0.7 *EWK_hists_tau21_down[0][1]->Integral(EWK_hists_tau21_down[0][1]->FindBin(stats_bins[i].first),EWK_hists_tau21_down[0][1]->FindBin(stats_bins[i].second-0.001)));
+            WGamma_tau21_down_2018.push_back(scaleFactor * 0.7 *EWK_hists_tau21_down[0][2]->Integral(EWK_hists_tau21_down[0][2]->FindBin(stats_bins[i].first),EWK_hists_tau21_down[0][2]->FindBin(stats_bins[i].second-0.001)));
 
 
-            WJets_count_2016.push_back(scaleFactor * 0.7 *EWK_hists[1][0]->Integral(EWK_hists[1][0]->FindBin(stats_bins[i].first),EWK_hists[1][0]->FindBin(stats_bins[i].second)));
-            WJets_count_2017.push_back(scaleFactor * 0.7 *EWK_hists[1][1]->Integral(EWK_hists[1][1]->FindBin(stats_bins[i].first),EWK_hists[1][1]->FindBin(stats_bins[i].second)));
-            WJets_count_2018.push_back(scaleFactor * 0.7 *EWK_hists[1][2]->Integral(EWK_hists[1][2]->FindBin(stats_bins[i].first),EWK_hists[1][2]->FindBin(stats_bins[i].second)));
+            WJets_count_2016.push_back(scaleFactor * 0.7 *EWK_hists[1][0]->Integral(EWK_hists[1][0]->FindBin(stats_bins[i].first),EWK_hists[1][0]->FindBin(stats_bins[i].second-0.001)));
+            WJets_count_2017.push_back(scaleFactor * 0.7 *EWK_hists[1][1]->Integral(EWK_hists[1][1]->FindBin(stats_bins[i].first),EWK_hists[1][1]->FindBin(stats_bins[i].second-0.001)));
+            WJets_count_2018.push_back(scaleFactor * 0.7 *EWK_hists[1][2]->Integral(EWK_hists[1][2]->FindBin(stats_bins[i].first),EWK_hists[1][2]->FindBin(stats_bins[i].second-0.001)));
            
-            WJets_tau21_up_2016.push_back(scaleFactor * 0.7 *EWK_hists_tau21_up[1][0]->Integral(EWK_hists_tau21_up[1][0]->FindBin(stats_bins[i].first),EWK_hists_tau21_up[1][0]->FindBin(stats_bins[i].second)));
-            WJets_tau21_up_2017.push_back(scaleFactor * 0.7 *EWK_hists_tau21_up[1][1]->Integral(EWK_hists_tau21_up[1][1]->FindBin(stats_bins[i].first),EWK_hists_tau21_up[1][1]->FindBin(stats_bins[i].second)));
-            WJets_tau21_up_2018.push_back(scaleFactor * 0.7 *EWK_hists_tau21_up[1][2]->Integral(EWK_hists_tau21_up[1][2]->FindBin(stats_bins[i].first),EWK_hists_tau21_up[1][2]->FindBin(stats_bins[i].second)));
+            WJets_tau21_up_2016.push_back(scaleFactor * 0.7 *EWK_hists_tau21_up[1][0]->Integral(EWK_hists_tau21_up[1][0]->FindBin(stats_bins[i].first),EWK_hists_tau21_up[1][0]->FindBin(stats_bins[i].second-0.001)));
+            WJets_tau21_up_2017.push_back(scaleFactor * 0.7 *EWK_hists_tau21_up[1][1]->Integral(EWK_hists_tau21_up[1][1]->FindBin(stats_bins[i].first),EWK_hists_tau21_up[1][1]->FindBin(stats_bins[i].second-0.001)));
+            WJets_tau21_up_2018.push_back(scaleFactor * 0.7 *EWK_hists_tau21_up[1][2]->Integral(EWK_hists_tau21_up[1][2]->FindBin(stats_bins[i].first),EWK_hists_tau21_up[1][2]->FindBin(stats_bins[i].second-0.001)));
 
-            WJets_tau21_down_2016.push_back(scaleFactor * 0.7 *EWK_hists_tau21_down[1][0]->Integral(EWK_hists_tau21_down[1][0]->FindBin(stats_bins[i].first),EWK_hists_tau21_down[1][0]->FindBin(stats_bins[i].second)));
-            WJets_tau21_down_2017.push_back(scaleFactor * 0.7 *EWK_hists_tau21_down[1][1]->Integral(EWK_hists_tau21_down[1][1]->FindBin(stats_bins[i].first),EWK_hists_tau21_down[1][1]->FindBin(stats_bins[i].second)));
-            WJets_tau21_down_2018.push_back(scaleFactor * 0.7 *EWK_hists_tau21_down[1][2]->Integral(EWK_hists_tau21_down[1][2]->FindBin(stats_bins[i].first),EWK_hists_tau21_down[1][2]->FindBin(stats_bins[i].second)));
+            WJets_tau21_down_2016.push_back(scaleFactor * 0.7 *EWK_hists_tau21_down[1][0]->Integral(EWK_hists_tau21_down[1][0]->FindBin(stats_bins[i].first),EWK_hists_tau21_down[1][0]->FindBin(stats_bins[i].second-0.001)));
+            WJets_tau21_down_2017.push_back(scaleFactor * 0.7 *EWK_hists_tau21_down[1][1]->Integral(EWK_hists_tau21_down[1][1]->FindBin(stats_bins[i].first),EWK_hists_tau21_down[1][1]->FindBin(stats_bins[i].second-0.001)));
+            WJets_tau21_down_2018.push_back(scaleFactor * 0.7 *EWK_hists_tau21_down[1][2]->Integral(EWK_hists_tau21_down[1][2]->FindBin(stats_bins[i].first),EWK_hists_tau21_down[1][2]->FindBin(stats_bins[i].second-0.001)));
 
-            TTJets2lep_count_2016.push_back(scaleFactor * 0.7 *EWK_hists[2][0]->Integral(EWK_hists[2][0]->FindBin(stats_bins[i].first),EWK_hists[2][0]->FindBin(stats_bins[i].second)));
-            TTJets2lep_count_2017.push_back(scaleFactor * 0.7 *EWK_hists[2][1]->Integral(EWK_hists[2][1]->FindBin(stats_bins[i].first),EWK_hists[2][1]->FindBin(stats_bins[i].second)));
-            TTJets2lep_count_2018.push_back(scaleFactor * 0.7 *EWK_hists[2][2]->Integral(EWK_hists[2][2]->FindBin(stats_bins[i].first),EWK_hists[2][2]->FindBin(stats_bins[i].second)));
+            TTJets2lep_count_2016.push_back(scaleFactor * 0.7 *EWK_hists[2][0]->Integral(EWK_hists[2][0]->FindBin(stats_bins[i].first),EWK_hists[2][0]->FindBin(stats_bins[i].second-0.001)));
+            TTJets2lep_count_2017.push_back(scaleFactor * 0.7 *EWK_hists[2][1]->Integral(EWK_hists[2][1]->FindBin(stats_bins[i].first),EWK_hists[2][1]->FindBin(stats_bins[i].second-0.001)));
+            TTJets2lep_count_2018.push_back(scaleFactor * 0.7 *EWK_hists[2][2]->Integral(EWK_hists[2][2]->FindBin(stats_bins[i].first),EWK_hists[2][2]->FindBin(stats_bins[i].second-0.001)));
            
-            TTJets2lep_tau21_up_2016.push_back(scaleFactor * 0.7 *EWK_hists_tau21_up[2][0]->Integral(EWK_hists_tau21_up[2][0]->FindBin(stats_bins[i].first),EWK_hists_tau21_up[2][0]->FindBin(stats_bins[i].second)));
-            TTJets2lep_tau21_up_2017.push_back(scaleFactor * 0.7 *EWK_hists_tau21_up[2][1]->Integral(EWK_hists_tau21_up[2][1]->FindBin(stats_bins[i].first),EWK_hists_tau21_up[2][1]->FindBin(stats_bins[i].second)));
-            TTJets2lep_tau21_up_2018.push_back(scaleFactor * 0.7 *EWK_hists_tau21_up[2][2]->Integral(EWK_hists_tau21_up[2][2]->FindBin(stats_bins[i].first),EWK_hists_tau21_up[2][2]->FindBin(stats_bins[i].second)));
+            TTJets2lep_tau21_up_2016.push_back(scaleFactor * 0.7 *EWK_hists_tau21_up[2][0]->Integral(EWK_hists_tau21_up[2][0]->FindBin(stats_bins[i].first),EWK_hists_tau21_up[2][0]->FindBin(stats_bins[i].second-0.001)));
+            TTJets2lep_tau21_up_2017.push_back(scaleFactor * 0.7 *EWK_hists_tau21_up[2][1]->Integral(EWK_hists_tau21_up[2][1]->FindBin(stats_bins[i].first),EWK_hists_tau21_up[2][1]->FindBin(stats_bins[i].second-0.001)));
+            TTJets2lep_tau21_up_2018.push_back(scaleFactor * 0.7 *EWK_hists_tau21_up[2][2]->Integral(EWK_hists_tau21_up[2][2]->FindBin(stats_bins[i].first),EWK_hists_tau21_up[2][2]->FindBin(stats_bins[i].second-0.001)));
 
-            TTJets2lep_tau21_down_2016.push_back(scaleFactor * 0.7 *EWK_hists_tau21_down[2][0]->Integral(EWK_hists_tau21_down[2][0]->FindBin(stats_bins[i].first),EWK_hists_tau21_down[2][0]->FindBin(stats_bins[i].second)));
-            TTJets2lep_tau21_down_2017.push_back(scaleFactor * 0.7 *EWK_hists_tau21_down[2][1]->Integral(EWK_hists_tau21_down[2][1]->FindBin(stats_bins[i].first),EWK_hists_tau21_down[2][1]->FindBin(stats_bins[i].second)));
-            TTJets2lep_tau21_down_2018.push_back(scaleFactor * 0.7 *EWK_hists_tau21_down[2][2]->Integral(EWK_hists_tau21_down[2][2]->FindBin(stats_bins[i].first),EWK_hists_tau21_down[2][2]->FindBin(stats_bins[i].second)));
+            TTJets2lep_tau21_down_2016.push_back(scaleFactor * 0.7 *EWK_hists_tau21_down[2][0]->Integral(EWK_hists_tau21_down[2][0]->FindBin(stats_bins[i].first),EWK_hists_tau21_down[2][0]->FindBin(stats_bins[i].second-0.001)));
+            TTJets2lep_tau21_down_2017.push_back(scaleFactor * 0.7 *EWK_hists_tau21_down[2][1]->Integral(EWK_hists_tau21_down[2][1]->FindBin(stats_bins[i].first),EWK_hists_tau21_down[2][1]->FindBin(stats_bins[i].second-0.001)));
+            TTJets2lep_tau21_down_2018.push_back(scaleFactor * 0.7 *EWK_hists_tau21_down[2][2]->Integral(EWK_hists_tau21_down[2][2]->FindBin(stats_bins[i].first),EWK_hists_tau21_down[2][2]->FindBin(stats_bins[i].second-0.001)));
 
-            TTJets1lep_count_2016.push_back(scaleFactor * 0.7 *EWK_hists[3][0]->Integral(EWK_hists[3][0]->FindBin(stats_bins[i].first),EWK_hists[3][0]->FindBin(stats_bins[i].second)));
-            TTJets1lep_count_2017.push_back(scaleFactor * 0.7 *EWK_hists[3][1]->Integral(EWK_hists[3][1]->FindBin(stats_bins[i].first),EWK_hists[3][1]->FindBin(stats_bins[i].second)));
-            TTJets1lep_count_2018.push_back(scaleFactor * 0.7 *EWK_hists[3][2]->Integral(EWK_hists[3][2]->FindBin(stats_bins[i].first),EWK_hists[3][2]->FindBin(stats_bins[i].second)));
+            TTJets1lep_count_2016.push_back(scaleFactor * 0.7 *EWK_hists[3][0]->Integral(EWK_hists[3][0]->FindBin(stats_bins[i].first),EWK_hists[3][0]->FindBin(stats_bins[i].second-0.001)));
+            TTJets1lep_count_2017.push_back(scaleFactor * 0.7 *EWK_hists[3][1]->Integral(EWK_hists[3][1]->FindBin(stats_bins[i].first),EWK_hists[3][1]->FindBin(stats_bins[i].second-0.001)));
+            TTJets1lep_count_2018.push_back(scaleFactor * 0.7 *EWK_hists[3][2]->Integral(EWK_hists[3][2]->FindBin(stats_bins[i].first),EWK_hists[3][2]->FindBin(stats_bins[i].second-0.001)));
            
-            TTJets1lep_tau21_up_2016.push_back(scaleFactor * 0.7 *EWK_hists_tau21_up[3][0]->Integral(EWK_hists_tau21_up[3][0]->FindBin(stats_bins[i].first),EWK_hists_tau21_up[3][0]->FindBin(stats_bins[i].second)));
-            TTJets1lep_tau21_up_2017.push_back(scaleFactor * 0.7 *EWK_hists_tau21_up[3][1]->Integral(EWK_hists_tau21_up[3][1]->FindBin(stats_bins[i].first),EWK_hists_tau21_up[3][1]->FindBin(stats_bins[i].second)));
-            TTJets1lep_tau21_up_2018.push_back(scaleFactor * 0.7 *EWK_hists_tau21_up[3][2]->Integral(EWK_hists_tau21_up[3][2]->FindBin(stats_bins[i].first),EWK_hists_tau21_up[3][2]->FindBin(stats_bins[i].second)));
+            TTJets1lep_tau21_up_2016.push_back(scaleFactor * 0.7 *EWK_hists_tau21_up[3][0]->Integral(EWK_hists_tau21_up[3][0]->FindBin(stats_bins[i].first),EWK_hists_tau21_up[3][0]->FindBin(stats_bins[i].second-0.001)));
+            TTJets1lep_tau21_up_2017.push_back(scaleFactor * 0.7 *EWK_hists_tau21_up[3][1]->Integral(EWK_hists_tau21_up[3][1]->FindBin(stats_bins[i].first),EWK_hists_tau21_up[3][1]->FindBin(stats_bins[i].second-0.001)));
+            TTJets1lep_tau21_up_2018.push_back(scaleFactor * 0.7 *EWK_hists_tau21_up[3][2]->Integral(EWK_hists_tau21_up[3][2]->FindBin(stats_bins[i].first),EWK_hists_tau21_up[3][2]->FindBin(stats_bins[i].second-0.001)));
 
-            TTJets1lep_tau21_down_2016.push_back(scaleFactor * 0.7 *EWK_hists_tau21_down[3][0]->Integral(EWK_hists_tau21_down[3][0]->FindBin(stats_bins[i].first),EWK_hists_tau21_down[3][0]->FindBin(stats_bins[i].second)));
-            TTJets1lep_tau21_down_2017.push_back(scaleFactor * 0.7 *EWK_hists_tau21_down[3][1]->Integral(EWK_hists_tau21_down[3][1]->FindBin(stats_bins[i].first),EWK_hists_tau21_down[3][1]->FindBin(stats_bins[i].second)));
-            TTJets1lep_tau21_down_2018.push_back(scaleFactor * 0.7 *EWK_hists_tau21_down[3][2]->Integral(EWK_hists_tau21_down[3][2]->FindBin(stats_bins[i].first),EWK_hists_tau21_down[3][2]->FindBin(stats_bins[i].second)));
+            TTJets1lep_tau21_down_2016.push_back(scaleFactor * 0.7 *EWK_hists_tau21_down[3][0]->Integral(EWK_hists_tau21_down[3][0]->FindBin(stats_bins[i].first),EWK_hists_tau21_down[3][0]->FindBin(stats_bins[i].second-0.001)));
+            TTJets1lep_tau21_down_2017.push_back(scaleFactor * 0.7 *EWK_hists_tau21_down[3][1]->Integral(EWK_hists_tau21_down[3][1]->FindBin(stats_bins[i].first),EWK_hists_tau21_down[3][1]->FindBin(stats_bins[i].second-0.001)));
+            TTJets1lep_tau21_down_2018.push_back(scaleFactor * 0.7 *EWK_hists_tau21_down[3][2]->Integral(EWK_hists_tau21_down[3][2]->FindBin(stats_bins[i].first),EWK_hists_tau21_down[3][2]->FindBin(stats_bins[i].second-0.001)));
 
-            SingleTop_count_2016.push_back(scaleFactor * 0.7 *EWK_hists[4][0]->Integral(EWK_hists[4][0]->FindBin(stats_bins[i].first),EWK_hists[4][0]->FindBin(stats_bins[i].second)));
-            SingleTop_count_2017.push_back(scaleFactor * 0.7 *EWK_hists[4][1]->Integral(EWK_hists[4][1]->FindBin(stats_bins[i].first),EWK_hists[4][1]->FindBin(stats_bins[i].second)));
-            SingleTop_count_2018.push_back(scaleFactor * 0.7 *EWK_hists[4][2]->Integral(EWK_hists[4][2]->FindBin(stats_bins[i].first),EWK_hists[4][2]->FindBin(stats_bins[i].second)));
+            SingleTop_count_2016.push_back(scaleFactor * 0.7 *EWK_hists[4][0]->Integral(EWK_hists[4][0]->FindBin(stats_bins[i].first),EWK_hists[4][0]->FindBin(stats_bins[i].second-0.001)));
+            SingleTop_count_2017.push_back(scaleFactor * 0.7 *EWK_hists[4][1]->Integral(EWK_hists[4][1]->FindBin(stats_bins[i].first),EWK_hists[4][1]->FindBin(stats_bins[i].second-0.001)));
+            SingleTop_count_2018.push_back(scaleFactor * 0.7 *EWK_hists[4][2]->Integral(EWK_hists[4][2]->FindBin(stats_bins[i].first),EWK_hists[4][2]->FindBin(stats_bins[i].second-0.001)));
            
-            SingleTop_tau21_up_2016.push_back(scaleFactor * 0.7 *EWK_hists_tau21_up[4][0]->Integral(EWK_hists_tau21_up[4][0]->FindBin(stats_bins[i].first),EWK_hists_tau21_up[4][0]->FindBin(stats_bins[i].second)));
-            SingleTop_tau21_up_2017.push_back(scaleFactor * 0.7 *EWK_hists_tau21_up[4][1]->Integral(EWK_hists_tau21_up[4][1]->FindBin(stats_bins[i].first),EWK_hists_tau21_up[4][1]->FindBin(stats_bins[i].second)));
-            SingleTop_tau21_up_2018.push_back(scaleFactor * 0.7 *EWK_hists_tau21_up[4][2]->Integral(EWK_hists_tau21_up[4][2]->FindBin(stats_bins[i].first),EWK_hists_tau21_up[4][2]->FindBin(stats_bins[i].second)));
+            SingleTop_tau21_up_2016.push_back(scaleFactor * 0.7 *EWK_hists_tau21_up[4][0]->Integral(EWK_hists_tau21_up[4][0]->FindBin(stats_bins[i].first),EWK_hists_tau21_up[4][0]->FindBin(stats_bins[i].second-0.001)));
+            SingleTop_tau21_up_2017.push_back(scaleFactor * 0.7 *EWK_hists_tau21_up[4][1]->Integral(EWK_hists_tau21_up[4][1]->FindBin(stats_bins[i].first),EWK_hists_tau21_up[4][1]->FindBin(stats_bins[i].second-0.001)));
+            SingleTop_tau21_up_2018.push_back(scaleFactor * 0.7 *EWK_hists_tau21_up[4][2]->Integral(EWK_hists_tau21_up[4][2]->FindBin(stats_bins[i].first),EWK_hists_tau21_up[4][2]->FindBin(stats_bins[i].second-0.001)));
 
-            SingleTop_tau21_down_2016.push_back(scaleFactor * 0.7 *EWK_hists_tau21_down[4][0]->Integral(EWK_hists_tau21_down[4][0]->FindBin(stats_bins[i].first),EWK_hists_tau21_down[4][0]->FindBin(stats_bins[i].second)));
-            SingleTop_tau21_down_2017.push_back(scaleFactor * 0.7 *EWK_hists_tau21_down[4][1]->Integral(EWK_hists_tau21_down[4][1]->FindBin(stats_bins[i].first),EWK_hists_tau21_down[4][1]->FindBin(stats_bins[i].second)));
-            SingleTop_tau21_down_2018.push_back(scaleFactor * 0.7 *EWK_hists_tau21_down[4][2]->Integral(EWK_hists_tau21_down[4][2]->FindBin(stats_bins[i].first),EWK_hists_tau21_down[4][2]->FindBin(stats_bins[i].second)));
+            SingleTop_tau21_down_2016.push_back(scaleFactor * 0.7 *EWK_hists_tau21_down[4][0]->Integral(EWK_hists_tau21_down[4][0]->FindBin(stats_bins[i].first),EWK_hists_tau21_down[4][0]->FindBin(stats_bins[i].second-0.001)));
+            SingleTop_tau21_down_2017.push_back(scaleFactor * 0.7 *EWK_hists_tau21_down[4][1]->Integral(EWK_hists_tau21_down[4][1]->FindBin(stats_bins[i].first),EWK_hists_tau21_down[4][1]->FindBin(stats_bins[i].second-0.001)));
+            SingleTop_tau21_down_2018.push_back(scaleFactor * 0.7 *EWK_hists_tau21_down[4][2]->Integral(EWK_hists_tau21_down[4][2]->FindBin(stats_bins[i].first),EWK_hists_tau21_down[4][2]->FindBin(stats_bins[i].second-0.001)));
         }
       }
 
@@ -1514,7 +1538,8 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
       double kappa_stat_error = conf->get("hist_5_error") != ""  ? stod(conf->get("hist_5_error")) : 0;
       if(do_rsfof_syst)
       {
-          FS_err = getFSError(FS_count,FS_norm_up,FS_norm_down,FS_pt_up,FS_pt_down,FS_eta_up,FS_eta_down,stod(conf->get("hist_5_scale")),kappa_stat_error,SR == ""?conf->get("SR"):SR);
+          FS_err = getFSError(FS_count_central,FS_norm_up,FS_norm_down,FS_pt_up,FS_pt_down,FS_eta_up,FS_eta_down,stod(conf->get("hist_5_scale")),kappa_stat_error,SR == ""?conf->get("SR"):SR);
+
       }
       else
       {

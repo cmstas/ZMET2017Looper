@@ -4,6 +4,7 @@
 #include <vector>
 #include <utility>
 #include <sstream>
+#include <unordered_map>
 #include "TString.h"
 #include "RooHistError.h"
 #include "TGraphAsymmErrors.h"
@@ -22,7 +23,7 @@ std::pair<std::vector<double>,std::vector<double>> getFSError(const std::vector<
 std::pair<std::vector<double>,std::vector<double>> getFSError(const std::vector<double> &bin_count,const std::vector <double> &bin_count_2016, const std::vector<double> &bin_count_2017, const std::vector<double> &bin_count_2018, double Kappa, double Kappa_stat_error,TString SR);
 
 //event by event Rsfof - factorization method
-std::pair<std::vector<double>,std::vector<double>> getFSError(const std::vector<double> &bin_count, const std::vector<double> &norm_up, const std::vector<double> &norm_down, const std::vector<double> &pt_up, const std::vector<double> &pt_down, const std::vector<double> &eta_up, const std::vector<double> &eta_down,double Kappa, double Kappa_stat_error, TString SR);
+std::pair<std::vector<double>,std::vector<double>> getFSError(const std::unordered_map<int,std::vector<double>> &bin_count, const std::unordered_map<int,std::vector<double>> &norm_up, const std::unordered_map<int,std::vector<double>> &norm_down, const std::unordered_map<int,std::vector<double>> &pt_up, const std::unordered_map<int,std::vector<double>> &pt_down, const std::unordered_map<int,std::vector<double>> &eta_up, const std::unordered_map<int,std::vector<double>> &eta_down,double Kappa, double Kappa_stat_error,TString SR);
 
 std::vector<double> getRareSamplesError(std::unordered_map<std::string,std::vector<double>>& all_errors, const std::vector<double> &bin_count, float scale, float scale_stat_unc, double scale_syst_unc, TString SR);
 

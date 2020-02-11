@@ -295,43 +295,72 @@ vector<double> getMetTemplatesError(const vector<double> &stat_err, const vector
 }
 
 //event by event using variation method
-pair<vector<double>,vector<double>> getFSError(const vector<double> &bin_count, const vector<double> &norm_up, const vector<double> &norm_down, const vector<double> &pt_up, const vector<double> &pt_down, const vector<double> &eta_up, const vector<double> &eta_down,double Kappa, double Kappa_stat_error,TString SR){
+pair<vector<double>,vector<double>> getFSError(const unordered_map<int,vector<double>> &bin_count, const unordered_map<int,vector<double>> &norm_up, const unordered_map<int,vector<double>> &norm_down, const unordered_map<int,vector<double>> &pt_up, const unordered_map<int,vector<double>> &pt_down, const unordered_map<int,vector<double>> &eta_up, const unordered_map<int,vector<double>> &eta_down,double Kappa, double Kappa_stat_error,TString SR){
   double kappa_MET_unc = 0.0134/0.0643 ;  //Full run 2
   double kappa_stat_unc = Kappa_stat_error/Kappa; //Crappy variable name
   vector<double> error_up;
   vector<double> error_dn;
 
   double bin_up, bin_dn;
-  double rsfof_norm_unc_up,rsfof_norm_unc_down, rsfof_pt_unc_up,rsfof_pt_unc_down, rsfof_eta_unc_up,rsfof_eta_unc_down;
-  for (size_t i = 0; i<bin_count.size(); i++){
-    RooHistError::instance().getPoissonInterval(bin_count[i], bin_dn, bin_up);
+  double rsfof_norm_unc_up,rsfof_norm_unc_down, rsfof_pt_unc_up,rsfof_pt_unc_down, rsfof_eta_unc_up,rsfof_eta_unc_down,bin_count_combined;
 
-    //For RSFOF systematics, we follow the SUSY JEC method - max of (up-central) and (central-down)
-    rsfof_norm_unc_up = norm_up[i] - bin_count[i];
-    rsfof_pt_unc_up = pt_up[i] - bin_count[i];
-    rsfof_eta_unc_up = eta_up[i] - bin_count[i];
+  double rsfof_norm_unc_up_years[3], rsfof_norm_unc_down_years[3],rsfof_pt_unc_up_years[3],rsfof_pt_unc_down_years[3],rsfof_eta_unc_up_years[3],rsfof_eta_unc_down_years[3];
 
-     rsfof_norm_unc_down = bin_count[i]-norm_down[i];
-     rsfof_pt_unc_down = bin_count[i]-pt_down[i];
-     rsfof_eta_unc_down = bin_count[i]-eta_down[i];
-   
-    cout<<"bin count "<<bin_count[i]<<" Stat_Error_up "<<bin_up<<" Stat_Error_dn "<<bin_dn<<endl;
+  for(size_t i =0; i< bin_count.at(2016).size(); i++)
+  {
+    bin_count_combined = 0;
+    for(int year = 0; year<3; i++)
+    {
+        bin_count_combined +=  bin_count.at(2016+year)[i];
 
-    bin_up = Kappa*Kappa*((bin_up - bin_count[i])*(bin_up - bin_count[i]) + kappa_stat_unc*kappa_stat_unc*bin_count[i]*bin_count[i] + kappa_MET_unc * kappa_MET_unc*bin_count[i]*bin_count[i] + rsfof_norm_unc_up * rsfof_norm_unc_up + rsfof_pt_unc_up * rsfof_pt_unc_up + rsfof_eta_unc_up * rsfof_eta_unc_up);
+        rsfof_norm_unc_up_years[year] = norm_up.at(2016+year)[i] - bin_count.at(2016+year)[i];
+        rsfof_pt_unc_up_years[year] = pt_up.at(2016+year)[i] - bin_count.at(2016+year)[i];
+        rsfof_eta_unc_up_years[year] = eta_up.at(2016+year)[i] - bin_count.at(2016+year)[i];
 
-    bin_dn = Kappa*Kappa*((bin_count[i] - bin_dn)*(bin_count[i] - bin_dn)  +  kappa_stat_unc*kappa_stat_unc*bin_count[i]*bin_count[i] + kappa_MET_unc * kappa_MET_unc*bin_count[i]*bin_count[i] + rsfof_norm_unc_down * rsfof_norm_unc_down + rsfof_pt_unc_down * rsfof_pt_unc_down + rsfof_eta_unc_down * rsfof_eta_unc_down);
+        rsfof_norm_unc_down_years[year] = bin_count.at(2016+year)[i]-norm_down.at(2016+year)[i];
+        rsfof_pt_unc_down_years[year] = bin_count.at(2016+year)[i]-pt_down.at(2016+year)[i];
+        rsfof_eta_unc_down_years[year] = bin_count.at(2016+year)[i]-eta_down.at(2016+year)[i];
+    } 
+    
+    rsfof_norm_unc_up = 0;
+    rsfof_norm_unc_down = 0;
+    rsfof_pt_unc_up = 0;
+    rsfof_pt_unc_down = 0;
+    rsfof_eta_unc_up = 0;
+    rsfof_eta_unc_down = 0;
+    for(int j = 0; j<3;j++)
+    {
+        rsfof_norm_unc_up += rsfof_norm_unc_up_years[i] * rsfof_norm_unc_up_years[i];
+        rsfof_norm_unc_down += rsfof_norm_unc_down_years[i] * rsfof_norm_unc_down_years[i];
+        rsfof_pt_unc_up += rsfof_pt_unc_up_years[i] * rsfof_pt_unc_up_years[i];
+        rsfof_pt_unc_down += rsfof_pt_unc_down_years[i] * rsfof_pt_unc_down_years[i];
+        rsfof_eta_unc_up += rsfof_eta_unc_up_years[i] * rsfof_eta_unc_up_years[i];
+        rsfof_eta_unc_down += rsfof_eta_unc_down_years[i] * rsfof_eta_unc_down_years[i];
+    }
+    rsfof_norm_unc_up = sqrt(rsfof_norm_unc_up);
+    rsfof_norm_unc_down = sqrt(rsfof_norm_unc_down);
+    rsfof_pt_unc_up = sqrt(rsfof_pt_unc_up);
+    rsfof_pt_unc_down = sqrt(rsfof_pt_unc_down);
+    rsfof_eta_unc_up = sqrt(rsfof_eta_unc_up);
+    rsfof_eta_unc_down = sqrt(rsfof_eta_unc_down);
+
+    RooHistError::instance().getPoissonInterval(bin_count_combined,bin_dn, bin_up);
+    cout<<"bin count "<<bin_count_combined<<" Stat_Error_up "<<bin_up<<" Stat_Error_dn "<<bin_dn<<endl;
+    bin_up = Kappa*Kappa*((bin_up - bin_count_combined)*(bin_up - bin_count_combined) + kappa_stat_unc*kappa_stat_unc*bin_count_combined*bin_count_combined + kappa_MET_unc * kappa_MET_unc*bin_count_combined*bin_count_combined + rsfof_norm_unc_up * rsfof_norm_unc_up + rsfof_pt_unc_up * rsfof_pt_unc_up + rsfof_eta_unc_up * rsfof_eta_unc_up);
+    bin_dn = Kappa*Kappa*((bin_count_combined - bin_dn)*(bin_count_combined - bin_dn)  +  kappa_stat_unc*kappa_stat_unc*bin_count_combined*bin_count_combined + kappa_MET_unc * kappa_MET_unc*bin_count_combined*bin_count_combined + rsfof_norm_unc_down * rsfof_norm_unc_down + rsfof_pt_unc_down * rsfof_pt_unc_down + rsfof_eta_unc_down * rsfof_eta_unc_down);
 
     error_up.push_back(sqrt(bin_up));
     error_dn.push_back(sqrt(bin_dn));
-   
+
+    cout<<"bin count "<<bin_count_combined<<" Stat_Error_up "<<bin_up<<" Stat_Error_dn "<<bin_dn<<endl;
+
     cout<<setprecision(10);
 
-    //For the cardmaker
-    if(bin_count[i] != 0)
+    if(bin_count_combined != 0)
     {
-        cout<<"{rsfof_norm_unc_bin"<<i<<"} "<<1.+rsfof_norm_unc_up/bin_count[i]<<"/"<<1-rsfof_norm_unc_down/bin_count[i]<<endl;
-        cout<<"{rsfof_pt_unc_bin"<<i<<"} "<<1.+rsfof_pt_unc_up/bin_count[i]<<"/"<<1-rsfof_pt_unc_down/bin_count[i]<<endl;
-        cout<<"{rsfof_eta_unc_bin"<<i<<"} "<<1.+rsfof_eta_unc_up/bin_count[i]<<"/"<<1-rsfof_eta_unc_down/bin_count[i] <<endl;
+        cout<<"{rsfof_norm_unc_bin"<<i<<"} "<<1.+rsfof_norm_unc_up/bin_count_combined<<"/"<<1-rsfof_norm_unc_down/bin_count_combined<<endl;
+        cout<<"{rsfof_pt_unc_bin"<<i<<"} "<<1.+rsfof_pt_unc_up/bin_count_combined<<"/"<<1-rsfof_pt_unc_down/bin_count_combined<<endl;
+        cout<<"{rsfof_eta_unc_bin"<<i<<"} "<<1.+rsfof_eta_unc_up/bin_count_combined<<"/"<<1-rsfof_eta_unc_down/bin_count_combined <<endl;
 
     }
     else
@@ -340,7 +369,14 @@ pair<vector<double>,vector<double>> getFSError(const vector<double> &bin_count, 
         cout<<"{rsfof_pt_unc_bin"<<i<<"} "<<1.00<<endl;
         cout<<"{rsfof_eta_unc_bin"<<i<<"} "<<1.00<<endl;
     }
+    for (size_t i = 0; i<bin_count.size(); i++)
+    {
+        cout<<"{BGbin"<<i<<"_fsbkg} "<<bin_count_combined*Kappa<<endl;
+        cout<<"{count_bin"<<i<<"_fsbkg} "<<bin_count_combined<<endl;
+    }
+
   }
+ 
 
   cout<<setprecision(10);
   //--------------------------------
@@ -351,11 +387,7 @@ pair<vector<double>,vector<double>> getFSError(const vector<double> &bin_count, 
 
   cout<<"{rsfof*kappa} "<<Kappa<<endl; //only kappa these days
 
-  for (size_t i = 0; i<bin_count.size(); i++){
-    cout<<"{BGbin"<<i<<"_fsbkg} "<<bin_count[i]*Kappa<<endl;
-    cout<<"{count_bin"<<i<<"_fsbkg} "<<bin_count[i]<<endl;
-  }
-  cout<<setprecision(2);
+    cout<<setprecision(2);
 
 
   return make_pair(error_up, error_dn);
