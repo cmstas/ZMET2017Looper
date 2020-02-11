@@ -300,6 +300,10 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
 
   std::vector<TH1D*> hists (num_hists);
   std::vector<std::vector<TH1D*>> rare_hists;
+  std::vector<std::vector<TH1D*>> EWK_hists;
+  std::vector<std::vector<TH1D*>> EWK_hists_tau21_up;
+  std::vector<std::vector<TH1D*>> EWK_hists_tau21_down;
+  std::vector<std::vector<TFile*>> EWK_hist_files; 
 
   //Only rare backgrounds are MC, so only they have tau21 up and down
   std::vector<std::vector<TH1D*>> rare_hists_tau21_up;
@@ -330,6 +334,23 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
       rare_hists.push_back(std::vector<TH1D*>(3,nullptr));
       rare_hists_tau21_up.push_back(std::vector<TH1D*>(3,nullptr));
       rare_hists_tau21_down.push_back(std::vector<TH1D*>(3,nullptr));
+  }
+
+  //templates stuff
+  std::vector<TString> EWK_processes = {"WGamma","WJets","TTJets-2lep","TTJets-1lep","SingleTop"};
+  TString EWK_location_2016(conf->get("EWK_hist_location").c_str()); 
+  EWK_location_2016.ReplaceAll("combined/","2016/");
+  TString EWK_location_2017(conf->get("EWK_hist_location").c_str());
+  EWK_location_2017.ReplaceAll("combined/","2017/");
+  TString EWK_location_2018(conf->get("EWK_hist_location").c_str());
+  EWK_location_2018.ReplaceAll("combined/","2018/");
+
+  for(int i = 0; i<5;i++)
+  {
+      EWK_hist_files.push_back(std::vector<TFile*>(3,nullptr));
+      EWK_hist_files[i][0] = new TFile(EWK_location_2016+"/"+EWK_processes[i]+".root");
+      EWK_hist_files[i][1] = new TFile(EWK_location_2017+"/"+EWK_processes[i]+".root");
+      EWK_hist_files[i][2] = new TFile(EWK_location_2018+"/"+EWK_processes[i]+".root");
   }
   //HARDCODING THEM SCALE FACTORS AND ERRORS!
   //map : 0->ZZ, 1->WZ, 2->VVV, 3->TTZ
@@ -389,6 +410,26 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
         hists[i] = (TH1D*)template_hist->Clone("template_hist_Final");
         EWK_component->Scale(0.3);
         hists[i]->Add(EWK_component);
+
+
+        for(int j = 0; j< EWK_processes.size();j++)
+        {
+            for(int k = 0; k<3;k++)
+            {
+                if(EWK_hist_files[j][k]->Get(SR+"type1MET") != nullptr)
+                {
+                    EWK_hists[j][k] = (TH1D*)((TH1D*)(EWK_hist_files[j][k]->Get(SR+"type1MET"))->Clone(("hist_"+to_string(i)+"_"+to_string(j)+"_"+to_string(k)).c_str()));
+                    EWK_hists_tau21_up[j][k] = (TH1D*)((TH1D*)(EWK_hist_files[j][k]->Get(SR+"type1MET_tau21_up"))->Clone(("tau21_up_hist_"+to_string(i)+"_"+to_string(j)+"_"+to_string(k)).c_str()));
+                    EWK_hists_tau21_down[j][k] = (TH1D*)((TH1D*)(EWK_hist_files[j][k]->Get(SR+"type1MET_tau21_down"))->Clone(("tau21_down_hist_"+to_string(i)+"_"+to_string(j)+"_"+to_string(k)).c_str()));
+                }
+                else
+                {
+                    EWK_hists[j][k] = (TH1D*)(hists[0]->Clone(("hist_"+to_string(i)+"_"+to_string(j)+"_"+to_string(k)).c_str()));
+                    EWK_hists_tau21_up[j][k] = (TH1D*)(hists[0]->Clone(("tau21_up_hist_"+to_string(i)+"_"+to_string(j)+"_"+to_string(k)).c_str()));
+                    EWK_hists_tau21_down[j][k] = (TH1D*)(hists[0]->Clone(("tau21_down_hist_"+to_string(i)+"_"+to_string(j)+"_"+to_string(k)).c_str()));
+                }
+            }          
+        }
     }
     else if(i > 0)
     {
@@ -682,7 +723,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
   for (int i=0; i < num_hists; i++){
     zeroNegatives(hists[i]);
   }
-
+  double scaleFactor;
   if (conf->get("normalize") == "true"){
     TString hist_nums_for_norm = conf->get("normalize_hist_nums");
     cout<<"Normalizing hists: "<<hist_nums_for_norm<<endl;
@@ -745,7 +786,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
     }
 
     //cout<<__LINE__<<endl;
-    double scaleFactor;
+//    double scaleFactor;
     if (conf->get("norm_0_50") == "true")
     {
       numEventsData = clonedPrimary_norm->Integral(clonedPrimary_norm->FindBin(0),clonedPrimary_norm->FindBin(49.9));
@@ -990,10 +1031,29 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
       vector<double> template_count;
       vector<double> template_error;
 
+      //scale these by scaleFactor
+      vector<double> EWK_tau21_up_error,EWK_tau21_down_error;
+      vector<double> WGamma_tau21_up_error,WGamma_tau21_down_error;
+      vector<double> WJets_tau21_up_error,WJets_tau21_down_error;
+      vector<double> TTJets2lep_tau21_up_error,TTJets2lep_tau21_down_error;
+      vector<double> TTJets1lep_tau21_up_error,TTJets1lep_tau21_down_error;
+      vector<double> SingleTop_tau21_up_error,SingleTop_tau21_down_error;
 
-      double t_err; //placeholder for template error
+      vector<double> WGamma_count_2016,WJets_count_2016,TTJets2lep_count_2016,TTJets1lep_count_2016,SingleTop_count_2016;
+      vector<double> WGamma_count_2017,WJets_count_2017,TTJets2lep_count_2017,TTJets1lep_count_2017,SingleTop_count_2017;
+      vector<double> WGamma_count_2018,WJets_count_2018,TTJets2lep_count_2018,TTJets1lep_count_2018,SingleTop_count_2018;
+     
+      vector<double> WGamma_tau21_up_2016,WJets_tau21_up_2016,TTJets2lep_tau21_up_2016,TTJets1lep_tau21_up_2016,SingleTop_tau21_up_2016;
+      vector<double> WGamma_tau21_up_2017,WJets_tau21_up_2017,TTJets2lep_tau21_up_2017,TTJets1lep_tau21_up_2017,SingleTop_tau21_up_2017;
+      vector<double> WGamma_tau21_up_2018,WJets_tau21_up_2018,TTJets2lep_tau21_up_2018,TTJets1lep_tau21_up_2018,SingleTop_tau21_up_2018;
 
-      double r_err;
+      vector<double> WGamma_tau21_down_2016,WJets_tau21_down_2016,TTJets2lep_tau21_down_2016,TTJets1lep_tau21_down_2016,SingleTop_tau21_down_2016;
+      vector<double> WGamma_tau21_down_2017,WJets_tau21_down_2017,TTJets2lep_tau21_down_2017,TTJets1lep_tau21_down_2017,SingleTop_tau21_down_2017;
+      vector<double> WGamma_tau21_down_2018,WJets_tau21_down_2018,TTJets2lep_tau21_down_2018,TTJets1lep_tau21_down_2018,SingleTop_tau21_down_2018;
+
+
+    
+
 
       vector<double> rare_count, TTV_count, VVV_count, WZ_count, ZZ_count;
       vector<double> rare_err, TTV_err, VVV_err, WZ_err, ZZ_err;
@@ -1135,8 +1195,8 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
         }
 
         //cout<<__LINE__<<endl;
-        template_count.push_back(hists[6]->IntegralAndError(hists[6]->FindBin(stats_bins[i].first), hists[6]->FindBin(stats_bins[i].second - 0.001), t_err));
-        template_error.push_back(t_err);
+        double t_err;
+        template_count.push_back(hists[6]->IntegralAndError(hists[6]->FindBin(stats_bins[i].first), hists[6]->FindBin(stats_bins[i].second - 0.001), t_err)); template_error.push_back(t_err);
 
 
         //cout<<__LINE__<<endl;
@@ -1249,6 +1309,72 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
             TTV_tau21_down_2018.push_back(rare_hists_tau21_down[3][2]->Integral(rare_hists_tau21_down[3][2]->FindBin(stats_bins[i].first),rare_hists_tau21_down[3][2]->FindBin(stats_bins[i].second)));
 
         }
+
+
+        //EWK tau21
+        if(SR.Contains("Boosted"))
+        {
+            WGamma_count_2016.push_back(scaleFactor * 0.7 * EWK_hists[0][0]->Integral(EWK_hists[0][0]->FindBin(stats_bins[i].first),EWK_hists[0][0]->FindBin(stats_bins[i].second)));
+            WGamma_count_2017.push_back(scaleFactor * 0.7 * EWK_hists[0][1]->Integral(EWK_hists[0][1]->FindBin(stats_bins[i].first),EWK_hists[0][1]->FindBin(stats_bins[i].second)));
+            WGamma_count_2018.push_back(scaleFactor * 0.7 * EWK_hists[0][2]->Integral(EWK_hists[0][2]->FindBin(stats_bins[i].first),EWK_hists[0][2]->FindBin(stats_bins[i].second)));
+           
+            WGamma_tau21_up_2016.push_back(scaleFactor * 0.7 * EWK_hists_tau21_up[0][0]->Integral(EWK_hists_tau21_up[0][0]->FindBin(stats_bins[i].first),EWK_hists_tau21_up[0][1]->FindBin(stats_bins[i].second)));
+            WGamma_tau21_up_2017.push_back(scaleFactor * 0.7 * EWK_hists_tau21_up[0][1]->Integral(EWK_hists_tau21_up[0][1]->FindBin(stats_bins[i].first),EWK_hists_tau21_up[0][1]->FindBin(stats_bins[i].second)));
+            WGamma_tau21_up_2018.push_back(scaleFactor * 0.7 * EWK_hists_tau21_up[0][2]->Integral(EWK_hists_tau21_up[0][2]->FindBin(stats_bins[i].first),EWK_hists_tau21_up[0][2]->FindBin(stats_bins[i].second)));
+
+            WGamma_tau21_down_2016.push_back(scaleFactor * 0.7 * EWK_hists_tau21_down[0][0]->Integral(EWK_hists_tau21_down[0][0]->FindBin(stats_bins[i].first),EWK_hists_tau21_down[0][0]->FindBin(stats_bins[i].second)));
+            WGamma_tau21_down_2017.push_back(scaleFactor * 0.7 *EWK_hists_tau21_down[0][1]->Integral(EWK_hists_tau21_down[0][1]->FindBin(stats_bins[i].first),EWK_hists_tau21_down[0][1]->FindBin(stats_bins[i].second)));
+            WGamma_tau21_down_2018.push_back(scaleFactor * 0.7 *EWK_hists_tau21_down[0][2]->Integral(EWK_hists_tau21_down[0][2]->FindBin(stats_bins[i].first),EWK_hists_tau21_down[0][2]->FindBin(stats_bins[i].second)));
+
+
+            WJets_count_2016.push_back(scaleFactor * 0.7 *EWK_hists[1][0]->Integral(EWK_hists[1][0]->FindBin(stats_bins[i].first),EWK_hists[1][0]->FindBin(stats_bins[i].second)));
+            WJets_count_2017.push_back(scaleFactor * 0.7 *EWK_hists[1][1]->Integral(EWK_hists[1][1]->FindBin(stats_bins[i].first),EWK_hists[1][1]->FindBin(stats_bins[i].second)));
+            WJets_count_2018.push_back(scaleFactor * 0.7 *EWK_hists[1][2]->Integral(EWK_hists[1][2]->FindBin(stats_bins[i].first),EWK_hists[1][2]->FindBin(stats_bins[i].second)));
+           
+            WJets_tau21_up_2016.push_back(scaleFactor * 0.7 *EWK_hists_tau21_up[1][0]->Integral(EWK_hists_tau21_up[1][0]->FindBin(stats_bins[i].first),EWK_hists_tau21_up[1][0]->FindBin(stats_bins[i].second)));
+            WJets_tau21_up_2017.push_back(scaleFactor * 0.7 *EWK_hists_tau21_up[1][1]->Integral(EWK_hists_tau21_up[1][1]->FindBin(stats_bins[i].first),EWK_hists_tau21_up[1][1]->FindBin(stats_bins[i].second)));
+            WJets_tau21_up_2018.push_back(scaleFactor * 0.7 *EWK_hists_tau21_up[1][2]->Integral(EWK_hists_tau21_up[1][2]->FindBin(stats_bins[i].first),EWK_hists_tau21_up[1][2]->FindBin(stats_bins[i].second)));
+
+            WJets_tau21_down_2016.push_back(scaleFactor * 0.7 *EWK_hists_tau21_down[1][0]->Integral(EWK_hists_tau21_down[1][0]->FindBin(stats_bins[i].first),EWK_hists_tau21_down[1][0]->FindBin(stats_bins[i].second)));
+            WJets_tau21_down_2017.push_back(scaleFactor * 0.7 *EWK_hists_tau21_down[1][1]->Integral(EWK_hists_tau21_down[1][1]->FindBin(stats_bins[i].first),EWK_hists_tau21_down[1][1]->FindBin(stats_bins[i].second)));
+            WJets_tau21_down_2018.push_back(scaleFactor * 0.7 *EWK_hists_tau21_down[1][2]->Integral(EWK_hists_tau21_down[1][2]->FindBin(stats_bins[i].first),EWK_hists_tau21_down[1][2]->FindBin(stats_bins[i].second)));
+
+            TTJets2lep_count_2016.push_back(scaleFactor * 0.7 *EWK_hists[2][0]->Integral(EWK_hists[2][0]->FindBin(stats_bins[i].first),EWK_hists[2][0]->FindBin(stats_bins[i].second)));
+            TTJets2lep_count_2017.push_back(scaleFactor * 0.7 *EWK_hists[2][1]->Integral(EWK_hists[2][1]->FindBin(stats_bins[i].first),EWK_hists[2][1]->FindBin(stats_bins[i].second)));
+            TTJets2lep_count_2018.push_back(scaleFactor * 0.7 *EWK_hists[2][2]->Integral(EWK_hists[2][2]->FindBin(stats_bins[i].first),EWK_hists[2][2]->FindBin(stats_bins[i].second)));
+           
+            TTJets2lep_tau21_up_2016.push_back(scaleFactor * 0.7 *EWK_hists_tau21_up[2][0]->Integral(EWK_hists_tau21_up[2][0]->FindBin(stats_bins[i].first),EWK_hists_tau21_up[2][0]->FindBin(stats_bins[i].second)));
+            TTJets2lep_tau21_up_2017.push_back(scaleFactor * 0.7 *EWK_hists_tau21_up[2][1]->Integral(EWK_hists_tau21_up[2][1]->FindBin(stats_bins[i].first),EWK_hists_tau21_up[2][1]->FindBin(stats_bins[i].second)));
+            TTJets2lep_tau21_up_2018.push_back(scaleFactor * 0.7 *EWK_hists_tau21_up[2][2]->Integral(EWK_hists_tau21_up[2][2]->FindBin(stats_bins[i].first),EWK_hists_tau21_up[2][2]->FindBin(stats_bins[i].second)));
+
+            TTJets2lep_tau21_down_2016.push_back(scaleFactor * 0.7 *EWK_hists_tau21_down[2][0]->Integral(EWK_hists_tau21_down[2][0]->FindBin(stats_bins[i].first),EWK_hists_tau21_down[2][0]->FindBin(stats_bins[i].second)));
+            TTJets2lep_tau21_down_2017.push_back(scaleFactor * 0.7 *EWK_hists_tau21_down[2][1]->Integral(EWK_hists_tau21_down[2][1]->FindBin(stats_bins[i].first),EWK_hists_tau21_down[2][1]->FindBin(stats_bins[i].second)));
+            TTJets2lep_tau21_down_2018.push_back(scaleFactor * 0.7 *EWK_hists_tau21_down[2][2]->Integral(EWK_hists_tau21_down[2][2]->FindBin(stats_bins[i].first),EWK_hists_tau21_down[2][2]->FindBin(stats_bins[i].second)));
+
+            TTJets1lep_count_2016.push_back(scaleFactor * 0.7 *EWK_hists[3][0]->Integral(EWK_hists[3][0]->FindBin(stats_bins[i].first),EWK_hists[3][0]->FindBin(stats_bins[i].second)));
+            TTJets1lep_count_2017.push_back(scaleFactor * 0.7 *EWK_hists[3][1]->Integral(EWK_hists[3][1]->FindBin(stats_bins[i].first),EWK_hists[3][1]->FindBin(stats_bins[i].second)));
+            TTJets1lep_count_2018.push_back(scaleFactor * 0.7 *EWK_hists[3][2]->Integral(EWK_hists[3][2]->FindBin(stats_bins[i].first),EWK_hists[3][2]->FindBin(stats_bins[i].second)));
+           
+            TTJets1lep_tau21_up_2016.push_back(scaleFactor * 0.7 *EWK_hists_tau21_up[3][0]->Integral(EWK_hists_tau21_up[3][0]->FindBin(stats_bins[i].first),EWK_hists_tau21_up[3][0]->FindBin(stats_bins[i].second)));
+            TTJets1lep_tau21_up_2017.push_back(scaleFactor * 0.7 *EWK_hists_tau21_up[3][1]->Integral(EWK_hists_tau21_up[3][1]->FindBin(stats_bins[i].first),EWK_hists_tau21_up[3][1]->FindBin(stats_bins[i].second)));
+            TTJets1lep_tau21_up_2018.push_back(scaleFactor * 0.7 *EWK_hists_tau21_up[3][2]->Integral(EWK_hists_tau21_up[3][2]->FindBin(stats_bins[i].first),EWK_hists_tau21_up[3][2]->FindBin(stats_bins[i].second)));
+
+            TTJets1lep_tau21_down_2016.push_back(scaleFactor * 0.7 *EWK_hists_tau21_down[3][0]->Integral(EWK_hists_tau21_down[3][0]->FindBin(stats_bins[i].first),EWK_hists_tau21_down[3][0]->FindBin(stats_bins[i].second)));
+            TTJets1lep_tau21_down_2017.push_back(scaleFactor * 0.7 *EWK_hists_tau21_down[3][1]->Integral(EWK_hists_tau21_down[3][1]->FindBin(stats_bins[i].first),EWK_hists_tau21_down[3][1]->FindBin(stats_bins[i].second)));
+            TTJets1lep_tau21_down_2018.push_back(scaleFactor * 0.7 *EWK_hists_tau21_down[3][2]->Integral(EWK_hists_tau21_down[3][2]->FindBin(stats_bins[i].first),EWK_hists_tau21_down[3][2]->FindBin(stats_bins[i].second)));
+
+            SingleTop_count_2016.push_back(scaleFactor * 0.7 *EWK_hists[4][0]->Integral(EWK_hists[4][0]->FindBin(stats_bins[i].first),EWK_hists[4][0]->FindBin(stats_bins[i].second)));
+            SingleTop_count_2017.push_back(scaleFactor * 0.7 *EWK_hists[4][1]->Integral(EWK_hists[4][1]->FindBin(stats_bins[i].first),EWK_hists[4][1]->FindBin(stats_bins[i].second)));
+            SingleTop_count_2018.push_back(scaleFactor * 0.7 *EWK_hists[4][2]->Integral(EWK_hists[4][2]->FindBin(stats_bins[i].first),EWK_hists[4][2]->FindBin(stats_bins[i].second)));
+           
+            SingleTop_tau21_up_2016.push_back(scaleFactor * 0.7 *EWK_hists_tau21_up[4][0]->Integral(EWK_hists_tau21_up[4][0]->FindBin(stats_bins[i].first),EWK_hists_tau21_up[4][0]->FindBin(stats_bins[i].second)));
+            SingleTop_tau21_up_2017.push_back(scaleFactor * 0.7 *EWK_hists_tau21_up[4][1]->Integral(EWK_hists_tau21_up[4][1]->FindBin(stats_bins[i].first),EWK_hists_tau21_up[4][1]->FindBin(stats_bins[i].second)));
+            SingleTop_tau21_up_2018.push_back(scaleFactor * 0.7 *EWK_hists_tau21_up[4][2]->Integral(EWK_hists_tau21_up[4][2]->FindBin(stats_bins[i].first),EWK_hists_tau21_up[4][2]->FindBin(stats_bins[i].second)));
+
+            SingleTop_tau21_down_2016.push_back(scaleFactor * 0.7 *EWK_hists_tau21_down[4][0]->Integral(EWK_hists_tau21_down[4][0]->FindBin(stats_bins[i].first),EWK_hists_tau21_down[4][0]->FindBin(stats_bins[i].second)));
+            SingleTop_tau21_down_2017.push_back(scaleFactor * 0.7 *EWK_hists_tau21_down[4][1]->Integral(EWK_hists_tau21_down[4][1]->FindBin(stats_bins[i].first),EWK_hists_tau21_down[4][1]->FindBin(stats_bins[i].second)));
+            SingleTop_tau21_down_2018.push_back(scaleFactor * 0.7 *EWK_hists_tau21_down[4][2]->Integral(EWK_hists_tau21_down[4][2]->FindBin(stats_bins[i].first),EWK_hists_tau21_down[4][2]->FindBin(stats_bins[i].second)));
+        }
       }
 
       
@@ -1312,8 +1438,43 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
       if(SR.Contains("Boosted"))
           std::tie(TTV_tau21_error_up,TTV_tau21_error_down) = getTau21Error(TTV_count_2016,TTV_count_2017,TTV_count_2018,TTV_tau21_up_2016,TTV_tau21_up_2017,TTV_tau21_up_2018,TTV_tau21_down_2016,TTV_tau21_down_2017,TTV_tau21_down_2018);
 
+
+      //EWK Tau21
+      if(SR.Contains("Boosted"))
+      {
+          std::tie(WGamma_tau21_up_error,WGamma_tau21_down_error) = getTau21Error(WGamma_count_2016,WGamma_count_2017,WGamma_count_2018,WGamma_tau21_up_2016,WGamma_tau21_up_2017,WGamma_tau21_up_2018,WGamma_tau21_down_2016,WGamma_tau21_down_2017,WGamma_tau21_down_2018); 
+
+        std::tie(WJets_tau21_up_error,WJets_tau21_down_error) = getTau21Error(WJets_count_2016,WJets_count_2017,WJets_count_2018,WJets_tau21_up_2016,WJets_tau21_up_2017,WJets_tau21_up_2018,WJets_tau21_down_2016,WJets_tau21_down_2017,WJets_tau21_down_2018); 
+
+        std::tie(TTJets2lep_tau21_up_error,TTJets2lep_tau21_down_error) = getTau21Error(TTJets2lep_count_2016,TTJets2lep_count_2017,TTJets2lep_count_2018,TTJets2lep_tau21_up_2016,TTJets2lep_tau21_up_2017,TTJets2lep_tau21_up_2018,TTJets2lep_tau21_down_2016,TTJets2lep_tau21_down_2017,TTJets2lep_tau21_down_2018); 
+
+        std::tie(TTJets1lep_tau21_up_error,TTJets1lep_tau21_down_error) = getTau21Error(TTJets1lep_count_2016,TTJets1lep_count_2017,TTJets1lep_count_2018,TTJets1lep_tau21_up_2016,TTJets1lep_tau21_up_2017,TTJets1lep_tau21_up_2018,TTJets1lep_tau21_down_2016,TTJets1lep_tau21_down_2017,TTJets1lep_tau21_down_2018); 
+
+        std::tie(SingleTop_tau21_up_error,SingleTop_tau21_down_error) = getTau21Error(SingleTop_count_2016,SingleTop_count_2017,SingleTop_count_2018,SingleTop_tau21_up_2016,SingleTop_tau21_up_2017,SingleTop_tau21_up_2018,SingleTop_tau21_down_2016,SingleTop_tau21_down_2017,SingleTop_tau21_down_2018); 
+
+      }
+
       cout<<"Template count in normalization bin="<<template_count[norm_bin]<<endl;
       vector<double> temp_err = getMetTemplatesError(template_error, template_count, normalization, norm_bin, stats_bins, SR == "" ? conf->get("SR"): SR,SR != ""?true:false,conf->get("EWK_hist_location"));
+      vector<double> temp_err_up(temp_err);
+      vector<double> temp_err_down(temp_err);
+
+      //Add the glorious tau21 error to template error
+      if(SR.Contains("Boosted"))
+      {
+          for(size_t i = 0;i<stats_bins.size();i++)
+            {
+                EWK_tau21_up_error.push_back(sqrt(WGamma_tau21_up_error[i]*WGamma_tau21_up_error[i] + WJets_tau21_up_error[i]*WJets_tau21_up_error[i] + TTJets2lep_tau21_up_error[i]*TTJets2lep_tau21_up_error[i] + TTJets1lep_tau21_up_error[i]*TTJets1lep_tau21_up_error[i] + SingleTop_tau21_up_error[i]*SingleTop_tau21_up_error[i]));
+                
+                EWK_tau21_down_error.push_back(sqrt(WGamma_tau21_down_error[i]*WGamma_tau21_down_error[i] + WJets_tau21_down_error[i]*WJets_tau21_down_error[i] + TTJets2lep_tau21_down_error[i]*TTJets2lep_tau21_down_error[i] + TTJets1lep_tau21_down_error[i]*TTJets1lep_tau21_down_error[i] + SingleTop_tau21_down_error[i]*SingleTop_tau21_down_error[i])); 
+
+                cout<<"{zjets_ewk_tau21_tagsyst_bin"<<i<<" }"<<1+EWK_tau21_up_error[i]/template_count[i]<<"/"<<1-EWK_tau21_down_error[i]/template_count[i]<<endl;
+
+                temp_err_up[i] = sqrt(temp_err_up[i]*temp_err_up[i] + EWK_tau21_up_error[i]*EWK_tau21_up_error[i]); 
+                temp_err_up[i] = sqrt(temp_err_down[i]*temp_err_down[i] + EWK_tau21_down_error[i]*EWK_tau21_down_error[i]); 
+
+            }
+      }
       //cout<<__LINE__<<endl;
       
       pair<vector<double>,vector<double>> FS_err;
@@ -1432,14 +1593,14 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
 
       if(SR.Contains("Boosted"))
       {
-        prediction_errors = getErrorTGraph(template_count, temp_err, rare_count, rare_err, FS_count, FS_err, stats_bins, signal_count, stod(conf->get("hist_5_scale")),false,rare_tau21_error_up,rare_tau21_error_down);
-        ratio_errors = getErrorTGraph(template_count, temp_err, rare_count, rare_err, FS_count, FS_err, stats_bins, signal_count, stod(conf->get("hist_5_scale")),true,rare_tau21_error_up,rare_tau21_error_down);
+        prediction_errors = getErrorTGraph(template_count, temp_err_up,temp_err_down, rare_count, rare_err, FS_count, FS_err, stats_bins, signal_count, stod(conf->get("hist_5_scale")),false,rare_tau21_error_up,rare_tau21_error_down);
+        ratio_errors = getErrorTGraph(template_count, temp_err_up, temp_err_down, rare_count, rare_err, FS_count, FS_err, stats_bins, signal_count, stod(conf->get("hist_5_scale")),true,rare_tau21_error_up,rare_tau21_error_down);
  
       }
       else
       {
-        prediction_errors = getErrorTGraph(template_count, temp_err, rare_count, rare_err, FS_count, FS_err, stats_bins, signal_count, stod(conf->get("hist_5_scale")));
-        ratio_errors = getErrorTGraph(template_count, temp_err, rare_count, rare_err, FS_count, FS_err, stats_bins, signal_count, stod(conf->get("hist_5_scale")),true);
+        prediction_errors = getErrorTGraph(template_count, temp_err_up,temp_err_down, rare_count, rare_err, FS_count, FS_err, stats_bins, signal_count, stod(conf->get("hist_5_scale")));
+        ratio_errors = getErrorTGraph(template_count, temp_err_up, temp_err_down, rare_count, rare_err, FS_count, FS_err, stats_bins, signal_count, stod(conf->get("hist_5_scale")),true);
 
       }
   
