@@ -336,6 +336,13 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
       rare_hists_tau21_down.push_back(std::vector<TH1D*>(3,nullptr));
   }
 
+  for(int i=0;i<5;i++)
+  {
+      EWK_hists.push_back(std::vector<TH1D*>(3,nullptr));
+      EWK_hists_tau21_up.push_back(std::vector<TH1D*>(3,nullptr));
+      EWK_hists_tau21_down.push_back(std::vector<TH1D*>(3,nullptr));
+  }
+
   //templates stuff
   std::vector<TString> EWK_processes = {"WGamma","WJets","TTJets-2lep","TTJets-1lep","SingleTop"};
   TString EWK_location_2016(conf->get("EWK_hist_location").c_str()); 
@@ -348,9 +355,9 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
   for(int i = 0; i<5;i++)
   {
       EWK_hist_files.push_back(std::vector<TFile*>(3,nullptr));
-      EWK_hist_files[i][0] = new TFile(EWK_location_2016+"/"+EWK_processes[i]+".root");
-      EWK_hist_files[i][1] = new TFile(EWK_location_2017+"/"+EWK_processes[i]+".root");
-      EWK_hist_files[i][2] = new TFile(EWK_location_2018+"/"+EWK_processes[i]+".root");
+      EWK_hist_files[i][0] = new TFile(EWK_location_2016+"/"+EWK_processes[i]+"-EWKSub.root");
+      EWK_hist_files[i][1] = new TFile(EWK_location_2017+"/"+EWK_processes[i]+"-EWKSub.root");
+      EWK_hist_files[i][2] = new TFile(EWK_location_2018+"/"+EWK_processes[i]+"-EWKSub.root");
   }
   //HARDCODING THEM SCALE FACTORS AND ERRORS!
   //map : 0->ZZ, 1->WZ, 2->VVV, 3->TTZ
@@ -424,6 +431,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
                 }
                 else
                 {
+                    cout<<"EWK histograms not found"<<endl;
                     EWK_hists[j][k] = (TH1D*)(hists[0]->Clone(("hist_"+to_string(i)+"_"+to_string(j)+"_"+to_string(k)).c_str()));
                     EWK_hists_tau21_up[j][k] = (TH1D*)(hists[0]->Clone(("tau21_up_hist_"+to_string(i)+"_"+to_string(j)+"_"+to_string(k)).c_str()));
                     EWK_hists_tau21_down[j][k] = (TH1D*)(hists[0]->Clone(("tau21_down_hist_"+to_string(i)+"_"+to_string(j)+"_"+to_string(k)).c_str()));
@@ -451,6 +459,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
                 }
                 else
                 {
+                    cout<<"Rare Histogram not found. Replacing by zeros"<<endl;
                     temp_hist = (TH1D*)(hists[0]->Clone(("hist_"+to_string(j)+"_"+to_string(i)).c_str()));
                     temp_hist->Reset();
                 }
@@ -460,6 +469,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
                 }
                 else
                 {
+                    cout<<"Rare Histogram not found. Replacing by zeros"<<endl;
                     temp_hist_mm = (TH1D*)(hists[0]->Clone(("hist_mm_"+to_string(j)+"_"+to_string(i)).c_str()));
                     temp_hist_mm->Reset();
                 }
@@ -473,6 +483,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
                     }
                     else
                     {
+                        cout<<"Rare tau21 Histogram not found. Replacing by zeros"<<endl;
                         temp_hist_tau21_up = (TH1D*)(hists[0]->Clone(("hist_"+to_string(j)+"_"+to_string(i)+"tau21_up").c_str()));
                         temp_hist_tau21_up->Reset();
                     }
@@ -483,6 +494,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
                     }
                     else
                     {
+                        cout<<"Rare tau21 Histogram not found. Replacing by zeros"<<endl;
                         temp_hist_mm_tau21_up = (TH1D*)(hists[0]->Clone(("hist_mm_"+to_string(j)+"_"+to_string(i)+"tau21_up").c_str()));
                         temp_hist_mm_tau21_up->Reset();
 
@@ -505,6 +517,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
                     }
                     else
                     {
+                        cout<<"Rare tau21 Histogram not found. Replacing by zeros"<<endl;
                         temp_hist_mm_tau21_down = (TH1D*)(hists[0]->Clone(("hist_mm_"+to_string(j)+"_"+to_string(i)+"tau21_down").c_str()));
                         temp_hist_mm_tau21_down->Reset(); 
                     }
@@ -1460,15 +1473,23 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
       vector<double> temp_err_down(temp_err);
 
       //Add the glorious tau21 error to template error
+      //
+      cout<<setprecision(10)<<endl;
       if(SR.Contains("Boosted"))
       {
           for(size_t i = 0;i<stats_bins.size();i++)
             {
                 EWK_tau21_up_error.push_back(sqrt(WGamma_tau21_up_error[i]*WGamma_tau21_up_error[i] + WJets_tau21_up_error[i]*WJets_tau21_up_error[i] + TTJets2lep_tau21_up_error[i]*TTJets2lep_tau21_up_error[i] + TTJets1lep_tau21_up_error[i]*TTJets1lep_tau21_up_error[i] + SingleTop_tau21_up_error[i]*SingleTop_tau21_up_error[i]));
+
                 
                 EWK_tau21_down_error.push_back(sqrt(WGamma_tau21_down_error[i]*WGamma_tau21_down_error[i] + WJets_tau21_down_error[i]*WJets_tau21_down_error[i] + TTJets2lep_tau21_down_error[i]*TTJets2lep_tau21_down_error[i] + TTJets1lep_tau21_down_error[i]*TTJets1lep_tau21_down_error[i] + SingleTop_tau21_down_error[i]*SingleTop_tau21_down_error[i])); 
 
-                cout<<"{zjets_ewk_tau21_tagsyst_bin"<<i<<" }"<<1+EWK_tau21_up_error[i]/template_count[i]<<"/"<<1-EWK_tau21_down_error[i]/template_count[i]<<endl;
+                cout<<"Bin "<<i<<" tau21 up error="<<EWK_tau21_up_error[i]<<" tau21_down_error="<<EWK_tau21_down_error[i]<<endl;
+
+
+                double error_up = template_count[i] != 0 ? EWK_tau21_up_error[i]/template_count[i] : 0;
+                double error_down = template_count[i] != 0 ? EWK_tau21_down_error[i]/template_count[i] : 0;
+                cout<<"{zjets_ewk_tau21_tagsyst_bin"<<i<<" }"<<1-error_up<<"/"<<1+error_down<<endl; //needs to go the other way for background
 
                 temp_err_up[i] = sqrt(temp_err_up[i]*temp_err_up[i] + EWK_tau21_up_error[i]*EWK_tau21_up_error[i]); 
                 temp_err_up[i] = sqrt(temp_err_down[i]*temp_err_down[i] + EWK_tau21_down_error[i]*EWK_tau21_down_error[i]); 
