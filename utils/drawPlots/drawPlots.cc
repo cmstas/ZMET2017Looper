@@ -308,6 +308,13 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
   //Only rare backgrounds are MC, so only they have tau21 up and down
   std::vector<std::vector<TH1D*>> rare_hists_tau21_up;
   std::vector<std::vector<TH1D*>> rare_hists_tau21_down;
+  std::vector<TH1D*> FS_hists_norm_up;
+  std::vector<TH1D*> FS_hists_norm_down;
+  std::vector<TH1D*> FS_hists_pt_up;
+  std::vector<TH1D*> FS_hists_pt_down;
+  std::vector<TH1D*> FS_hists_eta_up;
+  std::vector<TH1D*> FS_hists_eta_down;
+
   TH1D* FS_hist_norm_up;
   TH1D* FS_hist_norm_down;
   TH1D* FS_hist_pt_up;
@@ -433,8 +440,11 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
                 {
                     cout<<"EWK histograms not found"<<endl;
                     EWK_hists[j][k] = (TH1D*)(hists[0]->Clone(("hist_"+to_string(i)+"_"+to_string(j)+"_"+to_string(k)).c_str()));
+                    EWK_hists[j][k]->Reset();
                     EWK_hists_tau21_up[j][k] = (TH1D*)(hists[0]->Clone(("tau21_up_hist_"+to_string(i)+"_"+to_string(j)+"_"+to_string(k)).c_str()));
+                    EWK_hists_tau21_up[j][k]->Reset();
                     EWK_hists_tau21_down[j][k] = (TH1D*)(hists[0]->Clone(("tau21_down_hist_"+to_string(i)+"_"+to_string(j)+"_"+to_string(k)).c_str()));
+                    EWK_hists_tau21_down[j][k]->Reset();
                 }
             }          
         }
