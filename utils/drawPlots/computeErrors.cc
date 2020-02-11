@@ -309,7 +309,7 @@ pair<vector<double>,vector<double>> getFSError(const unordered_map<int,vector<do
   for(size_t i =0; i< bin_count.at(2016).size(); i++)
   {
     bin_count_combined = 0;
-    for(int year = 0; year<3; i++)
+    for(int year = 0; year<3; year++)
     {
         bin_count_combined +=  bin_count.at(2016+year)[i];
 
@@ -346,13 +346,13 @@ pair<vector<double>,vector<double>> getFSError(const unordered_map<int,vector<do
 
     RooHistError::instance().getPoissonInterval(bin_count_combined,bin_dn, bin_up);
     cout<<"bin count "<<bin_count_combined<<" Stat_Error_up "<<bin_up<<" Stat_Error_dn "<<bin_dn<<endl;
+
     bin_up = Kappa*Kappa*((bin_up - bin_count_combined)*(bin_up - bin_count_combined) + kappa_stat_unc*kappa_stat_unc*bin_count_combined*bin_count_combined + kappa_MET_unc * kappa_MET_unc*bin_count_combined*bin_count_combined + rsfof_norm_unc_up * rsfof_norm_unc_up + rsfof_pt_unc_up * rsfof_pt_unc_up + rsfof_eta_unc_up * rsfof_eta_unc_up);
     bin_dn = Kappa*Kappa*((bin_count_combined - bin_dn)*(bin_count_combined - bin_dn)  +  kappa_stat_unc*kappa_stat_unc*bin_count_combined*bin_count_combined + kappa_MET_unc * kappa_MET_unc*bin_count_combined*bin_count_combined + rsfof_norm_unc_down * rsfof_norm_unc_down + rsfof_pt_unc_down * rsfof_pt_unc_down + rsfof_eta_unc_down * rsfof_eta_unc_down);
 
     error_up.push_back(sqrt(bin_up));
     error_dn.push_back(sqrt(bin_dn));
 
-    cout<<"bin count "<<bin_count_combined<<" Stat_Error_up "<<bin_up<<" Stat_Error_dn "<<bin_dn<<endl;
 
     cout<<setprecision(10);
 

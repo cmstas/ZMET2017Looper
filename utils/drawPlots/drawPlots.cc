@@ -445,7 +445,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
         {
             for(int k = 0; k<3;k++)
             {
-                if(EWK_hist_files[j][k]->Get(SR+"type1MET") != nullptr)
+                if(EWK_hist_files[j][k]->Get(SR+"type1MET") != nullptr && SR.Contains("Boosted"))
                 {
                     EWK_hists[j][k] = (TH1D*)((TH1D*)(EWK_hist_files[j][k]->Get(SR+"type1MET"))->Clone(("hist_"+to_string(i)+"_"+to_string(j)+"_"+to_string(k)).c_str()));
                     EWK_hists_tau21_up[j][k] = (TH1D*)((TH1D*)(EWK_hist_files[j][k]->Get(SR+"type1MET_tau21_up"))->Clone(("tau21_up_hist_"+to_string(i)+"_"+to_string(j)+"_"+to_string(k)).c_str()));
@@ -1178,64 +1178,64 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
         if(do_rsfof_syst)
         {
 
-            for(int i = 0;i<3;i++)
+            for(int year = 0;year<3;year++)
             {
                 if(FS_hists[i] != nullptr)
                 {
-                    FS_count_central[2016+i].push_back(FS_hists[i]->Integral(FS_hists[i]->FindBin(stats_bins[i].first),FS_hists[i]->FindBin(stats_bins[i].second-0.001)));
+                    FS_count_central[2016+year].push_back(FS_hists[year]->Integral(FS_hists[year]->FindBin(stats_bins[i].first),FS_hists[year]->FindBin(stats_bins[i].second-0.001)));
                 }
                 else
                 {
-                    FS_count_central[2016+i].push_back(0);
+                    FS_count_central[2016+year].push_back(0);
                 }
-                if(FS_hists_norm_up[i] != nullptr)
+                if(FS_hists_norm_up[year] != nullptr)
                 {
-                    FS_norm_up[2016+i].push_back(FS_hists_norm_up[i]->Integral(FS_hists_norm_up[i]->FindBin(stats_bins[i].first), FS_hists_norm_up[i]->FindBin(stats_bins[i].second - 0.001)));
+                    FS_norm_up[2016+year].push_back(FS_hists_norm_up[year]->Integral(FS_hists_norm_up[year]->FindBin(stats_bins[i].first), FS_hists_norm_up[year]->FindBin(stats_bins[i].second - 0.001)));
                 }
                 else
                 {   
-                    FS_norm_up[2016+i].push_back(0);
+                    FS_norm_up[2016+year].push_back(0);
                 }
-                if(FS_hists_norm_down[i] != nullptr)
+                if(FS_hists_norm_down[year] != nullptr)
                 {
-                    FS_norm_down[2016+i].push_back(FS_hists_norm_down[i]->Integral(FS_hists_norm_down[i]->FindBin(stats_bins[i].first), FS_hists_norm_down[i]->FindBin(stats_bins[i].second - 0.001)));
+                    FS_norm_down[2016+year].push_back(FS_hists_norm_down[year]->Integral(FS_hists_norm_down[year]->FindBin(stats_bins[i].first), FS_hists_norm_down[year]->FindBin(stats_bins[i].second - 0.001)));
                 }
                 else
                 {
-                    FS_norm_down[2016+i].push_back(0);
+                    FS_norm_down[2016+year].push_back(0);
                 }
                 
-                if(FS_hists_pt_up[i] != nullptr)
+                if(FS_hists_pt_up[year] != nullptr)
                 {
-                    FS_pt_up[2016+i].push_back(FS_hists_pt_up[i]->Integral(FS_hists_pt_up[i]->FindBin(stats_bins[i].first), FS_hists_pt_up[i]->FindBin(stats_bins[i].second - 0.001)));
+                    FS_pt_up[2016+year].push_back(FS_hists_pt_up[year]->Integral(FS_hists_pt_up[year]->FindBin(stats_bins[i].first), FS_hists_pt_up[year]->FindBin(stats_bins[i].second - 0.001)));
                 }
                 else
                 {
-                    FS_pt_up[2016+i].push_back(0);
+                    FS_pt_up[2016+year].push_back(0);
                 }
-                if(FS_hists_pt_down[i] != nullptr)
+                if(FS_hists_pt_down[year] != nullptr)
                 {
-                    FS_pt_down[2016+i].push_back(FS_hists_pt_down[i]->Integral(FS_hists_pt_down[i]->FindBin(stats_bins[i].first), FS_hists_pt_down[i]->FindBin(stats_bins[i].second - 0.001)));
+                    FS_pt_down[2016+year].push_back(FS_hists_pt_down[year]->Integral(FS_hists_pt_down[year]->FindBin(stats_bins[i].first), FS_hists_pt_down[year]->FindBin(stats_bins[i].second - 0.001)));
                 }
                 else
                 {
-                    FS_pt_down[2016+i].push_back(0);
+                    FS_pt_down[2016+year].push_back(0);
                 }
-                if(FS_hists_eta_up[i] != nullptr)
+                if(FS_hists_eta_up[year] != nullptr)
                 {
-                    FS_eta_up[2016+i].push_back(FS_hists_eta_up[i]->Integral(FS_hists_eta_up[i]->FindBin(stats_bins[i].first), FS_hists_eta_up[i]->FindBin(stats_bins[i].second - 0.001)));
+                    FS_eta_up[2016+year].push_back(FS_hists_eta_up[year]->Integral(FS_hists_eta_up[year]->FindBin(stats_bins[i].first), FS_hists_eta_up[year]->FindBin(stats_bins[i].second - 0.001)));
                 } 
                 else
                 {
-                    FS_eta_up[2016+i].push_back(0);
+                    FS_eta_up[2016+year].push_back(0);
                 }
-                if(FS_hists_eta_down[i] != nullptr)
+                if(FS_hists_eta_down[year] != nullptr)
                 {
-                    FS_eta_down[2016+i].push_back(FS_hists_eta_down[i]->Integral(FS_hists_eta_down[i]->FindBin(stats_bins[i].first), FS_hists_eta_down[i]->FindBin(stats_bins[i].second - 0.001))); 
+                    FS_eta_down[2016+year].push_back(FS_hists_eta_down[year]->Integral(FS_hists_eta_down[year]->FindBin(stats_bins[i].first), FS_hists_eta_down[year]->FindBin(stats_bins[i].second - 0.001))); 
                 }
                 else
                 {
-                    FS_eta_down[2016+i].push_back(0);
+                    FS_eta_down[2016+year].push_back(0);
                 }
 
         }
