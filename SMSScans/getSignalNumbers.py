@@ -32,8 +32,7 @@ def getSignalYields(SR, mass_gluino, mass_lsp, file_path="t5zz.root"):
   elif SR=="SRC" or SR=="SRCb":
     bins = [(50,100),(100,150),(150,250),(250,6001)]
 
-  elif SR=="SRVZResolved":
-    bins = [(50,100), (100,150), (150,250), (250, 350), (350, 6001)]
+  elif SR=="SRVZResolved": bins = [(50,100), (100,150), (150,250), (250, 350), (350, 6001)]
 
   elif SR == "SRVZBoosted":
     bins = [(50,100),(100,200),(200,300),(300,400),(400,500),(500,6001)]
@@ -56,6 +55,9 @@ def getSignalYields(SR, mass_gluino, mass_lsp, file_path="t5zz.root"):
   f_JES_dn=ROOT.TFile(file_path_JES_dn,"r")
   f_GenMET=ROOT.TFile(file_path_GenMET,"r")
 
+  #For tau21 up and down
+
+
   count=f.Get(SR+"susy_type1MET_counts").Clone("count")
   btag_light_up=f.Get(SR+"susy_type1MET_btaglight_up").Clone("btag_light_up")
   btag_heavy_up=f.Get(SR+"susy_type1MET_btagheavy_up").Clone("btag_heavy_up")
@@ -63,6 +65,9 @@ def getSignalYields(SR, mass_gluino, mass_lsp, file_path="t5zz.root"):
   JES_up_count=f_JES_up.Get(SR+"susy_type1MET_counts").Clone("JES_up_count")
   JES_dn_count=f_JES_dn.Get(SR+"susy_type1MET_counts").Clone("JES_dn_count")
   GenMET_count=f_GenMET.Get(SR+"susy_type1MET_counts").Clone("GenMET_count")
+  if "Boosted" in SR:
+      tau21_up_count = f.Get(SR+"susy_type1MET_tau21_up").Clone("tau21_up")
+      tau21_down_count = f.Get(SR+"susy_type1MET_tau21_down").Clone("tau21_down")
 
   if (mass_lsp == -1):
     for b in bins:
@@ -159,7 +164,22 @@ def getSignalYields(SR, mass_gluino, mass_lsp, file_path="t5zz.root"):
                                            JES_dn_count.GetZaxis().FindBin(mass_lsp),
                                            JES_dn_count.GetZaxis().FindBin(mass_lsp)))
 
+      tau21_up.append(tau_up_count.Integral(tau21_up_count.GetXaxis().FindBin(b[0]),
+                                           tau21_up_count.GetXaxis().FindBin(b[1] - 0.001),
+                                           tau21_up_count.GetYaxis().FindBin(mass_gluino),
+                                           tau21_up_count.GetYaxis().FindBin(mass_gluino),
+                                           tau21_up_count.GetZaxis().FindBin(mass_lsp),
+                                           tau21_up_count.GetZaxis().FindBin(mass_lsp)))
+      tau21_down.append(tau21_down_count.GetXaxis().FindBin(b[0]),
+                                           tau21_down_count.GetXaxis().FindBin(b[1] - 0.001),
+                                           tau21_down_count.GetYaxis().FindBin(mass_gluino),
+                                           tau21_down_count.GetYaxis().FindBin(mass_gluino),
+                                           tau21_down_count.GetZaxis().FindBin(mass_lsp),
+                                           tau21_down_count.GetZaxis().FindBin(mass_lsp)))
 
 
+  if "Boosted" in SR:
+      return (avg_yields, RecoMET_yields, stat_uncs, bl_yields, bh_yields, isr_yields, findJESDeviation(RecoMET_yields, JES_up, JES_dn),tau21_up,tau21_down)
+  else:
+      return (avg_yields, RecoMET_yields, stat_uncs, bl_yields, bh_yields, isr_yields, findJESDeviation(RecoMET_yields, JES_up, JES_dn))
 
-  return (avg_yields, RecoMET_yields, stat_uncs, bl_yields, bh_yields, isr_yields, findJESDeviation(RecoMET_yields, JES_up, JES_dn))

@@ -1,9 +1,10 @@
 from __future__ import print_function
 import numpy as np
+import os
 
 SRs = ["SRA","SRAb","SRB", "SRBb", "SRC", "SRCb", "SRVZBoosted","SRVZResolved","SRHZ"]
 
-bins = {"SRA":4,"SRB":4,"SRC":3,"SRAb":4,"SRBb":4,"SRCb":3,"SRVZBoosted":5,"SRVZResolved":4,"SRHZ":3}
+bins = {"SRA":5,"SRB":5,"SRC":4,"SRAb":5,"SRBb":5,"SRCb":4,"SRVZBoosted":6,"SRVZResolved":5,"SRHZ":4}
 
 processes = ["sig","zjets","fsbkg","mcbkg"]
 
@@ -13,11 +14,12 @@ processes = ["sig","zjets","fsbkg","mcbkg"]
 #In addition those with SR, need to get that part appended with the appropriate signal region
 
 class Nuisance:
-    def __init__(self,nuisance_name,placeholder_name,error_type = "lnN",additional_options = None):
+    def __init__(self,nuisance_name,placeholder_name,error_type = "lnN",additional_options = None,applicable_SR = None):
         self.nuisance_name = nuisance_name
         self.placeholder_name = placeholder_name
         self.additional_options = additional_options
         self.error_type = error_type
+        self.applicable_SR = applicable_SR #add nuisance only for a particular SR
 
     def get_params_for_template(self,SR = None,bin_number = -1):
         ''' Gets the name of the nuisance parameter, and the placeholder name, given SR (optional), and bin number(also optional)'''
@@ -27,30 +29,33 @@ class Nuisance:
         additional_options_to_return = self.additional_options
         if SR:
             nuisance_name_to_return = nuisance_name_to_return.replace("_SR_","_{}_".format(SR))
-        if bin_number > 0:
+        if bin_number > 0 :
             nuisance_name_to_return = nuisance_name_to_return.replace("_bin","_bin{}".format(bin_number))
-            placeholder_name_to_return = placeholder_name_to_return.replace("_bin","_bin{}".format(bin_number))
+            placeholder_name_to_return = placeholder_name_to_return.replace("_bin","_bin{}".format(bin_number-1))
             if self.additional_options:
-                additional_options_to_return = additional_options_to_return.replace("_bin","_bin{}".format(bin_number))
+                additional_options_to_return = additional_options_to_return.replace("_bin","_bin{}".format(bin_number-1))
 
-        if self.additional_options:
-            return nuisance_name_to_return,self.error_type,placeholder_name_to_return,additional_options_to_return
+        if (not self.applicable_SR) or (self.applicable_SR and self.applicable_SR == SR):
+            if self.additional_options:
+                return nuisance_name_to_return,self.error_type,placeholder_name_to_return,additional_options_to_return
+            else:
+                return nuisance_name_to_return,self.error_type,placeholder_name_to_return
         else:
-            return nuisance_name_to_return,self.error_type,placeholder_name_to_return
-
+            return None
 
 
 
 
 
 nuisances = {
-        "sig":[Nuisance("PUreweighting","sig_pileup_syst"),Nuisance("scale","sig_refacAndNorm_syst"),Nuisance("MET","sig_metfromFS_syst_bin"),Nuisance("lepton_FSsfs","sig_leptonFS_syst"),Nuisance("lepton_idiso","sig_leptonidiso_syst"),Nuisance("btag_HF","sig_btagheavy_syst_bin"),Nuisance("btag_LF","sig_btaglight_syst_bin"),Nuisance("lumi","sig_lumi_syst"),Nuisance("ISR","sig_isr_syst_bin"),Nuisance("sig_trig_syst_OS","sig_trig_syst"),Nuisance("sig_JES_syst_SR_bin_OS","sig_JES_syst_bin"),Nuisance("sig_stat_syst_SR_bin_OS","sig_stat_syst_bin")],
+        "sig":[Nuisance("PUreweighting","sig_pileup_syst"),Nuisance("scale","sig_refacAndNorm_syst"),Nuisance("MET","sig_metfromFS_syst_bin"),Nuisance("lepton_FSsfs","sig_leptonFS_syst"),Nuisance("lepton_idiso","sig_leptonidiso_syst"),Nuisance("btag_HF","sig_btagheavy_syst_bin"),Nuisance("btag_LF","sig_btaglight_syst_bin"),Nuisance("lumi","sig_lumi_syst"),Nuisance("ISR","sig_isr_syst_bin"),Nuisance("sig_trig_syst_OS","sig_trig_syst"),Nuisance("sig_JES_syst_SR_bin_OS","sig_JES_syst_bin"),Nuisance("sig_stat_syst_SR_bin_OS","sig_stat_syst_bin"),Nuisance("sig_ak8_tau21_syst","sig_ak8_tau21_syst_bin",\
+            applicable_SR = "SRVZBoosted")],
 
-        "fsbkg":[Nuisance("fsbkg_rsfof_syst_OS","rsfof_unc_bin"),Nuisance("fsbkg_kappa_syst_OS","kappa_unc"),Nuisance("fsbkg_stat_syst_SR_bin_OS","rsfof*kappa",additional_options = "count_bin_fsbkg",error_type = "gmN")],
+        "fsbkg":[Nuisance("fsbkg_rsfof_syst_norm_OS","rsfof_norm_unc_bin"), Nuisance("fsbkg_rsfof_syst_pt_OS","rsfof_pt_unc_bin"), Nuisance("fsbkg_rsfof_syst_eta_OS","rsfof_eta_unc_bin"),Nuisance("fsbkg_kappa_stat_syst_SRV_OS","kappa_stat_unc"),Nuisance("fsbkg_kappa_met_syst_OS","kappa_MET_unc"),Nuisance("fsbkg_stat_syst_SR_bin_OS","rsfof*kappa",additional_options = "count_bin_fsbkg",error_type = "gmN")],
 
-        "zjets":[Nuisance("zjets_norm_syst_SR_OS","zjets_norm"),Nuisance("zjets_clos_syst_SR_bin_OS","zjets_clos_bin"),Nuisance("zjets_stat_syst_SR_bin_OS","zjets_stat_bin"),Nuisance("zjets_ewk_syst_SR_bin_OS","zjets_ewk_bin")],
+        "zjets":[Nuisance("zjets_norm_syst_SR_OS","zjets_norm"),Nuisance("zjets_clos_syst_SR_bin_OS","zjets_clos_bin"),Nuisance("zjets_stat_syst_SR_bin_OS","zjets_stat_bin"),Nuisance("zjets_ewk_syst_SR_bin_OS","zjets_ewk_bin"),Nuisance("zjets_norm_scale_syst_SR_OS","zjets_norm_scale",error_type = "lnU")],
 
-        "mcbkg":[Nuisance("mcbkg_scale_unc_OS","mcbkg_scale_unc_bin"),Nuisance("mcbkg_stat_SR_bin_OS","mc_stat_bin")]
+        "mcbkg":[Nuisance("mcbkg_scale_stat_unc_OS","mcbkg_scale_stat_unc_bin"),Nuisance("mcbkg_scale_syst_unc_OS","mcbkg_scale_syst_unc_bin"),Nuisance("mcbkg_stat_SR_bin_OS","mc_stat_bin"),Nuisance("mcbkg_ak8_tau21_syst","mcbkg_ak8_tau21_syst_bin",applicable_SR = "SRVZBoosted")]
         }
 
 
@@ -64,11 +69,11 @@ def create_bin_dictionaries(SR):
     fsbkg_nuisance_params = []
     mcbkg_nuisance_params = []
 
-    for bin_number in range(1,bins[SR]+1):
-        signal_nuisance_params.append({bin_number:[i.get_params_for_template(SR,bin_number) for i in nuisances["sig"]]})
-        zjets_nuisance_params.append({bin_number:[i.get_params_for_template(SR,bin_number) for i in nuisances["zjets"]]})
-        fsbkg_nuisance_params.append({bin_number:[i.get_params_for_template(SR,bin_number) for i in nuisances["fsbkg"]]})
-        mcbkg_nuisance_params.append({bin_number:[i.get_params_for_template(SR,bin_number) for i in nuisances["mcbkg"]]})
+    for bin_number in range(1,bins[SR]+1): #start from 0
+        signal_nuisance_params.append({bin_number:[i.get_params_for_template(SR,bin_number) for i in nuisances["sig"] if i.get_params_for_template(SR,bin_number)]})
+        zjets_nuisance_params.append({bin_number:[i.get_params_for_template(SR,bin_number) for i in nuisances["zjets"] if i.get_params_for_template(SR,bin_number)]})
+        fsbkg_nuisance_params.append({bin_number:[i.get_params_for_template(SR,bin_number) for i in nuisances["fsbkg"] if i.get_params_for_template(SR,bin_number)]})
+        mcbkg_nuisance_params.append({bin_number:[i.get_params_for_template(SR,bin_number) for i in nuisances["mcbkg"] if i.get_params_for_template(SR,bin_number)]})
 
     return signal_nuisance_params,zjets_nuisance_params,fsbkg_nuisance_params,mcbkg_nuisance_params
 
@@ -115,6 +120,7 @@ def makeNuisanceParameterTable(SR):
 
 def makeDatacardTemplateFile(SR):
     nuisance_parameter_table = makeNuisanceParameterTable(SR)
+    os.system("mkdir -p Templates")
     f = open("Templates/{}.txt".format(SR),"w")
 
     #Write the headers first
@@ -130,7 +136,7 @@ def makeDatacardTemplateFile(SR):
     f.write("\n")
 
     f.write("observation\t")
-    for bin_number in range(1,bins[SR]+1):
+    for bin_number in range(0,bins[SR]):
         f.write("{bin%d_yield}\t"%(bin_number))
     f.write("\n")
     f.write("-----\n")
@@ -148,13 +154,13 @@ def makeDatacardTemplateFile(SR):
     f.write("\n")
 
     f.write("process\t")
-    for bin_number in range(1,bins[SR]+1):
+    for bin_number in range(0,bins[SR]):
         for background_number in range(4):
             f.write(str(background_number)+"\t")
     f.write("\n")
 
     f.write("rate\t")
-    for bin_number in range(1,bins[SR]+1):
+    for bin_number in range(0,bins[SR]):
         for background in ["sig","zjets","fsbkg","mcbkg"]:
             f.write("{BGbin%d_%s}\t"%(bin_number,background))
     f.write("\n")

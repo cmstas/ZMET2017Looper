@@ -33,7 +33,11 @@ def addSignalYields(d, SR, mass_1, mass_2, BR_key=None):
   else:
     file_name=signal_name
 
-  avg_yields, RecoMET_yields, stat_uncs, bl_yields, bh_yields, isr_yields, JES = getSignalYields(SR, mass_1, mass_2, "%s/%s.root" % (histogram_Path, file_name))
+  if "Boosted" in SR:
+      avg_yields,RecoMET_yields,stat_uncs,bl_yields,bh_yields,isr_yields,JES,tau21_up,tau21_down = getSignalYields(SR,mass_1,mass_2,"%s/%s.root" %(histogram_Path,file_name))
+
+  else:
+    avg_yields, RecoMET_yields, stat_uncs, bl_yields, bh_yields, isr_yields, JES = getSignalYields(SR, mass_1, mass_2, "%s/%s.root" % (histogram_Path, file_name))
 
   for i,y in enumerate(RecoMET_yields):
     stat_nuisence = 0
@@ -43,6 +47,8 @@ def addSignalYields(d, SR, mass_1, mass_2, BR_key=None):
     JES_nuisence = 0
     avg_y = avg_yields[i]
     met_nuisence = 0
+    tau21_up_nuisance = 0
+    tau21_down_nuisance = 0
 
     #make sure we don't divide by 0
     if y != 0:
@@ -53,6 +59,10 @@ def addSignalYields(d, SR, mass_1, mass_2, BR_key=None):
       JES_nuisence = 1+(JES[i]/float(y))
     if avg_y != 0:
       met_nuisence = 1+(abs(y-avg_y)/float(avg_y))
+
+    if "Boosted" in SR:
+        tau21_up_nuisance = 1 + (tau21_up[i] - y)/float(y)
+        tau21_down_nuisance = 1 - (y - tau21_down[i])/float(y)
 
     d["BGbin%d_sig" % i] = properSpacing("{BGbin1_sig}", "%.3f" % avg_y)
     d["sig_stat_syst_bin%d" % i] = properSpacing("{sig_stat_syst_bin1}","%.3f" % stat_nuisence)
@@ -65,6 +75,9 @@ def addSignalYields(d, SR, mass_1, mass_2, BR_key=None):
     d["sig_JES_syst_bin%d" % i] = properSpacing("{sig_JES_syst_bin1}","%.3f" % JES_nuisence)
 
     d["sig_metfromFS_syst_bin%d" % i] = properSpacing("{sig_metfromFS_syst_bin1}","%.3f" % met_nuisence)
+
+    if "Boosted" in SR:
+        d["mcbkg_tau21_tag_syst_bin%d"%i] = properSpacing("{mcbkg_tau21_tag_syst_bin1}","%.3f/%.3f"%(tau21_up_nuisance,tau21_down_nuisance))
 
 def addConstantVals(d):
   d["sig_trig_syst"] = properSpacing("{sig_trig_syst}","1.03")
@@ -94,6 +107,7 @@ def getNuisenceParameters(SR):
         n_dict[toks[0][1:-1]] = properSpacing(toks[0],"%.3f" % float(toks[1]))
 
   addConstantVals(n_dict)
+  n_dict["zjets_norm_scale_syst_%s_OS"%(SR)] = properSpacing("{zjets_norm_scale_syst_SRA_OS}","%.3f" % float(5.0))
 
   return n_dict
 
