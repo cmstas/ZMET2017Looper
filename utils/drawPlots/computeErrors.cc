@@ -369,11 +369,8 @@ pair<vector<double>,vector<double>> getFSError(const unordered_map<int,vector<do
         cout<<"{rsfof_pt_unc_bin"<<i<<"} "<<1.00<<endl;
         cout<<"{rsfof_eta_unc_bin"<<i<<"} "<<1.00<<endl;
     }
-    for (size_t i = 0; i<bin_count.size(); i++)
-    {
-        cout<<"{BGbin"<<i<<"_fsbkg} "<<bin_count_combined*Kappa<<endl;
-        cout<<"{count_bin"<<i<<"_fsbkg} "<<bin_count_combined<<endl;
-    }
+    cout<<"{BGbin"<<i<<"_fsbkg} "<<bin_count_combined*Kappa<<endl;
+    cout<<"{count_bin"<<i<<"_fsbkg} "<<bin_count_combined<<endl;
 
   }
  
