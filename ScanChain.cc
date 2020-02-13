@@ -3459,6 +3459,18 @@ void ZMETLooper::fillChiHists(std::string prefix)
     fill2DHistograms(prefix+"susy_type1MET_btaglight_up",g_met,phys.mass_chi(),(btag_light_norm_up/btag_norm)*weight*(phys.weight_btagsf_light_UP()/phys.weight_btagsf()),allSignal2DHistos,"(x,y) = (met, m_chi). Type 1 MET with Light Btag SF fluctuated up for"+g_sample_name,*n_met_bins,met_bins,*n_chi_bins,chi_bins,rootdir);
 
     fill2DHistograms(prefix+"susy_type1MET_isr_up",g_met,phys.mass_chi(),(1/ISR_norm)*(weight)*(1/phys.isr_weight()),allSignal2DHistos,"(x,y) = (met, m_chi). Type 1 MET with ISR SF fluctuated up for"+g_sample_name,*n_met_bins,met_bins,*n_chi_bins,chi_bins,rootdir);
+
+    double tau21_weight_up,tau21_weight_down;
+    if(prefix.find("SRVZBoosted") != std::string::npos)
+    {
+        tau21_weight_up = weight * fatJetScaleFactor(1);
+        tau21_weight_down = weight * fatJetScaleFactor(-1);
+
+        fill2DHistograms(prefix+"susy_type1MET_tau21_up",g_met,phys.mass_chi(),tau21_weight_up,allSignal2DHistos,"(x,y) = (met, m_chi). Type1MET with tau21 up weights for"+g_sample_name,*n_met_bins,met_bins,*n_chi_bins,chi_bins,rootdir);
+        
+        fill2DHistograms(prefix+"susy_type1MET_tau21_down",g_met,phys.mass_chi(),tau21_weight_down,allSignal2DHistos,"(x,y) = (met, m_chi). Type1MET with tau21 down weights for"+g_sample_name,*n_met_bins,met_bins,*n_chi_bins,chi_bins,rootdir);
+    }
+
 }
 
 void ZMETLooper::fillFSMETHists(std::string prefix)
