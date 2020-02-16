@@ -124,7 +124,7 @@ SR_index = {"SRA":1,"SRAb":2,"SRB":3,"SRBb":4,"SRC":5,"SRCb":6}
 
 def drawPlots_postFit(fit_param_path,SR,dataHistPath,output_path = None):
     global SR_binning,SR_index
-    ''' Get the appropriate histogram from the fitParams file'''
+    ''' Get the appropriate histograms from the fitParams file'''
     try:
         binning = SR_binning[SR]
     except:
