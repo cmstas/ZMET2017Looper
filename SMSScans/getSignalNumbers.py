@@ -49,6 +49,8 @@ def getSignalYields(SR, mass_gluino, mass_lsp, file_path="t5zz.root"):
   isr_yields = []
   JES_up = []
   JES_dn = []
+  tau21_up = []
+  tau21_down = []
 
   f=ROOT.TFile(file_path,"r")
   f_JES_up=ROOT.TFile(file_path_JES_up,"r")
@@ -109,6 +111,17 @@ def getSignalYields(SR, mass_gluino, mass_lsp, file_path="t5zz.root"):
                                            JES_dn_count.GetXaxis().FindBin(b[1] - 0.001),
                                            JES_dn_count.GetYaxis().FindBin(mass_chi),
                                            JES_dn_count.GetYaxis().FindBin(mass_chi)))
+      if "Boosted" in SR:
+          tau21_up.append(tau21_up_count.Integral(tau21_up_count.GetXaxis().FindBin(b[0]),
+                                            tau21_up_count.GetXaxis().FindBin(b[1] - 0.001),
+                                            tau21_up_count.GetYaxis().FindBin(mass_chi),
+                                            tau21_up_count.GetYaxis().FindBin(mass_chi)))
+
+          tau21_down.append(tau21_down_count.Integral(tau21_down_count.GetXaxis().FindBin(b[0]),
+                        tau21_down_count.GetXaxis().FindBin(b[1] - 0.001),
+                        tau21_down_count.GetYaxis().FindBin(mass_chi),
+                        tau21_down_count.GetYaxis().FindBin(mass_chi)))
+
   else:
     for b in bins:
       RecoMET_yields.append(count.IntegralAndError(count.GetXaxis().FindBin(b[0]),
@@ -163,14 +176,15 @@ def getSignalYields(SR, mass_gluino, mass_lsp, file_path="t5zz.root"):
                                            JES_dn_count.GetYaxis().FindBin(mass_gluino),
                                            JES_dn_count.GetZaxis().FindBin(mass_lsp),
                                            JES_dn_count.GetZaxis().FindBin(mass_lsp)))
-
-      tau21_up.append(tau_up_count.Integral(tau21_up_count.GetXaxis().FindBin(b[0]),
+      if "Boosted" in SR:
+          tau21_up.append(tau21_up_count.Integral(tau21_up_count.GetXaxis().FindBin(b[0]),
                                            tau21_up_count.GetXaxis().FindBin(b[1] - 0.001),
                                            tau21_up_count.GetYaxis().FindBin(mass_gluino),
                                            tau21_up_count.GetYaxis().FindBin(mass_gluino),
                                            tau21_up_count.GetZaxis().FindBin(mass_lsp),
                                            tau21_up_count.GetZaxis().FindBin(mass_lsp)))
-      tau21_down.append(tau21_down_count.GetXaxis().FindBin(b[0]),
+
+          tau21_down.append(tau21_down_count.Integral(tau21_down_count.GetXaxis().FindBin(b[0]),
                                            tau21_down_count.GetXaxis().FindBin(b[1] - 0.001),
                                            tau21_down_count.GetYaxis().FindBin(mass_gluino),
                                            tau21_down_count.GetYaxis().FindBin(mass_gluino),
