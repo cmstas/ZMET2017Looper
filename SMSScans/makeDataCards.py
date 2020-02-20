@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import argparse, sys, re
-from getSignalNumbers import getSignalYields
+from getSignalNumbers_uncorr import getSignalYields
 from getMassSpectrum2D import getMassSpectrum
 import sys,os
 import numpy as np
@@ -22,7 +22,66 @@ def properSpacing(key, param):
 
   return param
 
-def addSignalYields(d, SR, mass_1, mass_2, BR_key=None):
+
+
+def addSignalYields(d,SR,mass_1,mass_2,BR_key = None):
+    """Pulls and computes CV. yields, stat uncertainty, btag light SF unc, btag heavy SF unc, and ISR SF unc from the signal scan histogram at the proper mass point.
+  mass 1 is meant for the gluino or chi and mass_2 is meant for the LSP, send mass_2 = -1 for 1D scan"""
+
+    if BR_key:
+        file_name="%s_%s" %(signal_name, BR_key)
+    elif (signal_name == "tchiwz_ext"):
+        file_name="tchiwz"
+    else:
+        file_name=signal_name
+
+    if "Boosted" in SR:
+        avg_yields,RecoMET_yields,stat_uncs,bl_uncs,bh_uncs,MET_uncs,isr_uncs,JES_uncs,tau21_up_uncs,tau21_down_uncs = getSignalYields(SR,mass_1,mass_2,"%s/%s.root" %(histogram_Path,file_name))
+
+    else:
+        avg_yields,RecoMET_yields,stat_uncs,bl_uncs,bh_uncs,MET_uncs,isr_uncs,JES_uncs= getSignalYields(SR, mass_1, mass_2, "%s/%s.root" % (histogram_Path, file_name))
+
+
+    for i,y in enumerate(RecoMET_yields):
+        stat_nuisance = 0
+        bl_nuisance = 0
+        bh_nuisance = 0
+        isr_nuisance = 0
+        JES_nuisance = 0
+        avg_y = avg_yields[i]
+        met_nuisance = 0
+        tau21_up_nuisance = 0
+        tau21_down_nuisance = 0
+
+        if y != 0:
+            stat_nuisance = 1 + stat_uncs[i]/float(y)
+            bl_nuisance = 1 + bl_uncs[i]/float(y)
+            bh_nuisance = 1 + bh_uncs[i]/float(y)
+            isr_nuisance = 1 + isr_uncs[i]/float(y)
+            JES_nuisance = 1 + JES_uncs[i]/float(y)
+            met_nuisance = 1 + MET_uncs[i]/float(avg_y)
+
+            if "Boosted" in SR:
+                tau21_up_nuisance = 1 + tau21_up_uncs[i]/float(y)
+                tau21_down_nuisance = 1 + tau21_down_uncs[i]/float(y)
+
+        d["BGbin%d_sig" % i] = properSpacing("{BGbin1_sig}", "%.3f" % avg_y)
+        d["sig_stat_syst_bin%d" % i] = properSpacing("{sig_stat_syst_bin1}","%.3f" % stat_nuisance)
+
+        d["sig_btaglight_syst_bin%d" % i] = properSpacing("{sig_btaglight_syst_bin1}", "%.3f" % bl_nuisance)
+        d["sig_btagheavy_syst_bin%d" % i] = properSpacing("{sig_btagheavy_syst_bin1}", "%.3f" % bh_nuisance)
+
+        d["sig_isr_syst_bin%d" % i] = properSpacing("{sig_isr_syst_bin1}", "%.4f" % isr_nuisance)
+
+        d["sig_JES_syst_bin%d" % i] = properSpacing("{sig_JES_syst_bin1}","%.3f" % JES_nuisance)
+
+        d["sig_metfromFS_syst_bin%d" % i] = properSpacing("{sig_metfromFS_syst_bin1}","%.3f" % met_nuisance)
+
+        if "Boosted" in SR:
+            d["sig_ak8_tau21_syst_bin%d"%i] = properSpacing("{sig_ak8_tau21_syst_bin1}","%.3f/%.3f"%(tau21_up_nuisance,tau21_down_nuisance))
+
+
+def addSignalYields_cor(d, SR, mass_1, mass_2, BR_key=None):
   """Pulls and computes CV. yields, stat uncertainty, btag light SF unc, btag heavy SF unc, and ISR SF unc from the signal scan histogram at the proper mass point.
   mass 1 is meant for the gluino or chi and mass_2 is meant for the LSP, send mass_2 = -1 for 1D scan"""
 
@@ -101,9 +160,14 @@ def getNuisenceParameters(SR):
         n_dict[toks[0][1:-1]] = properSpacing(toks[0],"%d" % int(float(toks[1])))
       else:
         n_dict[toks[0][1:-1]] = properSpacing(toks[0],"%.3f" % float(toks[1]))
+    elif re.match("{.*} [0-9]*\.[0-9]*/[0-9]*\.[0-9]*\s$", line):
+        toks = line.split()
+        n1,n2 = toks[1].split("/")
+        n_dict[toks[0][1:-1]] = properSpacing(toks[0],"%.3f/%.3f" %(float(n1),float(n2)))
+
 
   addConstantVals(n_dict)
-  n_dict["zjets_norm_scale_syst_%s_OS"%(SR)] = properSpacing("{zjets_norm_scale_syst_SRA_OS}","%.3f" % float(5.0))
+  n_dict["zjets_norm_scale"] = properSpacing("{zjets_norm_scale}","%.3f" % float(5.0))
 
   return n_dict
 
@@ -206,7 +270,7 @@ def setupVars():
     mass_spectrum = getMassSpectrum(signal_name)
     histogram_Path="/home/users/bsathian/ZMet/histsthreeyears/fastsim/Final/CV/combined/"
 
-    elif signal_name == "TChiZZ":
+  elif signal_name == "TChiZZ":
     histogram_Path = "/home/users/bsathian/ZMet/histsthreeyears/fastsim/Final/CV/combined/"
 
     mass_spectrum = np.arange(100,1301,25,dtype = np.float64)
@@ -234,7 +298,7 @@ def main():
     signal_name = "T5ZZ"
   elif (args.tchiwz):
     signal_name = "TChiWZ"
-    elif (args.tchizz):
+  elif (args.tchizz):
     signal_name = "TChiZZ"
   elif (args.tchihz):
     signal_name = "TChiHZ"
