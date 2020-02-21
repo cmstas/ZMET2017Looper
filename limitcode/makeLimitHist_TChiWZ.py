@@ -234,21 +234,21 @@ massplane_exp_up2.SetLineColor(r.kRed)
 massplane_exp_up2.Smooth()
 
 massplane_obs.SetContour(1,np.array([1],dtype = np.float64))
-massplane_obs.SetLineWidth(2)
-massplane_obs.SetLineStyle(3)
-massplane_obs.SetLineColor(r.kRed)
+massplane_obs.SetLineWidth(4)
+massplane_obs.SetLineStyle(1)
+massplane_obs.SetLineColor(r.kBlack)
 massplane_obs.Smooth()
 
 massplane_obs_up.SetContour(1,np.array([1],dtype = np.float64))
 massplane_obs_up.SetLineWidth(2)
-massplane_obs_up.SetLineStyle(3)
-massplane_obs_up.SetLineColor(r.kRed)
+massplane_obs_up.SetLineStyle(2)
+massplane_obs_up.SetLineColor(r.kBlack)
 massplane_obs_up.Smooth()
 
 massplane_obs_dn.SetContour(1,np.array([1],dtype = np.float64))
 massplane_obs_dn.SetLineWidth(2)
-massplane_obs_dn.SetLineStyle(3)
-massplane_obs_dn.SetLineColor(r.kRed)
+massplane_obs_dn.SetLineStyle(2)
+massplane_obs_dn.SetLineColor(r.kBlack)
 massplane_obs_dn.Smooth()
 
 

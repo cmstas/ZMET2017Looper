@@ -118,7 +118,7 @@ r.TColor.CreateGradientColorTable(len(stops), stops, red, green, blue, 255)
 tdrStyle.SetNumberContours(255)
 
 
-f_susyxsecs = r.TFile("xsec_susy_13tev_run2.root","READ")
+f_susyxsecs = r.TFile("../../dilepbabymaker/data/xsec_susy_13tev_run2.root","READ")
 h_susyxsecs = f_susyxsecs.Get("h_xsec_gluino").Clone("h_susyxsecs")
 
 folder_prefix = "limits_T5ZZ_070317_paralleltest"
@@ -188,6 +188,24 @@ massplane_exp_up2.SetLineWidth(2)
 massplane_exp_up2.SetLineStyle(3)
 massplane_exp_up2.SetLineColor(r.kRed)
 massplane_exp_up2.Smooth()
+
+massplane_obs.SetContour(1,np.array([1],dtype = np.float64))
+massplane_obs.SetLineWidth(4)
+massplane_obs.SetLineStyle(1)
+massplane_obs.SetLineColor(r.kBlack)
+massplane_obs.Smooth()
+
+massplane_obs_up.SetContour(1,np.array([1],dtype = np.float64))
+massplane_obs_up.SetLineWidth(2)
+massplane_obs_up.SetLineStyle(2)
+massplane_obs_up.SetLineColor(r.kBlack)
+massplane_obs_up.Smooth()
+
+massplane_obs_dn.SetContour(1,np.array([1],dtype = np.float64))
+massplane_obs_dn.SetLineWidth(2)
+massplane_obs_dn.SetLineStyle(2)
+massplane_obs_dn.SetLineColor(r.kBlack)
+massplane_obs_dn.Smooth()
 
 for binx in range(1,(massplane_xsec.GetNbinsX())+1):
     for biny in range(1,(massplane_xsec.GetNbinsY())+1):
@@ -269,7 +287,7 @@ vexp = np.array(vexp,dtype = np.float64)
 vexpup = np.array(vexpup,dtype = np.float64)
 vexpdown = np.array(vexpdown,dtype = np.float64)
 
-mc_only = True
+mc_only = False
 
 if mc_only:
     vlim = vxsec * vexp
@@ -345,7 +363,7 @@ l1.SetShadowColor(r.kWhite)
 l1.SetFillColor(r.kWhite)
 l1.AddEntry(contourPlot,"Expected limit, #pm 1,2 #sigma_{exp.}", "l")
 if not mc_only:
-    l1.AddEntry(massplane__obs,"Observed limit, #pm 1 #sigma_{theory}","l" )
+    l1.AddEntry(massplane_obs,"Observed limit, #pm 1 #sigma_{theory}","l" )
 l1.Draw("same")
 
 top_margin = r.TLine(1100,2350,2350,2350)
@@ -409,4 +427,4 @@ cmstexPrelim.SetTextFont(52)
 cmstexPrelim.Draw()
 
 
-c_massplane.SaveAs("temp.pdf")
+c_massplane.SaveAs("/home/users/bsathian/public_html/T5ZZ_Exclusion_13TeV.pdf")
