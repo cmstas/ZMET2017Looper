@@ -63,7 +63,7 @@ def addSignalYields(d,SR,mass_1,mass_2,BR_key = None):
 
             if "Boosted" in SR:
                 tau21_up_nuisance = 1 + tau21_up_uncs[i]/float(y)
-                tau21_down_nuisance = 1 + tau21_down_uncs[i]/float(y)
+                tau21_down_nuisance = 1 - tau21_down_uncs[i]/float(y)
 
         d["BGbin%d_sig" % i] = properSpacing("{BGbin1_sig}", "%.3f" % avg_y)
         d["sig_stat_syst_bin%d" % i] = properSpacing("{sig_stat_syst_bin1}","%.3f" % stat_nuisance)
