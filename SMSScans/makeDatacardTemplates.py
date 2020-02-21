@@ -4,7 +4,7 @@ import os
 
 SRs = ["SRA","SRAb","SRB", "SRBb", "SRC", "SRCb", "SRVZBoosted","SRVZResolved","SRHZ"]
 
-bins = {"SRA":5,"SRB":5,"SRC":4,"SRAb":5,"SRBb":5,"SRCb":4,"SRVZBoosted":6,"SRVZResolved":5,"SRHZ":4}
+bins = {"SRA":5,"SRB":5,"SRC":4,"SRAb":5,"SRBb":5,"SRCb":4,"SRVZBoosted":3,"SRVZResolved":5,"SRHZ":4}
 
 processes = ["sig","zjets","fsbkg","mcbkg"]
 
@@ -53,9 +53,9 @@ nuisances = {
 
         "fsbkg":[Nuisance("fsbkg_rsfof_syst_norm_OS","rsfof_norm_unc_bin"), Nuisance("fsbkg_rsfof_syst_pt_OS","rsfof_pt_unc_bin"), Nuisance("fsbkg_rsfof_syst_eta_OS","rsfof_eta_unc_bin"),Nuisance("fsbkg_kappa_stat_syst_SRV_OS","kappa_stat_unc"),Nuisance("fsbkg_kappa_met_syst_OS","kappa_MET_unc"),Nuisance("fsbkg_stat_syst_SR_bin_OS","rsfof*kappa",additional_options = "count_bin_fsbkg",error_type = "gmN")],
 
-        "zjets":[Nuisance("zjets_norm_syst_SR_OS","zjets_norm"),Nuisance("zjets_clos_syst_SR_bin_OS","zjets_clos_bin"),Nuisance("zjets_stat_syst_SR_bin_OS","zjets_stat_bin"),Nuisance("zjets_ewk_syst_SR_bin_OS","zjets_ewk_bin"),Nuisance("zjets_norm_scale_syst_SR_OS","zjets_norm_scale",error_type = "lnU")],
+        "zjets":[Nuisance("zjets_norm_syst_SR_OS","zjets_norm"),Nuisance("zjets_clos_syst_SR_bin_OS","zjets_clos_bin"),Nuisance("zjets_stat_syst_SR_bin_OS","zjets_stat_bin"),Nuisance("zjets_ewk_syst_SR_bin_OS","zjets_ewk_bin"),Nuisance("zjets_norm_scale_syst_SR_OS","zjets_norm_scale",error_type = "lnU"),Nuisance("zjets_ewk_tau21_tag_syst","zjets_ewk_tau21_tagsyst_bin",applicable_SR = "SRVZBoosted")],
 
-        "mcbkg":[Nuisance("mcbkg_scale_stat_unc_OS","mcbkg_scale_stat_unc_bin"),Nuisance("mcbkg_scale_syst_unc_OS","mcbkg_scale_syst_unc_bin"),Nuisance("mcbkg_stat_SR_bin_OS","mc_stat_bin"),Nuisance("mcbkg_ak8_tau21_syst","mcbkg_ak8_tau21_syst_bin",applicable_SR = "SRVZBoosted")]
+        "mcbkg":[Nuisance("mcbkg_scale_stat_unc_OS","mcbkg_scale_stat_unc_bin"),Nuisance("mcbkg_scale_syst_unc_OS","mcbkg_scale_syst_unc_bin"),Nuisance("mcbkg_stat_SR_bin_OS","mc_stat_bin"),Nuisance("mcbkg_ak8_tau21_syst","mcbkg_tau21_tag_syst_bin",applicable_SR = "SRVZBoosted")]
         }
 
 
