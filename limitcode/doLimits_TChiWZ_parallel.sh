@@ -36,7 +36,7 @@ declare -a cards=(`ls ${INDIR}/datacard_*mG*.txt`)
  do
    mG=$(echo "$i" | awk '{split($0,a,"_"); print a[3]"_"a[4]"_"a[5]"_"a[6]"_"}')
    if [ ! -e "$INDIR/datacard_all_$mG.txt" ]; then
-     combineCards.py "$INDIR/datacard_"*"_$mG.txt" > "$INDIR/datacard_all_$mG.txt"
+     combineCards.py -S "$INDIR/datacard_SR"*"_$mG.txt" > "$INDIR/datacard_all_$mG.txt"
    fi
  done
 
