@@ -104,21 +104,38 @@ do
     echo "python $diffLocation mlfit.root --abs 1>${pullfilenames[counter]}_nosignal.out 2>&1"
     python $diffLocation mlfit.root --abs 1>${pullfilenames[counter]}_nosignal.out 2>&1
 
-    echo "python $prefix/plot_covariance.py"
-    python $prefix/plot_covariance.py
+    mv mlfit.root mlfit_b_only.root
 
     echo "combine -M MaxLikelihoodFit -t -1 --expectSignal 1 --saveWithUncertainties --saveOverallShapes --numToysForShapes 200 --plots $file 1>${logfilenames[counter]}_withsignal.out 2>&1"
     combine -M MaxLikelihoodFit -t -1 --expectSignal 1  --saveWithUncertainties --saveOverallShapes --numToysForShapes 200 --plots $file 1>${logfilenames[counter]}_withsignal.out 2>&1
     mkdir plots_sb
     mv *.png plots_sb
 
-    echo "    python $diffLocation mlfit.root --abs 1>${pullfilenames[counter]}_withsignal.out 2>&1"
+    echo "python $diffLocation mlfit.root --abs 1>${pullfilenames[counter]}_withsignal.out 2>&1"
     python $diffLocation mlfit.root --abs 1>${pullfilenames[counter]}_withsignal.out 2>&1
 
-    echo "python $prefix/plot_covariance_sb.py"
-    python $prefix/plot_covariance_sb.py
+    mv mlfit.root mlfit_sb.root
 
     popd
     counter=$((counter+1))
+done
+popd
+
+#correlation stuff
+pushd /home/users/bsathian/babymaker/CMSSW_9_4_9
+eval `scramv1 runtime -sh`
+popd
+
+counter=1
+for file in "${files[@]}"
+do
+    pushd ${directories[counter]}
+
+    echo "python $prefix/plot_covariance.py"
+    python $prefix/plot_covariance.py
+
+    echo "python $prefix/plot_covariance_sb.py"
+    python $prefix/plot_covariance_sb.py
+    popd
 done
 popd
