@@ -82,7 +82,7 @@ then
 fi
 
 cmssw_prefix="/home/users/bsathian/ZMet/babymaker/CMSSW_9_4_9/babymaker/ZMET2015/limitcode/CMSSW_7_4_7/"
-if  [ hash combine 2>/dev/null ]; then
+if ! [ hash combine 2>/dev/null ]; then
     echo "combine not found! Using CMSSW_7_4_7 combine"
     pushd $cmssw_prefix
     eval `scramv1 runtime -sh`
