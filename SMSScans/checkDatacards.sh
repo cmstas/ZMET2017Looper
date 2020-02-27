@@ -106,6 +106,15 @@ do
 
     mv mlfit.root mlfit_b_only.root
 
+    python <<EOL
+    import ROOT as r
+    import os
+
+    f = r.TFile("plots_b.root")
+    c = f.Get("asdf")
+    c.SaveAs("pull_b.pdf")
+EOL
+
     echo "combine -M MaxLikelihoodFit -t -1 --expectSignal 1 --saveWithUncertainties --saveOverallShapes --numToysForShapes 200 --plots $file 1>${logfilenames[counter]}_withsignal.out 2>&1"
     combine -M MaxLikelihoodFit -t -1 --expectSignal 1  --saveWithUncertainties --saveOverallShapes --numToysForShapes 200 --plots $file 1>${logfilenames[counter]}_withsignal.out 2>&1
     mkdir -p plots_sb
@@ -115,6 +124,16 @@ do
     python $diffLocation mlfit.root --abs -g plots_sb.root 1>${pullfilenames[counter]}_withsignal.out 2>&1
 
     mv mlfit.root mlfit_sb.root
+
+    python <<EOL
+    import ROOT as r
+    import os
+
+    f = r.TFile("plots_sb.root")
+    c = f.Get("asdf")
+    c.SaveAs("pull_sb.pdf")
+EOL
+
 
     popd
     counter=$((counter+1))
