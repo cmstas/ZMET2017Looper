@@ -3,7 +3,7 @@ import ROOT as r
 import numpy as np
 from root_numpy import hist2array,array2hist
 
-fitfile = r.TFile("mlfit.root")
+fitfile = r.TFile("mlfit_b_only.root")
 cov_b = (fitfile.Get("shapes_fit_b")).Get("overall_total_covar")
 cov_b_array = hist2array(cov_b)
 cov_b_normed_array = cov_b_array.copy()
