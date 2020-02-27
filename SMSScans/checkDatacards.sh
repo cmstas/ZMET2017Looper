@@ -104,6 +104,9 @@ do
     echo "python $diffLocation mlfit.root --abs 1>${pullfilenames[counter]}_nosignal.out 2>&1"
     python $diffLocation mlfit.root --abs 1>${pullfilenames[counter]}_nosignal.out 2>&1
 
+    echo "python $prefix/plot_covariance.py"
+    python $prefix/plot_covariance.py
+
     echo "combine -M MaxLikelihoodFit -t -1 --expectSignal 1 --saveWithUncertainties --saveOverallShapes --numToysForShapes 200 --plots $file 1>${logfilenames[counter]}_withsignal.out 2>&1"
     combine -M MaxLikelihoodFit -t -1 --expectSignal 1  --saveWithUncertainties --saveOverallShapes --numToysForShapes 200 --plots $file 1>${logfilenames[counter]}_withsignal.out 2>&1
     mkdir plots_sb
@@ -111,6 +114,9 @@ do
 
     echo "    python $diffLocation mlfit.root --abs 1>${pullfilenames[counter]}_withsignal.out 2>&1"
     python $diffLocation mlfit.root --abs 1>${pullfilenames[counter]}_withsignal.out 2>&1
+
+    echo "python $prefix/plot_covariance_sb.py"
+    python $prefix/plot_covariance_sb.py
 
     popd
     counter=$((counter+1))
