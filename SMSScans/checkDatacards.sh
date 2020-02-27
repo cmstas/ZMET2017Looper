@@ -8,7 +8,7 @@ declare -a files
 declare -a logfilenames
 declare -a pullfilenames
 declare -a directories
-if ["$signalmod" == "t5zz" ]
+if [ "$signalmod" == "t5zz" ]
 then
     dir=$prefix/DataCards/T5ZZ
     declare -A masses
@@ -81,36 +81,31 @@ then
     done
 fi
 
-cmssw_prefix="/home/users/bsathian/ZMet/babymaker/CMSSW_9_4_9/ZMET2015/limitcode/CMSSW_7_4_7/"
-if ! [hash combine 2>/dev/null ]; then
+cmssw_prefix="/home/users/bsathian/ZMet/babymaker/CMSSW_9_4_9/babymaker/ZMET2015/limitcode/CMSSW_7_4_7/"
+if  [ hash combine 2>/dev/null ]; then
     echo "combine not found! Using CMSSW_7_4_7 combine"
     pushd $cmssw_prefix
-    cmsenv
+    eval `scramv1 runtime -sh`
     popd
 fi
 
 #Do the checks here
 counter=1
-diffLocation="$cmssw_prefix/HiggsAnalysis/CombinedLimit/test/diffNuisances/diffNuisances.py"
+diffLocation="$cmssw_prefix/src/HiggsAnalysis/CombinedLimit/test/diffNuisances.py"
 
 for file in "${files[@]}"
 do
-    pushd directories[counter]
-    echo "combine -M MaxLikelihoodFit -t -1 --expectSignal 0 --saveWithUncertainties --saveOverallShapes --numToysForShapes 200 --plots $file 1>$logfilenames[counter]_nosignal.out 2"
-    combine -M MaxLikelihoodFit -t -1 --expectSignal 0 $file 1>$logfilenames[counter]_nosignal.out 2>&1
 
+    echo "combine -M MaxLikelihoodFit -t -1 --expectSignal 0 --saveWithUncertainties --saveOverallShapes --numToysForShapes 200 --plots $file 1>${logfilenames[counter]}_nosignal.out 2>&1"
+    combine -M MaxLikelihoodFit -t -1 --expectSignal 0 $file 1>${logfilenames[counter]}_nosignal.out 2>&1
+    echo "python $diffLocation mlfit.root --abs 1>${pullfilenames[counter]}_nosignal.out 2>&1"
+    python $diffLocation mlfit.root --abs 1>${pullfilenames[counter]}_nosignal.out 2>&1
 
-    echo "python $diffLocation mlfit.root --all 1>$pullfilenames[counter]_nosignal.out 2>&1"
-    python $diffLocation mlfit.root --all 1>$pullfilenames[counter]_nosignal.out 2>&1
-
-    echo "combine -M MaxLikelihoodFit -t -1 --expectSignal 1 $file 1>$logfilenames[counter]_withsignal.out 2>&1"
-    combine -M MaxLikelihoodFit -t -1 --expectSignal 1 $file 1>$logfilenames[counter]_withsignal.out 2>&1
-    echo "    python $diffLocation mlfit.root --all 1>$pullfilenames[counter]_withsignal.out 2>&1"
-    python $diffLocation mlfit.root --all 1>$pullfilenames[counter]_withsignal.out 2>&1
-
+    echo "combine -M MaxLikelihoodFit -t -1 --expectSignal 1 $file 1>${logfilenames[counter]}_withsignal.out 2>&1"
+    combine -M MaxLikelihoodFit -t -1 --expectSignal 1 $file 1>${logfilenames[counter]}_withsignal.out 2>&1
+    echo "    python $diffLocation mlfit.root --abs 1>${pullfilenames[counter]}_withsignal.out 2>&1"
+    python $diffLocation mlfit.root --abs 1>${pullfilenames[counter]}_withsignal.out 2>&1
 
     counter=$((counter+1))
-    popd
 done
-popd
 popd
