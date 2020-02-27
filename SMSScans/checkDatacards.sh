@@ -98,31 +98,30 @@ do
     pushd ${directories[counter]}
     echo "combine -M MaxLikelihoodFit -t -1 --expectSignal 0 --saveWithUncertainties --saveOverallShapes --numToysForShapes 200 --plots $file 1>${logfilenames[counter]}_nosignal.out 2>&1"
     combine -M MaxLikelihoodFit -t -1 --expectSignal 0  --saveWithUncertainties --saveOverallShapes --numToysForShapes 200 --plots $file 1>${logfilenames[counter]}_nosignal.out 2>&1
-    mkdir plots_b_only
+    mkdir -p plots_b_only
     mv *.png plots_b_only
 
     echo "python $diffLocation mlfit.root --abs 1>${pullfilenames[counter]}_nosignal.out 2>&1"
-    python $diffLocation mlfit.root --abs 1>${pullfilenames[counter]}_nosignal.out 2>&1
+    python $diffLocation mlfit.root --abs -g plots_b.root 1>${pullfilenames[counter]}_nosignal.out 2>&1
 
     mv mlfit.root mlfit_b_only.root
 
     echo "combine -M MaxLikelihoodFit -t -1 --expectSignal 1 --saveWithUncertainties --saveOverallShapes --numToysForShapes 200 --plots $file 1>${logfilenames[counter]}_withsignal.out 2>&1"
     combine -M MaxLikelihoodFit -t -1 --expectSignal 1  --saveWithUncertainties --saveOverallShapes --numToysForShapes 200 --plots $file 1>${logfilenames[counter]}_withsignal.out 2>&1
-    mkdir plots_sb
+    mkdir -p plots_sb
     mv *.png plots_sb
 
     echo "python $diffLocation mlfit.root --abs 1>${pullfilenames[counter]}_withsignal.out 2>&1"
-    python $diffLocation mlfit.root --abs 1>${pullfilenames[counter]}_withsignal.out 2>&1
+    python $diffLocation mlfit.root --abs -g plots_sb.root 1>${pullfilenames[counter]}_withsignal.out 2>&1
 
     mv mlfit.root mlfit_sb.root
 
     popd
     counter=$((counter+1))
 done
-popd
 
 #correlation stuff
-pushd /home/users/bsathian/babymaker/CMSSW_9_4_9
+pushd /home/users/bsathian/ZMet/babymaker/CMSSW_9_4_9
 eval `scramv1 runtime -sh`
 popd
 
@@ -137,5 +136,6 @@ do
     echo "python $prefix/plot_covariance_sb.py"
     python $prefix/plot_covariance_sb.py
     popd
+    counter=$((counter+1))
 done
 popd
