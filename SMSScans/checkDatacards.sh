@@ -95,17 +95,24 @@ diffLocation="$cmssw_prefix/src/HiggsAnalysis/CombinedLimit/test/diffNuisances.p
 
 for file in "${files[@]}"
 do
-
+    pushd ${directories[counter]}
     echo "combine -M MaxLikelihoodFit -t -1 --expectSignal 0 --saveWithUncertainties --saveOverallShapes --numToysForShapes 200 --plots $file 1>${logfilenames[counter]}_nosignal.out 2>&1"
-    combine -M MaxLikelihoodFit -t -1 --expectSignal 0 $file 1>${logfilenames[counter]}_nosignal.out 2>&1
+    combine -M MaxLikelihoodFit -t -1 --expectSignal 0  --saveWithUncertainties --saveOverallShapes --numToysForShapes 200 --plots $file 1>${logfilenames[counter]}_nosignal.out 2>&1
+    mkdir plots_b_only
+    mv *.png plots_b_only
+
     echo "python $diffLocation mlfit.root --abs 1>${pullfilenames[counter]}_nosignal.out 2>&1"
     python $diffLocation mlfit.root --abs 1>${pullfilenames[counter]}_nosignal.out 2>&1
 
-    echo "combine -M MaxLikelihoodFit -t -1 --expectSignal 1 $file 1>${logfilenames[counter]}_withsignal.out 2>&1"
-    combine -M MaxLikelihoodFit -t -1 --expectSignal 1 $file 1>${logfilenames[counter]}_withsignal.out 2>&1
+    echo "combine -M MaxLikelihoodFit -t -1 --expectSignal 1 --saveWithUncertainties --saveOverallShapes --numToysForShapes 200 --plots $file 1>${logfilenames[counter]}_withsignal.out 2>&1"
+    combine -M MaxLikelihoodFit -t -1 --expectSignal 1  --saveWithUncertainties --saveOverallShapes --numToysForShapes 200 --plots $file 1>${logfilenames[counter]}_withsignal.out 2>&1
+    mkdir plots_sb
+    mv *.png plots_sb
+
     echo "    python $diffLocation mlfit.root --abs 1>${pullfilenames[counter]}_withsignal.out 2>&1"
     python $diffLocation mlfit.root --abs 1>${pullfilenames[counter]}_withsignal.out 2>&1
 
+    popd
     counter=$((counter+1))
 done
 popd
