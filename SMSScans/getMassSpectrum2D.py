@@ -86,6 +86,9 @@ def fillMassSpectrumFromCache(samplename):
   mass_file = open(output_filename, 'r')
   for line in mass_file:
     a=line.split()
+    #Guard against creating datacards with 0 signal
+    if ("T5ZZ" in filename or "t5zz" in filename) and int(float(a[3])) < 91:
+        continue
     mass_points.add((int(float(a[1])), int(float(a[3]))))
   print "mass spectrum obtained from cache"
   return mass_points
