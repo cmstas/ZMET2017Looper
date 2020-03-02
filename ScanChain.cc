@@ -1212,7 +1212,11 @@ double ZMETLooper::getWeight(TString SR){
     }
   }
 
-
+  //TTBar ISR weight for 2016 alone
+  if(g_year == 2016 && conf->get("Name").find("TTJets") != std::string::npos)
+  {
+      weight *= phys.isr_weight();
+  }
   //
   //Fat jet stuff
   double fatjet_scale_factor = 1.0;
