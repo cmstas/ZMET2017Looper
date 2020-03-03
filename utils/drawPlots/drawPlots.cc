@@ -1170,7 +1170,6 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
         if(FS_hist_2016 != nullptr && FS_hist_2017 != nullptr && FS_hist_2018 != nullptr)
         {
             FS_count_2016.push_back(FS_hist_2016->Integral(FS_hist_2016->FindBin(stats_bins[i].first), FS_hist_2016->FindBin(stats_bins[i].second - 0.001)));
-                if(FS_hists[i] != nullptr)
             FS_count_2017.push_back(FS_hist_2017->Integral(FS_hist_2017->FindBin(stats_bins[i].first), FS_hist_2017->FindBin(stats_bins[i].second - 0.001)));
             FS_count_2018.push_back(FS_hist_2018->Integral(FS_hist_2018->FindBin(stats_bins[i].first), FS_hist_2018->FindBin(stats_bins[i].second - 0.001)));
         }
@@ -1523,7 +1522,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
 
                 double error_up = template_count[i] != 0 ? EWK_tau21_up_error[i]/template_count[i] : 0;
                 double error_down = template_count[i] != 0 ? EWK_tau21_down_error[i]/template_count[i] : 0;
-                cout<<"{zjets_ewk_tau21_tagsyst_bin"<<i<<" }"<<1-error_up<<"/"<<1+error_down<<endl; //needs to go the other way for background
+                cout<<"{zjets_ewk_tau21_tagsyst_bin"<<i<<"} "<<1-error_up<<"/"<<1+error_down<<endl; //needs to go the other way for background
 
                 temp_err_up[i] = sqrt(temp_err_up[i]*temp_err_up[i] + EWK_tau21_up_error[i]*EWK_tau21_up_error[i]); 
                 temp_err_down[i] = sqrt(temp_err_down[i]*temp_err_down[i] + EWK_tau21_down_error[i]*EWK_tau21_down_error[i]); 
@@ -1616,8 +1615,8 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
 //        cout<<"{mcbkg_scale_syst_unc_bin"<<i<<"} "<<1. + s
         cout<<"{BGbin"<<i<<"_mcbkg} "<<rare_count[i]<<endl;
         cout<<"{mc_stat_bin"<<i<<"} "<<1.+rare_stat_err[i]/rare_count[i]<<endl;
-        cout<<"{mcbkg_scale_stat_unc_bin"<<i<<"}"<<1.+rare_scale_stat_err[i]/rare_count[i]<<endl;
-        cout<<"{mcbkg_scale_syst_unc_bin"<<i<<"}"<<1.+rare_scale_syst_err[i]/rare_count[i]<<endl;
+        cout<<"{mcbkg_scale_stat_unc_bin"<<i<<"} "<<1.+rare_scale_stat_err[i]/rare_count[i]<<endl;
+        cout<<"{mcbkg_scale_syst_unc_bin"<<i<<"} "<<1.+rare_scale_syst_err[i]/rare_count[i]<<endl;
         if(SR.Contains("Boosted"))
         {
             double error_up = rare_count[i] != 0 ? rare_tau21_error_up[i]/rare_count[i] : 0;
@@ -1780,6 +1779,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
     prediction_errors->SetFillStyle(3244);
     prediction_errors->SetFillColor(kGray+3);
     prediction_errors->Draw("SAME 2");
+    prediction_errors->Print();
   }
   else if(conf->get("draw_bg_errs") != "false"){
     cout<<"Drawing BG hatch bands"<<endl;

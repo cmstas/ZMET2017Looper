@@ -380,7 +380,7 @@ pair<vector<double>,vector<double>> getFSError(const unordered_map<int,vector<do
   // To be parsed by datacard maker
   //--------------------------------
     cout<<"{kappa_MET_unc} "<<1.+kappa_MET_unc<<endl;
-    cout<<"{kappa_stat_unc}"<<1.+kappa_stat_unc<<endl;
+    cout<<"{kappa_stat_unc} "<<1.+kappa_stat_unc<<endl;
 
   cout<<"{rsfof*kappa} "<<Kappa<<endl; //only kappa these days
 
@@ -436,7 +436,7 @@ pair<vector<double>,vector<double>> getFSError(const vector<double> &bin_count,c
     //cout<<"{rsfof_unc} "<<1.+RSFOF_unc<<endl;
     cout<<"{rsfof*kappa} "<<Kappa<<endl;
     cout<<"{kappa_MET_unc} "<<1.+kappa_MET_unc<<endl;
-    cout<<"{kappa_stat_unc}"<<1.+kappa_stat_unc<<endl;
+    cout<<"{kappa_stat_unc} "<<1.+kappa_stat_unc<<endl;
 
     for (int i = 0; i<(int)bin_count.size(); i++)
     {
