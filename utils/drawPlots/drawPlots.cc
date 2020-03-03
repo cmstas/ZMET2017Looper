@@ -52,8 +52,12 @@ TH1D *combine_histograms(vector<TFile*> hist_files, std::vector<TString> hist_na
       final_hist =(TH1D*) ((TH1D*)(hist_files[0]->Get(SR+hist_names[0])))->Clone("hist_"+to_string(count)+"_"+plot_name);
   if(scale_factors.size() > 0)
   {
-      final_hist->Scale(scale_factors[0]);
-      cout<<"Scaling "<<hist_files[0]->GetName()<<":"<<SR+hist_names[0]<<" with factor="<<scale_factors[0]<<endl;
+      if(final_hist != nullptr)
+      {
+          final_hist->Scale(scale_factors[0]);
+        cout<<"Scaling "<<hist_files[0]->GetName()<<":"<<SR+hist_names[0]<<" with factor="<<scale_factors[0]<<endl;
+
+      }
   }
   for(size_t i = 0; i < hist_files.size(); i++)
   {
@@ -69,9 +73,12 @@ TH1D *combine_histograms(vector<TFile*> hist_files, std::vector<TString> hist_na
           if(scale_factors.size() > ((i * hist_names.size() + j))/(1+ee_mm_split))
           {
             cout<<(i*hist_names.size()+j)/(1+ee_mm_split)<<endl;
-            double scale_value = scale_factors[(i*hist_names.size()+j)/(1+ee_mm_split)]; 
-            temp_hist->Scale(scale_value);
-            cout<<"Scaling "<<hist_files[i]->GetName()<<":"<<SR+hist_names[j]<<" with factor="<<scale_value<<endl;
+            double scale_value = scale_factors[(i*hist_names.size()+j)/(1+ee_mm_split)];
+            if(temp_hist != nullptr)
+            {
+                temp_hist->Scale(scale_value);
+                cout<<"Scaling "<<hist_files[i]->GetName()<<":"<<SR+hist_names[j]<<" with factor="<<scale_value<<endl;
+            }
           }
           if(final_hist != nullptr)
               final_hist->Add(temp_hist); 
