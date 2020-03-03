@@ -1187,7 +1187,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
 
             for(int year = 0;year<3;year++)
             {
-                if(FS_hists[i] != nullptr)
+                if(FS_hists[year] != nullptr)
                 {
                     FS_count_central[2016+year].push_back(FS_hists[year]->Integral(FS_hists[year]->FindBin(stats_bins[i].first),FS_hists[year]->FindBin(stats_bins[i].second-0.001)));
                 }
