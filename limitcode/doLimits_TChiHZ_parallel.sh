@@ -9,12 +9,12 @@ function process_datacard ()
 	if [ $MASS1 -ge $MINMASS ]; then
 
 		if [ -e ${INDIR}/datacard_all_mChi_${MASS1}_.txt ]; then
-			echo "Running command: nice -n 10 combine -M Asymptotic -n mChi${MASS1}_ ${INDIR}/datacard_all_mChi_${MASS1}_.txt > log/limit_mChi${MASS1}.txt 2>&1"
-			nice -n 10 combine -M Asymptotic -n mChi${MASS1}_ ${INDIR}/datacard_all_mChi_${MASS1}_.txt  > log/limit_mChi${MASS1}.txt 2>&1
+			echo "Running command: nice -n 10 combine -M AsymptoticLimits -n mChi${MASS1}_ ${INDIR}/datacard_all_mChi_${MASS1}_.txt > log/limit_mChi${MASS1}.txt 2>&1"
+			nice -n 10 combine -M AsymptoticLimits -n mChi${MASS1}_ ${INDIR}/datacard_all_mChi_${MASS1}_.txt  > log/limit_mChi${MASS1}.txt 2>&1
 		fi
 
-		if [ -e higgsCombinemChi${MASS1}_.Asymptotic.mH120.root ]; then
-			mv higgsCombinemChi${MASS1}_.Asymptotic.mH120.root "limit_${MODEL}_${MASS1}.root"
+		if [ -e higgsCombinemChi${MASS1}_.AsymptoticLimits.mH120.root ]; then
+			mv higgsCombinemChi${MASS1}_.AsymptoticLimits.mH120.root "limit_${MODEL}_${MASS1}.root"
 			echo "limit_${MODEL}_${MASS1}.root" >> list_$MODEL.txt
 		fi
 	fi

@@ -118,7 +118,7 @@ r.TColor.CreateGradientColorTable(len(stops), stops, red, green, blue, 255)
 tdrStyle.SetNumberContours(255)
 
 
-f_susyxsecs = r.TFile("../../dilepbabymaker/data/xsec_susy_13tev_final.root","READ")
+f_susyxsecs = r.TFile("xsec_susy_13tev_final.root","READ")
 h_susyxsecs = f_susyxsecs.Get("h_xsec_c1n2").Clone("h_susyxsecs")
 
 folder_prefix = "limits_TChiWZ_070317_paralleltest"
@@ -137,10 +137,10 @@ massplane_exp_dn2 = f_rvalues.Get("hExp2m").Clone("massplane_exp_dn2")
 
 contourPlot = massplane_exp.Clone("contourPlot")
 
-h_axis = r.TH2F("h_axis","h_axis",60,100,700,40,0,400)
+h_axis = r.TH2F("h_axis","h_axis",80,100,925,55,0,550)
 h_axis.GetXaxis().SetLabelSize(0.035)
 h_axis.GetYaxis().SetLabelSize(0.035)
-h_axis.GetXaxis().SetRangeUser(100,700)
+h_axis.GetXaxis().SetRangeUser(100,900)
 h_axis.GetYaxis().SetRangeUser(0,400)
 #h_axis.GetXaxis().SetNdivisions(520)
 h_axis.GetXaxis().SetTitle("m_{#tilde{#chi}^{#pm}_{1}} =m_{#tilde{#chi}^{0}_{2}}(GeV)")
@@ -256,9 +256,9 @@ massplane_obs_dn.Smooth()
 #Find the bin in massplane_xsec corresponding to 900 and 2400 in mG, and 100 in mLSP
 
 mGLow = massplane_xsec.GetXaxis().FindBin(100)
-mGHigh = massplane_xsec.GetXaxis().FindBin(700)
+mGHigh = massplane_xsec.GetXaxis().FindBin(925)
 mLSPLow = massplane_xsec.GetYaxis().FindBin(0)
-mLSPHigh = massplane_xsec.GetYaxis().FindBin(400)
+mLSPHigh = massplane_xsec.GetYaxis().FindBin(550)
 vmG = []
 vmLSP = []
 vxsec = []
@@ -300,7 +300,7 @@ vexp = np.array(vexp,dtype = np.float64)
 vexpup = np.array(vexpup,dtype = np.float64)
 vexpdown = np.array(vexpdown,dtype = np.float64)
 
-mc_only = True
+mc_only = False
 
 if mc_only:
     vlim = vxsec * vexp
@@ -322,12 +322,12 @@ hlim.GetXaxis().SetTitleSize(0.04)
 hlim.GetYaxis().SetTitleSize(0.04)
 hlim.GetXaxis().SetTitleOffset(1.25)
 hlim.GetYaxis().SetTitleOffset(1.75)
-hlim.GetXaxis().SetTitle("m_{#tilde{g}} [GeV]")
-hlim.GetYaxis().SetTitle("m_{#tilde{#chi}_{1}^{0}} [GeV]")
+hlim.GetXaxis().SetTitle("m_{#tilde{#chi}^{#pm}_{1}} =m_{#tilde{#chi}^{0}_{2}}(GeV)")
+hlim.GetYaxis().SetTitle("m_{#tilde{#chi}_{1}^{0}} (GeV)")
 hlim.GetZaxis().SetRangeUser(1e-3,3e2)
 hlim.GetZaxis().SetLabelSize(0)
-hlim.GetXaxis().SetRangeUser(100,700)
-hlim.GetYaxis().SetRangeUser(0,400)
+hlim.GetXaxis().SetRangeUser(100,900)
+hlim.GetYaxis().SetRangeUser(0,550)
 hlim.GetZaxis().SetTitleSize(0.05)
 hlim.GetZaxis().SetTitleOffset(1.25)
 hlim.GetZaxis().SetTitle("95 % CL upper limit on #sigma (pb)")
@@ -339,7 +339,7 @@ for binx in range(1,(hlim.GetNbinsX())+1):
         trueBin = hlim.GetBin(binx,biny)
         mG = hlim.GetXaxis().GetBinCenter(binx)
         mLSP = hlim.GetYaxis().GetBinCenter(biny)
-        if mG < 100 or mG > 700 or mLSP < 0 or mG - mLSP < 90:
+        if mG < 100 or mG > 925 or mLSP < 0 or mG - mLSP < 90:
             hlim.SetBinContent(trueBin,0)
 
 hlim.Draw("colz")
@@ -356,7 +356,7 @@ if mc_only == False:
 
 temp = []
 for i in range(0,30):
-    temp.append(r.TLine(100,10+i*5,700,610 + i*5))
+    temp.append(r.TLine(100,10+i*5,900,810 + i*5))
     temp[-1].SetLineWidth(10)
     temp[-1].SetLineColor(r.kWhite)
     temp[-1].SetLineStyle(1)
@@ -364,7 +364,7 @@ for i in range(0,30):
 
 padt.RedrawAxis()
 
-box = r.TBox(100,300,700,400)
+box = r.TBox(100,420,900,550)
 box.SetFillColor(r.kWhite)
 box.Draw("same")
 
@@ -376,28 +376,28 @@ l1.SetShadowColor(r.kWhite)
 l1.SetFillColor(r.kWhite)
 l1.AddEntry(contourPlot,"Expected limit, #pm 1,2 #sigma_{exp.}", "l")
 if not mc_only:
-    l1.AddEntry(massplane__obs,"Observed limit, #pm 1 #sigma_{theory}","l" )
+    l1.AddEntry(massplane_obs,"Observed limit, #pm 1 #sigma_{theory}","l" )
 l1.Draw("same")
 
-top_margin = r.TLine(100,400,700,400)
+top_margin = r.TLine(100,550,900,550)
 top_margin.SetLineWidth(4)
 top_margin.SetLineColor(r.kBlack)
 top_margin.SetLineStyle(1)
 top_margin.Draw("same")
 
-bot_margin = r.TLine(100,300,700,300)
+bot_margin = r.TLine(100,420,900,420)
 bot_margin.SetLineWidth(4)
 bot_margin.SetLineColor(r.kBlack)
 bot_margin.SetLineStyle(1)
 bot_margin.Draw("same")
 
-lef_margin = r.TLine(100,300,100,400)
+lef_margin = r.TLine(100,420,100,550)
 lef_margin.SetLineWidth(4)
 lef_margin.SetLineColor(r.kBlack)
 lef_margin.SetLineStyle(1)
 lef_margin.Draw("same")
 
-rig_margin = r.TLine(700,300,700,400)
+rig_margin = r.TLine(900,420,900,550)
 rig_margin.SetLineWidth(4)
 rig_margin.SetLineColor(r.kBlack)
 rig_margin.SetLineStyle(1)

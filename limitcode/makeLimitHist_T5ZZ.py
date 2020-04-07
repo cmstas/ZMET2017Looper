@@ -118,7 +118,7 @@ r.TColor.CreateGradientColorTable(len(stops), stops, red, green, blue, 255)
 tdrStyle.SetNumberContours(255)
 
 
-f_susyxsecs = r.TFile("../../dilepbabymaker/data/xsec_susy_13tev_run2.root","READ")
+f_susyxsecs = r.TFile("xsec_susy_13tev_run2.root","READ")
 h_susyxsecs = f_susyxsecs.Get("h_xsec_gluino").Clone("h_susyxsecs")
 
 folder_prefix = "limits_T5ZZ_070317_paralleltest"

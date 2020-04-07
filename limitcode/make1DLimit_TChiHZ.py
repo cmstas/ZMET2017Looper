@@ -1,7 +1,8 @@
+from __future__ import print_function
 import ROOT, array
 import sys, glob, math
 ROOT.gROOT.SetBatch(True)
-lumi = 35.9
+lumi = 137.2
 branching_ratio = 1.0 # already accounted for in datacards
 #branching_ratio = 0.5
 
@@ -20,20 +21,22 @@ def get1Dlimit(fn):
 def get1Dxsec(charginomass):
     global fxsec, hxsec
     if not fxsec or not hxsec:
-        fxsec = ROOT.TFile.Open("../../dilepbabymaker/xsec_susy_13tev.root")
+        fxsec = ROOT.TFile.Open("xsec_susy_13tev_final.root")
         hxsec = fxsec.Get("h_xsec_higgsino")
     sigma = hxsec.GetBinContent(hxsec.FindBin(charginomass)) 
     return sigma
     
 def main():
 #    version = "limits_TChiHZ_230317"
-    version = "limits_TChiHZ_withzz_310317"
+    version = "limits_TChiHZ_070317_paralleltest"
+#    version = "limits_TChiHZ_withzz_310317"
     dir="./"+version+"/"
 #    chargino_masses =[100,125,150,175,200,225,250,275,300,325,350,375,400,425,450,475,500,525,550,575,600,625,650,675,700,725,750] 
 #    chargino_masses =[100,150,175,200,225,250,275,300,325,350,375,400,425,450,475,500,525,550,575,600,625,650,675,700] 
     chargino_masses =[127,150,175,200,225,250,275,300,325,350,375,400,425,450,475,500,525,550,575,600,625,650,675,700,725,750,775,800,825,850,875,900,925,950] 
-    f_xsecgraph = ROOT.TFile.Open("../../dilepbabymaker/xsec_susy_13tev_graphs.root")
-    g_xsec_c1n2 = f_xsecgraph.Get("g_xsec_higgsino")
+    f_xsecgraph = ROOT.TFile.Open("xsec_susy_13tev_final.root")
+    h_xsec_c1n2 = f_xsecgraph.Get("h_xsec_higgsino")
+    g_xsec_c1n2 = ROOT.TGraph(h_xsec_c1n2)
 
     obs=[]
     exp=[]
@@ -153,7 +156,9 @@ def main():
     gsigmas.SetLineColor(ROOT.kRed)
 #    gsigmas.Draw("L")
     g_xsec_c1n2.SetFillColor(ROOT.kMagenta)
-    g_xsec_c1n2.Draw("3 same")
+    g_xsec_c1n2.SetLineColor(ROOT.kMagenta)
+    g_xsec_c1n2.SetLineWidth(-101)
+    g_xsec_c1n2.Draw("same C")
     gobs = ROOT.TGraph(len(chargino_masses), array.array('d', chargino_masses), array.array('d', obs))
     gobs.SetMarkerStyle(ROOT.kFullCircle)
     gobs.SetMarkerSize(1.5)
@@ -215,7 +220,7 @@ def main():
     # l1.AddEntry(gexp , "Expected 2016", "l")
     # l1.AddEntry(gexp2x , "Expected 2x lumi", "l")
     # l1.AddEntry(gexp3x , "Expected 3x lumi", "l")
-    l1.AddEntry(gobs , "Observed", "l")
+#    l1.AddEntry(gobs , "Observed", "l")
     l1.AddEntry(gexp , "Expected", "l")
     l1.AddEntry(gr_s1b , "Expected #pm 1 #sigma", "f")
     l1.AddEntry(gr_s2b , "Expected #pm 2 #sigma", "f")
