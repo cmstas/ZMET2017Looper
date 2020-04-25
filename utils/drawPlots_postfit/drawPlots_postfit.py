@@ -115,11 +115,11 @@ SR_binning = {
         "SRBb":np.array([50,100,150,230,300,600], dtype = np.float64),
         "SRC":np.array([50,100,150,250,600], dtype = np.float64),
         "SRCb":np.array([50,100,150,250,600], dtype = np.float64),
-        "SRVZBoosted": np.array([50,100,200,300,600], dtype = np.float64),
+        "SRVZBoosted": np.array([50,100,200,300,400,500,600], dtype = np.float64),
         "SRVZResolved":np.array([50,100,150,250,350,600], dtype = np.float64),
         "SRHZ":np.array([50,100,150,250,600], dtype = np.float64)
         }
-SR_index = {"SRA":1,"SRAb":2,"SRB":3,"SRBb":4,"SRC":5,"SRCb":6}
+SR_index = {"SRA":1,"SRAb":2,"SRB":3,"SRBb":4,"SRC":5,"SRCb":6,"SRHZ":1,"SRVZBoosted":2,"SRVZResolved":3}
 
 
 def drawPlots_postFit(fit_param_path,SR,dataHistPath,output_path = None):
