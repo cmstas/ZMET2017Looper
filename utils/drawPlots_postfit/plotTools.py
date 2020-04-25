@@ -1,3 +1,4 @@
+from __future__ import print_function
 import ROOT as r
 from histTools import updateOverUnderflow,hist_sort
 import numpy as np
@@ -96,7 +97,6 @@ def drawPostfitHistograms(zjets,mcbkg,fsbkg,total,data,binning,SR,output_path = 
     hist_ordered = sorted([(zjets,"Z+Jets"),(fsbkg,"Flavor Symmetric"),(mcbkg,"Rare MC")],key = hist_sort)#, reverse = True)
 
     for hist in hist_ordered:
-        print(hist[1])
         stack.Add(hist[0])
 
     stack.Draw("HIST SAME")
@@ -204,9 +204,47 @@ def drawPostfitHistograms(zjets,mcbkg,fsbkg,total,data,binning,SR,output_path = 
     cmstexbold.SetNDC()
     cmstexbold.Draw()
 
+    printLatexTable(zjets,mcbkg,fsbkg,total,data,binning,SR)
     if output_path:
         c.SaveAs(output_path)
     else:
         print("Output path not given. Saving as plot.pdf")
         c.SaveAs("plot.pdf")
+
+
+def printLatexTable(zjets,mcbkg,fsbkg,total,data,binning,SR):
+    print("\nLATEXTABLE")
+    print("{} \MET ".format(SR),end = "")
+    for i in range(len(binning)-1):
+        print("& {}-{}".format(binning[i],binning[i+1]),end = "")
+    print("\\\\")
+
+    print("ZJets",end = "")
+    for i in range(len(binning)-1):
+        print("& {:0.1f} $\pm$ {:0.1f}".format(zjets.GetBinContent(i+1),zjets.GetBinError(i+1)),end = "")
+    print("\\\\")
+
+    print("FS", end = "")
+    for i in range(len(binning)-1):
+        print("& {:0.1f} $\pm$ {:0.1f}".format(fsbkg.GetBinContent(i+1),fsbkg.GetBinError(i+1)),end = "")
+    print("\\\\")
+
+    print("Rares",end = "")
+    for i in range(len(binning)-1):
+        print("& {:0.1f} $\pm$ {:0.1f}".format(mcbkg.GetBinContent(i+1),mcbkg.GetBinError(i+1)),end = "")
+    print("\\\\")
+
+    print("Total",end = "")
+    for i in range(len(binning)-1):
+        print("& {:0.1f} $\pm$ {:0.1f}".format(total.GetBinContent(i+1),total.GetBinError(i+1)),end  = "")
+    print("\\\\")
+    print("Data",end = "")
+    for i in range(len(binning)-1):
+        print("& {:0.1f} $\pm {:0.1f}".format(data.GetBinContent(i+1),data.GetBinError(i+1)),end = "")
+
+    print("\\\\\n")
+
+
+
+
 
