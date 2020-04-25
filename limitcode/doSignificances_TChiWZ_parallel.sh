@@ -71,6 +71,6 @@ do
     fi
 done
 
-root -b -q make_allRValues.C+\(\"$MODEL\",\"list_$MODEL.txt\"\)
+root -b -q make_significance.C+\(\"$MODEL\",\"list_$MODEL.txt\"\)
 cp r-values_$MODEL.root $OWD
 popd
