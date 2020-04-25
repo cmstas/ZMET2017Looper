@@ -27,7 +27,7 @@ void Fill2d(TH2F *&hist, double w, double x, double y){
   hist->SetBinContent(hist->FindBin(x, y), w); 
 }
 
-void make_allRValues(std::string model, std::string list_filename){
+void make_significance(std::string model, std::string list_filename){
 
   //setup file to hold r-values
   TString outfilename = Form("significances_%s.root", model.c_str()); 

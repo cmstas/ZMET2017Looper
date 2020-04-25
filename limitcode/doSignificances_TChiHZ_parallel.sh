@@ -11,6 +11,21 @@ function process_datacard ()
 		if [ -e ${INDIR}/datacard_all_mChi_${MASS1}_.txt ]; then
 			echo "Running command: nice -n 10 combine -M Significance -n mChi${MASS1}_ ${INDIR}/datacard_all_mChi_${MASS1}_.txt --uncapped 1 --rMin -1 > log/limit_mChi${MASS1}.txt 2>&1"
 			nice -n 10 combine -M Significance -n mChi${MASS1}_ ${INDIR}/datacard_all_mChi_${MASS1}_.txt --uncapped 1 --rMin -1  > log/limit_mChi${MASS1}.txt 2>&1
+
+                        python <<EOL 
+ 
+from __future__ import print_function 
+import ROOT as r 
+import os 
+ 
+try: 
+    f = r.TFile("higgsCombinemChi${MASS1}_.Significance.mH120.root") 
+    t = f.limit 
+except: 
+    print("trying brute force! combine -M Significance -n mChi${MASS1}_ -d ${INDIR}/datacard_all_mChi_${MASS1}_.txt --uncapped 1 --rMin -1 --bruteForce > log/limit_mChi${MASS1}.txt 2>&1") 
+    os.system("combine -M Significance -n mChi${MASS1}_ ${INDIR}/datacard_all_mChi_${MASS1}_.txt --uncapped 1 --rMin -1  > log/limit_mChi${MASS1}.txt 2>&1") 
+EOL
+	
 		fi
 
 		if [ -e higgsCombinemChi${MASS1}_.Significance.mH120.root ]; then
