@@ -41,8 +41,10 @@ declare -a cards=(`ls ${INDIR}/datacard_*mG*.txt`)
  #need to combine cards from multiple signal regions if necessary
  for i in "${cards[@]}"
  do
+   echo "checking card $i"
    mG=$(echo "$i" | awk '{split($0,a,"_"); print a[3]"_"a[4]"_"a[5]"_"a[6]"_"}')
    if [ ! -e "$INDIR/datacard_all_$mG.txt" ]; then
+     echo "combining cards"
      combineCards.py -S "$INDIR/datacard_"*"_$mG.txt" > "$INDIR/datacard_all_$mG.txt"
    fi
  done
@@ -55,7 +57,7 @@ if [ ! -d "$OUTDIR/log" ]; then
   mkdir -p "$OUTDIR/log"
 fi
 
-cp make_allRValues.C $OUTDIR
+cp make_significance.C $OUTDIR
 pushd $OUTDIR
 
 rm -f list_$MODEL.txt
@@ -76,7 +78,6 @@ do
 	counter=$((counter+1))
     fi
 done
-
 root -b -q make_significance.C+\(\"$MODEL\",\"list_$MODEL.txt\"\)
 cp significances_$MODEL.root $OWD
 popd
