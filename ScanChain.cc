@@ -1225,7 +1225,7 @@ double ZMETLooper::getWeight(TString SR){
   {
       nGoodFatJets = g_fatjet_indices.size() > 0 ? g_fatjet_indices.size() : g_fatjet_validation_indices.size();
       fatjet_scale_factor *= fatJetScaleFactor() * nGoodFatJets;
-
+      fatjet_scale_factor = fatJetJMSScaleFactor() * nGoodFatJets;
   }
   if(!phys.isData())
   {
@@ -3351,15 +3351,22 @@ void ZMETLooper::fillGluLSPHists(std::string prefix)
     fill3DHistograms(prefix+"susy_type1MET_counts",g_met,phys.mass_gluino(),phys.mass_LSP(),weight,allSignal3DHistos,"(x,y,z) = (met, m_glu, m_lsp). Type1MET for"+g_sample_name, *n_met_bins, met_bins, *n_gluino_bins, gluino_bins, *n_lsp_bins, lsp_bins,rootdir);
     fill3DHistograms(prefix+"susy_type1MET_nowt",g_met,phys.mass_gluino(),phys.mass_LSP(),1,allSignal3DHistos,"(x,y,z) = (met, m_glu, m_lsp). Type1MET with no event weights for"+g_sample_name,*n_met_bins,met_bins,*n_gluino_bins,gluino_bins,*n_lsp_bins,lsp_bins,rootdir);
     
-    double tau21_weight_up, tau21_weight_down;
+    double tau21_weight_up, tau21_weight_down,jms_weight_central,jms_weight_up;
     if(prefix.find("SRVZBoosted") != std::string::npos)
     {
         tau21_weight_up = weight * fatJetScaleFactor(1);
         tau21_weight_down = weight * fatJetScaleFactor(-1);
+        jms_weight_central = weight * fatJetJMSScaleFactor(1);
+        jms_weight_up = weight * fatJetJMSScaleFactor(-1);
 
         fill3DHistograms(prefix+"susy_type1MET_tau21_up",g_met,phys.mass_gluino(),phys.mass_LSP(),tau21_weight_up,allSignal3DHistos,"(x,y,z) = (met, m_glu, m_lsp). Type1MET with tau21 up weights for"+g_sample_name,*n_met_bins,met_bins,*n_gluino_bins,gluino_bins,*n_lsp_bins,lsp_bins,rootdir);
 
         fill3DHistograms(prefix+"susy_type1MET_tau21_down",g_met,phys.mass_gluino(),phys.mass_LSP(),tau21_weight_down,allSignal3DHistos,"(x,y,z) = (met, m_glu, m_lsp). Type1MET with tau21 down weights for"+g_sample_name,*n_met_bins,met_bins,*n_gluino_bins,gluino_bins,*n_lsp_bins,lsp_bins,rootdir);
+
+        fill3DHistograms(prefix+"susy_type1MET_jms_up",g_met,phys.mass_gluino(),phys.mass_LSP(),jms_weight_up,allSignal3DHistos,"(x,y,z) = (met, m_glu, m_lsp). Type1MET with jms up weights for"+g_sample_name,*n_met_bins,met_bins,*n_gluino_bins,gluino_bins,*n_lsp_bins,lsp_bins,rootdir);
+
+       fill3DHistograms(prefix+"susy_type1MET_jms_central",g_met,phys.mass_gluino(),phys.mass_LSP(),jms_weight_central,allSignal3DHistos,"(x,y,z) = (met, m_glu, m_lsp). Type1MET with central down weights for"+g_sample_name,*n_met_bins,met_bins,*n_gluino_bins,gluino_bins,*n_lsp_bins,lsp_bins,rootdir);
+
 
         for(auto &i:g_fatjet_indices)
         {
@@ -4168,6 +4175,52 @@ double ZMETLooper::tau21WP()
         return 0.45;
     }
     else return 0.6;
+}
+
+
+double ZMETLooper::fatJetJMSScaleFactor(int mode)
+{
+    double central_value,uncertainty;
+    if(g_year == 2016)
+    {
+        central_value = 1;
+        uncertainty = 0.0094;
+    }
+    else if(g_year == 2017)
+    {
+        central_value = 0.982;
+        uncertainty = 0.004;
+    }
+    else if(g_year == 2018)
+    {
+        central_value = 1;
+        uncertainty = 0;
+    }
+    else
+    {
+        cout<<"Wrong year!"<<endl;
+        return 1.0;
+    }
+
+    //Fancy shit because I want to show off
+    //mode : 0->central, 1 -> vary up, -1 -> vary down
+    //
+    if(!phys.isData())
+    {
+        if(mode == 1)
+        {
+            return central_value;        
+        }
+        else if(mode == -1)
+        {
+            return 1 + uncertainty/central_value;
+        }
+        else return 1.0;
+    }
+    else
+    {
+        return 1.0;
+    }
 }
 
 double ZMETLooper::fatJetScaleFactor(int mode)
