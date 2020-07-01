@@ -3062,7 +3062,7 @@ int ZMETLooper::ScanChain( TChain* chain, ConfigParser *configuration, bool fast
     //cout<<__LINE__<<endl;
     //cout<<__LINE__<<endl;
     files_log<<"Running over new file: "<<currentFile->GetTitle()<<endl;
-    //cout<<"Running over new file: "<<currentFile->GetTitle()<<endl;
+    cout<<"Running over new file: "<<currentFile->GetTitle()<<endl;
 
     if(conf->get("dilep_control_region") == "true" and phys.isData())
     {
@@ -3286,7 +3286,7 @@ int ZMETLooper::ScanChain( TChain* chain, ConfigParser *configuration, bool fast
 
 void ZMETLooper::fillGluLSPHists(std::string prefix)
 {
-    if(conf->get("data_set") == "TChiWZ" || conf->get("data_set") == "TChiWZfullsim")
+    if(conf->get("data_set").find("TChiWZ") != std::string::npos)
     {
        
         n_gluino_bins = &n_gluino_bins_tchiwz;
@@ -3444,6 +3444,11 @@ void ZMETLooper::fillChiHists(std::string prefix)
           n_met_bins = &n_met_bins_tchizz_boosted;
           met_bins = met_bins_tchizz_boosted;
     }
+    else
+    {
+        n_met_bins = &n_met_bins_tchizz_resolved;
+        met_bins = met_bins_tchizz_resolved;
+    }
 
 
     fill2DHistograms(prefix+"susy_type1MET_counts",g_met,phys.mass_chi(),weight,allSignal2DHistos,"(x,y) = (met, m_chi). Type1MET for"+g_sample_name,*n_met_bins,met_bins,*n_chi_bins,chi_bins,rootdir);
@@ -3562,11 +3567,11 @@ void ZMETLooper::fillallHistograms(std::string prefix)
         // Signal Region Specific Histos
         //===========================================
 
-        if(SR.find("SRVZ") != std::string::npos)
+        if(SR.find("SRVZ") != std::string::npos or conf->get("VZ_hists") == "true")
         {
             fillTChiWZHists(prefix);
         }
-        if(SR == "SRHZ")
+        if(SR == "SRHZ" || conf->get("HZ_hists") == "true")
         {
             fillTChiHZHists(prefix);
         }
@@ -3915,6 +3920,7 @@ void ZMETLooper::fillBoostedHists(std::vector<size_t> g_fatjet_indices,std::stri
 
         }
         fill1DHistograms(prefix+"softDropMass",phys.ak8jets_softDropMass().at(iJet),weight,allHistos,"",6000,0,6000,rootdir);
+        //fill1DHistograms(prefix+"softDropMass_old",phys.ak8jets_original_softDropMass().at(iJet),weight,allHistos,"",6000,0,6000,rootdir); 
         fill1DHistograms(prefix+"fat_jet_pt",phys.ak8jets_p4().at(iJet).pt(),weight,allHistos,"",6000,0,6000,rootdir);
         fill1DHistograms(prefix+"fat_jet_eta",phys.ak8jets_p4().at(iJet).eta(),weight,allHistos,"",200,-3,3,rootdir);
         fill1DHistograms(prefix+"fat_jet_phi",phys.ak8jets_p4().at(iJet).phi(),weight,allHistos,"",200,-6.28,6.28,rootdir);
