@@ -30,7 +30,7 @@
 #include "TVector2.h"
 // Analysis Specific
 #include "ZMET2016.h"
-
+#include "JetResolution.h"
 // CORE
 //You can not include headers!!! This is not compiled code.
 #include "External/dorky.h"
@@ -291,7 +291,7 @@ class ZMETLooper
     bool passSRVZCuts();
     bool passVRWZCuts();
 
-    bool passSRVZBoostedCuts();
+    bool passSRVZBoostedCuts(int JMSMode = 0, int JMRMode = 0);
     bool passVRWZBoostedCuts();
 
     bool passSRHZCuts();
@@ -393,9 +393,11 @@ class ZMETLooper
     void fillBoostedHists(std::vector<size_t> fatjet_indices,std::string prefix = "");
     bool passHEM1516Veto();
     double fatJetScaleFactor(int mode = 0);
+    double fatJetJMSScaleFactor(int mode = 0);
     double tau21WP();
     //SR Hists comin' soon...
     //
+    JetResolution *res;
 
     //SUSY signal Histograms
     void fillChiHists(std::string prefix = "");
