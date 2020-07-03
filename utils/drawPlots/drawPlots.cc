@@ -310,11 +310,19 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
   std::vector<std::vector<TH1D*>> EWK_hists;
   std::vector<std::vector<TH1D*>> EWK_hists_tau21_up;
   std::vector<std::vector<TH1D*>> EWK_hists_tau21_down;
+  std::vector<std::vector<TH1D*>> EWK_hists_jms_up;
+  std::vector<std::vector<TH1D*>> EWK_hists_jms_down;
+  std::vector<std::vector<TH1D*>> EWK_hists_jmr_up;
+  std::vector<std::vector<TH1D*>> EWK_hists_jmr_down;
   std::vector<std::vector<TFile*>> EWK_hist_files; 
 
   //Only rare backgrounds are MC, so only they have tau21 up and down
   std::vector<std::vector<TH1D*>> rare_hists_tau21_up;
   std::vector<std::vector<TH1D*>> rare_hists_tau21_down;
+  std::vector<std::vector<TH1D*>> rare_hists_jms_up;
+  std::vector<std::vector<TH1D*>> rare_hists_jms_down;
+  std::vector<std::vector<TH1D*>> rare_hists_jmr_up;
+  std::vector<std::vector<TH1D*>> rare_hists_jmr_down;
   std::vector<TH1D*> FS_hists;
   std::vector<TH1D*> FS_hists_norm_up;
   std::vector<TH1D*> FS_hists_norm_down;
@@ -342,6 +350,9 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
 
   std::vector<std::vector<float>> rare_scale_factors;
   std::vector<std::vector<float>> rare_scale_errors;
+  std::vector<float> jms_errors;
+  std::vector<float> jmr_errors;
+
   for(int i = 0; i< 4; i++)
   {
       rare_scale_factors.push_back(std::vector<float>());
@@ -349,6 +360,11 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
       rare_hists.push_back(std::vector<TH1D*>(3,nullptr));
       rare_hists_tau21_up.push_back(std::vector<TH1D*>(3,nullptr));
       rare_hists_tau21_down.push_back(std::vector<TH1D*>(3,nullptr));
+      rare_hists_jms_up.push_back(std::vector<TH1D*>(3,nullptr));
+      rare_hists_jms_down.push_back(std::vector<TH1D*>(3,nullptr));
+      rare_hists_jmr_up.push_back(std::vector<TH1D*>(3,nullptr));
+      rare_hists_jmr_down.push_back(std::vector<TH1D*>(3,nullptr));
+
   }
 
   for(int i=0;i<5;i++)
@@ -356,6 +372,11 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
       EWK_hists.push_back(std::vector<TH1D*>(3,nullptr));
       EWK_hists_tau21_up.push_back(std::vector<TH1D*>(3,nullptr));
       EWK_hists_tau21_down.push_back(std::vector<TH1D*>(3,nullptr));
+      EWK_hists_jms_up.push_back(std::vector<TH1D*>(3,nullptr));
+      EWK_hists_jms_down.push_back(std::vector<TH1D*>(3,nullptr));
+      EWK_hists_jmr_up.push_back(std::vector<TH1D*>(3,nullptr));
+      EWK_hists_jmr_down.push_back(std::vector<TH1D*>(3,nullptr));
+
   }
 
   //templates stuff
@@ -388,6 +409,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
 
   rare_scale_factors[3] = std::vector<float>({1.22,1.56,1.51});
   rare_scale_errors[3] = std::vector<float>({0.23,0.19,0.15});
+
  
   bool rare_year_by_year = true;
 
@@ -457,6 +479,12 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
                     EWK_hists[j][k] = (TH1D*)((TH1D*)(EWK_hist_files[j][k]->Get(SR+"type1MET"))->Clone(("hist_"+to_string(i)+"_"+to_string(j)+"_"+to_string(k)).c_str()));
                     EWK_hists_tau21_up[j][k] = (TH1D*)((TH1D*)(EWK_hist_files[j][k]->Get(SR+"type1MET_tau21_up"))->Clone(("tau21_up_hist_"+to_string(i)+"_"+to_string(j)+"_"+to_string(k)).c_str()));
                     EWK_hists_tau21_down[j][k] = (TH1D*)((TH1D*)(EWK_hist_files[j][k]->Get(SR+"type1MET_tau21_down"))->Clone(("tau21_down_hist_"+to_string(i)+"_"+to_string(j)+"_"+to_string(k)).c_str()));
+
+                    EWK_hists_jms_up[j][k] = (TH1D*)((TH1D*)(EWK_hist_files[j][k]->Get(SR+"_JMSUptype1MET"))->Clone(("jms_up_hist_"+to_string(i)+"_"+to_string(j)+"_"+to_string(k)).c_str()));
+                    EWK_hists_jms_down[j][k] = (TH1D*)((TH1D*)(EWK_hist_files[j][k]->Get(SR+"_JMSDowntype1MET_tau21_down"))->Clone(("jms_down_hist_"+to_string(i)+"_"+to_string(j)+"_"+to_string(k)).c_str()));
+                    EWK_hists_jmr_up[j][k] = (TH1D*)((TH1D*)(EWK_hist_files[j][k]->Get(SR+"_JMRUptype1MET"))->Clone(("jmr_up_hist_"+to_string(i)+"_"+to_string(j)+"_"+to_string(k)).c_str()));
+                    EWK_hists_jmr_down[j][k] = (TH1D*)((TH1D*)(EWK_hist_files[j][k]->Get(SR+"_JMRDowntype1MET_tau21_down"))->Clone(("jmr_down_hist_"+to_string(i)+"_"+to_string(j)+"_"+to_string(k)).c_str()));
+
                 }
                 else
                 {
@@ -466,7 +494,17 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
                     EWK_hists_tau21_up[j][k] = (TH1D*)(hists[0]->Clone(("tau21_up_hist_"+to_string(i)+"_"+to_string(j)+"_"+to_string(k)).c_str()));
                     EWK_hists_tau21_up[j][k]->Reset();
                     EWK_hists_tau21_down[j][k] = (TH1D*)(hists[0]->Clone(("tau21_down_hist_"+to_string(i)+"_"+to_string(j)+"_"+to_string(k)).c_str()));
-                    EWK_hists_tau21_down[j][k]->Reset();
+
+                    EWK_hists_jms_up[j][k] = (TH1D*)(hists[0]->Clone(("jms_up_hist_"+to_string(i)+"_"+to_string(j)+"_"+to_string(k)).c_str()));
+                    EWK_hists_jms_up[j][k]->Reset();
+                    EWK_hists_jms_down[j][k] = (TH1D*)(hists[0]->Clone(("jms_down_hist_"+to_string(i)+"_"+to_string(j)+"_"+to_string(k)).c_str()));
+                    EWK_hists_jms_down[j][k]->Reset();
+
+                    EWK_hists_jmr_up[j][k] = (TH1D*)(hists[0]->Clone(("jmr_up_hist_"+to_string(i)+"_"+to_string(j)+"_"+to_string(k)).c_str()));
+                    EWK_hists_jmr_up[j][k]->Reset();
+                    EWK_hists_jmr_down[j][k] = (TH1D*)(hists[0]->Clone(("jmr_down_hist_"+to_string(i)+"_"+to_string(j)+"_"+to_string(k)).c_str()));
+                    EWK_hists_jmr_down[j][k]->Reset();
+
                 }
             }          
         }
@@ -482,6 +520,16 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
             TH1D* temp_hist_tau21_down;
             TH1D* temp_hist_mm_tau21_up;
             TH1D* temp_hist_mm_tau21_down;
+            TH1D* temp_hist_jms_up;
+            TH1D* temp_hist_jms_down;
+            TH1D* temp_hist_mm_jms_up;
+            TH1D* temp_hist_mm_jms_down;
+
+            TH1D* temp_hist_jmr_up;
+            TH1D* temp_hist_jmr_down;
+            TH1D* temp_hist_mm_jmr_up;
+            TH1D* temp_hist_mm_jmr_down;
+
             for(int j = 0; j < 3; j++)
             {
                 cout<<"j="<<j<<endl;
@@ -554,6 +602,101 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
                         temp_hist_mm_tau21_down->Reset(); 
                     }
                     temp_hist_tau21_down->Add(temp_hist_mm_tau21_down); 
+
+
+                    if(hist_files[i][j]->Get(SR+"_JMSUp"+hist_names[i][0]) != nullptr)
+                    {
+                        temp_hist_jms_up = (TH1D*)(((TH1D*) (hist_files[i][j]->Get(SR+"_JMSUp"hist_names[i][0])))->Clone(("hist_"+to_string(j)+"_"+to_string(i)+"jms_up").c_str()));
+                    }
+                    else
+                    {
+                        cout<<"Rare jms Histogram not found. Replacing by zeros"<<endl;
+                        temp_hist_jms_up = (TH1D*)(hists[0]->Clone(("hist_"+to_string(j)+"_"+to_string(i)+"_jms_up").c_str()));
+                        temp_hist_jms_up->Reset();
+                    }
+
+                    if(hist_files[i][j]->Get(SR+"_JMSUp"+hist_names[i][1]) != nullptr)
+                    {
+                        temp_hist_mm_jms_up = (TH1D*)(((TH1D*) (hist_files[i][j]->Get(SR+"_JMSUp"+hist_names[i][1])))->Clone(("hist_mm_"+to_string(j)+"_"+to_string(i)+"jms_up").c_str()));
+                    }
+                    else
+                    {
+                        cout<<"Rare jms Histogram not found. Replacing by zeros"<<endl;
+                        temp_hist_mm_jms_up = (TH1D*)(hists[0]->Clone(("hist_mm_"+to_string(j)+"_"+to_string(i)+"jms_up").c_str()));
+                        temp_hist_mm_jms_up->Reset();
+
+                    }
+                    temp_hist_jms_up->Add(temp_hist_mm_jms_up);
+                    
+                    if(hist_files[i][j]->Get(SR+"_JMSDown"+hist_names[i][0]) != nullptr)
+                    {
+                        temp_hist_jms_down = (TH1D*)(((TH1D*) (hist_files[i][j]->Get(SR+"_JMSDown"+hist_names[i][0])))->Clone(("hist_"+to_string(j)+"_"+to_string(i)+"jms_down").c_str()));
+                    }
+                    else
+                    {
+                        temp_hist_jms_down = (TH1D*)(hists[0]->Clone(("hist_"+to_string(j)+"_"+to_string(i)+"jms_down").c_str()));
+                        temp_hist_jms_down->Reset();
+                    }
+
+                    if(hist_files[i][j]->Get(SR+"_JMSDown"+hist_names[i][1]) != nullptr)
+                    {
+                        temp_hist_mm_jms_down =(TH1D*)(((TH1D*) (hist_files[i][j]->Get(SR+"_JMSDown"+hist_names[i][1])))->Clone(("hist_mm_"+to_string(j)+"_"+to_string(i)+"jms_down").c_str()));
+                    }
+                    else
+                    {
+                        cout<<"Rare jms Histogram not found. Replacing by zeros"<<endl;
+                        temp_hist_mm_jms_down = (TH1D*)(hists[0]->Clone(("hist_mm_"+to_string(j)+"_"+to_string(i)+"jms_down").c_str()));
+                        temp_hist_mm_jms_down->Reset(); 
+                    }
+                    temp_hist_jms_down->Add(temp_hist_mm_jms_down); 
+
+                    if(hist_files[i][j]->Get(SR+"_JMRUp"+hist_names[i][0]) != nullptr)
+                    {
+                        temp_hist_jmr_up = (TH1D*)(((TH1D*) (hist_files[i][j]->Get(SR+"_JMRUp"hist_names[i][0])))->Clone(("hist_"+to_string(j)+"_"+to_string(i)+"jmr_up").c_str()));
+                    }
+                    else
+                    {
+                        cout<<"Rare jmr Histogram not found. Replacing by zeros"<<endl;
+                        temp_hist_jmr_up = (TH1D*)(hists[0]->Clone(("hist_"+to_string(j)+"_"+to_string(i)+"_jmr_up").c_str()));
+                        temp_hist_jmr_up->Reset();
+                    }
+
+                    if(hist_files[i][j]->Get(SR+"_JMRUp"+hist_names[i][1]) != nullptr)
+                    {
+                        temp_hist_mm_jmr_up = (TH1D*)(((TH1D*) (hist_files[i][j]->Get(SR+"_JMRUp"+hist_names[i][1])))->Clone(("hist_mm_"+to_string(j)+"_"+to_string(i)+"jmr_up").c_str()));
+                    }
+                    else
+                    {
+                        cout<<"Rare jmr Histogram not found. Replacing by zeros"<<endl;
+                        temp_hist_mm_jmr_up = (TH1D*)(hists[0]->Clone(("hist_mm_"+to_string(j)+"_"+to_string(i)+"jmr_up").c_str()));
+                        temp_hist_mm_jmr_up->Reset();
+
+                    }
+                    temp_hist_jmr_up->Add(temp_hist_mm_jmr_up);
+                    
+                    if(hist_files[i][j]->Get(SR+"_JMRDown"+hist_names[i][0]) != nullptr)
+                    {
+                        temp_hist_jmr_down = (TH1D*)(((TH1D*) (hist_files[i][j]->Get(SR+"_JMRDown"+hist_names[i][0])))->Clone(("hist_"+to_string(j)+"_"+to_string(i)+"jmr_down").c_str()));
+                    }
+                    else
+                    {
+                        temp_hist_jmr_down = (TH1D*)(hists[0]->Clone(("hist_"+to_string(j)+"_"+to_string(i)+"jmr_down").c_str()));
+                        temp_hist_jmr_down->Reset();
+                    }
+
+                    if(hist_files[i][j]->Get(SR+"_JMRDown"+hist_names[i][1]) != nullptr)
+                    {
+                        temp_hist_mm_jmr_down =(TH1D*)(((TH1D*) (hist_files[i][j]->Get(SR+"_JMRDown"+hist_names[i][1])))->Clone(("hist_mm_"+to_string(j)+"_"+to_string(i)+"jmr_down").c_str()));
+                    }
+                    else
+                    {
+                        cout<<"Rare jmr Histogram not found. Replacing by zeros"<<endl;
+                        temp_hist_mm_jmr_down = (TH1D*)(hists[0]->Clone(("hist_mm_"+to_string(j)+"_"+to_string(i)+"jmr_down").c_str()));
+                        temp_hist_mm_jmr_down->Reset(); 
+                    }
+                    temp_hist_jmr_down->Add(temp_hist_mm_jmr_down); 
+
+
                 }
 
                 
@@ -566,6 +709,11 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
                     temp_hist_tau21_down->Scale(rare_scale_factors[i-1][j]);
                     rare_hists_tau21_up[i-1][j] = temp_hist_tau21_up;
                     rare_hists_tau21_down[i-1][j] = temp_hist_tau21_down;
+                    rare_hists_jms_down[i-1][j] = temp_hist_jms_down;
+                    rare_hists_jms_up[i-1][j] = temp_hist_jms_up;
+                    rare_hists_jmr_down[i-1][j] = temp_hist_jmr_down;
+                    rare_hists_jmr_up[i-1][j] = temp_hist_jmr_up;
+
                 }
                 //rare_hists split by year
                 rare_hists[i-1][j] = temp_hist;
@@ -1084,6 +1232,21 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
       vector<double> TTJets1lep_tau21_up_error,TTJets1lep_tau21_down_error;
       vector<double> SingleTop_tau21_up_error,SingleTop_tau21_down_error;
 
+      vector<double> EWK_jms_up_error,EWK_jms_down_error;
+      vector<double> WGamma_jms_up_error,WGamma_jms_down_error;
+      vector<double> WJets_jms_up_error,WJets_jms_down_error;
+      vector<double> TTJets2lep_jms_up_error,TTJets2lep_jms_down_error;
+      vector<double> TTJets1lep_jms_up_error,TTJets1lep_jms_down_error;
+      vector<double> SingleTop_jms_up_error,SingleTop_jms_down_error;
+
+      vector<double> EWK_jmr_up_error,EWK_jmr_down_error;
+      vector<double> WGamma_jmr_up_error,WGamma_jmr_down_error;
+      vector<double> WJets_jmr_up_error,WJets_jmr_down_error;
+      vector<double> TTJets2lep_jmr_up_error,TTJets2lep_jmr_down_error;
+      vector<double> TTJets1lep_jmr_up_error,TTJets1lep_jmr_down_error;
+      vector<double> SingleTop_jmr_up_error,SingleTop_jmr_down_error;
+
+
       vector<double> WGamma_count_2016,WJets_count_2016,TTJets2lep_count_2016,TTJets1lep_count_2016,SingleTop_count_2016;
       vector<double> WGamma_count_2017,WJets_count_2017,TTJets2lep_count_2017,TTJets1lep_count_2017,SingleTop_count_2017;
       vector<double> WGamma_count_2018,WJets_count_2018,TTJets2lep_count_2018,TTJets1lep_count_2018,SingleTop_count_2018;
@@ -1097,7 +1260,21 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
       vector<double> WGamma_tau21_down_2018,WJets_tau21_down_2018,TTJets2lep_tau21_down_2018,TTJets1lep_tau21_down_2018,SingleTop_tau21_down_2018;
 
 
-    
+      vector<double> WGamma_jms_up_2016,WJets_jms_up_2016,TTJets2lep_jms_up_2016,TTJets1lep_jms_up_2016,SingleTop_jms_up_2016;
+      vector<double> WGamma_jms_up_2017,WJets_jms_up_2017,TTJets2lep_jms_up_2017,TTJets1lep_jms_up_2017,SingleTop_jms_up_2017;
+      vector<double> WGamma_jms_up_2018,WJets_jms_up_2018,TTJets2lep_jms_up_2018,TTJets1lep_jms_up_2018,SingleTop_jms_up_2018;
+
+      vector<double> WGamma_jms_down_2016,WJets_jms_down_2016,TTJets2lep_jms_down_2016,TTJets1lep_jms_down_2016,SingleTop_jms_down_2016;
+      vector<double> WGamma_jms_down_2017,WJets_jms_down_2017,TTJets2lep_jms_down_2017,TTJets1lep_jms_down_2017,SingleTop_jms_down_2017;
+      vector<double> WGamma_jms_down_2018,WJets_jms_down_2018,TTJets2lep_jms_down_2018,TTJets1lep_jms_down_2018,SingleTop_jms_down_2018;
+   
+      vector<double> WGamma_jmr_up_2016,WJets_jmr_up_2016,TTJets2lep_jmr_up_2016,TTJets1lep_jmr_up_2016,SingleTop_jmr_up_2016;
+      vector<double> WGamma_jmr_up_2017,WJets_jmr_up_2017,TTJets2lep_jmr_up_2017,TTJets1lep_jmr_up_2017,SingleTop_jmr_up_2017;
+      vector<double> WGamma_jmr_up_2018,WJets_jmr_up_2018,TTJets2lep_jmr_up_2018,TTJets1lep_jmr_up_2018,SingleTop_jmr_up_2018;
+
+      vector<double> WGamma_jmr_down_2016,WJets_jmr_down_2016,TTJets2lep_jmr_down_2016,TTJets1lep_jmr_down_2016,SingleTop_jmr_down_2016;
+      vector<double> WGamma_jmr_down_2017,WJets_jmr_down_2017,TTJets2lep_jmr_down_2017,TTJets1lep_jmr_down_2017,SingleTop_jmr_down_2017;
+      vector<double> WGamma_jmr_down_2018,WJets_jmr_down_2018,TTJets2lep_jmr_down_2018,TTJets1lep_jmr_down_2018,SingleTop_jmr_down_2018;
 
 
       vector<double> rare_count, TTV_count, VVV_count, WZ_count, ZZ_count;
@@ -1145,6 +1322,46 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
       vector<double> VVV_tau21_down_2016,VVV_tau21_down_2017,VVV_tau21_down_2018;
       vector<double> VVV_tau21_error_up,VVV_tau21_error_down;
       vector<double> rare_tau21_error_up,rare_tau21_error_down;
+
+      vector<double> TTV_jms_up_2016,TTV_jms_up_2017,TTV_jms_up_2018;
+      vector<double> TTV_jms_down_2016,TTV_jms_down_2017,TTV_jms_down_2018;
+      vector<double> TTV_jms_error_up,TTV_jms_error_down;
+
+      
+      vector<double> WZ_jms_up_2016,WZ_jms_up_2017,WZ_jms_up_2018;
+      vector<double> WZ_jms_down_2016,WZ_jms_down_2017,WZ_jms_down_2018;
+      vector<double> WZ_jms_error_up,WZ_jms_error_down;
+
+
+      vector<double> ZZ_jms_up_2016,ZZ_jms_up_2017,ZZ_jms_up_2018;
+      vector<double> ZZ_jms_down_2016,ZZ_jms_down_2017,ZZ_jms_down_2018;
+      vector<double> ZZ_jms_error_up,ZZ_jms_error_down;
+
+      
+      vector<double> VVV_jms_up_2016,VVV_jms_up_2017,VVV_jms_up_2018;
+      vector<double> VVV_jms_down_2016,VVV_jms_down_2017,VVV_jms_down_2018;
+      vector<double> VVV_jms_error_up,VVV_jms_error_down;
+      vector<double> rare_jms_error_up,rare_jms_error_down;
+
+      vector<double> TTV_jmr_up_2016,TTV_jmr_up_2017,TTV_jmr_up_2018;
+      vector<double> TTV_jmr_down_2016,TTV_jmr_down_2017,TTV_jmr_down_2018;
+      vector<double> TTV_jmr_error_up,TTV_jmr_error_down;
+
+      
+      vector<double> WZ_jmr_up_2016,WZ_jmr_up_2017,WZ_jmr_up_2018;
+      vector<double> WZ_jmr_down_2016,WZ_jmr_down_2017,WZ_jmr_down_2018;
+      vector<double> WZ_jmr_error_up,WZ_jmr_error_down;
+
+
+      vector<double> ZZ_jmr_up_2016,ZZ_jmr_up_2017,ZZ_jmr_up_2018;
+      vector<double> ZZ_jmr_down_2016,ZZ_jmr_down_2017,ZZ_jmr_down_2018;
+      vector<double> ZZ_jmr_error_up,ZZ_jmr_error_down;
+
+      
+      vector<double> VVV_jmr_up_2016,VVV_jmr_up_2017,VVV_jmr_up_2018;
+      vector<double> VVV_jmr_down_2016,VVV_jmr_down_2017,VVV_jmr_down_2018;
+      vector<double> VVV_jmr_error_up,VVV_jmr_error_down;
+      vector<double> rare_jmr_error_up,rare_jmr_error_down;
 
 
       vector<double> FS_count;
@@ -1293,6 +1510,24 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
             ZZ_tau21_down_2016.push_back(rare_hists_tau21_down[0][0]->Integral(rare_hists_tau21_down[0][0]->FindBin(stats_bins[i].first),rare_hists_tau21_down[0][0]->FindBin(stats_bins[i].second-0.001)));
             ZZ_tau21_down_2017.push_back(rare_hists_tau21_down[0][1]->Integral(rare_hists_tau21_down[0][1]->FindBin(stats_bins[i].first),rare_hists_tau21_down[0][1]->FindBin(stats_bins[i].second-0.001)));
             ZZ_tau21_down_2018.push_back(rare_hists_tau21_down[0][2]->Integral(rare_hists_tau21_down[0][2]->FindBin(stats_bins[i].first),rare_hists_tau21_down[0][2]->FindBin(stats_bins[i].second-0.001)));
+
+            ZZ_jms_up_2016.push_back(rare_hists_jms_up[0][0]->Integral(rare_hists_jms_up[0][0]->FindBin(stats_bins[i].first),rare_hists_jms_up[0][0]->FindBin(stats_bins[i].second-0.001)));
+            ZZ_jms_up_2017.push_back(rare_hists_jms_up[0][1]->Integral(rare_hists_jms_up[0][1]->FindBin(stats_bins[i].first),rare_hists_jms_up[0][1]->FindBin(stats_bins[i].second-0.001)));        
+            ZZ_jms_up_2018.push_back(rare_hists_jms_up[0][2]->Integral(rare_hists_jms_up[0][2]->FindBin(stats_bins[i].first),rare_hists_jms_up[0][2]->FindBin(stats_bins[i].second-0.001)));
+
+            ZZ_jms_down_2016.push_back(rare_hists_jms_down[0][0]->Integral(rare_hists_jms_down[0][0]->FindBin(stats_bins[i].first),rare_hists_jms_down[0][0]->FindBin(stats_bins[i].second-0.001)));
+            ZZ_jms_down_2017.push_back(rare_hists_jms_down[0][1]->Integral(rare_hists_jms_down[0][1]->FindBin(stats_bins[i].first),rare_hists_jms_down[0][1]->FindBin(stats_bins[i].second-0.001)));
+            ZZ_jms_down_2018.push_back(rare_hists_jms_down[0][2]->Integral(rare_hists_jms_down[0][2]->FindBin(stats_bins[i].first),rare_hists_jms_down[0][2]->FindBin(stats_bins[i].second-0.001)));
+
+            ZZ_jmr_up_2016.push_back(rare_hists_jmr_up[0][0]->Integral(rare_hists_jmr_up[0][0]->FindBin(stats_bins[i].first),rare_hists_jmr_up[0][0]->FindBin(stats_bins[i].second-0.001)));
+            ZZ_jmr_up_2017.push_back(rare_hists_jmr_up[0][1]->Integral(rare_hists_jmr_up[0][1]->FindBin(stats_bins[i].first),rare_hists_jmr_up[0][1]->FindBin(stats_bins[i].second-0.001)));        
+            ZZ_jmr_up_2018.push_back(rare_hists_jmr_up[0][2]->Integral(rare_hists_jmr_up[0][2]->FindBin(stats_bins[i].first),rare_hists_jmr_up[0][2]->FindBin(stats_bins[i].second-0.001)));
+
+            ZZ_jmr_down_2016.push_back(rare_hists_jmr_down[0][0]->Integral(rare_hists_jmr_down[0][0]->FindBin(stats_bins[i].first),rare_hists_jmr_down[0][0]->FindBin(stats_bins[i].second-0.001)));
+            ZZ_jmr_down_2017.push_back(rare_hists_jmr_down[0][1]->Integral(rare_hists_jmr_down[0][1]->FindBin(stats_bins[i].first),rare_hists_jmr_down[0][1]->FindBin(stats_bins[i].second-0.001)));
+            ZZ_jmr_down_2018.push_back(rare_hists_jmr_down[0][2]->Integral(rare_hists_jmr_down[0][2]->FindBin(stats_bins[i].first),rare_hists_jmr_down[0][2]->FindBin(stats_bins[i].second-0.001)));
+
+
         }
 
 
@@ -1316,6 +1551,23 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
             WZ_tau21_down_2016.push_back(rare_hists_tau21_down[1][0]->Integral(rare_hists_tau21_down[1][0]->FindBin(stats_bins[i].first),rare_hists_tau21_down[1][0]->FindBin(stats_bins[i].second-0.001)));
             WZ_tau21_down_2017.push_back(rare_hists_tau21_down[1][1]->Integral(rare_hists_tau21_down[1][1]->FindBin(stats_bins[i].first),rare_hists_tau21_down[1][1]->FindBin(stats_bins[i].second-0.001)));
             WZ_tau21_down_2018.push_back(rare_hists_tau21_down[1][2]->Integral(rare_hists_tau21_down[1][2]->FindBin(stats_bins[i].first),rare_hists_tau21_down[1][2]->FindBin(stats_bins[i].second-0.001)));
+
+            WZ_jms_up_2016.push_back(rare_hists_jms_up[1][0]->Integral(rare_hists_jms_up[1][0]->FindBin(stats_bins[i].first),rare_hists_jms_up[1][0]->FindBin(stats_bins[i].second-0.001)));
+            WZ_jms_up_2017.push_back(rare_hists_jms_up[1][1]->Integral(rare_hists_jms_up[1][1]->FindBin(stats_bins[i].first),rare_hists_jms_up[1][1]->FindBin(stats_bins[i].second-0.001)));        
+            WZ_jms_up_2018.push_back(rare_hists_jms_up[1][2]->Integral(rare_hists_jms_up[1][2]->FindBin(stats_bins[i].first),rare_hists_jms_up[1][2]->FindBin(stats_bins[i].second-0.001)));
+
+            WZ_jms_down_2016.push_back(rare_hists_jms_down[1][0]->Integral(rare_hists_jms_down[1][0]->FindBin(stats_bins[i].first),rare_hists_jms_down[1][0]->FindBin(stats_bins[i].second-0.001)));
+            WZ_jms_down_2017.push_back(rare_hists_jms_down[1][1]->Integral(rare_hists_jms_down[1][1]->FindBin(stats_bins[i].first),rare_hists_jms_down[1][1]->FindBin(stats_bins[i].second-0.001)));
+            WZ_jms_down_2018.push_back(rare_hists_jms_down[1][2]->Integral(rare_hists_jms_down[1][2]->FindBin(stats_bins[i].first),rare_hists_jms_down[1][2]->FindBin(stats_bins[i].second-0.001)));
+
+            WZ_jmr_up_2016.push_back(rare_hists_jmr_up[1][0]->Integral(rare_hists_jmr_up[1][0]->FindBin(stats_bins[i].first),rare_hists_jmr_up[1][0]->FindBin(stats_bins[i].second-0.001)));
+            WZ_jmr_up_2017.push_back(rare_hists_jmr_up[1][1]->Integral(rare_hists_jmr_up[1][1]->FindBin(stats_bins[i].first),rare_hists_jmr_up[1][1]->FindBin(stats_bins[i].second-0.001)));        
+            WZ_jmr_up_2018.push_back(rare_hists_jmr_up[1][2]->Integral(rare_hists_jmr_up[1][2]->FindBin(stats_bins[i].first),rare_hists_jmr_up[1][2]->FindBin(stats_bins[i].second-0.001)));
+
+            WZ_jmr_down_2016.push_back(rare_hists_jmr_down[1][0]->Integral(rare_hists_jmr_down[1][0]->FindBin(stats_bins[i].first),rare_hists_jmr_down[1][0]->FindBin(stats_bins[i].second-0.001)));
+            WZ_jmr_down_2017.push_back(rare_hists_jmr_down[1][1]->Integral(rare_hists_jmr_down[1][1]->FindBin(stats_bins[i].first),rare_hists_jmr_down[1][1]->FindBin(stats_bins[i].second-0.001)));
+            WZ_jmr_down_2018.push_back(rare_hists_jmr_down[1][2]->Integral(rare_hists_jmr_down[1][2]->FindBin(stats_bins[i].first),rare_hists_jmr_down[1][2]->FindBin(stats_bins[i].second-0.001)));
+
         }
 
 
@@ -1340,6 +1592,23 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
             VVV_tau21_down_2016.push_back(rare_hists_tau21_down[2][0]->Integral(rare_hists_tau21_down[2][0]->FindBin(stats_bins[i].first),rare_hists_tau21_down[2][0]->FindBin(stats_bins[i].second-0.001)));
             VVV_tau21_down_2017.push_back(rare_hists_tau21_down[2][1]->Integral(rare_hists_tau21_down[2][1]->FindBin(stats_bins[i].first),rare_hists_tau21_down[2][1]->FindBin(stats_bins[i].second-0.001)));
             VVV_tau21_down_2018.push_back(rare_hists_tau21_down[2][2]->Integral(rare_hists_tau21_down[2][2]->FindBin(stats_bins[i].first),rare_hists_tau21_down[2][2]->FindBin(stats_bins[i].second-0.001)));
+
+            VVV_jms_up_2016.push_back(rare_hists_jms_up[2][0]->Integral(rare_hists_jms_up[2][0]->FindBin(stats_bins[i].first),rare_hists_jms_up[2][0]->FindBin(stats_bins[i].second-0.001)));
+            VVV_jms_up_2017.push_back(rare_hists_jms_up[2][1]->Integral(rare_hists_jms_up[2][1]->FindBin(stats_bins[i].first),rare_hists_jms_up[2][1]->FindBin(stats_bins[i].second-0.001)));        
+            VVV_jms_up_2018.push_back(rare_hists_jms_up[2][2]->Integral(rare_hists_jms_up[2][2]->FindBin(stats_bins[i].first),rare_hists_jms_up[2][2]->FindBin(stats_bins[i].second-0.001)));
+
+            VVV_jms_down_2016.push_back(rare_hists_jms_down[2][0]->Integral(rare_hists_jms_down[2][0]->FindBin(stats_bins[i].first),rare_hists_jms_down[2][0]->FindBin(stats_bins[i].second-0.001)));
+            VVV_jms_down_2017.push_back(rare_hists_jms_down[2][1]->Integral(rare_hists_jms_down[2][1]->FindBin(stats_bins[i].first),rare_hists_jms_down[2][1]->FindBin(stats_bins[i].second-0.001)));
+            VVV_jms_down_2018.push_back(rare_hists_jms_down[2][2]->Integral(rare_hists_jms_down[2][2]->FindBin(stats_bins[i].first),rare_hists_jms_down[2][2]->FindBin(stats_bins[i].second-0.001)));
+
+            VVV_jmr_up_2016.push_back(rare_hists_jmr_up[2][0]->Integral(rare_hists_jmr_up[2][0]->FindBin(stats_bins[i].first),rare_hists_jmr_up[2][0]->FindBin(stats_bins[i].second-0.001)));
+            VVV_jmr_up_2017.push_back(rare_hists_jmr_up[2][1]->Integral(rare_hists_jmr_up[2][1]->FindBin(stats_bins[i].first),rare_hists_jmr_up[2][1]->FindBin(stats_bins[i].second-0.001)));        
+            VVV_jmr_up_2018.push_back(rare_hists_jmr_up[2][2]->Integral(rare_hists_jmr_up[2][2]->FindBin(stats_bins[i].first),rare_hists_jmr_up[2][2]->FindBin(stats_bins[i].second-0.001)));
+
+            VVV_jmr_down_2016.push_back(rare_hists_jmr_down[2][0]->Integral(rare_hists_jmr_down[2][0]->FindBin(stats_bins[i].first),rare_hists_jmr_down[2][0]->FindBin(stats_bins[i].second-0.001)));
+            VVV_jmr_down_2017.push_back(rare_hists_jmr_down[2][1]->Integral(rare_hists_jmr_down[2][1]->FindBin(stats_bins[i].first),rare_hists_jmr_down[2][1]->FindBin(stats_bins[i].second-0.001)));
+            VVV_jmr_down_2018.push_back(rare_hists_jmr_down[2][2]->Integral(rare_hists_jmr_down[2][2]->FindBin(stats_bins[i].first),rare_hists_jmr_down[2][2]->FindBin(stats_bins[i].second-0.001)));
+
         }
 
 
@@ -1361,6 +1630,22 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
             TTV_tau21_down_2017.push_back(rare_hists_tau21_down[3][1]->Integral(rare_hists_tau21_down[3][1]->FindBin(stats_bins[i].first),rare_hists_tau21_down[3][1]->FindBin(stats_bins[i].second-0.001)));
             TTV_tau21_down_2018.push_back(rare_hists_tau21_down[3][2]->Integral(rare_hists_tau21_down[3][2]->FindBin(stats_bins[i].first),rare_hists_tau21_down[3][2]->FindBin(stats_bins[i].second-0.001)));
 
+            TTV_jms_up_2016.push_back(rare_hists_jms_up[3][0]->Integral(rare_hists_jms_up[3][0]->FindBin(stats_bins[i].first),rare_hists_jms_up[3][0]->FindBin(stats_bins[i].second-0.001)));
+            TTV_jms_up_2017.push_back(rare_hists_jms_up[3][1]->Integral(rare_hists_jms_up[3][1]->FindBin(stats_bins[i].first),rare_hists_jms_up[3][1]->FindBin(stats_bins[i].second-0.001)));        
+            TTV_jms_up_2018.push_back(rare_hists_jms_up[3][2]->Integral(rare_hists_jms_up[3][2]->FindBin(stats_bins[i].first),rare_hists_jms_up[3][2]->FindBin(stats_bins[i].second-0.001)));
+
+            TTV_jms_down_2016.push_back(rare_hists_jms_down[3][0]->Integral(rare_hists_jms_down[3][0]->FindBin(stats_bins[i].first),rare_hists_jms_down[3][0]->FindBin(stats_bins[i].second-0.001)));
+            TTV_jms_down_2017.push_back(rare_hists_jms_down[3][1]->Integral(rare_hists_jms_down[3][1]->FindBin(stats_bins[i].first),rare_hists_jms_down[3][1]->FindBin(stats_bins[i].second-0.001)));
+            TTV_jms_down_2018.push_back(rare_hists_jms_down[3][2]->Integral(rare_hists_jms_down[3][2]->FindBin(stats_bins[i].first),rare_hists_jms_down[3][2]->FindBin(stats_bins[i].second-0.001)));
+
+            TTV_jmr_up_2016.push_back(rare_hists_jmr_up[3][0]->Integral(rare_hists_jmr_up[3][0]->FindBin(stats_bins[i].first),rare_hists_jmr_up[3][0]->FindBin(stats_bins[i].second-0.001)));
+            TTV_jmr_up_2017.push_back(rare_hists_jmr_up[3][1]->Integral(rare_hists_jmr_up[3][1]->FindBin(stats_bins[i].first),rare_hists_jmr_up[3][1]->FindBin(stats_bins[i].second-0.001)));        
+            TTV_jmr_up_2018.push_back(rare_hists_jmr_up[3][2]->Integral(rare_hists_jmr_up[3][2]->FindBin(stats_bins[i].first),rare_hists_jmr_up[3][2]->FindBin(stats_bins[i].second-0.001)));
+
+            TTV_jmr_down_2016.push_back(rare_hists_jmr_down[3][0]->Integral(rare_hists_jmr_down[3][0]->FindBin(stats_bins[i].first),rare_hists_jmr_down[3][0]->FindBin(stats_bins[i].second-0.001)));
+            TTV_jmr_down_2017.push_back(rare_hists_jmr_down[3][1]->Integral(rare_hists_jmr_down[3][1]->FindBin(stats_bins[i].first),rare_hists_jmr_down[3][1]->FindBin(stats_bins[i].second-0.001)));
+            TTV_jmr_down_2018.push_back(rare_hists_jmr_down[3][2]->Integral(rare_hists_jmr_down[3][2]->FindBin(stats_bins[i].first),rare_hists_jmr_down[3][2]->FindBin(stats_bins[i].second-0.001)));
+
         }
 
 
@@ -1379,6 +1664,23 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
             WGamma_tau21_down_2017.push_back(scaleFactor * 0.7 *EWK_hists_tau21_down[0][1]->Integral(EWK_hists_tau21_down[0][1]->FindBin(stats_bins[i].first),EWK_hists_tau21_down[0][1]->FindBin(stats_bins[i].second-0.001)));
             WGamma_tau21_down_2018.push_back(scaleFactor * 0.7 *EWK_hists_tau21_down[0][2]->Integral(EWK_hists_tau21_down[0][2]->FindBin(stats_bins[i].first),EWK_hists_tau21_down[0][2]->FindBin(stats_bins[i].second-0.001)));
 
+             WGamma_jms_up_2016.push_back(scaleFactor * 0.7 * EWK_hists_jms_up[0][0]->Integral(EWK_hists_jms_up[0][0]->FindBin(stats_bins[i].first),EWK_hists_jms_up[0][1]->FindBin(stats_bins[i].second-0.001)));
+            WGamma_jms_up_2017.push_back(scaleFactor * 0.7 * EWK_hists_jms_up[0][1]->Integral(EWK_hists_jms_up[0][1]->FindBin(stats_bins[i].first),EWK_hists_jms_up[0][1]->FindBin(stats_bins[i].second-0.001)));
+            WGamma_jms_up_2018.push_back(scaleFactor * 0.7 * EWK_hists_jms_up[0][2]->Integral(EWK_hists_jms_up[0][2]->FindBin(stats_bins[i].first),EWK_hists_jms_up[0][2]->FindBin(stats_bins[i].second-0.001)));
+
+            WGamma_jms_down_2016.push_back(scaleFactor * 0.7 * EWK_hists_jms_down[0][0]->Integral(EWK_hists_jms_down[0][0]->FindBin(stats_bins[i].first),EWK_hists_jms_down[0][0]->FindBin(stats_bins[i].second-0.001)));
+            WGamma_jms_down_2017.push_back(scaleFactor * 0.7 *EWK_hists_jms_down[0][1]->Integral(EWK_hists_jms_down[0][1]->FindBin(stats_bins[i].first),EWK_hists_jms_down[0][1]->FindBin(stats_bins[i].second-0.001)));
+            WGamma_jms_down_2018.push_back(scaleFactor * 0.7 *EWK_hists_jms_down[0][2]->Integral(EWK_hists_jms_down[0][2]->FindBin(stats_bins[i].first),EWK_hists_jms_down[0][2]->FindBin(stats_bins[i].second-0.001)));
+
+             WGamma_jmr_up_2016.push_back(scaleFactor * 0.7 * EWK_hists_jmr_up[0][0]->Integral(EWK_hists_jmr_up[0][0]->FindBin(stats_bins[i].first),EWK_hists_jmr_up[0][1]->FindBin(stats_bins[i].second-0.001)));
+            WGamma_jmr_up_2017.push_back(scaleFactor * 0.7 * EWK_hists_jmr_up[0][1]->Integral(EWK_hists_jmr_up[0][1]->FindBin(stats_bins[i].first),EWK_hists_jmr_up[0][1]->FindBin(stats_bins[i].second-0.001)));
+            WGamma_jmr_up_2018.push_back(scaleFactor * 0.7 * EWK_hists_jmr_up[0][2]->Integral(EWK_hists_jmr_up[0][2]->FindBin(stats_bins[i].first),EWK_hists_jmr_up[0][2]->FindBin(stats_bins[i].second-0.001)));
+
+            WGamma_jmr_down_2016.push_back(scaleFactor * 0.7 * EWK_hists_jmr_down[0][0]->Integral(EWK_hists_jmr_down[0][0]->FindBin(stats_bins[i].first),EWK_hists_jmr_down[0][0]->FindBin(stats_bins[i].second-0.001)));
+            WGamma_jmr_down_2017.push_back(scaleFactor * 0.7 *EWK_hists_jmr_down[0][1]->Integral(EWK_hists_jmr_down[0][1]->FindBin(stats_bins[i].first),EWK_hists_jmr_down[0][1]->FindBin(stats_bins[i].second-0.001)));
+            WGamma_jmr_down_2018.push_back(scaleFactor * 0.7 *EWK_hists_jmr_down[0][2]->Integral(EWK_hists_jmr_down[0][2]->FindBin(stats_bins[i].first),EWK_hists_jmr_down[0][2]->FindBin(stats_bins[i].second-0.001)));
+
+
 
             WJets_count_2016.push_back(scaleFactor * 0.7 *EWK_hists[1][0]->Integral(EWK_hists[1][0]->FindBin(stats_bins[i].first),EWK_hists[1][0]->FindBin(stats_bins[i].second-0.001)));
             WJets_count_2017.push_back(scaleFactor * 0.7 *EWK_hists[1][1]->Integral(EWK_hists[1][1]->FindBin(stats_bins[i].first),EWK_hists[1][1]->FindBin(stats_bins[i].second-0.001)));
@@ -1392,6 +1694,8 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
             WJets_tau21_down_2017.push_back(scaleFactor * 0.7 *EWK_hists_tau21_down[1][1]->Integral(EWK_hists_tau21_down[1][1]->FindBin(stats_bins[i].first),EWK_hists_tau21_down[1][1]->FindBin(stats_bins[i].second-0.001)));
             WJets_tau21_down_2018.push_back(scaleFactor * 0.7 *EWK_hists_tau21_down[1][2]->Integral(EWK_hists_tau21_down[1][2]->FindBin(stats_bins[i].first),EWK_hists_tau21_down[1][2]->FindBin(stats_bins[i].second-0.001)));
 
+
+
             TTJets2lep_count_2016.push_back(scaleFactor * 0.7 *EWK_hists[2][0]->Integral(EWK_hists[2][0]->FindBin(stats_bins[i].first),EWK_hists[2][0]->FindBin(stats_bins[i].second-0.001)));
             TTJets2lep_count_2017.push_back(scaleFactor * 0.7 *EWK_hists[2][1]->Integral(EWK_hists[2][1]->FindBin(stats_bins[i].first),EWK_hists[2][1]->FindBin(stats_bins[i].second-0.001)));
             TTJets2lep_count_2018.push_back(scaleFactor * 0.7 *EWK_hists[2][2]->Integral(EWK_hists[2][2]->FindBin(stats_bins[i].first),EWK_hists[2][2]->FindBin(stats_bins[i].second-0.001)));
@@ -1403,6 +1707,23 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
             TTJets2lep_tau21_down_2016.push_back(scaleFactor * 0.7 *EWK_hists_tau21_down[2][0]->Integral(EWK_hists_tau21_down[2][0]->FindBin(stats_bins[i].first),EWK_hists_tau21_down[2][0]->FindBin(stats_bins[i].second-0.001)));
             TTJets2lep_tau21_down_2017.push_back(scaleFactor * 0.7 *EWK_hists_tau21_down[2][1]->Integral(EWK_hists_tau21_down[2][1]->FindBin(stats_bins[i].first),EWK_hists_tau21_down[2][1]->FindBin(stats_bins[i].second-0.001)));
             TTJets2lep_tau21_down_2018.push_back(scaleFactor * 0.7 *EWK_hists_tau21_down[2][2]->Integral(EWK_hists_tau21_down[2][2]->FindBin(stats_bins[i].first),EWK_hists_tau21_down[2][2]->FindBin(stats_bins[i].second-0.001)));
+
+            TTJets2lep_jms_up_2016.push_back(scaleFactor * 0.7 *EWK_hists_jms_up[2][0]->Integral(EWK_hists_jms_up[2][0]->FindBin(stats_bins[i].first),EWK_hists_jms_up[2][0]->FindBin(stats_bins[i].second-0.001)));
+            TTJets2lep_jms_up_2017.push_back(scaleFactor * 0.7 *EWK_hists_jms_up[2][1]->Integral(EWK_hists_jms_up[2][1]->FindBin(stats_bins[i].first),EWK_hists_jms_up[2][1]->FindBin(stats_bins[i].second-0.001)));
+            TTJets2lep_jms_up_2018.push_back(scaleFactor * 0.7 *EWK_hists_jms_up[2][2]->Integral(EWK_hists_jms_up[2][2]->FindBin(stats_bins[i].first),EWK_hists_jms_up[2][2]->FindBin(stats_bins[i].second-0.001)));
+
+            TTJets2lep_jms_down_2016.push_back(scaleFactor * 0.7 *EWK_hists_jms_down[2][0]->Integral(EWK_hists_jms_down[2][0]->FindBin(stats_bins[i].first),EWK_hists_jms_down[2][0]->FindBin(stats_bins[i].second-0.001)));
+            TTJets2lep_jms_down_2017.push_back(scaleFactor * 0.7 *EWK_hists_jms_down[2][1]->Integral(EWK_hists_jms_down[2][1]->FindBin(stats_bins[i].first),EWK_hists_jms_down[2][1]->FindBin(stats_bins[i].second-0.001)));
+            TTJets2lep_jms_down_2018.push_back(scaleFactor * 0.7 *EWK_hists_jms_down[2][2]->Integral(EWK_hists_jms_down[2][2]->FindBin(stats_bins[i].first),EWK_hists_jms_down[2][2]->FindBin(stats_bins[i].second-0.001)));
+
+            TTJets2lep_jmr_up_2016.push_back(scaleFactor * 0.7 *EWK_hists_jmr_up[2][0]->Integral(EWK_hists_jmr_up[2][0]->FindBin(stats_bins[i].first),EWK_hists_jmr_up[2][0]->FindBin(stats_bins[i].second-0.001)));
+            TTJets2lep_jmr_up_2017.push_back(scaleFactor * 0.7 *EWK_hists_jmr_up[2][1]->Integral(EWK_hists_jmr_up[2][1]->FindBin(stats_bins[i].first),EWK_hists_jmr_up[2][1]->FindBin(stats_bins[i].second-0.001)));
+            TTJets2lep_jmr_up_2018.push_back(scaleFactor * 0.7 *EWK_hists_jmr_up[2][2]->Integral(EWK_hists_jmr_up[2][2]->FindBin(stats_bins[i].first),EWK_hists_jmr_up[2][2]->FindBin(stats_bins[i].second-0.001)));
+
+            TTJets2lep_jmr_down_2016.push_back(scaleFactor * 0.7 *EWK_hists_jmr_down[2][0]->Integral(EWK_hists_jmr_down[2][0]->FindBin(stats_bins[i].first),EWK_hists_jmr_down[2][0]->FindBin(stats_bins[i].second-0.001)));
+            TTJets2lep_jmr_down_2017.push_back(scaleFactor * 0.7 *EWK_hists_jmr_down[2][1]->Integral(EWK_hists_jmr_down[2][1]->FindBin(stats_bins[i].first),EWK_hists_jmr_down[2][1]->FindBin(stats_bins[i].second-0.001)));
+            TTJets2lep_jmr_down_2018.push_back(scaleFactor * 0.7 *EWK_hists_jmr_down[2][2]->Integral(EWK_hists_jmr_down[2][2]->FindBin(stats_bins[i].first),EWK_hists_jmr_down[2][2]->FindBin(stats_bins[i].second-0.001)));
+
 
             TTJets1lep_count_2016.push_back(scaleFactor * 0.7 *EWK_hists[3][0]->Integral(EWK_hists[3][0]->FindBin(stats_bins[i].first),EWK_hists[3][0]->FindBin(stats_bins[i].second-0.001)));
             TTJets1lep_count_2017.push_back(scaleFactor * 0.7 *EWK_hists[3][1]->Integral(EWK_hists[3][1]->FindBin(stats_bins[i].first),EWK_hists[3][1]->FindBin(stats_bins[i].second-0.001)));
@@ -1416,6 +1737,23 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
             TTJets1lep_tau21_down_2017.push_back(scaleFactor * 0.7 *EWK_hists_tau21_down[3][1]->Integral(EWK_hists_tau21_down[3][1]->FindBin(stats_bins[i].first),EWK_hists_tau21_down[3][1]->FindBin(stats_bins[i].second-0.001)));
             TTJets1lep_tau21_down_2018.push_back(scaleFactor * 0.7 *EWK_hists_tau21_down[3][2]->Integral(EWK_hists_tau21_down[3][2]->FindBin(stats_bins[i].first),EWK_hists_tau21_down[3][2]->FindBin(stats_bins[i].second-0.001)));
 
+            TTJets1lep_jms_up_2016.push_back(scaleFactor * 0.7 *EWK_hists_jms_up[3][0]->Integral(EWK_hists_jms_up[3][0]->FindBin(stats_bins[i].first),EWK_hists_jms_up[3][0]->FindBin(stats_bins[i].second-0.001)));
+            TTJets1lep_jms_up_2017.push_back(scaleFactor * 0.7 *EWK_hists_jms_up[3][1]->Integral(EWK_hists_jms_up[3][1]->FindBin(stats_bins[i].first),EWK_hists_jms_up[3][1]->FindBin(stats_bins[i].second-0.001)));
+            TTJets1lep_jms_up_2018.push_back(scaleFactor * 0.7 *EWK_hists_jms_up[3][2]->Integral(EWK_hists_jms_up[3][2]->FindBin(stats_bins[i].first),EWK_hists_jms_up[3][2]->FindBin(stats_bins[i].second-0.001)));
+
+            TTJets1lep_jms_down_2016.push_back(scaleFactor * 0.7 *EWK_hists_jms_down[3][0]->Integral(EWK_hists_jms_down[3][0]->FindBin(stats_bins[i].first),EWK_hists_jms_down[3][0]->FindBin(stats_bins[i].second-0.001)));
+            TTJets1lep_jms_down_2017.push_back(scaleFactor * 0.7 *EWK_hists_jms_down[3][1]->Integral(EWK_hists_jms_down[3][1]->FindBin(stats_bins[i].first),EWK_hists_jms_down[3][1]->FindBin(stats_bins[i].second-0.001)));
+            TTJets1lep_jms_down_2018.push_back(scaleFactor * 0.7 *EWK_hists_jms_down[3][2]->Integral(EWK_hists_jms_down[3][2]->FindBin(stats_bins[i].first),EWK_hists_jms_down[3][2]->FindBin(stats_bins[i].second-0.001)));
+
+            TTJets1lep_jmr_up_2016.push_back(scaleFactor * 0.7 *EWK_hists_jmr_up[3][0]->Integral(EWK_hists_jmr_up[3][0]->FindBin(stats_bins[i].first),EWK_hists_jmr_up[3][0]->FindBin(stats_bins[i].second-0.001)));
+            TTJets1lep_jmr_up_2017.push_back(scaleFactor * 0.7 *EWK_hists_jmr_up[3][1]->Integral(EWK_hists_jmr_up[3][1]->FindBin(stats_bins[i].first),EWK_hists_jmr_up[3][1]->FindBin(stats_bins[i].second-0.001)));
+            TTJets1lep_jmr_up_2018.push_back(scaleFactor * 0.7 *EWK_hists_jmr_up[3][2]->Integral(EWK_hists_jmr_up[3][2]->FindBin(stats_bins[i].first),EWK_hists_jmr_up[3][2]->FindBin(stats_bins[i].second-0.001)));
+
+            TTJets1lep_jmr_down_2016.push_back(scaleFactor * 0.7 *EWK_hists_jmr_down[3][0]->Integral(EWK_hists_jmr_down[3][0]->FindBin(stats_bins[i].first),EWK_hists_jmr_down[3][0]->FindBin(stats_bins[i].second-0.001)));
+            TTJets1lep_jmr_down_2017.push_back(scaleFactor * 0.7 *EWK_hists_jmr_down[3][1]->Integral(EWK_hists_jmr_down[3][1]->FindBin(stats_bins[i].first),EWK_hists_jmr_down[3][1]->FindBin(stats_bins[i].second-0.001)));
+            TTJets1lep_jmr_down_2018.push_back(scaleFactor * 0.7 *EWK_hists_jmr_down[3][2]->Integral(EWK_hists_jmr_down[3][2]->FindBin(stats_bins[i].first),EWK_hists_jmr_down[3][2]->FindBin(stats_bins[i].second-0.001)));
+
+
             SingleTop_count_2016.push_back(scaleFactor * 0.7 *EWK_hists[4][0]->Integral(EWK_hists[4][0]->FindBin(stats_bins[i].first),EWK_hists[4][0]->FindBin(stats_bins[i].second-0.001)));
             SingleTop_count_2017.push_back(scaleFactor * 0.7 *EWK_hists[4][1]->Integral(EWK_hists[4][1]->FindBin(stats_bins[i].first),EWK_hists[4][1]->FindBin(stats_bins[i].second-0.001)));
             SingleTop_count_2018.push_back(scaleFactor * 0.7 *EWK_hists[4][2]->Integral(EWK_hists[4][2]->FindBin(stats_bins[i].first),EWK_hists[4][2]->FindBin(stats_bins[i].second-0.001)));
@@ -1427,6 +1765,23 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
             SingleTop_tau21_down_2016.push_back(scaleFactor * 0.7 *EWK_hists_tau21_down[4][0]->Integral(EWK_hists_tau21_down[4][0]->FindBin(stats_bins[i].first),EWK_hists_tau21_down[4][0]->FindBin(stats_bins[i].second-0.001)));
             SingleTop_tau21_down_2017.push_back(scaleFactor * 0.7 *EWK_hists_tau21_down[4][1]->Integral(EWK_hists_tau21_down[4][1]->FindBin(stats_bins[i].first),EWK_hists_tau21_down[4][1]->FindBin(stats_bins[i].second-0.001)));
             SingleTop_tau21_down_2018.push_back(scaleFactor * 0.7 *EWK_hists_tau21_down[4][2]->Integral(EWK_hists_tau21_down[4][2]->FindBin(stats_bins[i].first),EWK_hists_tau21_down[4][2]->FindBin(stats_bins[i].second-0.001)));
+
+            SingleTop_jms_up_2016.push_back(scaleFactor * 0.7 *EWK_hists_jms_up[4][0]->Integral(EWK_hists_jms_up[4][0]->FindBin(stats_bins[i].first),EWK_hists_jms_up[4][0]->FindBin(stats_bins[i].second-0.001)));
+            SingleTop_jms_up_2017.push_back(scaleFactor * 0.7 *EWK_hists_jms_up[4][1]->Integral(EWK_hists_jms_up[4][1]->FindBin(stats_bins[i].first),EWK_hists_jms_up[4][1]->FindBin(stats_bins[i].second-0.001)));
+            SingleTop_jms_up_2018.push_back(scaleFactor * 0.7 *EWK_hists_jms_up[4][2]->Integral(EWK_hists_jms_up[4][2]->FindBin(stats_bins[i].first),EWK_hists_jms_up[4][2]->FindBin(stats_bins[i].second-0.001)));
+
+            SingleTop_jms_down_2016.push_back(scaleFactor * 0.7 *EWK_hists_jms_down[4][0]->Integral(EWK_hists_jms_down[4][0]->FindBin(stats_bins[i].first),EWK_hists_jms_down[4][0]->FindBin(stats_bins[i].second-0.001)));
+            SingleTop_jms_down_2017.push_back(scaleFactor * 0.7 *EWK_hists_jms_down[4][1]->Integral(EWK_hists_jms_down[4][1]->FindBin(stats_bins[i].first),EWK_hists_jms_down[4][1]->FindBin(stats_bins[i].second-0.001)));
+            SingleTop_jms_down_2018.push_back(scaleFactor * 0.7 *EWK_hists_jms_down[4][2]->Integral(EWK_hists_jms_down[4][2]->FindBin(stats_bins[i].first),EWK_hists_jms_down[4][2]->FindBin(stats_bins[i].second-0.001)));
+
+            SingleTop_jmr_up_2016.push_back(scaleFactor * 0.7 *EWK_hists_jmr_up[4][0]->Integral(EWK_hists_jmr_up[4][0]->FindBin(stats_bins[i].first),EWK_hists_jmr_up[4][0]->FindBin(stats_bins[i].second-0.001)));
+            SingleTop_jmr_up_2017.push_back(scaleFactor * 0.7 *EWK_hists_jmr_up[4][1]->Integral(EWK_hists_jmr_up[4][1]->FindBin(stats_bins[i].first),EWK_hists_jmr_up[4][1]->FindBin(stats_bins[i].second-0.001)));
+            SingleTop_jmr_up_2018.push_back(scaleFactor * 0.7 *EWK_hists_jmr_up[4][2]->Integral(EWK_hists_jmr_up[4][2]->FindBin(stats_bins[i].first),EWK_hists_jmr_up[4][2]->FindBin(stats_bins[i].second-0.001)));
+
+            SingleTop_jmr_down_2016.push_back(scaleFactor * 0.7 *EWK_hists_jmr_down[4][0]->Integral(EWK_hists_jmr_down[4][0]->FindBin(stats_bins[i].first),EWK_hists_jmr_down[4][0]->FindBin(stats_bins[i].second-0.001)));
+            SingleTop_jmr_down_2017.push_back(scaleFactor * 0.7 *EWK_hists_jmr_down[4][1]->Integral(EWK_hists_jmr_down[4][1]->FindBin(stats_bins[i].first),EWK_hists_jmr_down[4][1]->FindBin(stats_bins[i].second-0.001)));
+            SingleTop_jmr_down_2018.push_back(scaleFactor * 0.7 *EWK_hists_jmr_down[4][2]->Integral(EWK_hists_jmr_down[4][2]->FindBin(stats_bins[i].first),EWK_hists_jmr_down[4][2]->FindBin(stats_bins[i].second-0.001)));
+
         }
       }
 
@@ -1461,7 +1816,13 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
       ZZ_err_2018["total"] = getRareSamplesError(ZZ_err_2018, ZZ_count_2018, ZZ_scale[2], ZZ_scale_stat_unc[2],ZZ_scale_syst_unc, SR == "" ? conf->get("SR"):SR);
 
       if(SR.Contains("Boosted"))
+      {
           std::tie(ZZ_tau21_error_up,ZZ_tau21_error_down) = getTau21Error(ZZ_count_2016,ZZ_count_2017,ZZ_count_2018,ZZ_tau21_up_2016,ZZ_tau21_up_2017,ZZ_tau21_up_2018,ZZ_tau21_down_2016,ZZ_tau21_down_2017,ZZ_tau21_down_2018);
+          std::tie(ZZ_jms_error_up,ZZ_jms_error_down) = getJMSError(ZZ_count_2016,ZZ_count_2017,ZZ_count_2018,ZZ_jms_up_2016,ZZ_jms_up_2017,ZZ_jms_up_2018,ZZ_jms_down_2016,ZZ_jms_down_2017,ZZ_jms_down_2018);
+          //recycle
+          std::tie(ZZ_jmr_error_up,ZZ_jmr_error_down) = getJMSError(ZZ_count_2016,ZZ_count_2017,ZZ_count_2018,ZZ_jmr_up_2016,ZZ_jmr_up_2017,ZZ_jmr_up_2018,ZZ_jmr_down_2016,ZZ_jmr_down_2017,ZZ_jmr_down_2018);
+
+      }
 
 
       //cout<<__LINE__<<endl;
@@ -1479,7 +1840,13 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
       VVV_err_2018["total"] = getRareSamplesError(VVV_err_2018, VVV_count_2018, VVV_scale[2], VVV_scale_stat_unc[2], VVV_scale_syst_unc, SR == "" ? conf->get("SR"):SR);
 
       if(SR.Contains("Boosted"))
+      {
           std::tie(VVV_tau21_error_up,VVV_tau21_error_down) = getTau21Error(VVV_count_2016,VVV_count_2017,VVV_count_2018,VVV_tau21_up_2016,VVV_tau21_up_2017,VVV_tau21_up_2018,VVV_tau21_down_2016,VVV_tau21_down_2017,VVV_tau21_down_2018);
+          std::tie(VVV_jms_error_up,VVV_jms_error_down) = getJMSError(VVV_count_2016,VVV_count_2017,VVV_count_2018,VVV_jms_up_2016,VVV_jms_up_2017,VVV_jms_up_2018,VVV_jms_down_2016,VVV_jms_down_2017,VVV_jms_down_2018);
+          std::tie(VVV_jmr_error_up,VVV_jmr_error_down) = getJMSError(VVV_count_2016,VVV_count_2017,VVV_count_2018,VVV_jmr_up_2016,VVV_jmr_up_2017,VVV_jmr_up_2018,VVV_jmr_down_2016,VVV_jmr_down_2017,VVV_jmr_down_2018);
+
+
+      }
 
 
       //cout<<__LINE__<<endl;
@@ -1489,7 +1856,13 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
       TTV_err_2018["total"] = getRareSamplesError(TTV_err_2018, TTV_count_2018, TTV_scale[2], TTV_scale_stat_unc[2], TTV_scale_syst_unc, SR == "" ? conf->get("SR"):SR);
 
       if(SR.Contains("Boosted"))
-          std::tie(TTV_tau21_error_up,TTV_tau21_error_down) = getTau21Error(TTV_count_2016,TTV_count_2017,TTV_count_2018,TTV_tau21_up_2016,TTV_tau21_up_2017,TTV_tau21_up_2018,TTV_tau21_down_2016,TTV_tau21_down_2017,TTV_tau21_down_2018);
+      {
+          std::tie(ttv_tau21_error_up,ttv_tau21_error_down) = gettau21error(ttv_count_2016,ttv_count_2017,ttv_count_2018,ttv_tau21_up_2016,ttv_tau21_up_2017,ttv_tau21_up_2018,ttv_tau21_down_2016,ttv_tau21_down_2017,ttv_tau21_down_2018);
+          std::tie(ttv_jms_error_up,ttv_jms_error_down) = getJMSerror(ttv_count_2016,ttv_count_2017,ttv_count_2018,ttv_jms_up_2016,ttv_jms_up_2017,ttv_jms_up_2018,ttv_jms_down_2016,ttv_jms_down_2017,ttv_jms_down_2018);
+          std::tie(ttv_jmr_error_up,ttv_jmr_error_down) = getJMSerror(ttv_count_2016,ttv_count_2017,ttv_count_2018,ttv_jmr_up_2016,ttv_jmr_up_2017,ttv_jmr_up_2018,ttv_jmr_down_2016,ttv_jmr_down_2017,ttv_jmr_down_2018);
+
+
+      }
 
 
       //EWK Tau21
@@ -1504,6 +1877,28 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
         std::tie(TTJets1lep_tau21_up_error,TTJets1lep_tau21_down_error) = getTau21Error(TTJets1lep_count_2016,TTJets1lep_count_2017,TTJets1lep_count_2018,TTJets1lep_tau21_up_2016,TTJets1lep_tau21_up_2017,TTJets1lep_tau21_up_2018,TTJets1lep_tau21_down_2016,TTJets1lep_tau21_down_2017,TTJets1lep_tau21_down_2018); 
 
         std::tie(SingleTop_tau21_up_error,SingleTop_tau21_down_error) = getTau21Error(SingleTop_count_2016,SingleTop_count_2017,SingleTop_count_2018,SingleTop_tau21_up_2016,SingleTop_tau21_up_2017,SingleTop_tau21_up_2018,SingleTop_tau21_down_2016,SingleTop_tau21_down_2017,SingleTop_tau21_down_2018); 
+
+         std::tie(WGamma_jms_up_error,WGamma_jms_down_error) = getJMSError(WGamma_count_2016,WGamma_count_2017,WGamma_count_2018,WGamma_jms_up_2016,WGamma_jms_up_2017,WGamma_jms_up_2018,WGamma_jms_down_2016,WGamma_jms_down_2017,WGamma_jms_down_2018); 
+
+        std::tie(WJets_jms_up_error,WJets_jms_down_error) = getJMSError(WJets_count_2016,WJets_count_2017,WJets_count_2018,WJets_jms_up_2016,WJets_jms_up_2017,WJets_jms_up_2018,WJets_jms_down_2016,WJets_jms_down_2017,WJets_jms_down_2018); 
+
+        std::tie(TTJets2lep_jms_up_error,TTJets2lep_jms_down_error) = getJMSError(TTJets2lep_count_2016,TTJets2lep_count_2017,TTJets2lep_count_2018,TTJets2lep_jms_up_2016,TTJets2lep_jms_up_2017,TTJets2lep_jms_up_2018,TTJets2lep_jms_down_2016,TTJets2lep_jms_down_2017,TTJets2lep_jms_down_2018); 
+
+        std::tie(TTJets1lep_jms_up_error,TTJets1lep_jms_down_error) = getJMSError(TTJets1lep_count_2016,TTJets1lep_count_2017,TTJets1lep_count_2018,TTJets1lep_jms_up_2016,TTJets1lep_jms_up_2017,TTJets1lep_jms_up_2018,TTJets1lep_jms_down_2016,TTJets1lep_jms_down_2017,TTJets1lep_jms_down_2018); 
+
+        std::tie(SingleTop_jms_up_error,SingleTop_jms_down_error) = getJMSError(SingleTop_count_2016,SingleTop_count_2017,SingleTop_count_2018,SingleTop_jms_up_2016,SingleTop_jms_up_2017,SingleTop_jms_up_2018,SingleTop_jms_down_2016,SingleTop_jms_down_2017,SingleTop_jms_down_2018); 
+
+         std::tie(WGamma_jmr_up_error,WGamma_jmr_down_error) = getJMSError(WGamma_count_2016,WGamma_count_2017,WGamma_count_2018,WGamma_jmr_up_2016,WGamma_jmr_up_2017,WGamma_jmr_up_2018,WGamma_jmr_down_2016,WGamma_jmr_down_2017,WGamma_jmr_down_2018); 
+
+        std::tie(WJets_jmr_up_error,WJets_jmr_down_error) = getJMSError(WJets_count_2016,WJets_count_2017,WJets_count_2018,WJets_jmr_up_2016,WJets_jmr_up_2017,WJets_jmr_up_2018,WJets_jmr_down_2016,WJets_jmr_down_2017,WJets_jmr_down_2018); 
+
+        std::tie(TTJets2lep_jmr_up_error,TTJets2lep_jmr_down_error) = getJMSError(TTJets2lep_count_2016,TTJets2lep_count_2017,TTJets2lep_count_2018,TTJets2lep_jmr_up_2016,TTJets2lep_jmr_up_2017,TTJets2lep_jmr_up_2018,TTJets2lep_jmr_down_2016,TTJets2lep_jmr_down_2017,TTJets2lep_jmr_down_2018); 
+
+        std::tie(TTJets1lep_jmr_up_error,TTJets1lep_jmr_down_error) = getJMSError(TTJets1lep_count_2016,TTJets1lep_count_2017,TTJets1lep_count_2018,TTJets1lep_jmr_up_2016,TTJets1lep_jmr_up_2017,TTJets1lep_jmr_up_2018,TTJets1lep_jmr_down_2016,TTJets1lep_jmr_down_2017,TTJets1lep_jmr_down_2018); 
+
+        std::tie(SingleTop_jmr_up_error,SingleTop_jmr_down_error) = getJMSError(SingleTop_count_2016,SingleTop_count_2017,SingleTop_count_2018,SingleTop_jmr_up_2016,SingleTop_jmr_up_2017,SingleTop_jmr_up_2018,SingleTop_jmr_down_2016,SingleTop_jmr_down_2017,SingleTop_jmr_down_2018); 
+
+
 
       }
 
@@ -1524,17 +1919,37 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
                 
                 EWK_tau21_down_error.push_back(sqrt(WGamma_tau21_down_error[i]*WGamma_tau21_down_error[i] + WJets_tau21_down_error[i]*WJets_tau21_down_error[i] + TTJets2lep_tau21_down_error[i]*TTJets2lep_tau21_down_error[i] + TTJets1lep_tau21_down_error[i]*TTJets1lep_tau21_down_error[i] + SingleTop_tau21_down_error[i]*SingleTop_tau21_down_error[i])); 
 
+                EWK_jms_up_error.push_back(sqrt(WGamma_jms_up_error[i]*WGamma_jms_up_error[i] + WJets_jms_up_error[i]*WJets_jms_up_error[i] + TTJets2lep_jms_up_error[i]*TTJets2lep_jms_up_error[i] + TTJets1lep_jms_up_error[i]*TTJets1lep_jms_up_error[i] + SingleTop_jms_up_error[i]*SingleTop_jms_up_error[i]));
+
+                
+                EWK_jms_down_error.push_back(sqrt(WGamma_jms_down_error[i]*WGamma_jms_down_error[i] + WJets_jms_down_error[i]*WJets_jms_down_error[i] + TTJets2lep_jms_down_error[i]*TTJets2lep_jms_down_error[i] + TTJets1lep_jms_down_error[i]*TTJets1lep_jms_down_error[i] + SingleTop_jms_down_error[i]*SingleTop_jms_down_error[i])); 
+
+                EWK_jmr_up_error.push_back(sqrt(WGamma_jmr_up_error[i]*WGamma_jmr_up_error[i] + WJets_jmr_up_error[i]*WJets_jmr_up_error[i] + TTJets2lep_jmr_up_error[i]*TTJets2lep_jmr_up_error[i] + TTJets1lep_jmr_up_error[i]*TTJets1lep_jmr_up_error[i] + SingleTop_jmr_up_error[i]*SingleTop_jmr_up_error[i]));
+
+                
+                EWK_jmr_down_error.push_back(sqrt(WGamma_jmr_down_error[i]*WGamma_jmr_down_error[i] + WJets_jmr_down_error[i]*WJets_jmr_down_error[i] + TTJets2lep_jmr_down_error[i]*TTJets2lep_jmr_down_error[i] + TTJets1lep_jmr_down_error[i]*TTJets1lep_jmr_down_error[i] + SingleTop_jmr_down_error[i]*SingleTop_jmr_down_error[i])); 
+
+
+
                 cout<<"Bin "<<i<<" tau21 up error="<<EWK_tau21_up_error[i]<<" tau21_down_error="<<EWK_tau21_down_error[i]<<endl;
+
+                cout<<"Bin "<<i<<" jms up error="<<EWK_jms_up_error[i]<<" jms_down_error="<<EWK_jms_down_error[i]<<endl;
 
 
                 double error_up = template_count[i] != 0 ? EWK_tau21_up_error[i]/template_count[i] : 0;
                 double error_down = template_count[i] != 0 ? EWK_tau21_down_error[i]/template_count[i] : 0;
+                double jms_error_up = template_count[i] != 0 ? EWK_jms_up[i]/template_count[i] : 0;
+                double jms_error_down = template_count[i] != 0 ? EWK_jms_down[i]/template_count[i] : 0;
+                double jmr_error_up = template_count[i] != 0 ? EWK_jmr_up[i]/template_count[i] : 0;
+                double jmr_error_down = template_count[i] != 0 ? EWK_jmr_down[i]/template_count[i] : 0;
+
                 cout<<"{zjets_ewk_tau21_tagsyst_bin"<<i<<"} "<<1-error_up<<"/"<<1+error_down<<endl; //needs to go the other way for background
+                cout<<"{zjets_ewk_jms_syst_bin"<<i<<"} "<<1-jms_error_up<<"/"<<1+jms_error_down<<endl; //needs to go the other way for background
+                 cout<<"{zjets_ewk_jmr_syst_bin"<<i<<"} "<<1-jmr_error_up<<"/"<<1+jmr_error_down<<endl; //needs to go the other way for background
 
-                temp_err_up[i] = sqrt(temp_err_up[i]*temp_err_up[i] + EWK_tau21_up_error[i]*EWK_tau21_up_error[i]); 
-                temp_err_down[i] = sqrt(temp_err_down[i]*temp_err_down[i] + EWK_tau21_down_error[i]*EWK_tau21_down_error[i]); 
-                temp_err[i] = sqrt(temp_err[i] * temp_err[i] + EWK_tau21_up_error[i] * EWK_tau21_up_error[i]);
-
+                temp_err_up[i] = sqrt(temp_err_up[i]*temp_err_up[i] + EWK_tau21_up_error[i]*EWK_tau21_up_error[i] + EWK_jms_up_error[i] * EWK_jms_up_error[i] + EWK_jmr_up_error[i] * EWK_jmr_up_error[i]); 
+                temp_err_down[i] = sqrt(temp_err_down[i]*temp_err_down[i] + EWK_tau21_down_error[i]*EWK_tau21_down_error[i] + EWK_jms_down_error[i] * EWK_jms_down_error[i] + EWK_jmr_down_error[i] * EWK_jmr_down_error[i]); 
+                temp_err[i] = sqrt(temp_err[i] * temp_err[i] + EWK_tau21_up_error[i] * EWK_tau21_up_error[i] + EWK_jms_up_error[i] * EWK_jms_up_error[i] + EWK_jmr_up_error[i] * EWK_jmr_up_error[i]);
 
             }
       }
@@ -1605,6 +2020,11 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
             rare_tau21_error_up.push_back(ZZ_tau21_error_up[i] * ZZ_tau21_error_up[i] +WZ_tau21_error_up[i] * WZ_tau21_error_up[i] + TTV_tau21_error_up[i] * TTV_tau21_error_up[i] + VVV_tau21_error_up[i] * VVV_tau21_error_up[i]);
             rare_tau21_error_down.push_back(ZZ_tau21_error_down[i] * ZZ_tau21_error_down[i] +WZ_tau21_error_down[i] * WZ_tau21_error_down[i] + TTV_tau21_error_down[i] * TTV_tau21_error_down[i] + VVV_tau21_error_down[i] * VVV_tau21_error_down[i]);
 
+            rare_jms_error_up.push_back(ZZ_jms_error_up[i] * ZZ_jms_error_up[i] +WZ_jms_error_up[i] * WZ_jms_error_up[i] + TTV_jms_error_up[i] * TTV_jms_error_up[i] + VVV_jms_error_up[i] * VVV_jms_error_up[i]);
+            rare_jms_error_down.push_back(ZZ_jms_error_down[i] * ZZ_jms_error_down[i] +WZ_jms_error_down[i] * WZ_jms_error_down[i] + TTV_jms_error_down[i] * TTV_jms_error_down[i] + VVV_jms_error_down[i] * VVV_jms_error_down[i]);
+            rare_jmr_error_up.push_back(ZZ_jmr_error_up[i] * ZZ_jmr_error_up[i] +WZ_jmr_error_up[i] * WZ_jmr_error_up[i] + TTV_jmr_error_up[i] * TTV_jmr_error_up[i] + VVV_jmr_error_up[i] * VVV_jmr_error_up[i]);
+            rare_jmr_error_down.push_back(ZZ_jmr_error_down[i] * ZZ_jmr_error_down[i] +WZ_jmr_error_down[i] * WZ_jmr_error_down[i] + TTV_jmr_error_down[i] * TTV_jmr_error_down[i] + VVV_jmr_error_down[i] * VVV_jmr_error_down[i]);
+
 
         }
 
@@ -1629,7 +2049,15 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf,TString SR){
             double error_up = rare_count[i] != 0 ? rare_tau21_error_up[i]/rare_count[i] : 0;
             double error_down = rare_count[i] != 0 ? rare_tau21_error_down[i]/rare_count[i] : 0;
 
+            double jms_error_up = rare_count[i] != 0 ? rare_jms_error_up[i]/rare_count[i] : 0;
+            double jms_error_down = rare_count[i] != 0 ? rare_jms_error_down[i]/rare_count[i] : 0;
+            double jmr_error_up = rare_count[i] != 0 ? rare_jmr_error_up[i]/rare_count[i] : 0;
+            double jmr_error_down = rare_count[i] != 0 ? rare_jmr_error_down[i]/rare_count[i] : 0;
+
             cout<<"{mcbkg_tau21_tag_syst_bin"<<i<<"} "<<1+error_up<<"/"<<1-error_down<<endl;
+            cout<<"{mcbkg_jms_tag_syst_bin"<<i<<"} "<<1+jms_error_up<<"/"<<1-jms_error_down<<endl;
+            cout<<"{mcbkg_jmr_tag_syst_bin"<<i<<"} "<<1+jmr_error_up<<"/"<<1-jmr_error_down<<endl;
+
         }
 
       }
