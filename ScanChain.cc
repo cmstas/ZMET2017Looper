@@ -1674,6 +1674,7 @@ bool ZMETLooper::passVRWZCuts()
 
 bool ZMETLooper::passSRVZBoostedCuts(int JMSMode,int JMRMode)
 {
+    g_fatjet_indices.clear();
     if(phys.njets() >= 2 && conf->get("SRVZ_strategy") == "B")
     {
         return false;
@@ -1706,6 +1707,7 @@ bool ZMETLooper::passSRVZBoostedCuts(int JMSMode,int JMRMode)
       res->loadVariable("Rho",phys.rho());
       res->loadVariable("JetPt",phys.ak8jets_p4().at(iJet).pt());
       auto smearing = res->smear(JMRMode,g_year);
+      cout<<"initial sdMass = "<<phys.ak8jets_softDropMass().at(iJet)<<" final sdMass = "<<phys.ak8jets_softDropMass().at(iJet) * fatJetJMSScaleFactor(JMSMode) * smearing[0]<<" smear value = "<<smearing[0]<<endl<<"jms mode = "<<JMSMode<<"jmr mode = "<<JMRMode<<endl;
       if(phys.ak8jets_softDropMass().at(iJet) * fatJetJMSScaleFactor(JMSMode) * smearing[0] < 65 || phys.ak8jets_softDropMass().at(iJet) * fatJetJMSScaleFactor(JMSMode) * smearing[0] > 105)
       {
         continue;
@@ -3725,6 +3727,7 @@ bool ZMETLooper::passEWKSRCuts()
   {
     commonHistPrefix = "SRVZResolved";
     if(printFail) cout<<"Passed SRVZ Resolved"<<endl;
+    fillallHistograms(commonHistPrefix);
     flag = true;
   }
 
@@ -3732,39 +3735,41 @@ bool ZMETLooper::passEWKSRCuts()
   {
     commonHistPrefix = "SRVZBoosted";
     if(printFail) cout<<"Passed SRVZ Boosted"<<endl;
+    fillallHistograms(commonHistPrefix);
     flag = true;
-  }
-
-  if(conf->get("2016_reproduce") != "true" && passSRVZBoostedCuts(1))
-  {
-      commonHistPrefix = "SRVZBoosted_JMSUp";
-      flag = true;
   }
 
   if(conf->get("2016_reproduce") != "true" && passSRVZBoostedCuts(-1))
   {
       commonHistPrefix = "SRVZBoosted_JMSDown";
+      fillallHistograms(commonHistPrefix);
+      flag = true;
+  }
+
+  if(conf->get("2016_reproduce") != "true" && passSRVZBoostedCuts(1))
+  {
+      commonHistPrefix = "SRVZBoosted_JMSUp";
+      fillallHistograms(commonHistPrefix);
       flag = true;
   }
 
 
+
   if(conf->get("2016_reproduce") != "true" && passSRVZBoostedCuts(0,1))
   {
-      commonHistPrefix = "SRVZBoosted_JMSUp";
+      commonHistPrefix = "SRVZBoosted_JMRUp";
+      fillallHistograms(commonHistPrefix);
       flag = true;
   }
 
   if(conf->get("2016_reproduce") != "true" && passSRVZBoostedCuts(0,-1))
   {
-      commonHistPrefix = "SRVZBoosted_JMSDown";
+      commonHistPrefix = "SRVZBoosted_JMRDown";
+      fillallHistograms(commonHistPrefix);
       flag = true;
   }
 
 
-  if(flag == true)
-  {
-    fillallHistograms(commonHistPrefix);
-  }
 
   if(passSRHZCuts())
   {
