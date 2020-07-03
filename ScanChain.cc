@@ -3739,14 +3739,14 @@ bool ZMETLooper::passEWKSRCuts()
     flag = true;
   }
 
-  if(conf->get("2016_reproduce") != "true" && passSRVZBoostedCuts(-1))
+  if(conf->get("2016_reproduce") != "true" && passSRVZBoostedCuts(-1) && !phys.isData())
   {
       commonHistPrefix = "SRVZBoosted_JMSDown";
       fillallHistograms(commonHistPrefix);
       flag = true;
   }
 
-  if(conf->get("2016_reproduce") != "true" && passSRVZBoostedCuts(1))
+  if(conf->get("2016_reproduce") != "true" && passSRVZBoostedCuts(1) && !phys.isData())
   {
       commonHistPrefix = "SRVZBoosted_JMSUp";
       fillallHistograms(commonHistPrefix);
@@ -3755,14 +3755,14 @@ bool ZMETLooper::passEWKSRCuts()
 
 
 
-  if(conf->get("2016_reproduce") != "true" && passSRVZBoostedCuts(0,1))
+  if(conf->get("2016_reproduce") != "true" && passSRVZBoostedCuts(0,1) && !phys.isData())
   {
       commonHistPrefix = "SRVZBoosted_JMRUp";
       fillallHistograms(commonHistPrefix);
       flag = true;
   }
 
-  if(conf->get("2016_reproduce") != "true" && passSRVZBoostedCuts(0,-1))
+  if(conf->get("2016_reproduce") != "true" && passSRVZBoostedCuts(0,-1) && !phys.isData())
   {
       commonHistPrefix = "SRVZBoosted_JMRDown";
       fillallHistograms(commonHistPrefix);
