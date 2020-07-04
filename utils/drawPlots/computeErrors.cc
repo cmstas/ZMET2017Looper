@@ -601,6 +601,38 @@ std::pair<std::vector<double>,std::vector<double>> getTau21Error(const std::vect
     return std::make_pair(error_up,error_down);
 }
 
+//I could've reused the above function, but meh
+std::pair<std::vector<double>,std::vector<double>> getJMSError(const std::vector<double> count_central_2016,std::vector<double> count_central_2017,std::vector<double> count_central_2018,const std::vector<double> count_tau21_up_2016,std::vector<double> count_tau21_up_2017,const std::vector<double> count_tau21_up_2018,const std::vector<double> count_tau21_down_2016,const std::vector<double> count_tau21_down_2017,const std::vector<double> count_tau21_down_2018)
+{
+    //Also write datacard outputs here
+    
+    vector<double> error_2016_up,error_2016_down,error_2017_up,error_2017_down,error_2018_up,error_2018_down;
+
+    vector<double> error_up, error_down,count_central;
+
+    for(size_t i=0; i< count_central_2016.size(); i++)
+    {
+        //cout<<"tau21_up_2016="<<count_tau21_up_2016[i]<<" "<<"central_2016="<<count_central_2016[i]<<" tau21_down_2016="<<count_tau21_down_2016[i]<<endl;
+        error_2016_up.push_back(count_tau21_up_2016[i] - count_central_2016[i]);
+        error_2016_down.push_back(count_central_2016[i] - count_tau21_down_2016[i]);
+
+        error_2017_up.push_back(count_tau21_up_2017[i] - count_central_2017[i]);
+        error_2017_down.push_back(count_central_2017[i] - count_tau21_down_2017[i]);
+
+        error_2018_up.push_back(count_tau21_up_2018[i] - count_central_2018[i]);
+        error_2018_down.push_back(count_central_2018[i] - count_tau21_down_2018[i]);
+    }
+
+    for(size_t i = 0; i<count_central_2016.size();i++)
+    {
+        error_up.push_back(sqrt(error_2016_up[i] * error_2016_up[i] + error_2017_up[i] * error_2017_up[i] + error_2018_up[i] * error_2018_up[i]));
+        error_down.push_back(sqrt(error_2016_down[i] * error_2016_down[i] + error_2017_down[i] * error_2017_down[i] + error_2018_down[i] * error_2018_down[i]));
+        count_central.push_back(count_central_2016[i] + count_central_2017[i] + count_central_2018[i]);
+    }
+
+
+    return std::make_pair(error_up,error_down);
+}
 
 TGraphAsymmErrors* getErrorTGraph(const vector<double> &temp_count, const vector<double> &temp_err_up, const vector<double>& temp_err_down, const vector<double> &rare_count, const vector<double> &rare_err, const vector<double> &fs_count, const pair<vector<double>,vector<double>> &fs_err, const vector<pair<double,double>> &bin_low, const vector<double> &data_count, double RSFOF /*Really just the scale factor*/, bool ratioError, const std::vector<double>& tau21_error_up, const std::vector<double>&tau21_error_down)
 {
