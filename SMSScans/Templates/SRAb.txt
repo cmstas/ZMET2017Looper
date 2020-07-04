@@ -11,58 +11,58 @@ process	sig	zjets	fsbkg	mcbkg	sig	zjets	fsbkg	mcbkg	sig	zjets	fsbkg	mcbkg	sig	zj
 process	0	1	2	3	0	1	2	3	0	1	2	3	0	1	2	3	0	1	2	3	
 rate	{BGbin0_sig}	{BGbin0_zjets}	{BGbin0_fsbkg}	{BGbin0_mcbkg}	{BGbin1_sig}	{BGbin1_zjets}	{BGbin1_fsbkg}	{BGbin1_mcbkg}	{BGbin2_sig}	{BGbin2_zjets}	{BGbin2_fsbkg}	{BGbin2_mcbkg}	{BGbin3_sig}	{BGbin3_zjets}	{BGbin3_fsbkg}	{BGbin3_mcbkg}	{BGbin4_sig}	{BGbin4_zjets}	{BGbin4_fsbkg}	{BGbin4_mcbkg}	
 -----
-mcbkg_stat_SRAb_bin5_OS	lnN	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	{mc_stat_bin4}	
-zjets_ewk_syst_SRAb_bin4_OS	lnN	-	-	-	-	-	-	-	-	-	-	-	-	-	{zjets_ewk_bin3}	-	-	-	-	-	-	
 sig_stat_syst_SRAb_bin4_OS	lnN	-	-	-	-	-	-	-	-	-	-	-	-	{sig_stat_syst_bin3}	-	-	-	-	-	-	-	
-zjets_clos_syst_SRAb_bin1_OS	lnN	-	{zjets_clos_bin0}	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	
-scale	lnN	{sig_refacAndNorm_syst}	-	-	-	{sig_refacAndNorm_syst}	-	-	-	{sig_refacAndNorm_syst}	-	-	-	{sig_refacAndNorm_syst}	-	-	-	{sig_refacAndNorm_syst}	-	-	-	
-lepton_FSsfs	lnN	{sig_leptonFS_syst}	-	-	-	{sig_leptonFS_syst}	-	-	-	{sig_leptonFS_syst}	-	-	-	{sig_leptonFS_syst}	-	-	-	{sig_leptonFS_syst}	-	-	-	
-PUreweighting	lnN	{sig_pileup_syst}	-	-	-	{sig_pileup_syst}	-	-	-	{sig_pileup_syst}	-	-	-	{sig_pileup_syst}	-	-	-	{sig_pileup_syst}	-	-	-	
-sig_JES_syst_SRAb_bin4_OS	lnN	-	-	-	-	-	-	-	-	-	-	-	-	{sig_JES_syst_bin3}	-	-	-	-	-	-	-	
-zjets_stat_syst_SRAb_bin3_OS	lnN	-	-	-	-	-	-	-	-	-	{zjets_stat_bin2}	-	-	-	-	-	-	-	-	-	-	
-mcbkg_scale_stat_unc_OS	lnN	-	-	-	{mcbkg_scale_stat_unc_bin0}	-	-	-	{mcbkg_scale_stat_unc_bin1}	-	-	-	{mcbkg_scale_stat_unc_bin2}	-	-	-	{mcbkg_scale_stat_unc_bin3}	-	-	-	{mcbkg_scale_stat_unc_bin4}	
-fsbkg_rsfof_syst_eta_OS	lnN	-	-	{rsfof_eta_unc_bin0}	-	-	-	{rsfof_eta_unc_bin1}	-	-	-	{rsfof_eta_unc_bin2}	-	-	-	{rsfof_eta_unc_bin3}	-	-	-	{rsfof_eta_unc_bin4}	-	
-fsbkg_rsfof_syst_pt_OS	lnN	-	-	{rsfof_pt_unc_bin0}	-	-	-	{rsfof_pt_unc_bin1}	-	-	-	{rsfof_pt_unc_bin2}	-	-	-	{rsfof_pt_unc_bin3}	-	-	-	{rsfof_pt_unc_bin4}	-	
-btag_LF	lnN	{sig_btaglight_syst_bin0}	-	-	-	{sig_btaglight_syst_bin1}	-	-	-	{sig_btaglight_syst_bin2}	-	-	-	{sig_btaglight_syst_bin3}	-	-	-	{sig_btaglight_syst_bin4}	-	-	-	
-mcbkg_stat_SRAb_bin1_OS	lnN	-	-	-	{mc_stat_bin0}	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	
 mcbkg_stat_SRAb_bin4_OS	lnN	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	{mc_stat_bin3}	-	-	-	-	
-mcbkg_scale_syst_unc_OS	lnN	-	-	-	{mcbkg_scale_syst_unc_bin0}	-	-	-	{mcbkg_scale_syst_unc_bin1}	-	-	-	{mcbkg_scale_syst_unc_bin2}	-	-	-	{mcbkg_scale_syst_unc_bin3}	-	-	-	{mcbkg_scale_syst_unc_bin4}	
-zjets_ewk_syst_SRAb_bin2_OS	lnN	-	-	-	-	-	{zjets_ewk_bin1}	-	-	-	-	-	-	-	-	-	-	-	-	-	-	
-zjets_ewk_syst_SRAb_bin1_OS	lnN	-	{zjets_ewk_bin0}	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	
-fsbkg_rsfof_syst_norm_OS	lnN	-	-	{rsfof_norm_unc_bin0}	-	-	-	{rsfof_norm_unc_bin1}	-	-	-	{rsfof_norm_unc_bin2}	-	-	-	{rsfof_norm_unc_bin3}	-	-	-	{rsfof_norm_unc_bin4}	-	
-fsbkg_kappa_stat_syst_SRV_OS	lnN	-	-	{kappa_stat_unc}	-	-	-	{kappa_stat_unc}	-	-	-	{kappa_stat_unc}	-	-	-	{kappa_stat_unc}	-	-	-	{kappa_stat_unc}	-	
-MET	lnN	{sig_metfromFS_syst_bin0}	-	-	-	{sig_metfromFS_syst_bin1}	-	-	-	{sig_metfromFS_syst_bin2}	-	-	-	{sig_metfromFS_syst_bin3}	-	-	-	{sig_metfromFS_syst_bin4}	-	-	-	
-zjets_norm_syst_SRAb_OS	lnN	-	{zjets_norm}	-	-	-	{zjets_norm}	-	-	-	{zjets_norm}	-	-	-	{zjets_norm}	-	-	-	{zjets_norm}	-	-	
-fsbkg_stat_syst_SRAb_bin4_OS	gmN {count_bin3_fsbkg}	-	-	-	-	-	-	-	-	-	-	-	-	-	-	{rsfof*kappa}	-	-	-	-	-	
-sig_stat_syst_SRAb_bin2_OS	lnN	-	-	-	-	{sig_stat_syst_bin1}	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	
+zjets_clos_syst_SRAb_bin4_OS	lnN	-	-	-	-	-	-	-	-	-	-	-	-	-	{zjets_clos_bin3}	-	-	-	-	-	-	
 fsbkg_stat_syst_SRAb_bin2_OS	gmN {count_bin1_fsbkg}	-	-	-	-	-	-	{rsfof*kappa}	-	-	-	-	-	-	-	-	-	-	-	-	-	
-zjets_clos_syst_SRAb_bin2_OS	lnN	-	-	-	-	-	{zjets_clos_bin1}	-	-	-	-	-	-	-	-	-	-	-	-	-	-	
-fsbkg_stat_syst_SRAb_bin3_OS	gmN {count_bin2_fsbkg}	-	-	-	-	-	-	-	-	-	-	{rsfof*kappa}	-	-	-	-	-	-	-	-	-	
-btag_HF	lnN	{sig_btagheavy_syst_bin0}	-	-	-	{sig_btagheavy_syst_bin1}	-	-	-	{sig_btagheavy_syst_bin2}	-	-	-	{sig_btagheavy_syst_bin3}	-	-	-	{sig_btagheavy_syst_bin4}	-	-	-	
-sig_JES_syst_SRAb_bin2_OS	lnN	-	-	-	-	{sig_JES_syst_bin1}	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	
-zjets_norm_scale_syst_SRAb_OS	lnU	-	{zjets_norm_scale}	-	-	-	{zjets_norm_scale}	-	-	-	{zjets_norm_scale}	-	-	-	{zjets_norm_scale}	-	-	-	{zjets_norm_scale}	-	-	
-fsbkg_stat_syst_SRAb_bin5_OS	gmN {count_bin4_fsbkg}	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	{rsfof*kappa}	-	
-sig_JES_syst_SRAb_bin1_OS	lnN	{sig_JES_syst_bin0}	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	
-mcbkg_stat_SRAb_bin3_OS	lnN	-	-	-	-	-	-	-	-	-	-	-	{mc_stat_bin2}	-	-	-	-	-	-	-	-	
-zjets_ewk_syst_SRAb_bin3_OS	lnN	-	-	-	-	-	-	-	-	-	{zjets_ewk_bin2}	-	-	-	-	-	-	-	-	-	-	
-fsbkg_stat_syst_SRAb_bin1_OS	gmN {count_bin0_fsbkg}	-	-	{rsfof*kappa}	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	
+ISR	lnN	{sig_isr_syst_bin0}	-	-	-	{sig_isr_syst_bin1}	-	-	-	{sig_isr_syst_bin2}	-	-	-	{sig_isr_syst_bin3}	-	-	-	{sig_isr_syst_bin4}	-	-	-	
+zjets_ewk_syst_SRAb_bin5_OS	lnN	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	{zjets_ewk_bin4}	-	-	
+zjets_stat_syst_SRAb_bin4_OS	lnN	-	-	-	-	-	-	-	-	-	-	-	-	-	{zjets_stat_bin3}	-	-	-	-	-	-	
+zjets_ewk_syst_SRAb_bin1_OS	lnN	-	{zjets_ewk_bin0}	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	
 sig_JES_syst_SRAb_bin3_OS	lnN	-	-	-	-	-	-	-	-	{sig_JES_syst_bin2}	-	-	-	-	-	-	-	-	-	-	-	
+zjets_ewk_syst_SRAb_bin2_OS	lnN	-	-	-	-	-	{zjets_ewk_bin1}	-	-	-	-	-	-	-	-	-	-	-	-	-	-	
+fsbkg_kappa_met_syst_OS	lnN	-	-	{kappa_MET_unc}	-	-	-	{kappa_MET_unc}	-	-	-	{kappa_MET_unc}	-	-	-	{kappa_MET_unc}	-	-	-	{kappa_MET_unc}	-	
+zjets_stat_syst_SRAb_bin2_OS	lnN	-	-	-	-	-	{zjets_stat_bin1}	-	-	-	-	-	-	-	-	-	-	-	-	-	-	
+PUreweighting	lnN	{sig_pileup_syst}	-	-	-	{sig_pileup_syst}	-	-	-	{sig_pileup_syst}	-	-	-	{sig_pileup_syst}	-	-	-	{sig_pileup_syst}	-	-	-	
+fsbkg_stat_syst_SRAb_bin3_OS	gmN {count_bin2_fsbkg}	-	-	-	-	-	-	-	-	-	-	{rsfof*kappa}	-	-	-	-	-	-	-	-	-	
+mcbkg_stat_SRAb_bin2_OS	lnN	-	-	-	-	-	-	-	{mc_stat_bin1}	-	-	-	-	-	-	-	-	-	-	-	-	
+sig_stat_syst_SRAb_bin1_OS	lnN	{sig_stat_syst_bin0}	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	
+zjets_clos_syst_SRAb_bin1_OS	lnN	-	{zjets_clos_bin0}	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	
+lepton_FSsfs	lnN	{sig_leptonFS_syst}	-	-	-	{sig_leptonFS_syst}	-	-	-	{sig_leptonFS_syst}	-	-	-	{sig_leptonFS_syst}	-	-	-	{sig_leptonFS_syst}	-	-	-	
+sig_stat_syst_SRAb_bin3_OS	lnN	-	-	-	-	-	-	-	-	{sig_stat_syst_bin2}	-	-	-	-	-	-	-	-	-	-	-	
+zjets_clos_syst_SRAb_bin2_OS	lnN	-	-	-	-	-	{zjets_clos_bin1}	-	-	-	-	-	-	-	-	-	-	-	-	-	-	
+zjets_ewk_syst_SRAb_bin4_OS	lnN	-	-	-	-	-	-	-	-	-	-	-	-	-	{zjets_ewk_bin3}	-	-	-	-	-	-	
+zjets_stat_syst_SRAb_bin1_OS	lnN	-	{zjets_stat_bin0}	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	
+zjets_ewk_syst_SRAb_bin3_OS	lnN	-	-	-	-	-	-	-	-	-	{zjets_ewk_bin2}	-	-	-	-	-	-	-	-	-	-	
+mcbkg_stat_SRAb_bin5_OS	lnN	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	{mc_stat_bin4}	
+sig_stat_syst_SRAb_bin2_OS	lnN	-	-	-	-	{sig_stat_syst_bin1}	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	
+sig_JES_syst_SRAb_bin2_OS	lnN	-	-	-	-	{sig_JES_syst_bin1}	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	
+fsbkg_rsfof_syst_pt_OS	lnN	-	-	{rsfof_pt_unc_bin0}	-	-	-	{rsfof_pt_unc_bin1}	-	-	-	{rsfof_pt_unc_bin2}	-	-	-	{rsfof_pt_unc_bin3}	-	-	-	{rsfof_pt_unc_bin4}	-	
+sig_JES_syst_SRAb_bin5_OS	lnN	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	{sig_JES_syst_bin4}	-	-	-	
+fsbkg_stat_syst_SRAb_bin4_OS	gmN {count_bin3_fsbkg}	-	-	-	-	-	-	-	-	-	-	-	-	-	-	{rsfof*kappa}	-	-	-	-	-	
+mcbkg_scale_stat_unc_OS	lnN	-	-	-	{mcbkg_scale_stat_unc_bin0}	-	-	-	{mcbkg_scale_stat_unc_bin1}	-	-	-	{mcbkg_scale_stat_unc_bin2}	-	-	-	{mcbkg_scale_stat_unc_bin3}	-	-	-	{mcbkg_scale_stat_unc_bin4}	
+MET	lnN	{sig_metfromFS_syst_bin0}	-	-	-	{sig_metfromFS_syst_bin1}	-	-	-	{sig_metfromFS_syst_bin2}	-	-	-	{sig_metfromFS_syst_bin3}	-	-	-	{sig_metfromFS_syst_bin4}	-	-	-	
+zjets_clos_syst_SRAb_bin3_OS	lnN	-	-	-	-	-	-	-	-	-	{zjets_clos_bin2}	-	-	-	-	-	-	-	-	-	-	
+sig_stat_syst_SRAb_bin5_OS	lnN	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	{sig_stat_syst_bin4}	-	-	-	
+scale	lnN	{sig_refacAndNorm_syst}	-	-	-	{sig_refacAndNorm_syst}	-	-	-	{sig_refacAndNorm_syst}	-	-	-	{sig_refacAndNorm_syst}	-	-	-	{sig_refacAndNorm_syst}	-	-	-	
+btag_HF	lnN	{sig_btagheavy_syst_bin0}	-	-	-	{sig_btagheavy_syst_bin1}	-	-	-	{sig_btagheavy_syst_bin2}	-	-	-	{sig_btagheavy_syst_bin3}	-	-	-	{sig_btagheavy_syst_bin4}	-	-	-	
 sig_trig_syst_OS	lnN	{sig_trig_syst}	-	-	-	{sig_trig_syst}	-	-	-	{sig_trig_syst}	-	-	-	{sig_trig_syst}	-	-	-	{sig_trig_syst}	-	-	-	
 zjets_stat_syst_SRAb_bin5_OS	lnN	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	{zjets_stat_bin4}	-	-	
-zjets_ewk_syst_SRAb_bin5_OS	lnN	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	{zjets_ewk_bin4}	-	-	
-sig_JES_syst_SRAb_bin5_OS	lnN	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	{sig_JES_syst_bin4}	-	-	-	
-ISR	lnN	{sig_isr_syst_bin0}	-	-	-	{sig_isr_syst_bin1}	-	-	-	{sig_isr_syst_bin2}	-	-	-	{sig_isr_syst_bin3}	-	-	-	{sig_isr_syst_bin4}	-	-	-	
-sig_stat_syst_SRAb_bin3_OS	lnN	-	-	-	-	-	-	-	-	{sig_stat_syst_bin2}	-	-	-	-	-	-	-	-	-	-	-	
-lepton_idiso	lnN	{sig_leptonidiso_syst}	-	-	-	{sig_leptonidiso_syst}	-	-	-	{sig_leptonidiso_syst}	-	-	-	{sig_leptonidiso_syst}	-	-	-	{sig_leptonidiso_syst}	-	-	-	
-zjets_clos_syst_SRAb_bin4_OS	lnN	-	-	-	-	-	-	-	-	-	-	-	-	-	{zjets_clos_bin3}	-	-	-	-	-	-	
-fsbkg_kappa_met_syst_OS	lnN	-	-	{kappa_MET_unc}	-	-	-	{kappa_MET_unc}	-	-	-	{kappa_MET_unc}	-	-	-	{kappa_MET_unc}	-	-	-	{kappa_MET_unc}	-	
-zjets_clos_syst_SRAb_bin3_OS	lnN	-	-	-	-	-	-	-	-	-	{zjets_clos_bin2}	-	-	-	-	-	-	-	-	-	-	
-zjets_stat_syst_SRAb_bin2_OS	lnN	-	-	-	-	-	{zjets_stat_bin1}	-	-	-	-	-	-	-	-	-	-	-	-	-	-	
+fsbkg_rsfof_syst_eta_OS	lnN	-	-	{rsfof_eta_unc_bin0}	-	-	-	{rsfof_eta_unc_bin1}	-	-	-	{rsfof_eta_unc_bin2}	-	-	-	{rsfof_eta_unc_bin3}	-	-	-	{rsfof_eta_unc_bin4}	-	
 zjets_clos_syst_SRAb_bin5_OS	lnN	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	{zjets_clos_bin4}	-	-	
-mcbkg_stat_SRAb_bin2_OS	lnN	-	-	-	-	-	-	-	{mc_stat_bin1}	-	-	-	-	-	-	-	-	-	-	-	-	
+zjets_norm_syst_SRAb_OS	lnN	-	{zjets_norm}	-	-	-	{zjets_norm}	-	-	-	{zjets_norm}	-	-	-	{zjets_norm}	-	-	-	{zjets_norm}	-	-	
+zjets_stat_syst_SRAb_bin3_OS	lnN	-	-	-	-	-	-	-	-	-	{zjets_stat_bin2}	-	-	-	-	-	-	-	-	-	-	
+mcbkg_stat_SRAb_bin1_OS	lnN	-	-	-	{mc_stat_bin0}	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	
+mcbkg_stat_SRAb_bin3_OS	lnN	-	-	-	-	-	-	-	-	-	-	-	{mc_stat_bin2}	-	-	-	-	-	-	-	-	
+fsbkg_stat_syst_SRAb_bin5_OS	gmN {count_bin4_fsbkg}	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	{rsfof*kappa}	-	
+sig_JES_syst_SRAb_bin1_OS	lnN	{sig_JES_syst_bin0}	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	
+fsbkg_rsfof_syst_norm_OS	lnN	-	-	{rsfof_norm_unc_bin0}	-	-	-	{rsfof_norm_unc_bin1}	-	-	-	{rsfof_norm_unc_bin2}	-	-	-	{rsfof_norm_unc_bin3}	-	-	-	{rsfof_norm_unc_bin4}	-	
+sig_JES_syst_SRAb_bin4_OS	lnN	-	-	-	-	-	-	-	-	-	-	-	-	{sig_JES_syst_bin3}	-	-	-	-	-	-	-	
+lepton_idiso	lnN	{sig_leptonidiso_syst}	-	-	-	{sig_leptonidiso_syst}	-	-	-	{sig_leptonidiso_syst}	-	-	-	{sig_leptonidiso_syst}	-	-	-	{sig_leptonidiso_syst}	-	-	-	
+fsbkg_stat_syst_SRAb_bin1_OS	gmN {count_bin0_fsbkg}	-	-	{rsfof*kappa}	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	
 lumi	lnN	{sig_lumi_syst}	-	-	-	{sig_lumi_syst}	-	-	-	{sig_lumi_syst}	-	-	-	{sig_lumi_syst}	-	-	-	{sig_lumi_syst}	-	-	-	
-sig_stat_syst_SRAb_bin5_OS	lnN	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	{sig_stat_syst_bin4}	-	-	-	
-zjets_stat_syst_SRAb_bin1_OS	lnN	-	{zjets_stat_bin0}	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	
-zjets_stat_syst_SRAb_bin4_OS	lnN	-	-	-	-	-	-	-	-	-	-	-	-	-	{zjets_stat_bin3}	-	-	-	-	-	-	
-sig_stat_syst_SRAb_bin1_OS	lnN	{sig_stat_syst_bin0}	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	
+zjets_norm_scale_syst_SRAb_OS	lnU	-	{zjets_norm_scale}	-	-	-	{zjets_norm_scale}	-	-	-	{zjets_norm_scale}	-	-	-	{zjets_norm_scale}	-	-	-	{zjets_norm_scale}	-	-	
+btag_LF	lnN	{sig_btaglight_syst_bin0}	-	-	-	{sig_btaglight_syst_bin1}	-	-	-	{sig_btaglight_syst_bin2}	-	-	-	{sig_btaglight_syst_bin3}	-	-	-	{sig_btaglight_syst_bin4}	-	-	-	
+mcbkg_scale_syst_unc_OS	lnN	-	-	-	{mcbkg_scale_syst_unc_bin0}	-	-	-	{mcbkg_scale_syst_unc_bin1}	-	-	-	{mcbkg_scale_syst_unc_bin2}	-	-	-	{mcbkg_scale_syst_unc_bin3}	-	-	-	{mcbkg_scale_syst_unc_bin4}	
+fsbkg_kappa_stat_syst_SRV_OS	lnN	-	-	{kappa_stat_unc}	-	-	-	{kappa_stat_unc}	-	-	-	{kappa_stat_unc}	-	-	-	{kappa_stat_unc}	-	-	-	{kappa_stat_unc}	-	
 
