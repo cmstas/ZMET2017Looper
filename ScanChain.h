@@ -395,6 +395,8 @@ class ZMETLooper
     double fatJetScaleFactor(int mode = 0);
     double fatJetJMSScaleFactor(int mode = 0);
     double tau21WP();
+    double fatJetPtError(float pt, int year, double tau21);
+
     //SR Hists comin' soon...
     //
     JetResolution *res;

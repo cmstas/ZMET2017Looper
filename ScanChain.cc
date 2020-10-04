@@ -1295,7 +1295,7 @@ double ZMETLooper::computeRsfof(int unc_mode)
         Rt = 1.066;
 
     if(rMuE_muon != 0 && rMuE_electron != 0)
-        Rsfof = (rMuE_muon + 1.0/rMuE_electron) * Rt * 0.5;
+        Rsfof = (rMuE_electron + 1.0/rMuE_muon) * Rt * 0.5;
     else
         Rsfof = 1.0;
 
@@ -3371,10 +3371,20 @@ void ZMETLooper::fillGluLSPHists(std::string prefix)
     fill3DHistograms(prefix+"susy_type1MET_nowt",g_met,phys.mass_gluino(),phys.mass_LSP(),1,allSignal3DHistos,"(x,y,z) = (met, m_glu, m_lsp). Type1MET with no event weights for"+g_sample_name,*n_met_bins,met_bins,*n_gluino_bins,gluino_bins,*n_lsp_bins,lsp_bins,rootdir);
     
     double tau21_weight_up, tau21_weight_down;
+    double tau21_central = fatJetScaleFactor(0);
+    double tau21_unc;
     if(prefix.find("SRVZBoosted") != std::string::npos)
     {
-        tau21_weight_up = weight * fatJetScaleFactor(1);
-        tau21_weight_down = weight * fatJetScaleFactor(-1);
+        tau21_unc = fatJetScaleFactor(1);
+
+        //do the pt dependent uncertainty right here
+        for(int iJet = 0; iJet < phys.ak8jets_p4().size(); iJet++)
+        {
+            tau21_unc = sqrt(tau21_unc * tau21_unc + fatJetPtError(phys.ak8jets_p4().at(iJet).pt(),g_year,tau21) * fatJetPtError(phys.ak8jets_p4().at(iJet).pt(),g_year,tau21));
+        }
+
+        tau21_weight_up = weight * (1 + tau21_unc/tau21_central);
+        tau21_weight_down = weight * (1 - tau21_unc/tau21_central);
 
         fill3DHistograms(prefix+"susy_type1MET_tau21_up",g_met,phys.mass_gluino(),phys.mass_LSP(),tau21_weight_up,allSignal3DHistos,"(x,y,z) = (met, m_glu, m_lsp). Type1MET with tau21 up weights for"+g_sample_name,*n_met_bins,met_bins,*n_gluino_bins,gluino_bins,*n_lsp_bins,lsp_bins,rootdir);
 
@@ -3950,12 +3960,19 @@ void ZMETLooper::fillBoostedHists(std::vector<size_t> g_fatjet_indices,std::stri
 {
 
     //tau21 up and down variation MET histogram
-    double tau21_weight_up = weight * fatJetScaleFactor(1);
-    double tau21_weight_down = weight * fatJetScaleFactor(-1);
-//    if(!phys.isData()) 
-//
-        //Deliberate filling of tau21_up and tau21 histograms with central value for data for templates 
-   
+    double tau21_weight_up, tau21_weight_down;
+    double tau21_central = fatJetScaleFactor(0);
+    double tau21_unc;
+    tau21_unc = fatJetScaleFactor(1);
+    for(int iJet = 0; iJet < phys.ak8jets_p4().size(); iJet++)
+    {
+        tau21_unc = sqrt(tau21_unc * tau21_unc + fatJetPtError(phys.ak8jets_p4().at(iJet).pt(),g_year,tau21) * fatJetPtError(phys.ak8jets_p4().at(iJet).pt(),g_year,tau21));
+    }
+
+    tau21_weight_up = weight * (1 + tau21_unc/tau21_central);
+    tau21_weight_down = weight * (1 - tau21_unc/tau21_central);
+
+ 
         fill1DHistograms(prefix+"type1MET_tau21_up",g_met,tau21_weight_up,allHistos,"",6000,0,6000,rootdir);
         fill1DHistograms(prefix+"type1MET_tau21_down",g_met,tau21_weight_down,allHistos,"",6000,0,6000,rootdir);
 
@@ -4308,11 +4325,11 @@ double ZMETLooper::fatJetScaleFactor(int mode)
     {
         if(mode == 1)
         {
-            return 1 + uncertainty/central_value;
+            return  uncertainty;
         }
         else if(mode == -1)
         {
-            return 1 - uncertainty/central_value;
+            return uncertainty;
         }
         else return central_value;
     }
@@ -4322,3 +4339,41 @@ double ZMETLooper::fatJetScaleFactor(int mode)
     }
 }
 
+
+double ZMETLooper::fatJetPtError(float pt, int year, double tau21)
+{
+    if(phys.isData())
+    {
+        return 0.0;
+    }
+
+    if(year == 2017)
+    {
+        if(pt > 200 && pt < 250)
+        {
+            return 0.07;
+        }
+        else if(pt > 250 && pt < 300)
+        {
+            return 0.06;
+        }
+        else if(pt > 300 && pt < 350)
+        {
+            return 0.09;
+        }
+        else if(pt > 350 && pt < 600)
+        {
+            return 0.13;
+        }
+        else if(pt > 600)
+        {
+            return 0.085 * tau21 * log(pt/200);
+        }
+
+        else return 0.0;
+    }
+    else 
+    {
+        return 0.085 * tau21 * log(pt/200);
+    }
+}
