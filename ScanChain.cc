@@ -3381,7 +3381,7 @@ void ZMETLooper::fillGluLSPHists(std::string prefix)
         tau21_unc = fatJetScaleFactor(1);
 
         //do the pt dependent uncertainty right here
-        for(int iJet = 0; iJet < phys.ak8jets_p4().size(); iJet++)
+        for(unsigned int iJet = 0; iJet < phys.ak8jets_p4().size(); iJet++)
         {
             tau21_unc = sqrt(tau21_unc * tau21_unc + fatJetPtError(phys.ak8jets_p4().at(iJet).pt(),g_year,tau21_central) * fatJetPtError(phys.ak8jets_p4().at(iJet).pt(),g_year,tau21_central));
         }
@@ -3967,9 +3967,9 @@ void ZMETLooper::fillBoostedHists(std::vector<size_t> g_fatjet_indices,std::stri
     double tau21_central = fatJetScaleFactor(0);
     double tau21_unc;
     tau21_unc = fatJetScaleFactor(1);
-    for(int iJet = 0; iJet < phys.ak8jets_p4().size(); iJet++)
+    for(unsigned int iJet = 0; iJet < phys.ak8jets_p4().size(); iJet++)
     {
-        tau21_unc = sqrt(tau21_unc * tau21_unc + fatJetPtError(phys.ak8jets_p4().at(iJet).pt(),g_year,tau21_central) * fatJetPtError(phys.ak8jets_p4().at(iJet).pt(),g_year,tau21_central));
+        tau21_unc = sqrt(tau21_unc * tau21_unc + fatJetPtError(phys.ak8jets_p4().at(iJet).pt(),g_year,tau21_central) * fatJetPtError(phys.ak8jets_p4().at(iJet).pt(),g_year,tau21_centrral));
     }
 
     tau21_weight_up = weight * (1 + tau21_unc/tau21_central);
