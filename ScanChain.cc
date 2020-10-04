@@ -449,7 +449,7 @@ bool ZMETLooper::passMuonTriggers(){
 
           else if(g_year == 2016)
           {
-            triggers = phys.HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL() || /*phys.HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL() ||*/ phys.HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ() || phys.HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ() || phys.HLT_TkMu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ() || phys.HLT_Mu27_TkMu8() || phys.HLT_Mu30_TkMu11();
+            triggers = phys.HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL() || phys.HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL() || phys.HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ() || phys.HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ() || phys.HLT_TkMu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ() || phys.HLT_Mu27_TkMu8() || phys.HLT_Mu30_TkMu11();
           }
           
           else if(g_year == 2018)
@@ -498,7 +498,7 @@ bool ZMETLooper::passEMuTriggers(){
 
       else if(g_year == 2016)
       {
-          trigger = phys.HLT_Mu17_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL() || phys.HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL() /*|| phys.HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL_DZ()*/ || phys.HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL() || phys.HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ() || phys.HLT_Mu8_TrkIsoVVL_Ele17_CaloIdL_TrackIdL_IsoVL() || phys.HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL() || phys.HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ() || phys.HLT_Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL() || phys.HLT_Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ() || phys.HLT_Mu30_Ele30_CaloIdL_GsfTrkIdVL() || phys.HLT_Mu33_Ele33_CaloIdL_GsfTrkIdVL();
+          trigger = phys.HLT_Mu17_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL() || phys.HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL() || phys.HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL_DZ() || phys.HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL() || phys.HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ() || phys.HLT_Mu8_TrkIsoVVL_Ele17_CaloIdL_TrackIdL_IsoVL() || phys.HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL() || phys.HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ() || phys.HLT_Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL() || phys.HLT_Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ() || phys.HLT_Mu30_Ele30_CaloIdL_GsfTrkIdVL() || phys.HLT_Mu33_Ele33_CaloIdL_GsfTrkIdVL();
       }
 
       else if(g_year == 2018)
@@ -1099,7 +1099,10 @@ double ZMETLooper::getWeight(TString SR){
 
     if(conf->get("signal_region") == "all")
     {
-      weight *= getReweight_allSR(SR);
+      if(SR.Contains("JMS") || SR.Contains("JMR"))
+        weight *= getReweight_allSR("SRVZBoosted");
+      else
+        weight *= getReweight_allSR(SR);
     }
   }
   //L1 prefire weights
@@ -1387,7 +1390,6 @@ bool ZMETLooper::passSRAbCuts()
     {
         return false;
     }
-
     return true;
 }
 
@@ -1703,12 +1705,13 @@ bool ZMETLooper::passSRVZBoostedCuts(int JMSMode,int JMRMode)
         continue;
       }
       //smearing stuff
+      
       res->loadVariable("JetEta",phys.ak8jets_p4().at(iJet).eta());
       res->loadVariable("Rho",phys.rho());
       res->loadVariable("JetPt",phys.ak8jets_p4().at(iJet).pt());
-      auto smearing = res->smear(JMRMode,g_year);
-      cout<<"initial sdMass = "<<phys.ak8jets_softDropMass().at(iJet)<<" final sdMass = "<<phys.ak8jets_softDropMass().at(iJet) * fatJetJMSScaleFactor(JMSMode) * smearing[0]<<" smear value = "<<smearing[0]<<endl<<"jms mode = "<<JMSMode<<"jmr mode = "<<JMRMode<<endl;
-      if(phys.ak8jets_softDropMass().at(iJet) * fatJetJMSScaleFactor(JMSMode) * smearing[0] < 65 || phys.ak8jets_softDropMass().at(iJet) * fatJetJMSScaleFactor(JMSMode) * smearing[0] > 105)
+      auto smearing =  res->smear(JMRMode,g_year);
+      float smearFactor = (!phys.isData()) ? smearing[0] : 1.0;
+      if(phys.ak8jets_softDropMass().at(iJet) * fatJetJMSScaleFactor(JMSMode) * smearFactor < 65 || phys.ak8jets_softDropMass().at(iJet) * fatJetJMSScaleFactor(JMSMode) * smearFactor > 105)
       {
         continue;
       }
@@ -3749,14 +3752,14 @@ bool ZMETLooper::passEWKSRCuts()
     flag = true;
   }
 
-  if(conf->get("2016_reproduce") != "true" && passSRVZBoostedCuts(-1) && !phys.isData())
+  if(conf->get("2016_reproduce") != "true" && passSRVZBoostedCuts(-1) && !phys.isData() /*&& conf->get("event_type") == "dilepton"*/)
   {
       commonHistPrefix = "SRVZBoosted_JMSDown";
       fillallHistograms(commonHistPrefix);
       flag = true;
   }
 
-  if(conf->get("2016_reproduce") != "true" && passSRVZBoostedCuts(1) && !phys.isData())
+  if(conf->get("2016_reproduce") != "true" && passSRVZBoostedCuts(1) && !phys.isData() /*&& conf->get("event_type") == "dilepton"*/)
   {
       commonHistPrefix = "SRVZBoosted_JMSUp";
       fillallHistograms(commonHistPrefix);
@@ -3765,14 +3768,14 @@ bool ZMETLooper::passEWKSRCuts()
 
 
 
-  if(conf->get("2016_reproduce") != "true" && passSRVZBoostedCuts(0,1) && !phys.isData())
+  if(conf->get("2016_reproduce") != "true" && passSRVZBoostedCuts(0,1) && !phys.isData() /*&& conf->get("event_type") == "dilepton"*/)
   {
       commonHistPrefix = "SRVZBoosted_JMRUp";
       fillallHistograms(commonHistPrefix);
       flag = true;
   }
 
-  if(conf->get("2016_reproduce") != "true" && passSRVZBoostedCuts(0,-1) && !phys.isData())
+  if(conf->get("2016_reproduce") != "true" && passSRVZBoostedCuts(0,-1) && !phys.isData() /*&& conf->get("event_type") == "dilepton"*/)
   {
       commonHistPrefix = "SRVZBoosted_JMRDown";
       fillallHistograms(commonHistPrefix);
@@ -3990,6 +3993,7 @@ void ZMETLooper::fillBoostedHists(std::vector<size_t> g_fatjet_indices,std::stri
 
         }
         fill1DHistograms(prefix+"softDropMass",phys.ak8jets_softDropMass().at(iJet),weight,allHistos,"",6000,0,6000,rootdir);
+
         //fill1DHistograms(prefix+"softDropMass_old",phys.ak8jets_original_softDropMass().at(iJet),weight,allHistos,"",6000,0,6000,rootdir); 
         fill1DHistograms(prefix+"fat_jet_pt",phys.ak8jets_p4().at(iJet).pt(),weight,allHistos,"",6000,0,6000,rootdir);
         fill1DHistograms(prefix+"fat_jet_eta",phys.ak8jets_p4().at(iJet).eta(),weight,allHistos,"",200,-3,3,rootdir);
